@@ -1,0 +1,10 @@
+
+# File types
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store 
+
+# Data folder
+data/*

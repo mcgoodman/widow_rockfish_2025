@@ -5,6 +5,3 @@
 .RData
 .Ruserdata
 .DS_Store 
-
-# Data folder
-data/*

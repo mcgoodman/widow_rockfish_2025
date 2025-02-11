@@ -5,3 +5,33 @@
 .RData
 .Ruserdata
 .DS_Store 
+
+# Directories
+data_provided/PacFIN/*
+
+# SS3 files
+admodel.cov
+admodel.dep
+admodel.hes
+*.sso
+*.ss
+*.ss_new
+*.tmp
+console.output.txt
+fmin.log
+gradient.*
+ss3.b0*
+ss3.bar
+ss3.ecm
+ss3.eva
+ss3.exe
+ss.exe
+ss3.log
+ss3.mc2
+ss3.mcm
+ss3.p0*
+ss3.r0*
+ss3.rep
+ss3.std
+suggested_tuning.ss
+runnumber.ss

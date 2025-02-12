@@ -1,7 +1,7 @@
 ####### pULL AND PLOT INDICES
 
 #Update with path
-dat_file_path <- "D:/widow_asessment_2025_fork/widow-assessment-update/data_provided/2019_assessment"
+dat_file_path <- "widow-assessment-update/data_provided/2019_assessment"
 
 
 #generate the data list

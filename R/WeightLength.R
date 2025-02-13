@@ -57,8 +57,9 @@ bds<- bds.pacfin%>%
   select(FISH_LENGTH, FISH_WEIGHT, SEX_CODE,SAMPLE_YEAR,FISH_LENGTH_UNITS)%>%
   rename(LENGTH=FISH_LENGTH, SEX=SEX_CODE,YEAR=SAMPLE_YEAR)%>%
   mutate(Source="BDS", PROJECT="BDS", Common_name="Widow rockfish")%>%
-  mutate(WEIGHT=FISH_WEIGHT/1000, LENGTH=ifelse(FISH_LENGTH_UNITS=="CM",LENGTH,LENGTH/10))%>% #convert to kg
-  filter(SEX=="F"|SEX=="M")%>%
+  mutate(WEIGHT=FISH_WEIGHT/1000)%>% #convert to kg as that is what other data uses
+  mutate(LENGTH=ifelse(FISH_LENGTH_UNITS=="CM",LENGTH,LENGTH/10))%>% #some lengths are mm other cm; convert mm data to cm to align wiht other data
+  filter(SEX=="F"|SEX=="M")%>% #only getting data that we have sex id
   select(-FISH_WEIGHT,-FISH_LENGTH_UNITS)
   
 

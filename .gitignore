@@ -8,6 +8,8 @@
 
 # Directories
 data_provided/PacFIN/*
+data_provided/wcgop
+
 
 # SS3 files
 admodel.cov
@@ -34,3 +36,4 @@ ss3.rep
 ss3.std
 suggested_tuning.ss
 runnumber.ss
+

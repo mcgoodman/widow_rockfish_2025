@@ -1,6 +1,5 @@
 
 library("tidyverse")
-library("pacfintools")
 library("r4ss")
 
 dir.create(file.path("figures", "current_catches"))
@@ -15,6 +14,8 @@ catch_2015 <- read.csv(file.path("data_provided", "2015_assessment", "catch_by_s
 
 ## 2019 assessment data
 data_2019 <- r4ss::SS_readdat(file.path("data_provided", "2019_assessment", "2019widow.dat"))$catch
+
+## Oregon catch reconstruction
 
 ## Gears and fleets ---------------------------------------
 
@@ -40,9 +41,12 @@ fleets <- case_when(
 
 fleet_lvls <- c("bottom trawl", "midwater trawl", "hake", "net", "hook and line")
 
-# Clean and summarize catch data --------------------------
+# Clean and summarize PacFIN catch data -------------------
 
-## Long format
+states <- c("California", "Oregon", "Washington")
+
+## Filter out Puget sound, shrimp trawls
+## Classify into fleets - need to add ASHOP data to hake fleet
 catch_cleaned <- catch.pacfin |> 
   filter(
     !is.na(COUNTY_STATE) & 
@@ -50,33 +54,77 @@ catch_cleaned <- catch.pacfin |>
       PACFIN_GEAR_CODE %in% gear_codes
   ) |>
   mutate(
-    FLEET = factor(fleets[match(PACFIN_GEAR_CODE, gear_codes)], levels = fleet_lvls)
-  )
+    fleet = fleets[match(PACFIN_GEAR_CODE, gear_codes)], 
+    fleet = ifelse(DAHL_GROUNDFISH_CODE %in% c("03", "17"), "hake", fleet), 
+    fleet = factor(fleet , levels = fleet_lvls), 
+    state = states[match(COUNTY_STATE, toupper(substr(states, 1, 2)))]
+  ) |> 
+  select(year = PACFIN_YEAR, state, fleet, landings_mt = LANDED_WEIGHT_MTONS)
 
-## Wide format  
-catch_formatted <- catch_cleaned |> formatCatch(strat = "FLEET", valuename = "LANDED_WEIGHT_MTONS")
+## Catch by state, fleet, and year
+catch_st_flt_yr <- catch_cleaned |> 
+  group_by(year, state, fleet) |> 
+  summarize(landings_mt = sum(landings_mt), .groups = "drop") |> 
+  complete(year, state, fleet, fill = list(landings_mt = 0))
+
+# Partition 1981-1999 Washington trawls -------------------
+
+catch_2015$state <- states[match(catch_2015$state, toupper(substr(states, 1, 2)))]
+
+trawl_ratio <- catch_2015 |> 
+  filter(state == "Washington" & grepl("trawl", fleet) & year %in% 1979:1999) |> 
+  group_by(year) |> 
+  summarize(p_mdt = landings_mt[fleet == "midwater trawl"]/sum(landings_mt))
+
+for (y in 1981:1999) {
+  
+  catch_st_flt_yr$landings_mt[
+    catch_st_flt_yr$year == y & catch_st_flt_yr$state == "Washington" & grepl("trawl", catch_st_flt_yr$fleet)
+  ] <- c(1 - trawl_ratio$p_mdt[trawl_ratio$year == y], trawl_ratio$p_mdt[trawl_ratio$year == y]) * 
+    sum(
+      catch_st_flt_yr$landings_mt[
+        catch_st_flt_yr$year == y & catch_st_flt_yr$state == "Washington" & grepl("trawl", catch_st_flt_yr$fleet)
+      ]
+    )
+    
+}
+
+trawl_ratio |> ggplot(aes(year, p_mdt)) + 
+  geom_line() + geom_point() + 
+  scale_x_continuous(breaks = 1979:1999) + 
+  scale_y_continuous(limits = c(0, 1), expand = c(0, 0), breaks = seq(0, 1, 0.1)) + 
+  theme_minimal() + 
+  theme(
+    panel.grid.minor = element_blank(), 
+    panel.grid.major.x = element_blank(), 
+    plot.background = element_rect(fill = "white", color = NA),
+  ) + 
+  ylab("Proportion midwater trawls")
+
+ggsave("figures/current_catches/Washington_trawl_proportion.png", height = 5, width = 10, units = "in", dpi = 500)
+
+# Comparison to past assessments --------------------------
 
 ## Match fleets from 2019 assessment
 catch_2019 <- data_2019 |> 
-  filter(year %in% catch_cleaned$PACFIN_YEAR) |> 
+  filter(year %in% catch_cleaned$year) |> 
   mutate(fleet_name = factor(fleet_lvls[fleet], levels = fleet_lvls))
 
 ## Aggregate catch by year, source
-all_pacfin <- catch.pacfin |> group_by(year = PACFIN_YEAR) |> summarize(landings = sum(LANDED_WEIGHT_MTONS))
-all_cleaned <- catch_cleaned |> group_by(year = PACFIN_YEAR) |> summarize(landings = sum(LANDED_WEIGHT_MTONS))
-all_2019 <- catch_2019 |> group_by(year) |> summarize(landings = sum(catch))
+all_pacfin <- catch.pacfin |> group_by(year = PACFIN_YEAR) |> summarize(landings_mt = sum(LANDED_WEIGHT_MTONS))
+all_cleaned <- catch_cleaned |> group_by(year) |> summarize(landings_mt = sum(landings_mt))
+all_2019 <- catch_2019 |> group_by(year) |> summarize(landings_mt = sum(catch))
 
-# Figures -------------------------------------------------
+## Aggregate ----------------------------------------------
 
-## Pacfin vs. 2019 comparison, coastwide ------------------
+### Pacfin vs. 2019 comparison, coastwide -----------------
   
-catch_cleaned |> 
-  group_by(PACFIN_YEAR, FLEET) |> 
-  summarize(landings = sum(LANDED_WEIGHT_MTONS)) |> 
-  mutate(year = as.integer(PACFIN_YEAR)) |> 
-  ggplot(aes(year, landings)) + 
-  geom_segment(aes(xend = year, y = 0, yend = landings), data = all_2019, color = "red") + 
-  geom_bar(aes(fill = FLEET), stat = "identity", width = 1, color = "black") + 
+catch_st_flt_yr |> 
+  group_by(year, fleet) |> 
+  summarize(landings_mt = sum(landings_mt)) |> 
+  ggplot(aes(year, landings_mt)) + 
+  geom_segment(aes(xend = year, y = 0, yend = landings_mt), data = all_2019, color = "red") + 
+  geom_bar(aes(fill = fleet), stat = "identity", width = 1, color = "black") + 
   geom_point(aes(color = "2019 asessment"), data = all_2019, size = 2) + 
   geom_point(aes(color = "all PacFIN"), data = all_pacfin, size = 2) + 
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.8) + 
@@ -92,10 +140,10 @@ ggsave("figures/current_catches/PacFIN_landings_by_fleet.png", height = 5, width
 
 catch_2019 |> 
   group_by(year, fleet_name) |> 
-  summarize(landings = sum(catch)) |>
+  summarize(landings_mt = sum(catch)) |>
   mutate(fleet_name = factor(fleet_name, levels = fleet_lvls)) |> 
   filter(fleet_name != "hake") |> 
-  ggplot(aes(year, landings)) + 
+  ggplot(aes(year, landings_mt)) + 
   geom_bar(aes(fill = fleet_name), stat = "identity", width = 1, color = "black") + 
   geom_point(aes(color = "cleaned PacFIN"), data = all_cleaned, size = 2) + 
   geom_point(aes(color = "all PacFIN"), data = all_pacfin, size = 2) + 
@@ -110,18 +158,13 @@ catch_2019 |>
   
 ggsave("figures/current_catches/2019_landings_by_fleet.png", height = 5, width = 10, units = "in", dpi = 500)
 
-## By state -----------------------------------------------
+### By state -----------------------------------------------
 
-states <- c("California", "Oregon", "Washington")
-state_2015 <- catch_2015 |> group_by(year = Year, state) |> summarize(landings = sum(landings_mt))
-state_2015$state <- states[match(state_2015$state, toupper(substr(states, 1, 2)))]
-catch_cleaned$state <- states[match(catch_cleaned$COUNTY_STATE, toupper(substr(states, 1, 2)))]
+state_2015 <- catch_2015 |> group_by(year, state) |> summarize(landings_mt = sum(landings_mt))
 
-catch_cleaned |> 
-  group_by(year = PACFIN_YEAR, state, FLEET) |> 
-  summarize(landings = sum(LANDED_WEIGHT_MTONS)) |> 
-  ggplot(aes(year, landings)) + 
-  geom_bar(aes(fill = FLEET), stat = "identity") + 
+catch_st_flt_yr |>  
+  ggplot(aes(year, landings_mt)) + 
+  geom_bar(aes(fill = fleet), stat = "identity") + 
   geom_point(aes(color = "2015 assessment"), data = filter(state_2015, year >= 1980)) + 
   facet_wrap(~state, ncol = 1) + 
   scale_color_manual(values = "red") +
@@ -135,16 +178,11 @@ catch_cleaned |>
   
 ggsave("figures/current_catches/landings_by_state_fleet.png", height = 6, width = 10, units = "in", dpi = 500)
 
-# Correlation -----------------------------------------------
-
-state_fleet_pacfin <- catch_cleaned |> 
-  group_by(year = PACFIN_YEAR, state, fleet = FLEET) |> 
-  summarize(landings_pacfin = sum(LANDED_WEIGHT_MTONS), .groups = "drop")
+#### Correlation ------------------------------------------
 
 state_fleet_joined <- catch_2015 |>
-  mutate(state = states[match(state, toupper(substr(states, 1, 2)))]) |> 
-  rename(landings_2015 = landings_mt, year = Year) |> 
-  right_join(state_fleet_pacfin, by = c("year", "state", "fleet"))
+  rename(landings_2015 = landings_mt) |> 
+  right_join(rename(catch_st_flt_yr, landings_pacfin = landings_mt), by = c("year", "state", "fleet"))
 
 state_fleet_joined |> 
   ggplot(aes(landings_2015, landings_pacfin)) + 
@@ -160,4 +198,4 @@ state_fleet_joined |>
   labs(x = "2015 landings (mt)", y = "2019 landings (mt)") + 
   scale_color_viridis_d(option = "mako", begin = 0.2, end = 0.8)
 
-ggsave("figures/current_catches/cor_landings_by_state_fleet.png", height = 6, width = 10, units = "in", dpi = 500)
+ggsave("figures/current_catches/cor_landings_by_state_fleet.png", height = 4, width = 10, units = "in", dpi = 500)

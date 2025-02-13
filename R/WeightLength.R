@@ -13,7 +13,8 @@ common_name <- "widow rockfish"
 #add PacFIN file here
 ASHOP<-read_excel("data_provided/ASHOP/A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx")
 Old_assessments<-read_excel("data_provided/2019_assessment/WL_oldassessments.xlsx")
-#file_bds <- fs::path("data_provided/PacFIN/PacFIN.WDOW.bds.11.Nov.2024.RData")
+file_bds <- fs::path("data_provided/PacFIN/PacFIN.WDOW.bds.12.Dec.2024.RData")
+
 
 ### Age - length relationship ###
 # Pull survey data fir shelf/slope combo
@@ -48,12 +49,23 @@ ASHOP_all<-ASHOP%>%
   select(WEIGHT, LENGTH, SEX, YEAR, SPECIES)%>%
   mutate(Source="ASHOP", PROJECT="ASHOP",Common_name="Widow rockfish")
 
-#add PacFIN BDS here then combine with ALL using dplyr (make sure colnames are the same)
-#this allows for a plot like Fig 40 from 2015 assessment
+# bds.pacfin
+load(file_bds) #load bds data from the file path above
+colnames(bds.pacfin)
+
+bds<- bds.pacfin%>%
+  select(FISH_LENGTH, FISH_WEIGHT, SEX_CODE,SAMPLE_YEAR,FISH_LENGTH_UNITS)%>%
+  rename(LENGTH=FISH_LENGTH, SEX=SEX_CODE,YEAR=SAMPLE_YEAR)%>%
+  mutate(Source="BDS", PROJECT="BDS", Common_name="Widow rockfish")%>%
+  mutate(WEIGHT=FISH_WEIGHT/1000, LENGTH=ifelse(FISH_LENGTH_UNITS=="CM",LENGTH,LENGTH/10))%>% #convert to kg
+  filter(SEX=="F"|SEX=="M")%>%
+  select(-FISH_WEIGHT,-FISH_LENGTH_UNITS)
+  
 
 ALL <- NWFSC_all%>%
   bind_rows(ASHOP_all)%>%
-  bind_rows(tri_all)
+  bind_rows(tri_all)%>%
+  bind_rows(bds)
 
 # plotting the observations by data source (see Figure 40 from 2015)
 
@@ -66,7 +78,6 @@ ggplot(data=ALL, aes(x=LENGTH, y=WEIGHT, col=Source))+
   ylim(c(0,3.25))+
   xlim(c(0,70))+
   theme_classic()
-  
 
 # Estimate weight-length relationship by sex for each survey type and using "All"
 
@@ -91,7 +102,13 @@ weight_length_ASHOP<- nwfscSurvey::estimate_weight_length(
 )%>%
   mutate(Source="ASHOP")
 
-#add in PacFIN following method above, label "Source" as "BDS"
+weight_length_BDS<- nwfscSurvey::estimate_weight_length(
+  bds,
+  col_length = "LENGTH",
+  col_weight = "WEIGHT",
+  verbose = FALSE
+)%>%
+  mutate(Source="BDS")
 
 weight_length_ALL<- nwfscSurvey::estimate_weight_length(
   ALL,
@@ -106,6 +123,7 @@ weight_length_ALL<- nwfscSurvey::estimate_weight_length(
 knitr::kable(weight_length_estimates_NWFSC, "markdown")
 knitr::kable(weight_length_estimates_tri, "markdown")
 knitr::kable(weight_length_ASHOP, "markdown")
+knitr::kable(weight_length_BDS, "markdown")
 knitr::kable(weight_length_ALL, "markdown")
 
 
@@ -116,6 +134,7 @@ knitr::kable(weight_length_ALL, "markdown")
 estimated_combined<-weight_length_estimates_NWFSC%>%
   bind_rows(weight_length_estimates_tri)%>%
   bind_rows(weight_length_ASHOP)%>%
+  bind_rows(weight_length_BDS)%>%
   bind_rows(weight_length_ALL)
   
 # function to plot line

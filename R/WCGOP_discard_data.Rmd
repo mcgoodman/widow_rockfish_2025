@@ -4,7 +4,7 @@ author: "Alaia"
 date: "2025-02-05"
 output: html_document
 ---
-WGCOP data need to be downloaded in data_provided folder from google drive
+WCGOP data need to be downloaded in data_provided folder from google drive
 # Install and load package
 ```{r}
 library(ggplot2)
@@ -16,7 +16,7 @@ library(dplyr)
 ```
 
 # Visualizing the Data 
-## Load and plot WGCOP data 
+## Load and plot WCGOP data 
 
 ```{r}
 data_discard_non_catch <- read.csv(here("data_provided/wcgop", "discard_rates_noncatch_share.csv")) %>%
@@ -41,7 +41,7 @@ ggplot(data_discard, aes(x = year, y = observed_discard_mt, fill = fleet)) +
   geom_col() +  
   theme_minimal() +
     labs(x = "Year", y = "Discards (mt)", 
-       title = paste0("Discards (WGCOP)"))+
+       title = paste0("Discards (WCGOP)"))+
   theme(strip.text = element_text(face = "bold"))
 
 
@@ -106,7 +106,7 @@ ggplot(data[data$fleet==fleet_type[4],], aes(x = variable, y = value)) +
 ```{r}
 
 # Bottom trawl
-{plot(data[data$fleet==fleet_type[1],]$year, data[data$fleet==fleet_type[1],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WGCOP discards by length by year (Bottom Trawl)",
+{plot(data[data$fleet==fleet_type[1],]$year, data[data$fleet==fleet_type[1],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year (Bottom Trawl)",
      xlim = range(data[data$fleet==fleet_type[1],]$year), ylim = c(8, 62), type = "n")  
 symbols(data[data$fleet==fleet_type[1],]$year, data[data$fleet==fleet_type[1],]$variable, circles = sqrt(data[data$fleet==fleet_type[1],]$value/pi), inches = 0.1, add = TRUE, bg = "white")
 
@@ -122,7 +122,7 @@ text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_siz
 
 
 # Bottom trawl
-{plot(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WGCOP discards by length by year",
+{plot(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year",
      xlim = range(data[data$fleet==fleet_type[2],]$year), ylim = c(8, 62), type = "n")  
 symbols(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, circles = sqrt(data[data$fleet==fleet_type[2],]$value/pi), inches = 0.1, add = TRUE, bg = "white")
 
@@ -152,7 +152,7 @@ ggplot(data_agg, aes(x = variable, y = value)) +
   geom_col() +
   facet_wrap(~ year, scales = "free_y") +
   labs(x = "Length bin (cm)", y = "%", 
-       title = paste0("WGCOP discards by length bin by year"))+
+       title = paste0("WCGOP discards by length bin by year"))+
   theme_minimal() +
   theme(legend.position = "none", 
         strip.text = element_text(face = "bold")) 
@@ -165,7 +165,7 @@ ggplot(data_agg, aes(x = variable, y = value)) +
 ```{r}
 # Size comp by year
 dev.new(width=5, height=20, unit="in")
-{plot(data_agg$year, data_agg$variable, xlab = "Year", ylab = "Length (cm)", main = "WGCOP discards by length by year",
+{plot(data_agg$year, data_agg$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year",
      xlim = range(data_agg$year), ylim = c(8, 62), type = "n")  
 symbols(data_agg$year, data_agg$variable, circles = sqrt(data_agg$value/pi), inches = 0.1, add = TRUE, bg = "white")
 

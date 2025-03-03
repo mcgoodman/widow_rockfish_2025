@@ -34,6 +34,7 @@ ss3.p0*
 ss3.r0*
 ss3.rep
 ss3.std
+*.r0[0-9]*
 suggested_tuning.ss
 runnumber.ss
 

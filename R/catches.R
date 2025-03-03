@@ -264,3 +264,60 @@ state_fleet_joined |>
   ) + 
   labs(x = "2015 landings (mt)", y = "Reconstructed landings (mt)") + 
   scale_color_viridis_d(option = "mako", begin = 0.2, end = 0.8)
+
+# Output catch for 2025 assessment update -----------------
+
+dir.create(save_dir <- file.path("data_derived", "catches/"))
+
+## Add shrimp trawls (sensitivity run) --------------------
+
+data_2019_wshrimp <- catch.pacfin |> 
+  filter(!is.na(COUNTY_STATE) & IOPAC_PORT_GROUP != "PUGET SOUND") |>
+  mutate(shrimp = grepl("shrimp", tolower(GEAR_NAME))) |> 
+  filter(shrimp) |> 
+  group_by(year = PACFIN_YEAR) |> 
+  summarize(catch_shrimp = sum(LANDED_WEIGHT_MTONS), .groups = "drop") |> 
+  mutate(seas = 1, fleet = 1) |> 
+  right_join(data_2019, by = c("year", "seas", "fleet")) |> 
+  mutate(catch_shrimp = ifelse(is.na(catch_shrimp), 0, catch_shrimp), catch = catch + catch_shrimp) |> 
+  select(-catch_shrimp) |> 
+  arrange(fleet, year)
+
+write.csv(data_2019_wshrimp, file.path(save_dir, "2019_catch_shrimp_added.csv"), row.names = FALSE)
+
+## Adjust 1979-2019 CA midwater / bottom trawl ratio ------
+
+# Proportion of trawls in 1981-1982 in California which are midwater
+ca_81_82 <- catch_2015 |> filter(year %in% 1981:1982 & state == "California" & grepl("trawl", fleet))
+prop_mdt <- sum(ca_81_82$landings_mt[ca_81_82$fleet == "midwater trawl"])/sum(ca_81_82$landings_mt)
+
+# Difference between expected and actual midwater landings in 1979-1980
+ca_79_80 <- catch_2015 |> filter(year %in% 1979:1980 & state == "California" & grepl("trawl", fleet))
+mdt_exp <- prop_mdt * aggregate(ca_79_80$landings_mt, by = list(year = ca_79_80$year), sum)$x
+mdt_diff <- mdt_exp - ca_79_80$landings_mt[ca_79_80$fleet == "midwater trawl"]
+
+# Adjust historical catch data accordingly 
+data_2019_adj <- data_2019
+data_2019_adj$catch[data_2019_adj$fleet == 2 & data_2019_adj$year %in% 1979:1980] <- 
+  data_2019_adj$catch[data_2019_adj$fleet == 2 & data_2019_adj$year %in% 1979:1980] + mdt_diff
+data_2019_adj$catch[data_2019_adj$fleet == 1 & data_2019_adj$year %in% 1979:1980] <- 
+  data_2019_adj$catch[data_2019_adj$fleet == 1 & data_2019_adj$year %in% 1979:1980] - mdt_diff
+
+write.csv(data_2019_adj, file.path(save_dir, "2019_catch_adjusted.csv"), row.names = FALSE)
+
+## Data since 2019 ----------------------------------------
+
+new_data <- catch_flt |> 
+  filter(year >= 2019) |> 
+  mutate(
+    seas = 1, 
+    fleet = as.integer(factor(fleet, levels = fleet_lvls)), 
+    catch_se = 0.01
+  ) |> 
+  select(year, seas, fleet, catch = landings_mt, catch_se) |> 
+  arrange(fleet, year) |> 
+  as.data.frame()
+
+data_2025 <- new_data |> bind_rows(data_2019_adj) |> arrange(fleet, year)
+
+write.csv(data_2025, file.path(save_dir, "2025_catches.csv"), row.names = FALSE)

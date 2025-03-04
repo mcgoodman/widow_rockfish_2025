@@ -1,0 +1,48 @@
+CODE,GEAR_DESCR,STD_GEAR,OLD_CODE
+110,Coastal Gillnet,COAST_GILLNET,
+120,Troll,TROLL,120
+130,Coastal Setnet,COAST_SETNET,
+140,Pelagic Gillnet,PEL_GILLNET,
+150,Pelagic Longline,PEL_LONGLINE,
+160,Tuna Seine,TUNA_SEINE,
+170,Tuna Baitboat,TUNA_BAIT,
+210,Col R. Gillnet,COLR_GILLNET,
+230,Col R. Gillnet-Treaty,TRTY_GILLNET,
+240,Col R. Dipnet,COLR_DIPNET,
+250,Col R. Setline,COLR_SETLINE,
+260,Col R. Hook & Line,COLR_H&L,
+290,Smelt Trawl   ,,
+300,Fish Pot,FISHPOT,720
+310,Gillnet,GILLNET,450
+311,Gillnet - set,GILLNET_SET,440
+312,Gillnet - drift,GILLNET_DRFT,460
+320,Shrimp Pot,SHRIMP_POT,
+330,Squid Trawl,SQUID_TRAWL,
+331,Lampara,LAMPARA,
+332,Purse,PURSE,
+333,Scottish or Danish Seine,SD_SEINE,960
+340,Hook & Line,HOOK&LINE,730
+350,Longline,LONGLINE,710 / 740
+360,GF Midwater,MIDWATER_TRWL,950
+361,GF Midwater - 1 net,MIDWATER_1NET,
+362,GF Midwater - pair trawl,MIDWATER_PAR,970
+370,Shrimp - single,SHRIMP_SINGL,372 / 800 / 810
+371,Shrimp - beam,SHRIMP_BEAM,830
+373,Shrimp - single 2 nets,SHRIMP_S2NET,820
+375,Shrimp - Midwater,SHRIMP,
+380,Shrimp - double,SHRIMP_DOUBL,374 / 840
+390,Unspecified Bottom Trawl,TRAWL_BOTTOM,910
+391,"Bottom Trawl, Large Footrope (Roller)",TRAWL_LGFTRP,394 / 900 / 920
+392,"Bottom Trawl, Small Footrope  (Sole net)",TRAWL_SMFTRP,395 / 930
+393,"Bottom Trawl, Selective Flatfish",TRAWL_SELFLT,
+400,Crab Pot,CRABPOT,
+410,Crab Ring,CRABRING,
+420,Clam Rake/Shovel,CLAMRAKE,
+430,Scallop Dredge,DREDGE,
+440,Shellfish Bait Shrimp Pump,SHRIMP_PUMP,
+450,Shellfish Baitnet,BAITNET,
+460,Clam Pump/Jet,CLAM,
+470,Shellfish Hand Device,HANDTOOL,
+480,Crayfish Trap,CRAY_TRAP,
+490,Shellfish Hook & Line,SHELL_H&L,
+999,Other Gear,,

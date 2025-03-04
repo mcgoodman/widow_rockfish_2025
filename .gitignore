@@ -8,6 +8,8 @@
 
 # Directories
 data_provided/PacFIN/*
+data_provided/wcgop
+
 
 # SS3 files
 admodel.cov
@@ -19,7 +21,6 @@ admodel.hes
 console.output.txt
 fmin.log
 gradient.*
-ss3.b0*
 ss3.bar
 ss3.ecm
 ss3.eva
@@ -28,9 +29,14 @@ ss.exe
 ss3.log
 ss3.mc2
 ss3.mcm
+ss3.b0*
 ss3.p0*
 ss3.r0*
+ss.r0*
+ss.b0*
+ss.p0*
 ss3.rep
 ss3.std
 suggested_tuning.ss
 runnumber.ss
+

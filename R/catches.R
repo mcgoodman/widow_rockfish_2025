@@ -190,16 +190,16 @@ catch_2019 |>
   filter(fleet_name != "hake") |> 
   ggplot(aes(year, landings_mt)) + 
   geom_bar(aes(fill = fleet_name), stat = "identity", width = 1, color = "black") + 
-  geom_point(aes(color = "cleaned PacFIN"), data = all_cleaned, size = 2) + 
-  geom_point(aes(color = "all PacFIN"), data = all_pacfin, size = 2) + 
+  geom_point(aes(color = "reconstructed catches"), data = all_cleaned, size = 2) + 
+  geom_point(aes(color = "PacFIN catches"), data = all_pacfin, size = 2) + 
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.8) + 
-  scale_color_manual(values = c("red", "orange")) + 
+  scale_color_manual(values = c("orange", "red")) + 
   theme_classic() + 
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 25000, 5000), limits = c(0, 28000)) +
   scale_x_continuous(breaks = seq(1980, 2024, 2)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   coord_cartesian(clip = "off") + 
-  labs(color = "reference", fill = "fleet", y = "landings (metric tons)")
+  labs(color = "reference", fill = "fleet (2019 asssessment)", y = "landings (metric tons)")
   
 ggsave("figures/current_catches/2019_landings_by_fleet.png", height = 5, width = 10, units = "in", dpi = 500)
 

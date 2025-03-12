@@ -44,9 +44,6 @@ ggplot(data_discard, aes(x = year, y = observed_discard_mt, fill = fleet)) +
        title = paste0("Discards (WCGOP)"))+
   theme(strip.text = element_text(face = "bold"))
 
-
-
-
 ```
 
 
@@ -54,7 +51,6 @@ ggplot(data_discard, aes(x = year, y = observed_discard_mt, fill = fleet)) +
 
 ## Discards length composition 
 ```{r}
-
 data <- read.csv(here("data_provided/wcgop", "biological_discard_lengths.csv"))
 data <- data[,-c(2,4,5,6,32:56)]
 names(data) <- c("year", "fleet" , seq(8,56,2))
@@ -122,7 +118,7 @@ text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_siz
 
 
 # Bottom trawl
-{plot(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year",
+{plot(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year (hook and line)",
      xlim = range(data[data$fleet==fleet_type[2],]$year), ylim = c(8, 62), type = "n")  
 symbols(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, circles = sqrt(data[data$fleet==fleet_type[2],]$value/pi), inches = 0.1, add = TRUE, bg = "white")
 
@@ -137,16 +133,15 @@ text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_siz
 
 ```
 
+## Look at ALL WCGOP discard data, regardless of fleet 
 
 ```{r}
 data_agg <- data %>%
-  group_by(year, variable)%>%
-  mutate(value = sum(value))%>%
+  group_by(year, variable) %>%
+  mutate(value = sum(value)) %>%
   distinct(year, variable, value)%>%
   group_by(year)%>%
   mutate(value = value  /sum(value)*100)
-
-
 
 ggplot(data_agg, aes(x = variable, y = value)) +
   geom_col() +
@@ -156,9 +151,6 @@ ggplot(data_agg, aes(x = variable, y = value)) +
   theme_minimal() +
   theme(legend.position = "none", 
         strip.text = element_text(face = "bold")) 
-
-
-
 ```
 
 
@@ -180,17 +172,170 @@ symbols(legend_x-0.5 + (1:length(legend_sizes)) * 3,rep(legend_y+0.5, length(leg
         circles = legend_circles, inches = 0.1, add = TRUE, bg = "white")
 text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_sizes)) ,
      labels = legend_sizes, adj = 0)}
+```
+
+### Prepare length composition data for .dat file 
+
+**Column order:** yr month fleet sex part Nsamp datavector(female-male)
+
+Year = from 1985 - 2023. Data prior to WCGOP will not change (use the same as 2019 update assessment). Data beginning 2004 
+
+Fleet codes: 
+- 1 = BottomTrawl <--- length data used in 2019 
+- 2 = MidwaterTrawl <-- 2025 WCGOP also has this length comp data? 
+- 3 = Hake <-- 2025 WCGOP also has this length comp data? 
+- 5 = HnL <--- length data used in 2010 
+Sex codes: 
+ - 0 = combined <-- all WCGOP data 
+ - 1 = use female only
+ - 2 = use male only
+ - 3 = use both as joint sexxlength distribution
+Partition codes  
+ - 0 = combined
+ - 1 = discard
+ - 2 = retained
+
+25 #_N_LengthBins; then enter lower edge of each length bin
+8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56
 
 
+### Grab length comps from 1980's from the 2019 .dat file! 
+
+```{r}
+library(remotes)
+library(r4ss)
+
+#ls("package:nwfscDiscard")
+ssdat.2019 <- SS_readdat(file = "../data_provided/2019_assessment/2019widow.dat")
+
+# # Discard biomass 
+# ssdat.2019$discard_fleet_info #fleets = 1 (bottom trawl), 2 (midwater trawl), 5 (hook & line) 
+# ssdat.2019$discard_data #biomass 
+
+# Discard length comps 
+length.comps.1980s <- ssdat.2019$lencomp %>% filter(part==1) %>% filter(year<2004 & year>0) #remove negative years
 
 
-
-
-
+# FIGURE OUT 
+# 2019 update assessment .dat file only has Botton Trawl and Hook & Line, but the 2025 WCGOP has hake and rockfish midwater trawl data!  
+ssdat.2019$lencomp %>% filter(part==1) %>% filter(year>2004) %>% 
+  mutate(fleet=as.factor(as.character(fleet))) %>% 
+  ggplot(aes(x=fleet, y=Nsamp)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, size=2) + 
+  ggtitle("Number of fish measured for length comp data by fleet, WCGOP (=>2004)\n2019 .dat file")
 
 
 ```
 
+
+Read in sample and length comps data from WCGOP, 2025 version 
+
+Here are discard samples & aggregation summary info 
+
+```{r}
+length.n <- read.csv(here("data_provided/wcgop", "../wcgop/biological_sample_sizes_length.csv"))
+length.n %>% 
+  ggplot(aes(x=gear_groups,y=nsamp)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, size=2) + 
+  ggtitle("Number of fish measured for length comp data by fleet, WCGOP (=>2004)\n2025 WCGOP data provided")
+```
+
+
+```{r}
+length.comps.wcgop <- read.csv(here("data_provided/wcgop", "../wcgop/biological_discard_lengths.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  mutate(month=7) %>% 
+  mutate(fleet=case_when(
+    fleet=="bottomtrawl-coastwide"~1,
+    fleet=="midwaterrockfish-coastwide"~2,
+    fleet=="midwaterhake-coastwide"~3,
+    fleet=="hook-and-line-coastwide"~5,
+  ))
+
+length.comps <- bind_rows(length.comps.1980s, length.comps.wcgop)
+
+# Assuming we don't need to aggregate fleets further or remove hake & rockfish midwater trawls ... this file is what we will use for discard lengths in new model 
+write_csv(length.comps, file = here("data_derived/discard_length_comps.csv"))
+```
+
+
+```{r}
+# Code not working fully yet - figure out why 1980's not plotting (likely b/c it's by male & female)
+#Visualize combined discard length comps.
+length.comps.agg <- length.comps %>%
+  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "percent") %>%
+  mutate(count=Nsamp*percent/100) %>%
+  select(year, sex, variable, count) %>% 
+  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+  group_by(year,variable,sex) %>%
+  mutate(value = sum(count)) %>%
+  distinct(year, sex, variable, value)  
+
+# dev.new(width=5, height=20, unit="in")
+# {plot(length.comps.agg$year, length.comps.agg$variable, xlab = "Year", ylab = "Length (cm)", main = "Discards by length by year",
+#      xlim = range(length.comps.agg$year), ylim = c(8, 62), type = "n")
+# symbols(length.comps.agg$year, length.comps.agg$variable, circles = sqrt(length.comps.agg$value/pi), inches = 0.1, add = TRUE, fg = c("red","blue")[length.comps.agg$sex], bg = "white")
+# 
+# 
+# # Legend
+# legend_x <- 1985
+# legend_y <- 60
+# legend_sizes <- c(0.01, 0.4, 0.8) #Identical to 2019 updates
+# legend_circles <- sqrt(legend_sizes/pi)
+# symbols(legend_x-0.5 + (1:length(legend_sizes)) * 3,rep(legend_y+0.5, length(legend_sizes)) ,
+#         circles = legend_circles, inches = 0.1, add = TRUE, bg = "white", fg=length.comps.agg$sex)
+# text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_sizes)) ,
+#      labels = legend_sizes, adj = 0)}
+
+
+library(ggpubr)
+length.comps.agg %>% mutate(sex=as.factor(as.character(sex))) %>% 
+  filter(value>0) %>% 
+  ggplot(aes(x = year, y = variable, col = as.factor(sex), size = value)) +
+                   ggplot2::geom_point(shape=1, position=position_dodge(0.5)) + 
+  scale_color_manual(values=c("red","blue", "purple")) + theme_cleveland() + 
+  ylim(c(10,60)) + 
+  ylab("Length (cm)") + xlab("Year") + ggtitle("Discard length counts, all fleets\nIncludes midwater hake/rockfish")
+
+
+# NO MIDWATER 
+
+length.comps.agg.nomid <- length.comps %>%
+  filter(fleet%in%c(1,5)) %>% 
+  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "percent") %>%
+  mutate(count=Nsamp*percent/100) %>%
+  select(year, sex, variable, count) %>% 
+  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+  group_by(year,variable,sex) %>%
+  mutate(value = sum(count)) %>%
+  distinct(year, sex, variable, value)
+
+# dev.new(width=5, height=20, unit="in")
+# {plot(length.comps.agg.nomid$year, length.comps.agg.nomid$variable, xlab = "Year", ylab = "Length (cm)", main = "Discards by length by year",
+#      xlim = range(length.comps.agg.nomid$year), ylim = c(8, 62), type = "n")
+# symbols(length.comps.agg.nomid$year, length.comps.agg.nomid$variable, circles = sqrt(length.comps.agg.nomid$value/pi), inches = 0.1, add = TRUE, fg = c("red","blue")[length.comps.agg.nomid$sex], bg = "white")
+# 
+# 
+# # Legend
+# legend_x <- 1985
+# legend_y <- 60
+# legend_sizes <- c(0.01, 0.4, 0.8) #Identical to 2019 updates
+# legend_circles <- sqrt(legend_sizes/pi)
+# symbols(legend_x-0.5 + (1:length(legend_sizes)) * 3,rep(legend_y+0.5, length(legend_sizes)) ,
+#         circles = legend_circles, inches = 0.1, add = TRUE, bg = "white", fg=length.comps.agg.nomid$sex)
+# text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_sizes)) ,
+#      labels = legend_sizes, adj = 0)}
+
+length.comps.agg.nomid %>% mutate(sex=as.factor(as.character(sex))) %>% 
+  filter(value>0) %>% 
+  ggplot(aes(x = year, y = variable, col = as.factor(sex), size = value)) +
+                   ggplot2::geom_point(shape=1, position=position_dodge(0.5)) + 
+  scale_color_manual(values=c("red","blue", "purple")) + theme_cleveland() + 
+  ylim(c(10,60)) + 
+  ylab("Length (cm)") + xlab("Year") + ggtitle("Discard length counts, all fleets\nBottom trawl and Hook & Line only")
+
+```
 
 
 

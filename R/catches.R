@@ -14,33 +14,41 @@
 library("tidyverse")
 library("readxl")
 library("r4ss")
+library("here")
 
-dir.create(file.path("figures", "current_catches"))
+dir.create(here("figures", "current_catches"))
+
+theme_set(
+  theme_classic() + 
+    theme(
+      strip.background = element_blank(), 
+      strip.text = element_text(hjust = 0, face = "bold")
+    )
+)
 
 # 1. Compare catch reconstruction to 2015 / 2019 assessments ------------------
 
 ## Data and settings ----------------------------------------------------------
 
 ## PacFIN catch data
-load(file.path("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.12.Dec.2024.RData"))
+load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.12.Dec.2024.RData"))
 
 ## 2015 assessment data
-catch_2015 <- read.csv(file.path("data_provided", "2015_assessment", "catch_by_state_fleet.csv"))
-catch_2015_hake <- read.csv(file.path("data_provided", "2015_assessment", "catch_hake_by_state.csv"))
+catch_2015 <- read.csv(here("data_provided", "2015_assessment", "catch_by_state_fleet.csv"))
+catch_2015_hake <- read.csv(here("data_provided", "2015_assessment", "catch_hake_by_state.csv"))
 
 ## 2019 assessment data
-catch_2019 <- r4ss::SS_readdat(file.path("data_provided", "2019_assessment", "2019widow.dat"))$catch
+catch_2019 <- r4ss::SS_readdat(here("data_provided", "2019_assessment", "2019widow.dat"))$catch
 
 ## Oregon catch reconstruction (Source: Ali Whitman, ODFW)
-catch_or <- read.csv(file.path("data_provided", "ODFW", "Oregon Commercial landings_431_2023.csv"))
-gears_or <- read.csv(file.path("data_provided", "ODFW", "ODFW_Gear_Codes_PacFIN.csv"))
+catch_or <- read.csv(here("data_provided", "ODFW", "Oregon Commercial landings_431_2023.csv"))
+gears_or <- read.csv(here("data_provided", "ODFW", "ODFW_Gear_Codes_PacFIN.csv"))
 
 ## ASHOP catches
-catch_ashop <- read_excel(file.path("data_provided", "ASHOP", "A-SHOP_Widow_CatchData_removedConfidentialFields_1975-2024_012325.xlsx"))
+catch_ashop <- read_excel(here("data_provided", "ASHOP", "A-SHOP_Widow_CatchData_removedConfidentialFields_1975-2024_012325.xlsx"))
 
 ## Washington catch reconstruction (Source: Fabio Prior Caltabellotta, WDFW)
-catch_wa <- read.csv(file.path("data_provided", "WDFW", "wdow_wa_catch_reconstruction.csv"))
-names(catch_wa) <- c("year", "landings_mt_wa")
+catch_wa <- read.csv(here("data_provided", "WDFW", "wdow_wa_catch_reconstruction_bygear.csv"))
 
 ### Gears and fleets ----------------------------------------------------------
 
@@ -125,7 +133,7 @@ trawl_ratio |> ggplot(aes(year, p_mdt)) +
   geom_line() + geom_point() + 
   scale_x_continuous(breaks = 1979:1999) + 
   scale_y_continuous(limits = c(0, 1), expand = c(0, 0), breaks = seq(0, 1, 0.1)) + 
-  theme_minimal() + 
+  theme_minimal() +
   theme(
     panel.grid.minor = element_blank(), 
     panel.grid.major.x = element_blank(), 
@@ -133,7 +141,10 @@ trawl_ratio |> ggplot(aes(year, p_mdt)) +
   ) + 
   ylab("Proportion midwater trawls")
 
-ggsave("figures/current_catches/Washington_trawl_proportion.png", height = 5, width = 10, units = "in", dpi = 500)
+ggsave(
+  here("figures", "current_catches", "Washington_trawl_proportion.png"), 
+  height = 5, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+)
 
 ### Replace Oregon 1981-1986 catches ------------------------------------------
 
@@ -176,14 +187,14 @@ catch_flt <- catch_st_flt_yr |>
 ## Comparison to past assessments ---------------------------------------------
 
 ## Match fleets from 2019 assessment
-catch_2019 <- catch_2019 |> 
+catch_modern <- catch_2019 |> 
   filter(year %in% catch_cleaned$year) |> 
   mutate(fleet_name = factor(fleet_lvls[fleet], levels = fleet_lvls))
 
 ## Aggregate catch by year, source
 all_pacfin <- catch.pacfin |> group_by(year = PACFIN_YEAR) |> summarize(landings_mt = sum(LANDED_WEIGHT_MTONS))
 all_cleaned <- catch_st_flt_yr |> group_by(year) |> summarize(landings_mt = sum(landings_mt))
-all_2019 <- catch_2019 |> filter(fleet_name != "hake") |> group_by(year) |> summarize(landings_mt = sum(catch))
+all_2019 <- catch_modern |> filter(fleet_name != "hake") |> group_by(year) |> summarize(landings_mt = sum(catch))
 
 ### Pacfin vs. 2019 comparison, coastwide -------------------------------------
 
@@ -197,7 +208,6 @@ catch_st_flt_yr |>
   geom_point(aes(color = "all PacFIN"), data = all_pacfin, size = 2) + 
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.8) + 
   scale_color_manual(values = c("red", "orange")) + 
-  theme_classic() + 
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 25000, 5000), limits = c(0, 28000)) +
   scale_x_continuous(breaks = seq(1980, 2024, 2)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
@@ -208,9 +218,12 @@ catch_st_flt_yr |>
     subtitle = "vs. total 2019 assessment and all PacFIN catches"
   ) 
 
-ggsave("figures/current_catches/PacFIN_landings_by_fleet.png", height = 5, width = 10, units = "in", dpi = 500)
+ggsave(
+  here("figures", "current_catches", "PacFIN_landings_by_fleet.png"), 
+  height = 5, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+)
 
-catch_2019 |> 
+catch_modern |> 
   group_by(year, fleet_name) |> 
   summarize(landings_mt = sum(catch)) |>
   mutate(fleet_name = factor(fleet_name, levels = fleet_lvls)) |> 
@@ -221,7 +234,6 @@ catch_2019 |>
   geom_point(aes(color = "PacFIN catches"), data = all_pacfin, size = 2) + 
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.8) + 
   scale_color_manual(values = c("orange", "red")) + 
-  theme_classic() + 
   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 25000, 5000), limits = c(0, 28000)) +
   scale_x_continuous(breaks = seq(1980, 2024, 2)) + 
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
@@ -232,7 +244,10 @@ catch_2019 |>
     subtitle = "vs. total reconstructed and all PacFIN catches"
   )
   
-ggsave("figures/current_catches/2019_landings_by_fleet.png", height = 5, width = 10, units = "in", dpi = 500)
+ggsave(
+  here("figures", "current_catches", "2019_landings_by_fleet.png"), 
+  height = 5, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+)
 
 ### By state ------------------------------------------------------------------
 
@@ -247,14 +262,14 @@ catch_st_flt_yr |>
   facet_wrap(~state, ncol = 1) + 
   scale_color_manual(values = "red") +
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.8) + 
-  theme_classic() + 
-  theme(
-    strip.background = element_blank(), 
-    strip.text = element_text(hjust = 0, face = "bold")
-  ) + 
+  scale_x_continuous(breaks = seq(1980, 2024, 2)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) +
   labs(y = "landings (mt)", color = "", fill = "fleet")
   
-ggsave("figures/current_catches/landings_by_state_fleet.png", height = 6, width = 10, units = "in", dpi = 500)
+ggsave(
+  here("figures", "current_catches", "landings_by_state_fleet.png"), 
+  height = 6, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+)
 
 ### Correlation ---------------------------------------------------------------
 
@@ -270,16 +285,14 @@ state_fleet_joined |>
   geom_abline(intercept = 0, slope = 1) +
   geom_point(aes(color = fleet)) + 
   facet_wrap(~state, nrow = 1) + 
-  coord_fixed() + 
-  theme_bw() + 
-  theme(
-    strip.background = element_blank(), 
-    strip.text = element_text(hjust = 0, face = "bold")
-  ) + 
+  coord_fixed() +
   labs(x = "2015 landings (mt)", y = "Reconstructed landings (mt)") + 
   scale_color_viridis_d(option = "mako", begin = 0.2, end = 0.8)
 
-ggsave("figures/current_catches/cor_landings_by_state_fleet.png", height = 4, width = 10, units = "in", dpi = 500)
+ggsave(
+  here("figures", "current_catches", "cor_landings_by_state_fleet.png"), 
+  height = 4, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+)
 
 #### 2000 onward --------------------------------------------------------------
 
@@ -289,17 +302,89 @@ state_fleet_joined |>
   geom_abline(intercept = 0, slope = 1) +
   geom_point(aes(color = fleet)) + 
   facet_wrap(~state, nrow = 1, scales = "free") + 
-  theme_bw() + 
-  theme(
-    strip.background = element_blank(), 
-    strip.text = element_text(hjust = 0, face = "bold")
-  ) + 
   labs(x = "2015 landings (mt)", y = "Reconstructed landings (mt)") + 
   scale_color_viridis_d(option = "mako", begin = 0.2, end = 0.8)
 
+ggsave(
+  here("figures", "current_catches", "cor_landings_by_state_fleet_2000-2014.png"), 
+  height = 4, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+)
+
+## WA reconstruction comparison -----------------------------------------------
+
+### Trawl ---------------------------------------------------------------------
+
+wa_trawl_adj <- catch_2015 |> 
+  bind_rows(catch_2015_hake) |> 
+  filter(state == "Washington" & grepl("trawl", fleet)) |>
+  group_by(year) |> 
+  mutate(landings_total = sum(landings_mt)) |> ungroup() |> 
+  select(year, fleet, landings_mt, landings_total) |> 
+  left_join(
+    select(filter(catch_wa, gear_group == "trawl"), year, landings_wa = landings_mt), 
+    by = "year"
+  ) |> 
+  drop_na() |> 
+  mutate(
+    catch_prop = ifelse(landings_total == 0, 0.5, (landings_mt / landings_total)),
+    landings_new = landings_wa * catch_prop, 
+    landings_diff = landings_new - landings_mt
+  )
+
+wa_trawl_adj |> 
+  ggplot(aes(year, landings_total)) + 
+  geom_line(aes(color = "2015 landings"), linewidth = 0.8) + 
+  geom_line(aes(y = landings_wa, color = "reconstruction"), linewidth = 0.8) + 
+  scale_x_continuous(breaks = seq(1935, 2015, 5)) + 
+  labs(title = "Total Washington trawl catch", y = "landings (mt)", color = "source") + 
+  theme(
+    legend.position = "bottom", 
+    axis.text.x = element_text(angle = 90, vjust = 0.5)
+  )
+
+ggsave(
+  here("figures", "current_catches", "WA_reconstuction_trawl_comparison.png"), 
+  height = 5, width = 8, units = "in", dpi = 500, device = png, type = "cairo"
+)
+
+### Non-trawl -----------------------------------------------------------------
+
+wa_nontrawl_adj <- catch_2015 |> 
+  bind_rows(catch_2015_hake) |> 
+  filter(state == "Washington" & !grepl("trawl", fleet)) |>
+  group_by(year) |> 
+  mutate(landings_total = sum(landings_mt)) |> ungroup() |> 
+  select(year, fleet, landings_mt, landings_total) |> 
+  left_join(
+    select(filter(catch_wa, gear_group == "non-trawl"), year, landings_wa = landings_mt), 
+    by = "year"
+  ) |> 
+  drop_na() |> 
+  mutate(
+    catch_prop = ifelse(landings_total == 0, 0.5, (landings_mt / landings_total)),
+    landings_new = landings_wa * catch_prop, 
+    landings_diff = landings_new - landings_mt
+  )
+
+wa_nontrawl_adj |> 
+  ggplot(aes(year, landings_total)) + 
+  geom_line(aes(color = "2015 landings"), linewidth = 0.8) + 
+  geom_line(aes(y = landings_wa, color = "reconstruction"), linewidth = 0.8) + 
+  scale_x_continuous(breaks = seq(1935, 2015, 5)) + 
+  labs(title = "Total Washington non-trawl catch", y = "landings (mt)", color = "source") + 
+  theme(
+    legend.position = "bottom", 
+    axis.text.x = element_text(angle = 90, vjust = 0.5)
+  )
+
+ggsave(
+  here("figures", "current_catches", "WA_reconstuction_nontrawl_comparison.png"), 
+  height = 5, width = 8, units = "in", dpi = 500, device = png, type = "cairo"
+)
+
 # 2. Output catch for 2025 assessment update ----------------------------------
 
-dir.create(save_dir <- file.path("data_derived", "catches/"))
+dir.create(save_dir <- here("data_derived", "catches/"))
 
 ## Add shrimp trawls (sensitivity run) ----------------------------------------
 
@@ -315,22 +400,7 @@ catch_2019_wshrimp <- catch.pacfin |>
   select(-catch_shrimp) |> 
   arrange(fleet, year)
 
-write.csv(catch_2019_wshrimp, file.path(save_dir, "2019_catch_shrimp_added.csv"), row.names = FALSE)
-
-## Update Washington catch ----------------------------------------------------
-
-# Compute difference between 2015 assessment WA catch and reconstruction
-# TO-DO
-  
-# Adjust 2019 catch data to reflect catch difference
-# TO-DO
-
-## Update Oregon catch --------------------------------------------------------
-
-# TO-DO
-# catch_or_cleaned |> 
-#   rename(landings_mt_or = landings_mt) |> 
-#   inner_join(catch_2015, by = c("year", "state", "fleet"))
+write.csv(catch_2019_wshrimp, here(save_dir, "2019_catch_shrimp_added.csv"), row.names = FALSE)
 
 ## Adjust 1979-2019 CA midwater / bottom trawl ratio --------------------------
 
@@ -350,7 +420,7 @@ catch_2019_adj$catch[catch_2019_adj$fleet == 2 & catch_2019_adj$year %in% 1979:1
 catch_2019_adj$catch[catch_2019_adj$fleet == 1 & catch_2019_adj$year %in% 1979:1980] <- 
   catch_2019_adj$catch[catch_2019_adj$fleet == 1 & catch_2019_adj$year %in% 1979:1980] - mdt_diff
 
-write.csv(catch_2019_adj, file.path(save_dir, "2019_catch_adjusted.csv"), row.names = FALSE)
+write.csv(catch_2019_adj, here(save_dir, "2019_catch_adjusted.csv"), row.names = FALSE)
 
 ## Data since 2019 ------------------------------------------------------------
 
@@ -367,4 +437,4 @@ new_data <- catch_flt |>
 
 catch_2025 <- new_data |> bind_rows(catch_2019_adj) |> arrange(fleet, year)
 
-write.csv(catch_2025, file.path(save_dir, "2025_catches.csv"), row.names = FALSE)
+write.csv(catch_2025, here(save_dir, "2025_catches.csv"), row.names = FALSE)

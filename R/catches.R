@@ -1,4 +1,6 @@
 
+# Authors: Maurice Goodman, Nick Grunloh 
+#
 # This script serves two primary purposes: 
 #
 # 1. Check that the catch time series from the 2015 and 2019 assessments can be

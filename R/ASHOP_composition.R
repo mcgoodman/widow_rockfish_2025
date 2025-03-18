@@ -1,21 +1,25 @@
-# ASHOP age and legnth data
-library(here)
-library(tidyverse)
-library(nwfscSurvey)
 
-historical_length <- openxlsx::read.xlsx(here("data", "ASHOP",
+# Author: Kristina Randup
+# ASHOP age and length data
+
+library("here")
+library("tidyverse")
+library("nwfscSurvey")
+library("openxlsx")
+
+historical_length <- openxlsx::read.xlsx(here("data_provided", "ASHOP",
                                "A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx"), 2)
 historical_length <- historical_length %>% 
   mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) %>% 
   uncount(weights = FREQUENCY)
 
-modern_length <- openxlsx::read.xlsx(here("data", "ASHOP",
+modern_length <- openxlsx::read.xlsx(here("data_provided", "ASHOP",
                                      "A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx"), 1)
 modern_length <- modern_length %>% 
   mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) %>% 
   uncount(weights = FREQUENCY)
 
-ashop_age <- openxlsx::read.xlsx(here("data", "ASHOP", 
+ashop_age <- openxlsx::read.xlsx(here("data_provided", "ASHOP", 
                          "A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx"), sheet = 1)
 ashop_age <- ashop_age %>% mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN)
 
@@ -66,14 +70,14 @@ raw_ashop_age <- get_raw_comps(
   verbose = TRUE
 )
 
-write_csv(raw_ashop_lengths_historic$sexed, file = here("data", "cleaned", "ASHOP_lengths_1976-1986_sexed.csv"))
-write_csv(raw_ashop_lengths_historic$unsexed, file = here("data", "cleaned", "ASHOP_lengths_1976-1986_unsexed.csv"))
+write_csv(raw_ashop_lengths_historic$sexed, file = here("data_derived", "ASHOP_composition", "ASHOP_lengths_1976-1986_sexed.csv"))
+write_csv(raw_ashop_lengths_historic$unsexed, file = here("data_derived", "ASHOP_composition", "ASHOP_lengths_1976-1986_unsexed.csv"))
 
-write_csv(raw_ashop_lengths_modern$sexed, file = here("data", "cleaned", "ASHOP_lengths_1992-2024_sexed.csv"))
-write_csv(raw_ashop_lengths_modern$unsexed, file = here("data", "cleaned", "ASHOP_lengths_1992-2024_unsexed.csv"))
+write_csv(raw_ashop_lengths_modern$sexed, file = here("data_derived", "ASHOP_composition", "ASHOP_lengths_1992-2024_sexed.csv"))
+write_csv(raw_ashop_lengths_modern$unsexed, file = here("data_derived", "ASHOP_composition", "ASHOP_lengths_1992-2024_unsexed.csv"))
 
-write_csv(raw_ashop_age$sexed, file = here("data", "cleaned", "ASHOP_age_sexed.csv"))
-write_csv(raw_ashop_age$unsexed, file = here("data", "cleaned", "ASHOP_age_unsexed.csv"))
+write_csv(raw_ashop_age$sexed, file = here("data_derived", "ASHOP_composition", "ASHOP_age_sexed.csv"))
+write_csv(raw_ashop_age$unsexed, file = here("data_derived", "ASHOP_composition", "ASHOP_age_unsexed.csv"))
 
 save(raw_ashop_lengths_historic, raw_ashop_lengths_modern, raw_ashop_age, 
-     file = here("data", "cleaned", "ASHOP_comps.RData"))
+     file = here("data_derived", "ASHOP_composition", "ASHOP_comps.RData"))

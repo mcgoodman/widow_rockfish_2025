@@ -244,7 +244,7 @@ length.comps <- bind_rows(length.comps.1980s, length.comps.wcgop)
 head(length.comps)
 
 #This file contains discard length comps which we will use for the new model 
-write.csv(length.comps, file = here("data_derived/discard_length_comps.csv"))
+write.csv(length.comps, file = here("data_derived/discards/discard_length_comps.csv"))
 ```
 
 Plot all length comps 

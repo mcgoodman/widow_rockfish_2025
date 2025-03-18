@@ -136,6 +136,40 @@ replist <- SS_output(
 
 SS_plots(replist, dir = base_shrimp_dir, printfolder = "R_Plots")
 
+# 2019 base model, with new WA catch reconstruction ---------------------------
+
+## Create outputs by copying and modifying Base_45_new ------------------------
+
+dir.create(base_wa_dir <- here(wd, "models", "2019 base model", "Base_45_wa_adj"))
+
+r4ss::copy_SS_inputs(base_ctl_dir, base_wa_dir)
+
+# Data file created by R/catches.R
+catch_wa_adj <- read.csv(here("data_derived", "catches", "2019_catch_wa_reconstruction.csv"))
+
+data_2019$catch <- catch_wa_adj
+
+SS_writedat(data_2019, here(base_wa_dir, "2019widow.dat"), overwrite = TRUE)
+
+## Run ------------------------------------------------------------------------
+
+ss3_exe <- set_ss3_exe(base_wa_dir)
+
+r4ss::run(
+  dir = base_wa_dir,
+  exe = ss3_exe,
+  show_in_console = TRUE,
+  skipfinished = !rerun
+)
+
+replist <- SS_output(
+  dir = base_wa_dir,
+  verbose = TRUE,
+  printstats = TRUE,
+  covar = TRUE
+)
+
+SS_plots(replist, dir = base_wa_dir, printfolder = "R_Plots")
 
 # 2019 base model, with changes to 1979/80 CA trawls --------------------------
 
@@ -173,11 +207,11 @@ replist <- SS_output(
 SS_plots(replist, dir = base_adj_dir, printfolder = "R_Plots")
 
 
-# Catch update ----------------------------------------------------------------
+# Update catches --------------------------------------------------------------
 
 ## Create outputs by copying and modifying Base_45_new ------------------------
 
-catch_update_dir <- here(wd, "models", "data_updates", "catch_update")
+catch_update_dir <- here(wd, "models", "data_updates", "update_catch")
 
 if (!dir.exists(catch_update_dir)) {
   
@@ -249,35 +283,10 @@ labels <- c(
   "Minimum stock size threshold", "Spawning output", "Harvest rate"
 )
 
-## Compare 2019 base model runs -----------------------------------------------
-
-# List directories
-folders <- here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new"))
-
-#Comparison plots produced by r4ss
-Models <- SSgetoutput(dirvec = folders, getcovar = TRUE)
-Models_SS <- SSsummarize(Models)
-
-dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "base_ctl"), recursive = TRUE)
-
-mod_names <- c('base', 'new ctl') #add model names as appropriate
-
-#plot time series (SSB, Recruitment, Fishing mortality)
-SSplotComparisons(
-  Models_SS,
-  print = TRUE,
-  plotdir = plot_dir,
-  labels = labels,
-  densitynames = c("SSB_2019", "SSB_Virgin"),
-  legendlabels = mod_names,
-  indexPlotEach = TRUE,
-  filenameprefix = "sens_base_"
-)
-
 ## Compare 2019 base model runs to those with pre-2019 data tweaks ------------
 
 # List directories
-folders <- here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new", "Base_45_add_shrimp", "Base_45_trawl_adj"))
+folders <- here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new", "Base_45_add_shrimp", "Base_45_wa_adj", "Base_45_trawl_adj"))
 
 #Comparison plots produced by r4ss
 Models <- SSgetoutput(dirvec = folders, getcovar = TRUE)
@@ -285,7 +294,7 @@ Models_SS <- SSsummarize(Models)
 
 dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "base_catch_adj"), recursive = TRUE)
 
-mod_names <- c('base', 'new ctl', "+ shrimp trawls", "+ mid/bot trawl adj.") #add model names as appropriate
+mod_names <- c('base', 'new ctl', "+ shrimp trawls", "+ WA reconstruction", "+ mid/bot trawl adj.") #add model names as appropriate
 
 #plot time series (SSB, Recruitment, Fishing mortality)
 SSplotComparisons(
@@ -299,11 +308,13 @@ SSplotComparisons(
   filenameprefix = "sens_base_adj_"
 )
 
+(par_cor <- cor(Models_SS$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs"))
+
 ## Compare 2019 base model runs to those with updated catch / WCGBTS data -----
 
 # List directories
 folders <- here(wd, 'models', '2019 base model', "Base_45_trawl_adj") # TO-DO: change reference data to reflect trawl adj.
-folders <- c(folders, here(wd, 'models', "data_updates", "catch_update")) # TO-DO: add WCGBTS update
+folders <- c(folders, here(wd, 'models', "data_updates", "update_catch")) # TO-DO: add WCGBTS update
 
 #Comparison plots produced by r4ss
 Models <- SSgetoutput(dirvec = folders, getcovar = TRUE)
@@ -311,7 +322,7 @@ Models_SS <- SSsummarize(Models)
 
 dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "data_update"), recursive = TRUE)
 
-mod_names <- c("base + mid/bot trawl adj.", "catch update") #add model names as appropriate
+mod_names <- c("base + mid/bot trawl adj.", "updated catches") #add model names as appropriate
 
 #plot time series (SSB, Recruitment, Fishing mortality)
 SSplotComparisons(

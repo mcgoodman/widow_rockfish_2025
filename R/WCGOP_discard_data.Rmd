@@ -11,8 +11,10 @@ library(ggplot2)
 library(reshape2)
 library(here)
 library(dplyr)
-
-
+require(tidyverse)
+library(ggpubr)
+library(remotes)
+library(r4ss)
 ```
 
 # Visualizing the Data 
@@ -44,9 +46,6 @@ ggplot(data_discard, aes(x = year, y = observed_discard_mt, fill = fleet)) +
        title = paste0("Discards (WCGOP)"))+
   theme(strip.text = element_text(face = "bold"))
 
-
-
-
 ```
 
 
@@ -54,7 +53,6 @@ ggplot(data_discard, aes(x = year, y = observed_discard_mt, fill = fleet)) +
 
 ## Discards length composition 
 ```{r}
-
 data <- read.csv(here("data_provided/wcgop", "biological_discard_lengths.csv"))
 data <- data[,-c(2,4,5,6,32:56)]
 names(data) <- c("year", "fleet" , seq(8,56,2))
@@ -80,26 +78,6 @@ ggplot(data[data$fleet==fleet_type[2],], aes(x = variable, y = value)) +
   theme_minimal() +
   theme(legend.position = "none", 
         strip.text = element_text(face = "bold")) 
-
-ggplot(data[data$fleet==fleet_type[3],], aes(x = variable, y = value)) +
-  geom_col() +
-  facet_wrap(~ year, scales = "free_y") +
-  labs(x = "Length bin (cm)", y = "%", 
-       title = paste0("Discards by length bin by year for ",fleet_type[3])) +
-  theme_minimal() +
-  theme(legend.position = "none", 
-        strip.text = element_text(face = "bold")) 
-
-ggplot(data[data$fleet==fleet_type[4],], aes(x = variable, y = value)) +
-  geom_col() +
-  facet_wrap(~ year, scales = "free_y") +
-  labs(x = "Length bin (cm)", y = "%", 
-       title = paste0("Discards by length bin by year for ",fleet_type[4]))+
-  theme_minimal() +
-  theme(legend.position = "none", 
-        strip.text = element_text(face = "bold")) 
-
-
 # )
 ```
 
@@ -121,8 +99,8 @@ text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_siz
 
 
 
-# Bottom trawl
-{plot(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year",
+# Hook & Line
+{plot(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, xlab = "Year", ylab = "Length (cm)", main = "WCGOP discards by length by year (hook and line)",
      xlim = range(data[data$fleet==fleet_type[2],]$year), ylim = c(8, 62), type = "n")  
 symbols(data[data$fleet==fleet_type[2],]$year, data[data$fleet==fleet_type[2],]$variable, circles = sqrt(data[data$fleet==fleet_type[2],]$value/pi), inches = 0.1, add = TRUE, bg = "white")
 
@@ -137,16 +115,15 @@ text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_siz
 
 ```
 
+## Look at ALL WCGOP discard data, regardless of fleet 
 
 ```{r}
 data_agg <- data %>%
-  group_by(year, variable)%>%
-  mutate(value = sum(value))%>%
+  group_by(year, variable) %>%
+  mutate(value = sum(value)) %>%
   distinct(year, variable, value)%>%
   group_by(year)%>%
   mutate(value = value  /sum(value)*100)
-
-
 
 ggplot(data_agg, aes(x = variable, y = value)) +
   geom_col() +
@@ -156,9 +133,6 @@ ggplot(data_agg, aes(x = variable, y = value)) +
   theme_minimal() +
   theme(legend.position = "none", 
         strip.text = element_text(face = "bold")) 
-
-
-
 ```
 
 
@@ -180,17 +154,269 @@ symbols(legend_x-0.5 + (1:length(legend_sizes)) * 3,rep(legend_y+0.5, length(leg
         circles = legend_circles, inches = 0.1, add = TRUE, bg = "white")
 text(legend_x + (1:length(legend_sizes)) * 3,rep(legend_y + 1, length(legend_sizes)) ,
      labels = legend_sizes, adj = 0)}
+```
+
+### Prepare length composition data for .dat file 
+
+**Column order:** yr month fleet sex part Nsamp datavector(female-male)
+
+Year = from 1985 - 2023. Data prior to WCGOP will not change (use the same as 2019 update assessment). Data beginning 2004 
+
+Fleet codes: 
+- 1 = BottomTrawl <--- length data used in 2019 
+- 2 = MidwaterTrawl 
+- 3 = Hake <-- 
+- 5 = HnL <--- length data used in 2010 
+Sex codes: 
+ - 0 = combined <-- most of WCGOP data 
+ - 1 = use female only
+ - 2 = use male only
+ - 3 = use both as joint sexlength distribution, a couple years 
+Partition codes  
+ - 0 = combined
+ - 1 = discard
+ - 2 = retained
+
+25 #_N_LengthBins; then enter lower edge of each length bin
+8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56
 
 
+## OPTION 1: 
+- Length comps from 1980's from the 2019 .dat file 
+- Length comps 2004+ from new WCGOP data provided this year (2025)
 
+```{r}
+ssdat.2019 <- SS_readdat(file = "../data_provided/2019_assessment/2019widow.dat")
 
+# # Discard biomass 
+# ssdat.2019$discard_fleet_info #fleets = 1 (bottom trawl), 2 (midwater trawl), 5 (hook & line) 
+# ssdat.2019$discard_data #biomass 
 
+# Discard length comps - in proportion 
+length.comps.1980s <- ssdat.2019$lencomp %>% filter(part==1) %>% filter(year<2004 & year>0) #remove negative years
 
-
+# 2019 update assessment .dat file has Botton Trawl and Hook & Line 
+ssdat.2019$lencomp %>% 
+#  filter(part==2) %>% #retained 
+#  filter(part==1) %>% #discarded
+#  filter(part==0) %>% #combined -- fleet == 7 & 8 only, survey data 
+  filter(part%in%c(1,2)) %>% 
+  mutate(part=case_when(part==1~"discarded", part==2~"retained")) %>% 
+  filter(year>2004) %>% 
+  mutate(fleet=as.factor(as.character(fleet))) %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom",fleet==2~"Midwater", fleet==3~"Hake", fleet==5~"Hook&Line")) %>% 
+  ggplot(aes(x=fleet_name, y=Nsamp)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, size=2) +
+#  theme(axis.text.x = element_text(angle = 90)) + 
+  facet_wrap(~part) + ggtitle("discard lengths number samples, 2019 data file")
+#  ggtitle("Number of fish measured for length comp data by fleet, WCGOP (=>2004)\n2019 .dat file")
 
 
 ```
+Read in sample and length comps data from WCGOP, 2025 version 
+
+Here are discard samples & aggregation summary info  - also only bottom trawn and hook&line data
+
+```{r}
+length.n <- read.csv(here("data_provided/wcgop", "../wcgop/biological_sample_sizes_length.csv"))
+length.n %>% 
+  ggplot(aes(x=gear_groups,y=input_n)) + 
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(width = 0.2, size=2) + 
+  ggtitle("Number of fish measured for length comp data by fleet, WCGOP (=>2004)\n2025 WCGOP data provided")
+```
 
 
+```{r}
+length.comps.wcgop <- read.csv(here("data_provided/wcgop", "../wcgop/biological_discard_lengths.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  mutate(month=7) %>% 
+   mutate(across(matches("^[f|m]\\d+"), ~ . / 100)) %>% # get into proportions to match the 2019 .dat file (currently percentage)
+  mutate(fleet=case_when(
+    fleet=="bottomtrawl-coastwide"~1,
+    fleet=="midwaterrockfish-coastwide"~2,
+    fleet=="midwaterhake-coastwide"~3,
+    fleet=="hook-and-line-coastwide"~5,
+  ))
+
+length.comps <- bind_rows(length.comps.1980s, length.comps.wcgop)
+head(length.comps)
+
+#This file contains discard length comps which we will use for the new model 
+write.csv(length.comps, file = here("data_derived/discards/discard_length_comps.csv"))
+```
+
+Plot all length comps 
 
 
+```{r}
+# 
+length.comps.agg <- length.comps %>%
+  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
+  mutate(count=round(Nsamp*prop)) %>%
+  select(year, sex, variable, count) %>% 
+  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+  group_by(year,variable,sex) %>%
+  mutate(value = sum(count)) %>%
+  distinct(year, sex, variable, value) %>% 
+  left_join(length.comps %>% group_by(year) %>% summarize(n_total=sum(Nsamp))) %>% 
+  mutate(prop_total=value/n_total)
+
+dev.new(width=5, height=20, unit="in")
+
+# Define the years to display on the x-axis
+years_to_display <- c(1985, 2004, 2007, 2010, 2013, 2016, 2019, 2022)
+
+{plot(length.comps.agg$year, length.comps.agg$variable, xlab = "Year", ylab = "Length (cm)", 
+      main = "Discards by length by year, new WCGOP data",
+      xlim = range(length.comps.agg$year), ylim = c(8, 62), type = "n", 
+      xaxt = "n")  # Suppress default x-axis
+
+# Add custom x-axis with only the selected years
+axis(1, at = years_to_display, labels = years_to_display)
+
+# Add symbols for data points
+symbols(length.comps.agg$year, length.comps.agg$variable, 
+        circles = sqrt(length.comps.agg$prop_total/pi), inches = 0.1, 
+        add = TRUE, bg = "white")
+
+# Legend
+legend_x <- 1985
+legend_y <- 60
+legend_sizes <- c(0.01, 0.4, 0.8)  # Identical to 2019 updates
+legend_circles <- sqrt(legend_sizes/pi)
+symbols(legend_x - 0.5 + (1:length(legend_sizes)) * 3, 
+        rep(legend_y + 0.5, length(legend_sizes)), 
+        circles = legend_circles, inches = 0.1, add = TRUE, bg = "white")
+text(legend_x + (1:length(legend_sizes)) * 3, 
+     rep(legend_y + 1, length(legend_sizes)), 
+     labels = legend_sizes, adj = 0)
+}
+
+# tidyverse option
+length.comps.agg %>% mutate(sex=as.factor(as.character(sex))) %>% 
+  mutate(sex_desc=as.factor(case_when(
+    sex==0~"combined",
+    sex==1~"female",
+    sex==2~"male",
+    sex==3~"joint distribution"))) %>% 
+  filter(prop_total>0) %>% 
+  ggplot(aes(x = year, y = variable, col = sex_desc, size = prop_total)) +
+  
+  # Add vertical dotted lines at each unique x-axis year
+  geom_vline(data = length.comps.agg %>% distinct(year), 
+             aes(xintercept = year), 
+             linetype = "dotted", color = "gray50", alpha = 0.5) +
+
+  # Plot points
+  geom_point(shape = 1, position = position_dodge(0.5)) + 
+  scale_color_manual(values = c("red", "blue", "purple", "darkgreen")) + 
+  #scale_size_manual(breaks = c(0.01,0.4,0.8)) + 
+  theme_pubclean() + 
+  ylim(c(10, 60)) + 
+  ylab("Length (cm)") + 
+  xlab("Year") + 
+  ggtitle("Discard by lengths by year, sex, new WCGOP data") + 
+  scale_x_continuous(breaks = years_to_display) + 
+  theme(legend.position = "right") + 
+  guides(color = guide_legend(title = NULL), size = guide_legend(title = NULL))
+
+```
+
+## OPTION 2: 
+- Length comps through 2017 from the 2019 .dat file 
+- Add only new length comps (2018+) from new WCGOP data provided this year (2025)
+
+Regarding the -2018 values from the 2019 .dat file, this is that the SS3 manual says:
+
+"If the value of year is negative, then that observation is not transferred into the working array. This feature is the easiest way to include observations in a data file but not to use them in a particular model scenario." 
+
+So, the previous authors wanted to keep the 2018 data since they had it in hand, but not include it in the run. 
+
+```{r}
+length.comps.2019assess <- ssdat.2019$lencomp %>% filter(part==1) %>% filter(year>0) %>%  
+  add_row(length.comps.wcgop %>% filter(year>2017)) 
+
+length.comps.updateonly <- bind_rows(length.comps.1980s, length.comps.wcgop)
+
+# An alternative discard length comps file, should we want to only add the new years from the new WCGOP data file 
+write.csv(length.comps.updateonly, file = here("data_derived/discards/discard_length_comps_add-years-only.csv"))
+```
+
+Plot all length comps 
+
+
+```{r}
+# 
+length.comps.agg.2019assess <- length.comps.2019assess %>%
+  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
+  mutate(count=round(Nsamp*prop)) %>%
+  select(year, sex, variable, count) %>% 
+  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+  group_by(year,variable,sex) %>%
+  mutate(value = sum(count)) %>%
+  distinct(year, sex, variable, value) %>% 
+  left_join(length.comps %>% group_by(year) %>% summarize(n_total=sum(Nsamp))) %>% 
+  mutate(prop_total=value/n_total)
+
+dev.new(width=5, height=20, unit="in")
+
+# Define the years to display on the x-axis
+years_to_display <- c(1985, 2004, 2007, 2010, 2013, 2016, 2019, 2022)
+
+{plot(length.comps.agg.2019assess$year, length.comps.agg.2019assess$variable, xlab = "Year", ylab = "Length (cm)", 
+      main = "Discards by length by year, 2018+ WCGOP data",
+      xlim = range(length.comps.agg.2019assess$year), ylim = c(8, 62), type = "n", 
+      xaxt = "n")  # Suppress default x-axis
+
+# Add custom x-axis with only the selected years
+axis(1, at = years_to_display, labels = years_to_display)
+
+# Add symbols for data points
+symbols(length.comps.agg.2019assess$year, length.comps.agg.2019assess$variable, 
+        circles = sqrt(length.comps.agg.2019assess$prop_total/pi), inches = 0.1, 
+        add = TRUE, bg = "white")
+
+# Legend
+legend_x <- 1985
+legend_y <- 60
+legend_sizes <- c(0.01, 0.4, 0.8)  # Identical to 2019 updates
+legend_circles <- sqrt(legend_sizes/pi)
+symbols(legend_x - 0.5 + (1:length(legend_sizes)) * 3, 
+        rep(legend_y + 0.5, length(legend_sizes)), 
+        circles = legend_circles, inches = 0.1, add = TRUE, bg = "white")
+text(legend_x + (1:length(legend_sizes)) * 3, 
+     rep(legend_y + 1, length(legend_sizes)), 
+     labels = legend_sizes, adj = 0)
+}
+
+# tidyverse option
+length.comps.agg.2019assess %>% mutate(sex=as.factor(as.character(sex))) %>% 
+  mutate(sex_desc=as.factor(case_when(
+    sex==0~"combined",
+    sex==1~"female",
+    sex==2~"male",
+    sex==3~"joint distribution"))) %>% 
+  filter(prop_total>0) %>% 
+  ggplot(aes(x = year, y = variable, col = sex_desc, size = prop_total)) +
+  
+  # Add vertical dotted lines at each unique x-axis year
+  geom_vline(data = length.comps.agg %>% distinct(year), 
+             aes(xintercept = year), 
+             linetype = "dotted", color = "gray50", alpha = 0.5) +
+
+  # Plot points
+  geom_point(shape = 1, position = position_dodge(0.5)) + 
+  scale_color_manual(values = c("red", "blue", "purple", "darkgreen")) + 
+  #scale_size_manual(breaks = c(0.01,0.4,0.8)) + 
+  theme_pubclean() + 
+  ylim(c(10, 60)) + 
+  ylab("Length (cm)") + 
+  xlab("Year") + 
+  ggtitle("Discard by lengths by year, sex, new WCGOP data") + 
+  scale_x_continuous(breaks = years_to_display) + 
+  theme(legend.position = "right") + 
+  guides(color = guide_legend(title = NULL), size = guide_legend(title = NULL))
+
+```

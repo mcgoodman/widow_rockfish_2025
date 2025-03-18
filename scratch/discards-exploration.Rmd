@@ -1,0 +1,489 @@
+---
+title: "discards"
+author: "Laura Spencer"
+date: "2025-02-11"
+output: html_document
+---
+
+```{r}
+library(devtools)
+#install_github("pfmc-assessments/nwfscDiscard")
+library(nwfscDiscard)
+library(nwfscSurvey)
+library(nwfscDiscard)
+library(tidyverse)
+library(ggplot2)
+library(ggbreak)
+library(janitor)
+```
+## Discards, fishery-dependent 
+
+From 2015 full assessment: 
+
+"Data on discards on Widow Rockfish are available from three different sources. The earliest source is called the Pikitch data and comes from a study organized by Ellen Pikitch that collected data on trawl discards from 1985–1987 (John Wallace, pers. comm and a manuscript in prep). The second source is called EDCP data, which stands for Enhanced groundfish Data Collection Project. These data were collected from late 1995 to early 1999 by at-sea observers on vessels that voluntarily participated in the project. These data were obtained from John Wallace (NWFSC, pers. comm.) and a report to the Oregon Trawl Commission written by David Sampson describes the data. The third data source is from the WCGOP. This program is part of the NWFSC and has been recording discard observations since 2003.
+
+Results of the Pikitch data were obtained from John Wallace (NWFSC, pers. comm.) in the form of ratios of discard weight to retained weight of Widow Rockfish and sex-specific length frequencies. Although results were extended to additional years using data from a mesh study, it was decided to use only the results from the specific years of the study since there were many observations from those years (1985– 1987). Discard estimates are shown in Table 17 and range from 523 to 1,134 mt. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (Figure 37).
+
+Observations of discards from the EDCP dataset were provided as total discards and total landings per trip (i.e., fish ticket). For each year, the discards were summed and divided by the total observed landings to provide a ratio of discarded to retained catch. This was then applied to the total landings of that fleet to estimate to total discards in that year (Table 17). Variability was estimated from individual trip discard ratios. Length data were not available."
+
+From the 2019 update assessment: 
+
+"Widow Rockfish are a desirable market species and it is believed that discarding was low historically. However, management restrictions (e.g., trip limits) resulted in a substantial amount of discarding beginning in 1982. Trawl rationalization was introduced in 2011, and since then very little discarding of Widow Rockfish has occurred. Discards were estimated in the model with the assistance of data from the West Coast Observer Program (WCGOP), and total catches (discards plus landings) are reported in addition to landings.
+
+Discard data for the bottom trawl, midwater trawl, and hook-andline fisheries were available in various years in the form of discarded biomass and length compositions"
+
+### Explore 2019 assessment discard data from .dat file 
+We will not be adding or modifying the Pikitch or EDCP discard datasets. So here we explore that data that is already in the .dat file from the 2019 update assessment. 
+
+
+```{r, warning=FALSE, message=FALSE}
+# Install the stock syntehsis 
+#install.packages("remotes")
+library(remotes)
+#remotes::install_github("r4ss/r4ss")
+library(r4ss)
+```
+
+### The widow rockfish WCGOP data was given to us in a pre-processed, non-confidential format. Here I review those files! 
+
+Read in 2019 assessment data file 
+
+_Interpreting the discard info from the .dat file & stock synthesis manual_ 
+
+Discard units: 1 = values are amount of discard in either biomass or numbers according to the selection made for retained catch (metric tons, likely)
+Erro type: -2 = log-normal distribution, value of error in data file is interpreted as se of the observation in natural log space
+
+```{r}
+ls("package:nwfscDiscard")
+ssdat.2019 <- SS_readdat(file = "../data_provided/2019_assessment/2019widow.dat")
+
+# Look at discard data in 2019 assessmenet
+
+# Discard biomass 
+ssdat.2019$discard_fleet_info #fleets = 1 (bottom trawl), 2 (midwater trawl), 5 (hook & line) 
+ssdat.2019$discard_data #biomass 
+
+# Discard length comps 
+ssdat.2019$lencomp %>% filter(part==1) %>% View()
+
+```
+
+Fleet 1 = bottom trawl
+Fleet 2 - midwater trawl 
+Fleet 5 = hook and line 
+
+```{r, warning=F, message=F}
+ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+      fleet==5~"Hook & Line")) %>% 
+  ggplot(aes(x=year, y=obs)) + theme_minimal() +
+  geom_line() + geom_point() + 
+  # geom_errorbar(aes(ymin=obs-stderr, ymax=obs+stderr), width=.2,
+  #                position=position_dodge(0.05)) +
+  facet_wrap(~fleet_name, nrow = 3)
+
+ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+      fleet==5~"Hook & Line")) %>%
+  ggplot(aes(x=year, y=obs, fill=fleet_name)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  scale_x_continuous(limits = c(1985,2025), breaks=c(1985,1990,1995,2000,2005,2010,2015,2020, 2025)) + 
+  ggtitle("Discards by year, fleet, all years") + ylab("Metric tons (median)")
+
+ssdat.2019$discard_data %>% filter(year>1997) %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+      fleet==5~"Hook & Line")) %>%
+  ggplot(aes(x=year, y=obs, fill=fleet_name)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  scale_x_continuous(limits = c(1997,2025), breaks=c(1995,2000,2005,2010,2015,2020, 2025)) + 
+  ggtitle("Discards by year, fleet, after 1997") + ylab("Metric tons (median)")
+
+ssdat.2019$discard_data %>% filter(year>2010) %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+      fleet==5~"Hook & Line")) %>%
+  ggplot(aes(x=year, y=obs, fill=fleet_name)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  scale_x_continuous(limits = c(2010,2025), breaks=c(2010,2015,2020, 2025)) + 
+  ggtitle("Discards by year, fleet, after 1997") + ylab("Metric tons (median)")
+
+
+```
+
+Discard comps
+
+```{r}
+ssdat.2019$len_info %>% head()
+ssdat.2019$lencomp 
+```
+
+Description of data products:
+
+- Confidentiality Checks:
+
+  - confidentiality_catch_share.csv: The number of observed vessels, trips, hauls, and observations on non-catch and catch-share vessels of selected species given the request data stratification by area and gear type. To meet confidentiality a total of three or more vessels must be observed by stratification and year.
+
+```{r}
+conf_cs <- read.csv(file = "../../wcgop/confidentiality_by_catch_share.csv")
+conf_cs
+
+conf_cs %>% 
+  ggplot(aes(x=as.factor(year), y=n_vessels, fill=fleet)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+#  facet_wrap(~ catch_shares) + 
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Vessels") + xlab("Year") + ylab("Number of vessels")
+
+conf_cs %>% 
+  ggplot(aes(x=as.factor(year), y=n_obs, fill=fleet)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+#  facet_wrap(~ catch_shares) + 
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Vessels") + xlab("Year") + ylab("Number of observations")
+
+# Fewer than 3 vessels? Should see if the data from these years are scrubbed
+conf_cs %>% filter(n_vessels<3)
+```
+  - confidentiality_em_catch_share.csv: The number of observed vessels, trips, hauls, and observations on vessels using electronic monitoring (EM) of selected species given the request data stratification by area and gear type. To meet confidentiality a total of three or more vessels must be observed by stratification and year. The confidentiality check for EM vessels is separate from the previous confidentiality check since the EM data are in a separate data file given the unique nature of the data. The EM program began in 2015 and is limited to catch-share vessels with participation increasing in recent years. 
+
+```{r}
+conf_em_cs <- read.csv(file = "../../wcgop/confidentiality_em_by_catch_share.csv")
+conf_em_cs
+
+conf_em_cs %>% 
+  ggplot(aes(x=as.factor(year), y=n_vessels, fill=gear_groups)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+#  facet_wrap(~ catch_shares) + 
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Vessels") + xlab("Year") + ylab("Number of vessels")
+
+conf_em_cs %>% 
+  ggplot(aes(x=as.factor(year), y=n_obs, fill=gear_groups)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+#  facet_wrap(~ catch_shares) + 
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Vessels") + xlab("Year") + ylab("Number of observations")
+
+# Fewer than 3 vessels? Should see if the data from these years are scrubbed
+conf_em_cs %>% filter(n_vessels<3)
+```
+
+- Biological Data:
+
+  - biological_discard_lengths.csv and biological_discard_ages.csv: The length/age observations of discarded fish formatted based on requested stratification, data bin structure, and sex. Only select species include sex-specific data within WCGOP. Data are formatted for SS3. 
+
+```{r, warning=F, message=F}
+bio.n <- read.csv(file = "../../wcgop/biological_sample_sizes_length.csv")
+
+bio_lengths <- read.csv(file = "../../wcgop/biological_discard_lengths.csv") %>% 
+  select(-X8.1:-X56.1) %>% 
+  pivot_longer(cols = X8:X56, names_to = "bin_1", values_to = "value_1") %>% 
+  mutate(bin_1=as.numeric(gsub("X", "", bin_1))) 
+bio_lengths
+
+# bio_lengths %>%
+#   ggplot(aes(x=as.numeric(bin_1), y=value_1)) + 
+#   theme_minimal() + 
+#   geom_ribbon(aes(ymin = 0, ymax = value_1), fill = "skyblue", alpha = 0.8) + # Fill under the curve
+# #  geom_line(color = "blue", size = 1) + # Line plot
+#   geom_smooth(fill = "skyblue", color = "blue", alpha = 0.4, method = "loess") +
+#   facet_wrap(~year) + ylim(c(0,20)) + 
+#   theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+#   ggtitle("Length composition") + xlab("Length (cm)") + ylab("Number of observations")
+
+bio_lengths %>% mutate(fleet=gsub("-coastwide", "", fleet)) %>% 
+  ggplot(aes(x=as.factor(year), y=input_n, fill=fleet)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Number of observations, discard lengths") + xlab("Year") + ylab("Number of observations")
+
+bio_lengths %>% mutate(fleet=gsub("-coastwide", "", fleet)) %>% 
+  ggplot(aes(x=bin_1, y=value_1, fill=fleet)) + geom_col(col="gray25") + 
+  facet_wrap(~year) + theme_minimal() + 
+  ggtitle("Discards length frequency by year") + ylab("Count") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  scale_x_discrete(breaks = c("16","24","32","40","48","56")) +
+  xlab("Length (cm)")
+
+```
+```{r}
+bio_lengths_n <- read.csv(file = "../../wcgop/biological_sample_sizes_length.csv")
+bio_lengths_n
+
+bio_lengths_n %>% 
+  pivot_longer(cols = fish:nsamp, names_to = "metric", values_to = "value") %>% 
+  ggplot(aes(x=as.factor(year), y=value, fill=gear_groups)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+  facet_wrap(~metric, scales = "free") + 
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Number discard lengths") + xlab("Year") + ylab("Number of observations")
+
+bio_lengths_n %>% 
+  ggplot(aes(x=as.factor(year), y=hauls, fill=gear_groups)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Number discard lengths") + xlab("Year") + ylab("Number of observations")
+```
+
+  - discard_mean_body_weights.csv: The mean body weight in kg of discarded fish. Only years with 30 or more observations by stratification are provided. Data are formatted for SS3. 
+  
+```{r}
+bio_weight <- read_csv(file = "../../wcgop/discard_mean_body_weights.csv")
+bio_weight
+
+bio_weight %>% 
+  ggplot(aes(x=as.factor(year), y=obs, fill=fleet)) + 
+  theme_minimal() + geom_bar(stat = "identity", position = "stack") + 
+#  facet_wrap(~metric, scales = "free") + 
+  theme(legend.position = "right", axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  ggtitle("Number discard lengths") + xlab("Year") + ylab("Number of observations")
+
+
+bio_weight %>% mutate(fleet=gsub("-coastwide", "", fleet)) %>% 
+  ggplot(aes(x=year, y=obs, fill=fleet)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  geom_errorbar(aes(x=year, ymin=obs-obs*cv, ymax=obs+obs*cv), width=0.3) + 
+#  scale_x_continuous(limits = c(1985,2025), breaks=c(1985,1990,1995,2000,2005,2010,2015,2020, 2025)) + 
+  ggtitle("Discards weight by fleet") + ylab("Metric tons (median)")
+```
+
+### Discard Rates, WCGOP data only received Jan/Feb 2025
+
+  - discard_rates_catch_share.csv: The observed discard totals and rates for catch-share vessels. The catch-share fishery has full observer coverage, hence data are considered a census and no measure of uncertainty are provided. 
+  
+  - discard_rates_em_catch_share.csv:  The observed discard totals and rates for catch-share vessels using EM. These data are considered a census and no measure of uncertainty are provided. 
+
+  - discard_rates_combined_catch_share.csv: The combined discard totals between the catch-share vessels with onboard observers and  those using EM. Analysts should use this file when determining how to combine discard rates between catch-share and non-catch share vessels for use in stock assessment.
+
+  - discard_rates_noncatch_share.csv: The observed discard totals and rates for non-catch share vessels. These data are bootstrapped to estimate median discard rates and standard deviation for use in assessment.
+
+
+```{r}
+disc_rates_cs <- read_csv(file = "../../wcgop/discards_rates_catch_share.csv")
+disc_rates_cs
+
+disc_rates_em_cs <- read_csv(file = "../../wcgop/discards_rates_em_catch_share.csv")
+disc_rates_em_cs
+
+disc_rates_comb_cs <- read_csv(file = "../../wcgop/discard_rates_combined_catch_share.csv")
+disc_rates_comb_cs 
+
+disc_rates_noncs <- read_csv(file = "../../wcgop/discard_rates_noncatch_share.csv")
+disc_rates_noncs 
+```
+
+The definitions of fishing fleets have been changed from those in the 2011 assessment separating fisheries by strategy rather than space. Five fishing fleets were specified within the model: 
+
+1) a shorebased bottom trawl fleet with coastwide catches from 1916–2014,
+2) a shorebased midwater trawl fleet with coastwide catches from 1979–2014, 
+3) a mostly midwater trawl fleet that targets Pacific Hake/Whiting (Merluccius productus) and includes a foreign and at-sea fleet with catches from 1975–2014, a domestic shorebased fleet that targeted Pacific Hake with catches from 1991–2014, and foreign vessels that targeted Pacific Hake and rockfish between 1966–1976, 
+4) a net fishery consisting of catches mostly from California from 1981–2014, and 
+5) a hook-and-line fishery (predominantly longline) with coastwide catches from 1916–2014.
+
+```{r}
+# Discard data input into the model, 2019 
+ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+      fleet==5~"Hook & Line")) 
+
+# WCGOP discard data, received 2025 
+disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+  fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+  fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+  fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+  fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+  select(year, fleet, fleet_name, everything())
+```
+
+```{r}
+disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+  fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+  fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+  fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+  fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+
+  ggplot(aes(x=year, y=discard_rate, fill=fleet_name)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  scale_x_continuous(limits = c(2010,2025), breaks=c(2011,2014,2017,2020, 2023)) + 
+  ggtitle("Discards rate (prop., by mt)") + ylab("disarded / retained (mt)")
+
+disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+  fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+  fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+  fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+  fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+
+  ggplot(aes(x=year, y=observed_discard_mt, fill=fleet)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  scale_x_continuous(limits = c(2010,2025), breaks=c(2011,2014,2017,2020, 2023)) + 
+  ggtitle("Discards (mt)") + ylab("discarded (mt)")
+
+disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+  fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+  fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+  fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+  fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+  group_by(year, fleet_name) %>% summarise(discard_total=sum(observed_discard_mt)) %>% 
+
+  ggplot(aes(x=year, y=discard_total, fill=fleet_name)) + theme_minimal() +
+  geom_bar(stat="identity", color="black", position = "stack") +
+  scale_x_continuous(limits = c(2010,2025), breaks=c(2011,2014,2017,2020, 2023)) + 
+  ggtitle("Discards (mt)") + ylab("discarded (mt)")
+
+```
+Combine discard data from 2019 assessment .dat file with data that we received from WCGOP 
+
+```{r}
+library(cowplot)
+
+p <- ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+    fleet==5~"Hook & Line")) %>% 
+  ggplot() + 
+  geom_point(aes(x=year, y=obs), shape=1, size=3, color="blue3") +
+  facet_wrap(~fleet_name, nrow=3) + theme_minimal() +
+  scale_x_continuous(limits = c(1985,2023), breaks=c(1985,1990,1995,2000,2005,2010,2015,2020,2023)) + 
+  ggtitle("Discards by year, fleet") + ylab("Metric tons (median)") + xlab("Year") + 
+  
+  geom_point(data = 
+          disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+          fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+          fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+          fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+          fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+          group_by(year, fleet_name) %>% summarise(discard_total=sum(observed_discard_mt)),
+          aes(x=year, y=discard_total), color="red3")
+
+ ggdraw(p) + draw_text("2019 Assessment", x = 0.85, y = 0.85, size = 12, color="blue3") + 
+            draw_text("WCGOP Data, 2025", x = 0.85, y = 0.8, size = 12, color="red3")
+
+p1 <- ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+    fleet==5~"Hook & Line")) %>% 
+  filter(year>1997) %>% 
+  ggplot() + 
+  geom_point(aes(x=year, y=obs), shape=1, size=3, color="black") +
+  facet_wrap(~fleet_name, nrow=3, scales = "free") + theme_minimal() +
+  scale_x_continuous(limits = c(1997,2023), breaks=c(1995, 2000, 2005, 2010,2015,2020,2023)) + 
+  ggtitle("Discards by year, fleet (after 2010)") + ylab("Metric tons (median)") + xlab("Year") + 
+  
+  geom_point(data = 
+          disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+          fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+          fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+          fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+          fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+          group_by(year, fleet_name) %>% summarise(discard_total=sum(observed_discard_mt)),
+          aes(x=year, y=discard_total), color="red3")
+
+ggdraw(p1) + draw_text("2019 Assessment", x = 0.85, y = 0.85, size = 12, color="blue3") + 
+            draw_text("WCGOP Data, 2025", x = 0.85, y = 0.8, size = 12, color="red3")
+
+
+p2 <- ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+    fleet==5~"Hook & Line")) %>% 
+  filter(year>2010) %>% 
+  ggplot() + 
+  geom_point(aes(x=year, y=obs), shape=1, size=3, color="blue3") +
+  facet_wrap(~fleet_name, nrow=3, scales = "free") + theme_minimal() +
+  scale_x_continuous(limits = c(2010,2023), breaks=c(2010,2015,2020,2023)) + 
+  ggtitle("Discards by year, fleet (after 2010)") + ylab("Metric tons (median)") + xlab("Year") + 
+  
+  geom_point(data = 
+          disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+          fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+          fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+          fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+          fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+          group_by(year, fleet_name) %>% summarise(discard_total=sum(observed_discard_mt)),
+          aes(x=year, y=discard_total), color="red3")
+
+ggdraw(p2) + draw_text("2019 Assessment", x = 0.85, y = 0.85, size = 12, color="blue3") + 
+            draw_text("WCGOP Data, 2025", x = 0.85, y = 0.8, size = 12, color="red3")
+
+
+p3 <- ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+    fleet==5~"Hook & Line")) %>% 
+  filter(year>2010) %>% 
+  ggplot() + 
+  geom_point(aes(x=year, y=obs), shape=1, size=3, color="blue3") +
+  facet_wrap(~fleet_name, nrow=3, scales = "free") + theme_minimal() +
+  scale_x_continuous(limits = c(2010,2023), breaks=c(2010,2015,2020,2023)) + 
+  ggtitle("Discards by year, fleet (after 2010)") + ylab("Metric tons (median)") + xlab("Year") + 
+  
+  geom_point(data = 
+          disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+          fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+          fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+          fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+          fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+          group_by(year, fleet_name) %>% summarise(discard_total=sum(observed_discard_mt)) %>% 
+            ungroup() %>% 
+            add_row(
+              read_csv("../../Oregon Recreational landings_431_2023.csv") %>% clean_names() %>% 
+              mutate(fleet_name="Hook & Line") %>% rename("discard_total"="released_mt") %>% 
+              filter(year>2010) %>% select(year, fleet_name, discard_total)) %>% 
+            group_by(year, fleet_name) %>% summarize(discard_total=sum(discard_total)),
+          aes(x=year, y=discard_total), color="red3")
+
+ggdraw(p3) + draw_text("2019 Assessment .dat file", x = 0.85, y = 0.9, size = 12, color="blue3") + 
+            draw_text("WCGOP + EDCP Data (2023)", x = 0.85, y = 0.85, size = 12, color="red3")
+
+
+p4 <- ssdat.2019$discard_data %>% 
+  mutate(fleet_name=case_when(
+    fleet==1~"Bottom Trawl",
+    fleet==2~"Midwater Trawl",
+    fleet==5~"Hook & Line")) %>% 
+  ggplot() + 
+  geom_point(aes(x=year, y=obs), shape=1, size=3, color="blue3") +
+  facet_wrap(~fleet_name, nrow=3, scales = "free") + theme_minimal() +
+#  scale_x_continuous(limits = c(2010,2023), breaks=c(2010,2015,2020,2023)) + 
+  ggtitle("Discards by year, fleet (after 2010)") + ylab("Metric tons (median)") + xlab("Year") + 
+  
+  geom_point(data = 
+          disc_rates_comb_cs %>% mutate(fleet_name=case_when(
+          fleet=="bottomtrawl-coastwide"~"Bottom Trawl", 
+          fleet=="hook-and-line-coastwide" ~ "Hook & Line",
+          fleet=="midwaterhake-coastwide" ~ "Midwater Trawl",
+          fleet=="midwaterrockfish-coastwide" ~ "Midwater Trawl")) %>% 
+          group_by(year, fleet_name) %>% summarise(discard_total=sum(observed_discard_mt)) %>% 
+            ungroup() %>% 
+            add_row(
+              read_csv("../../Oregon Recreational landings_431_2023.csv") %>% clean_names() %>% 
+              mutate(fleet_name="Hook & Line") %>% rename("discard_total"="released_mt") %>% 
+              filter(year>2010) %>% select(year, fleet_name, discard_total)) %>% 
+            group_by(year, fleet_name) %>% summarize(discard_total=sum(discard_total)),
+          aes(x=year, y=discard_total), color="red3")
+
+ggdraw(p4) + draw_text("2019 Assessment .dat file", x = 0.85, y = 0.9, size = 12, color="blue3") + 
+            draw_text("WCGOP + EDCP Data (2023)", x = 0.85, y = 0.85, size = 12, color="red3")
+```
+```{r}
+read_csv("../../Oregon Recreational landings_431_2023.csv") %>% clean_names() %>% 
+              mutate(fleet_name="Hook & Line") %>% rename("discard_total"="released_mt") %>% 
+              filter(year>2000) %>% select(year, fleet_name, discard_total) %>% 
+  ggplot() + geom_col(aes(x=year, y=discard_total), fill="orange2") + theme_minimal() + ylab("Discard total, mt") +
+  xlab(NULL) + ggtitle("Oregon recreational hook & line discards, EDCP data 2023")
+
+```
+

@@ -370,7 +370,7 @@ wa_nontrawl_adj |>
   ggplot(aes(year, landings_total)) + 
   geom_line(aes(color = "2015 landings"), linewidth = 0.8) + 
   geom_line(aes(y = landings_wa, color = "reconstruction"), linewidth = 0.8) + 
-  scale_x_continuous(breaks = seq(1935, 2015, 5)) + 
+  scale_x_continuous(breaks = seq(1920, 2015, 5)) + 
   labs(title = "Total Washington non-trawl catch", y = "landings (mt)", color = "source") + 
   theme(
     legend.position = "bottom", 
@@ -401,6 +401,40 @@ catch_2019_wshrimp <- catch.pacfin |>
   arrange(fleet, year)
 
 write.csv(catch_2019_wshrimp, here(save_dir, "2019_catch_shrimp_added.csv"), row.names = FALSE)
+
+catch_2019_wshrimp |> 
+  select(year, seas, fleet, catch_wshrimp = catch) |> 
+  left_join(catch_2019) |> 
+  group_by(year) |> 
+  summarize(catch = sum(catch), catch_wshrimp = sum(catch_wshrimp)) |> 
+  mutate(shrimp_prop = (catch_wshrimp - catch)/catch) |> 
+  filter(year >= 1981) |> 
+  ggplot(aes(year, shrimp_prop)) + 
+  geom_line(linewidth = 1) + 
+  labs(y = "Shrimp trawl catch proportion") + 
+  scale_x_continuous(breaks = seq(1982, 2020, 2)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+
+ggsave(
+  here("figures", "current_catches", "proportion_shrimp_trawls.png"), 
+  height = 3, width = 6, units = "in", dpi = 500, device = png, type = "cairo"
+)
+
+## WA catch reconstruction (sensitivity run) ----------------------------------
+
+wa_adj <- bind_rows(
+  select(wa_trawl_adj, year, fleet, landings_diff), 
+  select(wa_nontrawl_adj, year, fleet, landings_diff)
+)
+
+wa_adj$fleet <- match(wa_adj$fleet, fleet_lvls)
+
+catch_2019_wa <- catch_2019 |> 
+  left_join(wa_adj, by = c("year", "fleet")) |> 
+  mutate(catch = catch + ifelse(is.na(landings_diff), 0, landings_diff)) |> 
+  select(-landings_diff)
+
+write.csv(catch_2019_wa, here(save_dir, "2019_catch_wa_reconstruction.csv"), row.names = FALSE)
 
 ## Adjust 1979-2019 CA midwater / bottom trawl ratio --------------------------
 

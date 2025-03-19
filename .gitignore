@@ -16,6 +16,7 @@ admodel.cov
 admodel.dep
 admodel.hes
 *.sso
+*.png
 *.ss_new
 *.tmp
 console.output.txt

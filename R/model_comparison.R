@@ -518,20 +518,12 @@ SSplotComparisons(
   filenameprefix = "sens_base_adj_"
 )
 
-<<<<<<< HEAD
-## Compare 2019 base model runs to those with updated WCGBTS data -----
-
-# List directories
-folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), update_index_dir, update_index_dir_gamma)
-=======
-  (par_cor <- cor(Models_SS$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs"))
+(par_cor <- cor(Models_SS$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs"))
 
 ## Compare 2019 base model runs to those with updated catch / WCGBTS data -----
 
 # List directories
-folders <- here(wd, 'models', '2019 base model', "Base_45_trawl_adj") # TO-DO: change reference data to reflect trawl adj.
-folders <- c(folders, here(wd, 'models', "data_updates", "update_catch")) # TO-DO: add WCGBTS update
->>>>>>> 37052b0411d6b6ff918afd8cd96072a2a9a1cbb3
+folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), update_index_dir, update_index_dir_gamma)
 
 #Comparison plots produced by r4ss
 Models <- SSgetoutput(dirvec = folders, getcovar = TRUE)
@@ -539,13 +531,9 @@ Models_SS <- SSsummarize(Models)
 
 dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "compare_index_update"), recursive = TRUE)
 
-<<<<<<< HEAD
-mod_names <- c('base', 'new ctl', '+ ln index', '+ gm index') #add model names as appropriate
-=======
-  mod_names <- c("base + mid/bot trawl adj.", "updated catches") #add model names as appropriate
->>>>>>> 37052b0411d6b6ff918afd8cd96072a2a9a1cbb3
+mod_names <- c('base', 'new ctl', '+ ln index', '+ gm index') # Add model names as appropriate
 
-#plot time series (SSB, Recruitment, Fishing mortality)
+# Plot time series (SSB, Recruitment, Fishing mortality)
 SSplotComparisons(
   Models_SS,
   print = TRUE,
@@ -568,7 +556,7 @@ Models_SS <- SSsummarize(Models)
 
 dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "both_catch_index_update"), recursive = TRUE)
 
-mod_names <- c('base', 'new ctl', "+ catch update", "+ index update", "+ catch/index updates") #add model names as appropriate
+mod_names <- c('base', 'new ctl', "+ updated catch", "+ index update", "+ catch/index updates") #add model names as appropriate
 
 #plot time series (SSB, Recruitment, Fishing mortality)
 SSplotComparisons(

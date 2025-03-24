@@ -9,6 +9,7 @@
 # Directories
 data_provided/PacFIN/*
 data_provided/wcgop
+mkscratch
 
 
 # SS3 files

@@ -164,8 +164,8 @@ dir.create("models/compare_plots/pacfin_comp_plots/pacfin_comp_compare_2019",rec
 
 SSplotComparisons(summaryoutput = summ_out,
                   legendlabels = c("base","+ update age"," + update length"," + update_all"),
-                  plotdir = "models/compare_plots/pacfin_comp_plots/pacfin_comp_compare_2019",
-                  print = F)
+                  plotdir = "models/compare_plots/pacfin_comp_compare_2019",
+                  print = T)
 
 windows()
 par(mfrow = c(2,2))

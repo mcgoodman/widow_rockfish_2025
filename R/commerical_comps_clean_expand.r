@@ -552,6 +552,7 @@ widow_dat_replace_2005_2018_lencomp <- widow_2019_dat$lencomp |>
   bind_rows(widow_Comm_lcomps_2005_2025|>
               filter(year %in% update_yrs & fleet %in% update_fleets)) #add new data that has the realent fleet
 
+table(widow_dat_replace_2005_2018_lencomp$year,widow_dat_replace_2005_2018_lencomp$fleet)
 #age comps
 widow_dat_replace_2005_2018_age_comp <- widow_2019_dat$agecomp |>
   setNames(colnames(widow_Comm_acomps_2005_2025))|> #fix the names to new r4ss version

@@ -73,7 +73,7 @@ ALL <- NWFSC_all%>%
 ggplot(data=ALL, aes(x=LENGTH, y=WEIGHT, col=Source))+
   #ggtitle("2025 Data")+
  # theme(plot.title = element_text(hjust = 0.5))+
-  geom_point()+
+  geom_point(alpha=0.5)+
   ylab("Weight (kg)")+
   xlab("Length (cm)")+
   ylim(c(0,3.25))+
@@ -119,12 +119,20 @@ weight_length_ALL<- nwfscSurvey::estimate_weight_length(
 )%>%
   mutate(Source="All")
 
-
+weight_length_NoBDS<- nwfscSurvey::estimate_weight_length(
+  ALL%>%filter(Source=="BDS"),
+  col_length = "LENGTH",
+  col_weight = "WEIGHT",
+  verbose = FALSE
+)%>%
+  mutate(Source="All")
 
 knitr::kable(weight_length_estimates_NWFSC, "markdown")
 knitr::kable(weight_length_estimates_tri, "markdown")
 knitr::kable(weight_length_ASHOP, "markdown")
 knitr::kable(weight_length_BDS, "markdown")
+knitr::kable(weight_length_NoBDS, "markdown")
+
 knitr::kable(weight_length_ALL, "markdown")
 
 
@@ -162,6 +170,16 @@ ggplot(data=pred%>%filter(group!='all'),aes(x=as.numeric(length), y=as.numeric(w
   xlim(c(0,75))+
   theme_classic()
 
+ggplot(data=pred%>%filter(group!='all'),aes(x=as.numeric(length), y=as.numeric(weight),color=source))+
+  geom_point(data=ALL, aes(x=LENGTH, y=WEIGHT),col="grey", alpha = 0.1)+
+  facet_wrap(~group)+
+  geom_line()+
+  ylab("Weight (kg)")+
+  xlab("Length (cm)")+
+  ylim(c(0,4))+
+  xlim(c(0,75))+
+  theme_classic()
+
 # dataset to compare 2025 to previous assessments 
 # (2011 and 2015; 2019 used same weight-at-length relationship as 2015 and did not update it)
 comparison<-estimated_combined%>%
@@ -182,9 +200,22 @@ for(i in 1:nrow(comparison)){
 # plotting the comparison
 ggplot(data=comp,aes(x=as.numeric(length), y=as.numeric(weight),color=Assessment))+
   facet_wrap(~group)+
-  geom_line()+
+  geom_point(data=ALL, aes(x=LENGTH, y=WEIGHT),col='grey', alpha=0.2)+
+  geom_line(lwd=1.25)+
+   ylab("Weight (kg)")+
+  xlab("Length (cm)")+
+  ylim(c(0,4))+
+  xlim(c(0,70))+
+  theme_classic()
+
+ggplot(data=ALL, aes(x=LENGTH, y=WEIGHT, col=Source))+
+  #ggtitle("2025 Data")+
+  # theme(plot.title = element_text(hjust = 0.5))+
+  geom_point(alpha=0.5)+
   ylab("Weight (kg)")+
   xlab("Length (cm)")+
-  ylim(c(0,5.25))+
-  xlim(c(0,75))+
+  ylim(c(0,4))+
+  xlim(c(0,70))+
   theme_classic()
+
+

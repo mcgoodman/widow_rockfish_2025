@@ -71,9 +71,11 @@ create_copy_model <- function(new_model_path, base_model_path, overwrite = FALSE
 #### 1. Read in the data 
 widow_dat_replace_2005_2018_lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_lencomp.csv"))
 widow_dat_replace_2005_2018_agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_agecomp.csv"))
+widow_2019_dat <- r4ss::SS_readdat(file = here("data_provided",'2019_assessment',"2019widow.dat"))
 
 
-### 2. 
+
+
 
 #directory for the base model
 base_model_dir <-  file.path("models","2019 base model","Base_45_new")

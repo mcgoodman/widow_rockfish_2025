@@ -533,15 +533,18 @@ widow_2019_dat$lencomp|>
 update_yrs <- 2005:2018
 update_fleets <- c(1,2,3,5)
 
-widow_2019_dat$lencomp|>
+#This checks the different levels of sex (0,3) by year for each fleet
+# This matters as post 2019, unsexed fish are used, instead of assigning them to a sex
+widow_2019_dat$lencomp|> 
   setNames(colnames(widow_Comm_lcomps_2005_2025))|>
   filter(year %in% update_yrs & fleet %in% update_fleets)|>
   group_by(year, fleet) %>%
   summarise(
     partition_levels = list(as.numeric(unique(partition))),
     sex_levels = list(as.numeric(unique(sex))))|>
-  arrange(fleet)->xx
-View(xx)
+  arrange(fleet)->sex_fleet_year
+View(sex_fleet_year)
+
 ## The number of rows are different as in 2019 all unsexed fish were apportioned to 
 #sexs, so only has rows of se = 3.
 
@@ -552,15 +555,14 @@ widow_dat_replace_2005_2018_lencomp <- widow_2019_dat$lencomp |>
   bind_rows(widow_Comm_lcomps_2005_2025|>
               filter(year %in% update_yrs & fleet %in% update_fleets)) #add new data that has the realent fleet
 
-table(widow_dat_replace_2005_2018_lencomp$year,widow_dat_replace_2005_2018_lencomp$fleet)
 #age comps
 widow_dat_replace_2005_2018_age_comp <- widow_2019_dat$agecomp |>
   setNames(colnames(widow_Comm_acomps_2005_2025))|> #fix the names to new r4ss version
   filter(!(year %in% update_yrs & fleet %in% update_fleets))%>%  #Drop rows that have the relavent fleets
   bind_rows(widow_Comm_acomps_2005_2025|>
               filter(year %in% update_yrs & fleet %in% update_fleets)) #add new data that has the realent fleet
-
-#Save as csv files
+# 
+# #Save as csv files
 write.csv(widow_dat_replace_2005_2018_lencomp,file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_lencomp.csv"),row.names = F)
 write.csv(widow_dat_replace_2005_2018_age_comp,file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_agecomp.csv"),row.names = F)
 

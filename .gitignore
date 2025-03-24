@@ -9,6 +9,7 @@
 # Directories
 data_provided/PacFIN/*
 data_provided/wcgop
+mkscratch
 
 
 # SS3 files
@@ -30,6 +31,7 @@ ss3.eva
 ss.eva
 ss3.exe
 ss.exe
+*.exe
 ss3.log
 ss3.mc2
 ss3.mcm

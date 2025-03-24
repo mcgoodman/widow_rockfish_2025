@@ -16,14 +16,18 @@ admodel.cov
 admodel.dep
 admodel.hes
 *.sso
+*.png
 *.ss_new
 *.tmp
 console.output.txt
 fmin.log
 gradient.*
 ss3.bar
+ss.bar
 ss3.ecm
+ss.ecm
 ss3.eva
+ss.eva
 ss3.exe
 ss.exe
 *.exe
@@ -37,7 +41,9 @@ ss.r0*
 ss.b0*
 ss.p0*
 ss3.rep
+ss.rep
 ss3.std
+ss.std
 suggested_tuning.ss
 runnumber.ss
 

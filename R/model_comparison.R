@@ -449,43 +449,15 @@ if (!dir.exists(update_pacfin_acomps)) {
   
   dir.create(update_pacfin_acomps, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_acomps)
-  
-  files_rename <- list.files(update_pacfin_acomps)[grepl("2019", list.files(update_pacfin_acomps))]
-  
-  lapply(files_rename, \(x){
-    file.rename(file.path(update_pacfin_acomps, x), file.path(dirname(file.path(update_pacfin_acomps, x)), gsub("2019", "2025", basename(x))))
-  })
-  
+  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_acomps,overwrite = T)
   
 }
-
-# Update forecast.ss
-fcast_2025 <- SS_readforecast(here(update_pacfin_acomps, "forecast.ss"), verbose = FALSE)
-fcast_2025$ForeCatch$year <- fcast_2025$ForeCatch$year + 6
-fcast_2025$Flimitfraction_m$year <- fcast_2025$Flimitfraction_m$year + 6
-SS_writeforecast(fcast_2025, update_pacfin_acomps, overwrite = TRUE)
-
-# Update control file
-ctl <- readLines(here(update_pacfin_acomps, "2025widow.ctl"))
-ctl <- gsub("2019widow", "2025widow", ctl)
-writeLines(ctl, here(update_pacfin_acomps, "2025widow.ctl"))
-
-# Update starter file
-strt <- readLines(here(update_pacfin_acomps, "starter.ss"))
-strt <- gsub("2019widow", "2025widow", strt)
-writeLines(strt, here(update_pacfin_acomps, "starter.ss"))
 
 # update data file
-data_2025 <- SS_readdat(here(update_pacfin_acomps, "2025widow.dat"))
-# end year update
-if(data_2025$endyr != 2024){
-  data_2025$endyr <- 2024
-}
+data_2019 <- SS_readdat(here(update_pacfin_acomps, "2019widow.dat"))
 # Reaplce age comp data from 2005 - 2019 with current expansion for those years.
-data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_agecomp.csv"))
-
-SS_writedat(data_2025, here(update_pacfin_acomps, "2025widow.dat"), overwrite = TRUE)
+data_2019$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_agecomp.csv"))
+SS_writedat(data_2019, here(update_pacfin_acomps, "2019widow.dat"), overwrite = TRUE)
 
 ## Run ------------------------------------------------------------------------
 
@@ -496,7 +468,7 @@ r4ss::run(
   exe = ss3_exe,
    extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = !rerun
+  skipfinished = rerun
 )
 
 
@@ -511,43 +483,15 @@ if (!dir.exists(update_pacfin_lcomps)) {
   
   dir.create(update_pacfin_lcomps, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_lcomps)
-  
-  files_rename <- list.files(update_pacfin_lcomps)[grepl("2019", list.files(update_pacfin_lcomps))]
-  
-  lapply(files_rename, \(x){
-    file.rename(file.path(update_pacfin_lcomps, x), file.path(dirname(file.path(update_pacfin_lcomps, x)), gsub("2019", "2025", basename(x))))
-  })
-  
+  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_lcomps,overwrite = T)
   
 }
-
-# Update forecast.ss
-fcast_2025 <- SS_readforecast(here(update_pacfin_lcomps, "forecast.ss"), verbose = FALSE)
-fcast_2025$ForeCatch$year <- fcast_2025$ForeCatch$year + 6
-fcast_2025$Flimitfraction_m$year <- fcast_2025$Flimitfraction_m$year + 6
-SS_writeforecast(fcast_2025, update_pacfin_lcomps, overwrite = TRUE)
-
-# Update control file
-ctl <- readLines(here(update_pacfin_lcomps, "2025widow.ctl"))
-ctl <- gsub("2019widow", "2025widow", ctl)
-writeLines(ctl, here(update_pacfin_lcomps, "2025widow.ctl"))
-
-# Update starter file
-strt <- readLines(here(update_pacfin_lcomps, "starter.ss"))
-strt <- gsub("2019widow", "2025widow", strt)
-writeLines(strt, here(update_pacfin_lcomps, "starter.ss"))
 
 # update data file
-data_2025 <- SS_readdat(here(update_pacfin_lcomps, "2025widow.dat"))
-# end year update
-if(data_2025$endyr != 2024){
-  data_2025$endyr <- 2024
-}
+data_2019 <- SS_readdat(here(update_pacfin_lcomps, "2019widow.dat"))
 # Reaplce age comp data from 2005 - 2019 with current expansion for those years.
-data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_lencomp.csv"))
-
-SS_writedat(data_2025, here(update_pacfin_lcomps, "2025widow.dat"), overwrite = TRUE)
+data_2019$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_lencomp.csv"))
+SS_writedat(data_2019, here(update_pacfin_lcomps, "2019widow.dat"), overwrite = TRUE)
 
 ## Run ------------------------------------------------------------------------
 
@@ -558,66 +502,99 @@ r4ss::run(
   exe = ss3_exe,
   extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = !rerun
+  skipfinished = rerun
 )
 
-
 SS_plots(SS_output(update_pacfin_lcomps), dir = update_pacfin_lcomps, printfolder = "R_Plots")
+
 
 # Update 2019 lcomps and acomps using new method: MK ---------------------------------------------------------------
 ## Create outputs by copying and modifying Base_45_new ------------------------
 
-update_pacfin_allcomps <- here(wd, "models", "data_updates", "pacfin_comp_compare_2019","update_pacfin_allcomps")
+update_pacfin_all_comps <- here(wd, "models", "data_updates", "pacfin_comp_compare_2019","update_all_comp")
 
-if (!dir.exists(update_pacfin_allcomps)) {
+if (!dir.exists(update_pacfin_all_comps)) {
   
-  dir.create(update_pacfin_allcomps, recursive = TRUE)
+  dir.create(update_pacfin_all_comps, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_allcomps)
+  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_all_comps,overwrite = T)
   
-  files_rename <- list.files(update_pacfin_allcomps)[grepl("2019", list.files(update_pacfin_allcomps))]
+}
+
+# update data file
+data_2019 <- SS_readdat(here(update_pacfin_all_comps, "2019widow.dat"))
+# Reaplce age comp data from 2005 - 2019 with current expansion for those years.
+data_2019$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_agecomp.csv"))
+data_2019$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_lencomp.csv"))
+SS_writedat(data_2019, here(update_pacfin_all_comps, "2019widow.dat"), overwrite = TRUE)
+
+## Run ------------------------------------------------------------------------
+
+ss3_exe <- set_ss3_exe(update_pacfin_all_comps)
+
+r4ss::run(
+  dir = update_pacfin_all_comps,
+  exe = ss3_exe,
+  extras = "-nohess",
+  show_in_console = TRUE,
+  skipfinished = rerun
+)
+
+SS_plots(SS_output(update_pacfin_all_comps), dir = update_pacfin_all_comps, printfolder = "R_Plots")
+
+
+
+### Update pacfin acomps 2025
+update_pacfin_acomps_2025 <- here(wd, "models", "data_updates", "update_comps","update_acomp")
+
+if (!dir.exists(update_pacfin_acomps_2025)) {
+  
+  dir.create(update_pacfin_acomps_2025, recursive = TRUE)
+  
+  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_acomps_2025)
+  
+  files_rename <- list.files(update_pacfin_acomps_2025)[grepl("2019", list.files(update_pacfin_acomps_2025))]
   
   lapply(files_rename, \(x){
-    file.rename(file.path(update_pacfin_allcomps, x), file.path(dirname(file.path(update_pacfin_allcomps, x)), gsub("2019", "2025", basename(x))))
+    file.rename(file.path(update_pacfin_acomps_2025, x), file.path(dirname(file.path(update_pacfin_acomps_2025, x)), gsub("2019", "2025", basename(x))))
   })
   
   
 }
 
 # Update forecast.ss
-fcast_2025 <- SS_readforecast(here(update_pacfin_allcomps, "forecast.ss"), verbose = FALSE)
+fcast_2025 <- SS_readforecast(here(update_pacfin_acomps_2025, "forecast.ss"), verbose = FALSE)
 fcast_2025$ForeCatch$year <- fcast_2025$ForeCatch$year + 6
 fcast_2025$Flimitfraction_m$year <- fcast_2025$Flimitfraction_m$year + 6
-SS_writeforecast(fcast_2025, update_pacfin_allcomps, overwrite = TRUE)
+SS_writeforecast(fcast_2025, update_pacfin_acomps_2025, overwrite = TRUE)
 
 # Update control file
-ctl <- readLines(here(update_pacfin_allcomps, "2025widow.ctl"))
+ctl <- readLines(here(update_pacfin_acomps_2025, "2025widow.ctl"))
 ctl <- gsub("2019widow", "2025widow", ctl)
-writeLines(ctl, here(update_pacfin_allcomps, "2025widow.ctl"))
+writeLines(ctl, here(update_pacfin_acomps_2025, "2025widow.ctl"))
 
 # Update starter file
-strt <- readLines(here(update_pacfin_allcomps, "starter.ss"))
+strt <- readLines(here(update_pacfin_acomps_2025, "starter.ss"))
 strt <- gsub("2019widow", "2025widow", strt)
-writeLines(strt, here(update_pacfin_allcomps, "starter.ss"))
+writeLines(strt, here(update_pacfin_acomps_2025, "starter.ss"))
 
 # update data file
-data_2025 <- SS_readdat(here(update_pacfin_allcomps, "2025widow.dat"))
+data_2025 <- SS_readdat(here(update_pacfin_acomps_2025, "2025widow.dat"))
 # end year update
 if(data_2025$endyr != 2024){
   data_2025$endyr <- 2024
 }
 # Reaplce age comp data from 2005 - 2019 with current expansion for those years.
-data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_lencomp.csv"))
-data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_dat_replace_2005_2018_agecomp.csv"))
+data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025"))
 
-SS_writedat(data_2025, here(update_pacfin_allcomps, "2025widow.dat"), overwrite = TRUE)
+SS_writedat(data_2025, here(update_pacfin_acomps_2025, "2025widow.dat"), overwrite = TRUE)
 
 ## Run ------------------------------------------------------------------------
 
-ss3_exe <- set_ss3_exe(update_pacfin_allcomps)
+ss3_exe <- set_ss3_exe(update_pacfin_acomps_2025)
 
 r4ss::run(
-  dir = update_pacfin_allcomps,
+  dir = update_pacfin_acomps_2025,
   exe = ss3_exe,
   extras = "-nohess",
   show_in_console = TRUE,
@@ -625,8 +602,130 @@ r4ss::run(
 )
 
 
-SS_plots(SS_output(update_pacfin_allcomps), dir = update_pacfin_allcomps, printfolder = "R_Plots")
+SS_plots(SS_output(update_pacfin_acomps_2025), dir = update_pacfin_acomps_2025, printfolder = "R_Plots")
 
+
+### Update pacfin lcomps 2025
+update_pacfin_lcomps_2025 <- here(wd, "models", "data_updates", "update_comps","update_lcomp")
+
+if (!dir.exists(update_pacfin_lcomps_2025)) {
+  
+  dir.create(update_pacfin_lcomps_2025, recursive = TRUE)
+  
+  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_lcomps_2025)
+  
+  files_rename <- list.files(update_pacfin_lcomps_2025)[grepl("2019", list.files(update_pacfin_lcomps_2025))]
+  
+  lapply(files_rename, \(x){
+    file.rename(file.path(update_pacfin_lcomps_2025, x), file.path(dirname(file.path(update_pacfin_lcomps_2025, x)), gsub("2019", "2025", basename(x))))
+  })
+  
+  
+}
+
+# Update forecast.ss
+fcast_2025 <- SS_readforecast(here(update_pacfin_lcomps_2025, "forecast.ss"), verbose = FALSE)
+fcast_2025$ForeCatch$year <- fcast_2025$ForeCatch$year + 6
+fcast_2025$Flimitfraction_m$year <- fcast_2025$Flimitfraction_m$year + 6
+SS_writeforecast(fcast_2025, update_pacfin_lcomps_2025, overwrite = TRUE)
+
+# Update control file
+ctl <- readLines(here(update_pacfin_lcomps_2025, "2025widow.ctl"))
+ctl <- gsub("2019widow", "2025widow", ctl)
+writeLines(ctl, here(update_pacfin_lcomps_2025, "2025widow.ctl"))
+
+# Update starter file
+strt <- readLines(here(update_pacfin_lcomps_2025, "starter.ss"))
+strt <- gsub("2019widow", "2025widow", strt)
+writeLines(strt, here(update_pacfin_lcomps_2025, "starter.ss"))
+
+# update data file
+data_2025 <- SS_readdat(here(update_pacfin_lcomps_2025, "2025widow.dat"))
+# end year update
+if(data_2025$endyr != 2024){
+  data_2025$endyr <- 2024
+}
+# Reaplce age comp data from 2005 - 2019 with current expansion for those years.
+data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025"))
+
+SS_writedat(data_2025, here(update_pacfin_lcomps_2025, "2025widow.dat"), overwrite = TRUE)
+
+## Run ------------------------------------------------------------------------
+
+ss3_exe <- set_ss3_exe(update_pacfin_lcomps_2025)
+
+r4ss::run(
+  dir = update_pacfin_lcomps_2025,
+  exe = ss3_exe,
+  extras = "-nohess",
+  show_in_console = TRUE,
+  skipfinished = !rerun
+)
+
+
+SS_plots(SS_output(update_pacfin_lcomps_2025), dir = update_pacfin_lcomps_2025, printfolder = "R_Plots")
+
+
+### Update pacfin lcomps and acomps 2025
+update_pacfin_all_comps_2025 <- here(wd, "models", "data_updates", "update_comps","update_all_comp")
+
+if (!dir.exists(update_pacfin_all_comps_2025)) {
+  
+  dir.create(update_pacfin_all_comps_2025, recursive = TRUE)
+  
+  r4ss::copy_SS_inputs(base_ctl_dir, update_pacfin_all_comps_2025)
+  
+  files_rename <- list.files(update_pacfin_all_comps_2025)[grepl("2019", list.files(update_pacfin_all_comps_2025))]
+  
+  lapply(files_rename, \(x){
+    file.rename(file.path(update_pacfin_all_comps_2025, x), file.path(dirname(file.path(update_pacfin_all_comps_2025, x)), gsub("2019", "2025", basename(x))))
+  })
+  
+  
+}
+
+# Update forecast.ss
+fcast_2025 <- SS_readforecast(here(update_pacfin_all_comps_2025, "forecast.ss"), verbose = FALSE)
+fcast_2025$ForeCatch$year <- fcast_2025$ForeCatch$year + 6
+fcast_2025$Flimitfraction_m$year <- fcast_2025$Flimitfraction_m$year + 6
+SS_writeforecast(fcast_2025, update_pacfin_all_comps_2025, overwrite = TRUE)
+
+# Update control file
+ctl <- readLines(here(update_pacfin_all_comps_2025, "2025widow.ctl"))
+ctl <- gsub("2019widow", "2025widow", ctl)
+writeLines(ctl, here(update_pacfin_all_comps_2025, "2025widow.ctl"))
+
+# Update starter file
+strt <- readLines(here(update_pacfin_all_comps_2025, "starter.ss"))
+strt <- gsub("2019widow", "2025widow", strt)
+writeLines(strt, here(update_pacfin_all_comps_2025, "starter.ss"))
+
+# update data file
+data_2025 <- SS_readdat(here(update_pacfin_all_comps_2025, "2025widow.dat"))
+# end year update
+if(data_2025$endyr != 2024){
+  data_2025$endyr <- 2024
+}
+# Reaplce age comp data from 2005 - 2019 with current expansion for those years.
+data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025"))
+data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025"))
+
+SS_writedat(data_2025, here(update_pacfin_all_comps_2025, "2025widow.dat"), overwrite = TRUE)
+
+## Run ------------------------------------------------------------------------
+
+ss3_exe <- set_ss3_exe(update_pacfin_all_comps_2025)
+
+r4ss::run(
+  dir = update_pacfin_all_comps_2025,
+  exe = ss3_exe,
+  extras = "-nohess",
+  show_in_console = TRUE,
+  skipfinished = !rerun
+)
+
+
+SS_plots(SS_output(update_pacfin_all_comps_2025), dir = update_pacfin_all_comps_2025, printfolder = "R_Plots")
 
 
 # WCGBTS + catch update ---------------------------------------------------------------
@@ -674,6 +773,59 @@ replist <- SS_output(
 )
 
 SS_plots(replist, dir = update_all_dir, printfolder = "R_Plots")
+
+# WCGBTS + catch + comps update ---------------------------------------------------------------
+## Create outputs by copying and modifying index_update version -----------------------
+
+update_all_dir <- here(wd, "models", "data_updates", "catch_index_comps_update")
+
+if (!dir.exists(update_all_dir)) {
+  
+  dir.create(update_all_dir, recursive = TRUE)
+  
+  r4ss::copy_SS_inputs(update_index_dir, update_all_dir,overwrite = T)
+  
+}
+
+# update data file to also have catches
+data_2025 <- SS_readdat(here(update_all_dir, "2025widow.dat"))
+# end year update
+if(data_2025$endyr != 2024){
+  data_2025$endyr <- 2024
+}
+# Replace catch with updated catch data file created by R/catches.R
+data_2025 <- SS_readdat(here(update_all_dir, "2025widow.dat"))
+data_2025$catch <- read.csv(here("data_derived", "catches", "2025_catches.csv"))
+data_2025$Comments[1] <- "#C 2025 Widow Rockfish Update Assessment"
+
+#Update the pacfin age and length comps
+data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))
+data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))
+
+SS_writedat(data_2025, here(update_all_dir, "2025widow.dat"), overwrite = TRUE)
+
+## Run ------------------------------------------------------------------------
+
+ss3_exe <- set_ss3_exe(update_all_dir)
+
+r4ss::run(
+  dir = update_all_dir,
+  exe = ss3_exe,
+   extras = "-nohess",
+  show_in_console = TRUE,
+  skipfinished = !rerun
+)
+
+replist <- SS_output(
+  dir = update_all_dir,
+  verbose = TRUE,
+  printstats = TRUE,
+  covar = TRUE
+)
+
+SS_plots(replist, dir = update_all_dir, printfolder = "R_Plots")
+
+
 
 # Model comparison plots ------------------------------------------------------
 
@@ -735,7 +887,7 @@ SSplotComparisons(
   filenameprefix = "comp_index_update_"
 )
 
-## Compare 2019 base model runs with pacfin data new expansion method
+## Compare 2019 base model runs with pacfin data new expansion method ---MK
 # List directories
 folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), update_acomp_dir, update_lcomp_dir, update_all_comp_dir)
 
@@ -760,18 +912,18 @@ SSplotComparisons(
 )
 
 
-## Compare 2019 base model runs, catch update, index update, index/catch update -----
+## Compare 2019 base model runs, catch update, index update, comp update, index/catch/comp update -----
 
 # List directories
-folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), catch_update_dir, update_index_dir, update_all_dir)
+folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), catch_update_dir, update_index_dir) #,update_pacfin_all_comps_2025, update_all_dir)
 
 #Comparison plots produced by r4ss
 Models <- SSgetoutput(dirvec = folders, getcovar = TRUE)
 Models_SS <- SSsummarize(Models)
 
-dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "both_catch_index_update"), recursive = TRUE)
+dir.create(plot_dir <- here(wd, 'models', 'compare_plots', "catch_index_comps_update"), recursive = TRUE)
 
-mod_names <- c('base', 'new ctl', "+ updated catch", "+ index update", "+ catch/index updates") #add model names as appropriate
+mod_names <- c('base', 'new ctl', "+ updated catch", "+ index update","+ comps", "+ catch/index/comps updates") #add model names as appropriate
 
 #plot time series (SSB, Recruitment, Fishing mortality)
 SSplotComparisons(
@@ -782,5 +934,7 @@ SSplotComparisons(
   densitynames = c("SSB_2019", "SSB_Virgin"),
   legendlabels = mod_names,
   indexPlotEach = TRUE,
-  filenameprefix = "sens_catch_index_update_"
+  filenameprefix = "sens_catch_index_comp_update_"
 )
+
+SSplotData(replist = SS_output(update_all_dir))

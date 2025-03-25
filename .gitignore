@@ -5,11 +5,13 @@
 .RData
 .Ruserdata
 .DS_Store 
+.lock
 
 # Directories
 data_provided/PacFIN/*
 data_provided/wcgop
 mk_scrtach/
+renv/
 
 
 # SS3 files

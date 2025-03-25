@@ -1,8 +1,8 @@
 #C file created using an r4ss function
-#C file write time: 2025-03-24  18:23:19
+#C file write time: 2025-03-18  15:35:10
 #
-2019widow.dat #_datfile
-2019widow.ctl #_ctlfile
+2025widow.dat #_datfile
+2025widow.ctl #_ctlfile
 0 #_init_values_src
 1 #_run_display_detail
 1 #_detailed_age_structure

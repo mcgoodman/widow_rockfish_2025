@@ -5,7 +5,7 @@
 .RData
 .Ruserdata
 .DS_Store 
-.lock
+*.lock
 
 # Directories
 data_provided/PacFIN/*

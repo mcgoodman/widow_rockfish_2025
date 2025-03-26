@@ -33,7 +33,7 @@ theme_set(
 ## Data and settings ----------------------------------------------------------
 
 ## PacFIN catch data
-load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.12.Dec.2024.RData"))
+load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.25.Mar.2025.RData"))
 
 ## 2015 assessment data
 catch_2015 <- read.csv(here("data_provided", "2015_assessment", "catch_by_state_fleet.csv"))

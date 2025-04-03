@@ -150,8 +150,10 @@ juv_dat |> select(-se_log) |>
   cor(use = "pairwise.complete.obs")
 
 ## Write out new index
+## Removing 2001-2003, 2010, 2012 to conform with previous assessment, 
+## which only used estimates from years with coastwide data
 juv_index |> 
-  filter(!(year %in% c(2001:2003, 2010, 2012, 2020))) |> 
+  filter(!(year %in% c(2001:2003, 2010, 2012))) |> 
   mutate(obs = round(obs, 4), se_log = round(se_log, 4), month = 7, index = 6) |> 
   select(year, month, index, obs, se_log) |> 
   write.csv(file.path("data_derived", "juvenile_survey.csv"), row.names = FALSE)

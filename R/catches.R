@@ -33,7 +33,7 @@ theme_set(
 ## Data and settings ----------------------------------------------------------
 
 ## PacFIN catch data
-load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.12.Dec.2024.RData"))
+load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.25.Mar.2025.RData"))
 
 ## 2015 assessment data
 catch_2015 <- read.csv(here("data_provided", "2015_assessment", "catch_by_state_fleet.csv"))
@@ -461,7 +461,7 @@ write.csv(catch_2019_adj, here(save_dir, "2019_catch_adjusted.csv"), row.names =
 ## Data since 2019 ------------------------------------------------------------
 
 new_data <- catch_flt |> 
-  filter(year >= 2019) |> 
+  filter(year >= 2019 & year <= 2024) |> 
   mutate(
     seas = 1, 
     fleet = as.integer(factor(fleet, levels = fleet_lvls)), 

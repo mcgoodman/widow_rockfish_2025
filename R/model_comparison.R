@@ -585,7 +585,7 @@ if(data_2025$endyr != 2024){
   data_2025$endyr <- 2024
 }
 # Reaplce age comp data from 2005 - 2019 with current expansion for those years.
-data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025"))
+data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))
 
 SS_writedat(data_2025, here(update_pacfin_acomps_2025, "2025widow.dat"), overwrite = TRUE)
 
@@ -646,7 +646,7 @@ if(data_2025$endyr != 2024){
   data_2025$endyr <- 2024
 }
 # Reaplce age comp data from 2005 - 2019 with current expansion for those years.
-data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025"))
+data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))
 
 SS_writedat(data_2025, here(update_pacfin_lcomps_2025, "2025widow.dat"), overwrite = TRUE)
 
@@ -707,8 +707,8 @@ if(data_2025$endyr != 2024){
   data_2025$endyr <- 2024
 }
 # Reaplce age comp data from 2005 - 2019 with current expansion for those years.
-data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025"))
-data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025"))
+data_2025$lencomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))
+data_2025$agecomp <- read.csv(file = file.path("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))
 
 SS_writedat(data_2025, here(update_pacfin_all_comps_2025, "2025widow.dat"), overwrite = TRUE)
 
@@ -887,9 +887,10 @@ SSplotComparisons(
   filenameprefix = "comp_index_update_"
 )
 
-## Compare 2019 base model runs with pacfin data new expansion method ---MK
+#-------------------------------------------------------------------------------------------------------------------------------------------------------
+## Compare 2019 base model runs with pacfin data new expansion method ---MK (update_pacfin_acomps, update_pacfin_lcomps, update_pacfin_all_comps)
 # List directories
-folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), update_acomp_dir, update_lcomp_dir, update_all_comp_dir)
+folders <- c(here(wd, 'models', '2019 base model', c("Base_45", "Base_45_new")), update_pacfin_acomps, update_pacfin_lcomps, update_pacfin_all_comps)
 
 #Comparison plots produced by r4ss
 Models <- SSgetoutput(dirvec = folders, getcovar = FALSE)

@@ -5,6 +5,11 @@ library("here")
 
 # Setup ---------------------------------------------------
 
+#' Wrapper for r4ss::get_ss3_exe to check for, download, and return name of SS3 exe file
+#' @param dir directory to install SS3 in
+#' @param ... Other arguments to `r4ss::get_ss3_exe`
+#'
+#' @return Character string with name of downloaded SS3 exe (without extension)
 set_ss3_exe <- function(dir, ...) {
   
   # Get and set filename for SS3 exe
@@ -13,6 +18,46 @@ set_ss3_exe <- function(dir, ...) {
   if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
   ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1)))]
   return(ss3_exe)
+  
+}
+
+#' Function to add new row to parameters by copying another row
+#'
+#' @param data Data frame (with row names)
+#' @param new_row name of new row to add
+#' @param ref_row name of reference row to copy values from
+#' @param ... Values to override reference with (e.g. )
+#'
+#' @examples
+#' 
+#' mtcars |> 
+#'   insert_row(
+#'     new_row = "Mazda RX4 Wagu", 
+#'     ref_row = "Maxda RX4 Wag",
+#'     mpg = 100
+#'   )
+#' 
+insert_row <- function(data, new_row, ref_row, ...) {
+  
+  rownames <- row.names(data)
+  
+  stopifnot(ref_row %in% rownames(data))
+  stopifnot(length(new_row) == 1)
+  stopifnot(length(ref_row) == 1)
+  stopifnot(all(names(list(...)) %in% names(data)))
+  
+  ref_clone <- data[ref_row,]
+  rownames(ref_clone) <- new_row
+  ref_clone <- modifyList(ref_clone, list(...))
+  
+  do.call(
+    "rbind", 
+    list(
+      data[1:which(rownames == ref_row),], 
+      ref_clone, 
+      data[(which(rownames == ref_row) + 1):nrow(data),]
+    )
+  )
   
 }
 
@@ -40,17 +85,39 @@ ctrl <- SS_readctl(paste0(testdir, "/2025widow.ctl"), datlist = paste0(testdir, 
 
 # Update blocks -------------------------------------------
 
-# Block 1: Bottom trawl retention asymptote 
-# ctrl$Block_Design[[1]] <- c(ctrl$Block_Design[[1]], c(2011, 2016))
-# ctrl$blocks_per_pattern[1] <- ctrl$blocks_per_pattern[1] + 1
+## Block 1 ------------------------------------------------
+## Bottom trawl retention asymptote
 
-# Block 2: Bottom trawl retention
+ctrl$Block_Design[[1]] <- c(ctrl$Block_Design[[1]], c(2011, 2016))
+
+ctrl$blocks_per_pattern[1] <- ctrl$blocks_per_pattern[1] + 1
+
+ctrl$size_selex_parms_tv <- 
+  ctrl$size_selex_parms_tv |> 
+  insert_row(
+    new_row = "SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_2010",
+    ref_row = "SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1998",
+    PRIOR = 0
+  )
+
+## Block 2: -----------------------------------------------
+## Bottom trawl retention
+
 # ctrl$Block_Design[[2]] <- c(ctrl$Block_Design[[2]], c(2011, 2016))
+
 # ctrl$blocks_per_pattern[2] <- ctrl$blocks_per_pattern[2] + 1
 
-# Block 7: Midwater trawl selectivity (parameters 1, 3, 4, 6) and retention (parameter 3)
+# ADD: Time-varying parameters block
+
+## Block 7 ------------------------------------------------
+## Midwater trawl selectivity (parameters 1, 3, 4, 6), 
+## and retention (parameter 3)
+
 # ctrl$Block_Design[[7]] <- c(ctrl$Block_Design[[7]], c(2011, 2016))
+
 # ctrl$blocks_per_pattern[7] <- ctrl$blocks_per_pattern[7] + 1
+
+# ADD: Time-varying parameters block
 
 # Stock-recruitment ---------------------------------------
 

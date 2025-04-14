@@ -62,7 +62,7 @@ trawl_names <- trawl_names[!grepl("SHRIMP", trawl_names)]
 
 ### Codes associated with trawl, hook & line, and net fleets
 trawl_codes <- unique(catch.pacfin$PACFIN_GEAR_CODE[catch.pacfin$GEAR_NAME %in% trawl_names])
-hk_ln_codes <- unique(catch.pacfin$PACFIN_GEAR_CODE[catch.pacfin$GEAR_NAME == "HOOK AND LINE"])
+hk_ln_codes <- unique(catch.pacfin$PACFIN_GEAR_CODE[grepl("LINE", catch.pacfin$GEAR_NAME)])
 net_codes <- unique(catch.pacfin$PACFIN_GEAR_CODE[grepl("NET", catch.pacfin$GEAR_NAME)])
 
 ### Join gear codes

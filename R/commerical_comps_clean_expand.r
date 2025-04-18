@@ -30,8 +30,8 @@ library(pacfintools)
 conf_data_path <- "D:/widow_asessment_2025_fork/secure_data_do_not_upload"
 
 ## PacFin data for widow 2025
-load(file.path(conf_data_path,"PacFIN.WDOW.bds.12.Dec.2024.RDATA")) #BDS
-load(file.path(conf_data_path,"PacFIN.WDOW.CompFT.12.Dec.2024.RDATA")) #Catch
+load(file.path(conf_data_path,"PacFIN.WDOW.bds.25.Mar.2025.RData")) #BDS
+load(file.path(conf_data_path,"PacFIN.WDOW.CompFT.25.Mar.2025.RData")) #Catch
 
 #### 2. Assign variables needed for cleaning ########
 
@@ -126,13 +126,13 @@ bds_cleaned <- cleanPacFIN(
   dplyr::mutate(
     stratification = paste(state,gear_group,sep = ".") # Stratification is a combination of gear and state (matches catch data formatting)
   ) |>
-  dplyr::filter(!PACFIN_GEAR_NAME %in% c("XXX","OTH-KNOWN","DNSH SEINE")) |>   #drop gears in NA and Misc catgories (not used in assessment)
-  dplyr::mutate( ## Stops double counting of data
-    lengthcm = dplyr::case_when(
-      !is.na(Age) ~ NA, 
-      is.na(Age) ~ lengthcm
-    )
-  )
+  dplyr::filter(!PACFIN_GEAR_NAME %in% c("XXX","OTH-KNOWN","DNSH SEINE")) #|>   #drop gears in NA and Misc catgories (not used in assessment)
+  # dplyr::mutate( ## Stops double counting of data
+  #   lengthcm = dplyr::case_when(
+  #     !is.na(Age) ~ NA, 
+  #     is.na(Age) ~ lengthcm
+  #   )
+  # )
 
 
 ### 5. Format the PaFIN catch dataset 
@@ -519,14 +519,14 @@ group_by(year, fleet) %>%
   arrange(fleet)
 
 
-widow_2019_dat$lencomp|>
-  setNames(colnames(widow_Comm_lcomps_2005_2025))|>
-  filter(year %in% update_yrs & fleet %in% update_fleets)|>
-  
-  
-  ggplot(aes(x = year, y = fleet, col = as.character(partition), shape = as.character(sex)))+
-  geom_point()
-  
+# widow_2019_dat$lencomp|>
+#   setNames(colnames(widow_Comm_lcomps_2005_2025))|>
+#   filter(year %in% update_yrs & fleet %in% update_fleets)|>
+#   
+#   
+#   ggplot(aes(x = year, y = fleet, col = as.character(partition), shape = as.character(sex)))+
+#   geom_point()
+#   
   
 ### Three sets of results 
 #i) 2019 model with yrs 2005 - 2018 replaced using new extraction / expansion method

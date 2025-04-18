@@ -1,52 +1,47 @@
 library(dplyr)
 library(ggplot2)
 library(nwfscSurvey)
+library(r4ss)
+library(here)
+
+wd <- here::here() #set directory
+base_dir <- here(wd, 'models', '2019 base model', 'Base_45_new') #the base input model
 
 
-
-
-old_data <- read.csv("../2019_assessment_discard.csv") %>% mutate(source = "2019 assessment")
+old_data <- SS_read(base_dir)[["dat"]][["discard_data"]]%>% 
+        mutate(source = "2019 assessment")
 
 
 new_data_share <- read.csv("data_provided/wcgop/discard_rates_combined_catch_share.csv") %>% 
   select(year,fleet,observed_discard_mt)%>%
   mutate(month = 7)%>%
   mutate(stderr = NA)%>%
-  mutate(fleet.name = fleet)%>%
-  rename(yr = year, obs = observed_discard_mt)%>%
+  rename(obs = observed_discard_mt)%>%
   filter(fleet != "midwaterhake-coastwide")%>%
   mutate(fleet = case_when(
     fleet == "bottomtrawl-coastwide" ~ "1",
     fleet == "midwaterrockfish-coastwide" ~ "2",
-    fleet == "hook-and-line-coastwide" ~ "5"))%>%
-  mutate(fleet.name = case_when(
-    fleet.name == "bottomtrawl-coastwide" ~ "BottomTrawl",
-    fleet.name == "midwaterrockfish-coastwide" ~ "MidwaterTrawl", 
-    fleet.name == "hook-and-line-coastwide" ~ "HnL"))
+    fleet == "hook-and-line-coastwide" ~ "5"))
 
 
 new_data_nonshare <- read.csv("data_provided/wcgop/discard_rates_noncatch_share.csv")%>% 
   select(year,fleet,obs_discard, sd_discard)%>%
   mutate(month = 7)%>%
-  mutate(fleet.name = fleet)%>%
-  rename(yr = year, stderr = sd_discard, obs = obs_discard)%>%
+  rename(stderr = sd_discard, obs = obs_discard)%>%
   mutate(fleet = case_when(
     fleet == "bottomtrawl-coastwide" ~ "1",
-    fleet == "hook-and-line-coastwide" ~ "5"))%>%
-  mutate(fleet.name = case_when(
-    fleet.name == "bottomtrawl-coastwide" ~ "BottomTrawl",
-    fleet.name == "hook-and-line-coastwide" ~ "HnL"))
+    fleet == "hook-and-line-coastwide" ~ "5"))
 
 new_data <- rbind(new_data_nonshare,new_data_share)%>%
-  group_by(yr,fleet,fleet.name)%>%
+  group_by(year,fleet)%>%
   mutate(obs = sum(obs))%>%
-  distinct(yr,fleet,obs,month,fleet.name)%>%
-  mutate(stderr = 0.5)%>%
+  distinct(year,fleet,obs,month)%>%
+  mutate(stderr = NA)%>%
   mutate(source = "2025 assessment")
 
 a <- rbind(old_data, new_data)
 
-ggplot(a[a$yr>2010,], aes(x = yr, y = obs, color = source)) +
+ggplot(a, aes(x = year, y = obs, color = source)) +
   geom_point() +
   geom_line() +
   facet_wrap(~ fleet, labeller = as_labeller(c("1" = "Bottom trawl", 
@@ -55,14 +50,26 @@ ggplot(a[a$yr>2010,], aes(x = yr, y = obs, color = source)) +
   labs(x = "", y = "Discard (t)", color = NULL) +
   theme_minimal()
 
-# Option 1: Just update after 2017
-# Option 2: change all the discards since 2011 
+# Option 1: BT and H&L : Just extend after 2017 + MWT update entire dataset after 2010
 
-files_with_discard_new_wcgop <- rbind(old_data[old_data$yr<=2010,], new_data[new_data$yr>2010,])
-files_with_discard_update_only <- rbind(old_data, new_data[new_data$yr>2017,])
-# write.csv(files_with_discard_update_only, "discards_2025.csv", row.names = F) # Option 1
-# write.csv(files_with_discard_new_wcgop, "discards_2025_opt2_new_wcgop.csv", row.names = F) # Option 2
 
+new_discards_2025 <- rbind(old_data[old_data$year<=2010,], new_data[new_data$year>2017,],
+                                      old_data[old_data$year>2010&old_data$fleet%in%c(1,5),], 
+                                      new_data[new_data$year>2010&new_data$fleet==2,])%>%
+                                distinct()
+
+#sd = mean sd for discard for the fleet
+new_discards_2025 <- new_discards_2025 %>%
+  group_by(fleet) %>%
+  mutate(stderr = if_else(
+    is.na(stderr),
+    mean(stderr, na.rm = TRUE),
+    stderr
+  )) %>%
+  ungroup()
+  
+  
+write.csv(new_discards_2025, "discards_2025.csv", row.names = F) # Option 1
 
 
 gemm_discard <- pull_gemm(common_name = "widow rockfish")%>% 
@@ -81,19 +88,20 @@ gemm_discard <- pull_gemm(common_name = "widow rockfish")%>%
   mutate(total_discard_mt = sum(total_discard_mt))%>%
   rename(fleet.name = sector , 
          obs = total_discard_mt, 
-         yr = year)%>%
+         year = year)%>%
   mutate(month = 7, stderr = NA, source = "GEMM")%>%
   mutate(fleet = fleet.name)%>%
   mutate(fleet = case_when(
     fleet == "Midwater trawl" ~ 2,
     fleet == "Bottom trawl" ~ 1, 
     fleet == "Hook & Line"~ 5))%>%
-  select(yr, month, fleet, obs, stderr, fleet.name, source)
+  ungroup()%>%
+  select(year, month, fleet, obs, stderr, source)
 
 
 total <- rbind(a, gemm_discard)
   
-ggplot(total[total$yr>2010,], aes(x = yr, y = obs, color = source)) +
+ggplot(total[total$year>2010,], aes(x = year, y = obs, color = source)) +
   geom_point() +
   geom_line() +
   facet_wrap(~ fleet, labeller = as_labeller(c("1" = "Bottom trawl", 

@@ -8,9 +8,10 @@ library("here")
 # This will be Mico's 2025 base model
 basedir <- here("models", "data_bridging", "bridge_1_ss3_ver_ctl_files", "widow_2019_ss_v3_30_23_new_ctl") #"data_updates", "catch_index_comps_update")
 # This will be a new model in the models/ subdir
-testdir <- here("scratch", "mPriorTest")#"model_bridging_test")
+#testdir <- here("scratch", "mPriorTest")#
+testdir <- here("scratch", "newWLTest")
 #
-model_names <- c("2019 Base New SS etc.", "New M Prior")
+model_names <- c("2019 Base New SS etc.", "New WL Pars")
 
 #
 testCtlName = "/2019widow.ctl"
@@ -85,23 +86,22 @@ ctrl <- SS_readctl(paste0(testdir, testCtlName), datlist = paste0(testdir, testD
 
 # Mortality and Growth ------------------------------------
 
-# Mortality SD following Hamel and Cope 2022
+## Mortality SD following Hamel and Cope 2022
+##max age from 2015 is 54
+#maxA = 54
+##Hamel and Cope 2022 coefficient 
+#a = 5.4
+#logMean = log(a/maxA)
+##ctrl$MG_parms["NatM_p_1_Fem_GP_1", ]$PRIOR = logMean
+#ctrl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_SD <- 0.31
+##ctrl$MG_parms["NatM_p_1_Mal_GP_1", ]$PRIOR = logMean
+#ctrl$MG_parms["NatM_p_1_Mal_GP_1", ]$PR_SD <- 0.31
 
-#max age from 2015 is 54
-maxA = 54
-#Hamel and Cope 2022 coefficient 
-a = 5.4
-logMean = log(a/maxA)
-#ctrl$MG_parms["NatM_p_1_Fem_GP_1", ]$PRIOR = logMean
-ctrl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_SD <- 0.31
-#ctrl$MG_parms["NatM_p_1_Mal_GP_1", ]$PRIOR = logMean
-ctrl$MG_parms["NatM_p_1_Mal_GP_1", ]$PR_SD <- 0.31
-
-## Growth
-#ctrl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT <- 1.59e-5
-#ctrl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT <- 2.99
-#ctrl$MG_parms["Wtlen_1_Mal_GP_1", ]$INIT <- 1.45e-5
-#ctrl$MG_parms["Wtlen_2_Mal_GP_1", ]$INIT <- 3.01
+# Growth
+ctrl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT <- 1.59e-5
+ctrl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT <- 2.99
+ctrl$MG_parms["Wtlen_1_Mal_GP_1", ]$INIT <- 1.45e-5
+ctrl$MG_parms["Wtlen_2_Mal_GP_1", ]$INIT <- 3.01
 
 # Run -----------------------------------------------------
 

@@ -103,3 +103,8 @@ comparison_plot_age <- together_age %>%
   ggplot2::geom_point(position = position_dodge(0))
 ggsave(plot = comparison_plot_dodge_age, here(fig_dir, "ashop_length_comp_comparisons_dodged_age.png"))
 ggsave(plot = comparison_plot_age, here(fig_dir, "ashop_length_comp_comparisons_age.png"))
+
+
+together|>
+  group_by(assessment,year)|>
+  summarise(mean_len = mean())

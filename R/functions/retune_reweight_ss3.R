@@ -94,7 +94,7 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
   #' Apply lambda weighting to account for double counting of data
   model_temp <- SS_read(dir = retune_dir)  # Use the last tuning directory
   model_temp$ctl$lambdas <- model_temp$ctl$lambdas |>
-    mutate(value = ifelse(fleet %in% marg_comp_fleets, value * lambda_weight, value))
+    mutate(value = ifelse(fleet %in% marg_comp_fleets, lambda_weight, value))
   
   #' Create directory for reweighted model
   reweight_dir <- here(output_dir, paste0(mod_name, "_reweighted"))
@@ -111,6 +111,7 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
     lapply(tuning_dirs, unlink, recursive = TRUE)
   }
   
+  browser()
   #' Create output data frame with tuning results
   out_df <- as.data.frame(cbind(
     "data comp" = tuning_temp$`#factor`,

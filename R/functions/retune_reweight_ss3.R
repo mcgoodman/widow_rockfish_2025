@@ -71,7 +71,6 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
     #' Read in the model and update variance adjustments
     model_temp <- SS_read(dir = base_model_dir)
     model_temp$ctl$Variance_adjustment_list$value <- tuning_temp$New_Var_adj
-    
     #' Create directory for this tuning run
     retune_dir <- here(output_dir, paste0(mod_name, "_retune_", i))
     

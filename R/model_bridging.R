@@ -57,7 +57,7 @@ SS_writectl(ctrl, paste0(Mdir, "/2025widow.ctl"), overwrite = TRUE)
 r4ss::run(
   dir = Mdir,
   exe = Mexe,
-  extras = "-nohess",
+  #extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = TRUE
 )
@@ -126,7 +126,7 @@ SS_writectl(ctrl, paste0(SRdir, "/2025widow.ctl"), overwrite = TRUE)
 r4ss::run(
   dir = SRdir,
   exe = SRexe,
-  extras = "-nohess",
+  #extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = TRUE
 )
@@ -160,23 +160,28 @@ ctrl$size_selex_parms_tv <-
   ctrl$size_selex_parms_tv |> 
   insert_row(
     new_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002"
+    ref_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002", 
+    
   ) |> 
   insert_row(
     new_row = "SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002"
+    ref_row = "SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002", 
+    INIT = 2.94
   ) |> 
   insert_row(
     new_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002"
+    ref_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002",
+    INIT = 3.999
   ) |> 
   insert_row(
     new_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002"
+    ref_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002", 
+    INIT = -4.821
   ) |> 
   insert_row(
     new_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002"
+    ref_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002",
+    INIT = 8.808
   )
 
 SS_writectl(ctrl, paste0(Block7dir, "/2025widow.ctl"), overwrite = TRUE)
@@ -190,7 +195,7 @@ r4ss::run(
 )
 
 SS_plots(
-  SS_output(Block7dir, covar=TRUE), 
+  SS_output(Block7dir, covar = TRUE), 
   dir = Block7dir, #basedir, 
   printfolder = "plots", 
   plot = c(1:21, 23:26)

@@ -28,9 +28,10 @@ set_ss3_exe <- function(dir, ...) {
   } else {
     # Get and set filename for SS3 exe
     ss3_exe <- c("ss", "ss3")
-    ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1))
+    ss3_exe <- c(ss3_exe, paste0(ss3_exe, ".exe"))
+    ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, x)), logical(1))
     if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
-    ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1)))]
+    ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, x)), logical(1)))]
     return(ss3_exe)
   }
   

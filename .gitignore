@@ -6,6 +6,7 @@
 .Ruserdata
 .DS_Store 
 *.lock
+*.html
 
 # Directories
 data_provided/PacFIN/*
@@ -34,6 +35,8 @@ ss.eva
 ss3.exe
 ss.exe
 *.exe
+ss
+ss3
 ss3.log
 ss3.mc2
 ss3.mcm

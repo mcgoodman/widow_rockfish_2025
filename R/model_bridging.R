@@ -5,6 +5,8 @@ library("here")
 
 source(here("R", "functions", "bridging_functions.R"))
 
+skip_finished <- FALSE
+
 # Base model ----------------------------------------------
 
 # This will be Mico's 2025 base model
@@ -17,7 +19,7 @@ base_exe <- set_ss3_exe(basedir)
 r4ss::run(
   dir = basedir,
   exe = base_exe,
-  extras = "-nohess",
+  #extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = TRUE
 )
@@ -59,7 +61,7 @@ r4ss::run(
   exe = Mexe,
   #extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = TRUE
+  skipfinished = skip_finished
 )
 
 SS_plots(
@@ -88,7 +90,7 @@ r4ss::run(
   exe = LWexe,
   #extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = TRUE
+  skipfinished = skip_finished
 )
 
 LW_replist <- SS_output(LWdir)
@@ -128,7 +130,7 @@ r4ss::run(
   exe = SRexe,
   #extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = TRUE
+  skipfinished = skip_finished
 )
 
 SS_plots(
@@ -160,8 +162,8 @@ ctrl$size_selex_parms_tv <-
   ctrl$size_selex_parms_tv |> 
   insert_row(
     new_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002", 
-    
+    ref_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002"
+    # INIT = 37.412
   ) |> 
   insert_row(
     new_row = "SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2011",
@@ -171,17 +173,17 @@ ctrl$size_selex_parms_tv <-
   insert_row(
     new_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2011",
     ref_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002",
-    INIT = 3.999
+    INIT = -1.45#, PHASE = -4
   ) |> 
   insert_row(
     new_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2011",
     ref_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002", 
-    INIT = -4.821
-  ) |> 
+    INIT = 1.188
+  ) |>
   insert_row(
     new_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2011",
     ref_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002",
-    INIT = 8.808
+    INIT = 1.854#, PHASE = -2
   )
 
 SS_writectl(ctrl, paste0(Block7dir, "/2025widow.ctl"), overwrite = TRUE)
@@ -189,9 +191,9 @@ SS_writectl(ctrl, paste0(Block7dir, "/2025widow.ctl"), overwrite = TRUE)
 r4ss::run(
   dir = Block7dir,
   exe = Block7exe,
-  extras = "-nohess",
+  #extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = TRUE
+  skipfinished = skip_finished
 )
 
 SS_plots(
@@ -204,9 +206,16 @@ SS_plots(
 # Compare -------------------------------------------------
 
 #Comparison plots produced by r4ss
-models <- SSgetoutput(dirvec = c(basedir, testdir), getcovar = TRUE)
-models_ss <- SSsummarize(Models)
-model_names <- c("data updates", "ctrl updates")
+dirs <- c(
+  "data bridging" = basedir,
+  "+ Hamel & Cope 2022 M Prior" = Mdir,
+  "+ Updated length-weight pars" = LWdir,
+  "+ Updated bias-adjustment ramp" = SRdir,
+  "+ Midwater block, 2011-2016" = Block7dir
+)
+
+models <- SSgetoutput(dirvec = dirs, getcovar = TRUE)
+models_ss <- SSsummarize(models)
 
 labels <- c(
   "Year", "Spawning biomass (t)", "Relative spawning biomass", "Age-0 recruits (1,000s)",
@@ -214,15 +223,33 @@ labels <- c(
   "Minimum stock size threshold", "Spawning output", "Harvest rate"
 )
 
-dir.create(plot_dir <- here("scratch", "ctrl_updates_test"))
+dir.create(plot_dir <- here(bridgedir, "comparison_plots"))
 
 SSplotComparisons(
   models_ss,
   print = TRUE,
   plotdir = plot_dir,
   labels = labels,
-  densitynames = c("SSB_2019","SSB_Virgin"),
-  legendlabels = model_names,
+  densitynames = c("SSB_2025", "SSB_Virgin"),
+  legendlabels = names(dirs),
   indexPlotEach = TRUE,
-  filenameprefix = "sens_base_adj_"
+  filenameprefix = "model_bridging_", 
+  legendloc = "bottomleft"
 )
+
+# Correlations among shared parameters
+parcor <- cor(models_ss$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs")
+parcor[upper.tri(parcor) ] <- NA; diag(parcor) <- NA
+colnames(parcor) <- rownames(parcor) <- names(dirs)
+View(round(parcor, 4))
+
+# Likelihood by fleet
+models_ss$likelihoods_by_fleet |> 
+  pivot_longer(ALL:ForeignAtSea, names_to = "fleet", values_to = "likelihood") |> 
+  mutate(model = factor(names(dirs)[model], levels = names(dirs))) |>  
+  ggplot(aes( likelihood, Label, color = model)) + 
+  facet_wrap(~fleet, scales = "free_x") + 
+  geom_jitter(height = 0.5, width = 0) + 
+  theme(legend.position = "top")
+
+ggsave(here(plot_dir, "likelihoods_all.png"), height = 6, width = 9, units = "in", scale = 1.4)

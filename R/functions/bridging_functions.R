@@ -6,7 +6,7 @@
 #' @param ... Other arguments to `r4ss::get_ss3_exe`
 #'
 #' @return string with ss executable name
-set_ss_osx <- function(dir, url="https://github.com/nmfs-ost/ss3-source-code/releases/download/v3.30.23.1/ss3_osx", ...) {
+set_ss_macos_x86 <- function(dir, url="https://github.com/nmfs-ost/ss3-source-code/releases/download/v3.30.23.1/ss3_osx", ...) {
   
   # Get and set filename for SS3 exe
   ss3_exe <- c("ss_osx")
@@ -24,7 +24,7 @@ set_ss_osx <- function(dir, url="https://github.com/nmfs-ost/ss3-source-code/rel
 set_ss3_exe <- function(dir, ...) {
   
   if (grepl("x86", sessionInfo()$R.version$platform) & grepl("darwin", sessionInfo()$R.version$os)) {
-    set_ss_osx(dir, ...)
+    return(set_ss_macos_x86(dir, ...))
   } else {
     # Get and set filename for SS3 exe
     ss3_exe <- c("ss", "ss3")

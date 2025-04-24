@@ -5,7 +5,8 @@ library("here")
 
 source(here("R", "functions", "bridging_functions.R"))
 
-skip_finished <- FALSE
+skip_finished <- TRUE
+launch_html <- TRUE
 
 # Base model ----------------------------------------------
 
@@ -24,11 +25,19 @@ r4ss::run(
   skipfinished = TRUE
 )
 
-SS_plots(
-  SS_output(basedir), 
-  dir = basedir, 
-  printfolder = "plots"
-)
+if (!skip_finished) {
+  SS_plots(
+    SS_output(basedir), 
+    dir = basedir, 
+    printfolder = "plots", 
+    html = launch_html
+  )
+} else if (launch_html) {
+  SS_html(
+    SS_output(basedir), 
+    plotdir = here(basedir, "plots")
+  )
+}
 
 # Mortality -----------------------------------------------
 
@@ -64,11 +73,19 @@ r4ss::run(
   skipfinished = skip_finished
 )
 
-SS_plots(
-  SS_output(Mdir), 
-  dir = Mdir, 
-  printfolder = "plots"
-)
+if (!skip_finished) {
+  SS_plots(
+    SS_output(Mdir), 
+    dir = Mdir, 
+    printfolder = "plots", 
+    html = launch_html
+  )
+} else if (launch_html) {
+  SS_html(
+    SS_output(Mdir), 
+    plotdir = here(Mdir, "plots")
+  )
+}
 
 # Length / weight parameters ------------------------------
 
@@ -95,11 +112,19 @@ r4ss::run(
 
 LW_replist <- SS_output(LWdir)
 
-SS_plots(
-  LW_replist, 
-  dir = LWdir, 
-  printfolder = "plots"
-)
+if (!skip_finished) {
+  SS_plots(
+    LW_replist, 
+    dir = LWdir, 
+    printfolder = "plots", 
+    html = launch_html
+  )
+} else if (launch_html) {
+  SS_html(
+    SS_output(LWdir), 
+    plotdir = here(LWdir, "plots")
+  )
+}
 
 # Recruitment bias ramp -----------------------------------
 
@@ -133,12 +158,19 @@ r4ss::run(
   skipfinished = skip_finished
 )
 
-SS_plots(
-  SS_output(SRdir, covar=TRUE), 
-  dir = SRdir, #basedir, 
-  printfolder = "plots", 
-  plot = c(1:21, 23:26)
-)
+if (!skip_finished) {
+  SS_plots(
+    SS_output(SRdir, covar=TRUE), 
+    dir = SRdir, #basedir, 
+    printfolder = "plots", 
+    html = launch_html
+  )
+} else if (launch_html) {
+  SS_html(
+    SS_output(SRdir), 
+    plotdir = here(SRdir, "plots")
+  )
+}
 
 # Midwater trawl blocks -----------------------------------
 
@@ -183,7 +215,8 @@ ctrl$size_selex_parms_tv <-
   insert_row(
     new_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2011",
     ref_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002",
-    INIT = 1.854#, PHASE = -2
+    INIT = 10, PHASE = -2 # Set at boundary -> Full retention 2011-2016
+    # INIT = 4.59512, PHASE = -2 # Set at 0.99 retention (same as early and final years)
   )
 
 SS_writectl(ctrl, paste0(Block7dir, "/2025widow.ctl"), overwrite = TRUE)
@@ -196,12 +229,24 @@ r4ss::run(
   skipfinished = skip_finished
 )
 
-SS_plots(
-  SS_output(Block7dir, covar = TRUE), 
-  dir = Block7dir, #basedir, 
-  printfolder = "plots", 
-  plot = c(1:21, 23:26)
-)
+if (!skip_finished) {
+  SS_plots(
+    SS_output(Block7dir, covar = TRUE), 
+    dir = Block7dir, #basedir, 
+    printfolder = "plots", 
+    html = launch_html
+  )
+} else if (launch_html) {
+  SS_html(
+    SS_output(Block7dir), 
+    plotdir = here(Block7dir, "plots")
+  )
+}
+
+# View time-varying selectivity and retention parameters
+Block7_run <- SS_output(Block7dir, covar = TRUE)
+Block7_run$parameters |> filter(grepl("Midwater", Label) & grepl("DblN", Label)) |> View()
+Block7_run$parameters |> filter(grepl("Midwater", Label) & grepl("Ret", Label)) |> View()
 
 # Compare -------------------------------------------------
 
@@ -253,3 +298,23 @@ models_ss$likelihoods_by_fleet |>
   theme(legend.position = "top")
 
 ggsave(here(plot_dir, "likelihoods_all.png"), height = 6, width = 9, units = "in", scale = 1.4)
+
+# Likelihood-ratio test of 2011-2016 selectivity block
+pchisq(2 * (models_ss$likelihoods$replist4[1] - models_ss$likelihoods$replist5[1]), df = 4, lower.tail = FALSE)
+
+# Fits to discards, log-scale 
+SR_run <- SS_output(SRdir, covar=TRUE)
+discards <- bind_rows(list(
+  "+ Updated bias-adjustment ramp" = filter(SR_run$discard, Fleet_Name == "MidwaterTrawl"), 
+  "+ Midwater block, 2011-2016" = filter(Block7_run$discard, Fleet_Name == "MidwaterTrawl")
+), .id = "model")
+
+discards |>  
+  ggplot(aes(Yr)) + 
+  geom_pointrange(aes(y = log(Exp), ymin = log(Exp) - Std_use, ymax = log(Exp) + Std_use, color = model), 
+                  position = position_dodge(width = 0.4), size = 0.25) + 
+  geom_point(aes(y = log(Obs))) + 
+  labs(x = "Year", y = "log(discards)") + 
+  theme(legend.position = "bottom")
+
+ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")

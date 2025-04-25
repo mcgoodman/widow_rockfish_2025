@@ -15,7 +15,7 @@ old_data <- SS_read(base_dir)[["dat"]][["discard_data"]]%>%
 new_data_share <- read.csv("data_provided/wcgop/discard_rates_combined_catch_share.csv") %>% 
   select(year,fleet,observed_discard_mt)%>%
   mutate(month = 7)%>%
-  mutate(stderr = NA)%>%
+  mutate(stderr = 0)%>%
   rename(obs = observed_discard_mt)%>%
   filter(fleet != "midwaterhake-coastwide")%>%
   mutate(fleet = case_when(
@@ -35,8 +35,9 @@ new_data_nonshare <- read.csv("data_provided/wcgop/discard_rates_noncatch_share.
 new_data <- rbind(new_data_nonshare,new_data_share)%>%
   group_by(year,fleet)%>%
   mutate(obs = sum(obs))%>%
-  distinct(year,fleet,obs,month)%>%
-  mutate(stderr = NA)%>%
+  mutate(stderr = sum(stderr))%>%
+  distinct(year,fleet,obs,month,stderr)%>%
+  # mutate(stderr = NA)%>%
   mutate(source = "2025 assessment")
 
 a <- rbind(old_data, new_data)
@@ -54,9 +55,14 @@ ggplot(a, aes(x = year, y = obs, color = source)) +
 
 
 new_discards_2025 <- rbind(old_data[old_data$year<=2010,], new_data[new_data$year>2017,],
-                                      old_data[old_data$year>2010&old_data$fleet%in%c(1,5),], 
-                                      new_data[new_data$year>2010&new_data$fleet==2,])%>%
-                                distinct()
+                           old_data[old_data$year>2010&old_data$fleet%in%c(1,5),], 
+                           new_data[new_data$year>2010&new_data$fleet==2,])%>%
+  distinct()
+
+new_discards_2025 <- new_discards_2025 %>%
+  bind_rows(new_data %>% filter(fleet == 5)) %>%
+  mutate(stderr = if_else(stderr == 0, NA, stderr))
+  
 
 #sd = mean sd for discard for the fleet
 new_discards_2025 <- new_discards_2025 %>%
@@ -69,7 +75,7 @@ new_discards_2025 <- new_discards_2025 %>%
   ungroup()
   
   
-write.csv(new_discards_2025, "discards_2025.csv", row.names = F) # Option 1
+write.csv(new_discards_2025, "data_derived/discards/discards_2025.csv", row.names = F) # Option 1
 
 
 gemm_discard <- pull_gemm(common_name = "widow rockfish")%>% 

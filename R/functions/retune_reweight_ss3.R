@@ -83,7 +83,8 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
     file.copy(exe_files, to = retune_dir)
     
     #' Run the model
-    r4ss::run(dir = retune_dir, exe = exe_name, extras = "-nohess",skipfinished = TRUE)
+    cat(paste0("Starting tuning run ",i,"..."))
+    r4ss::run(dir = retune_dir, exe = exe_name, extras = "-nohess",skipfinished = FALSE)
     
     #' Store tuning results and directory paths
     tuning_list[[i]] <- tuning_temp$New_Var_adj
@@ -104,6 +105,7 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
   
   #' Copy executable files and run the reweighted model
   file.copy(exe_files, to = reweight_dir)
+  cat(paste0("Starting re-weighting (lambda adjustment) run...."))
   r4ss::run(dir = reweight_dir, exe = exe_name, extras = "-nohess", skipfinished = TRUE)
   
   #' Delete tuning directories if requested
@@ -111,7 +113,6 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
     lapply(tuning_dirs, unlink, recursive = TRUE)
   }
   
-  browser()
   #' Create output data frame with tuning results
   out_df <- as.data.frame(cbind(
     "data comp" = tuning_temp$`#factor`,

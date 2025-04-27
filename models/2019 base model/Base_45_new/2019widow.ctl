@@ -327,7 +327,7 @@
             -9             9             8           0.5          0.05             0         -4          0          0          0          0        0.5          0          0  #  Size_DblN_end_logit_HnL(5)
             -5            60       23.9094             0            99             0          2          0          0          0          0          0          3          2  #  Retain_L_infl_HnL(5)
           0.01             8      0.563213             1            99             0          3          0          0          0          0          0          3          2  #  Retain_L_width_HnL(5)
-           -10            10        7.2008            10            99             0          1          0          0          0          0          0          3          2  #  Retain_L_asymptote_logit_HnL(5)
+           -10            15        7.2008            10            99             0          1          0          0          0          0          0          3          2  #  Retain_L_asymptote_logit_HnL(5)
            -10            10             0             0            99             0        -99          0          0          0          0          0          0          0  #  Retain_L_maleoffset_HnL(5)
 # 6   JuvSurvey LenSelex
 # 7   Triennial LenSelex

@@ -498,6 +498,10 @@ widow_2019_dat <- r4ss::SS_readdat(file = here("data_provided",'2019_assessment'
 
 
 # Check th ecombinations of fleet and sex by year for each flight.
+
+update_yrs <- 2005:2018
+update_fleets <- c(1,2,3,5)
+
 widow_2019_dat$lencomp|>
   setNames(colnames(widow_Comm_lcomps_2005_2025))|>
   filter(year %in% update_yrs & fleet %in% update_fleets)|>
@@ -530,8 +534,6 @@ group_by(year, fleet) %>%
   
 ### Three sets of results 
 #i) 2019 model with yrs 2005 - 2018 replaced using new extraction / expansion method
-update_yrs <- 2005:2018
-update_fleets <- c(1,2,3,5)
 
 #This checks the different levels of sex (0,3) by year for each fleet
 # This matters as post 2019, unsexed fish are used, instead of assigning them to a sex
@@ -543,6 +545,7 @@ widow_2019_dat$lencomp|>
     partition_levels = list(as.numeric(unique(partition))),
     sex_levels = list(as.numeric(unique(sex))))|>
   arrange(fleet)->sex_fleet_year
+
 View(sex_fleet_year)
 
 ## The number of rows are different as in 2019 all unsexed fish were apportioned to 

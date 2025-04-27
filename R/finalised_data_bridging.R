@@ -11,6 +11,7 @@ library(renv)
 library(future.apply)
 
 source(here("R","functions","bridging_functions.r")) #load bridging functions
+source(here("R","functions","combine_hnl_discards.r")) #load bridging functions
 
 
 #Directories
@@ -58,25 +59,25 @@ discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv"))
 ##  Pacfin length comps
 pacfin_lcomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))
 # WCGBTS  comps
-nwfsc_lcomps <- read.csv(here(wd,"data_derived","NWFSCCombo","NWFSCCombo_length_comps_data.csv"))|>
+nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_comps_data.csv"))|>
   mutate(year = year, 
          month = rep(8.8), 
          fleet = rep(8))
 
 #discard lcomps - think wcgop
 discard_lcomps <- read.csv(here("data_derived","discards","discard_length_comps_add-years-only.csv"))|>
-  rename(partition = part,input_n = Nsamp)|>
+  #rename(part = part,input_n = Nsamp)|>
   select(!X) #drop weird rownumber column from excel
   
 
-lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps,discard_lcomps) #combine into one source
+lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
 
 # --------------------------  Age comp data
 #pacfin
 pacfin_acomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))
 
 #WCGBTS CAL
-nwfsc_acomps <- read.csv(here(wd,"data_derived","NWFSCCombo","NWFSCCombo_conditional_age-at-length.csv"))|>
+nwfsc_acomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_conditional_age-at-length.csv"))|>
   mutate(year = year, 
          month = rep(8.8), 
          fleet = rep(8))
@@ -149,7 +150,7 @@ model_temp$dat$catch|>
 ## write model
 SS_write(model_temp,dir = catch_dir,overwrite = T) #write the model
 file.copy(file.path(model_2019,"ss3.exe"),to = file.path(catch_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = catch_dir,exe = "ss3",extras = "-nohess") #run the model  
+r4ss::run(dir = catch_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 
@@ -158,21 +159,37 @@ model_temp <- NULL#Wipe model to be safe
 discard_dir <- here(main_dir,"add_discards") #dir
 
 model_temp <- SS_read(catch_dir) ##read base model
-model_temp$dat$discard_data <- model_temp$dat$discard_data|>
-  rbind(discard_amounts|>
-          filter(year >= 2019)|>
-          mutate(year = if_else(fleet == 5 & year == 2021, year *-1, year)))## append data
+model_temp$dat$discard_data  <- discard_amounts|>
+  mutate(obs = if_else(obs == 0, 0.001,obs))
 
 ###Check the data years
 model_temp$dat$discard_data|>
   group_by(fleet)|>
   summarise(end_yr = max(year))
 
+#add the discard lcomps
+model_temp$dat$lencomp <- model_temp$dat$lencomp|>
+  filter(part != 1)|> #remove old discards
+  rbind(discard_lcomps|> #add new discards
+          filter(part  == 1)|>
+          arrange(fleet))
+        
+model_temp$dat$lencomp|>
+  filter(part == 1)|>
+  select(fleet,year)|>
+  count(fleet)
 
 ## write model
 SS_write(model_temp,dir = discard_dir,overwrite = T) #write the model
+
+##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
+combine_hnl_discards(model_dir = discard_dir,hnl_fleet_id = 5)
+
+
+
+
 file.copy(file.path(model_2019,"ss3.exe"),to = file.path(discard_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = discard_dir,exe = "ss3",extras = "-nohess") #run the model  
+r4ss::run(dir = discard_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 #--------------------  Extend indices  -----------------------------------------
@@ -191,9 +208,9 @@ model_temp$dat$CPUE |>
 
 
 ## write model
-SS_write(model_temp,dir = index_dir,overwrite = T) #write the model
+SS_write(model_temp,dir = file.path(index_dir,"test"),overwrite = T) #write the model
 file.copy(file.path(model_2019,"ss3.exe"),to = file.path(index_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = index_dir,exe = "ss3",extras = "-nohess") #run the model  
+r4ss::run(dir = index_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 #--------------------  Extend length comps  -----------------------------------------
@@ -214,7 +231,7 @@ model_temp$dat$lencomp |>
 ## write model
 SS_write(model_temp,dir = lcomp_dir,overwrite = T) #write the model
 file.copy(file.path(model_2019,"ss3.exe"),to = file.path(lcomp_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = lcomp_dir,exe = "ss3",extras = "-nohess") #run the model  
+r4ss::run(dir = lcomp_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 
@@ -236,9 +253,9 @@ model_temp$dat$agecomp |>
 
 
 ## write model
-# SS_write(model_temp,dir = %>% ,overwrite = T) #write the model
+SS_write(model_temp,dir = acomp_dir,overwrite = T) #write the model
 file.copy(file.path(model_2019,"ss3.exe"),to = file.path(acomp_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = acomp_dir,exe = "ss3",extras = "-nohess") #run the model  
+r4ss::run(dir = acomp_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 
@@ -250,48 +267,13 @@ model_temp <- NULL#Wipe model to be safe
 ########################################
 
 
-### Tuning run 1 
-new_tunings <- tune_comps(replist = SS_output(acomp_dir),
-                          dir = acomp_dir,option = "MI")
-#read in the previous run
-model_temp <- SS_read(dir = acomp_dir)
-model_temp$ctl$Variance_adjustment_list$value <- new_tunings$New_Var_adj
-
-#Write th emodel 
-retune_dir <- here(main_dir,"retune_1")
-SS_write(inputlist = model_temp,dir = retune_dir,overwrite = TRUE)
-file.copy(here(replace_lambdas_with_var_adj_dir,"ss3.exe"),to = retune_dir)
-r4ss::run(dir = retune_dir,exe = "ss3",extras = "-nohess")
-
-
-### Tuning run 2
-new_tunings <- tune_comps(replist = SS_output(retune_dir),
-                          dir = retune_dir,option = "MI")
-#read in the previous run
-model_temp <- SS_read(dir = retune_dir)
-model_temp$ctl$Variance_adjustment_list$value <- new_tunings$New_Var_adj
-#Write themodel 
-retune_dir_2 <- here(main_dir,"retune_2")
-SS_write(inputlist = model_temp,dir = retune_dir_2,overwrite = T)
-file.copy(here(retune_dir,"ss3.exe"),to = retune_dir_2)
-r4ss::run(dir = retune_dir_2,exe = "ss3",extras = "-nohess", skipfinished = FALSE)
-
-
-
-## Downweight data to to correct for double counted data
-model_temp <- SS_read(dir = retune_dir_2)
-model_temp$ctl$lambdas <- model_temp$ctl$lambdas|>
-  mutate(value= ifelse(fleet %in% 1:5, value *0.5, value))
-
-#Write the model 
-reweight <- here(main_dir,"reweight")
-
-SS_write(inputlist = model_temp,dir = reweight,overwrite = T)
-file.copy(here(retune_dir,"ss3.exe"),to = reweight)
-r4ss::run(dir = reweight,exe = "ss3",extras = "-nohess",skipfinished = F)
-
-
-
+retune_reweight_ss3(base_model_dir = acomp_dir, 
+                                output_dir = main_dir, 
+                                n_tuning_runs = 2, 
+                                tuning_method = "MI", 
+                                keep_tuning_runs = TRUE,
+                                lambda_weight = 0.5, 
+                                marg_comp_fleets = c(1,2,3,4,5))
 
 
 #### Summarise and compare models ########
@@ -306,23 +288,40 @@ model_names <-
     "add_indices",
     "add_lcomps",
     "add_acomps",
-    "retune_1",
-    "retune_2",
-    "reweight"
+    "add_acomps_retune_1",
+    "add_acomps_retune_2",
+    "add_acomps_reweighted"
   )
 
 ## Loop through the models, putting together a combined replist and making plots at each go.
-for(i in 1:length(models)){
-  if(i == 1){
-    combined_models_replist[[i]] <- SS_output(model_2019,covar = FALSE)
-  } else {
-  
-  dir <- models[basename(models) == model_names[i]]
-  combined_models_replist[[i]] <- SS_output(dir,covar = FALSE)
-  #SS_plots(replist = combined_models_replist[[i]] ,dir = dir)
-  }
-}
+# for(i in 1:length(models)){
+#   if(i == 1){
+#     combined_models_replist[[i]] <- SS_output(model_2019,covar = FALSE)
+#   } else {
+#   
+#   dir <- models[basename(models) == model_names[i]]
+#   combined_models_replist[[i]] <- SS_output(dir,covar = FALSE)
+#   #SS_plots(replist = combined_models_replist[[i]] ,dir = dir)
+#   }
+# }
+cl <- parallel::makeCluster(length(models)+1)
 
+parallel::clusterEvalQ(cl, library(r4ss))
+parallel::clusterExport(cl, c("models", "model_names","model_2019","combined_models_replist"))
+
+parallel::parLapply(cl = cl,X = 1:length(models),fun = function(x){
+  if(x == 1){
+    combined_models_replist[[x]] <- SS_output(model_2019,covar = FALSE)
+    SS_plots(replist = combined_models_replist[[x]] ,dir = model_2019)
+  } else {
+    dir <- models[basename(models) == model_names[x]]
+    combined_models_replist[[x]] <- SS_output(dir,covar = FALSE)
+    SS_plots(replist = combined_models_replist[[x]] ,dir = dir)
+    
+  }
+})
+
+parallel::stopCluster(cl)
 names(combined_models_replist) <- model_names
 
 
@@ -332,3 +331,4 @@ compare_ss3_mods(replist = combined_models_replist,
                  plot_names = model_names)
 
 
+SS_plots(replist = SS_output(here(main_dir,"add_acomps_reweighted")))

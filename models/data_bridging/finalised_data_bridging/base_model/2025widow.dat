@@ -1,6 +1,6 @@
 #C 2025 Widow Rockfish Update Assessment
 #C file created using an r4ss function
-#C file write time: 2025-04-17  18:26:08
+#C file write time: 2025-04-26  19:02:30
 #
 1916 #_styr
 2024 #_endyr
@@ -741,15 +741,15 @@
 #
 #_len_info
 #_mintailcomp	addtocomp	combine_M_F	CompressBins	CompError	ParmSelect	minsamplesize
--1	1e-04	7	0	0	0	1	#_BottomTrawl  
--1	1e-04	7	0	0	0	1	#_MidwaterTrawl
--1	1e-04	7	0	0	0	1	#_Hake         
--1	1e-04	7	0	0	0	1	#_Net          
--1	1e-04	7	0	0	0	1	#_HnL          
--1	1e-04	7	0	0	0	1	#_JuvSurvey    
--1	1e-04	7	0	0	0	1	#_Triennial    
--1	1e-04	7	0	0	0	1	#_NWFSC        
--1	1e-04	7	0	0	0	1	#_ForeignAtSea 
+-1	1e-04	7	0	0	0	0.01	#_BottomTrawl  
+-1	1e-04	7	0	0	0	0.01	#_MidwaterTrawl
+-1	1e-04	7	0	0	0	0.01	#_Hake         
+-1	1e-04	7	0	0	0	0.01	#_Net          
+-1	1e-04	7	0	0	0	0.01	#_HnL          
+-1	1e-04	7	0	0	0	0.01	#_JuvSurvey    
+-1	1e-04	7	0	0	0	0.01	#_Triennial    
+-1	1e-04	7	0	0	0	0.01	#_NWFSC        
+-1	1e-04	7	0	0	0	0.01	#_ForeignAtSea 
 25 #_N_lbins
 #_lbin_vector
 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 #_lbin_vector
@@ -1011,15 +1011,15 @@
 #
 #_age_info
 #_mintailcomp	addtocomp	combine_M_F	CompressBins	CompError	ParmSelect	minsamplesize
--1	1e-04	2	0	0	0	1	#_BottomTrawl  
--1	1e-04	2	0	0	0	1	#_MidwaterTrawl
--1	1e-04	2	0	0	0	1	#_Hake         
--1	1e-04	2	0	0	0	1	#_Net          
--1	1e-04	2	0	0	0	1	#_HnL          
--1	1e-04	2	0	0	0	1	#_JuvSurvey    
--1	1e-04	2	0	0	0	1	#_Triennial    
--1	1e-04	2	0	0	0	1	#_NWFSC        
--1	1e-04	2	0	0	0	1	#_ForeignAtSea 
+-1	1e-04	2	0	0	0	0.01	#_BottomTrawl  
+-1	1e-04	2	0	0	0	0.01	#_MidwaterTrawl
+-1	1e-04	2	0	0	0	0.01	#_Hake         
+-1	1e-04	2	0	0	0	0.01	#_Net          
+-1	1e-04	2	0	0	0	0.01	#_HnL          
+-1	1e-04	2	0	0	0	0.01	#_JuvSurvey    
+-1	1e-04	2	0	0	0	0.01	#_Triennial    
+-1	1e-04	2	0	0	0	0.01	#_NWFSC        
+-1	1e-04	2	0	0	0	0.01	#_ForeignAtSea 
 3 #_Lbin_method: 1=poplenbins; 2=datalenbins; 3=lengths
  #_combine males into females at or below this bin number
 #_year	month	fleet	sex	part	ageerr	Lbin_lo	Lbin_hi	Nsamp	f0	f1	f2	f3	f4	f5	f6	f7	f8	f9	f10	f11	f12	f13	f14	f15	f16	f17	f18	f19	f20	f21	f22	f23	f24	f25	f26	f27	f28	f29	f30	f31	f32	f33	f34	f35	f36	f37	f38	f39	f40	m0	m1	m2	m3	m4	m5	m6	m7	m8	m9	m10	m11	m12	m13	m14	m15	m16	m17	m18	m19	m20	m21	m22	m23	m24	m25	m26	m27	m28	m29	m30	m31	m32	m33	m34	m35	m36	m37	m38	m39	m40

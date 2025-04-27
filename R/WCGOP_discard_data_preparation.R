@@ -72,7 +72,8 @@ new_discards_2025 <- new_discards_2025 %>%
     mean(stderr, na.rm = TRUE),
     stderr
   )) %>%
-  ungroup()
+  ungroup()|>
+  distinct()
   
   
 write.csv(new_discards_2025, "data_derived/discards/discards_2025.csv", row.names = F) # Option 1

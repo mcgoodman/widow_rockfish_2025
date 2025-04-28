@@ -5,13 +5,13 @@ library("here")
 
 source(here("R", "functions", "bridging_functions.R"))
 
-skip_finished <- TRUE
+skip_finished <- FALSE
 launch_html <- TRUE
 
 # Base model ----------------------------------------------
 
 # This will be Mico's 2025 base model
-basedir <- here("models", "data_bridging", "finalised_data_bridging", "reweight_hnl_removed_reweighted")
+basedir <- here("models", "data_bridging", "finalised_data_bridging", "data_bridged_model_weighted")
 
 # Download SS3 exe and return name
 base_exe <- set_ss3_exe(basedir)
@@ -184,7 +184,7 @@ Block7exe <- set_ss3_exe(Block7dir)
 ctrl <- SS_readctl(paste0(Block7dir, "/2025widow.ctl"), datlist = paste0(Block7dir, "/2025widow.dat"))
 
 # Add time block to block group
-ctrl$Block_Design[[7]] <- c(ctrl$Block_Design[[7]], c(2011, 2016))
+ctrl$Block_Design[[7]] <- c(ctrl$Block_Design[[7]], c(2011, 2017))
 
 # Note that there is an additional block in block group
 ctrl$blocks_per_pattern[7] <- ctrl$blocks_per_pattern[7] + 1
@@ -255,8 +255,8 @@ dirs <- c(
   "data bridging" = basedir,
   "+ Hamel & Cope 2022 M Prior" = Mdir,
   "+ Updated length-weight pars" = LWdir,
-  "+ Updated bias-adjustment ramp" = SRdir,
-  "+ Midwater block, 2011-2016" = Block7dir
+  "+ Updated bias-adjustment ramp" = SRdir#,
+  #"+ Midwater block, 2011-2016" = Block7dir
 )
 
 models <- SSgetoutput(dirvec = dirs, getcovar = TRUE)
@@ -268,7 +268,7 @@ labels <- c(
   "Minimum stock size threshold", "Spawning output", "Harvest rate"
 )
 
-dir.create(plot_dir <- here(bridgedir, "comparison_plots"))
+dir.create(plot_dir <- here("models", "comparison_plots", "model_bridging"), recursive = TRUE)
 
 SSplotComparisons(
   models_ss,
@@ -283,7 +283,7 @@ SSplotComparisons(
 )
 
 # Correlations among shared parameters
-parcor <- cor(models_ss$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs")
+parcor <- cor(models_ss$pars[,paste0("replist", 1:4)], use = "pairwise.complete.obs")
 parcor[upper.tri(parcor) ] <- NA; diag(parcor) <- NA
 colnames(parcor) <- rownames(parcor) <- names(dirs)
 View(round(parcor, 4))
@@ -318,3 +318,10 @@ discards |>
   theme(legend.position = "bottom")
 
 ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
+
+# Copy selected model to new base directory ---------------
+
+# Use base model without new midwater trawl block
+dir.create(Base2025 <- here("models", "2025 base model"))
+r4ss::copy_SS_inputs(SRdir, Base2025, overwrite = TRUE)
+

@@ -105,6 +105,7 @@ acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 model_2019 <- here("models","data_bridging","bridge_1_ss3_ver_ctl_files","widow_2019_ss_v3_30_23_new_ctl")
 ctl <- SS_read(model_2019)$ctl
 ss3_exe <- set_ss3_exe(model_2019, version = "v3.30.23")
+r4ss::run(dir = model_2019, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
 
 #Apply the adjustments to the model which include: updating names, extending forecasts, extending rec-devs, 
 #adding time varyin selex, extending data end year
@@ -281,46 +282,35 @@ retune_reweight_ss3(base_model_dir = acomp_dir,
 
 #### Summarise and compare models ########
 
-models <- list.files(main_dir,full.names = T) #gather thr models
-model_names <- #model names
-  c(
-    "2019_model",
-    "add_catches",
-    "add_discards",
-    "add_indices",
-    "add_lcomps",
-    "add_acomps",
-    "add_acomps_retune_1",
-    "add_acomps_retune_2",
-    "add_acomps_reweighted"
+models <- c(
+    "2019_model" = model_2019,
+    "add_catches" = catch_dir,
+    "add_discards" = discard_dir,
+    "add_indices" = index_dir,
+    "add_lcomps" = lcomp_dir,
+    "add_acomps" = acomp_dir,
+    "add_acomps_retune_1" = here(main_dir, "add_acomps_retune_1"),
+    "add_acomps_retune_2" = here(main_dir, "add_acomps_retune_2"),
+    "add_acomps_reweighted" = here(main_dir,"add_acomps_reweighted")
   )
 
 ## Plotting takes a long time, so do in parallel
-cl <- parallel::makeCluster(length(models)+1) #make a cluster (add 1 for base model)
+cl <- parallel::makeCluster(length(models)) #make a cluster (add 1 for base model)
 
 parallel::clusterEvalQ(cl, library(r4ss)) #export required objects and packages
-parallel::clusterExport(cl, c("models", "model_names","model_2019"))
+parallel::clusterExport(cl, c("models"))
 
 #Run the parallel loop
-combined_models_list <- parallel::parLapply(cl = cl, X = 1:length(models), fun = function(x) {
-  if (x == 1) {
-    replist <- r4ss::SS_output(model_2019, covar = FALSE)
-    r4ss::SS_plots(replist = replist, dir = model_2019)
+combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = function(x) {
+    replist <- r4ss::SS_output(x, covar = FALSE)
+    r4ss::SS_plots(replist = replist, dir = x)
     replist
-  } else {
-    dir <- models[basename(models) == model_names[x]]
-    replist <- r4ss::SS_output(dir, covar = FALSE)
-    r4ss::SS_plots(replist = replist, dir = dir)
-    replist
-  }
 })
 
-
 parallel::stopCluster(cl) # close the cluster
-names(combined_models_list) <- model_names #name the replists
+names(combined_models_list) <- names(models) #name the replists
 
-
-##pLOT COMPARISONS
+## PLOT COMPARISONS
 compare_ss3_mods(replist = combined_models_list,
                  plot_dir = here(main_dir,"data_bridge_compare_plots"),
                  plot_names = model_names)
@@ -329,6 +319,5 @@ compare_ss3_mods(replist = combined_models_list,
 ##Make a copy of the final model
 final_dir <- here(main_dir,"data_bridged_model_weighted")
 dir.create(final_dir)
-lapply(list.files(here(main_dir,"add_acomps_reweighted"),full.names = TRUE), function(x){
-  file.copy(x,to = final_dir)
-})
+copy_SS_inputs(here(main_dir,"add_acomps_reweighted"), final_dir, overwrite = TRUE)
+

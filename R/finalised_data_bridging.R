@@ -57,7 +57,8 @@ discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv"))
 
 #--------------------------  Length comp data
 ##  Pacfin length comps
-pacfin_lcomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))
+pacfin_lcomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))|>
+  filter(!(sex == 0 & fleet ==5)) #drop unsexed hnl comps
 # WCGBTS  comps
 nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_comps_data.csv"))|>
   mutate(year = year, 
@@ -65,7 +66,7 @@ nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_com
          fleet = rep(8))
 
 #discard lcomps - think wcgop
-discard_lcomps <- read.csv(here("data_derived","discards","discard_length_comps_add-years-only.csv"))|>
+discard_lcomps <- read.csv(here("data_derived","discards","discard_length_comps.csv"))|>
   #rename(part = part,input_n = Nsamp)|>
   select(!X) #drop weird rownumber column from excel
   
@@ -74,7 +75,8 @@ lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
 
 # --------------------------  Age comp data
 #pacfin
-pacfin_acomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))
+pacfin_acomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))|>
+  filter(!(sex == 0 & fleet ==5)) #drop unsexed hnl comps
 
 #WCGBTS CAL
 nwfsc_acomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_conditional_age-at-length.csv"))|>
@@ -208,7 +210,7 @@ model_temp$dat$CPUE |>
 
 
 ## write model
-SS_write(model_temp,dir = file.path(index_dir,"test"),overwrite = T) #write the model
+SS_write(model_temp,dir = index_dir,overwrite = T) #write the model
 file.copy(file.path(model_2019,"ss3.exe"),to = file.path(index_dir,"ss3.exe")) #copt the executable
 r4ss::run(dir = index_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
@@ -258,7 +260,7 @@ file.copy(file.path(model_2019,"ss3.exe"),to = file.path(acomp_dir,"ss3.exe")) #
 r4ss::run(dir = acomp_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
-
+SS_plots(SS_output(acomp_dir))
 
 
 
@@ -278,9 +280,8 @@ retune_reweight_ss3(base_model_dir = acomp_dir,
 
 #### Summarise and compare models ########
 
-models <- list.files(main_dir,full.names = T)
-combined_models_replist <- list()
-model_names <-
+models <- list.files(main_dir,full.names = T) #gather thr models
+model_names <- #model names
   c(
     "2019_model",
     "add_catches",
@@ -293,42 +294,40 @@ model_names <-
     "add_acomps_reweighted"
   )
 
-## Loop through the models, putting together a combined replist and making plots at each go.
-# for(i in 1:length(models)){
-#   if(i == 1){
-#     combined_models_replist[[i]] <- SS_output(model_2019,covar = FALSE)
-#   } else {
-#   
-#   dir <- models[basename(models) == model_names[i]]
-#   combined_models_replist[[i]] <- SS_output(dir,covar = FALSE)
-#   #SS_plots(replist = combined_models_replist[[i]] ,dir = dir)
-#   }
-# }
-cl <- parallel::makeCluster(length(models)+1)
+## Plotting takes a long time, so do in parallel
+cl <- parallel::makeCluster(length(models)+1) #make a cluster (add 1 for base model)
 
-parallel::clusterEvalQ(cl, library(r4ss))
-parallel::clusterExport(cl, c("models", "model_names","model_2019","combined_models_replist"))
+parallel::clusterEvalQ(cl, library(r4ss)) #export required objects and packages
+parallel::clusterExport(cl, c("models", "model_names","model_2019"))
 
-parallel::parLapply(cl = cl,X = 1:length(models),fun = function(x){
-  if(x == 1){
-    combined_models_replist[[x]] <- SS_output(model_2019,covar = FALSE)
-    SS_plots(replist = combined_models_replist[[x]] ,dir = model_2019)
+#Run the parallel loop
+combined_models_list <- parallel::parLapply(cl = cl, X = 1:length(models), fun = function(x) {
+  if (x == 1) {
+    replist <- r4ss::SS_output(model_2019, covar = FALSE)
+    r4ss::SS_plots(replist = replist, dir = model_2019)
+    replist
   } else {
     dir <- models[basename(models) == model_names[x]]
-    combined_models_replist[[x]] <- SS_output(dir,covar = FALSE)
-    SS_plots(replist = combined_models_replist[[x]] ,dir = dir)
-    
+    replist <- r4ss::SS_output(dir, covar = FALSE)
+    r4ss::SS_plots(replist = replist, dir = dir)
+    replist
   }
 })
 
-parallel::stopCluster(cl)
-names(combined_models_replist) <- model_names
+
+parallel::stopCluster(cl) # close the cluster
+names(combined_models_list) <- model_names #name the replists
 
 
 ##pLOT COMPARISONS
-compare_ss3_mods(replist = combined_models_replist,
+compare_ss3_mods(replist = combined_models_list,
                  plot_dir = here(main_dir,"data_bridge_compare_plots"),
                  plot_names = model_names)
 
 
-SS_plots(replist = SS_output(here(main_dir,"add_acomps_reweighted")))
+##Make a copy of the final model
+final_dir <- here(main_dir,"data_bridged_model_weighted")
+dir.create(final_dir)
+lapply(list.files(here(main_dir,"add_acomps_reweighted"),full.names = TRUE), function(x){
+  file.copy(x,to = final_dir)
+})

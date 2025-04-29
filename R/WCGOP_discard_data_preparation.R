@@ -53,14 +53,14 @@ ggplot(a, aes(x = year, y = obs, color = source)) +
 
 # Option 1: BT and H&L : Just extend after 2017 + MWT update entire dataset after 2010
 
-
-new_discards_2025 <- rbind(old_data[old_data$year<=2010,], new_data[new_data$year>2017,],
-                           old_data[old_data$year>2010&old_data$fleet%in%c(1,5),], 
-                           new_data[new_data$year>2010&new_data$fleet==2,])%>%
-  distinct()
-
-new_discards_2025 <- new_discards_2025 %>%
-  bind_rows(new_data %>% filter(fleet == 5)) %>%
+## Bottom trawl: old data pre 2018, new data post 2018
+## Midwater trawl: old data pre 2010, new data post 2010
+##Hnl: no old data, only new data
+new_discards_2025 <- rbind(old_data[old_data$year<=2017&old_data$fleet==1,],
+                           new_data[new_data$year>=2018&new_data$fleet==1,],
+                           old_data[old_data$year<=2009&old_data$fleet==2,],
+                           new_data[new_data$year>=2010&new_data$fleet==2,], 
+                           new_data[new_data$fleet==5,])|>
   mutate(stderr = if_else(stderr == 0, NA, stderr))
   
 
@@ -116,3 +116,4 @@ ggplot(total[total$year>2010,], aes(x = year, y = obs, color = source)) +
                                                "5" = "Hook & line")), ncol = 1,scales = "free_y",) +
   labs(x = "", y = "Discard (t)", color = NULL) +
   theme_minimal()
+

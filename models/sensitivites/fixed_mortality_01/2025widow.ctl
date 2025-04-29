@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-29  11:05:45
+#C file write time: 2025-04-29  11:46:36
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -58,31 +58,31 @@
 #
 #_growth_parms
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
- 0.01	     0.3	      0.1	 -2.3	0.31	3	-999	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
-   10	      40	  20.8325	   27	  99	0	   3	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
-   35	      60	  50.3914	   50	  99	0	   2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
- 0.01	     0.4	 0.171903	 0.15	  99	0	   2	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
- 0.01	     0.4	  0.10617	 0.07	  99	0	   3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1  
- 0.01	     0.4	0.0440323	 0.04	  99	0	   3	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1    
-   -3	       3	 1.59e-05	    0	  99	0	 -99	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1   
-   -3	      10	     2.99	2.962	  99	0	 -99	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
-   -3	      50	     5.47	    7	  99	0	 -99	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
-   -3	       3	  -0.7747	   -1	  99	0	 -99	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
-   -1	       1	        1	    1	  99	0	 -99	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
-    0	       1	        0	    0	  99	0	 -99	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
- 0.01	     0.3	      0.1	 -2.3	0.31	3	-999	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1  
-   10	      40	  21.1828	   27	  99	0	   3	0	0	0	0	0	0	0	#_L_at_Amin_Mal_GP_1 
-   35	      60	  44.1793	   45	  99	0	   2	0	0	0	0	0	0	0	#_L_at_Amax_Mal_GP_1 
- 0.01	     0.4	 0.236074	 0.19	  99	0	   2	0	0	0	0	0	0	0	#_VonBert_K_Mal_GP_1 
- 0.01	     0.4	0.0861627	 0.07	  99	0	   3	0	0	0	0	0	0	0	#_CV_young_Mal_GP_1  
- 0.01	     0.4	0.0542116	 0.04	  99	0	   3	0	0	0	0	0	0	0	#_CV_old_Mal_GP_1    
-   -3	       3	 1.45e-05	    0	  99	0	 -99	0	0	0	0	0	0	0	#_Wtlen_1_Mal_GP_1   
-   -3	      10	     3.01	3.005	  99	0	 -99	0	0	0	0	0	0	0	#_Wtlen_2_Mal_GP_1   
-    0	       2	        1	    1	  99	0	 -99	0	0	0	0	0	0	0	#_RecrDist_GP_1      
-    0	       2	        1	    1	  99	0	 -99	0	0	0	0	0	0	0	#_RecrDist_Area_1    
-    0	       2	        1	    1	  99	0	 -99	0	0	0	0	0	0	0	#_RecrDist_month_1   
-    0	       2	        1	    1	  99	0	 -99	0	0	0	0	0	0	0	#_CohortGrowDev      
-1e-06	0.999999	      0.5	  0.5	 0.5	0	 -99	0	0	0	0	0	0	0	#_FracFemale_GP_1    
+ 0.01	     0.3	      0.1	 -2.3	0.31	3	 -5	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
+   10	      40	  20.8325	   27	  99	0	  3	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
+   35	      60	  50.3914	   50	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
+ 0.01	     0.4	 0.171903	 0.15	  99	0	  2	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
+ 0.01	     0.4	  0.10617	 0.07	  99	0	  3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1  
+ 0.01	     0.4	0.0440323	 0.04	  99	0	  3	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1    
+   -3	       3	 1.59e-05	    0	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1   
+   -3	      10	     2.99	2.962	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
+   -3	      50	     5.47	    7	  99	0	-99	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
+   -3	       3	  -0.7747	   -1	  99	0	-99	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
+   -1	       1	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
+    0	       1	        0	    0	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
+ 0.01	     0.3	      0.1	 -2.3	0.31	3	 -5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1  
+   10	      40	  21.1828	   27	  99	0	  3	0	0	0	0	0	0	0	#_L_at_Amin_Mal_GP_1 
+   35	      60	  44.1793	   45	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Mal_GP_1 
+ 0.01	     0.4	 0.236074	 0.19	  99	0	  2	0	0	0	0	0	0	0	#_VonBert_K_Mal_GP_1 
+ 0.01	     0.4	0.0861627	 0.07	  99	0	  3	0	0	0	0	0	0	0	#_CV_young_Mal_GP_1  
+ 0.01	     0.4	0.0542116	 0.04	  99	0	  3	0	0	0	0	0	0	0	#_CV_old_Mal_GP_1    
+   -3	       3	 1.45e-05	    0	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_1_Mal_GP_1   
+   -3	      10	     3.01	3.005	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_2_Mal_GP_1   
+    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_RecrDist_GP_1      
+    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_RecrDist_Area_1    
+    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_RecrDist_month_1   
+    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_CohortGrowDev      
+1e-06	0.999999	      0.5	  0.5	 0.5	0	-99	0	0	0	0	0	0	0	#_FracFemale_GP_1    
 #_no timevary MG parameters
 #
 #_seasonal_effects_on_biology_parms

@@ -69,9 +69,9 @@ if (!dir.exists(mort_sens_dir)) {
 # 73: 0.01 0.3	0.154867 -2.3	0.31 3 5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1 
 ctrl <- SS_readctl(paste0(mort_sens_dir, "/2025widow.ctl"), datlist = paste0(mort_sens_dir, "/2025widow.dat"))
 ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$INIT <- 0.1 # fixed value
-ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$PHASE <- -999 # negative phase = no estimations
+ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$PHASE <- -1*ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$PHASE # negative phase = no estimations
 ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$INIT <- 0.1
-ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE <- -999
+ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE <- -1*ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE
 SS_writectl(ctrl, here(mort_sens_dir, "2025widow.ctl"), overwrite = T)
 
 # step 3: run, without hess for now -----------------
@@ -115,9 +115,9 @@ if (!dir.exists(mort_diff_sens_dir)) {
 # 73: 0.01 0.3	0.154867 -2.3	0.31 3 5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1 
 ctrl <- SS_readctl(paste0(mort_diff_sens_dir, "/2025widow.ctl"), datlist = paste0(mort_diff_sens_dir, "/2025widow.dat"))
 ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$INIT <- 0.124 # fixed value
-ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$PHASE <- -999 # negative phase = no estimations
+ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$PHASE <- -1*ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Fem_GP_1", ]$PHASE # negative phase = no estimations
 ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$INIT <- 0.129
-ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE <- -999
+ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE <- -1*ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE
 SS_writectl(ctrl, here(mort_diff_sens_dir, "2025widow.ctl"), overwrite = T)
 
 # step 3: run, without hess for now -----------------

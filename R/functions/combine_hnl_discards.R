@@ -65,8 +65,9 @@ combine_hnl_discards <- function(model_dir, hnl_fleet_id = 5) {
   mod$dat$discard_data <- mod$dat$discard_data %>%
     filter(fleet != hnl_fleet)  # Remove HKL fleet from discard data
   
-  # 8. Adjust length composition data: remove HKL discard length data
+  # 8. Remove length composition data: remove HKL discard length data
   mod$dat$lencomp <- mod$dat$lencomp %>%
+    filter(!fleet == hnl_fleet & part == 1)|>
     mutate(year = if_else(fleet == hnl_fleet & part == 1, abs(year) * -1, year))  # Adjust year for HKL fleet
   
   # 9. Test: Count how many length composition data points exist for each fleet
@@ -88,6 +89,7 @@ combine_hnl_discards <- function(model_dir, hnl_fleet_id = 5) {
   # 12. Test: Show discard selection patterns
   tests$discard_sel_patterns <- cbind(mod$ctl$size_selex_types$Discard, rownames(mod$ctl$size_selex_types))
   
+  #13. Delete the Hnl discard parameters
   # 13. Save the updated model (with changes) back to disk
   SS_write(inputlist = mod, dir = model_dir, overwrite = TRUE)
   

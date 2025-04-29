@@ -49,6 +49,7 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
                                 lambda_weight = 0.5, 
                                 marg_comp_fleets = c(1,2,3,4,5)) {
   
+  
   #' Get the model name from the base directory
   mod_name <- basename(base_model_dir)
   
@@ -106,7 +107,7 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
   #' Copy executable files and run the reweighted model
   file.copy(exe_files, to = reweight_dir)
   cat(paste0("Starting re-weighting (lambda adjustment) run...."))
-  r4ss::run(dir = reweight_dir, exe = exe_name, extras = "-nohess", skipfinished = TRUE)
+  r4ss::run(dir = reweight_dir, exe = exe_name, extras = "-nohess", skipfinished = FALSE)
   
   #' Delete tuning directories if requested
   if(keep_tuning_runs == FALSE) {

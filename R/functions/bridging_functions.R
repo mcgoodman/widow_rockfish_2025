@@ -174,7 +174,7 @@ update_ss3_dat <- function(new_dir, base_dir = here(wd, 'models', '2019 base mod
     
     ctl$N_Block_Designs <- 11
     ctl$blocks_per_pattern <- c(ctl$blocks_per_pattern ,"blocks_per_pattern_12" = 1)
-    ctl$Block_Design[[11]] <- c(1916,2018)
+    ctl$Block_Design[[11]] <- c(1916, 2019)
     
     #Adjust the blocks on hake selx pars 1,2,3
     old_sel_pars <- ctl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),]

@@ -67,7 +67,7 @@ combine_hnl_discards <- function(model_dir, hnl_fleet_id = 5) {
   
   # 8. Remove length composition data: remove HKL discard length data
   mod$dat$lencomp <- mod$dat$lencomp %>%
-    filter(!fleet == hnl_fleet & part == 1)|>
+    filter(!(fleet == hnl_fleet & part == 1))|>
     mutate(year = if_else(fleet == hnl_fleet & part == 1, abs(year) * -1, year))  # Adjust year for HKL fleet
   
   # 9. Test: Count how many length composition data points exist for each fleet

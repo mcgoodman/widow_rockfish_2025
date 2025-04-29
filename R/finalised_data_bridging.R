@@ -10,9 +10,10 @@ library(dplyr)
 library(renv)
 library(future.apply)
 
-source(here("R","functions","bridging_functions.r")) #load bridging functions
-source(here("R","functions","combine_hnl_discards.r")) #load bridging functions
-
+# Load bridging functions
+source(here("R", "functions", "bridging_functions.r"))
+source(here("R", "functions", "combine_hnl_discards.r"))
+source(here("R", "functions", "retune_reweight_ss3.R"))
 
 #Directories
 main_dir <- here("models","data_bridging","finalised_data_bridging")
@@ -103,6 +104,7 @@ acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 ##### 2019 model run with new version of SS3
 model_2019 <- here("models","data_bridging","bridge_1_ss3_ver_ctl_files","widow_2019_ss_v3_30_23_new_ctl")
 ctl <- SS_read(model_2019)$ctl
+ss3_exe <- set_ss3_exe(model_2019, version = "v3.30.23")
 
 #Apply the adjustments to the model which include: updating names, extending forecasts, extending rec-devs, 
 #adding time varyin selex, extending data end year
@@ -119,7 +121,7 @@ update_ss3_dat(
 )
 
 #run the base to check it works
-r4ss::run(dir = base_model_dir,exe = "ss3",extras = "-nohess")
+r4ss::run(dir = base_model_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
 
 
 
@@ -151,8 +153,8 @@ model_temp$dat$catch|>
 
 ## write model
 SS_write(model_temp,dir = catch_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019,"ss3.exe"),to = file.path(catch_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = catch_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
+file.copy(file.path(model_2019, ss3_exe), to = file.path(catch_dir, ss3_exe)) #copy the executable
+r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 
@@ -189,9 +191,8 @@ combine_hnl_discards(model_dir = discard_dir,hnl_fleet_id = 5)
 
 
 
-
-file.copy(file.path(model_2019,"ss3.exe"),to = file.path(discard_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = discard_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
+file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_dir, ss3_exe)) # copy the executable
+r4ss::run(dir = discard_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 #--------------------  Extend indices  -----------------------------------------
@@ -211,8 +212,8 @@ model_temp$dat$CPUE |>
 
 ## write model
 SS_write(model_temp,dir = index_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019,"ss3.exe"),to = file.path(index_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = index_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
+file.copy(file.path(model_2019, ss3_exe), to = file.path(index_dir, ss3_exe)) # copy the executable
+r4ss::run(dir = index_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 #--------------------  Extend length comps  -----------------------------------------
@@ -232,8 +233,8 @@ model_temp$dat$lencomp |>
 
 ## write model
 SS_write(model_temp,dir = lcomp_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019,"ss3.exe"),to = file.path(lcomp_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = lcomp_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
+file.copy(file.path(model_2019, ss3_exe), to = file.path(lcomp_dir, ss3_exe)) # copy the executable
+r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 
@@ -256,8 +257,8 @@ model_temp$dat$agecomp |>
 
 ## write model
 SS_write(model_temp,dir = acomp_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019,"ss3.exe"),to = file.path(acomp_dir,"ss3.exe")) #copt the executable
-r4ss::run(dir = acomp_dir,exe = "ss3",extras = "-nohess",skipfinished = FALSE) #run the model  
+file.copy(file.path(model_2019, ss3_exe), to = file.path(acomp_dir, ss3_exe)) # copy the executable
+r4ss::run(dir = acomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 SS_plots(SS_output(acomp_dir))
@@ -265,7 +266,7 @@ SS_plots(SS_output(acomp_dir))
 
 
 ############ Model tuning ##############
-# All data hasa been added, so do a ocuple of tuning runs, and apply the 0.5 multiplier
+# All data has been added, so do a couple of tuning runs, and apply the 0.5 multiplier
 ########################################
 
 

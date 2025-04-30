@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-30  18:10:59
+#C file write time: 2025-04-30  18:18:18
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -16,8 +16,8 @@
 #_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
 #_Cond 1 1 1 2 4 10 # example move definition for seas=1, morph=1, source=1 dest=2, age1=4, age2=10
 #
-11 #_Nblock_Patterns
-3 2 1 1 1 1 3 1 1 1 1 #_blocks_per_pattern
+12 #_Nblock_Patterns
+3 2 1 1 1 1 3 1 1 1 1 4 #_blocks_per_pattern
 #_begin and end years of blocks
 1982 1989 1990 1997 1998 2010
 1982 1989 1990 2010
@@ -30,6 +30,7 @@
 1995 2004
 1991 1998
 1916 2019
+1916 1982 1983 2001 2002 2010 2011 2017
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
@@ -205,7 +206,7 @@
     -9	 9	 -0.614281	0.5	0.05	0	  4	0	0	0	0	0.5	 7	2	#_SizeSel_P_6_MidwaterTrawl(2)      
     -5	60	        -5	  0	  99	0	 -9	0	0	0	0	  0	 0	0	#_SizeSel_PRet_1_MidwaterTrawl(2)   
   0.01	 8	       1.2	  1	  99	0	 -9	0	0	0	0	  0	 0	0	#_SizeSel_PRet_2_MidwaterTrawl(2)   
-   -10	10	   4.59512	 10	  99	0	 -2	0	0	0	0	  0	 7	2	#_SizeSel_PRet_3_MidwaterTrawl(2)   
+   -10	10	   4.59512	 10	  99	0	  2	0	0	0	0	  0	12	2	#_SizeSel_PRet_3_MidwaterTrawl(2)   
    -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_MidwaterTrawl(2)   
     10	59	   43.2065	 45	0.05	0	  1	0	0	0	0	0.5	11	2	#_SizeSel_P_1_Hake(3)               
     -5	10	   2.50295	  5	0.05	0	  3	0	0	0	0	0.5	11	2	#_SizeSel_P_2_Hake(3)               
@@ -252,35 +253,36 @@
 0	50	40	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_2_NWFSC(8)    
 # timevary selex parameters 
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
-  10	59	  39.3021	 45	0.05	0	 1	#_SizeSel_P_1_BottomTrawl(1)_BLK4repl_1916     
-  -4	12	  3.46297	  3	0.05	0	 2	#_SizeSel_P_3_BottomTrawl(1)_BLK4repl_1916     
-  -5	50	  26.7803	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1982  
-  -5	50	  25.7623	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1990  
-0.01	 5	 0.998554	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1982  
-0.01	 5	  1.79122	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1990  
- -10	10	  1.71493	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1982  
- -10	10	 0.673116	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1990  
- -10	10	 0.085133	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1998  
-  10	59	  38.7217	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1916   
-  10	59	  38.0921	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1983   
-  10	59	  37.5949	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002   
-  -4	12	  3.35403	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1916   
-  -4	12	  3.07871	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1983   
-  -4	12	  2.83281	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002   
-  -2	10	  4.30674	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916   
-  -2	10	  3.15164	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983   
-  -2	10	 -1.63262	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002   
-  -9	 9	 -2.32627	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916   
-  -9	 9	-0.454742	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983   
-  -9	 9	  1.74863	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002   
- -10	10	   4.5912	 10	  99	0	-2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_1916
- -10	10	  1.65362	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_1983
- -10	10	   1.8541	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002
-  10	59	  43.2065	 45	0.05	0	 1	#_SizeSel_P_1_Hake(3)_BLK11repl_1916           
-  -5	10	  2.50295	  5	0.05	0	 3	#_SizeSel_P_2_Hake(3)_BLK11repl_1916           
-  -4	12	  3.72893	  3	0.05	0	 2	#_SizeSel_P_3_Hake(3)_BLK11repl_1916           
-  15	59	  37.9869	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916             
-  -4	12	  3.86062	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916             
+  10	59	  39.3021	 45	0.05	0	 1	#_SizeSel_P_1_BottomTrawl(1)_BLK4repl_1916      
+  -4	12	  3.46297	  3	0.05	0	 2	#_SizeSel_P_3_BottomTrawl(1)_BLK4repl_1916      
+  -5	50	  26.7803	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1982   
+  -5	50	  25.7623	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1990   
+0.01	 5	 0.998554	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1982   
+0.01	 5	  1.79122	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1990   
+ -10	10	  1.71493	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1982   
+ -10	10	 0.673116	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1990   
+ -10	10	 0.085133	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1998   
+  10	59	  38.7217	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1916    
+  10	59	  38.0921	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1983    
+  10	59	  37.5949	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002    
+  -4	12	  3.35403	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1916    
+  -4	12	  3.07871	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1983    
+  -4	12	  2.83281	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002    
+  -2	10	  4.30674	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916    
+  -2	10	  3.15164	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983    
+  -2	10	 -1.63262	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002    
+  -9	 9	 -2.32627	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916    
+  -9	 9	-0.454742	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983    
+  -9	 9	  1.74863	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002    
+ -10	10	   4.5912	 10	  99	0	-2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_1916
+ -10	10	  1.65362	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_1983
+ -10	10	   1.8541	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_2002
+ -10	10	   1.8541	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_2011
+  10	59	  43.2065	 45	0.05	0	 1	#_SizeSel_P_1_Hake(3)_BLK11repl_1916            
+  -5	10	  2.50295	  5	0.05	0	 3	#_SizeSel_P_2_Hake(3)_BLK11repl_1916            
+  -4	12	  3.72893	  3	0.05	0	 2	#_SizeSel_P_3_Hake(3)_BLK11repl_1916            
+  15	59	  37.9869	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916              
+  -4	12	  3.86062	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916              
 # info on dev vectors created for selex parms are reported with other devs after tag parameter section
 #
 0 #  use 2D_AR1 selectivity(0/1):  experimental feature

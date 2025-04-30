@@ -177,53 +177,44 @@ if (!skip_finished) {
 # Midwater trawl selectivity (parameters 1, 3, 4, 6), 
 # and retention (parameter 3)
 
-dir.create(Block7dir <- here(bridgedir, "Block7"))
-r4ss::copy_SS_inputs(SRdir, Block7dir, overwrite = TRUE)
-Block7exe <- set_ss3_exe(Block7dir)
+dir.create(blockdir <- here(bridgedir, "MDT_Ret_Block"))
+r4ss::copy_SS_inputs(SRdir, blockdir, overwrite = TRUE)
+blockexe <- set_ss3_exe(blockdir)
 
-ctrl <- SS_readctl(paste0(Block7dir, "/2025widow.ctl"), datlist = paste0(Block7dir, "/2025widow.dat"))
+ctrl <- SS_readctl(paste0(blockdir, "/2025widow.ctl"), datlist = paste0(blockdir, "/2025widow.dat"))
 
-# Add time block to block group
-ctrl$Block_Design[[7]] <- c(ctrl$Block_Design[[7]], c(2011, 2017))
+# Add new block for midwater trawl retention
+ctrl$Block_Design[[12]] <- c(ctrl$Block_Design[[7]], c(2011, 2017))
 
-# Note that there is an additional block in block group
-ctrl$blocks_per_pattern[7] <- ctrl$blocks_per_pattern[7] + 1
+# Increment the number of block design
+ctrl$N_Block_Designs <- ctrl$N_Block_Designs + 1
+
+# Number of blocks in new block group
+ctrl$blocks_per_pattern <- c(ctrl$blocks_per_pattern, "blocks_per_pattern_12" = as.numeric(ctrl$blocks_per_pattern[7] + 1))
+
+# Reassign block for retention asymptote
+ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "Block"] <- 12
+ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "PHASE"] <- 2
 
 # Add rows to time-varying selectivity for relevant parameters
 ctrl$size_selex_parms_tv <- 
   ctrl$size_selex_parms_tv |> 
   insert_row(
-    new_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002"
-    # INIT = 37.412
-  ) |> 
-  insert_row(
-    new_row = "SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002", 
-    INIT = 2.94
-  ) |> 
-  insert_row(
-    new_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002",
-    INIT = -1.45#, PHASE = -4
-  ) |> 
-  insert_row(
-    new_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002", 
-    INIT = 1.188
-  ) |>
-  insert_row(
     new_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2011",
-    ref_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002",
-    INIT = 10, PHASE = -2 # Set at boundary -> Full retention 2011-2016
+    ref_row = "SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002"#,
+    #INIT = 10, PHASE = -2 # Set at boundary -> Full retention 2011-2016
     # INIT = 4.59512, PHASE = -2 # Set at 0.99 retention (same as early and final years)
   )
 
-SS_writectl(ctrl, paste0(Block7dir, "/2025widow.ctl"), overwrite = TRUE)
+# Update row names in time-varying selectivity parameters block
+mdt_ret_rows <- grepl("SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_", rownames(ctrl$size_selex_parms_tv), fixed = TRUE)
+rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows] <- gsub("BLK7", "BLK12", rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows])
+
+SS_writectl(ctrl, paste0(blockdir, "/2025widow.ctl"), overwrite = TRUE)
 
 r4ss::run(
-  dir = Block7dir,
-  exe = Block7exe,
+  dir = blockdir,
+  exe = blockexe,
   #extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
@@ -231,20 +222,20 @@ r4ss::run(
 
 if (!skip_finished) {
   SS_plots(
-    SS_output(Block7dir, covar = TRUE), 
-    dir = Block7dir, #basedir, 
+    SS_output(blockdir, covar = TRUE), 
+    dir = blockdir, #basedir, 
     printfolder = "plots", 
     html = launch_html
   )
 } else if (launch_html) {
   SS_html(
-    SS_output(Block7dir), 
-    plotdir = here(Block7dir, "plots")
+    SS_output(blockdir), 
+    plotdir = here(blockdir, "plots")
   )
 }
 
 # View time-varying selectivity and retention parameters
-Block7_run <- SS_output(Block7dir, covar = TRUE)
+Block7_run <- SS_output(blockdir, covar = TRUE)
 Block7_run$parameters |> filter(grepl("Midwater", Label) & grepl("DblN", Label)) |> View()
 Block7_run$parameters |> filter(grepl("Midwater", Label) & grepl("Ret", Label)) |> View()
 
@@ -256,7 +247,7 @@ dirs <- c(
   "+ Hamel & Cope 2022 M Prior" = Mdir,
   "+ Updated length-weight pars" = LWdir,
   "+ Updated bias-adjustment ramp" = SRdir#,
-  #"+ Midwater block, 2011-2016" = Block7dir
+  #"+ Midwater retention block, 2011-2017" = blockdir
 )
 
 models <- SSgetoutput(dirvec = dirs, getcovar = TRUE)

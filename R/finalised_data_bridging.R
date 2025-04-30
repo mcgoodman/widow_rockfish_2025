@@ -50,11 +50,14 @@ juvsurv <- read.csv(here("data_provided", "RREAS", "widow_indices.csv"))|>
 indices_2025 <- rbind(nwfsc,juvsurv)
 
 # -------------------------- discards
-discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv"))|>
-  select(!source)
 
-
-
+# Prefer data from 2025 assessment if available for a given year
+discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv")) |> 
+  arrange(fleet, year, source) |> 
+  group_by(year, fleet) |> 
+  slice_tail() |> 
+  arrange(fleet, year) |> 
+  select(-source)
 
 #--------------------------  Length comp data
 ##  Pacfin length comps

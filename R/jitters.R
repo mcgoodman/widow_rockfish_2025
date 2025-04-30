@@ -80,3 +80,55 @@ below_base <- run_summary %>%
   filter(loglike < base_like)
 min(jitter_loglike)  # lowest loglikelihood of 7905.46 (base is 7912.2 for this run)
 
+
+# Compare parameters and outputs for lower LL-----------------------------------
+# Find lowest likelihood model(s)
+min_run <- run_summary %>% filter(loglike == min(jitter_loglike))  # 8 runs that hit this minimum
+
+# Read in and summarize model output for those minimum likelihood runs
+min_mods <- SSgetoutput(
+  dirvec = jitter_dir,
+  keyvec = min_run$run,
+  getcovar = FALSE
+)
+
+min_sum <- SSsummarize(min_mods, verbose = TRUE)
+
+# Make comparison plots for the models that had the lowest likelihood
+plot_dir <- here(jitter_dir, "plots", "min_mods_comp_plots")
+
+SSplotComparisons(min_sum,
+                  print = TRUE,
+                  plotdir = plot_dir,
+                  subplots = 1:20)
+
+
+##### Compare one of the lowest likelihood models (since they all looked the same) to the base
+base_min_sum <- SSsummarize(list(minLL = min_mods[[1]], base = base))
+
+base_min_plot_dir <- here(jitter_dir, "plots", "base_min_comp")
+
+# Make comparison plots
+SSplotComparisons(base_min_sum,
+                  print = TRUE,
+                  plotdir = base_min_plot_dir)
+
+
+# Look into parameter differences ----------------------------------------------
+# Look at parameters of lowest LL runs
+jitter_run_pars <- min_sum[["pars"]]
+write.csv(jitter_run_pars, file = here(jitter_dir, "minLL_run_parameter_estimates.csv"), row.names = FALSE)
+
+# Looks at parameters from base run compared to one of the lowest LL run
+base_min_pars <- base_min_sum[["pars"]]
+write.csv(base_min_pars, file = here(jitter_dir, "base_vs_minLL_parameter_estimates.csv"), row.names = FALSE)
+
+# Investigate differences between min LL parms and base
+base_min_pars_comp <- base_min_pars %>%
+  mutate(perc_diff = (minLL-base)/base)
+
+# Which have are more than 10% different?
+diff_pars <- base_min_pars_comp %>% filter(perc_diff >= 0.1 | perc_diff <= -0.1)
+write.csv(diff_pars, file = here(jitter_dir, "base_vs_minLL_most_different_parameter_estimates.csv"), row.names = FALSE)
+
+

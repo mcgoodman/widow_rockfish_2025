@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-30  18:18:18
+#C file write time: 2025-04-30  19:10:12
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -30,7 +30,7 @@
 1995 2004
 1991 1998
 1916 2019
-1916 1982 1983 2001 2002 2010 2011 2017
+1916 1982 1983 2001 2002 2010 2011 2016
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)

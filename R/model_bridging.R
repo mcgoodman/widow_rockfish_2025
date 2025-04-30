@@ -184,7 +184,7 @@ blockexe <- set_ss3_exe(blockdir)
 ctrl <- SS_readctl(paste0(blockdir, "/2025widow.ctl"), datlist = paste0(blockdir, "/2025widow.dat"))
 
 # Add new block for midwater trawl retention
-ctrl$Block_Design[[12]] <- c(ctrl$Block_Design[[7]], c(2011, 2017))
+ctrl$Block_Design[[12]] <- c(ctrl$Block_Design[[7]], c(2011, 2016))
 
 # Increment the number of block design
 ctrl$N_Block_Designs <- ctrl$N_Block_Designs + 1
@@ -246,7 +246,7 @@ dirs <- c(
   "+ Hamel & Cope 2022 M Prior" = Mdir,
   "+ Updated length-weight pars" = LWdir,
   "+ Updated bias-adjustment ramp" = SRdir,
-  "+ Midwater retention block, 2011-2017" = blockdir
+  "+ Midwater retention block, 2011-2016" = blockdir
 )
 
 models <- SSgetoutput(dirvec = dirs, getcovar = TRUE)
@@ -289,7 +289,7 @@ models_ss$likelihoods_by_fleet |>
 
 ggsave(here(plot_dir, "likelihoods_all.png"), height = 6, width = 9, units = "in", scale = 1.4)
 
-# Likelihood-ratio test of 2011-2017 retention block
+# Likelihood-ratio test of 2011-2016 retention block
 pchisq(2 * (models_ss$likelihoods$replist4[1] - models_ss$likelihoods$replist5[1]), df = 4, lower.tail = FALSE)
 
 # Fits to discards, log-scale 
@@ -316,5 +316,5 @@ ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 
 # Use base model without new midwater trawl block
 dir.create(Base2025 <- here("models", "2025 base model"))
-r4ss::copy_SS_inputs(SRdir, Base2025, overwrite = TRUE)
+r4ss::copy_SS_inputs(blockdir, Base2025, overwrite = TRUE)
 

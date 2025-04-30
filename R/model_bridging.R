@@ -234,10 +234,9 @@ if (!skip_finished) {
   )
 }
 
-# View time-varying selectivity and retention parameters
-Block7_run <- SS_output(blockdir, covar = TRUE)
-Block7_run$parameters |> filter(grepl("Midwater", Label) & grepl("DblN", Label)) |> View()
-Block7_run$parameters |> filter(grepl("Midwater", Label) & grepl("Ret", Label)) |> View()
+# View time-varying retention parameters
+block_run <- SS_output(blockdir, covar = TRUE)
+block_run$parameters |> filter(grepl("Midwater", Label) & grepl("Ret", Label)) |> View()
 
 # Compare -------------------------------------------------
 
@@ -246,8 +245,8 @@ dirs <- c(
   "data bridging" = basedir,
   "+ Hamel & Cope 2022 M Prior" = Mdir,
   "+ Updated length-weight pars" = LWdir,
-  "+ Updated bias-adjustment ramp" = SRdir#,
-  #"+ Midwater retention block, 2011-2017" = blockdir
+  "+ Updated bias-adjustment ramp" = SRdir,
+  "+ Midwater retention block, 2011-2017" = blockdir
 )
 
 models <- SSgetoutput(dirvec = dirs, getcovar = TRUE)
@@ -274,7 +273,7 @@ SSplotComparisons(
 )
 
 # Correlations among shared parameters
-parcor <- cor(models_ss$pars[,paste0("replist", 1:4)], use = "pairwise.complete.obs")
+parcor <- cor(models_ss$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs")
 parcor[upper.tri(parcor) ] <- NA; diag(parcor) <- NA
 colnames(parcor) <- rownames(parcor) <- names(dirs)
 View(round(parcor, 4))
@@ -290,14 +289,14 @@ models_ss$likelihoods_by_fleet |>
 
 ggsave(here(plot_dir, "likelihoods_all.png"), height = 6, width = 9, units = "in", scale = 1.4)
 
-# Likelihood-ratio test of 2011-2016 selectivity block
+# Likelihood-ratio test of 2011-2017 retention block
 pchisq(2 * (models_ss$likelihoods$replist4[1] - models_ss$likelihoods$replist5[1]), df = 4, lower.tail = FALSE)
 
 # Fits to discards, log-scale 
 SR_run <- SS_output(SRdir, covar=TRUE)
 discards <- bind_rows(list(
   "+ Updated bias-adjustment ramp" = filter(SR_run$discard, Fleet_Name == "MidwaterTrawl"), 
-  "+ Midwater block, 2011-2016" = filter(Block7_run$discard, Fleet_Name == "MidwaterTrawl")
+  "+ Midwater block, 2011-2016" = filter(block_run$discard, Fleet_Name == "MidwaterTrawl")
 ), .id = "model")
 
 discards |>  
@@ -306,7 +305,10 @@ discards |>
                   position = position_dodge(width = 0.4), size = 0.25) + 
   geom_point(aes(y = log(Obs))) + 
   labs(x = "Year", y = "log(discards)") + 
-  theme(legend.position = "bottom")
+  guides(color = guide_legend(reverse = TRUE)) +
+  scale_x_continuous(breaks = seq(1984, 2024, 4)) + 
+  theme_bw() +
+  theme(legend.position = "bottom", panel.grid.minor.x = element_blank())
 
 ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 

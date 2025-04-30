@@ -57,7 +57,8 @@ discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv"))
   group_by(year, fleet) |> 
   slice_tail() |> 
   arrange(fleet, year) |> 
-  select(-source)
+  select(-source) |> 
+  as.data.frame()
 
 #--------------------------  Length comp data
 ##  Pacfin length comps
@@ -286,15 +287,13 @@ retune_reweight_ss3(base_model_dir = acomp_dir,
 #### Summarise and compare models ########
 
 models <- c(
-    "2019_model" = model_2019,
-    "add_catches" = catch_dir,
-    "add_discards" = discard_dir,
-    "add_indices" = index_dir,
-    "add_lcomps" = lcomp_dir,
-    "add_acomps" = acomp_dir,
-    "add_acomps_retune_1" = here(main_dir, "add_acomps_retune_1"),
-    "add_acomps_retune_2" = here(main_dir, "add_acomps_retune_2"),
-    "add_acomps_reweighted" = here(main_dir,"add_acomps_reweighted")
+    "2019 model" = model_2019,
+    "+ catches" = catch_dir,
+    "+ discards" = discard_dir,
+    "+ indices" = index_dir,
+    "+ length comp." = lcomp_dir,
+    "+ age comp." = acomp_dir,
+    "+ retune / reweight" = here(main_dir, "add_acomps_reweighted")
   )
 
 ## Plotting takes a long time, so do in parallel
@@ -316,7 +315,7 @@ names(combined_models_list) <- names(models) #name the replists
 ## PLOT COMPARISONS
 compare_ss3_mods(replist = combined_models_list,
                  plot_dir = here(main_dir,"data_bridge_compare_plots"),
-                 plot_names = model_names)
+                 plot_names = names(models))
 
 
 ##Make a copy of the final model

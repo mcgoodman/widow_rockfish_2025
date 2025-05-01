@@ -1,17 +1,21 @@
 
-library("tidyverse")
+library("dplyr")
+library("tidyr")
+library("ggplot2")
 library("r4ss")
 library("here")
+library("renv")
+library("future.apply")
 
 source(here("R", "functions", "bridging_functions.R"))
 
 skip_finished <- FALSE
 launch_html <- TRUE
 
-# Base model ----------------------------------------------
+# Base model, post data-bridging --------------------------
 
-# This will be Mico's 2025 base model
-basedir <- here("models", "data_bridging", "finalised_data_bridging", "data_bridged_model_weighted")
+databridge_dir <- here("models", "data_bridging", "finalised_data_bridging")
+basedir <- here(databridge_dir, "data_bridged_model_weighted")
 
 # Download SS3 exe and return name
 base_exe <- set_ss3_exe(basedir)
@@ -20,9 +24,9 @@ base_exe <- set_ss3_exe(basedir)
 r4ss::run(
   dir = basedir,
   exe = base_exe,
-  #extras = "-nohess",
+  extras = "-nohess",
   show_in_console = TRUE,
-  skipfinished = TRUE
+  skipfinished = skip_finished
 )
 
 if (!skip_finished) {
@@ -68,7 +72,7 @@ SS_writectl(ctrl, paste0(Mdir, "/2025widow.ctl"), overwrite = TRUE)
 r4ss::run(
   dir = Mdir,
   exe = Mexe,
-  #extras = "-nohess",
+  extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
 )
@@ -102,15 +106,15 @@ ctrl$MG_parms["Wtlen_2_Mal_GP_1", ]$INIT <- 3.01
 
 SS_writectl(ctrl, paste0(LWdir, "/2025widow.ctl"), overwrite = TRUE)
 
+# Need to run with hessian to estimate bias-adjustment ramp
 r4ss::run(
   dir = LWdir,
   exe = LWexe,
-  #extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
 )
 
-LW_replist <- SS_output(LWdir)
+LW_replist <- SS_output(LWdir, covar = TRUE)
 
 if (!skip_finished) {
   SS_plots(
@@ -153,7 +157,7 @@ SS_writectl(ctrl, paste0(SRdir, "/2025widow.ctl"), overwrite = TRUE)
 r4ss::run(
   dir = SRdir,
   exe = SRexe,
-  #extras = "-nohess",
+  extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
 )
@@ -174,19 +178,16 @@ if (!skip_finished) {
 
 # Midwater trawl blocks -----------------------------------
 
-# Midwater trawl selectivity (parameters 1, 3, 4, 6), 
-# and retention (parameter 3)
-
 dir.create(blockdir <- here(bridgedir, "MDT_Ret_Block"))
 r4ss::copy_SS_inputs(SRdir, blockdir, overwrite = TRUE)
 blockexe <- set_ss3_exe(blockdir)
 
-ctrl <- SS_readctl(paste0(blockdir, "/2025widow.ctl"), datlist = paste0(blockdir, "/2025widow.dat"))
+ctrl <- SS_readctl(here(blockdir, "/2025widow.ctl"), datlist = here(blockdir, "/2025widow.dat"))
 
 # Add new block for midwater trawl retention
 ctrl$Block_Design[[12]] <- c(ctrl$Block_Design[[7]], c(2011, 2016))
 
-# Increment the number of block design
+# Increment the number of block designs
 ctrl$N_Block_Designs <- ctrl$N_Block_Designs + 1
 
 # Number of blocks in new block group
@@ -210,7 +211,31 @@ ctrl$size_selex_parms_tv <-
 mdt_ret_rows <- grepl("SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_", rownames(ctrl$size_selex_parms_tv), fixed = TRUE)
 rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows] <- gsub("BLK7", "BLK12", rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows])
 
-SS_writectl(ctrl, paste0(blockdir, "/2025widow.ctl"), overwrite = TRUE)
+# Fix ascending with of Hook & Line Selectivity at lower bound
+ctrl$size_selex_parms["SizeSel_P_3_HnL(5)", "INIT"] <- -5
+ctrl$size_selex_parms["SizeSel_P_3_HnL(5)", "PHASE"] <- -2
+
+# SS3 Warning: 
+# Note 2 Suggestion: This model has just one settlement event. 
+# Changing to recr_dist_method 4 and removing the recruitment distribution parameters
+# at the end of the MG parms section (below growth parameters) will produce identical
+# results and simplify the model.
+ctrl$recr_dist_method <- 4
+ctrl$MG_parms <- ctrl$MG_parms[!grepl("RecrDist", rownames(ctrl$MG_parms)),]
+
+SS_writectl(ctrl, here(blockdir, "/2025widow.ctl"), overwrite = TRUE)
+
+# Change length / age comp partition for fleets without estimated retention
+# This is already handled by SS3, but is implemented here to get rid of warnings
+dat <- SS_readdat(here(blockdir, "/2025widow.dat"))
+dat$lencomp$part[dat$lencomp$fleet %in% c(3, 4, 5)] <- 0
+dat$agecomp$part[dat$agecomp$fleet %in% c(3, 4, 5)] <- 0
+SS_writedat(dat, here(blockdir, "/2025widow.dat"), overwrite = TRUE)
+
+# Set non-zero forecast fishing mortalities
+fcst <- SS_readforecast(here(blockdir, "forecast.ss"))
+fcst$vals_fleet_relative_f[fcst$vals_fleet_relative_f == 0]  <- 1e-4
+SS_writeforecast(fcst, dir = blockdir, file = "forecast.ss", overwrite = TRUE)
 
 r4ss::run(
   dir = blockdir,
@@ -236,64 +261,10 @@ if (!skip_finished) {
 
 # View time-varying retention parameters
 block_run <- SS_output(blockdir, covar = TRUE)
-block_run$parameters |> filter(grepl("Midwater", Label) & grepl("Ret", Label)) |> View()
-
-# Compare -------------------------------------------------
-
-#Comparison plots produced by r4ss
-dirs <- c(
-  "data bridging" = basedir,
-  "+ Hamel & Cope 2022 M Prior" = Mdir,
-  "+ Updated length-weight pars" = LWdir,
-  "+ Updated bias-adjustment ramp" = SRdir,
-  "+ Midwater retention block, 2011-2016" = blockdir
-)
-
-models <- SSgetoutput(dirvec = dirs, getcovar = TRUE)
-models_ss <- SSsummarize(models)
-
-labels <- c(
-  "Year", "Spawning biomass (t)", "Relative spawning biomass", "Age-0 recruits (1,000s)",
-  "Recruitment deviations", "Index", "Log index", "1 - SPR", "Density","Management target", 
-  "Minimum stock size threshold", "Spawning output", "Harvest rate"
-)
-
-dir.create(plot_dir <- here("models", "comparison_plots", "model_bridging"), recursive = TRUE)
-
-SSplotComparisons(
-  models_ss,
-  print = TRUE,
-  plotdir = plot_dir,
-  labels = labels,
-  densitynames = c("SSB_2025", "SSB_Virgin"),
-  legendlabels = names(dirs),
-  indexPlotEach = TRUE,
-  filenameprefix = "model_bridging_", 
-  legendloc = "bottomleft"
-)
-
-# Correlations among shared parameters
-parcor <- cor(models_ss$pars[,paste0("replist", 1:5)], use = "pairwise.complete.obs")
-parcor[upper.tri(parcor) ] <- NA; diag(parcor) <- NA
-colnames(parcor) <- rownames(parcor) <- names(dirs)
-View(round(parcor, 4))
-
-# Likelihood by fleet
-models_ss$likelihoods_by_fleet |> 
-  pivot_longer(ALL:ForeignAtSea, names_to = "fleet", values_to = "likelihood") |> 
-  mutate(model = factor(names(dirs)[model], levels = names(dirs))) |>  
-  ggplot(aes( likelihood, Label, color = model)) + 
-  facet_wrap(~fleet, scales = "free_x") + 
-  geom_jitter(height = 0.5, width = 0) + 
-  theme(legend.position = "top")
-
-ggsave(here(plot_dir, "likelihoods_all.png"), height = 6, width = 9, units = "in", scale = 1.4)
-
-# Likelihood-ratio test of 2011-2016 retention block
-pchisq(2 * (models_ss$likelihoods$replist4[1] - models_ss$likelihoods$replist5[1]), df = 4, lower.tail = FALSE)
 
 # Fits to discards, log-scale 
 SR_run <- SS_output(SRdir, covar=TRUE)
+dir.create(plot_dir <- here(blockdir, "plots"))
 discards <- bind_rows(list(
   "+ Updated bias-adjustment ramp" = filter(SR_run$discard, Fleet_Name == "MidwaterTrawl"), 
   "+ Midwater block, 2011-2016" = filter(block_run$discard, Fleet_Name == "MidwaterTrawl")
@@ -318,3 +289,40 @@ ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(blockdir, Base2025, overwrite = TRUE)
 
+# Bridging plots ------------------------------------------
+
+# List directories and model names
+models <- c(
+  "2019 model" = here("models", "data_bridging", "bridge_1_ss3_ver_ctl_files", "widow_2019_ss_v3_30_23_new_ctl"),
+  "update catch" = here(databridge_dir, "add_catches"),
+  "update discards" = here(databridge_dir, "add_discards"),
+  "update indices" = here(databridge_dir, "add_indices"),
+  "update age / length comp." = basedir, 
+  "model bridging" = blockdir
+)
+
+# Plotting takes a long time, so do in parallel
+cl <- parallel::makeCluster(length(models))
+
+# Export required objects and packages
+parallel::clusterEvalQ(cl, library(r4ss)) 
+parallel::clusterExport(cl, c("models", "launch_html"))
+
+# Run the parallel loop
+combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = function(x) {
+  replist <- r4ss::SS_output(x, covar = FALSE)
+  r4ss::SS_plots(replist = replist, dir = x, html = launch_html)
+  replist
+})
+
+parallel::stopCluster(cl) # close the cluster
+names(combined_models_list) <- names(models) #name the replists
+
+# Plot comparisons
+compare_ss3_mods(
+  replist = combined_models_list,
+  plot_dir = here("figures", "bridging"),
+  plot_names = names(models), 
+  filenameprefix = "bridging_", 
+  legendloc = c(0.05, 0.7)
+)

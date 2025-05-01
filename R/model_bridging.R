@@ -301,14 +301,14 @@ discards <- bind_rows(list(
 
 discards |>  
   ggplot(aes(Yr)) + 
-  geom_pointrange(aes(y = log(Exp), ymin = log(Exp) - Std_use, ymax = log(Exp) + Std_use, color = model), 
-                  position = position_dodge(width = 0.4), size = 0.25) + 
-  geom_point(aes(y = log(Obs))) + 
-  labs(x = "Year", y = "log(discards)") + 
+  geom_point(aes(y = log(Exp), color = model), position = position_dodge(width = 0.5)) + 
+  geom_pointrange(aes(y = log(Obs), ymin = log(Obs) - Std_use, ymax = log(Obs) + Std_use, color = "observed"), size = 0.25) + 
+  labs(x = "Year", y = "log(discards)", color = "source") + 
   guides(color = guide_legend(reverse = TRUE)) +
   scale_x_continuous(breaks = seq(1984, 2024, 4)) + 
   theme_bw() +
-  theme(legend.position = "bottom", panel.grid.minor.x = element_blank())
+  theme(legend.position = "bottom", panel.grid.minor.x = element_blank()) + 
+  scale_color_manual(values = c(r4ss::rich.colors.short(4)[c(2, 4)], "black"))
 
 ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 

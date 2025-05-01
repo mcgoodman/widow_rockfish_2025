@@ -3,25 +3,11 @@ library("tidyverse")
 library("r4ss")
 library("here")
 
-### Basics: ID base model, directories, etc --------------------
+# Basics: ID base model, directories, etc ---------------------------
 
 wd <- here()
 
-#' Wrapper for r4ss::get_ss3_exe to check for, download, and return name of SS3 exe file
-#' @param dir directory to install SS3 in
-#' @param ... Other arguments to `r4ss::get_ss3_exe`
-#'
-#' @return Character string with name of downloaded SS3 exe (without extension)
-set_ss3_exe <- function(dir, ...) {
-  
-  # Get and set filename for SS3 exe
-  ss3_exe <- c("ss", "ss3")
-  ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1))
-  if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
-  ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1)))]
-  return(ss3_exe)
-  
-}
+source(here("R", "functions", "bridging_functions.R"))
 
 # Whether to re-run previously fitted models
 rerun <- FALSE
@@ -49,9 +35,9 @@ if (!dir.exists(base_ctl_dir)) {
   )
 }
 
-### Sensitivty run 1: Fixed mortality --------------------------
+# Run 1: Fixed mortality --------------------------------------------
 
-# step 1: Create outputs by copying and modifying base model ------------------------
+## step 1: Create outputs by copying and modifying base model -------
 
 mort_sens_dir <- here(wd, "models", "sensitivites", "fixed_mortality_01")
 
@@ -63,7 +49,8 @@ if (!dir.exists(mort_sens_dir)) {
   
 }
 
-# step 2: modify control file (or other relavent file changes, data/starter/control wise) ------------------------
+## step 2: modify control file --------------------------------------
+# (or other relavent file changes, data/starter/control wise)
 # aiming to fix male and female natural mortality to 0.1
 # 61: 0.01 0.3	0.144401 -2.3	0.31 3 5	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1
 # 73: 0.01 0.3	0.154867 -2.3	0.31 3 5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1 
@@ -74,7 +61,7 @@ ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$INIT <- 0.1
 ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE <- -1*ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE
 SS_writectl(ctrl, here(mort_sens_dir, "2025widow.ctl"), overwrite = T)
 
-# step 3: run, without hess for now -----------------
+## step 3: run, without hess for now --------------------------------
 
 ss3_exe <- set_ss3_exe(mort_sens_dir) # make exectuable
 
@@ -96,8 +83,9 @@ replist <- SS_output( # make the output files
 # can look at plots here, but can skip for now, bc will have as comparision plots (below)
 # SS_plots(replist, dir = mort_sens_dir, printfolder = "R_Plots")
 
-### Sensitivty run 2: Fixed mortality, diff for M/F --------------------------
-# step 1: Create outputs by copying and modifying base model ------------------------
+# Run 2: Fixed mortality, diff for M/F ------------------------------
+
+## step 1: Create outputs by copying and modifying base model -------
 
 mort_diff_sens_dir <- here(wd, "models", "sensitivites", "fixed_mortality_0124_0129")
 
@@ -109,7 +97,8 @@ if (!dir.exists(mort_diff_sens_dir)) {
   
 }
 
-# step 2: modify control file (or other relavent file changes, data/starter/control wise) ------------------------
+## step 2: modify control file --------------------------------------
+# (or other relavent file changes, data/starter/control wise)
 # aiming to fix natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males
 # 61: 0.01 0.3	0.144401 -2.3	0.31 3 5	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1
 # 73: 0.01 0.3	0.154867 -2.3	0.31 3 5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1 
@@ -120,7 +109,7 @@ ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$INIT <- 0.129
 ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE <- -1*ctrl$MG_parms[row.names(ctrl$MG_parms) == "NatM_p_1_Mal_GP_1", ]$PHASE
 SS_writectl(ctrl, here(mort_diff_sens_dir, "2025widow.ctl"), overwrite = T)
 
-# step 3: run, without hess for now -----------------
+## step 3: run, without hess for now --------------------------------
 
 ss3_exe <- set_ss3_exe(mort_diff_sens_dir) # make exectuable
 
@@ -142,7 +131,7 @@ replist <- SS_output( # make the output files
 # can look at plots here, but can skip for now, bc will have as comparision plots (below)
 # SS_plots(replist, dir = mort_sens_dir, printfolder = "R_Plots")
 
-### Comparision plots --------------------------
+# Comparison plots --------------------------------------------------
 
 labels <- c(
   "Year", "Spawning biomass (t)", "Relative spawning biomass", "Age-0 recruits (1,000s)",

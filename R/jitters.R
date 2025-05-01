@@ -78,12 +78,12 @@ ggsave(here("figures/diagnostics", "jitter_comparison.png"), width = 6, height =
 run_summary <- data.frame(run = 1:njitters, loglike = jitter_loglike)
 below_base <- run_summary %>%
   filter(loglike < base_like)
-min(jitter_loglike)  # lowest loglikelihood of 7905.46 (base is 7912.2 for this run)
+min(jitter_loglike)  # lowest loglikelihood of 7664.19, base: 7666.16  (previous time: 7905.46 (base is 7912.2 for this run)
 
 
 # Compare parameters and outputs for lower LL-----------------------------------
 # Find lowest likelihood model(s)
-min_run <- run_summary %>% filter(loglike == min(jitter_loglike))  # 8 runs that hit this minimum
+min_run <- run_summary %>% filter(loglike == min(jitter_loglike))  # 6 runs that hit this minimum
 
 # Read in and summarize model output for those minimum likelihood runs
 min_mods <- SSgetoutput(
@@ -128,7 +128,8 @@ base_min_pars_comp <- base_min_pars %>%
   mutate(perc_diff = (minLL-base)/base)
 
 # Which have are more than 10% different?
-diff_pars <- base_min_pars_comp %>% filter(perc_diff >= 0.1 | perc_diff <= -0.1)
+perc_diff_cutoff <- 0.1
+diff_pars <- base_min_pars_comp %>% filter(perc_diff >= perc_diff_cutoff | perc_diff <= -perc_diff_cutoff)
 write.csv(diff_pars, file = here(jitter_dir, "base_vs_minLL_most_different_parameter_estimates.csv"), row.names = FALSE)
 
 

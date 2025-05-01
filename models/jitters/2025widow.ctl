@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-28  10:23:10
+#C file write time: 2025-04-30  19:10:12
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -16,8 +16,8 @@
 #_Cond 1.0 # first age that moves (real age at begin of season, not integer) also cond on do_migration>0
 #_Cond 1 1 1 2 4 10 # example move definition for seas=1, morph=1, source=1 dest=2, age1=4, age2=10
 #
-11 #_Nblock_Patterns
-3 2 1 1 1 1 3 1 1 1 1 #_blocks_per_pattern
+12 #_Nblock_Patterns
+3 2 1 1 1 1 3 1 1 1 1 4 #_blocks_per_pattern
 #_begin and end years of blocks
 1982 1989 1990 1997 1998 2010
 1982 1989 1990 2010
@@ -29,7 +29,8 @@
 1915 1915
 1995 2004
 1991 1998
-1916 2018
+1916 2019
+1916 1982 1983 2001 2002 2010 2011 2016
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
@@ -109,11 +110,11 @@
 4 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1962.2381 #_last_yr_nobias_adj_in_MPD; begin of ramp
-1976.3359 #_first_yr_fullbias_adj_in_MPD; begin of plateau
-2016.8958 #_last_yr_fullbias_adj_in_MPD
-2024.6462 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-0.8565 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+1962.8692 #_last_yr_nobias_adj_in_MPD; begin of ramp
+1975.4075 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+2016.8966 #_last_yr_fullbias_adj_in_MPD
+2024.4548 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+0.8526 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -205,7 +206,7 @@
     -9	 9	 -0.614281	0.5	0.05	0	  4	0	0	0	0	0.5	 7	2	#_SizeSel_P_6_MidwaterTrawl(2)      
     -5	60	        -5	  0	  99	0	 -9	0	0	0	0	  0	 0	0	#_SizeSel_PRet_1_MidwaterTrawl(2)   
   0.01	 8	       1.2	  1	  99	0	 -9	0	0	0	0	  0	 0	0	#_SizeSel_PRet_2_MidwaterTrawl(2)   
-   -10	10	   4.59512	 10	  99	0	 -2	0	0	0	0	  0	 7	2	#_SizeSel_PRet_3_MidwaterTrawl(2)   
+   -10	10	   4.59512	 10	  99	0	  2	0	0	0	0	  0	12	2	#_SizeSel_PRet_3_MidwaterTrawl(2)   
    -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_MidwaterTrawl(2)   
     10	59	   43.2065	 45	0.05	0	  1	0	0	0	0	0.5	11	2	#_SizeSel_P_1_Hake(3)               
     -5	10	   2.50295	  5	0.05	0	  3	0	0	0	0	0.5	11	2	#_SizeSel_P_2_Hake(3)               
@@ -252,35 +253,36 @@
 0	50	40	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_2_NWFSC(8)    
 # timevary selex parameters 
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
-  10	59	  39.3021	 45	0.05	0	 1	#_SizeSel_P_1_BottomTrawl(1)_BLK4repl_1916     
-  -4	12	  3.46297	  3	0.05	0	 2	#_SizeSel_P_3_BottomTrawl(1)_BLK4repl_1916     
-  -5	50	  26.7803	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1982  
-  -5	50	  25.7623	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1990  
-0.01	 5	 0.998554	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1982  
-0.01	 5	  1.79122	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1990  
- -10	10	  1.71493	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1982  
- -10	10	 0.673116	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1990  
- -10	10	 0.085133	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1998  
-  10	59	  38.7217	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1916   
-  10	59	  38.0921	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1983   
-  10	59	  37.5949	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002   
-  -4	12	  3.35403	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1916   
-  -4	12	  3.07871	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1983   
-  -4	12	  2.83281	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002   
-  -2	10	  4.30674	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916   
-  -2	10	  3.15164	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983   
-  -2	10	 -1.63262	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002   
-  -9	 9	 -2.32627	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916   
-  -9	 9	-0.454742	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983   
-  -9	 9	  1.74863	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002   
- -10	10	   4.5912	 10	  99	0	-2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_1916
- -10	10	  1.65362	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_1983
- -10	10	   1.8541	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_2002
-  10	59	  43.2065	 45	0.05	0	 1	#_SizeSel_P_1_Hake(3)_BLK11repl_1916           
-  -5	10	  2.50295	  5	0.05	0	 3	#_SizeSel_P_2_Hake(3)_BLK11repl_1916           
-  -4	12	  3.72893	  3	0.05	0	 2	#_SizeSel_P_3_Hake(3)_BLK11repl_1916           
-  15	59	  37.9869	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916             
-  -4	12	  3.86062	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916             
+  10	59	  39.3021	 45	0.05	0	 1	#_SizeSel_P_1_BottomTrawl(1)_BLK4repl_1916      
+  -4	12	  3.46297	  3	0.05	0	 2	#_SizeSel_P_3_BottomTrawl(1)_BLK4repl_1916      
+  -5	50	  26.7803	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1982   
+  -5	50	  25.7623	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1990   
+0.01	 5	 0.998554	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1982   
+0.01	 5	  1.79122	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1990   
+ -10	10	  1.71493	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1982   
+ -10	10	 0.673116	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1990   
+ -10	10	 0.085133	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1998   
+  10	59	  38.7217	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1916    
+  10	59	  38.0921	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1983    
+  10	59	  37.5949	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002    
+  -4	12	  3.35403	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1916    
+  -4	12	  3.07871	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1983    
+  -4	12	  2.83281	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002    
+  -2	10	  4.30674	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916    
+  -2	10	  3.15164	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983    
+  -2	10	 -1.63262	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002    
+  -9	 9	 -2.32627	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916    
+  -9	 9	-0.454742	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983    
+  -9	 9	  1.74863	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002    
+ -10	10	   4.5912	 10	  99	0	-2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_1916
+ -10	10	  1.65362	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_1983
+ -10	10	   1.8541	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_2002
+ -10	10	   1.8541	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_2011
+  10	59	  43.2065	 45	0.05	0	 1	#_SizeSel_P_1_Hake(3)_BLK11repl_1916            
+  -5	10	  2.50295	  5	0.05	0	 3	#_SizeSel_P_2_Hake(3)_BLK11repl_1916            
+  -4	12	  3.72893	  3	0.05	0	 2	#_SizeSel_P_3_Hake(3)_BLK11repl_1916            
+  15	59	  37.9869	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916              
+  -4	12	  3.86062	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916              
 # info on dev vectors created for selex parms are reported with other devs after tag parameter section
 #
 0 #  use 2D_AR1 selectivity(0/1):  experimental feature
@@ -291,19 +293,19 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	1	0.055622	#_Variance_adjustment_list1 
-    4	2	0.205311	#_Variance_adjustment_list2 
-    4	3	 0.12539	#_Variance_adjustment_list3 
-    4	4	0.498796	#_Variance_adjustment_list4 
-    4	5	0.335272	#_Variance_adjustment_list5 
-    4	7	0.372094	#_Variance_adjustment_list6 
-    4	8	0.654305	#_Variance_adjustment_list7 
-    5	1	 0.16394	#_Variance_adjustment_list8 
-    5	2	0.275368	#_Variance_adjustment_list9 
-    5	3	0.248038	#_Variance_adjustment_list10
-    5	4	0.499382	#_Variance_adjustment_list11
-    5	5	0.516553	#_Variance_adjustment_list12
-    5	8	0.296287	#_Variance_adjustment_list13
+    4	1	0.055764	#_Variance_adjustment_list1 
+    4	2	0.205413	#_Variance_adjustment_list2 
+    4	3	0.128981	#_Variance_adjustment_list3 
+    4	4	0.498922	#_Variance_adjustment_list4 
+    4	5	0.371613	#_Variance_adjustment_list5 
+    4	7	0.372304	#_Variance_adjustment_list6 
+    4	8	0.655393	#_Variance_adjustment_list7 
+    5	1	0.163809	#_Variance_adjustment_list8 
+    5	2	0.273415	#_Variance_adjustment_list9 
+    5	3	0.251329	#_Variance_adjustment_list10
+    5	4	  0.4993	#_Variance_adjustment_list11
+    5	5	0.546572	#_Variance_adjustment_list12
+    5	8	0.295467	#_Variance_adjustment_list13
 -9999	0	       0	#_terminator                
 #
 1 #_maxlambdaphase

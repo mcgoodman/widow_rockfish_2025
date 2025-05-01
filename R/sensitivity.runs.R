@@ -8,6 +8,8 @@ library("tidyverse")
 library("r4ss")
 library("here")
 
+source(here("R", "functions", "bridging_functions.R"))
+
 wd <- here()
 
 files <- list.files(here(wd, "R", "functions"), full.names = TRUE)
@@ -15,24 +17,6 @@ lapply(files, source)
 
 skip_finished <- FALSE
 launch_html <- TRUE
-
-
-
-#' Wrapper for r4ss::get_ss3_exe to check for, download, and return name of SS3 exe file
-#' @param dir directory to install SS3 in
-#' @param ... Other arguments to `r4ss::get_ss3_exe`
-#'
-#' @return Character string with name of downloaded SS3 exe (without extension)
-set_ss3_exe <- function(dir, ...) {
-  
-  # Get and set filename for SS3 exe
-  ss3_exe <- c("ss", "ss3")
-  ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1))
-  if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
-  ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1)))]
-  return(ss3_exe)
-  
-}
 
 # Whether to re-run previously fitted models
 rerun <- FALSE

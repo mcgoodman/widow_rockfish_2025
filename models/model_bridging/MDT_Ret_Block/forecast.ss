@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-30  17:36:25
+#C file write time: 2025-05-01  14:19:13
 #
 1 #_benchmarks
 2 #_MSY
@@ -50,7 +50,7 @@
       1     1 0.003306009
       1     2 0.862548985
       1     3 0.133896572
-      1     4 0.000000000
+      1     4 0.000100000
       1     5 0.000248434
 -9999 0 0
 # enter list of fleet number and max for fleets with max annual catch; terminate with fleet=-9999

@@ -218,7 +218,9 @@ update_ss3_dat <- function(new_dir, base_dir = here(wd, 'models', '2019 base mod
   cat("Model files written to: ",new_dir)
   
   #Set the executable
-  file.copy(file.path(base_dir,"ss3.exe"),to = file.path(new_dir,"ss3.exe"))
+  ss3_exe <- paste0(rep(c("ss", "ss3", "ss_osx"), 2), rep(c("", ".exe"), each = 3))
+  ss3_exe <- ss3_exe[file.exists(file.path(base_dir, ss3_exe))]
+  file.copy(file.path(base_dir, ss3_exe), to = file.path(new_dir, ss3_exe))
   
   if(run_after_write == TRUE){
     cat("running model...")

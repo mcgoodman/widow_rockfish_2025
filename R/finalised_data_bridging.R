@@ -71,9 +71,9 @@ nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_com
          fleet = rep(8))
 
 #discard lcomps - think wcgop
-discard_lcomps <- read.csv(here("data_derived","discards","discard_length_comps.csv"))|>
+discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_no-midwater.csv")) |>
   #rename(part = part,input_n = Nsamp)|>
-  select(!X) #drop weird rownumber column from excel
+  select(-X) #drop weird rownumber column from excel
   
 
 lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
@@ -268,12 +268,9 @@ model_temp <- NULL#Wipe model to be safe
 
 SS_plots(SS_output(acomp_dir))
 
-
-
 ############ Model tuning ##############
 # All data has been added, so do a couple of tuning runs, and apply the 0.5 multiplier
 ########################################
-
 
 retune_reweight_ss3(base_model_dir = acomp_dir, 
                                 output_dir = main_dir, 
@@ -282,40 +279,6 @@ retune_reweight_ss3(base_model_dir = acomp_dir,
                                 keep_tuning_runs = TRUE,
                                 lambda_weight = 0.5, 
                                 marg_comp_fleets = c(1,2,3,4,5))
-
-
-#### Summarise and compare models ########
-
-models <- c(
-    "2019 model" = model_2019,
-    "+ catches" = catch_dir,
-    "+ discards" = discard_dir,
-    "+ indices" = index_dir,
-    "+ length comp." = lcomp_dir,
-    "+ age comp." = acomp_dir,
-    "+ retune / reweight" = here(main_dir, "add_acomps_reweighted")
-  )
-
-## Plotting takes a long time, so do in parallel
-cl <- parallel::makeCluster(length(models)) #make a cluster (add 1 for base model)
-
-parallel::clusterEvalQ(cl, library(r4ss)) #export required objects and packages
-parallel::clusterExport(cl, c("models"))
-
-#Run the parallel loop
-combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = function(x) {
-    replist <- r4ss::SS_output(x, covar = FALSE)
-    r4ss::SS_plots(replist = replist, dir = x)
-    replist
-})
-
-parallel::stopCluster(cl) # close the cluster
-names(combined_models_list) <- names(models) #name the replists
-
-## PLOT COMPARISONS
-compare_ss3_mods(replist = combined_models_list,
-                 plot_dir = here(main_dir,"data_bridge_compare_plots"),
-                 plot_names = names(models))
 
 
 ##Make a copy of the final model

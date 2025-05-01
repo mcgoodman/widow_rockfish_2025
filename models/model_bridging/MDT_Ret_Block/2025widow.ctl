@@ -1,10 +1,10 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-30  19:10:12
+#C file write time: 2025-05-01  14:19:12
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
 1 #_N_platoons_Within_GrowthPattern
-2 # recr_dist_method for parameters
+4 # recr_dist_method for parameters
 1 # not yet implemented; Future usage:Spawner-Recruitment; 1=global; 2=by area
 1 # number of recruitment settlement assignments 
 0 # unused option
@@ -79,9 +79,6 @@
  0.01	     0.4	0.0542116	 0.04	  99	0	  3	0	0	0	0	0	0	0	#_CV_old_Mal_GP_1    
    -3	       3	 1.45e-05	    0	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_1_Mal_GP_1   
    -3	      10	     3.01	3.005	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_2_Mal_GP_1   
-    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_RecrDist_GP_1      
-    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_RecrDist_Area_1    
-    0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_RecrDist_month_1   
     0	       2	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_CohortGrowDev      
 1e-06	0.999999	      0.5	  0.5	 0.5	0	-99	0	0	0	0	0	0	0	#_FracFemale_GP_1    
 #_no timevary MG parameters
@@ -222,7 +219,7 @@
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_Net(4)                
     10	59	   17.5003	 45	0.05	0	  5	0	0	0	0	0.5	 5	2	#_SizeSel_P_1_HnL(5)                
     -5	10	   -1.7446	  5	0.05	0	  3	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_HnL(5)                
-    -5	12	  -2.48616	  3	0.05	0	  2	0	0	0	0	0.5	 5	2	#_SizeSel_P_3_HnL(5)                
+    -5	12	        -5	  3	0.05	0	 -2	0	0	0	0	0.5	 5	2	#_SizeSel_P_3_HnL(5)                
     -2	10	         9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_HnL(5)                
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_HnL(5)                
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_HnL(5)                

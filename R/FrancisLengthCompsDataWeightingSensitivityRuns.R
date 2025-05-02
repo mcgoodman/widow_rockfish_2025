@@ -155,7 +155,7 @@ if (!dir.exists(MidwaterTrawlLenComp_dir)) {
   
   dir.create(MidwaterTrawlLenComp_dir, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(BottomTrawlLenComp_dir, MidwaterTrawlLenComp_dir)
+  r4ss::copy_SS_inputs(finBasedir, MidwaterTrawlLenComp_dir)
   
 }
 
@@ -195,7 +195,7 @@ if (!dir.exists(HakeLenComp_dir)) {
   
   dir.create(HakeLenComp_dir, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(MidwaterTrawlLenComp_dir, HakeLenComp_dir)
+  r4ss::copy_SS_inputs(finBasedir, HakeLenComp_dir)
   
 }
 
@@ -235,7 +235,7 @@ if (!dir.exists(NetLenComp_dir)) {
   
   dir.create(NetLenComp_dir, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(HakeLenComp_dir, NetLenComp_dir)
+  r4ss::copy_SS_inputs(finBasedir, NetLenComp_dir)
   
 }
 
@@ -275,7 +275,7 @@ if (!dir.exists(HnLLenComp_dir)) {
   
   dir.create(HnLLenComp_dir, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(NetLenComp_dir, HnLLenComp_dir)
+  r4ss::copy_SS_inputs(finBasedir, HnLLenComp_dir)
   
 }
 
@@ -315,7 +315,7 @@ if (!dir.exists(TriennialLenComp_dir)) {
   
   dir.create(TriennialLenComp_dir, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(HnLLenComp_dir, TriennialLenComp_dir)
+  r4ss::copy_SS_inputs(finBasedir, TriennialLenComp_dir)
   
 }
 
@@ -355,7 +355,7 @@ if (!dir.exists(NWFSCLenComp_dir)) {
   
   dir.create(NWFSCLenComp_dir, recursive = TRUE)
   
-  r4ss::copy_SS_inputs(TriennialLenComp_dir, NWFSCLenComp_dir)
+  r4ss::copy_SS_inputs(finBasedir, NWFSCLenComp_dir)
   
 }
 

@@ -1,0 +1,398 @@
+rm(list=ls())  # Clears environment
+gc()  # Runs garbage collection
+
+# Install r4ss
+# devtools::install_github("https://github.com/r4ss/r4ss.git")
+
+library("tidyverse")
+library("r4ss")
+library("here")
+
+wd <- here()
+
+files <- list.files(here(wd, "R", "functions"), full.names = TRUE)
+lapply(files, source)
+
+skip_finished <- FALSE
+launch_html <- TRUE
+
+#' Wrapper for r4ss::get_ss3_exe to check for, download, and return name of SS3 exe file
+#' @param dir directory to install SS3 in
+#' @param ... Other arguments to `r4ss::get_ss3_exe`
+#'
+#' @return Character string with name of downloaded SS3 exe (without extension)
+set_ss3_exe <- function(dir, ...) {
+  
+  # Get and set filename for SS3 exe
+  ss3_exe <- c("ss", "ss3")
+  ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1))
+  if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
+  ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), 
+                                  logical(1)))]
+  return(ss3_exe)
+  
+}
+
+# Whether to re-run previously fitted models
+rerun <- FALSE
+
+# Name of model direct
+model_directory <- 'models'
+
+# Create executable
+ss3_exe <- set_ss3_exe("models", version = "v3.30.23")
+
+# Save executable location
+exe_loc <- here(model_directory, ss3_exe)
+
+# Base model name
+base_model_name <- '2025 base model'
+
+# ------------------------------------------------------------------------------
+# 2025 Base Model (only if not already run!)
+# ------------------------------------------------------------------------------
+
+# Read in the base file
+run_base_model <- here(model_directory, base_model_name)
+
+# run model
+r4ss::run(
+  dir = run_base_model, # make sure to edit the directory
+  exe = exe_loc,
+  extras = "-nohess", # no hess for now
+  show_in_console = TRUE,
+  skipfinished = !rerun
+)
+
+# Get r4ss output
+replist <- SS_output( # make the output files
+  dir = run_base_model,
+  verbose = TRUE,
+  printstats = TRUE,
+  covar = TRUE
+)
+
+# ------------------------------------------------------------------------------
+# If 2025 Base Model is run
+# ------------------------------------------------------------------------------
+
+# Read base model if made
+base_model <- SS_read(file.path(model_directory, base_model_name), 
+                      ss_new = FALSE)
+
+# Where Outputs are stored
+base_out <- SS_output(file.path(model_directory, base_model_name))
+
+# ------------------------------------------------------------------------------
+# Write sensitivities 
+# ------------------------------------------------------------------------------
+
+## Weighting composition data with Francis Method ------------------------------
+
+### step 1: Create outputs by copying input files 
+
+r4ss::copy_SS_inputs(dir.old = file.path(model_directory, base_model_name), 
+                       dir.new = file.path(model_directory, "sensitivities", 
+                                           "Francis"))
+
+#### copy over the Report file 
+file.copy(from = file.path(model_directory, base_model_name,
+                           c('Report.sso', 'CompReport.sso', 
+                             'warning.sso')), 
+          to = file.path(model_directory, "sensitivities", 
+                         "Francis", c('Report.sso', 'CompReport.sso',
+                                      'warning.sso')),
+          overwrite = TRUE)
+
+### step 2: Run function tune_comps
+
+#### Run Francis data weighting, and tune original model method in 1 go. 
+#### Note that the original model must have been previously run with Stock 
+#### Synthesis, so that a report file is available.
+tune_comps(
+  dir = file.path(model_directory, "sensitivities", 
+                  "Francis"),
+  option = "Francis",
+  exe = exe_loc,
+  extras = "-nohess",
+  verbose = FALSE,
+  niters_tuning = 3, 
+)
+
+## Fixing mortality at 2019 selectivity values ---------------------------------
+
+### Step 1: Copy base model
+
+sensi_mod <- base_model
+
+### Step 2: Apply sensitivity changes
+
+### Step 3: Save sensitivity as new model
+
+SS_write(sensi_mod, file.path("models", "sensitivities", "FixedFMort2019"),
+         overwrite = TRUE)
+
+## Forcing asymptotic selectivity on the midwater trawl fleet ------------------
+
+### Step 1: Copy base model
+
+sensi_mod <- base_model
+
+### Step 2: Apply sensitivity changes
+
+### Step 3: Save sensitivity as new model
+
+SS_write(sensi_mod, file.path("models", "sensitivities", "AsympSelMidwaterTrawl"),
+         overwrite = TRUE)
+
+## Fitting logistic curves for survey selectivities ----------------------------
+
+### Step 1: Copy base model
+
+sensi_mod <- base_model
+
+### Step 2: Apply sensitivity changes
+
+### Step 3: Save sensitivity as new model
+
+SS_write(sensi_mod, file.path("models", "sensitivities", "LogisCurvSurvSel"),
+         overwrite = TRUE)
+
+## Inclusion vs. exclusion of shrimp trawl catches -----------------------------
+
+# Step 1: Copy base model
+
+sensi_mod <- base_model
+
+### Step 2: Apply sensitivity changes
+
+### Step 3: Save sensitivity as new model
+
+SS_write(sensi_mod, file.path("models", "sensitivities", "ShrmpNoShrmp"),
+         overwrite = TRUE)
+
+## Any issues noted in the STAR or SSC reports ----------------------------
+
+### Step 1: Copy base model
+sensi_mod <- base_model
+
+### Step 2: Apply sensitivity changes
+
+### Step 3: Save sensitivity as new model
+
+SS_write(sensi_mod, file.path("models", "sensitivities", "StarSscSens"),
+         overwrite = TRUE)
+
+# Run stuff ---------------------------------------------------------------
+
+# List where sensitivity models are
+sensi_dirs <- list.files(file.path("models", "sensitivities"))
+
+# Search for weighting character string in sensi_mods
+tuning_mods <- grep("weighting", sensi_mods)
+
+future::plan(future::multisession(workers = parallelly::availableCores(omit = 1)))
+
+#-------------------------------------------------------------------------------
+# Only needed if updating indices in sensitivity runs
+#-------------------------------------------------------------------------------
+
+# furrr::future_map(sensi_dirs[-tuning_mods], \(x) 
+#                   run(file.path("models", 'sensitivities ', x), 
+#                       exe = exe_loc, extras = '-nohess', skipfinished = FALSE)
+# )
+
+# Indices sensitivities used in yelloweye rock fish assessment begin here-------
+
+#furrr::future_map(c('nonlinear_q', 'oceanographic_index'), \(x) 
+#                  run(file.path("models", 'sensitivities ', x), 
+#                      exe = exe_loc, extras = '-nohess', skipfinished = FALSE)
+#)
+#
+#future::plan(future::sequential)
+
+
+# Plot stuff --------------------------------------------------------------
+
+
+## function ----------------------------------------------------------------
+
+make_detailed_sensitivities  <- function(biglist, mods, 
+                                       outdir, grp_name) {
+  
+  shortlist <- big_sensitivity_output[c('base', mods$dir)] |>
+    r4ss::SSsummarize() 
+  
+  r4ss::SSplotComparisons(shortlist,
+                          subplots = c(2,4, 18), 
+                          print = TRUE,  
+                          plot = FALSE,
+                          plotdir = outdir, 
+                          filenameprefix = grp_name,
+                          legendlabels = c('Base', mods$pretty), 
+                          endyrvec = 2036)
+  
+  SStableComparisons(shortlist, 
+                     modelnames = c('Base', mods$pretty),
+                     names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SmryBio_unfished", "SSB_Virg",
+                              "SSB_2025", "Bratio_2025", "SPRratio_2024", "LnQ_base_WCGBTS"),
+                     likenames = c(
+                       "TOTAL", "Survey", "Length_comp", "Age_comp",
+                       "Discard", "Mean_body_wt", "Recruitment", "priors"
+                     )
+  ) |>
+    # dplyr::filter(!(Label %in% c('NatM_break_1_Fem_GP_1',
+    #                              'NatM_break_1_Mal_GP_1', 'NatM_break_2_Mal_GP_1')),
+    #               Label != 'NatM_uniform_Mal_GP_1' | any(grep('break', Label)),
+    #               Label != 'SR_BH_steep' | any(grep('break', Label))) |>
+    # dplyr::mutate(dplyr::across(-Label, ~ sapply(., format, digits = 3, scientific = FALSE) |>
+    #                               stringr::str_replace('NA', ''))) |>
+    `names<-`(c('Label', 'Base', mods$pretty)) |>
+    write.csv(file.path(outdir, paste0(grp_name, '_table.csv')), 
+              row.names = FALSE)
+  
+}
+
+
+#-------------------------------------------------------------------------------
+# Grouped plots
+#-------------------------------------------------------------------------------
+
+## If testing model parameter sensitivities ------------------------------------
+
+modeling <- data.frame(dir = c('FixedFMort2019', 
+                               'AsympSelMidwaterTrawl',
+                               'LogisCurvSurvSel',
+                               'ShrmpNoShrmp',
+                               'StarSscSens'),
+                       pretty = c('Fixed Fmort to 2019 sensitivity',
+                                  'Midwatertrawl asymptotic selectivity forced',
+                                  'Logistic selectivity curves for surveys',
+                                  'Inclusing of shrimp trawl',
+                                  'Issues noted in star or ssc report' # if any
+                                  ))
+
+## If testing indices sensitivities --------------------------------------------
+
+#indices <- data.frame(dir = c('no_indices',
+#                              'no_smurf',
+#                              'observer_index',
+#                              'oceanographic_index',
+#                              'ORBS',
+#                              'ORBS_SE',
+#                              'RREAS',
+#                              'upweight_wcgbts'),
+#                      pretty = c('No indices',
+#                                 '- SMURF index',
+#                                 '+ WCGOP index',
+#                                 '+ Oceanographic index',
+#                                 '+ ORBS index',
+#                                 '+ ORBS w/added SE',
+#                                 '+ RREAS index',
+#                                 'Decrease WCGBTS CV'
+#                                 ))
+
+## If testing comps data weighting sensitivities -------------------------------
+
+comp_data <- data.frame(dir = c("Francis"),
+                        pretty = c('Francis weighting'))
+
+## Put it all together ---------------------------------------------------------
+
+sens_names <- bind_rows(modeling,
+                        #indices,
+                        comp_data)
+
+big_sensitivity_output <- 
+  SSgetoutput(dirvec = file.path("models",
+                                 c("2025 base model",
+                                   glue::glue("sensitivities/{subdir}",
+                                              subdir = sens_names$dir)))) |>
+  `names<-`(c('base', sens_names$dir))
+
+## Test to make sure they all read correctly -----------------------------------
+
+which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
+
+sens_names_ls <- list(modeling = modeling,
+                      #indices = indices,
+                      comp_data = comp_data)
+
+outdir <- 'report/figures/sensitivities '
+
+purrr::imap(sens_names_ls, \(sens_df, grp_name) 
+            make_detailed_sensitivities (biglist = big_sensitivity_output, 
+                                       mods = sens_df, 
+                                       outdir = outdir, 
+                                       grp_name = grp_name))
+
+## Big plot --------------------------------------------------------------------
+
+current.year <- 2025
+CI <- 0.95
+
+sensitivity_output <- SSsummarize(big_sensitivity_output) 
+
+lapply(big_sensitivity_output, function(.)
+  .$warnings[grep('gradient', .$warnings)]) # check gradients
+
+dev.quants.SD <- c(
+  sensitivity_output$quantsSD[sensitivity_output$quantsSD$Label == "SSB_Initial", 1],
+  (sensitivity_output$quantsSD[sensitivity_output$quantsSD$Label == paste0("SSB_", current.year), 1]),
+  sensitivity_output$quantsSD[sensitivity_output$quantsSD$Label == paste0("Bratio_", current.year), 1],
+  sensitivity_output$quantsSD[sensitivity_output$quantsSD$Label == "Dead_Catch_SPR", 1],
+  sensitivity_output$quantsSD[sensitivity_output$quantsSD$Label == "annF_SPR", 1]
+)
+
+dev.quants <- rbind(
+  sensitivity_output$quants[sensitivity_output$quants$Label == "SSB_Initial", 
+                            1:(dim(sensitivity_output$quants)[2] - 2)],
+  sensitivity_output$quants[sensitivity_output$quants$Label == paste0("SSB_", current.year), 
+                            1:(dim(sensitivity_output$quants)[2] - 2)],
+  sensitivity_output$quants[sensitivity_output$quants$Label == paste0("Bratio_", current.year), 
+                            1:(dim(sensitivity_output$quants)[2] - 2)],
+  sensitivity_output$quants[sensitivity_output$quants$Label == "Dead_Catch_SPR", 
+                            1:(dim(sensitivity_output$quants)[2] - 2)],
+  sensitivity_output$quants[sensitivity_output$quants$Label == "annF_SPR", 
+                            1:(dim(sensitivity_output$quants)[2] - 2)]
+) |>
+  cbind(baseSD = dev.quants.SD) |>
+  dplyr::mutate(Metric = c("SB0", paste0("SSB_", current.year), paste0("Bratio_", current.year), "MSY_SPR", "F_SPR")) |>
+  tidyr::pivot_longer(-c(base, Metric, baseSD), names_to = 'Model', values_to = 'Est') |>
+  dplyr::mutate(relErr = (Est - base)/base,
+                logRelErr = log(Est/base),
+                mod_num = rep(1:nrow(sens_names), 5))
+
+metric.labs <- c(
+  SB0 = expression(SB[0]),
+  SSB_2023 = as.expression(bquote("SB"[.(current.year)])),
+  Bratio_2023 = bquote(frac(SB[.(current.year)], SB[0])),
+  MSY_SPR = expression(Yield['SPR=0.50']),
+  F_SPR = expression(F['SPR=0.50'])
+)
+
+CI.quants <- dev.quants |>
+  dplyr::filter(Model == unique(dev.quants$Model)[1]) |>
+  dplyr::select(base, baseSD, Metric) |>
+  dplyr::mutate(CI = qnorm((1-CI)/2, 0, baseSD)/base)
+
+ggplot(dev.quants, aes(x = relErr, y = mod_num, col = Metric, pch = Metric)) +
+  geom_vline(xintercept = 0, linetype = 'dotted') +
+  geom_point() +
+  geom_segment(aes(x = CI, xend = abs(CI), col = Metric,
+                   y = nrow(sens_names) + 1.5 + seq(-0.5, 0.5, length.out = length(metric.labs)),
+                   yend = nrow(sens_names) + 1.5 + seq(-0.5, 0.5, length.out = length(metric.labs))), 
+               data = CI.quants, linewidth = 2, show.legend = FALSE, lineend = 'round') +
+  theme_bw() +
+  scale_shape_manual(
+    values = c(15:18, 12),
+    # name = "",
+    labels = metric.labs
+  ) +
+  # scale_color_discrete(labels = metric.labs) +
+  scale_y_continuous(breaks = 1:nrow(sens_names), name = '', labels = sens_names$pretty, 
+                     limits = c(1, nrow(sens_names) + 2), minor_breaks = NULL) +
+  xlab("Relative change") +
+  viridis::scale_color_viridis(discrete = TRUE, labels = metric.labs)
+ggsave(file.path(outdir, 'sens_summary.png'),  dpi = 300,  
+       width = 6, height = 7, units = "in")

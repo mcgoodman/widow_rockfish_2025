@@ -5,6 +5,7 @@
 library(tidyverse)
 library(r4ss)
 #library(nwfscDiag)
+#library(future)
 library(here)
 
 # Source functions
@@ -18,7 +19,7 @@ jitter_dir <- here("models", "jitters")  # directory to house jitters
 copy_SS_inputs(dir.old = base_dir, dir.new = jitter_dir, overwrite = TRUE) 
 
 # Set number of jitters and jitter fraction
-njitters <- 100  # number of jitters to run
+njitters <- 50  # number of jitters to run
 jitter_frac <- 0.1  # common value to use according to r4ss documentation (https://rdrr.io/github/r4ss/r4ss/man/jitter.html), investigate more?
 
 # Set exe
@@ -39,8 +40,11 @@ base <- SS_output(base_dir)
 
 
 # Run jitters ------------------------------------------------------------------
-# using r4ss, having issues installing nwfscDiag - make this parallel! check future::plan()
-jitter_loglike <- jitter(
+# Set to run parallel
+#future::plan(future::multisession(workers = parallelly::availableCores(omit = 1)))
+
+# Using r4ss, having issues installing nwfscDiag - make this parallel! check future::plan()
+jitter_loglike <- r4ss::jitter(
   dir = jitter_dir,
   Njitter = njitters,
   printlikes = TRUE,
@@ -54,6 +58,9 @@ jitter_loglike <- jitter(
 # could use init_values_src - lets you decide whether to jitter from the par file, might be worth using if convergence issues
 
 saveRDS(jitter_loglike, here("models/jitters", "jitter_loglike.RDS"))
+
+# Set back to sequential processing
+#future::plan(future::sequential)
 
 
 # Compare likelihoods ----------------------------------------------------------
@@ -73,12 +80,22 @@ ggplot(data = like_df, aes(x = run, y = like)) +
 
 ggsave(here("figures/diagnostics", "jitter_comparison.png"), width = 6, height = 5, units = "in")
 
+# Zoomed likelihood
+ggplot(data = like_df %>% filter(like < 8000), aes(x = run, y = like)) +
+  geom_point() +
+  geom_hline(yintercept = base_like) +  # horizontal line at base ll
+  xlab("log likelihood") +
+  theme_bw() +
+  theme(axis.text.x = element_blank())
+
+ggsave(here("figures/diagnostics", "jitter_comparison_zoomed.png"), width = 6, height = 5, units = "in")
+
 
 # See what likelihoods were below the base
 run_summary <- data.frame(run = 1:njitters, loglike = jitter_loglike)
 below_base <- run_summary %>%
   filter(loglike < base_like)
-min(jitter_loglike)  # lowest loglikelihood of 7664.19, base: 7666.16  (previous time: 7905.46 (base is 7912.2 for this run)
+min(jitter_loglike)  # lowest loglikelihood of 7664.50 (others below are at 7664.52), base: 7664.96  (previous time: 7905.46 (base is 7912.2 for this run)
 
 
 # Compare parameters and outputs for lower LL-----------------------------------

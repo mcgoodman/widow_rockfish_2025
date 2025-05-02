@@ -56,3 +56,6 @@ suggested_tuning.ss
 runnumber.ss
 *plotInfoTable*
 *plots_StartTime*
+
+# Whitelist par file from best jitter
+!models/jitters/ss3.par_best.sso

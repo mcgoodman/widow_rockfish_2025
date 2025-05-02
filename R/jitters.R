@@ -149,4 +149,23 @@ perc_diff_cutoff <- 0.1
 diff_pars <- base_min_pars_comp %>% filter(perc_diff >= perc_diff_cutoff | perc_diff <= -perc_diff_cutoff)
 write.csv(diff_pars, file = here(jitter_dir, "base_vs_minLL_most_different_parameter_estimates.csv"), row.names = FALSE)
 
+##### Save the par file from one of the lowest LL jitters to use for re-running the base
+n_min_run <- which.min(jitter_loglike)
+par_name <- paste("ss3.par_", n_min_run, ".sso", sep = "")
+
+# Read in par file from best run
+best_par <- SS_readpar_3.30(
+  parfile = here(jitter_dir, par_name),
+  datsource = here(jitter_dir, "2025widow.dat"),
+  ctlsource = here(jitter_dir, "2025widow.ctl"),
+  verbose = TRUE
+)
+
+# Save it as "ss3.par_best.sso"
+SS_writepar_3.30(
+  parlist = best_par,
+  outfile = here(jitter_dir, "ss3.par_best.sso"),
+  overwrite = TRUE,
+  verbose = TRUE
+)
 

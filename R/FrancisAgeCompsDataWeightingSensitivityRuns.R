@@ -352,8 +352,8 @@ replist <- SS_output( # make the output files
 # list directories
 folders <- here(wd, 'models', c("2025 base model", "sensitivites/BottomTrawlAgeComp", 
                                 "sensitivites/MidwaterTrawlAgeComp", "sensitivites/HakeAgeComp", 
-                                "sensitivites/NetAgeComp", "sensitivites/HnLAgeComp",
-                                "sensitivites/TriennialAgeComp", "sensitivites/NWFSCAgeComp"))
+                                "sensitivites/NetAgeComp", "sensitivites/HnLAgeComp", 
+                                "sensitivites/NWFSCAgeComp"))
 
 # r4ss plots!
 Models <- SSgetoutput(dirvec = folders, getcovar = TRUE)

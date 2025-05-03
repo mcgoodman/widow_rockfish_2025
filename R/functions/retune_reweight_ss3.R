@@ -80,6 +80,13 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
     
     #' Copy executable files to the tuning directory
     exe_files <- list.files(base_model_dir, pattern = "\\.exe$", full.names = TRUE)
+    if (length(exe_files) == 0) {
+      files <- list.files(base_model_dir, full.names = TRUE)
+      exe_files <- files[which(basename(files) %in% c("ss", "ss3", "ss_osx"))]
+      if (length(exe_files) == 0) {
+        stop("no SS3 executable found")
+      }
+    }
     exe_name <- basename(exe_files)
     file.copy(exe_files, to = retune_dir)
     

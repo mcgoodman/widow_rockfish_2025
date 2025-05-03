@@ -7,6 +7,10 @@
 .DS_Store 
 *.lock
 *.html
+*.png
+
+# Whitelist PNG files written to figures directory
+!figures/**/*.png
 
 # Directories
 data_provided/PacFIN/*
@@ -14,13 +18,11 @@ data_provided/wcgop
 mk_scrtach/
 renv/
 
-
 # SS3 files
 admodel.cov
 admodel.dep
 admodel.hes
 *.sso
-*.png
 *.ss_new
 *.tmp
 console.output.txt
@@ -52,4 +54,8 @@ ss3.std
 ss.std
 suggested_tuning.ss
 runnumber.ss
+*plotInfoTable*
+*plots_StartTime*
 
+# Whitelist par file from best jitter
+!models/jitters/ss3.par_best.sso

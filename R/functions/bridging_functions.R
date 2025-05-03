@@ -174,7 +174,7 @@ update_ss3_dat <- function(new_dir, base_dir = here(wd, 'models', '2019 base mod
     
     ctl$N_Block_Designs <- 11
     ctl$blocks_per_pattern <- c(ctl$blocks_per_pattern ,"blocks_per_pattern_12" = 1)
-    ctl$Block_Design[[11]] <- c(1916,2018)
+    ctl$Block_Design[[11]] <- c(1916, 2019)
     
     #Adjust the blocks on hake selx pars 1,2,3
     old_sel_pars <- ctl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),]
@@ -218,7 +218,9 @@ update_ss3_dat <- function(new_dir, base_dir = here(wd, 'models', '2019 base mod
   cat("Model files written to: ",new_dir)
   
   #Set the executable
-  file.copy(file.path(base_dir,"ss3.exe"),to = file.path(new_dir,"ss3.exe"))
+  ss3_exe <- paste0(rep(c("ss", "ss3", "ss_osx"), 2), rep(c("", ".exe"), each = 3))
+  ss3_exe <- ss3_exe[file.exists(file.path(base_dir, ss3_exe))]
+  file.copy(file.path(base_dir, ss3_exe), to = file.path(new_dir, ss3_exe))
   
   if(run_after_write == TRUE){
     cat("running model...")

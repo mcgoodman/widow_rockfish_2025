@@ -14,6 +14,12 @@
 
 ## Regional management considerations
 
+Widow Rockfish have shown latitudinal differences in life-history parameters, which has led past assessment authors to pursue a two-area model. Modelling a stock with two areas is difficult because it requires many assumptions about recruitment distribution, movement, and connectivity, while also splitting data into two areas that reduces sample sizes when compared to a coastwide model. The upside is that it can result in a better model that more accurately predicts regional status. This assessment is a coastwide model because not enough is known about the assumptions that would have to be made for a two-area model. 
+
+It is still important to consider regional differences when making management decisions. Following recent cohorts through time with survey data showed that older fish showed up in the north after younger fish were observed in the south (Figure 2). This may indicate connectivity between the north and the south and that this is truly one stock. However, more investigation is needed.
+
+Widow Rockfish are managed on a coastwide basis and observed more often in the NWFSC WCGBT bottom trawl survey north of latitude 40° 10′ N. Bottom trawl catches in California have historically been as large as in Oregon and larger than in Washington, but recently catches in California have been small. Rockfish Conservation Areas (RCAs) cover a significant proportion of Widow Rockfish habitat, but a midwater trawl fishery is beginning to re-develop that can fish in these areas. Future assessments and management of Widow Rockfish may want to monitor where catches are being taken to make sure that specific areas are not being overexploited. In addition, research on the connectivity along the coast as well as regional differences would help to inform the potential for overfishing specific areas.
+
 ## Research and Data Needs
 
 <!-- 1. Describe progress on Research and Data Needs items identified in the most recent previous stock assessment document and associated STAR panel report.  -->

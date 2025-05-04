@@ -1,5 +1,7 @@
 # Assessment model
 
+An age-structured stock assessment model was used to predict the biomass trajectory of Widow Rockfish with an approach of balancing parsimony with complexity. This allowed for the determination of general trends in the biomass over time without introducing extraneous data partitions that explain little additional variation. The assessment followed the same model structure as the 2015 base assessment.
+
 ## History of modeling approaches
 
 Refer to the most recent full assessment for additional information.

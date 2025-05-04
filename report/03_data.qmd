@@ -1,8 +1,7 @@
 # Data
 
 <!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
-Many sources of data were available for this assessment, including indices of abundance (Table 5), length
-observations, and age observations from fishery-dependent and fishery-independent sources.
+Many sources of data were available for this assessment, including indices of abundance (Table 5), length observations, and age observations from fishery-dependent and fishery-independent sources.
 
 
 
@@ -16,35 +15,25 @@ And copy the text from the files 21s-tri.Rmd and 21s-wcgbts.Rmd
 -->
 
 Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and
-NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science
-Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC
-West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). These surveys employed
-different designs and sampling methodologies, were conducted during different years and time periods
-within years, and included coverage over different areas of the coast. In some instances, the survey
-frequency, depths, and geographic areas covered were not internally consistent within surveys. A brief
-description of each survey is provided below.
-Strata were defined by latitude and depth to analyze the catch-rates, length compositions, and age
-compositions using stratified random sampling theory (Table 6 & Table 7). The latitude and depth breaks
-were chosen based on the design of the survey as well as by looking at biological patterns in relation to
-latitude and depth. Indices of abundance for all of the surveys were derived using model based
-approaches described below.
+NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). These surveys employed different designs and sampling methodologies, were conducted during different years and time periods within years, and included coverage over different areas of the coast. In some instances, the survey frequency, depths, and geographic areas covered were not internally consistent within surveys. A brief description of each survey is provided below. 
 
+Strata were defined by latitude and depth to analyze the catch-rates, length compositions, and age compositions using stratified random sampling theory (Table 6 & Table 7). The latitude and depth breaks were chosen based on the design of the survey as well as by looking at biological patterns in relation to latitude and depth. Indices of abundance for all of the surveys were derived using model based approaches described below.
+
+### \arclong{s-juv}
+
+An update of the coastwide pre-recruit indices of abundance was obtained from Tanya Rogers (SWFSC, pers.comm.). These indices of abundance were estimated using data from three separate midwater trawl surveys for young-of-the-year (YOY) pelagic juvenile rockfish. Identical gear was used by each survey, and combining the data provides the best opportunity to create coastwide indices. Only years that covered waters from 36°N latitude to the U.S./Canada border were used. The indices were constructed using vector-autoregressive spatiotemporal models (Thorson, 2019; Thorson and Barnett, 2017) available within the VAST R package. This method represents an update from the 2015 assessment, which used Delta-GLMM, but both indices provide similar estimates of trend. The index shows a very large number of age-0 fish in 2013 and a moderate value in 2004 (Table 8). Juvenile survey data from 2001-2003 were removed, following the 2015 assessment because only years that covered waters from 36\textdegree N latitude to the U.S./Canada border were used; juvenile survey data from 2010 and 2012 were removed, following the 2019 assessment. 
 
 ### \acrlong{s-tri}
 
 The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and the survey continued until 2004 [@weinberg_2001_2002]. Its basic design was a series of equally-spaced east-to-west transects across the continential shelf from which searches for tows in a specific depth range were initiated. The survey design changed slightly over time. In general, all of the surveys were conducted in the mid summer through early fall. The 1977 survey was conducted from early July through late September. The surveys from 1980 through 1989 were conducted from the middle of July to late September. The 1992 survey was conducted from the middle of July through early October. The 1995 survey was conducted from early June through late August. The 1998 survey was conducted from early June through early August. Finally, the 2001 and 2004 surveys were conducted from May to July.
 
-Haul depths ranged from 91--457 m during the 1977 survey. Due to haul performance issues and truncated sampling with respect to depth, the data from 1977 were omitted from this analysis. The surveys in 1980, 1983, and 1986 covered the U.S. West Coast south to 36.8\textdegree N latitude and a depth range of 55--366 m. The surveys in 1989 and 1992 covered the same depth range but extended the southern range to 34.5\textdegree N (near Point Conception). From 1995 through 2004, the surveys covered the depth range 55--500 m and surveyed south to 34.5\textdegree N. In 2004, the final year of the \gls{s-tri} series, \gls{nwfsc} \gls{fram} conducted the survey following similar protocols to earlier years.
+Haul depths ranged from 91--457 m during the 1977 survey. Due to haul performance issues and truncated sampling with respect to depth, the data from 1977 were omitted from this analysis. The surveys in 1980, 1983, and 1986 covered the U.S. West Coast south to 36.8\textdegree N latitude and a depth range of 55--366 m. The surveys in 1989 and 1992 covered the same depth range but extended the southern range to 34.5\textdegree N (near Point Conception). From 1995 through 2004, the surveys covered the depth range 55--500 m and surveyed south to 34.5\textdegree N. In 2004, the final year of the \gls{s-tri} series, \gls{nwfsc} \gls{fram} conducted the survey following similar protocols to earlier years. 
 
 ### \acrlong{s-wcgbt}
 
 The \gls{s-wcgbt} is based on a random-grid design; covering the coastal waters from a depth of 55--1,280 m [@bradburn_2003_2011]. This design generally uses four industry-chartered vessels per year assigned to a roughly equal number of randomly selected grid cells and divided into two `passes' of the coast. Two vessels fish from north to south during each pass between late May to early October. There were only two vessels used in 2019 and three in 2013, with one of the three that year unable to complete its survey pass due to a government shutdown. No survey occurred in 2020 due to \gls{covid}. This design therefore incorporates both vessel-to-vessel differences in catchability, as well as variance associated with selecting a relatively small number (approximately 700) of possible cells from a very large set of possible cells spread from the Mexican to the Canadian borders. Note that the Survey is not permitted to access the \glspl{cca} in Southern California.
 
-Widow Rockfish are not commonly caught in the WCGBTS. Higher catch rates occur north of 40° N
-latitude and catches are rare south of 36° N latitude (Figure 11). Few large fish are found shallower than
-100 m and few small fish are found in the deeper water of the slope. There is no clear trend in length with
-latitude other than smaller fish tend to occur south of approximately 36° N latitude, and there appears to
-be some very small fish found near 39° N latitude.
+Widow Rockfish are not commonly caught in the WCGBTS. Higher catch rates occur north of 40° N latitude and catches are rare south of 36° N latitude (Figure 11). Few large fish are found shallower than 100 m and few small fish are found in the deeper water of the slope. There is no clear trend in length with latitude other than smaller fish tend to occur south of approximately 36° N latitude, and there appears to be some very small fish found near 39° N latitude.
 
 An index was created using spatiotemporal species distribution modeling via the sdmTMB package (citation). This reflects an updated approach compared to the 2015 assessment (non-spatial delta-GLMM) and the 2019 update assessment (VAST delta-lognormal model). The sdmTMB index estimates spatial and spatiotemporal variation in encounter probability and positive catch weight across the survey range using a 200 knot grid. The positive catch weight model includes survey pass ('first' or 'second') to account for missing data, i.e., the incomplete second pass of the 2013 survey. Spatiotemporal estimates of weight are then converted into annual indices using XXX (something from sdmTMB??). Both gamma and lognormal error structures were tested for the positive catch model. Both models converged (positive, definite Hessian matrix) but predicted data from both models showed slightly right-heavy tails compared to null expectations, with the gamma model having stronger divergence.
 
@@ -54,42 +43,17 @@ The index estimate is relatively stable, with a slightly increasing trend in rec
 
 <!-- Commercial fisheries landings by state, year, and gear (PacFIN is the standard source for recent domestic commercial landings), historical catch estimates, discards, recreational fisheries catches, foreign removals; sample size information for length- and age-composition data by state, year and gear, including both the number of trips and fish sampled. Description of methods to estimate abundance indices, sample size information by survey and year. Include complete tables and figures and date of data extraction. -->
 
-Widow Rockfish have been caught in trawl and hook-and-line fisheries since the early part of the 20th
-century. Widow Rockfish are a desirable rockfish and are not likely to be discarded for market reasons.
-However, smaller Widow Rockfish are found at shallower depths and discarding practices in the early
-1900s are uncertain. Few Widow Rockfish have been observed (relative to other gear types) in
-recreational, commercial pot, and commercial shrimp fisheries, thus only trawl, net, and hook-and-line
-landings were used in this assessment.
+Widow Rockfish have been caught in trawl and hook-and-line fisheries since the early part of the 20th century. Widow Rockfish are a desirable rockfish and are not likely to be discarded for market reasons. However, smaller Widow Rockfish are found at shallower depths and discarding practices in the early 1900s are uncertain. Few Widow Rockfish have been observed (relative to other gear types) in recreational, commercial pot, and commercial shrimp fisheries, thus only trawl, net, and hook-and-line landings were used in this assessment.
 
-In data from the early 1980s, Widow Rockfish have had their own landing category. California began in
-1982, Oregon in 1984, and Washington in 1988. Estimates of historical landings of Widow Rockfish rely
-upon species-composition sampling data from each period. The uncertainty in species composition is
-greater in past years, with less systematic and extensive sampling occurring prior to 1980. Consequently,
-the precision with which landings of Widow Rockfish can be estimated likely decreases for earlier years.
-A description of the methods used to determine the historical and current landings is provided below
+In data from the early 1980s, Widow Rockfish have had their own landing category. California began in 1982, Oregon in 1984, and Washington in 1988. Estimates of historical landings of Widow Rockfish rely upon species-composition sampling data from each period. The uncertainty in species composition is greater in past years, with less systematic and extensive sampling occurring prior to 1980. Consequently, the precision with which landings of Widow Rockfish can be estimated likely decreases for earlier years. A description of the methods used to determine the historical and current landings is provided below.
 
 ### Fishery length and age data
 
-Biological data from commercial fisheries that caught Widow Rockfish were extracted from PacFIN
-(PSMFC) on July 3, 2019, from CALCOM on July 3, 2019 and from the NORPAC database on July 3,
-2019. Lengths taken during port sampling in California, Oregon, and Washington were used to calculate
-length and age compositions. The data were classified into bottom trawl, midwater trawl, hake trawl, net,
-and hook-and-line fleets
+Biological data from commercial fisheries that caught Widow Rockfish were extracted from PacFIN (PSMFC) on July 3, 2019, from CALCOM on July 3, 2019 and from the NORPAC database on July 3, 2019. Lengths taken during port sampling in California, Oregon, and Washington were used to calculate length and age compositions. The data were classified into bottom trawl, midwater trawl, hake trawl, net, and hook-and-line fleets
 
-Table 10 shows the number of landings sampled and Table 11 shows the number of lengths taken for each
-year, gear, and fleet from the three states. Table 12 shows these numbers for the at-sea fleet.
+Table 10 shows the number of landings sampled and Table 11 shows the number of lengths taken for each year, gear, and fleet from the three states. Table 12 shows these numbers for the at-sea fleet.
 
-Consistent with the 2015 assessment, length and age samples from PacFIN and CALCOM were expanded
-up to the total landing then combined into state-specific frequencies (Table 13). Expansion factors were
-calculated in a way such that large expansions would not occur and based on ideas first presented by
-Owen Hamel (pers. comm., NWFSC). First the expansion factor (Ek) was the total catch weight (Wk)
-divided by the sample weight (wk), and raised to 0.9 to account for non-homogeneity within a trip. Then,
-expansion factors greater than 300 were capped (100 for net fisheries) to reduce the influence of small
-samples (i.e., a few fish representing a large catch). The predicted total numbers at length or age
-weighted by landings for each state were added to create a coast-wide length frequency. The effective
-sample sizes of the state combined length frequencies were determined from the following formula,
-which has been used in previous Widow Rockfish assessments as well as other west coast groundfish
-assessments.
+Consistent with the 2015 assessment, length and age samples from PacFIN and CALCOM were expanded up to the total landing then combined into state-specific frequencies (Table 13). Expansion factors were calculated in a way such that large expansions would not occur and based on ideas first presented by Owen Hamel (pers. comm., NWFSC). First the expansion factor (Ek) was the total catch weight (Wk) divided by the sample weight (wk), and raised to 0.9 to account for non-homogeneity within a trip. Then, expansion factors greater than 300 were capped (100 for net fisheries) to reduce the influence of small samples (i.e., a few fish representing a large catch). The predicted total numbers at length or age weighted by landings for each state were added to create a coast-wide length frequency. The effective sample sizes of the state combined length frequencies were determined from the following formula, which has been used in previous Widow Rockfish assessments as well as other west coast groundfish assessments.
 
 | Fishery Samples                                  | Survey Samples                                   |
 | :----------------------------------------------- | :------------------------------------------------ |
@@ -97,26 +61,9 @@ assessments.
 |  $\ N_{eff} = 7.06N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 44$    | $\ N_{eff} = 4.89N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 55$     |
 
 
-This is slightly different than the sample size of 2.43 per haul for rockfish that Stewart & Hamel (2014)
-report.
+This is slightly different than the sample size of 2.43 per haul for rockfish that Stewart & Hamel (2014) report. Observed lengths were expanded to the tow from At-Sea Hake Observer Program samples (NORPAC). Tows are typically well sampled, thus expansion factors were not modified from what was calculated. Hake fishery length compositions were created by combining shoreside and at-sea length compositions, weighting by the catch from each sector. The effective sample sizes for hake fishery length and age comps were calculated using the above equations for the shoreside fleet and added to the number of tows sampled from the at-sea fleet.
 
-Observed lengths were expanded to the tow from At-Sea Hake Observer Program samples (NORPAC).
-Tows are typically well sampled, thus expansion factors were not modified from what was calculated.
-Hake fishery length compositions were created by combining shoreside and at-sea length compositions,
-weighting by the catch from each sector. The effective sample sizes for hake fishery length and age
-comps were calculated using the above equations for the shoreside fleet and added to the number of tows
-sampled from the at-sea fleet.
-
-Expanded length compositions for bottom trawl, midwater trawl, hake fisheries, net, and hook-and-line
-are shown in Figure 17 to Figure 21. It is quickly apparent that all of these fisheries rarely land fish less
-than 26 cm. All of the non-hake fleets show a strong cohort coming though in the late 1970s and early
-1980s, and then another cohort coming through in the late 1980s. Sample sizes typically dropped off after
-2000, except in the hake fishery where nearly every tow is sampled.
-Age compositions for the five fleets are shown in Figure 22 and Figure 26. Occasional cohorts appear to
-move through the population, indicating that Widow Rockfish population dynamics may be characterized
-by episodic recruitment events.
-
-
+Expanded length compositions for bottom trawl, midwater trawl, hake fisheries, net, and hook-and-line are shown in Figure 17 to Figure 21. It is quickly apparent that all of these fisheries rarely land fish less than 26 cm. All of the non-hake fleets show a strong cohort coming though in the late 1970s and early 1980s, and then another cohort coming through in the late 1980s. Sample sizes typically dropped off after 2000, except in the hake fishery where nearly every tow is sampled. Age compositions for the five fleets are shown in Figure 22 and Figure 26. Occasional cohorts appear to move through the population, indicating that Widow Rockfish population dynamics may be characterized by episodic recruitment events.
 
 ### Discards
 
@@ -155,7 +102,7 @@ Fecundity in rockfish is often not a linear function of weight, but increases fa
 
 #### Natural Mortality
 
-Natural mortality used in this update differed from the 2015 assessment. Natural mortality (M) is a parameter that is often highly uncertain in fish stocks. Past assessments of Widow Rockfish assumed constant natural mortality of 0.125 yr-1 or 0.15 yr-1. The 2011 assessment estimated M with a prior developed by Owen Hamel (NWFSC, pers. comm.) using methods described in Hamel (2014). This prior was based on a maximum age of 44 and 40 for females and males, respectively, a mean temperature of 8 degrees Celsius (about 150m deep off of Oregon), and a gonadosomatic index of 9.99% and 1.86% for females and males, respectively (Love et al 1990). The sex-specific lognormal priors for M have medians 11 of 0.124 yr-1 and 0.129 yr-1 for females and males, respectively, and a coefficient of variation (CV) of 30.7% for each sex. In 2015, discussions with Owen Hamel (NWFSC) led to the development of a new prior based solely on maximum age to use when estimating M. Using all of the available age data, a maximum age of 54 was determined for both females and males, although it has been rare to observe Widow Rockfish older than about 45 years old (Figure 33). This resulted in a prior with a much smaller median (0.0810 or -2.513284 in log space) and a larger standard deviation in log space (0.523694). For the update assessment, an updated meta-anaysis resulted in a prior with a slightly smaller median than the 2015 assessment (0.10 or -2.30 in log space) and a smaller standard deviation in log space (0.438). Figure 34 shows that these prior distributions are wide and not highly informative.
+Natural mortality used in this update differed from the 2015 assessment. Natural mortality (M) is a parameter that is often highly uncertain in fish stocks. Past assessments of Widow Rockfish assumed constant natural mortality of 0.125 yr-1 or 0.15 yr-1. The 2011 assessment estimated M with a prior developed by Owen Hamel (NWFSC, pers. comm.) using methods described in Hamel (2014). This prior was based on a maximum age of 44 and 40 for females and males, respectively, a mean temperature of 8 degrees Celsius (about 150m deep off of Oregon), and a gonadosomatic index of 9.99% and 1.86% for females and males, respectively (Love et al 1990). The sex-specific lognormal priors for M have medians of 0.124 yr-1 and 0.129 yr-1 for females and males, respectively, and a coefficient of variation (CV) of 30.7% for each sex. In 2015, discussions with Owen Hamel (NWFSC) led to the development of a new prior based solely on maximum age to use when estimating M. Using all of the available age data, a maximum age of 54 was determined for both females and males, although it has been rare to observe Widow Rockfish older than about 45 years old (Figure 33). This resulted in a prior with a much smaller median (0.0810 or -2.513284 in log space) and a larger standard deviation in log space (0.523694). For the update assessment, an updated meta-anaysis resulted in a prior with a slightly smaller median than the 2015 assessment (0.10 or -2.30 in log space) and a smaller standard deviation in log space (0.438). Figure 34 shows that these prior distributions are wide and not highly informative.
 
 #### Length-at-age
 
@@ -174,7 +121,7 @@ The data from each source (ASHOP, port sampling/BDS, Triennial survey, and NWFSC
 
 #### Sex ratios
 
-Females tend to grow larger than males and it is expected that the proportion of females approaches one at large lengths and is less than 0.5 at intermediate lengths. Figure 38 shows that the proportion of females at length from survey data is approximately 50% until approximately 34 cm, when the proportion of females drops below 50%. At lengths larger than 46 cm, the proportion of females increases rapidly to one, suggesting that few males grow larger than 50 cm
+Females tend to grow larger than males and it is expected that the proportion of females approaches one at large lengths and is less than 0.5 at intermediate lengths. Figure 38 shows that the proportion of females at length from survey data is approximately 50% until approximately 34 cm, when the proportion of females drops below 50%. At lengths larger than 46 cm, the proportion of females increases rapidly to one, suggesting that few males grow larger than 50 cm.
 
 #### Ageing bias and imprecision
 

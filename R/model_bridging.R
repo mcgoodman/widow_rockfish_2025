@@ -283,22 +283,82 @@ discards |>
 
 ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 
+# Rerun from new MLE, post jittering ----------------------
+
+# Obtain jittered MLE, if none exists
+mle_jitter <- here("models", "jitters", "ss3.par_best.sso")
+if (!file.exists(mle_jitter)) source(here("R", "jitters.R"))
+
+# Copy files to directory
+dir.create(mle_dir <- here(bridgedir, "jittered_mle"))
+r4ss::copy_SS_inputs(blockdir, mle_dir, overwrite = TRUE)
+mle_exe <- set_ss3_exe(mle_dir)
+
+# Copy par file from best jitter run
+file.copy(here("models", "jitters", "ss3.par_best.sso"), here(mle_dir, "ss.par"), overwrite = TRUE)
+
+# Change starter file to use par file for initial values
+mle_start <- SS_readstarter(here(mle_dir, "starter.ss"))
+mle_start$init_values_src <- 1
+mle_start$N_bootstraps <- 1
+SS_writestarter(mle_start, dir = mle_dir, file = "starter.ss", overwrite = TRUE)
+
+# Run without estimation to produce new control file
+r4ss::run(
+  dir = mle_dir,
+  exe = mle_exe,
+  extras = "-nohess -stopph 0",
+  show_in_console = TRUE,
+  skipfinished = skip_finished
+)
+
+# Replace control file
+file.copy(here(mle_dir, "control.ss_new"), here(mle_dir, "2025widow.ctl"), overwrite = TRUE)
+
+# Change starter file back to using control file for initial values
+mle_start <- SS_readstarter(here(mle_dir, "starter.ss"))
+mle_start$init_values_src <- 0
+mle_start$N_bootstraps <- 0
+SS_writestarter(mle_start, dir = mle_dir, file = "starter.ss", overwrite = TRUE)
+
+# Run
+r4ss::run(
+  dir = mle_dir,
+  exe = mle_exe,
+  show_in_console = TRUE,
+  skipfinished = skip_finished
+)
+
+if (!skip_finished) {
+  SS_plots(
+    SS_output(blockdir, covar = TRUE), 
+    dir = blockdir, #basedir, 
+    printfolder = "plots", 
+    html = launch_html
+  )
+} else if (launch_html) {
+  SS_html(
+    SS_output(blockdir), 
+    plotdir = here(blockdir, "plots")
+  )
+}
+
 # Copy selected model to new base directory ---------------
 
 # Use base model without new midwater trawl block
 dir.create(Base2025 <- here("models", "2025 base model"))
-r4ss::copy_SS_inputs(blockdir, Base2025, overwrite = TRUE)
+r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
 # Bridging plots ------------------------------------------
 
 # List directories and model names
 models <- c(
-  "2019 model" = here("models", "data_bridging", "bridge_1_ss3_ver_ctl_files", "widow_2019_ss_v3_30_23_new_ctl"),
+  "2019 model" = here("models", "2019 base model", "Base_45_new"),
   "update catch" = here(databridge_dir, "add_catches"),
   "update discards" = here(databridge_dir, "add_discards"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length comp." = basedir, 
-  "model bridging" = blockdir
+  "model bridging" = mle_dir
 )
 
 # Plotting takes a long time, so do in parallel

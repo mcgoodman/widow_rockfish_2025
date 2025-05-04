@@ -1,11 +1,12 @@
 # Run jitters for 2025 base model
 
 # Set up -----------------------------------------------------------------------
+
+parallel <- TRUE
+
 # Load packages
 library(tidyverse)
 library(r4ss)
-#library(nwfscDiag)
-#library(future)
 library(here)
 
 # Source functions
@@ -19,14 +20,19 @@ jitter_dir <- here("models", "jitters")  # directory to house jitters
 copy_SS_inputs(dir.old = base_dir, dir.new = jitter_dir, overwrite = TRUE) 
 
 # Set number of jitters and jitter fraction
-njitters <- 50  # number of jitters to run
+njitters <- 100  # number of jitters to run
 jitter_frac <- 0.1  # common value to use according to r4ss documentation (https://rdrr.io/github/r4ss/r4ss/man/jitter.html), investigate more?
 
 # Set exe
 base_exe <- "ss3"  # name of exe (set_ss3_exe doesn't work on my windows computer...)
 
+if (parallel) {
+  library(future)
+  future::plan(future::multisession(workers = parallelly::availableCores(omit = 2)))
+}
 
 # Run base model ---------------------------------------------------------------
+
 r4ss::run(
   dir = base_dir,
   exe = base_exe,
@@ -38,12 +44,10 @@ r4ss::run(
 
 base <- SS_output(base_dir)
 
-
 # Run jitters ------------------------------------------------------------------
-# Set to run parallel
-#future::plan(future::multisession(workers = parallelly::availableCores(omit = 1)))
 
 # Using r4ss, having issues installing nwfscDiag - make this parallel! check future::plan()
+# could use init_values_src - lets you decide whether to jitter from the par file, might be worth using if convergence issues
 jitter_loglike <- r4ss::jitter(
   dir = jitter_dir,
   Njitter = njitters,
@@ -53,15 +57,13 @@ jitter_loglike <- r4ss::jitter(
   verbose = TRUE,
   extras = "-nohess",
   skipfinished = FALSE,
-  show_in_console = TRUE
+  show_in_console = FALSE
 )
-# could use init_values_src - lets you decide whether to jitter from the par file, might be worth using if convergence issues
 
 saveRDS(jitter_loglike, here("models/jitters", "jitter_loglike.RDS"))
 
 # Set back to sequential processing
-#future::plan(future::sequential)
-
+if (parallel) future::plan(future::sequential)
 
 # Compare likelihoods ----------------------------------------------------------
 like_df <- data.frame(run = seq(1:njitters), like = NA)  # data frame with run number and likelihood

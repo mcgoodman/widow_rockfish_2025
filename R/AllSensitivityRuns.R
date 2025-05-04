@@ -123,40 +123,153 @@ tune_comps(
 
 ### Step 1: Copy base model
 
-sensi_mod <- base_model
+fix_mort_A <- base_model
 
 ### Step 2: Apply sensitivity changes
+fix_mort_A$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.1 # fixed value
+fix_mort_A$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PHASE <- -1*fix_mort_A$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PHASE # negative phase = no estimations
+fix_mort_A$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$INIT <- 0.1
+fix_mort_A$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$PHASE <- -1*fix_mort_A$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$PHASE
 
 ### Step 3: Save sensitivity as new model
 
-SS_write(sensi_mod, file.path("models", "sensitivities", "FixedFMort2019"),
+SS_write(fix_mort_A, file.path("models", "sensitivities", "FixedFMort2019_A"),
+         overwrite = TRUE)
+
+### Step 1: Copy base model
+
+fix_mort_B <- base_model
+
+### Step 2: Apply sensitivity changes
+fix_mort_B$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.124 # fixed value
+fix_mort_B$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PHASE <- -1*fix_mort_B$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PHASE # negative phase = no estimations
+fix_mort_B$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$INIT <- 0.129
+fix_mort_B$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$PHASE <- -1*fix_mort_B$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$PHASE
+
+### Step 3: Save sensitivity as new model
+
+SS_write(fix_mort_B, file.path("models", "sensitivities", "FixedFMort2019_B"),
          overwrite = TRUE)
 
 ## Forcing asymptotic selectivity on the midwater trawl fleet ------------------
 
 ### Step 1: Copy base model
 
-sensi_mod <- base_model
+asy_select_mwt <- base_model
 
 ### Step 2: Apply sensitivity changes
+# set all base high, and no estimation
+base_sel_list <- c("SizeSel_P_2_MidwaterTrawl(2)", "SizeSel_P_4_MidwaterTrawl(2)", "SizeSel_P_6_MidwaterTrawl(2)")
+asy_select_mwt$ctl$size_selex_parms[row.names(asy_select_mwt$ctl$size_selex_parms) %in% base_sel_list,]$INIT <- rep(15)
+asy_select_mwt$ctl$size_selex_parms[row.names(asy_select_mwt$ctl$size_selex_parms) %in% base_sel_list,]$PHASE <- -1*asy_select_mwt$ctl$size_selex_parms[row.names(asy_select_mwt$ctl$size_selex_parms) %in% base_sel_list,]$PHASE
+# then deal w time varying
+tm_vy_list <- c("SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916",
+                "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983",
+                "SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002",
+                "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916",
+                "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983",
+                "SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002")
+asy_select_mwt$ctl$size_selex_parms_tv[row.names(asy_select_mwt$ctl$size_selex_parms_tv) %in% tm_vy_list,]$INIT <- rep(15)
+asy_select_mwt$ctl$size_selex_parms_tv[row.names(asy_select_mwt$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE <- -1*asy_select_mwt$ctl$size_selex_parms_tv[row.names(asy_select_mwt$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE
 
 ### Step 3: Save sensitivity as new model
 
-SS_write(sensi_mod, file.path("models", "sensitivities", "AsympSelMidwaterTrawl"),
+SS_write(asy_select_mwt, file.path("models", "sensitivities", "AsympSelMidwaterTrawl"),
          overwrite = TRUE)
+
+
+### Testing... looks good, i.e., selectivity is fixed going up, rather than strong dome shape
+# 
+# run_sens_model <- here(model_directory, "sensitivities", "AsympSelMidwaterTrawl")
+# 
+# # run model
+# r4ss::run(
+#   dir = run_sens_model, # make sure to edit the directory
+#   exe = exe_loc,
+#   extras = "-nohess", # no hess for now
+#   show_in_console = TRUE,
+#   skipfinished = !rerun
+# )
+# 
+# # Get r4ss output
+# replist <- SS_output( # make the output files
+#   dir = run_sens_model,
+#   verbose = TRUE,
+#   printstats = TRUE,
+#   covar = TRUE
+# )
+# 
+# SS_plots(replist, dir = "models/sensitivities/AsympSelMidwaterTrawl")
 
 ## Fitting logistic curves for survey selectivities ----------------------------
 
 ### Step 1: Copy base model
 
-sensi_mod <- base_model
+log_select_survey <- base_model
 
 ### Step 2: Apply sensitivity changes
+log_select_survey$ctl$size_selex_types["NWFSC",]$Pattern <- 1 # for logisitic
+log_select_survey$ctl$age_selex_types["NWFSC",]$Pattern <- 12 # for logisitic
+# size selectivity: replace with P_1 & P_2
+# names to remove
+rm_old_spline <- c("SizeSel_Spline_Code_NWFSC(8)", 
+                   "SizeSel_Spline_GradLo_NWFSC(8)",
+                   "SizeSel_Spline_GradLo_NWFSC(8)",
+                   "SizeSel_Spline_GradHi_NWFSC(8)",
+                   "SizeSel_Spline_Knot_1_NWFSC(8)",
+                   "SizeSel_Spline_Knot_2_NWFSC(8)",
+                   "SizeSel_Spline_Knot_3_NWFSC(8)",
+                   "SizeSel_Spine_Val_1_NWFSC(8)",
+                   "SizeSel_Spine_Val_2_NWFSC(8)",
+                   "SizeSel_Spine_Val_3_NWFSC(8)")
+log_select_survey$ctl$size_selex_parms <- log_select_survey$ctl$size_selex_parms[!(row.names(log_select_survey$ctl$size_selex_parms) %in% rm_old_spline), ]
+# and insert the two new parameters, choosing inital values based on 2019 spline results
+log_select_survey$ctl$size_selex_parms <- 
+  log_select_survey$ctl$size_selex_parms |> 
+  insert_row(
+    new_row = "SizeSel_P_1_NWFSC(8)",
+    ref_row = "SizeSel_Spine_Val_3_Triennial(7)"
+  )
+log_select_survey$ctl$size_selex_parms["SizeSel_P_1_NWFSC(8)", ] <- c(20, 50, 35, 35, 0.5, 0, 2, 0, 0, 0, 0, 0.5, 0, 0) 
+log_select_survey$ctl$size_selex_parms <- 
+  log_select_survey$ctl$size_selex_parms |> 
+  insert_row(
+    new_row = "SizeSel_P_2_NWFSC(8)",
+    ref_row = "SizeSel_P_1_NWFSC(8)"
+  )
+log_select_survey$ctl$size_selex_parms["SizeSel_P_2_NWFSC(8)", ] <- c(5, 20, 15, 15, 0.5, 0, 2, 0, 0, 0, 0, 0.5, 0, 0) 
+
+# hold age_selex_parms for now, they are P_1, P_2.... though add estimation of them, i.e., change phase to positive number
+log_select_survey$ctl$age_selex_parms["AgeSel_P_1_NWFSC(8)", ]$PHASE <- 2
+log_select_survey$ctl$age_selex_parms["AgeSel_P_2_NWFSC(8)", ]$PHASE <- 2
 
 ### Step 3: Save sensitivity as new model
 
-SS_write(sensi_mod, file.path("models", "sensitivities", "LogisCurvSurvSel"),
+SS_write(log_select_survey, file.path("models", "sensitivities", "LogisCurvSurvSel"),
          overwrite = TRUE)
+
+### Testing... looks good, i.e., selectivity is fixed going up, rather than strong dome shape
+# 
+# run_sens_model <- here(model_directory, "sensitivities", "LogisCurvSurvSel")
+# 
+# # run model
+# r4ss::run(
+#   dir = run_sens_model, # make sure to edit the directory
+#   exe = exe_loc,
+#   extras = "-nohess", # no hess for now
+#   show_in_console = TRUE,
+#   skipfinished = !rerun
+# )
+# 
+# # Get r4ss output
+# replist <- SS_output( # make the output files
+#   dir = run_sens_model,
+#   verbose = TRUE,
+#   printstats = TRUE,
+#   covar = TRUE
+# )
+# 
+# SS_plots(replist, dir = "models/sensitivities/LogisCurvSurvSel")
 
 ## Inclusion vs. exclusion of shrimp trawl catches -----------------------------
 
@@ -174,14 +287,14 @@ SS_write(sensi_mod, file.path("models", "sensitivities", "ShrmpNoShrmp"),
 ## Any issues noted in the STAR or SSC reports ----------------------------
 
 ### Step 1: Copy base model
-sensi_mod <- base_model
+# sensi_mod <- base_model
 
 ### Step 2: Apply sensitivity changes
 
 ### Step 3: Save sensitivity as new model
 
-SS_write(sensi_mod, file.path("models", "sensitivities", "StarSscSens"),
-         overwrite = TRUE)
+# SS_write(sensi_mod, file.path("models", "sensitivities", "StarSscSens"),
+#          overwrite = TRUE)
 
 # Run stuff ---------------------------------------------------------------
 
@@ -191,7 +304,7 @@ sensi_dirs <- list.files(file.path("models", "sensitivities"))
 # Search for weighting character string in sensi_mods
 tuning_mods <- grep("weighting", sensi_mods)
 
-future::plan(future::multisession(workers = parallelly::availableCores(omit = 1)))
+future::plan(future::multisession(workers = parallelly::availableCores(omit = 3)))
 
 #-------------------------------------------------------------------------------
 # Only needed if updating indices in sensitivity runs

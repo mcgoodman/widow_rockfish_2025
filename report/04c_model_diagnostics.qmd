@@ -22,12 +22,26 @@ Parameter estimates are shown in Table 22, Table 23, and Table 28 along with app
 <!-- Sensitivity to assumptions about model structure, i.e., model specification uncertainty.  -->
 
 <!-- Sensitivity to data set choice (e.g., using emphasis factors to selectively remove data sources) and weighting schemes (e.g., MacAllister & Ianelli weighting versus Francis weighting vs. Dirichlet weighting for compositional data), which may also include a consideration of recent patterns in recruitment.  -->
+
+Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. Seven sensitivity analyses were conducted to explore the potential differences in model structure and assumptions, including:
+
+1. Fixed natural mortality at 0.1 for both sexes (2015 assessment prior)
+2. Fixed natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males (2011 assessment prior)
+3. Forcing asymptotic selectivity on the midwater trawl fleet
+4. Fitting logistic curves for survey selectivities
+5. Weighting the composition data using the Francis method
+6. Updated Washington catch reconstruction
+7. Inclusion of previously excluded shrimp trawl data
+
+Likelihood values and estimates of key parameters are shown in Table 29. Predicted spawning biomass trajectories and estimated recruitments are shown in in Figure 65. The estimates of current stock depletion ranged from XXX%-XXX% across the sensitivity runs, with XXX resulting in the lowest estimate and XXX fleet resulting in the highest estimate. 
  
 ### Retrospective Analysis
 
 <!-- Retrospective analysis, where the model is fitted to a series of shortened input data sets, with the most recent years of input data being dropped.  -->
  
 <!-- Historical analysis (plot of actual estimates from current and previous assessments).  -->
+
+A 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (Table 30 and Figure 66). The initial scale of the spawning population was basically unchanged for all of these retrospectives. Estimates of F were lower and the population size for the last 15 years increased slightly when 4 and 5 years of data were removed; estimates of F were higher and the population size for the last 15 years decreased slightly when 1 and 2 years of data were removed. Overall, the general trend of the stock over the past 10 years (population size decline) is consistent across the retrospectives. No alarming trends were present in the retrospective analysis.
 
 ### Likelihood Profiles and key parameters
 

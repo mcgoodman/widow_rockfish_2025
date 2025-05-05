@@ -41,7 +41,7 @@ Likelihood values and estimates of key parameters are shown in Table 29. Predict
  
 <!-- Historical analysis (plot of actual estimates from current and previous assessments).  -->
 
-A 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (Table 30 and Figure 66). The initial scale of the spawning population was basically unchanged for all of these retrospectives. Estimates of F were lower and the population size for the last 15 years increased slightly when 4 and 5 years of data were removed; estimates of F were higher and the population size for the last 15 years decreased slightly when 1 and 2 years of data were removed. Overall, the general trend of the stock over the past 10 years (population size decline) is consistent across the retrospectives. No alarming trends were present in the retrospective analysis.
+A 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (Table 30 and Figure 66). The initial scale of the spawning population was basically unchanged for all of these retrospectives. Removing 4–5 years of data led to slightly lower estimates of fishing mortality (F) and slightly higher spawning biomass over the last 15 years. In contrast, removing only 1–2 years resulted in higher F and lower biomass estimates. Despite these minor differences, all retrospectives showed a consistent declining trend in spawning biomass over the past decade. No concerning patterns were observed in the retrospective analysis.
 
 ### Likelihood Profiles and key parameters
 

@@ -106,7 +106,7 @@ acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 # - Updating file names e.g. '2019widow.ctl' --> '2025widow.ctl'
   
 ##### 2019 model run with new version of SS3
-model_2019 <- here("models","data_bridging","bridge_1_ss3_ver_ctl_files","widow_2019_ss_v3_30_23_new_ctl")
+model_2019 <- here("models", "2019 base model", "Base_45_new")
 ctl <- SS_read(model_2019)$ctl
 ss3_exe <- set_ss3_exe(model_2019, version = "v3.30.23")
 r4ss::run(dir = model_2019, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)

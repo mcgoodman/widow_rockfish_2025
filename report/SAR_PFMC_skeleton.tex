@@ -1,0 +1,1038 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{scrartcl}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage{hyphenat}
+\usepackage{graphicx}
+% and their extensions so you won't have to specify these with
+ % every instance of \includegraphics
+ \usepackage{pdfcomment}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\usepackage{wallpaper} % for the background image on title page
+\usepackage{geometry}
+% set font
+
+% added by Ross
+% % set font - - depends upon the driver
+% \ifPDFTeX
+%  %% only want this in body section headings and ToC, using \sf
+%  \def\sfdefault{phv}% Helvetica instead of its clone Arial
+%  \renewcommand{\sectfont}{\normalcolor
+%   \def\bfdefault{bc}% bold condensed; i.e., narrow
+%   \maybesffamily \bfseries }%% uses uhvb8ac
+% % \def\sfdefault{lmss}% Latin Modern replaces Arial
+% % \renewcommand{\sectfont}{\normalcolor
+%  % \fontseries{sbc}\fontfamily{lmss}\selectfont }%% uses lmssdc10
+% \else
+
+\usepackage{fontspec}
+\setsansfont[Ligatures=TeX]{Arial Narrow}
+
+% added by Ross
+%\fi
+%\usepackage[scaled=0.9]{helvet}% needed later to replace Arial Narrow
+\usepackage[headsepline=0.005pt:,footsepline=0.005pt:,plainfootsepline,automark]{scrlayer-scrpage}
+\clearpairofpagestyles
+\ohead[]{\headmark} \cofoot[\pagemark]{\pagemark}
+\ModifyLayer[addvoffset=-.6ex]{scrheadings.foot.above.line}
+\ModifyLayer[addvoffset=-.6ex]{plain.scrheadings.foot.above.line}
+\setkomafont{pageheadfoot}{\small}
+% Landscape tables and figures
+\usepackage{pdflscape}
+\newcommand{\blandscape}{\begin{landscape}}
+\newcommand{\elandscape}{\end{landscape}}
+
+% Acronyms
+\usepackage[acronym]{glossaries}
+\glsdisablehyper
+\loadglsentries{sa4ss_glossaries.tex}
+\lohead{SPECIES assessment 2025}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Status of SPECIES off the U.S. West Coast in 2025},
+  pdfauthor={Michael Kinneen},
+  pdflang={en},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Status of SPECIES off the U.S. West Coast in 2025}
+\author{Michael Kinneen}
+\date{2025-05-03}
+
+\begin{document}
+  \begin{titlepage}
+  % This is a combination of Pandoc templating and LaTeX
+  % Pandoc templating https://pandoc.org/MANUAL.html#templates
+  % See the README for help
+
+  \newgeometry{top=2in,bottom=1in,right=1in,left=1in}
+  \begin{minipage}[b][\textheight][s]{\textwidth}
+  % Ross would've subbed lines 6, 8 with these lines:
+  %\newgeometry{top=2in,bottom=1in,right=1in,left=1in}%
+  %\noindent  %\tracingall
+  %\begin{minipage}[b][\textheight][s]{.975\textwidth}%% RRM: avoid Overfull box
+
+
+  \raggedright
+
+  % \includegraphics[width=2cm]{NOAA_Transparent_Logo.png}
+
+  % background image
+
+
+  % Title and subtitle
+  {\huge\bfseries\nohyphens{Status of SPECIES off the U.S. West Coast in
+  2025}}\\[1\baselineskip]
+  % Ross would change the end of the above line to the following because \par must come before the group closes and line-depth reverts.
+  % }\par}%\\[1\baselineskip]
+
+
+
+  \vspace{1\baselineskip}
+  % Ross would change this to 2\baselineskip
+
+  %%%%%% Cover image
+
+  \vspace{1\baselineskip}
+
+  % Authors
+  % This hairy bit of code is just to get "and" between the last 2
+  % authors. See below if you don't need that
+  %
+  {\large{Michael Kinneen}}%
+  %
+  {\textsuperscript{1}}%
+  %
+
+
+  % This is how to do it if you don't need the "and"
+
+  %%%%%% Affiliations
+  \vspace{2\baselineskip}
+
+  \hangindent=1em
+  \hangafter=1
+  % Ross would change the above line to:
+  % \hangafter=1\relax
+  %
+  {1}.~{NOAA Fisheries Northwest Fisheries Science Center}%
+  %
+  %
+  % Ross recommends putting address on one line
+  , %
+  {2725 Montlake Boulevard East}%
+  %
+
+
+  %%%%%% Correspondence
+  \vspace{1\baselineskip}
+
+
+  %use \vfill instead to get the space to fill flexibly
+  %\vspace{0.25\textheight} % Whitespace between the title block and the publisher
+
+  \vfill
+
+
+  % Whitespace between the title block and the tagline
+  \vspace{1\baselineskip}
+
+  %%%%%% Tagline at bottom
+  % Ross says the tagline below could also be centered
+  \includegraphics[alt={},width=2cm]{support_files/us_doc_logo.png}\newline % empty curly brackets without alt text is suitable for this logo because it's purely decorative/an "artifact"
+  U.S. Department of Commerce\newline
+  National Oceanic and Atmospheric Administration\newline
+  National Marine Fisheries Service\newline
+  Northwest Fisheries Science Center\newline
+
+  \end{minipage}
+  \restoregeometry
+  \end{titlepage}
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\newpage{}
+
+Please cite this publication as:
+
+Michael Kinneen, Maurice Goodman, . (2025) Status of Widow Rockfish off
+the U.S. West Coast in 2025. Pacific Fishery Management Council.
+{[}XX{]} p.
+
+\newpage{}
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
+
+\section*{Disclaimer}\label{disclaimer}
+\addcontentsline{toc}{section}{Disclaimer}
+
+These materials do not constitute a formal publication and are for
+information only. They are in a pre-review, pre-decisional state and
+should not be formally cited or reproduced. They are to be considered
+provisional and do not represent any determination or policy of NOAA or
+the Department of Commerce.
+
+\newpage{}
+
+\section*{Executive Summary}\label{executive-summary}
+\addcontentsline{toc}{section}{Executive Summary}
+
+Checking to see if this works \gls{s-tri}
+
+\subsection*{Stock}\label{stock}
+\addcontentsline{toc}{subsection}{Stock}
+
+\subsection*{Catches}\label{catches}
+\addcontentsline{toc}{subsection}{Catches}
+
+\subsection*{Data and Assessment}\label{data-and-assessment}
+\addcontentsline{toc}{subsection}{Data and Assessment}
+
+\subsection*{Stock biomass and
+dynamics}\label{stock-biomass-and-dynamics}
+\addcontentsline{toc}{subsection}{Stock biomass and dynamics}
+
+\subsection*{Recruitment}\label{recruitment}
+\addcontentsline{toc}{subsection}{Recruitment}
+
+\subsection*{Exploitation status}\label{exploitation-status}
+\addcontentsline{toc}{subsection}{Exploitation status}
+
+\subsection*{Ecosystem considerations}\label{ecosystem-considerations}
+\addcontentsline{toc}{subsection}{Ecosystem considerations}
+
+\subsection*{Reference points}\label{reference-points}
+\addcontentsline{toc}{subsection}{Reference points}
+
+\subsection*{Management performance}\label{management-performance}
+\addcontentsline{toc}{subsection}{Management performance}
+
+\subsection*{Harvest projections}\label{harvest-projections}
+\addcontentsline{toc}{subsection}{Harvest projections}
+
+\subsection*{Decision table}\label{decision-table}
+\addcontentsline{toc}{subsection}{Decision table}
+
+\subsection*{Scientific uncertainty}\label{scientific-uncertainty}
+\addcontentsline{toc}{subsection}{Scientific uncertainty}
+
+\subsection*{Research and data needs}\label{research-and-data-needs}
+\addcontentsline{toc}{subsection}{Research and data needs}
+
+\subsection*{Rebuilding projections}\label{rebuilding-projections}
+\addcontentsline{toc}{subsection}{Rebuilding projections}
+
+\newpage{}
+
+\setlength{\parskip}{5mm plus1mm minus1mm}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\setcounter{section}{0}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+\section{Introduction}\label{introduction}
+
+\subsection{Life History}\label{life-history}
+
+Refer to the most recent full assessment for additional information.
+
+\subsection{Ecosystem considerations}\label{ecosystem-considerations-1}
+
+Refer to the most recent full assessment for additional information.
+
+\subsection{Fishery description}\label{fishery-description}
+
+Refer to the most recent full assessment for additional information.
+
+\subsection{Management History}\label{management-history}
+
+Refer to the most recent full assessment for additional information.
+
+\subsection{Management performance}\label{management-performance-1}
+
+\subsection{Fisheries off Canada and
+Alaska}\label{fisheries-off-canada-and-alaska}
+
+Refer to the most recent full assessment for additional information.
+
+\newpage{}
+
+\section{Data}\label{data}
+
+Many sources of data were available for this assessment, including
+indices of abundance (Table 5), length observations, and age
+observations from fishery-dependent and fishery-independent sources.
+
+\subsection{Fishery-independent data}\label{fishery-independent-data}
+
+Data from three fishery-independent surveys were used in this
+assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey
+(hereafter, ``juvenile survey''); 2) the Alaska Fisheries Science Center
+(AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, ``triennial
+survey''); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey
+(hereafter, ``WCGBTS''). These surveys employed different designs and
+sampling methodologies, were conducted during different years and time
+periods within years, and included coverage over different areas of the
+coast. In some instances, the survey frequency, depths, and geographic
+areas covered were not internally consistent within surveys. A brief
+description of each survey is provided below. Strata were defined by
+latitude and depth to analyze the catch-rates, length compositions, and
+age compositions using stratified random sampling theory (Table 6 \&
+Table 7). The latitude and depth breaks were chosen based on the design
+of the survey as well as by looking at biological patterns in relation
+to latitude and depth. Indices of abundance for all of the surveys were
+derived using model based approaches described below.
+
+\subsubsection{\texorpdfstring{\acrlong{s-tri}}{}}\label{section}
+
+The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and the
+survey continued until 2004 (Weinberg et al. 2002). Its basic design was
+a series of equally-spaced east-to-west transects across the
+continential shelf from which searches for tows in a specific depth
+range were initiated. The survey design changed slightly over time. In
+general, all of the surveys were conducted in the mid summer through
+early fall. The 1977 survey was conducted from early July through late
+September. The surveys from 1980 through 1989 were conducted from the
+middle of July to late September. The 1992 survey was conducted from the
+middle of July through early October. The 1995 survey was conducted from
+early June through late August. The 1998 survey was conducted from early
+June through early August. Finally, the 2001 and 2004 surveys were
+conducted from May to July.
+
+Haul depths ranged from 91--457 m during the 1977 survey. Due to haul
+performance issues and truncated sampling with respect to depth, the
+data from 1977 were omitted from this analysis. The surveys in 1980,
+1983, and 1986 covered the U.S. West Coast south to 36.8\textdegree N
+latitude and a depth range of 55--366 m. The surveys in 1989 and 1992
+covered the same depth range but extended the southern range to
+34.5\textdegree N (near Point Conception). From 1995 through 2004, the
+surveys covered the depth range 55--500 m and surveyed south to
+34.5\textdegree N. In 2004, the final year of the \gls{s-tri} series,
+\gls{nwfsc} \gls{fram} conducted the survey following similar protocols
+to earlier years.
+
+\subsubsection{\texorpdfstring{\acrlong{s-wcgbt}}{}}\label{section-1}
+
+The \gls{s-wcgbt} is based on a random-grid design; covering the coastal
+waters from a depth of 55--1,280 m (Bradburn, Keller, and Horness 2011).
+This design generally uses four industry-chartered vessels per year
+assigned to a roughly equal number of randomly selected grid cells and
+divided into two `passes' of the coast. Two vessels fish from north to
+south during each pass between late May to early October. There were
+only two vessels used in 2019 and three in 2013, with one of the three
+that year unable to complete its survey pass due to a government
+shutdown. No survey occurred in 2020 due to \gls{covid}. This design
+therefore incorporates both vessel-to-vessel differences in
+catchability, as well as variance associated with selecting a relatively
+small number (approximately 700) of possible cells from a very large set
+of possible cells spread from the Mexican to the Canadian borders. Note
+that the Survey is not permitted to access the \glspl{cca} in Southern
+California.
+
+Widow Rockfish are not commonly caught in the WCGBTS. Higher catch rates
+occur north of 40° N latitude and catches are rare south of 36° N
+latitude (Figure 11). Few large fish are found shallower than 100 m and
+few small fish are found in the deeper water of the slope. There is no
+clear trend in length with latitude other than smaller fish tend to
+occur south of approximately 36° N latitude, and there appears to be
+some very small fish found near 39° N latitude.
+
+An index was created using spatiotemporal species distribution modeling
+via the sdmTMB package (citation). This reflects an updated approach
+compared to the 2015 assessment (non-spatial delta-GLMM) and the 2019
+update assessment (VAST delta-lognormal model). The sdmTMB index
+estimates spatial and spatiotemporal variation in encounter probability
+and positive catch weight across the survey range using a 200 knot grid.
+The positive catch weight model includes survey pass (`first' or
+`second') to account for missing data, i.e., the incomplete second pass
+of the 2013 survey. Spatiotemporal estimates of weight are then
+converted into annual indices using XXX (something from sdmTMB??). Both
+gamma and lognormal error structures were tested for the positive catch
+model. Both models converged (positive, definite Hessian matrix) but
+predicted data from both models showed slightly right-heavy tails
+compared to null expectations, with the gamma model having stronger
+divergence.
+
+The index estimate is relatively stable, with a slightly increasing
+trend in recent years and a moderate peak in 2016. Overall, the
+lognormal index estimates were more comparable to the 2019
+spatiotemporal VAST-based index and seemed less influenced by potential
+extreme catch events, particularly in 2013 and 2016 {[}is there a more
+stats-y reason, e.g., AIC score{]}; for these reasons, the
+delta-lognormal sdmTMB-based index was used for the base model in this
+assessment. {[}The delta-lognormal mean value (XX) was slightly lower
+than the means of the index values used in the 2015 assessment (2701.12)
+and the 2019 update assessment (3301.765).{]} Comparisons of the
+different error structures, design-based estimate and the VAST index
+used in 2019 are in Figure XX.
+
+\subsection{Fishery-dependent data}\label{fishery-dependent-data}
+
+Widow Rockfish have been caught in trawl and hook-and-line fisheries
+since the early part of the 20th century. Widow Rockfish are a desirable
+rockfish and are not likely to be discarded for market reasons. However,
+smaller Widow Rockfish are found at shallower depths and discarding
+practices in the early 1900s are uncertain. Few Widow Rockfish have been
+observed (relative to other gear types) in recreational, commercial pot,
+and commercial shrimp fisheries, thus only trawl, net, and hook-and-line
+landings were used in this assessment.
+
+In data from the early 1980s, Widow Rockfish have had their own landing
+category. California began in 1982, Oregon in 1984, and Washington in
+1988. Estimates of historical landings of Widow Rockfish rely upon
+species-composition sampling data from each period. The uncertainty in
+species composition is greater in past years, with less systematic and
+extensive sampling occurring prior to 1980. Consequently, the precision
+with which landings of Widow Rockfish can be estimated likely decreases
+for earlier years. A description of the methods used to determine the
+historical and current landings is provided below
+
+\subsubsection{Fishery length and age
+data}\label{fishery-length-and-age-data}
+
+Biological data from commercial fisheries that caught Widow Rockfish
+were extracted from PacFIN (PSMFC) on July 3, 2019, from CALCOM on July
+3, 2019 and from the NORPAC database on July 3, 2019. Lengths taken
+during port sampling in California, Oregon, and Washington were used to
+calculate length and age compositions. The data were classified into
+bottom trawl, midwater trawl, hake trawl, net, and hook-and-line fleets
+
+Table 10 shows the number of landings sampled and Table 11 shows the
+number of lengths taken for each year, gear, and fleet from the three
+states. Table 12 shows these numbers for the at-sea fleet.
+
+Consistent with the 2015 assessment, length and age samples from PacFIN
+and CALCOM were expanded up to the total landing then combined into
+state-specific frequencies (Table 13). Expansion factors were calculated
+in a way such that large expansions would not occur and based on ideas
+first presented by Owen Hamel (pers. comm., NWFSC). First the expansion
+factor (Ek) was the total catch weight (Wk) divided by the sample weight
+(wk), and raised to 0.9 to account for non-homogeneity within a trip.
+Then, expansion factors greater than 300 were capped (100 for net
+fisheries) to reduce the influence of small samples (i.e., a few fish
+representing a large catch). The predicted total numbers at length or
+age weighted by landings for each state were added to create a
+coast-wide length frequency. The effective sample sizes of the state
+combined length frequencies were determined from the following formula,
+which has been used in previous Widow Rockfish assessments as well as
+other west coast groundfish assessments.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4948}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5052}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Fishery Samples
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Survey Samples
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\ N_{eff} = N_{sample} + 0.138N_{fish} , \frac{N_{fish}}{N_{sample}} < 44\)
+&
+\(\ N_{eff} = N_{sample} + 0.0707N_{fish} , \frac{N_{fish}}{N_{sample}} < 55\) \\
+\(\ N_{eff} = 7.06N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 44\) &
+\(\ N_{eff} = 4.89N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 55\) \\
+\end{longtable}
+
+This is slightly different than the sample size of 2.43 per haul for
+rockfish that Stewart \& Hamel (2014) report.
+
+Observed lengths were expanded to the tow from At-Sea Hake Observer
+Program samples (NORPAC). Tows are typically well sampled, thus
+expansion factors were not modified from what was calculated. Hake
+fishery length compositions were created by combining shoreside and
+at-sea length compositions, weighting by the catch from each sector. The
+effective sample sizes for hake fishery length and age comps were
+calculated using the above equations for the shoreside fleet and added
+to the number of tows sampled from the at-sea fleet.
+
+Expanded length compositions for bottom trawl, midwater trawl, hake
+fisheries, net, and hook-and-line are shown in Figure 17 to Figure 21.
+It is quickly apparent that all of these fisheries rarely land fish less
+than 26 cm. All of the non-hake fleets show a strong cohort coming
+though in the late 1970s and early 1980s, and then another cohort coming
+through in the late 1980s. Sample sizes typically dropped off after
+2000, except in the hake fishery where nearly every tow is sampled. Age
+compositions for the five fleets are shown in Figure 22 and Figure 26.
+Occasional cohorts appear to move through the population, indicating
+that Widow Rockfish population dynamics may be characterized by episodic
+recruitment events.
+
+\subsubsection{Discards}\label{discards}
+
+-- TO DO!!! ---
+
+\[
+D_{y,f} = \frac{d_{y,f}}{r_{y,f}} R_{y,f}
+\]
+
+\subsubsection{Biological data}\label{biological-data}
+
+\paragraph{Weight-length relationship}\label{weight-length-relationship}
+
+Weight-at-length data, which are the same used in the 2015 assessment,
+were collected from fisheries sampling and by the Triennial and NWFSC
+WCGBT Surveys, and were used to estimate a weight-length relationship
+for Widow Rockfish (Figure 30). Weight-at-length was similar between
+sources with the fishery samples showing a slightly smaller weight at
+large sizes when compared to the survey data (Figure 31). WCGOP data
+were not used because only small fish were sampled, the weight of these
+small fish were typically less than from other sources (Figure 30), and
+the curves fitted to only WCGOP data were unable to estimate the slope.
+There were only 81 observations from the WCGOP data, which is a small
+amount of data compared to everything available. However, these
+observations may be useful to understand discards.
+
+The weight-length relationship used in the 2011 assessment was similar
+for males but predicted slightly heavier females at larger sizes than
+the 2015 assessment (Figure 31). The following relationships between
+weight and length for females and males were estimated for the 2015
+assessment from all of the data combined and were used in the current
+assessment:
+
+\[
+\text{Females: } \qquad weight = 1.7355 \times 10^{-5} \cdot Length^{2.9617}
+\]
+
+\[
+\text{Males: } \qquad weight = 1.4824 \times 10^{-5} \cdot Length^{3.0047}
+\]
+
+where weight is measured in kilograms and length in cm. These
+relationships were used in the assessment as fixed relationships.
+
+\paragraph{Maturity schedule}\label{maturity-schedule}
+
+Estimates of maturity used in this update were the same as the 2015
+assessment. Estimates of maturity at length have been presented by Barss
+\& Echeverria (1987), Echeverria (1987), and Love et al (1990). Barss \&
+Echeverria (1987) supplied data collected from Oregon and California
+commercial and recreational samples, which allowed us to estimate the
+proportion mature-at-length and proportion mature-at-age for samples
+from each state (Figure 32). As noted by Barss \& Echeverria (1987), the
+samples from Oregon matured at older age and larger length. Estimates of
+maturity-at-length from California reported by Barss \& Echeverria
+(1987) are similar to estimates of length-at-50\%-mature from samples
+collected in California reported by Echeverria (1987) and Love et al
+(1990), although Barss \& Echeverria show the smallest
+length-at-50\%-mature. To maintain some consistency with the 2011
+assessment and to avoid any potential growth issues by area, the 2015
+assessment used maturity-at-age data from the 2011 assessment, but used
+the data provided by Barss \& Echeverria (1987) to estimate a new
+maturity curve following a logistic function with the data from
+California and Oregon equally weighted to avoid California dominating
+the estimated relationship. This maturity-at-age curve falls between the
+estimated California and Oregon maturity-at-age curves (Figure 32,
+right), with the age-at-50\%-mature estimated at 5.47 and with a slope
+of -0.7747 (as specified in SS). This logistic maturity-at-age curve was
+used in the 2015 and 2019 update assessment except that maturity-at-age
+for ages 2 and lower were set equal to zero (Table 19).
+
+\paragraph{Fecundity}\label{fecundity}
+
+Fecundity in rockfish is often not a linear function of weight, but
+increases faster at larger weights (Dick 2009). Therefore, this
+relationship is often accounted for in rockfish assessments by using
+spawning output (numbers of eggs) to determine current status. Dick
+(2009) did not find a significant relationship between the number of
+eggs per gram of body weight and body weight for Widow Rockfish.
+Therefore, spawning output was assumed to be proportional to weight,
+which is the same as spawning biomass, and is reported here.
+
+\paragraph{Natural Mortality}\label{natural-mortality}
+
+Natural mortality used in this update differed from the 2015 assessment.
+Natural mortality (M) is a parameter that is often highly uncertain in
+fish stocks. Past assessments of Widow Rockfish assumed constant natural
+mortality of 0.125 yr-1 or 0.15 yr-1. The 2011 assessment estimated M
+with a prior developed by Owen Hamel (NWFSC, pers. comm.) using methods
+described in Hamel (2014). This prior was based on a maximum age of 44
+and 40 for females and males, respectively, a mean temperature of 8
+degrees Celsius (about 150m deep off of Oregon), and a gonadosomatic
+index of 9.99\% and 1.86\% for females and males, respectively (Love et
+al 1990). The sex-specific lognormal priors for M have medians 11 of
+0.124 yr-1 and 0.129 yr-1 for females and males, respectively, and a
+coefficient of variation (CV) of 30.7\% for each sex. In 2015,
+discussions with Owen Hamel (NWFSC) led to the development of a new
+prior based solely on maximum age to use when estimating M. Using all of
+the available age data, a maximum age of 54 was determined for both
+females and males, although it has been rare to observe Widow Rockfish
+older than about 45 years old (Figure 33). This resulted in a prior with
+a much smaller median (0.0810 or -2.513284 in log space) and a larger
+standard deviation in log space (0.523694). For the update assessment,
+an updated meta-anaysis resulted in a prior with a slightly smaller
+median than the 2015 assessment (0.10 or -2.30 in log space) and a
+smaller standard deviation in log space (0.438). Figure 34 shows that
+these prior distributions are wide and not highly informative.
+
+\paragraph{Length-at-age}\label{length-at-age}
+
+Estimates of length-at-age used in this update were the same as the 2015
+assessment. Two different labs have aged the majority of processed
+otoliths for Widow Rockfish. The SWFSC has been aging Widow Rockfish
+otoliths for many years, including all of the fishery data prior to 2011
+and otoliths collected from the NWFSC WCGBT survey in 2009 and 2010. The
+Cooperative Ageing Project (CAP) in Newport, Oregon aged 1,100 otoliths
+from the NWFSC WCGBT survey, 2,026 otoliths provided by ASHOP, and 3,467
+otoliths collected by port samplers. All of the commercial fishery
+samples were collected in the years 2011--2014. In total, there are
+105,814 paired age and length observations ranging from 1978 to 2014.
+Figure 35 shows the lengths and ages for all years and all data as well
+as predicted von Bertalanffy fits to the data. Females grow larger than
+males and sex specific growth parameters were estimated at the following
+values:
+
+\[
+\text{Females: } \qquad  L_\infty = 50.34,\quad k=0.15, \quad t_0 = -2.22
+\]
+
+\[
+\text{Males: } \qquad  L_\infty = 44.19,\quad k=0.21, \quad t_0 = -1.78
+\]
+
+The data from each source (ASHOP, port sampling/BDS, Triennial survey,
+and NWFSC survey) are shown in Figure 36 with fitted von Bertalanffy
+lines. All of these sources are quite similar, especially observations
+from ASHOP and the NWFSC survey. The standard deviation (SD) and
+coefficient of variation (CV) of length-at-age are shown in Figure 37.
+Modelling the CV as a function of predicted length-at-age appears to be
+somewhat linear from a value just over 0.1 at small lengths and slightly
+less than 0.045 at larger lengths. However, variance in length- at-age
+was estimated separately in stock-synthesis.
+
+\paragraph{Sex ratios}\label{sex-ratios}
+
+Females tend to grow larger than males and it is expected that the
+proportion of females approaches one at large lengths and is less than
+0.5 at intermediate lengths. Figure 38 shows that the proportion of
+females at length from survey data is approximately 50\% until
+approximately 34 cm, when the proportion of females drops below 50\%. At
+lengths larger than 46 cm, the proportion of females increases rapidly
+to one, suggesting that few males grow larger than 50 cm
+
+\paragraph{Ageing bias and
+imprecision}\label{ageing-bias-and-imprecision}
+
+Uncertainty surrounding the ageing-error process for widow rockfish used
+in the 2015 assessment was incorporated by estimating ageing error by
+age. No changes were made from the 2015 assessment for the update.
+Age-composition data used in the model were from break-and-burn and
+surface reads and were aged by the Cooperative Ageing Project (CAP) in
+Newport, Oregon and the SWFSC in Santa Cruz, California. 12
+Break-and-burn double reads of 1788 otoliths were performed by both the
+CAP and the SWFSC lab combined. Additionally, 100 otoliths were read
+both by surface and break-and-burn methods. An ageing error estimate was
+made based on these double reads using a computational tool specifically
+developed for estimating ageing error (Punt et al.~2008), and using
+release 1.0.0 of the R package nwfscAgeingError (Thorson et al.~2012)
+for input and output diagnostics, publicly available at:
+https://github.com/nwfsc- assess/nwfscAgeingError. The maximum aged fish
+read by the surface reading method was 10 years and the cross otolith
+reads between the surface and break-and-burn ageing methods showed
+limited variation. Therefore, a unique ageing error was not created for
+surface read otoliths. A non-linear standard error was estimated by age
+where there is more variability in the estimated age of older fish was
+estimated for each reading lab (Table 20 and Figure 39).
+
+\subsubsection{Abundance indices}\label{abundance-indices}
+
+\subsection{Environmental and ecosystem
+data}\label{environmental-and-ecosystem-data}
+
+\newpage{}
+
+\section{Assessment model}\label{assessment-model}
+
+An age-structured stock assessment model was used to predict the biomass
+trajectory of Widow Rockfish with an approach of balancing parsimony
+with complexity. This allowed for the determination of general trends in
+the biomass over time without introducing extraneous data partitions
+that explain little additional variation. The assessment followed the
+same model structure as the 2015 base assessment.
+
+\subsection{History of modeling
+approaches}\label{history-of-modeling-approaches}
+
+Refer to the most recent full assessment for additional information.
+
+\subsection{Responses to SSC Groundfish Subcommittee
+requests}\label{responses-to-ssc-groundfish-subcommittee-requests}
+
+To be completed after review.
+
+\subsection{Model Structure and
+Assumptions}\label{model-structure-and-assumptions}
+
+\subsubsection{Model Changes from the Last
+Assessment}\label{model-changes-from-the-last-assessment}
+
+\subsubsection{Modeling Platform and
+Structure}\label{modeling-platform-and-structure}
+
+\subsubsection{Model Parameters}\label{model-parameters}
+
+\subsubsection{Key Assumptions and Structural
+Choices}\label{key-assumptions-and-structural-choices}
+
+Refer to the most recent full assessment for additional information.
+
+\subsection{Base Model Results}\label{base-model-results}
+
+\subsubsection{Parameter Estimates}\label{parameter-estimates}
+
+\subsubsection{Fits to the Data}\label{fits-to-the-data}
+
+\subsubsection{Population Trajectory}\label{population-trajectory}
+
+\subsection{Model Diagnostics}\label{model-diagnostics}
+
+Three types of uncertainty are presented for the assessment of Widow
+Rockfish. First, uncertainty in the parameter estimates was determined
+using approximate asymptotic estimates of the standard error. These
+estimates were based on the maximum likelihood theory that the inverse
+of the Hessian matrix (the second derivative of the log-likelihood
+function with respect to the parameter vector) approaches the true
+uncertainty of the parameter estimates as the sample size approaches
+infinity. This approach takes into account the uncertainty in the data
+and supplies correlation estimates between parameters, but does not
+capture possible skewness in the error distribution of the parameters
+and may not accurately estimate the standard error in some cases (see
+Stewart et al.~2013) UPDATE REF!!!!!!.
+
+The second type of uncertainty that is presented is related to modeling
+and structural error. This uncertainty cannot be captured in the base
+model as it is related to errors in the assumptions used in specifying
+the base model. Therefore, sensitivity analyses were conducted where
+assumptions were modified to reveal the effect they have on the model
+results.
+
+Lastly, a major axis of uncertainty was determined from a parameter or
+structural assumption that results in the greatest change in stock
+status and advice, and projections were made for different states of
+nature based upon that parameter or structural assumption.
+
+\subsubsection{Convergence}\label{convergence}
+
+\subsubsection{Parameter Uncertainty}\label{parameter-uncertainty}
+
+Parameter estimates are shown in Table 22, Table 23, and Table 28 along
+with approximate asymptotic standard errors. The only parameters with an
+absolute value of correlation greater than 0.95 were the female and male
+natural mortality parameters, which is expected. Estimates of key
+derived quantities are given in Table 26 along with approximate 95\%
+asymptotic confidence intervals. There is a reasonable amount of
+uncertainty in the estimates of biomass. The confidence interval of the
+2019 estimate of depletion is XX\%--XX\% and above the management target
+of 40\% of the unfished spawning biomass.
+
+\subsubsection{Sensitivity Analyses}\label{sensitivity-analyses}
+
+\subsubsection{Retrospective Analysis}\label{retrospective-analysis}
+
+\subsubsection{Likelihood Profiles and key
+parameters}\label{likelihood-profiles-and-key-parameters}
+
+Likelihood profiles were conducted for R0, steepness (even though it was
+not estimated in the base case) and over male and female natural
+mortality values simultaneously. These likelihood profiles were
+conducted by fixing the parameter at specific values and removing the
+prior on the parameter being profiled. Without the original prior
+distribution the MLE estimates from the base case will likely be
+different than the MLE in the likelihood profile, but this displays what
+information the data have. There was some difficulty in achieving model
+convergence for many parameterizations in the likelihood profile. In
+some cases jittering was required.
+
+As R0 increased, natural mortality also increased and the relative
+spawning biomass in 2015 was less depleted (Table 31). There was
+variable support for each likelihood component across the range of R0
+evaluated. The total likelihood supported the estimated value (Table
+31). Profiles are illustrated in Figure 68.
+
+\subsection{Unresolved Problems and Major
+Uncertainties}\label{unresolved-problems-and-major-uncertainties}
+
+\newpage{}
+
+\section{Management}\label{management}
+
+\subsection{Reference Points}\label{reference-points-1}
+
+\subsection{Harvest Projections and Decision
+Tables}\label{harvest-projections-and-decision-tables}
+
+\subsection{Evaluation of Scientific
+Uncertainty}\label{evaluation-of-scientific-uncertainty}
+
+\subsection{Regional management
+considerations}\label{regional-management-considerations}
+
+Widow Rockfish have shown latitudinal differences in life-history
+parameters, which has led past assessment authors to pursue a two-area
+model. Modelling a stock with two areas is difficult because it requires
+many assumptions about recruitment distribution, movement, and
+connectivity, while also splitting data into two areas that reduces
+sample sizes when compared to a coastwide model. The upside is that it
+can result in a better model that more accurately predicts regional
+status. This assessment is a coastwide model because not enough is known
+about the assumptions that would have to be made for a two-area model.
+
+It is still important to consider regional differences when making
+management decisions. Following recent cohorts through time with survey
+data showed that older fish showed up in the north after younger fish
+were observed in the south (Figure 2). This may indicate connectivity
+between the north and the south and that this is truly one stock.
+However, more investigation is needed.
+
+Widow Rockfish are managed on a coastwide basis and observed more often
+in the NWFSC WCGBT bottom trawl survey north of latitude 40° 10′ N.
+Bottom trawl catches in California have historically been as large as in
+Oregon and larger than in Washington, but recently catches in California
+have been small. Rockfish Conservation Areas (RCAs) cover a significant
+proportion of Widow Rockfish habitat, but a midwater trawl fishery is
+beginning to re-develop that can fish in these areas. Future assessments
+and management of Widow Rockfish may want to monitor where catches are
+being taken to make sure that specific areas are not being
+overexploited. In addition, research on the connectivity along the coast
+as well as regional differences would help to inform the potential for
+overfishing specific areas.
+
+\subsection{Research and Data Needs}\label{research-and-data-needs-1}
+
+\newpage{}
+
+\subsection{Acknowledgements}\label{sec-acknowledgements}
+
+\newpage{}
+
+\subsection{References}\label{references}
+
+\newpage{}
+
+\subsection{Tables}\label{tables}
+
+\newpage{}
+
+\subsection{Figures}\label{figures}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-bradburn_2003_2011}
+Bradburn, M. J., A. A Keller, and B. H. Horness. 2011. {``The 2003 to
+2008 {US} {West} {Coast} Bottom Trawl Surveys of Groundfish Resources
+Off {Washington}, {Oregon}, and {California}: Estimates of Distribution,
+Abundance, Length, and Age Composition.''} US Department of Commerce,
+National Oceanic; Atmospheric Administration, National Marine Fisheries
+Service.
+
+\bibitem[\citeproctext]{ref-weinberg_2001_2002}
+Weinberg, K. L., M. E. Wilkins, F. R. Shaw, and M. Zimmermann. 2002.
+{``The 2001 {Pacific} {West} {Coast} Bottom Trawl Survey of Groundfish
+Resources: Estimates of Distribution, Abundance and Length and Age
+Composition.''} NOAA Technical Memorandum NMFS-AFSC-128. U.S. Department
+of Commerce.
+
+\end{CSLReferences}
+
+
+
+
+\end{document}

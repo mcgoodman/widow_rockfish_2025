@@ -3,15 +3,37 @@
 <!-- If a range of model runs is used to characterize uncertainty, it is important to provide some qualitative or quantitative information about relative probability of each. If no statements about relative probability can be made, then it is important to state that all scenarios (or all scenarios between the bounds depicted by the runs) are equally likely.  
 If possible, ranges depicting uncertainty should include at least three runs: (a) one judged most probable; (b) at least one that depicts the range of uncertainty in the direction of lower current biomass levels; and (c) one that depicts the range of uncertainty in the direction of higher current biomass levels. The entire range of uncertainty should be carried through stock projections and decision table analyses.  -->
 
+Three types of uncertainty are presented for the assessment of Widow Rockfish. First, uncertainty in the parameter estimates was determined using approximate asymptotic estimates of the standard error. These estimates were based on the maximum likelihood theory that the inverse of the Hessian matrix (the second derivative of the log-likelihood function with respect to the parameter vector) approaches the true uncertainty of the parameter estimates as the sample size approaches infinity. This approach takes into account the uncertainty in the data and supplies correlation estimates between parameters, but does not capture possible skewness in the error distribution of the parameters and may not accurately estimate the standard error in some cases (see Stewart et al. 2013) UPDATE REF!!!!!!.
+
+The second type of uncertainty that is presented is related to modeling and structural error. This uncertainty cannot be captured in the base model as it is related to errors in the assumptions used in specifying the base model. Therefore, sensitivity analyses were conducted where assumptions were modified to reveal the effect they have on the model results.
+
+Lastly, a major axis of uncertainty was determined from a parameter or structural assumption that results in the greatest change in stock status and advice, and projections were made for different states of nature based upon that parameter or structural assumption.
+
 ### Convergence
 
 <!-- Convergence status and convergence criteria for the base-run model (or proposed base run). Randomization of starting parameter value run (e.g., jitter) results or other evidence of search for global best estimates.  -->
+
+### Parameter Uncertainty
+
+Parameter estimates are shown in Table 22, Table 23, and Table 28 along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in Table 26 along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2019 estimate of depletion is XX%–XX% and above the management target of 40% of the unfished spawning biomass.
 
 ### Sensitivity Analyses
 
 <!-- Sensitivity to assumptions about model structure, i.e., model specification uncertainty.  -->
 
 <!-- Sensitivity to data set choice (e.g., using emphasis factors to selectively remove data sources) and weighting schemes (e.g., MacAllister & Ianelli weighting versus Francis weighting vs. Dirichlet weighting for compositional data), which may also include a consideration of recent patterns in recruitment.  -->
+
+Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. Seven sensitivity analyses were conducted to explore the potential differences in model structure and assumptions, including:
+
+1. Fixed natural mortality at 0.1 for both sexes (2015 assessment prior)
+2. Fixed natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males (2011 assessment prior)
+3. Forcing asymptotic selectivity on the midwater trawl fleet
+4. Fitting logistic curves for survey selectivities
+5. Weighting the composition data using the Francis method
+6. Updated Washington catch reconstruction
+7. Inclusion of previously excluded shrimp trawl data
+
+Likelihood values and estimates of key parameters are shown in Table 29. Predicted spawning biomass trajectories and estimated recruitments are shown in in Figure 65. The estimates of current stock depletion ranged from XXX%-XXX% across the sensitivity runs, with XXX resulting in the lowest estimate and XXX fleet resulting in the highest estimate. 
  
 ### Retrospective Analysis
 
@@ -19,9 +41,15 @@ If possible, ranges depicting uncertainty should include at least three runs: (a
  
 <!-- Historical analysis (plot of actual estimates from current and previous assessments).  -->
 
-### Likelihood Profiles
+A 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (Table 30 and Figure 66). The initial scale of the spawning population was basically unchanged for all of these retrospectives. Removing 4–5 years of data led to slightly lower estimates of fishing mortality (F) and slightly higher spawning biomass over the last 15 years. In contrast, removing only 1–2 years resulted in higher F and lower biomass estimates. Despite these minor differences, all retrospectives showed a consistent declining trend in spawning biomass over the past decade. No concerning patterns were observed in the retrospective analysis.
+
+### Likelihood Profiles and key parameters
 
 <!-- Evaluation of model parameters. Likelihood profile for the base model over key parameters (typically natural morality, stock-recruit steepness, and equilibrium recruitment, or R0). The profile should indicate all likelihood values for individual components (e.g., indices by survey, compositional data for each type and fleet).   -->
+
+Likelihood profiles were conducted for R0, steepness (even though it was not estimated in the base case) and over male and female natural mortality values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. There was some difficulty in achieving model convergence for many parameterizations in the likelihood profile. In some cases jittering was required. 
+
+As R0 increased, natural mortality also increased and the relative spawning biomass in 2015 was less depleted (Table 31). There was variable support for each likelihood component across the range of R0 evaluated. The total likelihood supported the estimated value (Table 31). Profiles are illustrated in Figure 68.
 
 ## Unresolved Problems and Major Uncertainties
 

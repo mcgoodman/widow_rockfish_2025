@@ -2,7 +2,7 @@
 title: 'Status of  SPECIES off the U.S. West Coast in 2025'
 author:
 # add authors in order
-  - name: 'Kiva L. Oken'
+  - name: 'Michael Kinneen'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
@@ -36,12 +36,37 @@ format:
 output-file: 'SPECIES_SAR_2025' 
 params:
    office: 'NWFSC'
-   species: 'COMMON NAME'
-   spp_latin: 'LATIN NAME'
+   species: 'Widow Rockfish'
+   spp_latin: 'Sebastes entomelas'
    region: 'U.S. West Coast'
 bibliography: 
 -  asar_references.bib 
 ---
+```{r}
+#| label: 'read_base_model'
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+library(here)
+library(dplyr)
+
+# source(here('Rscripts/table_sens.R'))
+
+# TODO list of things to update when changing the base model:
+# - [ ] run Rscripts/make_r4ss_figs_tables.R
+# - [ ] run Rscripts/run_diagnostics.R
+# - [ ] run Rscripts/sensitivities.R
+# - [ ] update any hardwired values in the text (or make them dynamic)
+#   - [ ] text on 2019 discards "inadvertently left out of the base model"
+#   - [ ] 
+# base_mod <- '5.09_no_extra_se'
+# mod_in <- r4ss::SS_read(here('model_runs', base_mod))
+# mod_out <- r4ss::SS_output(here('model_runs', base_mod), verbose = FALSE, printstats = FALSE)
+
+```
+
 ```{r} 
 #| label: 'output_and_quantities'
 #| echo: false 
@@ -140,7 +165,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-AUTHORS. (2025) Status of  SPECIES off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
+Michael Kinneen, Maurice Goodman, . (2025) Status of  Widow Rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
 
 {{< pagebreak >}} 
 

@@ -1,10 +1,12 @@
 # Run jitters for 2025 base model
 
 # Set up -----------------------------------------------------------------------
+
+parallel <- TRUE
+
 # Load packages
 library(tidyverse)
 library(r4ss)
-#library(nwfscDiag)
 library(here)
 
 # Source functions
@@ -24,8 +26,13 @@ jitter_frac <- 0.1  # common value to use according to r4ss documentation (https
 # Set exe
 base_exe <- "ss3"  # name of exe (set_ss3_exe doesn't work on my windows computer...)
 
+if (parallel) {
+  library(future)
+  future::plan(future::multisession(workers = parallelly::availableCores(omit = 2)))
+}
 
 # Run base model ---------------------------------------------------------------
+
 r4ss::run(
   dir = base_dir,
   exe = base_exe,
@@ -37,10 +44,11 @@ r4ss::run(
 
 base <- SS_output(base_dir)
 
-
 # Run jitters ------------------------------------------------------------------
-# using r4ss, having issues installing nwfscDiag - make this parallel! check future::plan()
-jitter_loglike <- jitter(
+
+# Using r4ss, having issues installing nwfscDiag - make this parallel! check future::plan()
+# could use init_values_src - lets you decide whether to jitter from the par file, might be worth using if convergence issues
+jitter_loglike <- r4ss::jitter(
   dir = jitter_dir,
   Njitter = njitters,
   printlikes = TRUE,
@@ -49,12 +57,13 @@ jitter_loglike <- jitter(
   verbose = TRUE,
   extras = "-nohess",
   skipfinished = FALSE,
-  show_in_console = TRUE
+  show_in_console = FALSE
 )
-# could use init_values_src - lets you decide whether to jitter from the par file, might be worth using if convergence issues
 
 saveRDS(jitter_loglike, here("models/jitters", "jitter_loglike.RDS"))
 
+# Set back to sequential processing
+if (parallel) future::plan(future::sequential)
 
 # Compare likelihoods ----------------------------------------------------------
 like_df <- data.frame(run = seq(1:njitters), like = NA)  # data frame with run number and likelihood
@@ -73,12 +82,22 @@ ggplot(data = like_df, aes(x = run, y = like)) +
 
 ggsave(here("figures/diagnostics", "jitter_comparison.png"), width = 6, height = 5, units = "in")
 
+# Zoomed likelihood
+ggplot(data = like_df %>% filter(like < 8000), aes(x = run, y = like)) +
+  geom_point() +
+  geom_hline(yintercept = base_like) +  # horizontal line at base ll
+  xlab("log likelihood") +
+  theme_bw() +
+  theme(axis.text.x = element_blank())
+
+ggsave(here("figures/diagnostics", "jitter_comparison_zoomed.png"), width = 6, height = 5, units = "in")
+
 
 # See what likelihoods were below the base
 run_summary <- data.frame(run = 1:njitters, loglike = jitter_loglike)
 below_base <- run_summary %>%
   filter(loglike < base_like)
-min(jitter_loglike)  # lowest loglikelihood of 7664.19, base: 7666.16  (previous time: 7905.46 (base is 7912.2 for this run)
+min(jitter_loglike)  # lowest loglikelihood of 7664.50 (others below are at 7664.52), base: 7664.96  (previous time: 7905.46 (base is 7912.2 for this run)
 
 
 # Compare parameters and outputs for lower LL-----------------------------------
@@ -132,4 +151,23 @@ perc_diff_cutoff <- 0.1
 diff_pars <- base_min_pars_comp %>% filter(perc_diff >= perc_diff_cutoff | perc_diff <= -perc_diff_cutoff)
 write.csv(diff_pars, file = here(jitter_dir, "base_vs_minLL_most_different_parameter_estimates.csv"), row.names = FALSE)
 
+##### Save the par file from one of the lowest LL jitters to use for re-running the base
+n_min_run <- which.min(jitter_loglike)
+par_name <- paste("ss3.par_", n_min_run, ".sso", sep = "")
+
+# Read in par file from best run
+best_par <- SS_readpar_3.30(
+  parfile = here(jitter_dir, par_name),
+  datsource = here(jitter_dir, "2025widow.dat"),
+  ctlsource = here(jitter_dir, "2025widow.ctl"),
+  verbose = TRUE
+)
+
+# Save it as "ss3.par_best.sso"
+SS_writepar_3.30(
+  parlist = best_par,
+  outfile = here(jitter_dir, "ss3.par_best.sso"),
+  overwrite = TRUE,
+  verbose = TRUE
+)
 

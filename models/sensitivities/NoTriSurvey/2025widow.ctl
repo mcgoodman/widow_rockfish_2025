@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-06  10:54:34
+#C file write time: 2025-05-06  15:23:59
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -147,8 +147,8 @@
   0	 2	0.371222	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_Hake(3)        
 -25	25	 -1.6365	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_JuvSurvey(6)    
   0	 2	 1.68807	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_JuvSurvey(6)   
- -4	 4	-2.05842	0	99	0	 2	0	0	0	0	0	 9	1	#_LnQ_base_Triennial(7)    
-  0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_Triennial(7)   
+ -4	 4	-2.05842	0	99	0	-2	0	0	0	0	0	 9	1	#_LnQ_base_Triennial(7)    
+  0	 2	       0	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_Triennial(7)   
 -25	25	-3.14074	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_NWFSC(8)        
   0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_NWFSC(8)       
 -25	25	-11.4353	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_ForeignAtSea(9) 
@@ -223,15 +223,15 @@
     -2	10	        9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_HnL(5)                
     -9	10	       -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_HnL(5)                
     -9	 9	        8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_HnL(5)                
-     0	 2	        0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_Triennial(7)  
--0.001	 1	 0.118854	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_Triennial(7)
-    -1	 1	0.0381032	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_Triennial(7)
-     8	56	       24	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_1_Triennial(7)
-     8	56	       34	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_2_Triennial(7)
-     8	56	       48	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_3_Triennial(7)
-   -10	10	 -1.82423	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_Triennial(7)  
-   -10	10	       -1	-10	  99	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_Triennial(7)  
-   -10	10	 0.435369	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_Triennial(7)  
+     0	 2	        0	  0	   0	0	 99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_Triennial(7)  
+-0.001	 1	 0.118854	  0	   0	0	 -2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_Triennial(7)
+    -1	 1	0.0381032	  0	   0	0	 -2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_Triennial(7)
+     8	56	       24	-10	   0	0	 99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_1_Triennial(7)
+     8	56	       34	-10	   0	0	 99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_2_Triennial(7)
+     8	56	       48	-10	   0	0	 99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_3_Triennial(7)
+   -10	10	 -1.82423	-10	  99	0	 -2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_Triennial(7)  
+   -10	10	       -1	-10	  99	0	 99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_Triennial(7)  
+   -10	10	 0.435369	-10	  99	0	 -2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_Triennial(7)  
      0	 2	        0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_NWFSC(8)      
 -0.001	 1	 0.467133	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_NWFSC(8)    
     -1	 1	-0.109047	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_NWFSC(8)    

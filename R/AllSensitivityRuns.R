@@ -32,6 +32,7 @@ set_ss3_exe <- function(dir, ...) {
 
 # Name of model direct
 model_directory <- 'models'
+dir.create(here("models", "sensitivities"))
 
 # Create executable
 ss3_exe <- set_ss3_exe("models", version = "v3.30.23")
@@ -85,8 +86,7 @@ base_out <- SS_output(file.path(model_directory, base_model_name))
 ### step 1: Create outputs by copying input files 
 
 r4ss::copy_SS_inputs(dir.old = file.path(model_directory, base_model_name), 
-                       dir.new = file.path(model_directory, "sensitivities", 
-                                           "Francis"))
+                       dir.new = file.path(model_directory, "sensitivities", "Francis"))
 
 #### copy over the Report file 
 file.copy(from = file.path(model_directory, base_model_name,
@@ -103,8 +103,7 @@ file.copy(from = file.path(model_directory, base_model_name,
 #### Note that the original model must have been previously run with Stock 
 #### Synthesis, so that a report file is available.
 tune_comps(
-  dir = file.path(model_directory, "sensitivities", 
-                  "Francis"),
+  dir = file.path(model_directory, "sensitivities", "Francis"),
   option = "Francis",
   exe = exe_loc,
   extras = "-nohess",
@@ -265,16 +264,18 @@ SS_write(log_select_survey, file.path("models", "sensitivities", "LogisCurvSurvS
 no_tri_survey <- base_model
 
 ### Step 2: Apply sensitivity changes
-# # fix selectivity for tri survey--needed??
-# # q opts list
-# q_opts_list <- c("LnQ_base_Triennial(7)","Q_extraSD_Triennial(7)")
-# no_tri_survey$ctl$Q_parms[row.names(no_tri_survey$ctl$Q_parms) %in% q_opts_list,]$PHASE <- -1*no_tri_survey$ctl$Q_parms[row.names(no_tri_survey$ctl$Q_parms) %in% q_opts_list,]$PHASE
-# # selex parameters
-# base_sel_list <- c("SizeSel_Spline_Code_Triennial(7)", "SizeSel_Spline_GradLo_Triennial(7)", "SizeSel_Spline_GradHi_Triennial(7)", "SizeSel_Spline_Knot_1_Triennial(7)", "SizeSel_Spline_Knot_2_Triennial(7)", "SizeSel_Spline_Knot_3_Triennial(7)", "SizeSel_Spine_Val_1_Triennial(7)", "SizeSel_Spine_Val_2_Triennial(7)", "SizeSel_Spine_Val_3_Triennial(7)")
-# no_tri_survey$ctl$size_selex_parms[row.names(no_tri_survey$ctl$size_selex_parms) %in% base_sel_list,]$PHASE <- -1*no_tri_survey$ctl$size_selex_parms[row.names(no_tri_survey$ctl$size_selex_parms) %in% base_sel_list,]$PHASE
-# # then deal w time varying
-# tm_vy_list <- c("LnQ_base_Triennial(7)_BLK9add_1995")
-# no_tri_survey$ctl$size_selex_parms_tv[row.names(no_tri_survey$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE <- -1*no_tri_survey$ctl$size_selex_parms_tv[row.names(no_tri_survey$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE
+# fix selectivity for tri survey--needed??
+# q opts list
+q_opts_list <- c("LnQ_base_Triennial(7)","Q_extraSD_Triennial(7)")
+no_tri_survey$ctl$Q_parms[row.names(no_tri_survey$ctl$Q_parms) %in% q_opts_list,]$PHASE <- -1*no_tri_survey$ctl$Q_parms[row.names(no_tri_survey$ctl$Q_parms) %in% q_opts_list,]$PHASE
+
+# selex parameters
+base_sel_list <- c("SizeSel_Spline_Code_Triennial(7)", "SizeSel_Spline_GradLo_Triennial(7)", "SizeSel_Spline_GradHi_Triennial(7)", "SizeSel_Spline_Knot_1_Triennial(7)", "SizeSel_Spline_Knot_2_Triennial(7)", "SizeSel_Spline_Knot_3_Triennial(7)", "SizeSel_Spine_Val_1_Triennial(7)", "SizeSel_Spine_Val_2_Triennial(7)", "SizeSel_Spine_Val_3_Triennial(7)")
+no_tri_survey$ctl$size_selex_parms[row.names(no_tri_survey$ctl$size_selex_parms) %in% base_sel_list,]$PHASE <- -1*no_tri_survey$ctl$size_selex_parms[row.names(no_tri_survey$ctl$size_selex_parms) %in% base_sel_list,]$PHASE
+
+# then deal w time varying
+tm_vy_list <- c("LnQ_base_Triennial(7)_BLK9add_1995")
+no_tri_survey$ctl$size_selex_parms_tv[row.names(no_tri_survey$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE <- -1*no_tri_survey$ctl$size_selex_parms_tv[row.names(no_tri_survey$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE
 
 no_tri_survey$dat$CPUE$index <- ifelse(no_tri_survey$dat$CPUE$index==7, -1*no_tri_survey$dat$CPUE$index, no_tri_survey$dat$CPUE$index)
 no_tri_survey$dat$lencomp$fleet <- ifelse(no_tri_survey$dat$lencomp$fleet==7, -1*no_tri_survey$dat$lencomp$fleet, no_tri_survey$dat$lencomp$fleet)
@@ -354,7 +355,7 @@ model_list <- c(
   `Midwatertrawl asymptotic selectivity forced` = "AsympSelMidwaterTrawl", 
   `Logistic selectivity curves for surveys` = "LogisCurvSurvSel", 
   `Inclusing of shrimp trawl` = "ShrmpNoShrmp", 
-  `New Washington catch reconstruction` = "",
+  `New Washington catch reconstruction` = "NewWACatch",
   `Fixed steepness at 0.4` = "FixedSteep2019_A", 
   `Fixed steepness at 0.6` = "FixedSteep2019_B", 
   `Fixed steepness at 0.798 (2015 assessment)` = "FixedSteep2019_C", 
@@ -500,7 +501,7 @@ dev.quants <- rbind(
   tidyr::pivot_longer(-c(base, Metric, baseSD), names_to = 'Model', values_to = 'Est') |>
   dplyr::mutate(relErr = (Est - base)/base,
                 logRelErr = log(Est/base),
-                mod_num = match(dev.quants$Model, names(sens_list)))
+                mod_num = match(Model, names(sens_paths)))
 
 metric.labs <- c(
   SB0 = expression(SB[0]),

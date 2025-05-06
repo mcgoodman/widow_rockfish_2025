@@ -119,6 +119,47 @@ tune_comps(
   niters_tuning = 3, 
 )
 
+## Fixing steepness at 2019 selectivity values ---------------------------------
+
+### Step 1: Copy base model
+
+fix_steep_A <- base_model
+
+### Step 2: Apply sensitivity changes
+fix_steep_A$ctl$SR_parms["SR_BH_steep", ]$INIT <- 0.4 # fixed value
+fix_steep_A$ctl$SR_parms["SR_BH_steep", ]$PHASE <- -1*fix_steep_A$ctl$SR_parms["SR_BH_steep", ]$PHASE # negative phase = no estimations
+
+### Step 3: Save sensitivity as new model
+
+SS_write(fix_steep_A, file.path("models", "sensitivities", "FixedSteep2019_A"),
+         overwrite = TRUE)
+
+### Step 1: Copy base model
+
+fix_steep_B <- base_model
+
+### Step 2: Apply sensitivity changes
+fix_steep_B$ctl$SR_parms["SR_BH_steep", ]$INIT <- 0.6 # fixed value
+fix_steep_B$ctl$SR_parms["SR_BH_steep", ]$PHASE <- -1*fix_steep_B$ctl$SR_parms["SR_BH_steep", ]$PHASE # negative phase = no estimations
+
+### Step 3: Save sensitivity as new model
+
+SS_write(fix_steep_B, file.path("models", "sensitivities", "FixedSteep2019_B"),
+         overwrite = TRUE)
+
+### Step 1: Copy base model
+
+fix_steep_C <- base_model
+
+### Step 2: Apply sensitivity changes
+fix_steep_C$ctl$SR_parms["SR_BH_steep", ]$INIT <- 0.798 # fixed value
+fix_steep_C$ctl$SR_parms["SR_BH_steep", ]$PHASE <- -1*fix_steep_C$ctl$SR_parms["SR_BH_steep", ]$PHASE # negative phase = no estimations
+
+### Step 3: Save sensitivity as new model
+
+SS_write(fix_steep_C, file.path("models", "sensitivities", "FixedSteep2019_C"),
+         overwrite = TRUE)
+
 ## Fixing mortality at 2019 selectivity values ---------------------------------
 
 ### Step 1: Copy base model
@@ -150,6 +191,25 @@ fix_mort_B$ctl$MG_parms["NatM_p_1_Mal_GP_1", ]$PHASE <- -1*fix_mort_B$ctl$MG_par
 
 SS_write(fix_mort_B, file.path("models", "sensitivities", "FixedFMort2019_B"),
          overwrite = TRUE)
+
+# run_sens_model <- here(model_directory, "sensitivities", "FixedFMort2019_B")
+# 
+# # run model
+# r4ss::run(
+#   dir = run_sens_model, # make sure to edit the directory
+#   exe = exe_loc,
+#   extras = "-nohess", # no hess for now
+#   show_in_console = TRUE,
+#   skipfinished = !rerun
+# )
+# 
+# # Get r4ss output
+# replist <- SS_output( # make the output files
+#   dir = run_sens_model,
+#   verbose = TRUE,
+#   printstats = TRUE,
+#   covar = TRUE
+# )
 
 ## Forcing asymptotic selectivity on the midwater trawl fleet ------------------
 
@@ -271,17 +331,59 @@ SS_write(log_select_survey, file.path("models", "sensitivities", "LogisCurvSurvS
 # 
 # SS_plots(replist, dir = "models/sensitivities/LogisCurvSurvSel")
 
+## Excluding triennial survey ----------------------------
+
+### Step 1: Copy base model
+
+no_tri_survey <- base_model
+
+### Step 2: Apply sensitivity changes
+# # fix selectivity for tri survey--needed??
+# # q opts list
+# q_opts_list <- c("LnQ_base_Triennial(7)","Q_extraSD_Triennial(7)")
+# no_tri_survey$ctl$Q_parms[row.names(no_tri_survey$ctl$Q_parms) %in% q_opts_list,]$PHASE <- -1*no_tri_survey$ctl$Q_parms[row.names(no_tri_survey$ctl$Q_parms) %in% q_opts_list,]$PHASE
+# # selex parameters
+# base_sel_list <- c("SizeSel_Spline_Code_Triennial(7)", "SizeSel_Spline_GradLo_Triennial(7)", "SizeSel_Spline_GradHi_Triennial(7)", "SizeSel_Spline_Knot_1_Triennial(7)", "SizeSel_Spline_Knot_2_Triennial(7)", "SizeSel_Spline_Knot_3_Triennial(7)", "SizeSel_Spine_Val_1_Triennial(7)", "SizeSel_Spine_Val_2_Triennial(7)", "SizeSel_Spine_Val_3_Triennial(7)")
+# no_tri_survey$ctl$size_selex_parms[row.names(no_tri_survey$ctl$size_selex_parms) %in% base_sel_list,]$PHASE <- -1*no_tri_survey$ctl$size_selex_parms[row.names(no_tri_survey$ctl$size_selex_parms) %in% base_sel_list,]$PHASE
+# # then deal w time varying
+# tm_vy_list <- c("LnQ_base_Triennial(7)_BLK9add_1995")
+# no_tri_survey$ctl$size_selex_parms_tv[row.names(no_tri_survey$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE <- -1*no_tri_survey$ctl$size_selex_parms_tv[row.names(no_tri_survey$ctl$size_selex_parms_tv) %in% tm_vy_list,]$PHASE
+
+no_tri_survey$dat$CPUE$index <- ifelse(no_tri_survey$dat$CPUE$index==7, -1*no_tri_survey$dat$CPUE$index, no_tri_survey$dat$CPUE$index)
+no_tri_survey$dat$lencomp$fleet <- ifelse(no_tri_survey$dat$lencomp$fleet==7, -1*no_tri_survey$dat$lencomp$fleet, no_tri_survey$dat$lencomp$fleet)
+no_tri_survey$dat$agecomp$fleet <- ifelse(no_tri_survey$dat$agecomp$fleet==7, -1*no_tri_survey$dat$agecomp$fleet, no_tri_survey$dat$agecomp$fleet)
+
+### Step 3: Save sensitivity as new model
+
+SS_write(no_tri_survey, file.path("models", "sensitivities", "NoTriSurvey"),
+         overwrite = TRUE)
+
 ## Inclusion vs. exclusion of shrimp trawl catches -----------------------------
 
 # Step 1: Copy base model
-
-sensi_mod <- base_model
+shrimp_trawl <- base_model
 
 ### Step 2: Apply sensitivity changes
 
 ### Step 3: Save sensitivity as new model
 
-SS_write(sensi_mod, file.path("models", "sensitivities", "ShrmpNoShrmp"),
+SS_write(shrimp_trawl, file.path("models", "sensitivities", "ShrmpNoShrmp"),
+         overwrite = TRUE)
+
+## WA catch reconstruction -----------------------------
+
+# Step 1: Copy base model
+
+shrimp_trawl <- base_model
+
+### Step 2: Apply sensitivity changes
+catch_w_shrimp <- read.csv(here("data_derived", "catches", "2019_catch_shrimp_added.csv"))
+data_2019 <- SS_readdat(here(base_shrimp_dir, "2019widow.dat"))
+data_2019$catch <- catch_w_shrimp
+
+### Step 3: Save sensitivity as new model
+
+SS_write(shrimp_trawl, file.path("models", "sensitivities", "ShrmpNoShrmp"),
          overwrite = TRUE)
 
 ## Any issues noted in the STAR or SSC reports ----------------------------
@@ -373,16 +475,24 @@ make_detailed_sensitivities  <- function(biglist, mods,
 
 ## If testing model parameter sensitivities ------------------------------------
 
-modeling <- data.frame(dir = c('FixedFMort2019', 
+modeling <- data.frame(dir = c('FixedFMort2019_A', 
+                               'FixedFMort2019_B',
                                'AsympSelMidwaterTrawl',
                                'LogisCurvSurvSel',
                                'ShrmpNoShrmp',
-                               'StarSscSens'),
-                       pretty = c('Fixed Fmort to 2019 sensitivity',
+                               'FixedSteep2019_A',
+                               'FixedSteep2019_B',
+                               'FixedSteep2019_C',
+                               'NoTriSurvey'),
+                       pretty = c('Fixed natural mortality to 2015 prior',
+                                  'Fixed natural mortality to 2011 prior',
                                   'Midwatertrawl asymptotic selectivity forced',
                                   'Logistic selectivity curves for surveys',
                                   'Inclusing of shrimp trawl',
-                                  'Issues noted in star or ssc report' # if any
+                                  'Fixed steepness at 0.4',
+                                  'Fixed steepness at 0.6',
+                                  'Fixed steepness at 0.798 (2015 assessment)',
+                                  'Exclusion of triennial survey'
                                   ))
 
 ## If testing indices sensitivities --------------------------------------------

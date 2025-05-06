@@ -145,7 +145,7 @@ trawl_ratio |> ggplot(aes(year, p_mdt)) +
 
 ggsave(
   here("figures", "current_catches", "Washington_trawl_proportion.png"), 
-  height = 5, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 5, width = 10, units = "in", dpi = 500
 )
 
 ### Replace Oregon 1981-1986 catches ------------------------------------------
@@ -222,7 +222,7 @@ catch_st_flt_yr |>
 
 ggsave(
   here("figures", "current_catches", "PacFIN_landings_by_fleet.png"), 
-  height = 5, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 5, width = 10, units = "in", dpi = 500
 )
 
 catch_modern |> 
@@ -248,7 +248,7 @@ catch_modern |>
   
 ggsave(
   here("figures", "current_catches", "2019_landings_by_fleet.png"), 
-  height = 5, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 5, width = 10, units = "in", dpi = 500
 )
 
 ### By state ------------------------------------------------------------------
@@ -270,7 +270,7 @@ catch_st_flt_yr |>
   
 ggsave(
   here("figures", "current_catches", "landings_by_state_fleet.png"), 
-  height = 6, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 6, width = 10, units = "in", dpi = 500
 )
 
 ### Correlation ---------------------------------------------------------------
@@ -293,7 +293,7 @@ state_fleet_joined |>
 
 ggsave(
   here("figures", "current_catches", "cor_landings_by_state_fleet.png"), 
-  height = 4, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 4, width = 10, units = "in", dpi = 500
 )
 
 #### 2000 onward --------------------------------------------------------------
@@ -309,7 +309,7 @@ state_fleet_joined |>
 
 ggsave(
   here("figures", "current_catches", "cor_landings_by_state_fleet_2000-2014.png"), 
-  height = 4, width = 10, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 4, width = 10, units = "in", dpi = 500
 )
 
 ## WA reconstruction comparison -----------------------------------------------
@@ -346,7 +346,7 @@ wa_trawl_adj |>
 
 ggsave(
   here("figures", "current_catches", "WA_reconstuction_trawl_comparison.png"), 
-  height = 5, width = 8, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 5, width = 8, units = "in", dpi = 500
 )
 
 ### Non-trawl -----------------------------------------------------------------
@@ -381,62 +381,12 @@ wa_nontrawl_adj |>
 
 ggsave(
   here("figures", "current_catches", "WA_reconstuction_nontrawl_comparison.png"), 
-  height = 5, width = 8, units = "in", dpi = 500, device = png, type = "cairo"
+  height = 5, width = 8, units = "in", dpi = 500
 )
 
 # 2. Output catch for 2025 assessment update ----------------------------------
 
 dir.create(save_dir <- here("data_derived", "catches/"))
-
-## Add shrimp trawls (sensitivity run) ----------------------------------------
-
-catch_2019_wshrimp <- catch.pacfin |> 
-  filter(!is.na(COUNTY_STATE) & IOPAC_PORT_GROUP != "PUGET SOUND") |>
-  mutate(shrimp = grepl("shrimp", tolower(GEAR_NAME))) |> 
-  filter(shrimp) |> 
-  group_by(year = PACFIN_YEAR) |> 
-  summarize(catch_shrimp = sum(LANDED_WEIGHT_MTONS), .groups = "drop") |> 
-  mutate(seas = 1, fleet = 1) |> 
-  right_join(catch_2019, by = c("year", "seas", "fleet")) |> 
-  mutate(catch_shrimp = ifelse(is.na(catch_shrimp), 0, catch_shrimp), catch = catch + catch_shrimp) |> 
-  select(-catch_shrimp) |> 
-  arrange(fleet, year)
-
-write.csv(catch_2019_wshrimp, here(save_dir, "2019_catch_shrimp_added.csv"), row.names = FALSE)
-
-catch_2019_wshrimp |> 
-  select(year, seas, fleet, catch_wshrimp = catch) |> 
-  left_join(catch_2019) |> 
-  group_by(year) |> 
-  summarize(catch = sum(catch), catch_wshrimp = sum(catch_wshrimp)) |> 
-  mutate(shrimp_prop = (catch_wshrimp - catch)/catch) |> 
-  filter(year >= 1981) |> 
-  ggplot(aes(year, shrimp_prop)) + 
-  geom_line(linewidth = 1) + 
-  labs(y = "Shrimp trawl catch proportion") + 
-  scale_x_continuous(breaks = seq(1982, 2020, 2)) + 
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
-
-ggsave(
-  here("figures", "current_catches", "proportion_shrimp_trawls.png"), 
-  height = 3, width = 6, units = "in", dpi = 500, device = png, type = "cairo"
-)
-
-## WA catch reconstruction (sensitivity run) ----------------------------------
-
-wa_adj <- bind_rows(
-  select(wa_trawl_adj, year, fleet, landings_diff), 
-  select(wa_nontrawl_adj, year, fleet, landings_diff)
-)
-
-wa_adj$fleet <- match(wa_adj$fleet, fleet_lvls)
-
-catch_2019_wa <- catch_2019 |> 
-  left_join(wa_adj, by = c("year", "fleet")) |> 
-  mutate(catch = catch + ifelse(is.na(landings_diff), 0, landings_diff)) |> 
-  select(-landings_diff)
-
-write.csv(catch_2019_wa, here(save_dir, "2019_catch_wa_reconstruction.csv"), row.names = FALSE)
 
 ## Adjust 1979-2019 CA midwater / bottom trawl ratio --------------------------
 
@@ -474,3 +424,54 @@ new_data <- catch_flt |>
 catch_2025 <- new_data |> bind_rows(catch_2019_adj) |> arrange(fleet, year)
 
 write.csv(catch_2025, here(save_dir, "2025_catches.csv"), row.names = FALSE)
+
+## Add shrimp trawls (sensitivity run) ----------------------------------------
+
+catch_2025_wshrimp <- catch.pacfin |> 
+  filter(!is.na(COUNTY_STATE) & IOPAC_PORT_GROUP != "PUGET SOUND") |>
+  mutate(shrimp = grepl("shrimp", tolower(GEAR_NAME))) |> 
+  filter(shrimp) |> 
+  group_by(year = PACFIN_YEAR) |> 
+  summarize(catch_shrimp = sum(LANDED_WEIGHT_MTONS), .groups = "drop") |> 
+  mutate(seas = 1, fleet = 1) |> 
+  right_join(catch_2025, by = c("year", "seas", "fleet")) |> 
+  mutate(catch_shrimp = ifelse(is.na(catch_shrimp), 0, catch_shrimp), catch = catch + catch_shrimp) |> 
+  select(-catch_shrimp) |> 
+  arrange(fleet, year)
+
+write.csv(catch_2025_wshrimp, here(save_dir, "2025_catch_shrimp_added.csv"), row.names = FALSE)
+
+catch_2025_wshrimp |> 
+  select(year, seas, fleet, catch_wshrimp = catch) |> 
+  left_join(catch_2025) |> 
+  group_by(year) |> 
+  summarize(catch = sum(catch), catch_wshrimp = sum(catch_wshrimp)) |> 
+  mutate(shrimp_prop = (catch_wshrimp - catch)/catch) |> 
+  filter(year >= 1981) |> 
+  ggplot(aes(year, shrimp_prop)) + 
+  geom_line(linewidth = 1) + 
+  labs(y = "Shrimp trawl catch proportion") + 
+  scale_x_continuous(breaks = seq(1982, 2024, 2)) + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+
+ggsave(
+  here("figures", "current_catches", "proportion_shrimp_trawls.png"), 
+  height = 3, width = 6, units = "in", dpi = 500
+)
+
+## WA catch reconstruction (sensitivity run) ----------------------------------
+
+wa_adj <- bind_rows(
+  select(wa_trawl_adj, year, fleet, landings_diff), 
+  select(wa_nontrawl_adj, year, fleet, landings_diff)
+)
+
+wa_adj$fleet <- match(wa_adj$fleet, fleet_lvls)
+
+catch_2025_wa <- catch_2025 |> 
+  left_join(wa_adj, by = c("year", "fleet")) |> 
+  mutate(catch = catch + ifelse(is.na(landings_diff), 0, landings_diff)) |> 
+  select(-landings_diff) |> 
+  arrange(fleet, year)
+
+write.csv(catch_2025_wa, here(save_dir, "2025_catch_wa_reconstruction.csv"), row.names = FALSE)

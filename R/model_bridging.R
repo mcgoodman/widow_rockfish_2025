@@ -349,6 +349,19 @@ if (!skip_finished) {
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
+# Add new forecast catches --------------------------------
+
+fcst <- r4ss::SS_readforecast(here("models", "2025 base model", "forecast.ss"))
+
+gmt_fcst <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT_forecast_catch.csv"))
+rownames(gmt_fcst) <- paste0("#_ForeCatch", 1:nrow(gmt_fcst))
+
+fcst$ForeCatch <-  gmt_fcst |> 
+  mutate(seas = 1) |> 
+  select(year, seas, fleet, catch_or_F = catch_mt)
+
+SS_writeforecast(mylist = fcst, dir = here("models", "2025 base model"), overwrite = TRUE)
+
 # Bridging plots ------------------------------------------
 
 # List directories and model names

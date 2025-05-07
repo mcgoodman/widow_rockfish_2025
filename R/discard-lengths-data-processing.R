@@ -482,3 +482,76 @@ read.csv(here("data_derived/discards/discard_length_comps_April_no-midwater.csv"
   scale_x_continuous(breaks = years_to_display[-1]) + 
   theme(legend.position = "right") + 
   facet_wrap(~fleet, nrow=2)
+
+
+# ======= Figures for report mimicking 2019 plots 
+lcomps.2025 <-(SS_readdat(here("models/2025 base model/2025widow.dat")))$lencomp
+
+# Plot Bottom Trawl from WCGOP
+
+jpeg(here("figures/discard_comps/bottom_trawl_pikitch.jpg"), width = 2550, height = 3300, res = 300)
+
+  fltsrv <- ""
+  dat_sub <- lcomps.2025[which(lcomps.2025$fleet == 1),]
+  dat_sub <- dat_sub[which(dat_sub$year > 0),]
+  dat_sub <- dat_sub[which(dat_sub$part %in% c(1)),]
+  ylab="Length (cm)"; xlab="Year"
+  if(nrow(dat_sub) > 0){
+    
+    nbins <- 25
+    x <- as.numeric(as.character(dat_sub$year))
+    dat <- dat_sub[,7:ncol(dat_sub)]
+    inch <- 0.1
+    y <- as.numeric(substring(names(dat),2))
+    y <- y[1:nbins]
+    xlim <- range(x)
+    
+    par(mfrow=c(2,1))
+    
+    name <- "Female"
+    plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "discard", fltsrv))
+    for(j in 1:nrow(dat_sub)){
+      if(dat_sub$year[j] > 0){
+        if(dat_sub$sex[j] %in% c(1, 3)){
+          symbols(rep(dat_sub$year[j], nbins),y,circles=dat[j,grep("f", colnames(dat))],inches=inch, add = TRUE)
+        }
+      }
+    }
+    
+    name <- "Male"
+    plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "Discard", fltsrv))
+    for(j in 1:nrow(dat_sub)){
+      if(dat_sub$year[j] > 0){
+        if(dat_sub$sex[j] == 2){
+          symbols(rep(dat_sub$year[j], nbins),y,circles=dat[j,grep("m", colnames(dat))],inches=inch, add = TRUE)
+        }
+      }
+    }
+  }
+dev.off()
+
+jpeg(here("figures/discard_comps/bottom_trawl_wcgop.jpg"), width = 2550, height = 1650, res = 300)
+
+# Plot Bottom Trawl from WCGOP 
+  par(mfrow=c(1,1))
+  fltsrv <- "Bottom Trawl Discard, WCGOP"
+  dat_sub <- lcomps.2025[which(lcomps.2025$fleet == 1),]
+  dat_sub <- dat_sub[which(dat_sub$year > 1990),]
+  dat_sub <- dat_sub[which(dat_sub$part %in% c(1)),]
+  ylab="Length (cm)"; xlab="Year"
+
+  nbins <- 25
+  x <- as.numeric(as.character(dat_sub$year))
+  dat <- dat_sub[,7:31]
+  inch <- 0.1
+  y <- as.numeric(substring(names(dat),2))
+  y <- y[1:nbins]
+  xlim <- range(x)
+  
+  plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = fltsrv)
+  for(j in 1:nrow(dat_sub)){
+    if(dat_sub$year[j] > 1990){
+        symbols(rep(dat_sub$year[j], nbins),y,circles=dat[j,grep("f", colnames(dat))],inches=inch, add = TRUE)
+    }
+  }
+dev.off()  

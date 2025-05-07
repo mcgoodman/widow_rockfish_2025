@@ -27,13 +27,23 @@ Sensitivity analysis was performed to determine the model behavior under differe
 
 1. Fixed natural mortality at 0.1 for both sexes (2015 assessment prior)
 2. Fixed natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males (2011 assessment prior)
-3. Forcing asymptotic selectivity on the midwater trawl fleet
-4. Fitting logistic curves for survey selectivities
-5. Weighting the composition data using the Francis method
-6. Updated Washington catch reconstruction
-7. Inclusion of previously excluded shrimp trawl data
+3. Fixed steepness at 0.4
+4. Fixed steepness at 0.6
+5. Fixed steepness at 0.798 (2015 assessment value)
+6. Forcing asymptotic selectivity on the midwater trawl fleet
+7. Fitting logistic curves for survey selectivities
+8. Weighting the composition data using the Francis method
+9. Updated Washington catch reconstruction
+10. Inclusion of previously excluded shrimp trawl data
+11. Exclusion of triennial survey data
 
-Likelihood values and estimates of key parameters are shown in Table 29. Predicted spawning biomass trajectories and estimated recruitments are shown in in Figure 65. The estimates of current stock depletion ranged from XXX%-XXX% across the sensitivity runs, with XXX resulting in the lowest estimate and XXX fleet resulting in the highest estimate. 
+Likelihood values [ADD COMMENTARY, ESP RE LOWER LIKELIHOODS] and estimates of key parameters are shown in Table 29. Predicted spawning biomass trajectories and estimated recruitments are shown in in Figure 65. The estimates of current stock depletion ranged from 55%-142% across the sensitivity runs, with fixing natural mortality at 0.1 resulting in the lowest estimate and forcing asymptotic selectivity on the midwater trawl fleet resulting in the highest estimate. 
+
+Fixing M at values lower than the base case estimate resulted in the largest changes to spawning biomass (Figure 65). Due to the changes in spawning biomass, the relative spawning biomass in 2025 changed to 93% with an M of 0.124 yr-1 and 0.129 yr-1 for females and males, respectively, and then to 55% with an M of 0.1 yr-1. 
+
+Fixing steepness at a value of 0.6 resulted in an increase of the spawning biomass to 125% and a decrease in equilibrium yield at a SPR50% reference harvest rate, while other tested values for fixed steepness had relatively minimal effects on spawning biomass and equilibrium yield at a SPR50% reference harvest rate. 
+
+The value of steepness also had a large effect on the end of the time series with smaller values of steepness resulting in a more depleted stock in 2018. Fixing steepness at a value of 0.4 resulted in a large reduction in spawning biomass from 89.8% in the base to 52.5% (Figure 65), which is comparable to the natural mortality sensitivity where M = 0.1. Equilibrium yield at a SPR50% reference harvest rate also decreased significantly, as expected, to a low of 3,602 mt with a steepness of 0.40. Fixing steepness at 0.6 also decreased the relative spawning biomass to 81.2%. The total likelihood when h is set to 0.6 is within the significance level of a one-parameter likelihood profile. On the other hand, fixing steepness at a greater value than the assessment (h = .798) resulted in a higher relative spawning biomass, with a relative spawning biomass of 94.0% in 2018. The total likelihood when h is set to 0.798 is equivalent to the base model. 
  
 ### Retrospective Analysis
 

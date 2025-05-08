@@ -427,7 +427,8 @@ if(!all(run_checks)) stop("1 or more runs failed")
 
 ## Put it all together ---------------------------------------------------------
 
-sens_paths <- c(base = here("GitHub", "widow-assessment-update", "models", "2025 base model"), model_paths)
+# sens_paths <- c(base = here("GitHub", "widow-assessment-update", "models", "2025 base model"), model_paths) # missing RStudio
+sens_paths <- c(base = here("models", "2025 base model"), model_paths)
 
 big_sensitivity_output <- SSgetoutput(dirvec = sens_paths) |>
   setNames(c('2025 base model', names(model_list)))
@@ -437,11 +438,12 @@ big_sensitivity_output <- SSgetoutput(dirvec = sens_paths) |>
 which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
 
 dir.create(outdir <- here("figures", "sensitivities"))
+# outdir <- here("GitHub", "widow-assessment-update", "figures", "sensitivities")
 
-  shortlist <- r4ss::SSsummarize(big_sensitivity_output[c('base', names(model_list))])
+  shortlist <- r4ss::SSsummarize(big_sensitivity_output)
 
   r4ss::SSplotComparisons(shortlist,
-                          subplots = c(2, 4, 18), 
+                          subplots = c(2, 4, 11, 18), 
                           print = TRUE,  
                           plot = FALSE,
                           plotdir = outdir, 

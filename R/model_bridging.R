@@ -349,6 +349,10 @@ if (!skip_finished) {
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
+#Run the base model and store r4ss plots in figures dir so they store
+r4ss::run(dir = here("models", "2025 base model"),exe = base_exe,skipfinished = FALSE)
+r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")),dir = here::here("figures","2025 base model r4ss plots"))
+
 # Add new forecast catches --------------------------------
 
 fcst <- r4ss::SS_readforecast(here("models", "2025 base model", "forecast.ss"))

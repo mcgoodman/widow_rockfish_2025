@@ -427,10 +427,10 @@ if(!all(run_checks)) stop("1 or more runs failed")
 
 ## Put it all together ---------------------------------------------------------
 
-sens_paths <- c(base = here("models", "2025 base model"), model_paths)
+sens_paths <- c(base = here("GitHub", "widow-assessment-update", "models", "2025 base model"), model_paths)
 
 big_sensitivity_output <- SSgetoutput(dirvec = sens_paths) |>
-  setNames(c('base', names(model_list)))
+  setNames(c('2025 base model', names(model_list)))
 
 ## Test to make sure they all read correctly -----------------------------------
 
@@ -438,22 +438,21 @@ which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
 
 dir.create(outdir <- here("figures", "sensitivities"))
 
-for (i in seq_along(model_list)) {
-  
   shortlist <- r4ss::SSsummarize(big_sensitivity_output[c('base', names(model_list))])
-  
+
   r4ss::SSplotComparisons(shortlist,
                           subplots = c(2, 4, 18), 
                           print = TRUE,  
                           plot = FALSE,
                           plotdir = outdir, 
-                          filenameprefix = i,
-                          legendlabels = c('Base', names(model_list)[i]), 
+                          filenameprefix = "sens_",
+			  legendloc = "bottomleft", 
+                          legendlabels = c('Base', names(model_list)), 
                           endyrvec = 2036)
-  
+
   SStableComparisons(
     shortlist, 
-    modelnames = c('Base', names(model_list)[i]),
+    modelnames = c('Base', names(model_list)),
     names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SmryBio_unfished", "SSB_Virg",
              "SSB_2025", "Bratio_2025", "SPRratio_2024", "LnQ_base_WCGBTS"),
     likenames = c(
@@ -461,10 +460,37 @@ for (i in seq_along(model_list)) {
       "Discard", "Mean_body_wt", "Recruitment", "priors"
     )
   ) |> 
-    setNames(c('Label', 'Base', names(model_list)[i])) |>
-    write.csv(file.path(outdir, paste0(i, '_table.csv')), row.names = FALSE)
-  
-}
+    setNames(c('Label', 'Base', names(model_list))) |>
+    write.csv(file.path(outdir, "sens_table.csv"), row.names = FALSE)
+
+# for (i in seq_along(model_list)) {
+#   
+#   shortlist <- r4ss::SSsummarize(big_sensitivity_output[c('base', names(model_list))])
+#   
+#   r4ss::SSplotComparisons(shortlist,
+#                           subplots = c(2, 4, 18), 
+#                           print = TRUE,  
+#                           plot = FALSE,
+#                           plotdir = outdir, 
+#                           filenameprefix = tmp,
+# 			  legendloc = "bottomleft",
+#                           legendlabels = c('Base', names(model_list)), 
+#                           endyrvec = 2036)
+#   
+#   SStableComparisons(
+#     shortlist, 
+#     modelnames = c('Base', names(model_list)[i]),
+#     names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SmryBio_unfished", "SSB_Virg",
+#              "SSB_2025", "Bratio_2025", "SPRratio_2024", "LnQ_base_WCGBTS"),
+#     likenames = c(
+#       "TOTAL", "Survey", "Length_comp", "Age_comp",
+#       "Discard", "Mean_body_wt", "Recruitment", "priors"
+#     )
+#   ) |> 
+#     setNames(c('Label', 'Base', names(model_list))) |>
+#     write.csv(file.path(outdir, paste0(i, '_table.csv')), row.names = FALSE)
+#   
+# }
 
 ## Big plot --------------------------------------------------------------------
 
@@ -498,23 +524,24 @@ dev.quants <- rbind(
 ) |>
   cbind(baseSD = dev.quants.SD) |>
   dplyr::mutate(Metric = c("SB0", paste0("SSB_", current.year), paste0("Bratio_", current.year), "MSY_SPR", "F_SPR")) |>
-  tidyr::pivot_longer(-c(base, Metric, baseSD), names_to = 'Model', values_to = 'Est') |>
-  dplyr::mutate(relErr = (Est - base)/base,
-                logRelErr = log(Est/base),
+  tidyr::pivot_longer(-c(`2025 base model`, Metric, baseSD), names_to = 'Model', values_to = 'Est') |>
+  dplyr::mutate(relErr = (Est - `2025 base model`)/`2025 base model`,
+                logRelErr = log(Est/`2025 base model`),
                 mod_num = match(Model, names(sens_paths)))
 
 metric.labs <- c(
-  SB0 = expression(SB[0]),
-  SSB_2023 = as.expression(bquote("SB"[.(current.year)])),
   Bratio_2023 = bquote(frac(SB[.(current.year)], SB[0])),
+  F_SPR = expression(F['SPR=0.50']),
   MSY_SPR = expression(Yield['SPR=0.50']),
-  F_SPR = expression(F['SPR=0.50'])
+  SB0 = expression(SB[0]),
+  SSB_2023 = as.expression(bquote("SB"[.(current.year)]))
 )
 
 CI.quants <- dev.quants |>
   dplyr::filter(Model == unique(dev.quants$Model)[1]) |>
-  dplyr::select(base, baseSD, Metric) |>
-  dplyr::mutate(CI = qnorm((1-CI)/2, 0, baseSD)/base)
+  dplyr::select(`2025 base model`, baseSD, Metric) |>
+  dplyr::mutate(CI = qnorm((1-CI)/2, 0, baseSD)/`2025 base model`)
+CI.quants <- CI.quants %>% arrange(Metric)
 
 dev.quants |> 
   ggplot(aes(x = relErr, y = mod_num, col = Metric, pch = Metric)) +
@@ -528,13 +555,15 @@ dev.quants |>
   scale_shape_manual(
     values = c(15:18, 12),
     # name = "",
-    labels = metric.labs
+    labels = NULL, # metric.labs
+    guide = "none"
   ) +
   # scale_color_discrete(labels = metric.labs) +
   scale_y_continuous(breaks = seq_along(sens_paths), name = '', labels = names(sens_paths), 
                      limits = c(1, length(sens_paths) + 2), minor_breaks = NULL) +
   xlab("Relative change") +
-  viridis::scale_color_viridis(discrete = TRUE, labels = metric.labs)
+  scale_color_manual(values = c("#005BFF", "#13F240", "#F6F900", "#FFBA00", "#FF592F"), labels = metric.labs)
+#  viridis::scale_color_viridis(discrete = TRUE, labels = metric.labs, option = "turbo", begin = 0.1)
 
 ggsave(file.path(outdir, 'sens_summary.png'),  dpi = 300,  
        width = 6, height = 7, units = "in")

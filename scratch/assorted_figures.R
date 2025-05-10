@@ -149,16 +149,20 @@ surv_agelen <- rbind(fm_agelen, ml_agelen) %>% filter(count > 0, Lbin_lo > 0)
 surv_agelen$fleet <- rep("NWFSC") # no other data w Lbin_lo > 0
 
 # pacfin data **ADD**
+# read in here
+pfin_dat <- XXX
+pfin_dat$fleet <- rep("PACFIN")
 
 # ashop age and legnth etc.
 ashop_age <- read_excel("data_provided/ASHOP/A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx")
 ashop_age$fleet <- rep("ASHOP")
 
 # put data together for age/len plots
-all_agelen <- data.frame(widow_fleet = c(surv_agelen$fleet, ashop_age$fleet), 
-                         widow_age = c(surv_agelen$age, ashop_age$AGE), 
-                         widow_len = c(surv_agelen$Lbin_lo, ashop_age$LENGTH), 
-                         widow_sex = c(surv_agelen$sex, ashop_age$SEX))
+all_agelen <- data.frame(widow_fleet = c(surv_agelen$fleet, ashop_age$fleet, pfin_dat$fleet), 
+                         widow_age = c(surv_agelen$age, ashop_age$AGE, pfin_dat$Age), 
+                         widow_len = c(surv_agelen$Lbin_lo, ashop_age$LENGTH, pfin_dat$length), 
+                         widow_sex = c(surv_agelen$sex, ashop_age$SEX, pfin_dat$SEX))
+
 # fix up widow_sex column
 all_agelen <- all_agelen %>% filter(widow_sex != "U") # remove unsexed
 all_agelen$widow_sex <- ifelse(all_agelen$widow_sex == "F", "female", all_agelen$widow_sex)
@@ -216,13 +220,18 @@ surv_wl$Sex <- ifelse(surv_wl$Sex == "M", "male", surv_wl$Sex)
 ashop_wl <- ashop_age %>% filter(SEX != "U")
 ashop_wl$SEX <- ifelse(ashop_wl$SEX == "F", "female", ashop_wl$SEX)
 ashop_wl$SEX <- ifelse(ashop_wl$SEX == "M", "male", ashop_wl$SEX)
+# pfin_dat might need the same processing as ashop re: sex codes
+pfin_wl <- pfin_dat %>% filter(SEX != "U")
+pfin_wl$SEX <- ifelse(pfin_wl$SEX == "F", "female", pfin_wl$SEX)
+pfin_wl$SEX <- ifelse(pfin_wl$SEX == "M", "male", pfin_wl$SEX)
 
 # get data together
-all_weightlen <- data.frame(w = c(surv_wl$Weight_kg, ashop_wl$WEIGHT), 
-                            l = c(surv_wl$Length_cm, ashop_wl$LENGTH), 
-                            s = c(surv_wl$Sex, ashop_wl$SEX), 
+all_weightlen <- data.frame(w = c(surv_wl$Weight_kg, ashop_wl$WEIGHT, pfin_dat$weightkg), 
+                            l = c(surv_wl$Length_cm, ashop_wl$LENGTH, pfin_dat$length), 
+                            s = c(surv_wl$Sex, ashop_wl$SEX, pfin_dat$SEX), 
                             f = c(rep("NWFSC", dim(surv_wl)[1]), 
-                                  rep("ASHOP", dim(ashop_wl)[1])))
+                                  rep("ASHOP", dim(ashop_wl)[1]), 
+                                  rep("PACFIN", dim(pfin_wl)[1])))
 
 # weight-length lines
 aF_p <- base_model_ins$ctl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT

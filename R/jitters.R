@@ -61,6 +61,7 @@ jitter_loglike <- r4ss::jitter(
 )
 
 saveRDS(jitter_loglike, here("models/jitters", "jitter_loglike.RDS"))
+jitter_loglike <- readRDS(here("models/jitters", "jitter_loglike.RDS"))
 
 # Set back to sequential processing
 if (parallel) future::plan(future::sequential)
@@ -76,7 +77,7 @@ like_df$like <- jitter_loglike
 ggplot(data = like_df, aes(x = run, y = like)) +
   geom_point() +
   geom_hline(yintercept = base_like) +  # horizontal line at base ll
-  xlab("log likelihood") +
+  xlab("run") +
   theme_bw() +
   theme(axis.text.x = element_blank())
 
@@ -86,7 +87,7 @@ ggsave(here("figures/diagnostics", "jitter_comparison.png"), width = 6, height =
 ggplot(data = like_df %>% filter(like < 8000), aes(x = run, y = like)) +
   geom_point() +
   geom_hline(yintercept = base_like) +  # horizontal line at base ll
-  xlab("log likelihood") +
+  xlab("run") +
   theme_bw() +
   theme(axis.text.x = element_blank())
 
@@ -170,4 +171,21 @@ SS_writepar_3.30(
   overwrite = TRUE,
   verbose = TRUE
 )
+
+# Find values for report -------------------------------------------------------
+# Checked above that min of jitter_loglike is the same as the base like
+# Find number of runs that reached the same minimum loglike (as the base)
+minLLruns <- sum(jitter_loglike == min(jitter_loglike))
+
+minLLruns_2 <- sum(jitter_loglike <= base_like + 2)  # what about within 2 likelihood units?
+
+# Save to summarize
+jitter_summary <- list(base_like = base_like,
+                       min_jitter_like = min(jitter_loglike),
+                       njitters_at_base = minLLruns,
+                       njitters_within_2 = minLLruns_2)
+
+saveRDS(jitter_summary, here("models/jitters", "jitter_summary.RDS"))
+
+
 

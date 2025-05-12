@@ -130,22 +130,26 @@ plot_comps(age_comps, dir = file.path(plot_save_dir, "age_plots"))
 # weight/length and length/age things: ------------------------------
 plot_save_dir <- here("figures", "length_age_weight")
 
+# age-length plot: figure 35
+# triennial age/etc
+scientific_name<-"Sebastes entomelas"
+
+tri_bio <- nwfscSurvey::pull_bio(
+  sci_name = scientific_name,
+  survey = "Triennial"
+) # has length_data, age_data
+
+tri_catch <- pull_catch(sci_name = scientific_name,
+                        survey = "Triennial"
+)
+
+# can pull age & length from age data
+tri_bio$age_data$fleet <- rep("Triennial")
+
 # survey age and length
-dat_2025 <- SS_readdat(here("models", "2025 base model", "2025widow.dat"))
-survey_age_length_dat <- dat_2025$agecomp
-# age_length_dat <- age_length_dat %>% filter(year > 0, fleet > 0) # only use data used in base model
-survey_age_length_dat$abs_year <- abs(survey_age_length_dat$year)
-survey_age_length_dat$abs_fleet <- abs(survey_age_length_dat$fleet)
-
-fm_agelen <- survey_age_length_dat %>% select(abs_year, Lbin_lo, Lbin_hi, abs_fleet, c(10:50)) %>%
-  pivot_longer(cols = starts_with("f"), names_to = "age", values_to = "count") %>%
-  mutate(age = as.integer(gsub("f", "", age))) %>% mutate(sex = "female")
-
-ml_agelen <- survey_age_length_dat %>% select(abs_year, Lbin_lo, Lbin_hi, abs_fleet, c(51:91), -month) %>%
-  pivot_longer(cols = starts_with("m"), names_to = "age", values_to = "count") %>%
-  mutate(age = as.integer(gsub("m", "", age))) %>% mutate(sex = "male")
-
-surv_agelen <- rbind(fm_agelen, ml_agelen) %>% filter(count > 0, Lbin_lo > 0)
+# use caal_fm, caal_ml
+caal_fm$Sex <- rep("female"); caal_ml$Sex <- rep("male")
+surv_agelen <- rbind(caal_fm, caal_ml) %>% filter(count > 0, Lbin_lo > 0)
 surv_agelen$fleet <- rep("NWFSC") # no other data w Lbin_lo > 0
 
 # pacfin data **ADD**
@@ -158,10 +162,10 @@ ashop_age <- read_excel("data_provided/ASHOP/A_SHOP_Widow_Ages_2003-2024_removed
 ashop_age$fleet <- rep("ASHOP")
 
 # put data together for age/len plots
-all_agelen <- data.frame(widow_fleet = c(surv_agelen$fleet, ashop_age$fleet, pfin_dat$fleet), 
-                         widow_age = c(surv_agelen$age, ashop_age$AGE, pfin_dat$Age), 
-                         widow_len = c(surv_agelen$Lbin_lo, ashop_age$LENGTH, pfin_dat$length), 
-                         widow_sex = c(surv_agelen$sex, ashop_age$SEX, pfin_dat$SEX))
+all_agelen <- data.frame(widow_fleet = c(surv_agelen$fleet, ashop_age$fleet, pfin_dat$fleet, tri_bio$age_data$fleet), 
+                         widow_age = c(surv_agelen$age, ashop_age$AGE, pfin_dat$Age, tri_bio$age_data$Age), 
+                         widow_len = c(surv_agelen$Lbin_lo, ashop_age$LENGTH, pfin_dat$length, tri_bio$age_data$Length_cm), 
+                         widow_sex = c(surv_agelen$Sex, ashop_age$SEX, pfin_dat$SEX, tri_bio$age_data$Sex))
 
 # fix up widow_sex column
 all_agelen <- all_agelen %>% filter(widow_sex != "U") # remove unsexed
@@ -191,80 +195,98 @@ fm_vbl_out <- vblFMax - (vblFMax - vblFMin)*exp(-vblFk*age_range)
 ml_vbl_out <- vblMMax - (vblMMax - vblMMin)*exp(-vblMk*age_range)
 vbl_lines <- data.frame(widow_age = c(age_range, age_range, age_range, age_range), 
                         widow_len = c(fm_vbl_out, ml_vbl_out, fm_vbl_in, ml_vbl_in), 
-                        widow_sex = c(rep("female", length(fm_vbl)), 
-                                      rep("male", length(ml_vbl)), 
-                                      rep("female", length(fm_vbl)), 
-                                      rep("male", length(ml_vbl))), 
+                        widow_sex = c(rep("female", length(fm_vbl_out)), 
+                                      rep("male", length(ml_vbl_out)), 
+                                      rep("female", length(fm_vbl_in)), 
+                                      rep("male", length(ml_vbl_in))), 
                         vbl_type = c(rep("model estimated", length(age_range)*2), 
                                      rep("model prior", length(age_range)*2)))
 
 # make vBL plots **ADD PACFIN STILL**
 ggplot(all_agelen, aes(widow_age, widow_len, col = as.factor(widow_fleet))) +
-  geom_jitter(size = 0.8) + facet_wrap(~widow_sex, nrow = 2) +
+  geom_jitter(size = 1.6) + facet_wrap(~widow_sex, nrow = 2) +
   geom_line(data = vbl_lines %>% filter(vbl_type == "model estimated"), col = "black", lwd = 1) + 
   labs(x = "Age", y = "Length", col = "Fleet:") + 
-  theme_bw() + theme(legend.position = "bottom", legend.box="vertical", text = element_text(size = 16)) + 
-  scale_color_manual(values = c("gray", "#005BFF", "#FF592F"))
+  theme_bw() + theme(legend.position = "bottom", legend.box="vertical", text = element_text(size = 22)) + 
+  scale_color_manual(values = c("gray", "#005BFF", "#FF592F", "#F6F900")) 
 
 ggsave(file.path(plot_save_dir, 'vBL_dat.png'),  dpi = 300,  
        width = 7, height = 10, units = "in")
 
-# length-weight plots
+# length-weight plot: figure 31
+# values from 2019
+aF_2019 <- 1.7355e-5
+bF_2019 <- 2.9617
+aM_2019 <- 1.4824e-5
+bM_2019 <- 3.0047
+# values from NWFSC
+weight_length_estimates_NWFSC <- nwfscSurvey::estimate_weight_length(
+  bio,
+  verbose = FALSE
+)
+aF_NW <- weight_length_estimates_NWFSC$A[1]
+bF_NW <- weight_length_estimates_NWFSC$B[1]
+aM_NW <- weight_length_estimates_NWFSC$A[2]
+bM_NW <- weight_length_estimates_NWFSC$B[2]
+# values from 2025
+aF_2025 <- base_model_outs$parameters["Wtlen_1_Fem_GP_1", ]$Value
+bF_2025 <- base_model_outs$parameters["Wtlen_2_Fem_GP_1", ]$Value
+aM_2025 <- base_model_outs$parameters["Wtlen_1_Mal_GP_1", ]$Value
+bM_2025 <- base_model_outs$parameters["Wtlen_2_Mal_GP_1", ]$Value
+# lengths
+len <- seq(from = 1, to = 60, length.out = 100)
+# female lines
+fem_lw <- data.frame(len = len, 
+                     est_2019 = aF_2019*len^bF_2019, 
+                     est_NW = aF_NW*len^bF_NW,
+                     est_2025 = aF_2025*len^bF_2025,
+                     Sex = "female")
+# male lines
+mal_lw <- data.frame(len = len, 
+                     est_2019 = aM_2019*len^bM_2019, 
+                     est_NW = aM_NW*len^bM_NW,
+                     est_2025 = aM_2025*len^bM_2025,
+                     Sex = "male")
+# merge and pivot
+rbind(mal_lw, fem_lw) |> pivot_longer(cols = c(-len, -Sex)) -> line_est
+# data points: bio$Age; bio$Length_cm
+bio_filter <- bio %>% filter(Sex != "U") # remove unsexed
+bio_filter$Sex <- ifelse(bio_filter$Sex == "F", "female", bio_filter$Sex)
+bio_filter$Sex <- ifelse(bio_filter$Sex == "M", "male", bio_filter$Sex)
 
-# ashop data has the length/weight
-# bio from NWFSCSurvey package has length/weigth
-# PACFIN **ADD**
-surv_wl <- bio %>% filter(Sex != "U")
-surv_wl$Sex <- ifelse(surv_wl$Sex == "F", "female", surv_wl$Sex)
-surv_wl$Sex <- ifelse(surv_wl$Sex == "M", "male", surv_wl$Sex)
-ashop_wl <- ashop_age %>% filter(SEX != "U")
-ashop_wl$SEX <- ifelse(ashop_wl$SEX == "F", "female", ashop_wl$SEX)
-ashop_wl$SEX <- ifelse(ashop_wl$SEX == "M", "male", ashop_wl$SEX)
-# pfin_dat might need the same processing as ashop re: sex codes
-pfin_wl <- pfin_dat %>% filter(SEX != "U")
-pfin_wl$SEX <- ifelse(pfin_wl$SEX == "F", "female", pfin_wl$SEX)
-pfin_wl$SEX <- ifelse(pfin_wl$SEX == "M", "male", pfin_wl$SEX)
-
-# get data together
-all_weightlen <- data.frame(w = c(surv_wl$Weight_kg, ashop_wl$WEIGHT, pfin_dat$weightkg), 
-                            l = c(surv_wl$Length_cm, ashop_wl$LENGTH, pfin_dat$length), 
-                            s = c(surv_wl$Sex, ashop_wl$SEX, pfin_dat$SEX), 
-                            f = c(rep("NWFSC", dim(surv_wl)[1]), 
-                                  rep("ASHOP", dim(ashop_wl)[1]), 
-                                  rep("PACFIN", dim(pfin_wl)[1])))
-
-# weight-length lines
-aF_p <- base_model_ins$ctl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT
-bF_p <- base_model_ins$ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT
-aF <- base_model_outs$parameters["Wtlen_1_Fem_GP_1", ]$Value
-bF <- base_model_outs$parameters["Wtlen_2_Fem_GP_1", ]$Value
-aM_p <- base_model_ins$ctl$MG_parms["Wtlen_1_Mal_GP_1", ]$INIT
-bM_p <- base_model_ins$ctl$MG_parms["Wtlen_2_Mal_GP_1", ]$INIT
-aM <- base_model_outs$parameters["Wtlen_1_Mal_GP_1", ]$Value
-bM <- base_model_outs$parameters["Wtlen_2_Mal_GP_1", ]$Value
-len_range <- seq(from = min(all_weightlen$l), to = max(all_weightlen$l), length.out = 100)
-fm_wl_in <- aF_p*len_range^bF_p
-ml_wl_in <- aM_p*len_range^bM_p
-fm_wl_out <- aF*len_range^bF
-ml_wl_out <- aM*len_range^bM
-wl_lines <- data.frame(l = c(len_range, len_range, len_range, len_range), 
-                       w = c(fm_wl_out, ml_wl_out, fm_wl_in, ml_wl_in), 
-                       s = c(rep("female", length(fm_wl_in)), 
-                             rep("male", length(ml_wl_in)), 
-                             rep("female", length(fm_wl_in)),
-                             rep("male", length(ml_wl_in))), 
-                       t = c(rep("model estimated", length(len_range)*2), 
-                             rep("model prior", length(len_range)*2)))
-
-ggplot(all_weightlen, aes(l, w, col = as.factor(f))) +
-  geom_point(size = 0.8) + facet_wrap(~s, nrow = 1) +
-  geom_line(data = wl_lines %>% filter(t == "model estimated"), col = "black", lwd = 1) + 
-  labs(x = "Length(cm)", y = "Weight (kg)", col = "Fleet:") + 
-  theme_bw() + theme(legend.position = "bottom", legend.box="vertical", text = element_text(size = 16)) + 
-  scale_color_manual(values = c("gray", "#005BFF", "#FF592F"))
+ggplot(NULL, aes(NULL)) + 
+  geom_point(data = bio_filter, aes(Length_cm, Weight_kg), size = 0.8, col = "#005BFF") + 
+  geom_line(data = line_est, aes(len, value, lty = name)) + 
+  facet_wrap(~Sex) + 
+  scale_linetype(labels = c("2019 assessment", "2025 assessment", "NW estimate")) + 
+  labs(lty = "Model", x = "Length", y = "Weight") + 
+  theme_bw()
 
 ggsave(file.path(plot_save_dir, 'wl_dat.png'),  dpi = 300,  
        width = 5, height = 4, units = "in")
+
+ggplot(line_est, aes(len, value, lty = name, color = name)) + 
+  geom_line(lwd = 0.8) + 
+  facet_wrap(~Sex) + 
+  scale_linetype_manual(values = c("solid", "solid", "longdash"), labels = c("2019 assessment", "2025 assessment", "NW estimate")) + 
+  scale_color_manual(values = c("gray",  "#FF592F", "#005BFF"), labels = c("2019 assessment", "2025 assessment", "NW estimate")) + 
+  labs(lty = "Model", x = "Length", y = "Weight", color = "Estimate") + 
+  theme_bw() + theme(legend.position = "bottom") + guides(lty="none")
+
+ggsave(file.path(plot_save_dir, 'wl_dat_2025.png'),  dpi = 300,  
+       width = 5, height = 4, units = "in")
+
+ggplot(line_est %>% filter(name != "est_2025"), aes(len, value, lty = name, color = name)) + 
+  geom_line(lwd = 0.8) + 
+  facet_wrap(~Sex) + 
+  scale_linetype_manual(values = c("solid", "longdash"), labels = c("2019 assessment", "NW estimate")) + 
+  scale_color_manual(values = c("gray", "#005BFF"), labels = c("2019 assessment", "NW estimate")) + 
+  labs(lty = "Model", x = "Length", y = "Weight", color = "Estimate") + 
+  theme_bw() + theme(legend.position = "bottom") + guides(lty="none")
+
+ggsave(file.path(plot_save_dir, 'wl_dat_2019.png'),  dpi = 300,  
+       width = 5, height = 4, units = "in")
+
 
 # sensitivity table--weighting comps ------------------------------
 base_dir <- here("models", "2025 base model")
@@ -300,4 +322,70 @@ colnames(full_tab) <- c("Fleet", "Composition data type",
 full_tab$`Composition data type` <- ifelse(full_tab$`Composition data type` == 4, "Length", "Age")
 
 full_tab |> write.csv(file.path(here("figures","sensitivities"), "weighting_comps.csv"), row.names = FALSE)
+
+# survey positive tows ------------------------------
+plot_save_dir <- here("figures", "WCGBTS_survey")
+
+pos_catch <- data.frame(
+  Year = 1977:2024
+)
+
+# use the catch dataframe for positive tows
+# tri
+tri_catch |> group_by(Year) |> 
+  filter(cpue_kg_km2 > 0) |>
+  summarise("Number of positive tows, Tri"=length(unique(Trawl_id))) -> T_tot_catch
+pos_catch <- merge(pos_catch, T_tot_catch, by = "Year", all = TRUE)
+
+# nw
+catch |> group_by(Year) |> 
+  filter(cpue_kg_km2 > 0) |>
+  summarise("Number of positive tows, NW"=length(unique(Trawl_id))) -> tot_catch
+pos_catch <- merge(pos_catch, tot_catch, by = "Year", all = TRUE)
+
+# use the bio dataframe for tows w/lengths, ages and the nubmer of each
+tri_bio$length_data |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of tows with lengths, Tri"=length(unique(Trawl_id))) -> T_tot_len_tows
+pos_catch <- merge(pos_catch, T_tot_len_tows, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of tows with lengths, NW"=length(unique(Trawl_id))) -> tot_len_tows
+pos_catch <- merge(pos_catch, tot_len_tows, by = "Year", all = TRUE)
+
+tri_bio$length_data |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of lengths, Tri"=n()) -> T_tot_len_num
+pos_catch <- merge(pos_catch, T_tot_len_num, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of lengths, NW"=n()) -> tot_len_num
+pos_catch <- merge(pos_catch, tot_len_num, by = "Year", all = TRUE)
+
+tri_bio$age_data |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of twos with ages, Tri"=length(unique(Trawl_id))) -> T_tot_age_tows
+pos_catch <- merge(pos_catch, T_tot_age_tows, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of tows with ages, NW"=length(unique(Trawl_id))) -> tot_age_tows
+pos_catch <- merge(pos_catch, tot_age_tows, by = "Year", all = TRUE)
+
+tri_bio$age_data |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of ages, Tri"=n()) -> T_tot_age_num
+pos_catch <- merge(pos_catch, T_tot_age_num, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of ages, NW"=n()) -> tot_age_num
+pos_catch <- merge(pos_catch, tot_age_num, by = "Year", all = TRUE)
+
+pos_catch[(is.na(pos_catch))] <- "" # cleaning for csv
+
+pos_catch |> 
+  write.csv(file.path(plot_save_dir, "survey_pos_catch.csv"), row.names = FALSE)
 

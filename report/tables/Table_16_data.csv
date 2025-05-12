@@ -1,0 +1,89 @@
+Fleet,Year,Source,Discards,Error,Error Stat,Source,Used in Assessment
+Bottom Trawl,1981,Pikitch,900.19,54.26%,CV,2019 report,No
+Bottom Trawl,1982,Pikitch,1450.74,44.12%,CV,2019 report,No
+Bottom Trawl,1983,Pikitch,1847.15,43.91%,CV,2019 report,No
+Bottom Trawl,1984,Pikitch,586.36,55.78%,CV,2019 report,No
+Bottom Trawl,1985,Pikitch,462.90,49.53%,CV,2019 data,Yes
+Bottom Trawl,1986,Pikitch,534.80,53.11%,CV,2019 data,Yes
+Bottom Trawl,1987,Pikitch,1035.50,42.57%,CV,2019 data,Yes
+Bottom Trawl,1988,Pikitch,1177.09,43.38%,CV,2019 report,No
+Bottom Trawl,1989,Pikitch,1217.74,44.70%,CV,2019 report,No
+Bottom Trawl,1990,Pikitch,1010.95,51.53%,CV,2019 report,No
+Bottom Trawl,1991,Pikitch,1219.25,42.20%,CV,2019 report,No
+Bottom Trawl,1992,Pikitch,1217.51,44.62%,CV,2019 report,No
+Bottom Trawl,1993,Pikitch,1430.18,46.57%,CV,2019 report,No
+Bottom Trawl,1994,Pikitch,1177.71,43.11%,CV,2019 report,No
+Bottom Trawl,1995,EDCP,924.80,83.18%,CV,2019 data,Yes
+Bottom Trawl,1996,EDCP,3084.50,67.07%,CV,2019 data,Yes
+Bottom Trawl,1997,EDCP,3353.30,75.06%,CV,2019 data,Yes
+Bottom Trawl,1998,EDCP,42.60,48.80%,CV,2019 data,Yes
+Bottom Trawl,1999,EDCP,4.80,68.78%,CV,2019 data,Yes
+Bottom Trawl,2002,WCGOP,13.22,43.07%,CV,2019 data,Yes
+Bottom Trawl,2003,WCGOP,1.21,81.96%,CV,2019 data,Yes
+Bottom Trawl,2004,WCGOP,5.13,75.89%,CV,2019 data,Yes
+Bottom Trawl,2005,WCGOP,10.17,44.61%,CV,2019 data,Yes
+Bottom Trawl,2006,WCGOP,0.03,135.56%,CV,2019 data,Yes
+Bottom Trawl,2007,WCGOP,13.86,61.57%,CV,2019 data,Yes
+Bottom Trawl,2008,WCGOP,3.90,44.54%,CV,2019 data,Yes
+Bottom Trawl,2009,WCGOP,26.57,33.77%,CV,2019 data,Yes
+Bottom Trawl,2010,WCGOP,22.74,54.32%,CV,2019 data,Yes
+Bottom Trawl,2011,WCGOP,0.0800,5.00%,CV,2019 data,Yes
+Bottom Trawl,2012,WCGOP,0.0100,5.00%,CV,2019 data,Yes
+Bottom Trawl,2013,WCGOP,2.4300,5.00%,CV,2019 data,Yes
+Bottom Trawl,2014,WCGOP,0.0900,5.00%,CV,2019 data,Yes
+Bottom Trawl,2015,WCGOP,0.0300,5.00%,CV,2019 data,Yes
+Bottom Trawl,2016,WCGOP,0.0200,5.00%,CV,2019 data,Yes
+Bottom Trawl,2017,WCGOP,0.2600,5.00%,CV,2019 data,Yes
+Bottom Trawl,2018,WCGOP,0.0143,5.00%,CV,2025 data,Yes
+Bottom Trawl,2019,WCGOP,0.7832,5.00%,CV,2025 data,Yes
+Bottom Trawl,2020,WCGOP,0.2763,5.00%,CV,2025 data,Yes
+Bottom Trawl,2021,WCGOP,0.1440,5.00%,CV,2025 data,Yes
+Bottom Trawl,2022,WCGOP,0.0750,5.00%,CV,2025 data,Yes
+Bottom Trawl,2023,WCGOP,0.1184,5.00%,CV,2025 data,Yes
+Midwater,1981,Pikitch,6479.88,23.24%,CV,2019 report,No
+Midwater,1982,Pikitch,5722.25,22.84%,CV,2019 report,No
+Midwater,1984,Pikitch,1737.57,23.33%,CV,2019 report,No
+Midwater,1985,Pikitch,1502.00,24.09%,CV,2019 data,Yes
+Midwater,1986,Pikitch,1321.20,23.64%,CV,2019 data,Yes
+Midwater,1987,Pikitch,1798.40,26.20%,CV,2019 data,Yes
+Midwater,1988,Pikitch,1615.83,24.82%,CV,2019 report,No
+Midwater,1989,Pikitch,1981.86,25.26%,CV,2019 report,No
+Midwater,1990,Pikitch,1205.44,24.51%,CV,2019 report,No
+Midwater,1991,Pikitch,565.94,24.33%,CV,2019 report,No
+Midwater,1992,Pikitch,356.00,25.00%,CV,2019 report,No
+Midwater,1993,Pikitch,569.86,25.34%,CV,2019 report,No
+Midwater,1994,Pikitch,536.80,25.43%,CV,2019 report,No
+Midwater,1995,Pikitch,663.24,23.81%,CV,2019 report,No
+Midwater,1996,Pikitch,465.66,24.84%,CV,2019 report,No
+Midwater,1997,Pikitch,663.14,24.10%,CV,2019 report,No
+Midwater,1998,Pikitch,217.15,25.53%,CV,2019 report,No
+Midwater,1997,EDCP,1.00,83.26%,CV,2019 data,Yes
+Midwater,1998,EDCP,18.70,80.00%,CV,2019 data,Yes
+Midwater,2002,WCGOP,39.40,40.71%,CV,2019 data,Yes
+Midwater,2012,WCGOP,0.0000,5.00%,CV,2025 data,Yes
+Midwater,2013,WCGOP,0.0020,5.00%,CV,2025 data,Yes
+Midwater,2014,WCGOP,0.0136,5.00%,CV,2025 data,Yes
+Midwater,2015,WCGOP,0.88,5.00%,CV,2025 data,Yes
+Midwater,2016,WCGOP,1.56,5.00%,CV,2025 data,Yes
+Midwater,2017,WCGOP,9.75,5.00%,CV,2025 data,Yes
+Midwater,2018,WCGOP,37.23,5.00%,CV,2025 data,Yes
+Midwater,2019,WCGOP,18.78,5.00%,CV,2025 data,Yes
+Midwater,2020,WCGOP,45.44,5.00%,CV,2025 data,Yes
+Midwater,2021,WCGOP,36.38,5.00%,CV,2025 data,Yes
+Midwater,2022,WCGOP,47.60,5.00%,CV,2025 data,Yes
+Midwater,2023,WCGOP,17.37,5.00%,CV,2025 data,Yes
+Hook & Line,2007,,0.016,0.51%,SD,2025 data,"Yes, in landings"
+Hook & Line,2008,,0.012,0.33%,SD,2025 data,"Yes, in landings"
+Hook & Line,2010,,0.008,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2011,,0.011,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2012,,0.001,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2013,,0.001,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2014,,0.009,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2015,,0.055,3.06%,SD,2025 data,"Yes, in landings"
+Hook & Line,2016,,0.188,2.96%,SD,2025 data,"Yes, in landings"
+Hook & Line,2017,,0.037,1.76%,SD,2025 data,"Yes, in landings"
+Hook & Line,2018,,0.138,8.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2019,,0.012,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2021,,0.000,2.32%,SD,2025 data,"Yes, in landings"
+Hook & Line,2022,,0.027,1.47%,SD,2025 data,"Yes, in landings"
+Hook & Line,2023,,0.002,0.14%,SD,2025 data,"Yes, in landings"

@@ -452,18 +452,40 @@ dir.create(outdir <- here("figures", "sensitivities"))
                           legendlabels = c('Base', names(model_list)), 
                           endyrvec = 2036)
 
-  SStableComparisons(
+  big_table <- SStableComparisons(
     shortlist, 
     modelnames = c('Base', names(model_list)),
-    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SmryBio_unfished", "SSB_Virg",
-             "SSB_2025", "Bratio_2025", "SPRratio_2024", "LnQ_base_WCGBTS"),
+    names =c("NatM_uniform_Fem_GP_1", "L_at_Amin_Fem_GP_1", "L_at_Amax_Fem_GP_1", "CV_young_Fem_GP_1", "CV_old_Fem_GP_1", "VonBert_K_Fem_GP_1", 
+             "NatM_uniform_Mal_GP_1", "L_at_Amin_Mal_GP_1", "L_at_Amax_Mal_GP_1", "CV_young_Mal_GP_1", "CV_old_Mal_GP_1", "VonBert_K_Mal_GP_1", 
+             "Recr_Virgin", "R0", "SmryBio_unfished", "SSB_Virg",
+             "SSB_2025", "Bratio_2025", "SPRratio_2024"),
+    digits = c(rep(3, 22), 1, rep(3, 4)), # not sure why this isn't cutting number of digits for smrybio_unfished
     likenames = c(
       "TOTAL", "Survey", "Length_comp", "Age_comp",
       "Discard", "Mean_body_wt", "Recruitment", "priors"
     )
   ) |> 
-    setNames(c('Label', 'Base', names(model_list))) |>
-    write.csv(file.path(outdir, "sens_table.csv"), row.names = FALSE)
+    setNames(c('Label', 'Base', names(model_list)))  # |>
+    # write.csv(file.path(outdir, "sens_table.csv"), row.names = FALSE)
+
+# rename labels to be informative
+big_table$Label <- c("Total", "Survey", "Length", "Age", "Discards", "Recruitment", "Forecast recruitment", "Parameter priors",
+		     "Natural mortality (female)", "Length at Amin (female)", "Length at Amax (female)", "CV young (female)", "CV old (female)", "vBL k (female)", 
+		     "Natural mortality (male)", "Length at Amin (male)", "Length at Amax (male)", "CV young (male)", "CV old (male)", "vBL k (male)", 
+		     "Virgin recruitment (thousands)", "ln(R0)", "SSB unfished (mt)", "SB0 (thousand mt)", "SSB 2025 (thousand mt)", "B ratio 2025", "SPR ratio 2025")
+
+
+# add title rows
+big_table <- rbind(c(Label = "LIKELIHOOD", Base= "Difference from base model", rep("", dim(big_table)[2]-2)), big_table[1:8,], 
+		   c(Label = "PARAMETER", rep("", dim(big_table)[2]-1)), big_table[9:20, ], 
+		   c(Label = "QUANTITY", rep("", dim(big_table)[2]-1)), big_table[21:27, ])
+
+# get likelihoods to be difference between likelihood and base
+for (b in 3:13) {
+    big_table[2:9, b] <- round(as.numeric(big_table[2:9, b]) - as.numeric(big_table[2:9, 2]), 4)
+}
+
+big_table |> write.csv(file.path(outdir, "sens_table.csv"), row.names = FALSE)
 
 # for (i in seq_along(model_list)) {
 #   

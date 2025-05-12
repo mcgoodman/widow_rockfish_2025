@@ -1,4 +1,32 @@
-# Assessment model
+
+```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+
+library(renv)
+library(r4ss)
+
+# exe_dir<- "/Users/sulca/Documents/Github/widow-assessment-update/models/2025 base model"
+# 
+# 
+# # r4ss::run(dir= exe_dir,exe="/Users/sulca/Documents/Github/widow-assessment-update/ss_osx",show_in_console = TRUE, skipfinished = FALSE)
+# 
+# 
+# 
+# df <- load(here::here("report", "tables","reference_"),stringsAsFactors = FALSE)
+# colnames(df) <- c("Label", "Estimate", "Lower.Interval", "Upper.Interval")
+# 
+# reference_points <- setNames(
+#   lapply(seq_len(nrow(df)), function(i) {
+#     vals <- df[i, c("Estimate", "Lower.Interval", "Upper.Interval")]
+#     vals <- format(round(as.numeric(vals)), big.mark = ",", scientific = FALSE)
+#     setNames(as.list(vals), c("Estimate", "Lower.Interval", "Upper.Interval"))
+#   }),
+#   nm = gsub("\\\\%", "%", df$Label)
+# )
+
+
+```
+
+Assessment model
 
 An age-structured stock assessment model was used to predict the biomass trajectory of Widow Rockfish with an approach of balancing parsimony with complexity. This allowed for the determination of general trends in the biomass over time without introducing extraneous data partitions that explain little additional variation. The assessment followed the same model structure as the 2015 base assessment.
 
@@ -12,6 +40,7 @@ To be completed after review.
 
 ## Model Structure and Assumptions
 
+For this update assessment, new versions of the previously used software were used. Stock Synthesis v3.30.13  was used to estimate the parameters in the 2019 model. R4SS, version 1.35.3, along with  R version 3.5.3 were used to investigate and plot the 2019 model fits. For the update, Stock Synthesis v3.30.2 and R4SS, version 1.51.0 , along with R version 4.4.2  were used. Bridging from Stock Synthesis v3.24U to v3.30.13 is illustrated in Figure 41. A summary of the data sources used in the model (details discussed above) is shown in Figure 40. Stock Synthesis has many options when setting up a model and the assessment model for Widow Rockfish was set up in the following manner.
 
 ### Model Changes from the Last Assessment
 
@@ -28,6 +57,8 @@ KLO: The TOR says this is not required for updates. I am doubtful the SSC will b
 ### Model Parameters
 
 <!-- Model parameters: estimated and fixed parameters, constraints on parameters, selectivity assumptions, natural mortality, treatment of age reading bias and/or imprecision, and other fixed parameters, description of stock-recruitment constraints or components, critical assumptions, and consequences of assumption failures.  -->
+
+
 
 ### Key Assumptions and Structural Choices
 

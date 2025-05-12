@@ -1,0 +1,74 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Disclaimer}{i}{section*.2}%
+\contentsline {section}{Executive Summary}{ii}{section*.3}%
+\contentsline {subsection}{Stock}{ii}{section*.4}%
+\contentsline {subsection}{Catches}{ii}{section*.5}%
+\contentsline {subsection}{Data and Assessment}{ii}{section*.6}%
+\contentsline {subsection}{Stock biomass and dynamics}{ii}{section*.7}%
+\contentsline {subsection}{Recruitment}{ii}{section*.8}%
+\contentsline {subsection}{Exploitation status}{ii}{section*.9}%
+\contentsline {subsection}{Ecosystem considerations}{ii}{section*.10}%
+\contentsline {subsection}{Reference points}{ii}{section*.11}%
+\contentsline {subsection}{Management performance}{ii}{section*.12}%
+\contentsline {subsection}{Harvest projections}{ii}{section*.13}%
+\contentsline {subsection}{Decision table}{ii}{section*.14}%
+\contentsline {subsection}{Scientific uncertainty}{ii}{section*.15}%
+\contentsline {subsection}{Research and data needs}{ii}{section*.16}%
+\contentsline {subsection}{Rebuilding projections}{ii}{section*.17}%
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Distribution and Stock Structure}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Life History and Ecosystem Interactions}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Fishery description}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Management History and Performance}{3}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Fisheries off Canada and Alaska}{4}{subsection.1.5}%
+\contentsline {section}{\numberline {2}Data}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Fishery-independent data}{5}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}\acrlong {s-juv}}{5}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}\acrlong {s-tri}}{6}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}\acrlong {s-wcgbt}}{6}{subsubsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.2}Fishery-dependent data}{8}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Landings}{8}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Fishery length and age data}{9}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Discards}{10}{subsubsection.2.2.3}%
+\contentsline {subsubsection}{\numberline {2.2.4}Biological data}{10}{subsubsection.2.2.4}%
+\contentsline {paragraph}{\numberline {2.2.4.1}Weight-length relationship}{10}{paragraph.2.2.4.1}%
+\contentsline {paragraph}{\numberline {2.2.4.2}Maturity schedule}{11}{paragraph.2.2.4.2}%
+\contentsline {paragraph}{\numberline {2.2.4.3}Fecundity}{12}{paragraph.2.2.4.3}%
+\contentsline {paragraph}{\numberline {2.2.4.4}Natural Mortality}{12}{paragraph.2.2.4.4}%
+\contentsline {paragraph}{\numberline {2.2.4.5}Length-at-age}{12}{paragraph.2.2.4.5}%
+\contentsline {paragraph}{\numberline {2.2.4.6}Sex ratios}{13}{paragraph.2.2.4.6}%
+\contentsline {paragraph}{\numberline {2.2.4.7}Ageing bias and imprecision}{13}{paragraph.2.2.4.7}%
+\contentsline {subsubsection}{\numberline {2.2.5}Abundance indices}{14}{subsubsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.3}Environmental and ecosystem data}{14}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}History of modeling approaches}{15}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Responses to SSC Groundfish Subcommittee requests}{15}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Model Structure and Assumptions}{15}{subsection.2.6}%
+\contentsline {subsubsection}{\numberline {2.6.1}Model Changes from the Last Assessment}{15}{subsubsection.2.6.1}%
+\contentsline {subsubsection}{\numberline {2.6.2}Modeling Platform and Structure}{15}{subsubsection.2.6.2}%
+\contentsline {subsubsection}{\numberline {2.6.3}Model Parameters}{15}{subsubsection.2.6.3}%
+\contentsline {subsubsection}{\numberline {2.6.4}Key Assumptions and Structural Choices}{15}{subsubsection.2.6.4}%
+\contentsline {subsection}{\numberline {2.7}Base Model Results}{16}{subsection.2.7}%
+\contentsline {subsubsection}{\numberline {2.7.1}Parameter Estimates}{16}{subsubsection.2.7.1}%
+\contentsline {subsubsection}{\numberline {2.7.2}Fits to the Data}{17}{subsubsection.2.7.2}%
+\contentsline {subsubsection}{\numberline {2.7.3}Population Trajectory}{17}{subsubsection.2.7.3}%
+\contentsline {subsection}{\numberline {2.8}Model Diagnostics}{17}{subsection.2.8}%
+\contentsline {subsubsection}{\numberline {2.8.1}Convergence}{18}{subsubsection.2.8.1}%
+\contentsline {subsubsection}{\numberline {2.8.2}Parameter Uncertainty}{18}{subsubsection.2.8.2}%
+\contentsline {subsubsection}{\numberline {2.8.3}Sensitivity Analyses}{18}{subsubsection.2.8.3}%
+\contentsline {subsubsection}{\numberline {2.8.4}Retrospective Analysis}{20}{subsubsection.2.8.4}%
+\contentsline {subsubsection}{\numberline {2.8.5}Likelihood Profiles and key parameters}{20}{subsubsection.2.8.5}%
+\contentsline {subsection}{\numberline {2.9}Unresolved Problems and Major Uncertainties}{20}{subsection.2.9}%
+\contentsline {section}{\numberline {3}Management}{21}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Reference Points}{21}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Unresolved problems and major uncertainties}{21}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Harvest Projections and Decision Tables}{21}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Evaluation of Scientific Uncertainty}{22}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Regional management considerations}{22}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Research and Data Needs}{22}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Acknowledgements}{23}{subsection.3.7}%
+\contentsline {subsection}{\numberline {3.8}References}{24}{subsection.3.8}%
+\contentsline {section}{\numberline {4}Tables}{25}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Data}{25}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1}Fishery-dependent data}{25}{subsubsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.2}Figures}{29}{subsection.4.2}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

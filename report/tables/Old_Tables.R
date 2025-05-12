@@ -165,3 +165,88 @@ close(data_file_hake)
 # Save the data frame to a CSV file
 write.csv(hake_data, file = file.path(here::here(),"report/tables/Table_2_2025.csv"), row.names = FALSE)
 
+
+##########################################################################################################
+
+# Create data for Table 6
+table6_data <- data.frame(
+  Years = c("1977", "1980-1986", "1989-1992", "1995-2004"),
+  Depth_range_m = c("91-457", "55-366", "55-366", "55-500"),
+  Southern_latitude = c(34.05, 36.8, 34.5, 34.5)
+)
+
+# Create data for Table 7
+table7_triennial_data <- data.frame(
+  Strata = c("A", "B"),
+  Area_km2 = c(33730.25, 11062.63),
+  Depth1 = c(55, 183),
+  Depth2 = c(183, 400),
+  Latitude1 = c(34.5, 34.5),
+  Latitude2 = c(49, 49)
+)
+
+table7_nwfsc_data <- data.frame(
+  Strata = c("A", "B", "C", "D"),
+  Area_km2 = c(10687.86, 3394.82, 23042.39, 7667.81),
+  Depth1 = c(55, 183, 55, 183),
+  Depth2 = c(183, 400, 183, 400),
+  Latitude1 = c(34.5, 34.5, 40.5, 40.5),
+  Latitude2 = c(40.5, 40.5, 49, 49)
+)
+
+# Write the data frames to CSV files
+write.csv(table6_data, file.path(here::here(),"report/tables/table6.csv"), row.names = FALSE)
+write.csv(table7_triennial_data, file.path(here::here(),"report/tables/table7_triennial.csv"), row.names = FALSE)
+write.csv(table7_nwfsc_data, file.path(here::here(),"report/tables/table7_nwfsc.csv"), row.names = FALSE)
+
+
+###########################################################################################
+csv_table20 <- "True Age,Standard Deviation CAP,Standard Deviation SWFSC
+0.5,0.145,0.111
+1.5,0.145,0.111
+2.5,0.187,0.147
+3.5,0.233,0.187
+4.5,0.283,0.233
+5.5,0.338,0.284
+6.5,0.398,0.341
+7.5,0.463,0.406
+8.5,0.533,0.478
+9.5,0.612,0.560
+10.5,0.697,0.651
+11.5,0.790,0.755
+12.5,0.892,0.871
+13.5,1.003,1.001
+14.5,1.124,1.148
+15.5,1.256,1.313
+16.5,1.401,1.499
+17.5,1.558,1.708
+18.5,1.731,1.943
+19.5,1.919,2.207
+20.5,2.124,2.504
+21.5,2.349,2.839
+22.5,2.594,3.215
+23.5,2.861,3.638
+24.5,3.154,4.113
+25.5,3.473,4.649
+26.5,3.821,5.250
+27.5,4.202,5.927
+28.5,4.618,6.689
+29.5,5.072,7.545
+30.5,5.568,8.508
+31.5,6.109,9.592
+32.5,6.700,10.810
+33.5,7.346,12.181
+34.5,8.052,13.723
+35.5,8.822,15.456
+36.5,9.663,17.407
+37.5,10.582,19.600
+38.5,11.585,22.067
+39.5,12.680,24.842
+40.5,13.877,27.964
+"
+
+# Read the CSV data from the string
+table20_data <- read.csv(textConnection(csv_table20), stringsAsFactors = FALSE)
+
+# Write the data frame to a CSV file named "table20.csv"
+write.csv(table20_data, file.path(here::here(),"report/tables/table20.csv"), row.names = FALSE)

@@ -6,7 +6,7 @@
 
 #renv::activate()
 model_path <- here::here("models", "2019 base model","Base_45_new")
-temp <- "D:/widow_asessment_2025_fork/widow-assessment-update/models/2019 base model/Base_45_new"
+
 report <- r4ss::SS_output(dir = model_path)
 #r4ss::SSexecutivesummary(replist = report) 
 
@@ -22,7 +22,11 @@ report <- r4ss::SS_output(dir = model_path)
 ## Reference Points
 
 ```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
-df <- read.csv(here::here(model_path, "tables","e_ReferencePoints_ES.csv"),stringsAsFactors = FALSE)
+
+
+
+load(file=here::here("report","tables","reference_points.rda"))
+df <- as.data.frame(reference_points)
 colnames(df) <- c("Label", "Estimate", "Lower.Interval", "Upper.Interval")
 
 reference_points <- setNames(
@@ -44,14 +48,14 @@ reference_points <- setNames(
 <!-- 4. Reference points based on MSY (if estimated) (spawning biomass and/or output, SPR, exploitation rate, equilibrium yield).  -->
 <!-- 5. Equilibrium yield curve showing various BMSY proxies.   -->
  
- Reference points (see Table e in the Executive Summary) were calculated using the estimated selectivities
-and catch distribution among fleets in the most recent year of the model (`r report[["endyr"]]`). Sustainable total yields
-(landings plus discards) were `r reference_points[["Yield with SPR50 at SB SPR (mt)"]][["Estimate"]]` mt when using an SPR50% reference harvest rate and with a 95%
-confidence interval of 5,447 `r reference_points[["Yield with SPR50 at SB SPR (mt)"]][["Lower.Interval"]]`
-to 9,033 `r reference_points[["Yield with SPR50 at SB SPR (mt)"]][["Upper.Interval"]]`
-mt based on estimates of uncertainty. The spawning biomass
-equivalent to 40% of the unfished spawning output (SB40%) was 35,198 `r reference_points[["Proxy Spawning Biomass (mt) SB40%"]][["Estimate"]]`
-mt. Prior to `r report[["endyr"]]`, the most recent
+<!--  Reference points (see Table e in the Executive Summary) were calculated using the estimated selectivities -->
+<!-- and catch distribution among fleets in the most recent year of the model (`r report[["endyr"]]`). Sustainable total yields -->
+<!-- (landings plus discards) were `r reference_points[["Yield with SPR50 at SB SPR (mt)"]][["Estimate"]]` mt when using an SPR50% reference harvest rate and with a 95% -->
+<!-- confidence interval of 5,447 `r reference_points[["Yield with SPR50 at SB SPR (mt)"]][["Lower.Interval"]]` -->
+<!-- to 9,033 `r reference_points[["Yield with SPR50 at SB SPR (mt)"]][["Upper.Interval"]]` -->
+<!-- mt based on estimates of uncertainty. The spawning biomass -->
+<!-- equivalent to 40% of the unfished spawning output (SB40%) was 35,198 `r reference_points[["Proxy Spawning Biomass (mt) SB40%"]][["Estimate"]]` -->
+<!-- mt. Prior to `r report[["endyr"]]`, the most recent -->
 catches (landings plus discards) have been below the point estimate of potential long-term yields
 calculated using an SPR50% reference point and the population has been increasing over the last decade.
 However, catches in 2018 were above the point estimate of potential long-term yields calculated using an
@@ -77,25 +81,17 @@ equilibrium unfished spawning biomass.
 
 ## Harvest Projections and Decision Tables
 ```{r}
-projections <- data.frame(read.csv(here::here(model_path, "tables","g_Projections_ES.csv"),stringsAsFactors = FALSE))
+load(file=here::here("report","tables","projections.rda"))
+projections  <- as.data.frame(projections$table)
+
+
 projections <- projections|>dplyr::mutate(across(2:ncol(projections), ~ round(.x)))
 
 
-projections[projections[['Year']] == 2020,"ABC.Catch..mt."]
 ```
 
 
 
-A twelve year projection of the base model with catches equal to the current ACL in 2019 and 2020
-(10,868 `r projections[projections[["Year"]] == 2020, [[ "ABC.Catch..mt." ]]]` and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for
-each fleet in 2018 `r report[[endyr]]` predicts spawning biomass will decrease over the projection period for all states of
-nature (Table 36).
-
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the
-40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2021 onward suggest that the
-spawning biomass will decrease over the projection period for all states of nature (Table 36). Predicted
-ACL catches range from 14,725 `r projections[projections[["Year"]] == report[[endyr]] + 3, [[ "ABC.Catch..mt." ]]]` mt in 2021 `r report[[endyr]] + 3` 
-to 8,322 `r projections[projections[["Year"]] == max(projections[["Year"]]), [[ "ABC.Catch..mt." ]]]` mt in 2030 `r max(projections[["Year"]])`.
 
 Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the
 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2021 onward suggest that the

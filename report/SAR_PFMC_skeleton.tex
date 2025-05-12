@@ -64,6 +64,46 @@
 \fi
 \makeatother
 
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -167,6 +207,26 @@
 \usepackage[acronym]{glossaries}
 \glsdisablehyper
 \loadglsentries{sa4ss_glossaries.tex}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{multicol}
+\usepackage{hhline}
+\newlength\Oldarrayrulewidth
+\newlength\Oldtabcolsep
+\usepackage{hyperref}
 \lohead{SPECIES assessment 2025}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -240,7 +300,7 @@
 
 \title{Status of SPECIES off the U.S. West Coast in 2025}
 \author{Michael Kinneen}
-\date{2025-05-03}
+\date{2025-05-11}
 
 \begin{document}
   \begin{titlepage}
@@ -427,28 +487,183 @@ dynamics}\label{stock-biomass-and-dynamics}
 
 \section{Introduction}\label{introduction}
 
-\subsection{Life History}\label{life-history}
+\emph{Sebastes entomelas} (Widow Rockfish) is named after its
+black-lined gut cavity (\emph{ento} meaning within and \emph{melas}
+meaning black). It has been referred to as buda, beccafico (Italian
+bird), and viuva (widow) prior to the 1930s. More recently, the Widow
+Rockfish is also called brownie, belinda bass, brown bomber, and soft
+brown.
 
-Refer to the most recent full assessment for additional information.
+This is an assessment of Widow Rockfish that inhabit the waters off
+California, Oregon, and Washington from the U.S.-Canadian border in the
+north to the U.S.-Mexico border in the south, and does not include Puget
+Sound waters (Figure 1). This assessment represents a thorough
+reconsideration of the data, data preparation, and model structure for
+assessing Widow Rockfish, including reinvestigations of recent and
+historical catches (including discards), length and age data, and fleet
+structure.
 
-\subsection{Ecosystem considerations}\label{ecosystem-considerations-1}
+\subsection{Distribution and Stock
+Structure}\label{distribution-and-stock-structure}
 
-Refer to the most recent full assessment for additional information.
+Widow Rockfish inhabit water depths of 25--370 m from northern Baja
+California, Mexico to Southeastern Alaska, and are most abundant from
+British Columbia to Northern California. Although catches north of the
+U.S.-Canada border or south of the U.S.-Mexico border were not included
+in this assessment, it is possible that these populations contribute to
+the biomass of Widow Rockfish off of the U.S. West Coast through adult
+migration and/or larval dispersion.
+
+There is little evidence of genetically separate stocks along the U.S.
+coast and past assessments have used a single area, coastwide model with
+multiple fisheries (He et al. 2011). In 2011, a two-area assessment
+model was brought forward for review, and was found to be similar to a
+coastwide model (He et al. 2011). There is some evidence of biological
+differences between areas. For example, Widow Rockfish collected off
+California tend to mature at a smaller length than Widow Rockfish
+collected off of Oregon (\textbf{barss\_maturity\_1987?}). This may be
+due to environmental or anthropogenic effects rather than genetic
+differences. The connectivity of Widow Rockfish populations throughout
+its range is unknown and it was decided to continue with a single area
+model for this assessment instead of potentially lose prediction power
+by splitting the data into two separate areas.
+
+\subsection{Life History and Ecosystem
+Interactions}\label{life-history-and-ecosystem-interactions}
+
+Widow Rockfish are atypical for West Coast rockfish species because they
+form dense midwater aggregations at night, which were largely undetected
+until the late 1970s. They are typically found over high relief strata
+and near cobblestone. The diet of Widow Rockfish is dominated by species
+that comprise the deep scattering layers, including salps, myctophids,
+\emph{Sergestes similis} (a caridean shrimp), and euphausiids (Adams
+1987).
+
+Widow Rockfish are ovoviviparous with gestation lasting from 1 to 3
+months. Parturition occurs earlier in southern latitudes (December-March
+off California) than in northern latitudes (April in British Columbia)
+and occur once a year (\textbf{barss\_maturity\_1987?}). Estimates of
+fecundity of Widow Rockfish range from 95,375 oocytes at 33 cm to
+1,113,000 oocytes at 52 cm (\textbf{Boehlert\_fecundity\_1982?}).
+
+There is little information regarding the movement of Widow Rockfish.
+Past assessments have assumed a two-area model because of differences in
+growth and maturity (see (He et al. 2011)). However, using recent
+observations from the NWFSC shelf/slope survey to follow two separate
+cohorts through time and space suggests that Widow Rockfish may recruit
+in the south and disperse northward as they age (Figure 2). Spatial
+recruitment and movement patterns of Widow Rockfish are uncertain and
+much more investigation and sampling is needed to fully understand them.
 
 \subsection{Fishery description}\label{fishery-description}
 
-Refer to the most recent full assessment for additional information.
+Widow Rockfish were lightly exploited by bottom trawl and hook-and-line
+gears prior to the 1980s. After many attempts to start trawl fisheries
+off the west coast of the United States in the late 1800s, the
+availability of otter trawl nets and the diesel engine in the mid-1920s
+helped trawl fisheries expand (Douglas 1998). The trawl fisheries really
+became established during World War II when demand increased for shark
+livers and bottomfish. A mink food fishery also developed during World
+War II (Jones and Harry Jr 1960). Foreign fleets began fishing for
+rockfish in the mid-1960s until the EEZ was implemented in 1977 (Rogers
+2003). Longline catches of Widow Rockfish are present from the turn of
+the century and continue in recent years, mainly from fisheries
+targeting sablefish and halibut.
 
-\subsection{Management History}\label{management-history}
+In the late 1960s and early 1970s, it is reported that foreign fishing
+vessels caught large numbers of Widow Rockfish (Rogers 2003). In the
+late 1970s a domestic midwater trawl fishery began developing off of
+Oregon when it was realized that Widow Rockfish form dense aggregations
+at night (\textbf{Gunderson\_great\_1984?}). The fishery expanded very
+quickly, with landings from trawl, net, and hook-and-line gears
+increasing more than 20 times by the early 1980s (Table 1). As early as
+1982, trip limits were imposed to keep catches below recommended annual
+levels (Table 3). Trip limits became more restrictive over the years
+until Widow Rockfish was declared overfished in 2001. In 2002, harvest
+guidelines were greatly reduced and over the last decade have been
+small, although increasing since 2004 (Table 4).
 
-Refer to the most recent full assessment for additional information.
+Historical discarding practices are not well known, but it is believed
+that little discarding occurred prior to management restrictions. With
+the introduction of trip limits, limited data from the mid-1980s show
+occasional very high discard rates of Widow Rockfish from tows that
+occurred near the end of a trip.
 
-\subsection{Management performance}\label{management-performance-1}
+More detailed information of the fisheries in each state is given in
+Section 2.2.1 where the reconstructed landings are discussed.
+
+\subsection{Management History and
+Performance}\label{management-history-and-performance}
+
+Widow Rockfish has been a small large component of groundfish fisheries
+since the late 1970s. The landings of Widow Rockfish have been
+historically governed by harvest guidelines and trip limits, while
+recently management is imposed with total catch harvest limits in the
+form of overfishing limits (OFLs), acceptable biological catches (ABCs),
+and annual catch limits (ACLs). A trawl rationalization program,
+consisting of an individual fishing quota (IFQ) or catch shares system
+was implemented in 2011 for the limited entry trawl fleet targeting
+non-whiting groundfish, including Widow Rockfish, and the trawl fleet
+targeting and delivering whiting to shore-based processors. The limited
+entry at-sea trawl sectors (motherships and catch-processors) that
+target whiting and process at sea are managed in a system of harvest
+cooperatives.
+
+Limits on Widow Rockfish were first established in 1982 (Table 3). These
+were implemented as trip limits and cumulative landing limits that were
+first imposed by trip, then week, then every 2 weeks, month, 2 months,
+and eventually into periods. In many years, the trip limits on Widow
+Rockfish were significantly reduced at the end of the year to avoid
+exceeding the harvest recommendations. Some important years were 1985
+when trip limits were reduced to 30,000 pounds once per week or 60,000
+pounds once every 2 weeks, 1990 when trip limits were reduced to 15,000
+or 25,000 pounds every one or two weeks, respectively, 1998 when a
+25,000 pound cumulative limit per two-month period was implemented, and
+2011 when catch shares was implemented.
+
+A sorting requirement was implemented for Widow Rockfish in the early
+1980s with California beginning in 1982, Oregon in 1984, and Washington
+in 1988. Some important events that could affect fishery selectivity are
+the gear restrictions implemented in 2000, implementation of Rockfish
+Conservation Areas (RCA's) in 2002, seasonal changes to the RCA's in
+2007, and the beginning of catch shares in 2011.
+
+Table 4 shows that recent landings have been below recommended catch
+levels. Landings are a considerable amount below the ACL, and it is
+unlikely that total mortality has exceeded the ACL in the last 10 years.
 
 \subsection{Fisheries off Canada and
 Alaska}\label{fisheries-off-canada-and-alaska}
 
-Refer to the most recent full assessment for additional information.
+Widow Rockfish are distributed throughout Canada and Southeast Alaska
+and are commonly caught in trawl and hook-and-line fisheries. However,
+the landings from the fisheries in these areas are estimated to harvest
+Widow Rockfish at much smaller rate than has been observed off
+California, Oregon, and Washington mostly due to lower abundance of
+Widow Rockfish, but also partly due to precautionary behavior of
+Canadian managers after the large catches followed by management
+restrictions and concerns of the U.S. fishery in the early 1980s.
+
+Alaska formed the ``Other Rockfish'' complex in 2012 from the
+combination of Other Slope Rockfish and the Widow and Yellowtail
+Rockfishes from the Pelagic Shelf Rockfish category. This new complex
+includes 18 species and Widow Rockfish are a small proportion of the
+catch (less than 5\%). Total biomass estimates are provided by the Gulf
+of Alaska (GOA) triennial/biennial trawl survey. ABC's and OFL's were
+set for the Other Rockfish Complex and component species in 2013 with a
+recommended OFL in 2014 of 5,347 mt for the complex. Widow Rockfish
+comprise a small part of this complex in Alaska.
+
+The fishery for Widow Rockfish in British Columbia, Canada started in
+1986 although some very small landings occurred in the mid-1970s.
+Landings peaked at about 4,500 mt in 1990 and were around 2,000 mt
+throughout the 1990s {[}dfo\_widow\_1999{]}. Most landings occurred in a
+midwater trawl fishery, but there have also been reports of ``nuisance
+catches in the salmon troll fishery''. An assessment of Widow Rockfish
+in Canada was completed in 1998 (\textbf{stanley\_shelf\_1999?}) as part
+of a shelf rockfish complex. Additional research has since been done on
+the estimation of biomass of particular aggregations of Widow Rockfish
+(Stanley et al. 2000), but no formal assessment has been done since.
 
 \newpage{}
 
@@ -470,19 +685,51 @@ sampling methodologies, were conducted during different years and time
 periods within years, and included coverage over different areas of the
 coast. In some instances, the survey frequency, depths, and geographic
 areas covered were not internally consistent within surveys. A brief
-description of each survey is provided below. Strata were defined by
-latitude and depth to analyze the catch-rates, length compositions, and
-age compositions using stratified random sampling theory (Table 6 \&
-Table 7). The latitude and depth breaks were chosen based on the design
-of the survey as well as by looking at biological patterns in relation
-to latitude and depth. Indices of abundance for all of the surveys were
-derived using model based approaches described below.
+description of each survey is provided below.
 
-\subsubsection{\texorpdfstring{\acrlong{s-tri}}{}}\label{section}
+Strata were defined by latitude and depth to analyze the catch-rates,
+length compositions, and age compositions using stratified random
+sampling theory (Table 6 \& Table 7). The latitude and depth breaks were
+chosen based on the design of the survey as well as by looking at
+biological patterns in relation to latitude and depth. Indices of
+abundance for all of the surveys were derived using model based
+approaches described below.
+
+\subsubsection{\texorpdfstring{\acrlong{s-juv}}{}}\label{section}
+
+We updated the coastwide pre-recruit index of abundance for widow
+rockfish using data from three midwater trawl surveys targeting
+young-of-the-year (YOY) rockfish (\gls{s-juv}), provided by Tanya Rogers
+(SWFSC, pers. comm.). All surveys used identical gear, enabling the
+construction of a consistent coastwide index spanning from 36°N to the
+U.S./Canada border since 2004. For building the widow rockfish
+pre-recruit index, we used data from 2001 to 2024 without spatial
+subsetting (including CA, OR, and WA). Sampling in 2020 was limited due
+to the COVID-19 pandemic and excluded from all models. In 2010 and 2012,
+coverage was incomplete, so these years were used to construct the index
+but excluded from the final model to align with the 2019 assessment.
+Data from 2001--2003 were also excluded following the 2015 assessment
+due to limited spatial coverage (36°30′ to 38°20′ N latitude). However,
+a sensitivity analysis was conducted to examine the impact of including
+those early years (see Figure: Sensitivity Analysis).
+
+The index was built using a spatial GLM with the sdmTMB package
+{[}anderson\_sdmtmb\_2022{]}, modeling 100-day standardized
+catch-per-tow as a function of year (fixed effect), Julian date (GAM
+smoother, k = 4), spatial random field, and spatiotemporal random
+effects. Models with Tweedie, delta-lognormal, and delta-gamma error
+structures were compared; DHARMa residuals and simulation-based
+diagnostics indicated the Tweedie model performed best. The index shows
+a strong increasing trend in juvenile abundance from 2017 to 2023, with
+a slight decline in 2024. Despite the dip, recent values remain high
+relative to the previous decade, and uncertainty estimates support the
+robustness of this trend.
+
+\subsubsection{\texorpdfstring{\acrlong{s-tri}}{}}\label{section-1}
 
 The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and the
-survey continued until 2004 (Weinberg et al. 2002). Its basic design was
-a series of equally-spaced east-to-west transects across the
+survey continued until 2004 (\textbf{weinberg\_2001\_2002?}). Its basic
+design was a series of equally-spaced east-to-west transects across the
 continential shelf from which searches for tows in a specific depth
 range were initiated. The survey design changed slightly over time. In
 general, all of the surveys were conducted in the mid summer through
@@ -506,7 +753,7 @@ surveys covered the depth range 55--500 m and surveyed south to
 \gls{nwfsc} \gls{fram} conducted the survey following similar protocols
 to earlier years.
 
-\subsubsection{\texorpdfstring{\acrlong{s-wcgbt}}{}}\label{section-1}
+\subsubsection{\texorpdfstring{\acrlong{s-wcgbt}}{}}\label{section-2}
 
 The \gls{s-wcgbt} is based on a random-grid design; covering the coastal
 waters from a depth of 55--1,280 m (Bradburn, Keller, and Horness 2011).
@@ -524,7 +771,7 @@ of possible cells spread from the Mexican to the Canadian borders. Note
 that the Survey is not permitted to access the \glspl{cca} in Southern
 California.
 
-Widow Rockfish are not commonly caught in the WCGBTS. Higher catch rates
+Widow rockfish are not commonly caught in the WCGBTS. Higher catch rates
 occur north of 40° N latitude and catches are rare south of 36° N
 latitude (Figure 11). Few large fish are found shallower than 100 m and
 few small fish are found in the deeper water of the slope. There is no
@@ -532,60 +779,112 @@ clear trend in length with latitude other than smaller fish tend to
 occur south of approximately 36° N latitude, and there appears to be
 some very small fish found near 39° N latitude.
 
-An index was created using spatiotemporal species distribution modeling
-via the sdmTMB package (citation). This reflects an updated approach
-compared to the 2015 assessment (non-spatial delta-GLMM) and the 2019
-update assessment (VAST delta-lognormal model). The sdmTMB index
-estimates spatial and spatiotemporal variation in encounter probability
-and positive catch weight across the survey range using a 200 knot grid.
+Geostatistical models of biomass density were fit to survey data using
+the R package \gls{sdmtmb} (\textbf{Anderson:2022:SRP?}). This approach
+reflects an updated approach compared to the 2015 assessment
+(non-spatial delta-GLMM) and the 2019 update assessment (VAST
+delta-lognormal model). These models can account for latent spatial
+factors with a constant spatial Gaussian random field and spatiotemporal
+deviations to evolve as a random walk Guassian random field using a 200
+knot grid of the survey area (\textbf{thorson\_geostatistical\_2015?}).
+The prediction grid was also truncated to only include available survey
+locations in depths between 55--500 m to limit extrapolating beyond the
+data and edge effects. Tweedie, delta-binomial, delta-gamma, and mixture
+distributions, which allow for extreme catch events, were investigated.
 The positive catch weight model includes survey pass (`first' or
 `second') to account for missing data, i.e., the incomplete second pass
-of the 2013 survey. Spatiotemporal estimates of weight are then
-converted into annual indices using XXX (something from sdmTMB??). Both
-gamma and lognormal error structures were tested for the positive catch
-model. Both models converged (positive, definite Hessian matrix) but
-predicted data from both models showed slightly right-heavy tails
+of the 2013 survey. Vessel-year effects, which have traditionally been
+included in index standardization for this survey, were not included as
+the estimated variance for the random effect was close to zero.
+Vessel-year effects were more prominent when models did not include
+spatial effects and were included for each unique combination of vessel
+and year in the data to account for the random selection of commercial
+vessels used during sampling (\textbf{helser\_generalized\_2004?};
+\textbf{thorson\_accounting\_2014?}).
+
+Results are only shown for both the delta-gamma and delta-lognormal
+distributions. Both models converged (positive, definite Hessian matrix)
+but predicted data from both models showed slightly right-heavy tails
 compared to null expectations, with the gamma model having stronger
-divergence.
+divergence. The delta-lognormal distribution ulitmately had to the best
+model diagnostics, e.g., similar distributions of theoretical normal
+quantiles and model quantiles, high precision, lack of extreme
+predictions that are incompatible with the life history, and low
+\gls{aic}. Spatiotemporal estimates of positive catch for the
+delta-lognormal distribution were then converted into annual indices
+using sdmtmb::get\_index() function. (\textbf{Anderson:2022:SRP?})
 
 The index estimate is relatively stable, with a slightly increasing
 trend in recent years and a moderate peak in 2016. Overall, the
 lognormal index estimates were more comparable to the 2019
 spatiotemporal VAST-based index and seemed less influenced by potential
-extreme catch events, particularly in 2013 and 2016 {[}is there a more
-stats-y reason, e.g., AIC score{]}; for these reasons, the
+extreme catch events, particularly in 2013 and 2016; for these reasons,
+in addition to better model performance described above, the
 delta-lognormal sdmTMB-based index was used for the base model in this
-assessment. {[}The delta-lognormal mean value (XX) was slightly lower
+assessment. The delta-lognormal mean value (2262.824) was slightly lower
 than the means of the index values used in the 2015 assessment (2701.12)
-and the 2019 update assessment (3301.765).{]} Comparisons of the
-different error structures, design-based estimate and the VAST index
-used in 2019 are in Figure XX.
+and the 2019 update assessment (3301.765). Comparisons of the different
+error structures, design-based estimate and the VAST index used in 2019
+are in Figure XX.
 
 \subsection{Fishery-dependent data}\label{fishery-dependent-data}
 
-Widow Rockfish have been caught in trawl and hook-and-line fisheries
-since the early part of the 20th century. Widow Rockfish are a desirable
-rockfish and are not likely to be discarded for market reasons. However,
-smaller Widow Rockfish are found at shallower depths and discarding
-practices in the early 1900s are uncertain. Few Widow Rockfish have been
-observed (relative to other gear types) in recreational, commercial pot,
-and commercial shrimp fisheries, thus only trawl, net, and hook-and-line
-landings were used in this assessment.
+\subsubsection{Landings}\label{landings}
 
-In data from the early 1980s, Widow Rockfish have had their own landing
-category. California began in 1982, Oregon in 1984, and Washington in
-1988. Estimates of historical landings of Widow Rockfish rely upon
-species-composition sampling data from each period. The uncertainty in
-species composition is greater in past years, with less systematic and
-extensive sampling occurring prior to 1980. Consequently, the precision
-with which landings of Widow Rockfish can be estimated likely decreases
-for earlier years. A description of the methods used to determine the
-historical and current landings is provided below
+Widow rockfish have been caught in trawl and hook-and-line fisheries
+since the early part of the 20th century. Widow rockfish are a desirable
+rockfish and are not likely to be discarded for market reasons. However,
+smaller widow rockfish are found at shallower depths and discarding
+practices in the early 1900s are uncertain. In data from the early
+1980s, widow rockfish have had their own landing category, beginning in
+California in 1982, Oregon in 1984, and Washington in 1988. Estimates of
+historical landings of widow rockfish rely upon species-composition
+sampling data from each period. The uncertainty in species composition
+is greater in past years, with less systematic and extensive sampling
+occurring prior to 1980. Consequently, the precision with which landings
+of widow rockfish can be estimated likely decreases for earlier years.
+
+The definitions of fishing fleets have not been changed from those in
+the 2015 and 2019 assessments. Five fishing fleets were specified within
+the model: 1) a shorebased bottom trawl fleet with coastwide catches
+from 1916--2024, 2) a shorebased midwater trawl fleet with coastwide
+catches from 1979--2024, 3) a mostly midwater trawl fleet that targets
+Pacific Hake/Whiting (Merluccius productus) and includes a foreign and
+at-sea fleet with catches from 1975--2024, a domestic shorebased fleet
+that targeted Pacific Hake with catches from 1991--2024, and foreign
+vessels that targeted Pacific Hake and rockfish between 1966--1976, 4) a
+net fishery consisting of catches mostly from California from
+1981--2024, and 5) a hook-and-line fishery (predominantly longline) with
+coastwide catches from 1916--2024. As in previous assessments, catches
+from Puget Sound and those from commercial shrimp trawls, commercial
+pots, and recreational fisheries were excluded (as these are generally
+minimal).
+
+Catches from all years (1916-2018) were carried forward into this
+assessment, with two exceptions. First, discards from the hook-and-line
+fleet were added to the removals for this fleet . The hook-and-line
+removals of widow rockfish are extremely minimal (Figure 1) and
+comprised only approximately 0.2\% of the total removals over the last
+twenty years, with discard being a small fraction of that. The
+biological samples of the discard amount are also scarce, with input
+sample sizes not exceeding 6 and averaging around 3 per year (Table X).
+With this limited data, the model was unable to reliably estimate
+retention parameters and exhibited substantial sensitivity to even
+slight changes in discard amounts within the hook-and-line fleet.
+Therefore, in this assessment, we added hook-and-line discards to
+hook-and-line landings. Second, because PacFIN appear to underestimate
+midwater trawl catches in California in 1979-1980 (Edward Dick, Pers.
+Comms.) we adjusted midwater and bottom trawl catches from California in
+these years to reflect the ratio of California midwater to bottom trawl
+catches in 1981-1982. New catches (2019-onward) from PacFIN and ASHOP
+were otherwise appended onto the 1916-2018 landings and apportioned
+among fleets using the same criteria as those documented in the 2015
+assessment.
 
 \subsubsection{Fishery length and age
 data}\label{fishery-length-and-age-data}
 
-Biological data from commercial fisheries that caught Widow Rockfish
+Biological data from commercial fisheries that caught widow rockfish
 were extracted from PacFIN (PSMFC) on July 3, 2019, from CALCOM on July
 3, 2019 and from the NORPAC database on July 3, 2019. Lengths taken
 during port sampling in California, Oregon, and Washington were used to
@@ -609,7 +908,7 @@ representing a large catch). The predicted total numbers at length or
 age weighted by landings for each state were added to create a
 coast-wide length frequency. The effective sample sizes of the state
 combined length frequencies were determined from the following formula,
-which has been used in previous Widow Rockfish assessments as well as
+which has been used in previous widow rockfish assessments as well as
 other west coast groundfish assessments.
 
 \begin{longtable}[]{@{}
@@ -633,16 +932,15 @@ Survey Samples
 \end{longtable}
 
 This is slightly different than the sample size of 2.43 per haul for
-rockfish that Stewart \& Hamel (2014) report.
-
-Observed lengths were expanded to the tow from At-Sea Hake Observer
-Program samples (NORPAC). Tows are typically well sampled, thus
-expansion factors were not modified from what was calculated. Hake
-fishery length compositions were created by combining shoreside and
-at-sea length compositions, weighting by the catch from each sector. The
-effective sample sizes for hake fishery length and age comps were
-calculated using the above equations for the shoreside fleet and added
-to the number of tows sampled from the at-sea fleet.
+rockfish that (\textbf{stewart\_bootstrapping\_2014?}) report. Observed
+lengths were expanded to the tow from At-Sea Hake Observer Program
+samples (NORPAC). Tows are typically well sampled, thus expansion
+factors were not modified from what was calculated. Hake fishery length
+compositions were created by combining shoreside and at-sea length
+compositions, weighting by the catch from each sector. The effective
+sample sizes for hake fishery length and age comps were calculated using
+the above equations for the shoreside fleet and added to the number of
+tows sampled from the at-sea fleet.
 
 Expanded length compositions for bottom trawl, midwater trawl, hake
 fisheries, net, and hook-and-line are shown in Figure 17 to Figure 21.
@@ -653,7 +951,7 @@ through in the late 1980s. Sample sizes typically dropped off after
 2000, except in the hake fishery where nearly every tow is sampled. Age
 compositions for the five fleets are shown in Figure 22 and Figure 26.
 Occasional cohorts appear to move through the population, indicating
-that Widow Rockfish population dynamics may be characterized by episodic
+that widow rockfish population dynamics may be characterized by episodic
 recruitment events.
 
 \subsubsection{Discards}\label{discards}
@@ -671,7 +969,7 @@ D_{y,f} = \frac{d_{y,f}}{r_{y,f}} R_{y,f}
 Weight-at-length data, which are the same used in the 2015 assessment,
 were collected from fisheries sampling and by the Triennial and NWFSC
 WCGBT Surveys, and were used to estimate a weight-length relationship
-for Widow Rockfish (Figure 30). Weight-at-length was similar between
+for widow rockfish (Figure 30). Weight-at-length was similar between
 sources with the fishery samples showing a slightly smaller weight at
 large sizes when compared to the survey data (Figure 31). WCGOP data
 were not used because only small fish were sampled, the weight of these
@@ -702,72 +1000,75 @@ relationships were used in the assessment as fixed relationships.
 \paragraph{Maturity schedule}\label{maturity-schedule}
 
 Estimates of maturity used in this update were the same as the 2015
-assessment. Estimates of maturity at length have been presented by Barss
-\& Echeverria (1987), Echeverria (1987), and Love et al (1990). Barss \&
-Echeverria (1987) supplied data collected from Oregon and California
-commercial and recreational samples, which allowed us to estimate the
-proportion mature-at-length and proportion mature-at-age for samples
-from each state (Figure 32). As noted by Barss \& Echeverria (1987), the
-samples from Oregon matured at older age and larger length. Estimates of
-maturity-at-length from California reported by Barss \& Echeverria
-(1987) are similar to estimates of length-at-50\%-mature from samples
-collected in California reported by Echeverria (1987) and Love et al
-(1990), although Barss \& Echeverria show the smallest
-length-at-50\%-mature. To maintain some consistency with the 2011
-assessment and to avoid any potential growth issues by area, the 2015
-assessment used maturity-at-age data from the 2011 assessment, but used
-the data provided by Barss \& Echeverria (1987) to estimate a new
-maturity curve following a logistic function with the data from
-California and Oregon equally weighted to avoid California dominating
-the estimated relationship. This maturity-at-age curve falls between the
-estimated California and Oregon maturity-at-age curves (Figure 32,
-right), with the age-at-50\%-mature estimated at 5.47 and with a slope
-of -0.7747 (as specified in SS). This logistic maturity-at-age curve was
-used in the 2015 and 2019 update assessment except that maturity-at-age
-for ages 2 and lower were set equal to zero (Table 19).
+assessment. Estimates of maturity at length have been presented by
+(\textbf{barss\_maturity\_1987?}),
+(\textbf{echeverria\_thirty-four\_1987?}), and
+(\textbf{love\_life\_1990?}). (\textbf{barss\_maturity\_1987?}) supplied
+data collected from Oregon and California commercial and recreational
+samples, which allowed us to estimate the proportion mature-at-length
+and proportion mature-at-age for samples from each state (Figure 32). As
+noted by (\textbf{barss\_maturity\_1987?}), the samples from Oregon
+matured at older age and larger length. Estimates of maturity-at-length
+from California reported by (\textbf{barss\_maturity\_1987?}) are
+similar to estimates of length-at-50\%-mature from samples collected in
+California reported by (\textbf{echeverria\_thirty-four\_1987?}) and
+(\textbf{love\_life\_1990?}), although (\textbf{barss\_maturity\_1987?})
+show the smallest length-at-50\%-mature. To maintain some consistency
+with the 2011 assessment and to avoid any potential growth issues by
+area, the 2015 assessment used maturity-at-age data from the 2011
+assessment, but used the data provided by
+(\textbf{barss\_maturity\_1987?}) to estimate a new maturity curve
+following a logistic function with the data from California and Oregon
+equally weighted to avoid California dominating the estimated
+relationship. This maturity-at-age curve falls between the estimated
+California and Oregon maturity-at-age curves (Figure 32, right), with
+the age-at-50\%-mature estimated at 5.47 and with a slope of -0.7747 (as
+specified in SS). This logistic maturity-at-age curve was used in the
+2015 and 2019 update assessment except that maturity-at-age for ages 2
+and lower were set equal to zero (Table 19).
 
 \paragraph{Fecundity}\label{fecundity}
 
 Fecundity in rockfish is often not a linear function of weight, but
 increases faster at larger weights (Dick 2009). Therefore, this
 relationship is often accounted for in rockfish assessments by using
-spawning output (numbers of eggs) to determine current status. Dick
-(2009) did not find a significant relationship between the number of
-eggs per gram of body weight and body weight for Widow Rockfish.
-Therefore, spawning output was assumed to be proportional to weight,
-which is the same as spawning biomass, and is reported here.
+spawning output (numbers of eggs) to determine current status. (Dick
+2009) did not find a significant relationship between the number of eggs
+per gram of body weight and body weight for widow rockfish. Therefore,
+spawning output was assumed to be proportional to weight, which is the
+same as spawning biomass, and is reported here.
 
 \paragraph{Natural Mortality}\label{natural-mortality}
 
 Natural mortality used in this update differed from the 2015 assessment.
 Natural mortality (M) is a parameter that is often highly uncertain in
-fish stocks. Past assessments of Widow Rockfish assumed constant natural
+fish stocks. Past assessments of widow rockfish assumed constant natural
 mortality of 0.125 yr-1 or 0.15 yr-1. The 2011 assessment estimated M
 with a prior developed by Owen Hamel (NWFSC, pers. comm.) using methods
-described in Hamel (2014). This prior was based on a maximum age of 44
+described in (Hamel 2014). This prior was based on a maximum age of 44
 and 40 for females and males, respectively, a mean temperature of 8
 degrees Celsius (about 150m deep off of Oregon), and a gonadosomatic
-index of 9.99\% and 1.86\% for females and males, respectively (Love et
-al 1990). The sex-specific lognormal priors for M have medians 11 of
-0.124 yr-1 and 0.129 yr-1 for females and males, respectively, and a
-coefficient of variation (CV) of 30.7\% for each sex. In 2015,
-discussions with Owen Hamel (NWFSC) led to the development of a new
-prior based solely on maximum age to use when estimating M. Using all of
-the available age data, a maximum age of 54 was determined for both
-females and males, although it has been rare to observe Widow Rockfish
-older than about 45 years old (Figure 33). This resulted in a prior with
-a much smaller median (0.0810 or -2.513284 in log space) and a larger
-standard deviation in log space (0.523694). For the update assessment,
-an updated meta-anaysis resulted in a prior with a slightly smaller
-median than the 2015 assessment (0.10 or -2.30 in log space) and a
-smaller standard deviation in log space (0.438). Figure 34 shows that
+index of 9.99\% and 1.86\% for females and males, respectively
+(\textbf{love\_life\_1990?}). The sex-specific lognormal priors for M
+have medians of 0.124 yr-1 and 0.129 yr-1 for females and males,
+respectively, and a coefficient of variation (CV) of 30.7\% for each
+sex. In 2015, discussions with Owen Hamel (NWFSC) led to the development
+of a new prior based solely on maximum age to use when estimating M.
+Using all of the available age data, a maximum age of 54 was determined
+for both females and males, although it has been rare to observe widow
+rockfish older than about 45 years old (Figure 33). This resulted in a
+prior with a much smaller median (0.0810 or -2.513284 in log space) and
+a larger standard deviation in log space (0.523694). For the update
+assessment, an updated meta-anaysis resulted in a prior with a slightly
+smaller median than the 2015 assessment (0.10 or -2.30 in log space) and
+a smaller standard deviation in log space (0.438). Figure 34 shows that
 these prior distributions are wide and not highly informative.
 
 \paragraph{Length-at-age}\label{length-at-age}
 
 Estimates of length-at-age used in this update were the same as the 2015
 assessment. Two different labs have aged the majority of processed
-otoliths for Widow Rockfish. The SWFSC has been aging Widow Rockfish
+otoliths for widow rockfish. The SWFSC has been aging widow rockfish
 otoliths for many years, including all of the fishery data prior to 2011
 and otoliths collected from the NWFSC WCGBT survey in 2009 and 2010. The
 Cooperative Ageing Project (CAP) in Newport, Oregon aged 1,100 otoliths
@@ -806,7 +1107,7 @@ proportion of females approaches one at large lengths and is less than
 females at length from survey data is approximately 50\% until
 approximately 34 cm, when the proportion of females drops below 50\%. At
 lengths larger than 46 cm, the proportion of females increases rapidly
-to one, suggesting that few males grow larger than 50 cm
+to one, suggesting that few males grow larger than 50 cm.
 
 \paragraph{Ageing bias and
 imprecision}\label{ageing-bias-and-imprecision}
@@ -821,16 +1122,17 @@ Break-and-burn double reads of 1788 otoliths were performed by both the
 CAP and the SWFSC lab combined. Additionally, 100 otoliths were read
 both by surface and break-and-burn methods. An ageing error estimate was
 made based on these double reads using a computational tool specifically
-developed for estimating ageing error (Punt et al.~2008), and using
-release 1.0.0 of the R package nwfscAgeingError (Thorson et al.~2012)
-for input and output diagnostics, publicly available at:
-https://github.com/nwfsc- assess/nwfscAgeingError. The maximum aged fish
-read by the surface reading method was 10 years and the cross otolith
-reads between the surface and break-and-burn ageing methods showed
-limited variation. Therefore, a unique ageing error was not created for
-surface read otoliths. A non-linear standard error was estimated by age
-where there is more variability in the estimated age of older fish was
-estimated for each reading lab (Table 20 and Figure 39).
+developed for estimating ageing error (Punt et al. 2008), and using
+release 1.0.0 of the R package nwfscAgeingError
+(\textbf{thorson\_nwfscageingerror\_2012?}) for input and output
+diagnostics, publicly available at: https://github.com/nwfsc-
+assess/nwfscAgeingError. The maximum aged fish read by the surface
+reading method was 10 years and the cross otolith reads between the
+surface and break-and-burn ageing methods showed limited variation.
+Therefore, a unique ageing error was not created for surface read
+otoliths. A non-linear standard error was estimated by age where there
+is more variability in the estimated age of older fish was estimated for
+each reading lab (Table 20 and Figure 39).
 
 \subsubsection{Abundance indices}\label{abundance-indices}
 
@@ -839,7 +1141,7 @@ data}\label{environmental-and-ecosystem-data}
 
 \newpage{}
 
-\section{Assessment model}\label{assessment-model}
+Assessment model
 
 An age-structured stock assessment model was used to predict the biomass
 trajectory of Widow Rockfish with an approach of balancing parsimony
@@ -861,6 +1163,17 @@ To be completed after review.
 \subsection{Model Structure and
 Assumptions}\label{model-structure-and-assumptions}
 
+For this update assessment, new versions of the previously used software
+were used. Stock Synthesis v3.30.13 was used to estimate the parameters
+in the 2019 model. R4SS, version 1.35.3, along with R version 3.5.3 were
+used to investigate and plot the 2019 model fits. For the update, Stock
+Synthesis v3.30.2 and R4SS, version 1.51.0 , along with R version 4.4.2
+were used. Bridging from Stock Synthesis v3.24U to v3.30.13 is
+illustrated in Figure 41. A summary of the data sources used in the
+model (details discussed above) is shown in Figure 40. Stock Synthesis
+has many options when setting up a model and the assessment model for
+Widow Rockfish was set up in the following manner.
+
 \subsubsection{Model Changes from the Last
 Assessment}\label{model-changes-from-the-last-assessment}
 
@@ -877,6 +1190,90 @@ Refer to the most recent full assessment for additional information.
 \subsection{Base Model Results}\label{base-model-results}
 
 \subsubsection{Parameter Estimates}\label{parameter-estimates}
+
+3.3.1 Parameter estimates
+
+The estimates of natural mortality 0.124599 yr-1 and NA yr-1 for females
+and males, respectively) were higher than suggested by the medians of
+the prior distributions used in this assessment and the 2015 assessment.
+Fixing M at lower values than those estimates resulted in a pattern of
+reduced recruitment immediately before the fishery started. This
+suggests that the model is doing what it can to reduce the number of
+observations of older fish in the data. The estimates of M fall within
+the 95\% confidence interval of the prior distribution (0.0425--0.237),
+and are shown in Figure 44.
+
+Estimating M is difficult in stock assessments, and the estimated values
+may represent model misspecification instead of the actual life-history
+trait. However, in alternative models to the base case model, the
+estimates of M were rarely less than 0.14 yr-1 (Table 29). Uncertainty
+in the estimated M was also much less than the range of the prior
+(Figure 44). The assumption that appeared to have the largest effect on
+M was introducing dome-shaped selectivity in the midwater trawl fleet,
+which made M smaller (Table 29).
+
+Selectivity curves were estimated for commercial and survey fleets and
+parameter estimates are provided in Table 24. The final base model
+assumed asymptotic selectivity (double-normal selectivity curve ) for
+each fishery, except for the midwater trawl fishery. The NWFSC and
+Triennial surveys both used spline curves. All selectivity curves were
+length-based and are the same shape as in the 2015 benchmark. Time
+blocks were used for the bottom trawl, midwater trawl and hook-and-line
+fisheries as indicated in Table 21. The estimated selectivity,
+retention, and keep (the product of selectivity and retention) curves
+for the trawl and hook-and-line fleets are shown in Figure 45. The
+selectivity curves showed a shift to larger fish in 2002 for the bottom
+trawl fishery and a shift to smaller fish in 2003 for the hook-and-line
+fishery. The bottom trawl shift is consistent with the introduction of
+the RCA and gear restrictions (shoreward of the 18 RCA) that virtually
+eliminated fishing in shelf habitats where smaller Widow Rockfish would
+more likely be encountered. Around this same time, the fixed-gear RCA
+specifications began preventing fishing between 30 and 100 fm.
+
+The retention curves showed a shift to retaining a lower percentage of
+fish since trip limits were introduced, but increases in recent years.
+The asymptote of the retention curve for the bottom trawl fishery
+sequentially decreased as more management restrictions were introduced
+to about 50\% retention of larger fish in the 1998-2010 period.
+
+Midwater trawl and hook-and-line fisheries estimated an asymptote to
+retention just above 80\% for the period 1983-2010. Both the selectivity
+for the hake fleet and the selectivity of the net fleet did not support
+dome-shaped selectivity (Figure 46). The estimated selectivity curves
+for the Triennial and NWFSC WCGBT surveys were similar to each other
+except that the triennial survey selected larger fish (Figure 46). The
+NWFSC WCGBT survey was no longer minimally dome-shaped as in the 2015
+assessment.
+
+In 2015, additional survey variability (process error added directly to
+each year's input variability) for the triennial and NWFSC WCGBT surveys
+was not estimated in the model because the estimate was zero. To avoid
+bound issues in estimation of the Hessian, the authors fixed these at
+zero because the model- based results provided reasonable estimates of
+variance. We retained the same modelling approach for the update
+assessment. The additional standard deviation added to the
+fishery-dependent indices was quite large, ranging from 0.16 for the
+bottom trawl index and 0.58 for the foreign at-sea hake fleet. The
+additional variability on the juvenile survey was the highest, at 0.83,
+giving the index very little weight in the model.
+
+The estimates of maximum size for both females and males (Table 23) were
+not unexpected given the data in Figure 35. Estimates of k were slightly
+different in the model, but that is expected when accounting for
+selectivity. Estimated growth curves are shown in (Figure 47).
+
+Estimates of recruitment suggest that the Widow Rockfish population is
+characterized by variable recruitment with occasional strong
+recruitments and periods of low recruitment (Figure 48). There is little
+information regarding recruitment prior to 1965, and the uncertainty in
+these estimates is expressed in the model. There are very large, but
+uncertain, estimates of recruitment in 2013, 1970, 2008, and 1971. Other
+large recruitment events (in descending order of magnitude) occurred in
+1978, 2014, 1981, 2010, and 1991. The five lowest recruitments (in
+ascending order) occurred in 2012, 2011, 1976, 2007, and 1973. Estimates
+of recruitment appear to be episodic and characterized by periods of low
+recruitment. Two of the four largest estimated recruitments occurred in
+the last 11 years.
 
 \subsubsection{Fits to the Data}\label{fits-to-the-data}
 
@@ -925,7 +1322,90 @@ of 40\% of the unfished spawning biomass.
 
 \subsubsection{Sensitivity Analyses}\label{sensitivity-analyses}
 
+Sensitivity analysis was performed to determine the model behavior under
+different assumptions than those of the base case model. Seven
+sensitivity analyses were conducted to explore the potential differences
+in model structure and assumptions, including:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Fixed natural mortality at 0.1 for both sexes (2015 assessment prior)
+\item
+  Fixed natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for
+  males (2011 assessment prior)
+\item
+  Fixed steepness at 0.4
+\item
+  Fixed steepness at 0.6
+\item
+  Fixed steepness at 0.798 (2015 assessment value)
+\item
+  Forcing asymptotic selectivity on the midwater trawl fleet
+\item
+  Fitting logistic curves for NWFSC WCGBT survey selectivities
+\item
+  Weighting the composition data using the Francis method
+\item
+  Updated Washington catch reconstruction
+\item
+  Inclusion of previously excluded shrimp trawl data
+\item
+  Exclusion of triennial survey data
+\end{enumerate}
+
+Likelihood values and estimates of key parameters are shown in Table 29.
+Predicted spawning biomass trajectories and estimated recruitment
+deviations are shown in in Figure 65. The estimates of current stock
+depletion ranged from 55\%-142\% across the sensitivity runs, with
+fixing natural mortality at 0.1 resulting in the lowest estimate and
+forcing asymptotic selectivity on the midwater trawl fleet resulting in
+the highest estimate. Generally, the trajectory of the spawning biomass
+was qualitatively similar across all tested models, e.g., peak around
+late 1970s and late 2010s, projected decrease in biomass in 2025
+followed by some recovery into the 2030s; the quantitative magnitude of
+these trends did vary across cases.
+
+Fixing M at values lower than the base case estimate resulted in
+decreases in estimated spawning biomass, while fixing steepness across
+the values tested resulted in similar or increased estimated spawning
+biomass. The relative spawning biomass in 2025 changed to 93\% with an M
+of 0.124 yr-1 and 0.129 yr-1 for females and males, respectively, and to
+55\% with an M of 0.1 yr-1. Fixing steepness at a value of 0.6 resulted
+in an increase of the spawning biomass to 125\% and a decrease in
+equilibrium yield at a SPR50\% reference harvest rate, while other
+tested values for fixed steepness had relatively minimal effects on
+spawning biomass and equilibrium yield at a SPR50\% reference harvest
+rate. Fixing steepness at a value of 0.4 resulted in low recruitment
+deviations in the 2019-2024 period relative to other tested models and
+the base model.
+
+Forcing asymptotic selectivity on the midwater fleet resulted in the
+largest estimated spawning biomass for 2025, while forcing logistic
+selectivity on the NWFSC WCGBT resulted in similar estimated spawning
+biomass to the base model. Including shrimp trawl data and updating WA
+catch reconstruction had almost no impact on the estimated spawning
+biomass. Excluding the triennial survey data lead to slight increases in
+estimated spawning biomass.
+
+The alternative weighting using the Francis method generally increased
+the estimate of spawning biomass across the timeseries, but the
+estimated biomass for 2025 was similar between the Francis weighted
+model and the base model.
+
 \subsubsection{Retrospective Analysis}\label{retrospective-analysis}
+
+A 5-year retrospective analysis was conducted by running the model using
+data only through 2020, 2021, 2022, 2023, and 2024 progressively (Table
+30 and Figure 66). The initial scale of the spawning population was
+basically unchanged for all of these retrospectives. Removing 4--5 years
+of data led to slightly lower estimates of fishing mortality (F) and
+slightly higher spawning biomass over the last 15 years. In contrast,
+removing only 1--2 years resulted in higher F and lower biomass
+estimates. Despite these minor differences, all retrospectives showed a
+consistent declining trend in spawning biomass over the past decade. No
+concerning patterns were observed in the retrospective analysis.
 
 \subsubsection{Likelihood Profiles and key
 parameters}\label{likelihood-profiles-and-key-parameters}
@@ -956,8 +1436,56 @@ Uncertainties}\label{unresolved-problems-and-major-uncertainties}
 
 \subsection{Reference Points}\label{reference-points-1}
 
+catches (landings plus discards) have been below the point estimate of
+potential long-term yields calculated using an SPR50\% reference point
+and the population has been increasing over the last decade. However,
+catches in 2018 were above the point estimate of potential long-term
+yields calculated using an SPR50 reference point.
+
+The predicted spawning biomass from the base model generally showed a
+slight decline until the late 1970s, steep increase above unfished
+equilibrium levels, then a steep decline until the mid-1980s followed by
+less of a decline until 2001 (Figure 61). Since 2001, the spawning
+biomass has been increasing due to small catches, and recently, above
+average recruitment. The 2018 spawning biomass relative to unfished
+equilibrium spawning biomass is above the target of 40\% of unfished
+spawning biomass (Figure 63). The fishing intensity (relative 1-SPR)
+exceeded the current estimates of the harvest rate limit (SPR50\%)
+throughout the 1980s and early 1990s, as seen in Figure 73. Recent
+exploitation rates on Widow Rockfish were predicted to be much less than
+target levels. In recent years, the stock has experienced exploitation
+rates that have been below the target level while the biomass level has
+remained above the target level (Figure 74).
+
+The equilibrium yield plot is shown in Figure 75, based on a steepness
+value fixed at 0.720. The predicted maximum sustainable yield under the
+assumptions of this assessment occurs near 25\% of equilibrium unfished
+spawning biomass.
+
+\subsection{Unresolved problems and major
+uncertainties}\label{unresolved-problems-and-major-uncertainties-1}
+
 \subsection{Harvest Projections and Decision
 Tables}\label{harvest-projections-and-decision-tables}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{load}\NormalTok{(}\AttributeTok{file=}\NormalTok{here}\SpecialCharTok{::}\FunctionTok{here}\NormalTok{(}\StringTok{"report"}\NormalTok{,}\StringTok{"tables"}\NormalTok{,}\StringTok{"projections.rda"}\NormalTok{))}
+\NormalTok{projections  }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(projections}\SpecialCharTok{$}\NormalTok{table)}
+
+
+\NormalTok{projections }\OtherTok{\textless{}{-}}\NormalTok{ projections}\SpecialCharTok{|\textgreater{}}\NormalTok{dplyr}\SpecialCharTok{::}\FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(projections), }\SpecialCharTok{\textasciitilde{}} \FunctionTok{round}\NormalTok{(.x)))}
+\end{Highlighting}
+\end{Shaded}
+
+Projections with catches based on the predicted annual catch limit (ACL)
+using the SPR rate of 50\%, the 40:10 control rule, and a 0.25 P*
+adjustment using a sigma of 0.50 from 2021 onward suggest that the
+spawning biomass will decrease over the projection period for all states
+of nature. Predicted ACL catches range from 10,961 mt in 2021 to 5,944
+mt in 2030.
+
+\textbf{\emph{nOT SURE WHERE acl CATCHES ARE }}
 
 \subsection{Evaluation of Scientific
 Uncertainty}\label{evaluation-of-scientific-uncertainty}
@@ -994,6 +1522,8 @@ being taken to make sure that specific areas are not being
 overexploited. In addition, research on the connectivity along the coast
 as well as regional differences would help to inform the potential for
 overfishing specific areas.
+\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater\textgreater{}
+1ed44512b0ba062144bae79bac8c50155d6b6fec
 
 \subsection{Research and Data Needs}\label{research-and-data-needs-1}
 
@@ -1007,7 +1537,368 @@ overfishing specific areas.
 
 \newpage{}
 
-\subsection{Tables}\label{tables}
+\section{Tables}\label{tables}
+
+\subsection{Data}\label{data-1}
+
+\subsubsection{Fishery-dependent data}\label{fishery-dependent-data-1}
+
+:::
+
+\newpage{}
+
+::: \{\#tbl-hake\_removals .cell tbl-cap=' Landings (mt) from the
+foreign \& domestic at-sea fleet and the domestic shoreside hake fleet.
+Catches (mt) from the Pacific whiting at-sea fishery as determined by
+onboard observers.'\} ::: \{.cell-output-display\}
+
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
+
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
+
+\setlength{\tabcolsep}{2pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable*}[c]{|p{0.75in}|p{0.75in}|p{0.75in}|p{0.75in}|p{0.75in}}
+
+
+
+\ascline{1.5pt}{666666}{1-5}
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{Year}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{Foreign...Domestic}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{Shoreside.hake}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{X}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{X.1}}}} \\
+
+\ascline{1.5pt}{666666}{1-5}\endfirsthead 
+
+\ascline{1.5pt}{666666}{1-5}
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{Year}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{Foreign...Domestic}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{Shoreside.hake}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{X}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{X.1}}}} \\
+
+\ascline{1.5pt}{666666}{1-5}\endhead
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{At-sea}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{CA}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{OR}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{WA}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,966}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{3670}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,967}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{3902}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,968}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1956}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,969}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{358}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,970}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{554}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,971}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{701}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,972}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{421}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,973}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{656}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,974}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{418}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,975}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{391.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,976}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{718.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,977}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{119.3}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,978}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{191.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,979}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{197.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,980}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{272}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,981}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{227.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,982}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{157.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,983}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{131.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,984}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{294.7}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,985}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{182.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,986}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{256.8}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,987}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{181.3}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,988}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{231.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,989}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{212}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,990}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{230.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,991}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{471.3}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{42.7}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{39}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{9.3}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,992}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{389.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{13.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{42.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{6.2}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,993}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{173.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{91.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{11}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,994}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{370.7}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{210.8}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{28.6}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,995}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{228.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{7.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{192.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{36.8}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,996}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{252.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{5.7}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{475.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{104.7}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,997}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{215.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{7.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{133.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{22.1}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,998}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{268.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{40.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{278}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{28.1}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1,999}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{191.8}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{12.7}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{166.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{15.2}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,000}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{205.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{7.7}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{70.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{4.7}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,001}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{174}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{9.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{26.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{9}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,002}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{154.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1.4}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,003}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{14.5}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{7.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{4.6}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,004}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{21.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{7.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{12.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{8.5}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,005}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{80.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{5.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{59.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{13.6}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,006}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{143}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{3.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{11.3}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{35.3}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,007}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{146}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{46.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{35.3}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,008}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{115.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{29.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{36.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{37.5}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,009}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{26.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2.3}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{46.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{59.8}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,010}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{44.6}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{35.3}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{17.5}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,011}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{38.4}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{79.9}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{19.5}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,012}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{79.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{85.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{17.1}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,013}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{31.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{115.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{29.2}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\raggedleft}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{2,014}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{56.2}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{0}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{250.1}}}} & \multicolumn{1}{>{\raggedright}m{\dimexpr 0.75in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Helvetica}{35.9}}}} \\
+
+\ascline{1.5pt}{666666}{1-5}
+
+
+
+\end{longtable*}
+
+
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
+
+::: :::
+
+:::
+
+\newpage{}
 
 \newpage{}
 
@@ -1015,20 +1906,57 @@ overfishing specific areas.
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\bibitem[\citeproctext]{ref-bradburn_2003_2011}
-Bradburn, M. J., A. A Keller, and B. H. Horness. 2011. {``The 2003 to
-2008 {US} {West} {Coast} Bottom Trawl Surveys of Groundfish Resources
-Off {Washington}, {Oregon}, and {California}: Estimates of Distribution,
-Abundance, Length, and Age Composition.''} US Department of Commerce,
-National Oceanic; Atmospheric Administration, National Marine Fisheries
-Service.
+\bibitem[\citeproctext]{ref-adams_diet_1987}
+Adams, PB. 1987. {``The Diet of Widow Rockfish {Sebastes} Entomelas in
+Northern {California}.''} \emph{NOAA Tech. Rep. NMFS} 48: 37--41.
 
-\bibitem[\citeproctext]{ref-weinberg_2001_2002}
-Weinberg, K. L., M. E. Wilkins, F. R. Shaw, and M. Zimmermann. 2002.
-{``The 2001 {Pacific} {West} {Coast} Bottom Trawl Survey of Groundfish
-Resources: Estimates of Distribution, Abundance and Length and Age
-Composition.''} NOAA Technical Memorandum NMFS-AFSC-128. U.S. Department
-of Commerce.
+\bibitem[\citeproctext]{ref-bradburn_2003_2011}
+Bradburn, Mark James, Aimee A Keller, and Beth Helene Horness. 2011.
+{``The 2003 to 2008 {US} {West} {Coast} Bottom Trawl Surveys of
+Groundfish Resources Off {Washington}, {Oregon}, and {California}:
+Estimates of Distribution, Abundance, Length, and Age Composition.''}
+
+\bibitem[\citeproctext]{ref-dick_modeling_2009}
+Dick, Edward Joseph. 2009. \emph{Modeling the Reproductive Potential of
+Rockfishes ({Sebastes} Spp.)}. University of California, Santa Cruz.
+
+\bibitem[\citeproctext]{ref-douglas_species_1998}
+Douglas, David A. 1998. {``Species Composition of Rockfish in Catches by
+{Oregon} Trawlers, 1963-93.''}
+
+\bibitem[\citeproctext]{ref-hamel_method_2014}
+Hamel, Owen S. 2014. {``A Method for Calculating a Meta-Analytical Prior
+for the Natural Mortality Rate Using Multiple Life History
+Correlates.''} \emph{ICES Journal of Marine Science} 72 (1): 62--69.
+
+\bibitem[\citeproctext]{ref-he_status_2011}
+He, Xi, Donald Pearson, E. J. Dick, John Field, Stephen Ralston, and
+Alec MacCall. 2011. {``Status of the Widow Rockfish Resource in 2011.''}
+Portland, OR: Pacific Fishery Management Council.
+
+\bibitem[\citeproctext]{ref-jones_oregon_1960}
+Jones, Walter G, and George Y Harry Jr. 1960. {``The {Oregon} Trawl
+Fishery for Mink Food 1948-1957.''} \emph{Fish Commission of Oregon
+Research Briefs} 8: 14--30.
+
+\bibitem[\citeproctext]{ref-punt_quantifying_2008}
+Punt, André E, David C Smith, Kyne KrusicGolub, and Simon Robertson.
+2008. {``Quantifying Age-Reading Error for Use in Fisheries Stock
+Assessments, with Application to Species in {Australia}'s Southern and
+Eastern Scalefish and Shark Fishery.''} \emph{Canadian Journal of
+Fisheries and Aquatic Sciences} 65 (9): 1991--2005.
+
+\bibitem[\citeproctext]{ref-rogers_species_2003}
+Rogers, Jean Beyer. 2003. {``Species Allocation of {Sebastes} and
+{Sebastolobus} Sp. Caught by Foreign Countries from 1965 Through 1976
+Off {Washington}, {Oregon}, and {California}, {USA}.''}
+
+\bibitem[\citeproctext]{ref-stanley_estimation_2000}
+Stanley, RD, R Kieser, K Cooke, AM Surry, and B Mose. 2000.
+{``Estimation of a Widow Rockfish ({Sebastes} Entomelas) Shoal Off
+{British} {Columbia}, {Canada} as a Joint Exercise Between Stock
+Assessment Staff and the Fishing Industry.''} \emph{ICES Journal of
+Marine Science} 57 (4): 1035--49.
 
 \end{CSLReferences}
 

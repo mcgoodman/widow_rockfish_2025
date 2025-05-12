@@ -1,3 +1,26 @@
+
+```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+
+# library(renv)
+
+# 
+#exe_dir<- "/Users/sulca/Documents/Github/widow-assessment-update/models/2025 base model"
+
+
+#r4ss::run(dir= exe_dir,exe="ss_osx",show_in_console = TRUE, skipfinished = FALSE)
+
+
+library(r4ss)
+
+report <- SS_output(here::here("models","2025 base model"))
+
+est_params <- report$estimated_non_dev_parameters
+
+est_params["NatM_uniform_Fem_GP_1","Value"]
+
+```
+
+
 ## Base Model Results
 
 
@@ -10,6 +33,25 @@
 <!-- 4. Selectivity estimates (if not included elsewhere). 5. Stock-recruitment relationship. 6. Clear description of units for all outputs.  -->
 
 <!-- Parameter uncertainty (variance estimation conditioned on a given model, estimation framework, data set choice, and weighting scheme). This element for evaluating uncertainty includes expressing uncertainty in derived outputs of the model and estimating CVs using appropriate methods (e.g., bootstrap, asymptotic methods, Bayesian approaches, such as MCMC).   -->
+
+3.3.1 Parameter estimates 
+  
+The estimates of natural mortality `r est_params["NatM_uniform_Fem_GP_1","Value"]` yr-1  and `r est_params["NatM_uniform_Mal_GP_1 ","Value"]` yr-1 for females and males, respectively) were higher than suggested by the medians of the prior distributions used in this assessment and the 2015 assessment. Fixing M at lower values than those estimates resulted in a pattern of reduced recruitment immediately before the fishery started. This suggests that the model is doing what it can to reduce the number of observations of older fish in the data. The estimates of M fall within the 95% confidence interval of the prior distribution (0.0425–0.237), and are shown in Figure 44. 
+
+Estimating M is difficult in stock assessments, and the estimated values may represent model misspecification instead of the actual life-history trait. However, in alternative models to the base case model, the estimates of M were rarely less than 0.14 yr-1 (Table 29). Uncertainty in the estimated M was also much less than the range of the prior (Figure 44). The assumption that appeared to have the largest effect on M was introducing dome-shaped selectivity in the midwater trawl fleet, which made M smaller (Table 29). 
+
+Selectivity curves were estimated for commercial and survey fleets and parameter estimates are provided in Table 24. The final base model assumed asymptotic selectivity (double-normal selectivity curve ) for each fishery, except for the midwater trawl fishery. The NWFSC and Triennial surveys both used spline curves. All selectivity curves were length-based and are the same shape as in the 2015 benchmark. Time blocks were used for the bottom trawl, midwater trawl and hook-and-line fisheries as indicated in Table 21. The estimated selectivity, retention, and keep (the product of selectivity and retention) curves for the trawl and hook-and-line fleets are shown in Figure 45. The selectivity curves showed a shift to larger fish in 2002 for the bottom trawl fishery and a shift to smaller fish in 2003 for the hook-and-line fishery. The bottom trawl shift is consistent with the introduction of the RCA and gear restrictions (shoreward of the 18 RCA) that virtually eliminated fishing in shelf habitats where smaller Widow Rockfish would more likely be encountered. Around this same time, the fixed-gear RCA specifications began preventing fishing between 30 and 100 fm. 
+
+The retention curves showed a shift to retaining a lower percentage of fish since trip limits were introduced, but increases in recent years. The asymptote of the retention curve for the bottom trawl fishery sequentially decreased as more management restrictions were introduced to about 50% retention of larger fish in the 1998-2010 period. 
+
+Midwater trawl and hook-and-line fisheries estimated an asymptote to retention just above 80% for the period 1983-2010. Both the selectivity for the hake fleet and the selectivity of the net fleet did not support dome-shaped selectivity (Figure 46). The estimated selectivity curves for the Triennial and NWFSC WCGBT surveys were similar to each other except that the triennial survey selected larger fish (Figure 46). The NWFSC WCGBT survey was no longer minimally dome-shaped as in the 2015 assessment. 
+
+In 2015, additional survey variability (process error added directly to each year’s input variability) for the triennial and NWFSC WCGBT surveys was not estimated in the model because the estimate was zero. To avoid bound issues in estimation of the Hessian, the authors fixed these at zero because the model- based results provided reasonable estimates of variance. We retained the same modelling approach for the update assessment. The additional standard deviation added to the fishery-dependent indices was quite large, ranging from 0.16 for the bottom trawl index and 0.58 for the foreign at-sea hake fleet. The additional variability on the juvenile survey was the highest, at 0.83, giving the index very little weight in the model. 
+
+The estimates of maximum size for both females and males (Table 23) were not unexpected given the data in Figure 35. Estimates of k were slightly different in the model, but that is expected when accounting for selectivity. Estimated growth curves are shown in (Figure 47). 
+
+Estimates of recruitment suggest that the Widow Rockfish population is characterized by variable recruitment with occasional strong recruitments and periods of low recruitment (Figure 48). There is little information regarding recruitment prior to 1965, and the uncertainty in these estimates is expressed in the model. There are very large, but uncertain, estimates of recruitment in 2013, 1970, 2008, and 1971. Other large recruitment events (in descending order of magnitude) occurred in 1978, 2014, 1981, 2010, and 1991. The five lowest recruitments (in ascending order) occurred in 2012, 2011, 1976, 2007, and 1973. Estimates of recruitment appear to be episodic and characterized by periods of low recruitment. Two of the four largest estimated recruitments occurred in the last 11 years. 
+
 
 ### Fits to the Data
 

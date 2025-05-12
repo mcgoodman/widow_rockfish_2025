@@ -4,10 +4,11 @@ library(flextable)
 
 
 ##Read in the requied tables
-table_10_dat <- read.csv(here("report","tables","table_10.csv"))
-table_11_dat <- read.csv(here("report","tables","table_11.csv"))
-table_13_dat <- read.csv(here("report","tables","table_13.csv"))
-table_14_dat <- read.csv(here("report","tables","table_14.csv"))
+table_10_dat <- read.csv(here("report","tables","table_10.csv"))|>select(-X)
+table_11_dat <- read.csv(here("report","tables","table_11.csv"))|>select(-X)
+table_12_dat <- read.csv(here("report","tables","table_12.csv"))|>select(-X)
+table_13_dat <- read.csv(here("report","tables","table_13.csv"))|>select(-X)
+table_14_dat <- read.csv(here("report","tables","table_14.csv"))|>select(-X)
 
 
 
@@ -56,6 +57,29 @@ table_11_dat |>
   merge_at(i = 1, j = 10:12, part = "header") %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
   theme_box() %>%
+  autofit()
+
+
+### Table 12: Number of landings and number of lengths sampled from the at-sea hake and shoreside hake fisheries. 
+colnames(table_12_dat) <- c("Year","Domestic at-sea ","Shoreside ","Domestic at-sea","Shoreside")
+
+# Create flextable
+flextable(table_12_dat) %>%
+  # set_header_labels(
+  #   Year = "Year",
+  #   "Domestic at-sea" = "Domestic at-sea",
+  #   Shoreside = "Shoreside",
+  #   "Domestic at-sea" = "Domestic at-sea",
+  #   Shoreside = "Shoreside"
+  # ) %>%
+  add_header_row(
+    values = c("Year",
+               "Number of hauls (at-sea) or landings (shoreside)",
+               "Number of lengths"),
+    colwidths = c(1, 2, 2)
+  ) %>%
+  colformat_num(j = 1, big.mark = "", digits = 0) %>%
+  align(align = "center", part = "all") %>%
   autofit()
 
 

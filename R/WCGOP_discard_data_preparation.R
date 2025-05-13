@@ -64,18 +64,16 @@ new_discards_2025 <- rbind(old_data[old_data$year<=2017&old_data$fleet==1,],
   mutate(stderr = if_else(stderr == 0, NA, stderr))
   
 
-#sd = mean sd for discard for the fleet
+sd_mean_hl <- mean((new_discards_2025 %>% filter(fleet==5 & !is.na(stderr)))$stderr) #calculate mean SD for H&L fleet
+
 new_discards_2025 <- new_discards_2025 %>%
   group_by(fleet) %>%
-  mutate(stderr = if_else(
-    is.na(stderr),
-#    mean(stderr, na.rm = TRUE), # no longer using this line - replaced NA values with fleet mean error 
-     0.05,  # fill 0.05 CV for years/fleets without error (b/c catch share, 100% observed)  
-    stderr
-  )) %>%
+#  mutate(stderr = if_else(is.na(stderr), mean(stderr, na.rm = TRUE), stderr)) %>% # old way - fill all NA values with fleet means 
+  mutate(stderr = case_when(!is.na(stderr)~stderr,  
+                            (is.na(stderr) & fleet %in% c(1,2))~0.05, #set Bottom and Midwater CV to 0.05, 100% observed. 
+                            (is.na(stderr) & fleet==5)~sd_mean_hl)) %>%
   ungroup()|>
-  distinct()
-  
+  distinct()  
   
 write.csv(new_discards_2025, "data_derived/discards/discards_2025.csv", row.names = F) # Option 1
 

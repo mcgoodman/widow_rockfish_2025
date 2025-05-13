@@ -101,7 +101,7 @@ close(data_file)
 
 
 #Table 2 - Hake Landings
-csv_data_hake <- "Year,\"Foreign & Domestic At-sea\",\"Shoreside hake CA\",\"Shoreside hake OR\",\"Shoreside hake WA\"
+csv_data_hake <- "Year,\"Foreign & Domestic\",\"Shoreside hake\",\"Shoreside hake\",\"Shoreside hake\"
 1966,3670.0,0.0,0.0,0.0
 1967,3902.0,0.0,0.0,0.0
 1968,1956.0,0.0,0.0,0.0
@@ -164,7 +164,31 @@ close(data_file_hake)
 
 # Save the data frame to a CSV file
 write.csv(hake_data, file = file.path(here::here(),"report/tables/Table_2_2025.csv"), row.names = FALSE)
+##########################################################################################################
 
+csv_data <- "Year,OFL (mt) (termed ABC prior to 2011),ABC (mt),ACL (mt) (termed OY prior to 2011),Commercial Landings (mt),Estimated Total Catch (mt)
+2004,3460,NA,284,87,99
+2005,3218,NA,285,195,204
+2006,3059,NA,289,213,221
+2007,5334,NA,368,240,245
+2008,5144,NA,368,264,272
+2009,7728,NA,522,177,186
+2010,6937,NA,509,166,179
+2011,5097,600,4872,212,213
+2012,4923,600,4705,270,271
+2013,4841,1500,4598,470,473
+2014,4435,1500,4212,722,726
+2015,4137,2000,3929,880,885
+2016,3990,2000,3790,1039,1045
+2017,14130,13508,13508,6346,6395
+2018,13237,12655,12655,10493,10588
+2019,12375,11831,11831,NA,NA"
+
+# Read the CSV data from the string
+table4_data <- read.csv(textConnection(csv_data), stringsAsFactors = FALSE)
+
+# Write the data frame to a CSV file named "table4.csv"
+write.csv(table4_data, file.path(here::here(),"report/tables/table4.csv"), row.names = FALSE)
 
 ##########################################################################################################
 

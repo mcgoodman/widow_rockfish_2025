@@ -1,8 +1,1042 @@
-## Figures
+# Figures
 
-<!-- 
-Example: 
 
-![Figure caption \label{fig:tag_name}](file.png){alt="alt text"} 
+```{r}
+#| label: fig-assessregionmap
+#| echo: false
+#| warning: false
+#| eval: true
+#| out.width: "80%"
+#| fig-align: "center"
+#| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not Widow Rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas."
 
--->
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_1_2019.png")
+)
+```
+
+{{< pagebreak >}}
+
+## Data
+
+```{r}
+#| label: fig-assess-map
+#| echo: false
+#| warning: false
+#| eval: true
+#| out.width: "90%"
+#| fig-align: "center"
+#| fig-cap: "Observations of two cohorts (2008, top and 2010, bottom) from the NWFSC WCGBT survey data. Darker circles indicate more observations (possibly within the same tow)."
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_2_2019.png")
+)
+```
+
+{{< pagebreak >}}
+```{r}
+#| label: fig-ts-indabund
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-align: "center"
+#| fig-cap: "Fishery-dependent indices of abundance from the 2011 assessment scaled to the mean of their own series."
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_4_2019.png")
+)
+```
+
+{{< pagebreak >}}
+```{r}
+#| label: fig-survtow-2004
+#| echo: false
+#| warning: false
+#| eval: true
+#| out.width: "80%"
+#| fig-align: "center"
+#| fig-cap: "Survey tow locations in 2004, showing the difference in station design for the NWFSC WCBTS survey relative to the Triennial trawl survey (Figure from Stewart (2007))."
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_5_2019.png")
+)
+```
+
+```{r}
+#| label: fig-dist-opdates
+#| echo: false
+#| warning: false
+#| eval: true
+#| out.width: "90%"
+#| fig-align: "center"
+#| fig-cap: "Distribution of dates of operation for the triennial survey (1980-2004). Solid bars show the mean date for each survey year, points represent individual hauls dates, but are jittered to allow better delineation of the distribution of individual points (Figure from (Stewart 2007))."
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_6_2019.png")
+)
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: fig-qq-sdmtmb
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "QQ for delta-gamma sdmTMB index (first panel) and lognormal sdmTMB index (second panel)"
+#| out.width: "100%"
+#| fig-align: "center"
+
+library(magick)
+
+knitr::include_graphics(
+    file.path(here::here(),"data_provided/WCGBTS/combined_qq.png")
+)
+
+
+# panel1 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_gamma/index/qq.png"))
+# panel2 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_lognormal/index/qq.png"))
+# 
+# combined <- image_append(c(panel1, panel2))  # side-by-side
+# combined <- image_append(c(panel1, panel2), stack = TRUE)  # vertical stack
+
+# image_write(combined, path = file.path(here::here(), "figures/combined_qq.png"))
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: fig-mod-est-trien
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Model-based survey estimates for the Triennial with estimated 95% confidence intervals. based estimates and 95% confidence intervals are shown in blue for comparison."
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_9_2019.png")
+)
+
+```
+
+```{r}
+#| label: fig-len-comp-trien
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions weighted by estimated numbers from the GLMM in each strata for the Triennial survey."
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_10_2019.png")
+)
+
+```
+{{< pagebreak >}}
+
+```{r}
+#| label: fig-absurv-compare
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated index of relative abundance for the West Coast Groundfish Bottom Trawl Survey using VAST, swept area biomass estimates (design-based), and the swept area biomass estimate from the 2015 assessment with 5 and 95% intervals."
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/WCGBTS_survey/survey_comparision_plot.png")
+)
+
+```
+
+
+```{r}
+#| label: fig-exp-lencomp-WCBTS
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions for the WCGBTS"
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/lencomp_fleet_8.png")
+)
+
+```
+```{r}
+#| label: fig-exp-agecomp-WCBTS
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded marginal age compositions from the WCGBTS."
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/agecomp_fleet_8.png")
+)
+
+```
+
+```{r}
+#| label: fig-cond-agelen-WCBTS
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Conditional age-at-length from WCGBTS observations for females (red) and males (blue)."
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/WCGBTS_survey/caal_WCGBTS_plot.png")
+)
+
+```
+
+
+```{r}
+#| label: fig-lencomp-fleet1
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions for the bottom trawl fishery. The area of the circle is proportional to the proportion-at-length."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/lencomp_fleet_1.png")
+)
+
+```
+
+```{r}
+#| label: fig-lencomp-fleet2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions for the midwater trawl fishery.  The area of the circle is proportional to the proportion-at-length."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/lencomp_fleet_2.png")
+)
+
+```
+
+```{r}
+#| label: fig-lencomp-fleet3
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions for the hake fishery. The area of the circle is proportional to the proportion-at-length.  "
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/lencomp_fleet_3.png")
+)
+
+```
+
+```{r}
+#| label: fig-lencomp-fleet4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions for the net fishery.The area of the circle is proportional to the proportion-at-length"
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/lencomp_fleet_4.png")
+)
+
+```
+
+```{r}
+#| label: fig-lencomp-fleet5
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded length compositions for the hook-and-line fishery.  The area of the circle is proportional to the proportion-at-length."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/lencomp_fleet_5.png")
+)
+
+```
+
+```{r}
+#| label: fig-agecomp-fleet1
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded age compositions for the bottom trawl fishery. The area of the circle is proportional to the proportion-at-age. "
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/agecomp_fleet_1.png")
+)
+
+```
+
+```{r}
+#| label: fig-agecomp-fleet2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded age compositions for the midwater trawl fishery. The area of the circles is proportional to the proportion-at-age. "
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/agecomp_fleet_2.png")
+)
+
+```
+
+```{r}
+#| label: fig-agecomp-fleet3
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded age compositions for the hake fishery. The area of the circles is proportional to the proportion-at-age. "
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/composition_plots/agecomp_fleet_3.png")
+)
+
+```
+
+```{r}
+#| label: fig-agecomp-fleet4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded age compositions for the net fishery. The area of the circles is proportional to the  proportion-at-age. "
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/composition_plots/agecomp_fleet_4.png")
+)
+
+```
+
+```{r}
+#| label: fig-agecomp-fleet5
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded age compositions for the hook-and-line fishery. The area of the circles is proportional to the proportion-at-age."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/composition_plots/agecomp_fleet_5.png")
+)
+
+```
+
+```{r}
+#| label: fig-disccomps-pikitch
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Length compositions for discards from the Pikitch study. The discard length comps were fit to in the model."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/discard_comps/bottom_trawl_pikitch.jpg")
+)
+
+```
+
+
+```{r}
+#| label: fig-disccomps-wcgop
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Length compositions of the discards for the bottom trawl."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/discard_comps/bottom_trawl_wcgop.jpg")
+)
+
+```
+
+```{r}
+#| label: fig-matlen-matage
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Maturity-at-length (left) and maturity-at-age (right) from data reported by Barss & Echeverria (1987). Circles are proportional to the number of observations at that length or age. Lines are estimated logistic curves fitted to the data. The bars at the bottom are the number of samples by each state. The purpleline is the estimated maturity-at-age using all data with each state equally weighted, and is used in the assessment model with maturity-at-age for ages 2 and lower set equal to zero."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_32_2019.png")
+)
+
+```
+
+```{r}
+#| label: fig-prior-mort
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Prior distributions for natural mortality (M)."
+#| out.width: "80%"
+#| fig-align: "center"
+
+# knitr::include_graphics(
+#     file.path(here::here(),"figures/old_figs/nat_M_prior_dist.png")
+# )
+
+```
+
+```{r}
+#| label: fig-len-age-vonBert
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Length-at-age observations (points, slightly jittered) and predicted length-at-age von Bertalanffy curves for female (top) and male (bottom) Widow Rockfish collected from all fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/length_age_weight/vBL_dat.png")
+)
+
+```
+
+```{r}
+#| label: fig-est-age-error
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated ageing error for the Cooperative Ageing Project lab and the SWFSC."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_39_2019.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2019-data
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Bridging from the 2019 asessment model with updated data and bridging steps."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
+)
+
+```
+
+```{r}
+#| label: fig-NatMort-priors
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "The prior for natural mortality (M, yr-1 ) and the estimated M for females (top) and males (bottom) with asymptotic uncertainty based on maximum likelihood theory. The median of the prior is shown by the red triangle and the maximum likelihood estimate is shown by the vertical blue line."
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/NatMort_priors.png")
+)
+
+```
+
+```{r}
+#| label: fig-est-select-all
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity for different fleets and surveys."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png")
+)
+
+```
+
+```{r}
+#| label: fig-est-select-3478
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity curves for 2018 of the hake fleet (topleft), net fishing fleets (topright), the triennial survey (bottomleft), and the NWFSC survey (bottomright)."
+#| out.width: "90%"
+#| fig-align: "center"
+# library(magick)
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt3sex1.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt4sex1.png"))
+# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt7sex1.png"))
+# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt8sex1.png"))
+#  
+# combined1 <- image_append(c(panel1, panel2))  # side-by-side
+# combined2 <- image_append(c(panel3, panel4))  # side-by-side
+# combined <- image_append(c(combined1, combined2), stack = TRUE)  # vertical stack
+
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png")
+)
+
+```
+
+```{r}
+#| label: fig-sizeatage-sdcv
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Length at age (top-left panel) with estimated coefficient of variation (CV, thick line) and calculated standard deviation (SD, thin line) versus length at age in the top-right panel and versus age in the lower-left panel."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png")
+)
+
+```
+
+```{r}
+#| label: fig-recdev-est
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimates of recruitment (upper) and recruitment deviates (lower) with approximate asymptotic 95% confidence intervals (vertical lines) from the MLE estimates."
+#| out.width: "80%"
+#| fig-align: "center"
+
+
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/recdevs2_withbars.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"))
+# 
+# combined <- image_append(c(panel1, panel2), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/recdev_estimates_ts.png"))
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/recdev_estimates_ts.png")
+)
+
+```
+
+```{r}
+#| label: fig-recfit-bias
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated and input recruitment bias adjustment ramp. Red line shows current settings for bias adjustment specified the model. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/recruit_fit_bias_adjust.png")
+)
+
+```
+
+```{r}
+#| label: fig-recdevs-sens
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimates of recruitment deviations for a sensitivity model with natural mortality fixed at 0.124 and 0.129 for females and males, respectively"
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/sens_compare11_recdevs.png")
+)
+
+```
+
+```{r}
+#| label: fig-surv-abundest
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits (lines) to the abundance estimates (points) for the base model. Bottom trawl is in the top left, hake indices are in the top right (a separate q is estimated for the Hake series starting in 1991), the triennial trawl survey index is on the middle left, the NWFSC survey index is on the middle right, and the juvenile survey index (in numbers) is on the bottom. 95% confidence intervals are shown input the input standard errors. Thicker lines (if present) indicate input uncertainty before addition of estimated additional uncertainty parameter."
+#| out.width: "80%"
+#| fig-align: "center"
+ 
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_BottomTrawl.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_Hake.png"))
+# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_Triennial.png"))
+# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_NWFSC.png"))
+# panel5 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_JuvSurvey.png"))
+# 
+# combined1 <- image_append(c(panel1, panel2))  # side-by-side
+# combined2 <- image_append(c(panel3, panel4))  # side-by-side
+# combined <- image_append(c(combined1, combined2, panel5), stack = TRUE)  # vertical stack
+#image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/surv_abundest.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/surv_abundest.png")
+)
+
+```
+
+```{r}
+#| label: fig-pred-obs-discards
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Predicted (blue line) and observed (open circles) discards for the bottom trawl (top) and midwater trawl (bottom) fleets from the base model. 95% confidence intervals are shown for the observations"
+#| out.width: "80%"
+#| fig-align: "center"
+
+# 
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/discard_fitBottomTrawl.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/discard_fitMidwaterTrawl.png"))
+# 
+# 
+# combined <- image_append(c(panel1, panel2), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/pred-obs-discards.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/pred-obs-discards.png")
+)
+
+```
+
+```{r}
+#| label: fig-lenage-pears-res-trawl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Pearson residuals for fits to length frequency data (left) and age frequency data (right) for landings from the trawl commercial fleets (rows). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
+#| out.width: "80%"
+#| fig-align: "center"
+
+
+
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt1mkt2_page3.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt1mkt2_page2.png"))
+# 
+# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt2mkt2_page2.png"))
+# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt2mkt2_page2.png"))
+# 
+# panel5 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt3mkt0_page2.png"))
+# panel6 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt3mkt0_page2.png"))
+# 
+# 
+# combined1 <- image_append(c(panel1, panel2))  # side-by-side
+# combined2 <- image_append(c(panel3, panel4))  # side-by-side
+# combined3 <- image_append(c(panel5, panel6))  # side-by-side
+# 
+# combined <- image_append(c(combined1, combined2, combined3), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-trawl.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-trawl.png")
+)
+
+```
+
+```{r}
+#| label: fig-lenage-pears-res-hklnet
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Pearson residuals for fits to length frequency data (left) and age frequency data (right) for landings from the net and hook-and-line commercial fleets (rows). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
+#| out.width: "80%"
+#| fig-align: "center"
+ 
+# panel7 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt4mkt0.png"))
+# panel8 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt4mkt0.png"))
+# 
+# panel9 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt5mkt0_page2.png"))
+# panel10 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt5mkt0.png"))
+# # 
+# combined1 <- image_append(c(panel7, panel8))  # side-by-side
+# combined2 <- image_append(c(panel9, panel10))  # side-by-side
+# combined <- image_append(c(combined1, combined2), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png")
+)
+
+```
+
+```{r}
+#| label: fig-comp-lenfit-aggreg
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Combined length frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_lenfit__aggregated_across_time.png")
+)
+
+```
+
+```{r}
+#| label: fig-comp-lenfit-disc-pears
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Pearson residuals for fits to the discard length frequencies from the bottom trawl (left) and hookand-line (right) fleets. Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png")
+)
+
+```
+
+```{r}
+#| label: fig-comp-lenfit-trien
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Pearson residuals for fits to the triennial survey length frequency data (left) and NWFSC WCGBT (shelf/slope) survey length frequency data (right). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
+#| out.width: "90%"
+#| fig-align: "center"
+
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt7mkt0.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt8mkt0.png"))
+# 
+# combined <- image_append(c(panel1, panel2))  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/comp-lenfit-trien.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/comp-lenfit-trien.png")
+)
+
+```
+
+```{r}
+#| label: fig-combine-agefreq-all
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Combined age frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png")
+)
+
+```
+
+```{r}
+#| label: fig-condAAL-andreplot
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Observed and expected age-at-length with 95% confidence intervals (left) and observed and expected standard deviation of age-at-length with 95% confidence intervals (right) for the NWFSC WCGBT survey data."
+#| out.width: "90%"
+#| fig-align: "center"
+
+
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page1.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page2.png"))
+# 
+# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page3.png"))
+# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page4.png"))
+# 
+# panel5 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page5.png"))
+# panel6 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page6.png"))
+# 
+# 
+# combined1 <- image_append(c(panel1, panel2))  # side-by-side
+# combined2 <- image_append(c(panel3, panel4))  # side-by-side
+# combined3 <- image_append(c(panel5, panel6))  # side-by-side
+# 
+# combined <- image_append(c(combined1, combined2, combined3), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/condAAL-andreplot.png"))
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/condAAL-andreplot.png")
+)
+
+```
+
+```{r}
+#| label: fig-comp-agefreq-all
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Combined age frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png")
+)
+
+```
+
+```{r}
+#| label: fig-condAAL-resids
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Combined age frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_residsflt8mkt0_page1.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_residsflt8mkt0_page2.png"))
+# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_residsflt8mkt0_page3.png"))
+# 
+#  combined1 <- image_append(c(panel1, panel2))  # side-by-side
+# combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/condAAL-resids.png"))
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/condAAL-resids.png")
+)
+
+```
+
+```{r}
+#| label: fig-spawnout-95
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Predicted spawning biomass (thousand mt) for Widow Rockfish using the base assessment. The solid line is the MLE estimate and the dashed lines depicts the approximate asymptotic 95% confidence intervals."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png")
+)
+
+```
+
+```{r}
+#| label: fig-summary-bio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Predicted summary biomass (age 4+) from the base model."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts4_Summary_biomass_(t).png")
+)
+
+```
+
+```{r}
+#| label: fig-rel-spawn-bio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Predicted relative spawning biomass from the Widow Rockfish base case assessment. The solid line is the MLE estimate and the dashed lines depicts the approximate asymptotic 95% confidence intervals. The dashed lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png")
+)
+
+```
+
+```{r}
+#| label: fig-SR-curve
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated recruitment (red circles) and the assumed stock-recruit relationship (black line). The dashed line shows the effect of the bias correction for the lognormal distribution."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/SR_curve.png")
+)
+
+```
+
+```{r}
+#| label: fig-spawnbio-sens
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs. (no rec dev)"
+#| out.width: "90%"
+#| fig-align: "center"
+
+# 
+# panel1 <- image_read(file.path(here::here(), "figures/sensitivities/sens_compare18_smrybio.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/sensitivities/sens_compare11_recdevs.png"))
+# 
+# combined <- image_append(c(panel1, panel2))  
+# image_write(combined, path = file.path(here::here(), "figures/sensitivities/spawnbio-sens.png"))
+
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/spawnbio-sens.png")
+)
+
+```
+
+```{r}
+#| label: fig-retros
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Five-year retrospective estimates of spawning biomass (top) and recruitment deviations (bottom)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+
+# panel1 <- image_read(file.path(here::here(), "figures/diagnostics/Retros/compare1_spawnbio.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/diagnostics/Retros/compare9_recruits.png"))
+# 
+# combined <- image_append(c(panel1, panel2), stack = TRUE)  
+# image_write(combined, path = file.path(here::here(), "figures/diagnostics/retros.png"))
+
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/diagnostics/retros.png")
+)
+
+```
+
+```{r}
+#| label: fig-like_profile_R0
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Likelihood components in the likelihood profile for unfished equilibrium recruitment (R0)"
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/diagnostics/Like_profile_R0.png")
+)
+
+```
+
+
+```{r}
+#| label: fig-like_profile_Steepness
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Likelihood components in the likelihood profile for steepness (h)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/diagnostics/Like_profile_Steepness.png")
+)
+
+```
+
+```{r}
+#| label: fig-like_profile_M
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Likelihood components in the likelihood profile for natural mortality (M). Note: male and female natural mortality are set to the same value."
+#| out.width: "90%"
+#| fig-align: "center"
+
+
+# panel1 <- image_read(file.path(here::here(), "figures/diagnostics/Like_profile_Female_M.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/diagnostics/Like_profile_Male_M.png"))
+# 
+# combined <- image_append(c(panel1, panel2), stack=TRUE)  
+# image_write(combined, path = file.path(here::here(), "figures/diagnostics/Nat_Mort.png"))
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/diagnostics/Nat_Mort.png")
+)
+
+```
+
+```{r}
+#| label: fig-like_profile_recruits
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of recruitment estimates for models with different fixed values of natural mortality (M)"
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/diagnostics/M_likeprof_recruits.png")
+)
+
+```
+
+```{r}
+#| label: fig-pred-(1-SPR)
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Plot of the predicted (1-SPR) for each year of the model with 95% confidence intervals."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts_summaryF.png")
+)
+
+```
+
+```{r}
+#| label: fig-relative-(1-SPR)
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Phase plot of relative (1-SPR) (y-axis) and depletion (x-axis) for Widow Rockfish. The red point represents the year 2018."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/SPR4_phase.png")
+)
+
+```
+
+```{r}
+#| label: fig-est-eqi-yield
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated plot of equilibrium yield vs relative spawning biomass (B/B0)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png")
+)
+
+```

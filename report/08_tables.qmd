@@ -53,36 +53,56 @@ library(flextable)
 #   as_latex()
 
 ```
-:::
+
 {{< pagebreak >}}
 
 ```{r}
 #| label: tbl-hake_removals
 #| echo: false
 #| warning: false
-#| tbl-cap: " Landings (mt) from the foreign & domestic at-sea fleet and the domestic shoreside hake fleet. Catches (mt) from the Pacific whiting at-sea fishery as determined by onboard observers."
+#| tbl-cap: "Landings (mt) from the foreign & domestic at-sea fleet and the domestic shoreside hake fleet.Catches (mt) from the Pacific whiting at-sea fishery as determined by onboard observers."
 
+#table 2
 library(flextable)
 library(dplyr)
 library(tidyr)
 
-HakeTable<- read.csv(file.path(here::here(),"report/tables/Table_2_2025.csv"))
-flextable(HakeTable) %>%
+HakeTable <- read.csv(file.path(here::here(),"report/tables/Table_2_2025.csv"))
+colnames(HakeTable) <- gsub("\\.", " ", colnames(HakeTable))
+
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(HakeTable),
+  line1 = c("Year", "Foreign & Domestic", rep("Shoreside hake", 3)),
+  line2 = c("", "At-sea", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(HakeTable, col_keys = names(HakeTable)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
-font(fontname = "Times New Roman", part = "all") %>%
-  border_outer(part = "all") %>%
-  border_inner(part = "all") 
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")
+
 
 ```
 
-:::
 {{< pagebreak >}}
 
 ```{r}
 #| label: tbl-manage-act
 #| echo: false
 #| warning: false
-#| tbl-cap: "A subset of management actions of importance to fisheries that caught Widow Rockfish."
+#| tbl-cap: "A subset of management actions of importance to fisheries that caught Widow Rockfish. "
+
+#table 3
 
 library(flextable)
 library(dplyr)
@@ -132,6 +152,51 @@ flextable(ManageTable) %>%
 
 ```
 
+```{r}
+#| label: tbl-manage-guide
+#| echo: false
+#| warning: false
+#| tbl-cap: "Management guidelines for Widow Rockfish from 2004 to 2024. Total landings (mt) are also shown."
+
+#Table 4
+
+library(flextable)
+library(dplyr)
+library(tidyr)
+
+#table4_data <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
+
+table4_data <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table4.csv"), stringsAsFactors = FALSE))
+colnames(table4_data) <- gsub("\\.", " ", colnames(table4_data))
+
+flextable(table4_data) %>%
+  # Set header labels
+  set_header_labels(
+    Year = "Year",
+    `OFL (mt) (termed ABC prior to 2011)` = "OFL (mt)\n(termed ABC\nprior to 2011)",
+    `ABC (mt)` = "ABC (mt)",
+    `ACL (mt) (termed OY prior to 2011)` = "ACL (mt)\n(termed OY\nprior to 2011)",
+    `Commercial Landings (mt)` = "Commercial\nLandings (mt)",
+    `Estimated Total Catch (mt)` = "Estimated Total\nCatch (mt)"
+  ) %>%
+  # Apply borders
+  border(part = "all", border = officer::fp_border(color = "black", width = 1)) %>%
+  # Align header and body
+  align(align = "center", part = "header") %>%
+  align(align = "right", part = "body", j = -1) %>%
+  # Bold header
+  bold(part = "header") %>%
+  # Set font
+  font(fontname = "Times New Roman", part = "all")
+
+
+
+
+
+
+
+
+```
 
 :::
 {{< pagebreak >}}
@@ -234,7 +299,7 @@ table7_nwfsc_data %>%
 
 ```
 
-:::
+
 {{< pagebreak >}}
 
 ```{r}
@@ -263,7 +328,7 @@ style_table20 <- function(ft) {
     align(align = "center", part = "body")
 }
 # Create Flextable for Table 20
-ft_table20 <- table20 %>%
+table20 %>%
   flextable() %>%
   set_header_labels(
     True.Age = "True Age",
@@ -271,12 +336,305 @@ ft_table20 <- table20 %>%
     Standard.Deviation.SWFSC = "Standard Deviation SWFSC"
   ) %>%
   style_table20()
+  
 
-print(ft_table20)
+
 
 
 
 ```
 
+::: {.pagebreak page-layout="landscape"}
+
+```{r}
+#| label: tbl-quant-sens-int
+#| echo: false
+#| warning: false
+#| tbl-cap: "Quantities of interest from the sensitivity analyses. ‘RSB2018’ refers to depletion in 2018 (SB$_{2015}$/SB$_0$)"
+
+#Old table 29
+#needs to be landscape! 
+
+library(flextable)
+library(dplyr)
+library(tidyr)
+library(officer)
+
+table29<- as.data.frame(read.csv(file.path(here::here(),"figures/sensitivities/sens_table.csv"), stringsAsFactors = FALSE))
+#Remove periods
+colnames(table29) <- gsub("\\.", " ", colnames(table29))
+
+# Function for consistent table styling
+style_table29 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")%>%
+    autofit()
+}
+# Create Flextable for Table 20
+table29 %>%
+  flextable() %>%
+  style_table29()
 
 
+
+
+
+```
+
+::: 
+
+{{< pagebreak >}}
+```{r}
+#| label: tbl-retros
+#| echo: false
+#| warning: false
+#| tbl-cap: "Results from retrospective runs, sequentially removing data over the last five years using the base case assumptions."
+
+#Old table 30
+
+library(flextable)
+library(dplyr)
+library(tidyr)
+library(officer)
+
+table30<- read.csv(file.path(here::here(),"report/tables/retro_quant_table.csv"), stringsAsFactors = FALSE)
+#Remove periods
+colnames(table30) <- gsub("\\.", " ", colnames(table30))
+
+# Function for consistent table styling
+style_table30 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")
+}
+
+likelihood_row <- which(apply(table30, 1, function(row) any(row == "Likelihood")))
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table30) %>%
+  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table30), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table30), align = "center", part = "body") %>%
+  bold(i = likelihood_row, part = "body") %>%
+  border(i = 1, j = 1:ncol(table30), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  # Keep the outer bottom border of the merged footer row
+  border(i = 1, j = 1:ncol(table30), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table30()%>%
+  autofit()
+
+
+```
+
+::: {.pagebreak page-layout="landscape"}
+
+```{r}
+#| label: tbl-like-R0
+#| echo: false
+#| warning: false
+#| tbl-cap: "Results from retrospective runs, sequentially removing data over the last five years using the base case assumptions."
+
+#Old table 31
+
+table31 <- read.csv(file.path(here::here(),"report/tables/SR_LN(R0)_quant_table.csv"), stringsAsFactors = FALSE)
+#Remove periods
+colnames(table31) <- c("log(R0)",	"R0 10.4","R0 10.2","R0 10","R0 9.8","R0 10.6","R0 10.8","R0 11","R0 11.2","R0 11.4")
+
+# Function for consistent table styling
+style_table31 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")
+}
+
+likelihood_row <- which(apply(table31, 1, function(row) any(row == "Likelihood")))
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table31) %>%
+  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table31), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table31), align = "center", part = "body") %>%
+  bold(i = likelihood_row, part = "body") %>%
+  border(i = 1, j = 1:ncol(table31), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  # Keep the outer bottom border of the merged footer row
+  border(i = 1, j = 1:ncol(table31), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table31()%>%
+  autofit()
+
+
+```
+:::
+
+::: {.pagebreak page-layout="landscape"}
+
+```{r}
+#| label: tbl-like-steep
+#| echo: false
+#| warning: false
+#| tbl-cap: "Quantities of interest when profiling over steepness values."
+
+#Old table 31
+
+table32 <- read.csv(file.path(here::here(),"report/tables/SR_BH_steep_quant_table.csv"), stringsAsFactors = FALSE)
+#Remove periods
+colnames(table32) <- c("steepness (h)","0.715","0.66","0.605","0.55","0.495","0.44","0.385","0.33","0.275","0.77","0.825",	"0.88")
+
+# Function for consistent table styling
+style_table32 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")
+}
+
+likelihood_row <- which(apply(table32, 1, function(row) any(row == "Likelihood")))
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table32) %>%
+  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table32), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table32), align = "center", part = "body") %>%
+  bold(i = likelihood_row, part = "body") %>%
+  border(i = 1, j = 1:ncol(table32), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  # Keep the outer bottom border of the merged footer row
+  border(i = 1, j = 1:ncol(table32), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table32()%>%
+  autofit()
+
+
+```
+:::
+
+::: {.pagebreak page-layout="landscape"}
+
+```{r}
+#| label: tbl-like-Mfemale
+#| echo: false
+#| warning: false
+#| tbl-cap: "Quantities of interest when profiling over natural mortality values for females"
+
+#Old table 33
+
+table33 <- read.csv(file.path(here::here(),"report/tables/NatM_uniform_Mal_GP_1_quant_table.csv"), stringsAsFactors = FALSE)
+#Remove periods
+colnames(table33) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.099",	"0.088",	"0.143",	"0.154",	"0.165",	"0.176",	"0.187",	"0.198")
+
+# Function for consistent table styling
+style_table33 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")
+}
+
+likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")))
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table33) %>%
+  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table33), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table33), align = "center", part = "body") %>%
+  bold(i = likelihood_row, part = "body") %>%
+  border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  # Keep the outer bottom border of the merged footer row
+  border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table33()%>%
+  autofit()
+
+
+```
+:::
+
+::: {.pagebreak page-layout="landscape"}
+
+```{r}
+#| label: tbl-like-Mmale
+#| echo: false
+#| warning: false
+#| tbl-cap: "Quantities of interest when profiling over natural mortality values for males"
+
+#Old table 33
+
+table33 <- read.csv(file.path(here::here(),"report/tables/NatM_uniform_Mal_GP_1_quant_table.csv"), stringsAsFactors = FALSE)
+#Remove periods
+colnames(table33) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.099",	"0.088",	"0.143",	"0.154",	"0.165",	"0.176",	"0.187",	"0.198")
+
+# Function for consistent table styling
+style_table33 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")
+}
+
+likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")))
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table33) %>%
+  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table33), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table33), align = "center", part = "body") %>%
+  bold(i = likelihood_row, part = "body") %>%
+  border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  # Keep the outer bottom border of the merged footer row
+  border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table33()%>%
+  autofit()
+
+
+```
+:::
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-weightingcomps
+#| echo: false
+#| warning: false
+#| tbl-cap: "Estimated Dirichlet-multinomial parameters and the corresponding data weights derived using the McAllister-Ianelli and Francis methods. The Dirichlet-multinomial ln(EffN_mult) parameter was bounded between -7 and 7."
+
+#Old table 34
+
+table34 <- read.csv(file.path(here::here(),"figures/sensitivities/weighting_comps.csv"), stringsAsFactors = FALSE)
+#Remove periods
+colnames(table34) <- gsub("\\.", " ", colnames(table34))
+
+
+# Function for consistent table styling
+style_table34 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")
+}
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table34) %>%
+  style_table34()%>%
+  autofit()
+
+
+```

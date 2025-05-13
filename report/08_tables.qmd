@@ -342,6 +342,7 @@ flextable(table9, col_keys = names(table9)) %>%
 ```
 
 {{< pagebreak >}}
+\blandscape
 ```{r}
 #| label: tbl-num-land-length
 #| echo: false
@@ -417,7 +418,7 @@ flextable(table11, col_keys = names(table11)) %>%
 
 
 ```
-
+\elandscape
 ```{r}
 #| label: tbl-landings-hake
 #| echo: false

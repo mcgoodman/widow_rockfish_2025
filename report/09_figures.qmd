@@ -1040,3 +1040,6 @@ knitr::include_graphics(
 )
 
 ```
+
+# Appendix A: Year-specific fits to the length and age compositions
+

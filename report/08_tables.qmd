@@ -89,7 +89,8 @@ flextable(HakeTable, col_keys = names(HakeTable)) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
   align(align = "center", part = "all") %>%
   font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")
+  bold(part = "header")%>%
+  autofit()
 
 
 ```
@@ -187,7 +188,8 @@ flextable(table4_data) %>%
   # Bold header
   bold(part = "header") %>%
   # Set font
-  font(fontname = "Times New Roman", part = "all")
+  font(fontname = "Times New Roman", part = "all") %>%
+colformat_num(j = 1, big.mark = "", digits = 0)
 
 
 
@@ -299,8 +301,264 @@ table7_nwfsc_data %>%
 
 ```
 
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-numposi-tows
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of positive tows, lengths, and ages in each year from the Triennial survey (Tri) and the NWFSC WCGBT survey (NW)."
+
+#Old table 9
+table9 <- as.data.frame(read.csv(file.path(here::here(),"figures/WCGBTS_survey/survey_pos_catch.csv"), stringsAsFactors = FALSE))
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table9),
+  line1 = c("Year", rep("Number of positive tows", 2), rep("Number of tows with lengths", 2), rep("Number of lengths", 2),rep("Number of tows with ages", 2),rep("Number of ages", 2)),
+  line2 = c("","Tri","NW", "Tri","NW", "Tri","NW", "Tri","NW", "Tri","NW"),
+  stringsAsFactors = FALSE
+)
+
+
+# Create flextable
+flextable(table9, col_keys = names(table9)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)
+
+
+
+
+
+
+```
 
 {{< pagebreak >}}
+```{r}
+#| label: tbl-num-land-length
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of landings sampled for length data by gear and state for non-whiting fisheries."
+
+#Old table 10
+
+
+
+table10 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_10.csv"), stringsAsFactors = FALSE))
+#Remove periods
+colnames(table9) <- gsub("\\.", " ", colnames(table9))
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table10),
+  line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+  line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(table10, col_keys = names(table10)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 2, big.mark = "", digits = 0)
+
+
+
+
+
+```
+
+```{r}
+#| label: tbl-len-gear-state
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of lengths of Widow Rockfish by gear and state for non-whiting fisheries."
+
+#Old table 11
+table11 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_11.csv"), stringsAsFactors = FALSE))
+
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table10),
+  line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+  line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(table11, col_keys = names(table11)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 2, big.mark = "", digits = 0)
+
+
+
+```
+
+```{r}
+#| label: tbl-landings-hake
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of landings and number of lengths sampled from the at-sea hake and shoreside hake fisheries."
+
+#Old table 12
+table12 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_12.csv"), stringsAsFactors = FALSE))
+
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table12),
+  line1 = c("","Year", rep("Number of hauls (at-sea) or landings (shoreside)", 2), rep("Number of lengths", 2)),
+  line2 = c(" "," ","Domestic at-sea", "Shoreside","Domestic at-sea", "Shoreside" ),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(table12, col_keys = names(table12)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 2, big.mark = "", digits = 0)
+
+
+
+```
+
+```{r}
+#| label: tbl-sample-age-gear-state
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
+
+#Old table 13
+table13 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_13.csv"), stringsAsFactors = FALSE))
+
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table13),
+  line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+  line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(table13, col_keys = names(table13)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 2, big.mark = "", digits = 0)
+
+
+
+```
+
+```{r}
+#| label: tbl-age-gear-state
+#| echo: false
+#| warning: false
+#| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
+
+#Old table 13
+table14 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_14.csv"), stringsAsFactors = FALSE))
+
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table14),
+  line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+  line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(table14, col_keys = names(table14)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 2, big.mark = "", digits = 0)
+
+
+
+```
+
+```{r}
+#| label: tbl-disc totals
+#| echo: false
+#| warning: false
+#| tbl-cap: "Discard totals (mt) for four fleets derived from Pikitch data, EDCP data, and WCGOP data. Italics indicate years that were not fitted to because they were simply added to the landings (Shoreside hake) or omitted because they were outside of the main study period."
+
+#Old table 16
+
+
+
+
+table16 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_16_data.csv"), stringsAsFactors = FALSE))
+#Remove periods
+colnames(table16) <- gsub("\\.", " ", colnames(table16))
+
+# Function for consistent table styling
+style_table16 <- function(ft) {
+  ft %>%
+    font(fontname = "Times New Roman", part = "all") %>%
+    border_outer(part = "all") %>%
+    border_inner(part = "all") %>%
+    align(align = "center", part = "header") %>%
+    align(align = "center", part = "body")%>%
+    colformat_num(j = 2, big.mark = "", digits = 0)%>%
+    autofit()
+}
+# Create Flextable for Table 20
+table16 %>%
+  flextable() %>%
+  style_table16()
+
+
+
+
+
+```
 
 ```{r}
 #| label: tbl-age-error
@@ -360,7 +618,7 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-table29<- as.data.frame(read.csv(file.path(here::here(),"figures/sensitivities/sens_table.csv"), stringsAsFactors = FALSE))
+table29 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/sens_table.csv"), stringsAsFactors = FALSE))
 #Remove periods
 colnames(table29) <- gsub("\\.", " ", colnames(table29))
 
@@ -371,14 +629,23 @@ style_table29 <- function(ft) {
     border_outer(part = "all") %>%
     border_inner(part = "all") %>%
     align(align = "center", part = "header") %>%
-    align(align = "center", part = "body")%>%
-    autofit()
+    align(align = "center", part = "body")
 }
-# Create Flextable for Table 20
-table29 %>%
-  flextable() %>%
-  style_table29()
 
+likelihood_row <- which(apply(table29, 1, function(row) any(row == "Likelihood")))
+
+
+# Add a row that spans all columns (like a section header)
+  flextable(table29) %>%
+  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+  bold(i = likelihood_row, part = "body") %>%
+  border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  # Keep the outer bottom border of the merged footer row
+  border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table29()%>%
+  autofit()
 
 
 
@@ -529,9 +796,9 @@ likelihood_row <- which(apply(table32, 1, function(row) any(row == "Likelihood")
 
 #Old table 33
 
-table33 <- read.csv(file.path(here::here(),"report/tables/NatM_uniform_Mal_GP_1_quant_table.csv"), stringsAsFactors = FALSE)
+table33 <- read.csv(file.path(here::here(),"report/tables/NatM_uniform_Fem_GP_1_quant_table.csv"), stringsAsFactors = FALSE)
 #Remove periods
-colnames(table33) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.099",	"0.088",	"0.143",	"0.154",	"0.165",	"0.176",	"0.187",	"0.198")
+colnames(table33) <- c("Natural Mortality (females)","0.121",	"0.11",	"0.099",	"0.088",	"0.132","0.143","0.154",	"0.165",	"0.176",	"0.187",	"0.198")
 
 # Function for consistent table styling
 style_table33 <- function(ft) {
@@ -572,12 +839,12 @@ likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")
 
 #Old table 33
 
-table33 <- read.csv(file.path(here::here(),"report/tables/NatM_uniform_Mal_GP_1_quant_table.csv"), stringsAsFactors = FALSE)
+table34 <- read.csv(file.path(here::here(),"report/tables/NatM_uniform_Mal_GP_1_quant_table.csv"), stringsAsFactors = FALSE)
 #Remove periods
-colnames(table33) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.099",	"0.088",	"0.143",	"0.154",	"0.165",	"0.176",	"0.187",	"0.198")
+colnames(table34) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.099",	"0.088",	"0.143",	"0.154",	"0.165",	"0.176",	"0.187",	"0.198")
 
 # Function for consistent table styling
-style_table33 <- function(ft) {
+style_table34 <- function(ft) {
   ft %>%
     font(fontname = "Times New Roman", part = "all") %>%
     border_outer(part = "all") %>%
@@ -590,15 +857,15 @@ likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")
 
 
 # Add a row that spans all columns (like a section header)
-  flextable(table33) %>%
+  flextable(table34) %>%
   compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
-  merge_at(i = likelihood_row, j = 1:ncol(table33), part = "body") %>%
-  align(i = likelihood_row, j = 1:ncol(table33), align = "center", part = "body") %>%
+  merge_at(i = likelihood_row, j = 1:ncol(table34), part = "body") %>%
+  align(i = likelihood_row, j = 1:ncol(table34), align = "center", part = "body") %>%
   bold(i = likelihood_row, part = "body") %>%
-  border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
+  border(i = 1, j = 1:ncol(table34), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
   # Keep the outer bottom border of the merged footer row
-  border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "black", width = 1))%>%
-  style_table33()%>%
+  border(i = 1, j = 1:ncol(table34), part = "footer", border = fp_border(color = "black", width = 1))%>%
+  style_table34()%>%
   autofit()
 
 

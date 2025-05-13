@@ -322,3 +322,4 @@ cat(a, sep = '\n')
 a <- knitr::knit_child('10_appendix.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
+

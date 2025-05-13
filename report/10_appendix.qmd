@@ -1,4 +1,247 @@
 
 # Appendix A: Year-specific fits to the length and age compositions
 
-This is for the appendix.
+```{r}
+#| label: fig-AppA-bottomtrawl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: " Fits to the retained length compositions for the bottom trawl fleet."
+#| out.width: "70%"
+#| fig-align: "center"
+
+library(magick)
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page2.png"))
+panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page3.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
+image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_lenfit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_lenfit.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-bottomtrawl-disc
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the discarded length compositions for the bottom trawl fleet."
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-midtrawl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained length compositions for the midwater trawl fleet."
+#| out.width: "70%"
+#| fig-align: "center"
+
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt2mkt2_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt2mkt2_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/midwater_lenfit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/midwater_lenfit.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-hake
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained length compositions for the hake fleet."
+#| out.width: "80%"
+#| fig-align: "center"
+
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt3mkt0_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt3mkt0_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hake_lenfit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hake_lenfit.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-net
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained length compositions for the net fleet."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt4mkt0.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-hkl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained length compositions for the hook-and-line fleet."
+#| out.width: "90%"
+#| fig-align: "center"
+
+
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt5mkt0_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt5mkt0_page2.png"))
+#
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hkl_lenfit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hkl_lenfit.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-trien
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the length compositions for the triennial survey."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt7mkt0.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-nwfsc
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the length compositions for the NWFSC WCGBT survey."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt8mkt0.png")
+)
+
+```
+
+
+```{r}
+#| label: fig-AppA-bottomtrawl-age
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: " Fits to the retained age compositions for the bottom trawl fleet."
+#| out.width: "70%"
+#| fig-align: "center"
+
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt1mkt2_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt1mkt2_page2.png"))
+
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)
+image_write(combined1, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_agefit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_agefit.png")
+)
+
+```
+
+
+```{r}
+#| label: fig-AppA-midtrawl-age
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained age compositions for the midwater trawl fleet."
+#| out.width: "70%"
+#| fig-align: "center"
+
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt2mkt2_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt2mkt2_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/midwater_agefit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/midwater_agefit.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-hake-age
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained age compositions for the hake fleet."
+#| out.width: "80%"
+#| fig-align: "center"
+
+panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt3mkt0_page1.png"))
+panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt3mkt0_page2.png"))
+#
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hake_agefit.png"))
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hake_agefit.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-net-age
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained age compositions for the net fleet."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt4mkt0.png")
+)
+
+```
+
+```{r}
+#| label: fig-AppA-hkl-age
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fits to the retained age compositions for the hook-and-line fleet."
+#| out.width: "90%"
+#| fig-align: "center"
+
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png")
+)
+
+```

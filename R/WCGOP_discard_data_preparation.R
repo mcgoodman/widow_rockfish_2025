@@ -69,7 +69,8 @@ new_discards_2025 <- new_discards_2025 %>%
   group_by(fleet) %>%
   mutate(stderr = if_else(
     is.na(stderr),
-    mean(stderr, na.rm = TRUE),
+#    mean(stderr, na.rm = TRUE), # no longer using this line - replaced NA values with fleet mean error 
+     0.05,  # fill 0.05 CV for years/fleets without error (b/c catch share, 100% observed)  
     stderr
   )) %>%
   ungroup()|>

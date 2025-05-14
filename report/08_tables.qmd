@@ -620,7 +620,7 @@ table21<- as.data.frame(openxlsx::read.xlsx(file.path(here::here(),"report/table
 colnames(table21) <- c("1","2 ","3  ")
 
 
-my_border <- fp_border(color = "black", width = 1)
+my_border <- fp_border(color = "black", width = 2)
 
 
 # Function for consistent table styling
@@ -631,16 +631,231 @@ flextable(table21) %>%
   italic(i = c(2, 7,14,26), italic = TRUE)%>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  border(border.top = my_border, border.bottom = my_border, part = "all") %>%
+  border(border.top = my_border, i = 1) %>%
   autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
   fontsize(size = 9, part = "all")%>%
   set_table_properties(layout = "autofit")
 
+```
+
+
+```{r}
+#| label: tbl-bio-params
+#| echo: false
+#| warning: false
+#| tbl-cap: "Description of biological parameters in the base case assessment model. The lognormal (LN) prior distribution is specified with the median of the parameter and the standard deviation of the log of the parameter."
+
+#Old table 22
+
+# Function for consistent table styling
+table22 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_22.csv"))) 
+table22 <- table22[,2:ncol(table22)] 
+my_border <- fp_border(color = "black", width = 2) 
+# Build header map (multi-row header) 
+header_df <- data.frame( keys = names(table22), 
+                         line1 = c("", "Initial", "Number", "Bounds","Prior"), 
+                         line2 = c("Parameter", "value", "estimated", "(low, high)", "distribution"), stringsAsFactors = FALSE ) 
+# Function for consistent table styling 
+flextable(table22) %>% 
+  set_header_df(mapping = header_df, key = "keys") %>% 
+  border(part = "all") %>% align(align = "left", j=2) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  bold(part = "header")%>% border(border.top = my_border, i = 1) %>% 
+  autofit() %>% 
+  colformat_num(j = 1, big.mark = "", digits = 0)%>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")
+
+```
+
+```{r}
+#| label: tbl-param-ests-basecase
+#| echo: false
+#| warning: false
+#| tbl-cap: "Description of biological parameters in the base case assessment model. The lognormal (LN) prior distribution is specified with the median of the parameter and the standard deviation of the log of the parameter."
+
+#Old table 23
+
+# Function for consistent table styling
+table23 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_23.csv"))) 
+colnames(table23) <- c(" ","Parameter", "Estimate", "SD")
+table23
+my_border <- fp_border(color = "black", width = 2) 
+# Build header map (multi-row header) 
+header_df <- data.frame( keys = names(table22), 
+                         line1 = c("", "Initial", "Number", "Bounds","Prior"), 
+                         line2 = c("Parameter", "value", "estimated", "(low, high)", "distribution"), stringsAsFactors = FALSE ) 
+# Function for consistent table styling 
+flextable(table23) %>% 
+  #set_header_df(mapping = header_df, key = "keys") %>% 
+  border(part = "all") %>% align(align = "left", j=2) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  italic(i=c(3,17,25), italic=TRUE)%>%
+  bold(part = "header")%>% border(border.top = my_border, i = 1) %>% 
+  autofit() %>% 
+  colformat_num(j = 1, big.mark = "", digits = 0)%>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")
 
 ```
 
 
+```{r}
+#| label: tbl-param-ests-select
+#| echo: false
+#| warning: false
+#| tbl-cap: "Parameter estimates and approximate asymptotic standard deviations for the base case model selectivity parameters. "
+
+#Old table 24
+
+# Function for consistent table styling
+table24 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_24.csv"))) 
+colnames(table24) <- gsub("\\.", " ", colnames(table24))
+
+
+my_border <- fp_border(color = "black", width = 2) 
+
+# Function for consistent table styling 
+flextable(table24) %>% 
+  border(part = "all") %>% align(align = "left", j=2) %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  bold(part = "header")%>% border(border.top = my_border, i = 1) %>% 
+  autofit() %>% 
+  colformat_num(j = ncol(table24), big.mark = "", digits = 0)%>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")
+
+```
+
+```{r}
+#| label: tbl-likecomps
+#| echo: false
+#| warning: false
+#| tbl-cap: "Likelihood components and other quantities related to the minimization of the base case model."
+
+#Old table 25
+
+# Function for consistent table styling
+table25 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_25.csv"))) 
+
+
+my_border <- fp_border(color = "black", width = 2) 
+
+# Function for consistent table styling 
+flextable(table25) %>% 
+  border(part = "all") %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  bold(part = "header")%>% 
+  italic(i=3,italic=TRUE)%>%
+  border(border.top = my_border, i = 1) %>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")
+
+```
+
+```{r}
+#| label: tbl-key-deriv-params
+#| echo: false
+#| warning: false
+#| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
+
+#Old table 26
+
+# Function for consistent table styling
+table26 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/e_ReferencePoints_ES.csv"))) 
+
+my_border <- fp_border(color = "black", width = 2)
+
+colnames(table26) <- gsub("\\.", " ", colnames(table26))
+
+table26 <- table26 %>%
+  mutate(
+    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval`, -`Upper Interval`)
+
+table26[6,3] <- " "
+table26[11,3] <- " "
+table26[16,3] <- " "
+
+# Function for consistent table styling 
+flextable(table26) %>% 
+  border(part = "all") %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  bold(part = "header")%>% 
+  align(align = "center", j = c(2,3))%>% 
+  italic(i=c(6,11,13,16),italic=TRUE)%>%
+  bold(i=c(6,11,16),bold=TRUE)%>%
+  border(border.top = my_border, i = 1) %>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")
+
+```
+
+```{r}
+#| label: tbl-ts-popests-basecase
+#| echo: false
+#| warning: false
+#| tbl-cap: "Time series of population estimates from the base case model."
+
+#Old table 27
+
+# Function for consistent table styling
+table27 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_27.csv")))  
+
+my_border <- fp_border(color = "black", width = 2)
+
+# Build header map (multi-row header) 
+header_df <- data.frame( keys = names(table27), 
+                         line1 = c("Year", "Total", "Spawning", "Age 4+ ", "Spawning", "Age-0", "Estimated Total", "1 - SPR", "Relative Exploitation"), 
+                         line2 = c("  ", "Biomass (mt)", "Biomass (mt)","Biomass (mt)", " Depletion(mt)", "recruits", "Catch (mt)","(%)","rate (%)"), stringsAsFactors = FALSE ) 
+
+
+# Function for consistent table styling 
+flextable(table27) %>% 
+  set_header_df(mapping = header_df, key = "keys") %>% 
+  border(part = "all") %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  bold(part = "header")%>% 
+  align(align = "center", part="body")%>% 
+  align(align = "center", part="header")%>% 
+  border(border.top = my_border, i = 1) %>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")%>%
+  colformat_num(j = 1, big.mark = "", digits = 0)
+
+
+```
+
+```{r}
+#| label: tbl-lognorm-recdevs
+#| echo: false
+#| warning: false
+#| tbl-cap: "Time series of log-normal recruitment deviation estimates from the base case model."
+
+#Old table 28
+
+# Function for consistent table styling
+table28 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_28.csv")))  
+
+my_border <- fp_border(color = "black", width = 2)
+
+colnames(table28) <- gsub("\\.", " ", colnames(table26))
+
+# Function for consistent table styling 
+flextable(table28) %>% 
+  border(part = "all") %>% 
+  font(fontname = "Times New Roman", part = "all") %>% 
+  bold(part = "header")%>% 
+  align(align = "center", j = c(2,3))%>% 
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  border(border.top = my_border, i = 1) %>% 
+  fontsize(size = 9, part = "all")%>% 
+  set_table_properties(layout = "autofit")
+
+```
 
 ::: {.pagebreak page-layout="landscape"}
 

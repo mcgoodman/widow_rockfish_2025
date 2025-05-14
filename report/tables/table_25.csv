@@ -1,12 +1,12 @@
-"","Description","Values"
-"1","N parameters","214"
-"2","",""
-"3","Log-likelihoods",""
-"4","Total","7664.49"
-"5","Indices","13.0223"
-"6","Discard","5410.79"
-"7","Length-frequency data","854.968"
-"8","Age-frequency data","1366.28"
-"9","Recruitment","17.8401"
-"10","Priors","0.6005"
-"11","Parameter Softbound","0.98329"
+Description,Values
+N parameters,214
+,
+Log-likelihoods,
+Total,7664.49
+Indices,13.0223
+Discard,5410.79
+Length-frequency data,854.968
+Age-frequency data,1366.28
+Recruitment,17.8401
+Priors,0.6005
+Parameter Softbound,0.98329

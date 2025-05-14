@@ -71,7 +71,7 @@ nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_com
          fleet = rep(8))
 
 #discard lcomps - think wcgop
-discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_no-midwater.csv")) |>
+discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_with-midwater.csv")) |>
   #rename(part = part,input_n = Nsamp)|>
   select(-X) #drop weird rownumber column from excel
   
@@ -163,9 +163,9 @@ r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FAL
 model_temp <- NULL#Wipe model to be safe
 
 
-#--------------------  Extend discards -----------------------------------------
+#--------------------  Extend discard amounts -----------------------------------------
 
-discard_dir <- here(main_dir,"add_discards") #dir
+discard_amnt_dir <- here(main_dir,"add_discard_amounts") #dir
 
 model_temp <- SS_read(catch_dir) ##read base model
 model_temp$dat$discard_data  <- discard_amounts|>
@@ -176,35 +176,52 @@ model_temp$dat$discard_data|>
   group_by(fleet)|>
   summarise(end_yr = max(year))
 
-#add the discard lcomps
+## write model
+SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
+
+##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
+combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5)
+
+
+
+file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+model_temp <- NULL#Wipe model to be safe
+
+
+#--------------------  Extend discard lencomps ---------------------------------
+discard_comp_dir <- here(main_dir,"add_discard_comps") #dir
+
+model_temp <- SS_read(discard_amnt_dir) ##read base model
+
+# #add the discard lcomps
 model_temp$dat$lencomp <- model_temp$dat$lencomp|>
   filter(part != 1)|> #remove old discards
   rbind(discard_lcomps|> #add new discards
           filter(part  == 1)|>
+          filter(fleet != 3)|> #drop hake discards, minimal data an dmot modelled in the assessment
           arrange(fleet))
-        
-model_temp$dat$lencomp|>
-  filter(part == 1)|>
-  select(fleet,year)|>
-  count(fleet)
+
+
 
 ## write model
-SS_write(model_temp,dir = discard_dir,overwrite = T) #write the model
-
-##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
-combine_hnl_discards(model_dir = discard_dir,hnl_fleet_id = 5)
+SS_write(model_temp,dir = discard_comp_dir,overwrite = T) #write the model
 
 
+combine_hnl_discards(model_dir = discard_comp_dir,hnl_fleet_id = 5)
 
-file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_dir, ss3_exe)) # copy the executable
-r4ss::run(dir = discard_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+
+
+file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_comp_dir, ss3_exe)) # copy the executable
+r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
+
 
 #--------------------  Extend indices  -----------------------------------------
 
 index_dir <- here(main_dir,"add_indices") #dir
 
-model_temp <- SS_read(discard_dir) ##read base model (previous model run)
+model_temp <- SS_read(discard_comp_dir) ##read base model (previous model run)
 model_temp$dat$CPUE <- model_temp$dat$CPUE|>
   rbind(indices_2025|>
           filter(year >= 2019))## append data

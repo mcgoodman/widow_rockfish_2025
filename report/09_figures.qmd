@@ -995,7 +995,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-pred-(1-SPR)
+#| label: fig-pred-one-SPR
 #| echo: false
 #| warning: false
 #| eval: true
@@ -1010,7 +1010,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-relative-(1-SPR)
+#| label: fig-relative-one-SPR
 #| echo: false
 #| warning: false
 #| eval: true

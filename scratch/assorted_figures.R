@@ -57,7 +57,7 @@ survey <- "NWFSC.Combo"
 age_bins <- 0:40
 length_bins <- seq(8, 56, by = 2)
 
-strata <- CreateStrataDF.fn(
+strata <- nwfscSurvey::CreateStrataDF.fn(
   names = c("South - shallow", "South - deep", "North - shallow", "North - deep"), 
   depths.shallow = c(  55,  183,  55, 183),
   depths.deep    = c( 183,  400, 183, 400),
@@ -66,10 +66,10 @@ strata <- CreateStrataDF.fn(
 )
 
 # Pull scientific catch survey data
-catch <- pull_catch(common_name = species, survey = survey)
+catch <- nwfscSurvey::pull_catch(common_name = species, survey = survey)
 
 # Age, length, weight
-bio <- pull_bio(common_name = species, survey = survey)
+bio <- nwfscSurvey::pull_bio(common_name = species, survey = survey)
 
 # caal plots
 caal <- get_raw_caal(
@@ -139,7 +139,7 @@ tri_bio <- nwfscSurvey::pull_bio(
   survey = "Triennial"
 ) # has length_data, age_data
 
-tri_catch <- pull_catch(sci_name = scientific_name,
+tri_catch <- nwfscSurvey::pull_catch(sci_name = scientific_name,
                         survey = "Triennial"
 )
 
@@ -154,17 +154,17 @@ surv_agelen$fleet <- rep("NWFSC") # no other data w Lbin_lo > 0
 
 # pacfin data **ADD**
 # read in here
-pfin_dat <- XXX
+pfin_dat <- bds_cleaned_all|>filter(!is.na(Age))
 pfin_dat$fleet <- rep("PACFIN")
 
 # ashop age and legnth etc.
-ashop_age <- read_excel("data_provided/ASHOP/A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx")
+ashop_age <- readxl::read_excel("data_provided/ASHOP/A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx")
 ashop_age$fleet <- rep("ASHOP")
 
 # put data together for age/len plots
 all_agelen <- data.frame(widow_fleet = c(surv_agelen$fleet, ashop_age$fleet, pfin_dat$fleet, tri_bio$age_data$fleet), 
                          widow_age = c(surv_agelen$age, ashop_age$AGE, pfin_dat$Age, tri_bio$age_data$Age), 
-                         widow_len = c(surv_agelen$Lbin_lo, ashop_age$LENGTH, pfin_dat$length, tri_bio$age_data$Length_cm), 
+                         widow_len = c(surv_agelen$Lbin_lo, ashop_age$LENGTH, pfin_dat$lengthcm, tri_bio$age_data$Length_cm), 
                          widow_sex = c(surv_agelen$Sex, ashop_age$SEX, pfin_dat$SEX, tri_bio$age_data$Sex))
 
 # fix up widow_sex column
@@ -202,16 +202,93 @@ vbl_lines <- data.frame(widow_age = c(age_range, age_range, age_range, age_range
                         vbl_type = c(rep("model estimated", length(age_range)*2), 
                                      rep("model prior", length(age_range)*2)))
 
+#re-order the factor levels to place pacfin on the bottom
 # make vBL plots **ADD PACFIN STILL**
-ggplot(all_agelen, aes(widow_age, widow_len, col = as.factor(widow_fleet))) +
-  geom_jitter(size = 1.6) + facet_wrap(~widow_sex, nrow = 2) +
-  geom_line(data = vbl_lines %>% filter(vbl_type == "model estimated"), col = "black", lwd = 1) + 
-  labs(x = "Age", y = "Length", col = "Fleet:") + 
-  theme_bw() + theme(legend.position = "bottom", legend.box="vertical", text = element_text(size = 22)) + 
-  scale_color_manual(values = c("gray", "#005BFF", "#FF592F", "#F6F900")) 
+# ggplot(all_agelen, aes(widow_age, widow_len, col = widow_fleet)) +
+#   geom_jitter(size = 1.6,alpha = 0.5) + facet_wrap(~widow_sex, nrow = 2) +
+#   geom_line(data = vbl_lines %>% filter(vbl_type == "model estimated"), col = "black", lwd = 1) + 
+#   labs(x = "Age", y = "Length", col = "Fleet:") + 
+#   theme_bw() + theme(legend.position = "bottom", legend.box="vertical", text = element_text(size = 22)) + 
+#   scale_color_manual(values = c( "#005BFF", "#FF592F","gray", "#F6F900")) 
+
+all_agelen <- all_agelen %>%
+  mutate(widow_fleet = factor(widow_fleet, levels = c("NWFSC", "ASHOP", "Triennial", "PACFIN")))
+
+##Need to calculate t0 as our models has a non-traditional paramterisation of Vb, while the plot has classic
+get_t0 <- function(L_min = 20, L_max = 45,A_min = 1,A_max = 40,k = 0.21){
+  # Function to solve
+  t0_solver <- function(t0) {
+    num <- 1 - exp(-k * (A_min - t0))
+    den <- 1 - exp(-k * (A_max - t0))
+    ratio <- L_min / L_max
+    return(num / den - ratio)
+  }
+  
+  # Find root
+  t0 <- uniroot(t0_solver, c(-10, 5))$root
+  
+  return(t0)
+}
+
+
+t0F <- get_t0(L_min = vblFMin,L_max = vblFMax,k = vblFk,A_min = min(age_bins),A_max = max(age_bins))
+t0M <- get_t0(L_min = vblMMin,L_max = vblMMax,k = vblMk,A_min = min(age_bins),A_max = max(age_bins))
+
+## Make a table of pars ests for display purposes
+label_df <- data.frame(
+  widow_sex = rep(c("female", "male"), each = 3),
+  widow_age = c(75, 75, 75, 75, 75, 75),     # x positions
+  widow_len = c(25, 20, 15, 25, 20, 15), # y positions
+  label = c(paste0("Linf = ",round(vblFMax,2)),
+            paste0("k = " ,round(vblFk,2)),
+            paste0("t0 = ",round(t0F,2)),
+            paste0("Linf = ",round(vblMMax,2)),
+            paste0("k = ",round(vblMk,2)),
+            paste0("t0 = ",round(t0M,2))
+  ))
+
+
+
+# Make vBL plots
+ggplot(all_agelen, aes(widow_age, widow_len)) +
+  # Plot PACFIN points first (will appear under other fleets)
+  geom_jitter(data = filter(all_agelen, widow_fleet == "PACFIN"),
+              aes(color = widow_fleet), size = 1.6) +
+  # Then plot all other fleets on top
+  geom_jitter(data = filter(all_agelen, widow_fleet != "PACFIN"),
+              aes(color = widow_fleet), size = 1.6) +
+  # VBL lines
+  geom_line(data = vbl_lines %>% filter(vbl_type == "model estimated"),
+            aes(widow_age, widow_len), inherit.aes = FALSE,
+            color = "black", linewidth = 1) +
+  #Parameetrestimate labels
+  geom_text( 
+    data = label_df,
+    aes(x = widow_age, y = widow_len, label = label),
+    inherit.aes = FALSE,
+    size = 6
+  ) +
+  facet_wrap(~widow_sex, nrow = 2) +
+  labs(x = "Age", y = "Length", color = "Fleet:") +
+  theme_classic() +
+  theme(
+    legend.position = "bottom",
+    legend.box = "vertical",
+    text = element_text(size = 18)
+  ) +
+  scale_color_manual(
+    values = c(
+      "NWFSC" = "#005BFF",
+      "ASHOP" = "#FF592F",
+      "Triennial" = "gray",
+      "PACFIN" = "#2E8B57"
+    )
+  )+
+  guides(colour = guide_legend(override.aes = list(size = 3)))
+
 
 ggsave(file.path(plot_save_dir, 'vBL_dat.png'),  dpi = 300,  
-       width = 7, height = 10, units = "in")
+       width = 8, height = 8, units = "in")
 
 # length-weight plot: figure 31
 # values from 2019

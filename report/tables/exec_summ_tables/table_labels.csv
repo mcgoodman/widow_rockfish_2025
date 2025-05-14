@@ -9,3 +9,4 @@
 "Summary of recent estimates and management quantities for the model area.",NA,"summaryES","i_Summary_ES.csv"
 "Landings (mt) by fleet for all years, total landings (mt), and total dead catch (mt) summed by year for the model area.",NA,"allcatches","Catches_All_Years.csv"
 "Time series of population estimates from the base model for the model area.",NA,"timeseries","TimeSeries.csv"
+"Negative log-likelihood components by data type.",NA,"likes","likelihoods.csv"

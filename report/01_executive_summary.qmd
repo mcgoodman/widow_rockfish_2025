@@ -8,14 +8,21 @@ sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if
 
 ## Stock{-}
 
-This is an update assessment of Widow Rockfish (Sebastes entomelas) that reside in the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south. This is an update of the 2015 benchmark assessment [@hicks_status_2015]. Widow Rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of Widow Rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. 
+This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south. This is an update of the 2015 benchmark assessment [@hicks_status_2015]. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. 
 
-There is little evidence of genetically separate stocks along the U.S. coast and the previous benchmark assessment used a single area, coastwide model with multiple fisheries [@hicks_status_2015]. There is some evidence of biological differences between areas. For example, Widow Rockfish collected off California tend to mature at a smaller length than do Widow Rockfish collected off of Oregon [@barss_maturity_1987]. This may be due to environmental or anthropogenic effects rather than genetic differences. The 2015 benchmark assessment decided to continue with a single area model for this assessment rather than lose prediction power by splitting the model and data into two separate areas. An update assessment was carried out in 2019 and maintained the same model structure as the 2015 benchmark assessment. 
-
-
+There is little evidence of genetically separate stocks along the U.S. coast and the previous benchmark assessment used a single area, coastwide model with multiple fisheries [@hicks_status_2015]. There is some evidence of biological differences between areas. For example, widow rockfish collected off California tend to mature at a smaller length than do widow rockfish collected off of Oregon [@barss_maturity_1987]. This may be due to environmental or anthropogenic effects rather than genetic differences. The 2015 benchmark assessment decided to continue with a single area model for this assessment rather than lose prediction power by splitting the model and data into two separate areas. An update assessment was carried out in 2019 and maintained the same general model structure as the 2015 benchmark assessment. 
 
 {{< pagebreak >}} 
+
 ## Catches{-}
+
+The historical reconstruction of landings for widow rockfish suggests that hook-and-line and bottom trawl fisheries have caught widow rockfish since the turn of the 20th century. Landings in the trawl fishery are estimated to have increased into the 1940s and remained relatively constant and small (below 1,000 mt per year) throughout the 1950s and into the 1960s before the foreign trawl fleet increased catches into the 1970s, with a peak at almost 5,000 mt in 1967. In the late 1970s a midwater trawl fishery developed for widow rockfish and catches increased rapidly with the discovery of large aggregations that form at night. 
+
+Total landings of widow rockfish peaked in the early 1980s, increasing from approximately 1,000 metric tons (mt) in 1978 to over 25,000 mt in 1981. After this sudden increase in catch, widow rockfish were given their own market category and often identified to species in the landings. However, species composition sampling of market categories occurred before the mid-1980s when widow rockfish was not specifically identified. The uncertainty in species composition is greater in past years, thus landings of widow rockfish are not well known further back in history. 
+
+The large landings in the early 1980s were curtailed with trip limits beginning in 1982, which resulted in a decline in landings throughout the 1980s and 1990s following sequential reductions in the trip limits. From 2000 to 2003, landings of widow rockfish dropped from over 4,000 mt to about 40 mt and remained low through 2016. Catches increased rapidly following the quota share reallocation in 2017, and have been near or above 10,000 mt in all years between 2018-2024. Midwater trawl gears in groundfish and Pacific Whiting (hake) fisheries account for the majority of the recent catch. 
+
+Widow rockfish are a desirable market species and it is believed that discarding was low historically. However, management restrictions (e.g., trip limits) resulted in a substantial amount of discarding beginning in 1982. Trawl rationalization was introduced in 2011. Between 2011 and 2016 very little discarding of widow rockfish is estimated to have occurred, though discards have increased in recent years. Discards were estimated in the model with the assistance of data from the West Coast Observer Program (WCGOP), and total catches (discards plus landings) are reported in addition to landings.
 
 ```{r}
 #| label: tbl-a
@@ -29,9 +36,6 @@ library(dplyr)
 table_A <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/a_Catches_ES.csv"), stringsAsFactors = FALSE))
 
 colnames(table_A) <- gsub("\\.", " ", colnames(table_A))
-
-
-
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -74,22 +78,58 @@ knitr::include_graphics(
 
 ## Data and Assessment{-}
 
-This is an update assessment of the 2015 full assessment of Widow Rockfish [@hicks_status_2015], following a previous update assessment in 2019. In this assessment, aspects of the model including catches, data, and modelling assumptions were generally consistent with the 2015 and 2019 assessments. However, the assessment used the updated version of the length- and age-structured modeling software Stock Synthesis (version 3.30.2), while the benchmark assessment used version 3.24U. The coastwide population was modeled assuming separate growth and mortality parameters for each sex (a two-sex model) from 1916 to 2024, and forecasted beyond 2024.
+This is an update assessment of the 2015 full assessment of widow rockfish [@hicks_status_2015], following a previous update assessment in 2019. In this assessment, aspects of the model including catches, data, and modelling assumptions were generally consistent with the 2015 and 2019 assessments. However, the assessment used the updated version of the length- and age-structured modeling software Stock Synthesis (version 3.30.2), while the benchmark assessment used version 3.24U. The coastwide population was modeled assuming separate growth and mortality parameters for each sex (a two-sex model) from 1916 to 2024, and forecasted beyond 2024.
 
- The definitions of fishing fleets have not been changed from those in the 2015 assessment. Five fishing fleets were specified within the model: 1) a shorebased bottom trawl fleet with coastwide catches from 1916–2018 (bottomtrawl in Figure a), 2) a shorebased midwater trawl fleet with coastwide catches from 1979–2018 (midwater in Figure a), 3) a mostly midwater trawl fleet that targets Pacific Hake/Whiting (Merluccius productus) and includes a foreign and at-sea fleet with catches from 1975–2018, a domestic shorebased fleet that targeted Pacific Hake with catches from 1991–2018, and foreign vessels that targeted Pacific Hake and rockfish between 1966–1976 (hake in Figure a), 4) a net fishery consisting of catches mostly from California from 1981–2018 (net in Figure a), and 5) a hook-and-line fishery (predominantly longline) with coastwide catches from 1916–2018 (HnL in Figure a). 
+The definitions of fishing fleets have not been changed from those in the 2015 assessment. Five fishing fleets were specified within the model: 1) a shorebased bottom trawl fleet with coastwide catches from 1916–2024, 2) a shorebased midwater trawl fleet with coastwide catches from 1979–2024, 3) a mostly midwater trawl fleet that targets Pacific Hake/Whiting (Merluccius productus) and includes a foreign and at-sea fleet with catches from 1975–2024, a domestic shorebased fleet that targeted Pacific Hake with catches from 1991–2024, and foreign vessels that targeted Pacific Hake and rockfish between 1966–1976, 4) a net fishery consisting of catches mostly from California from 1981–2024, and 5) a hook-and-line fishery (predominantly longline) with coastwide catches from 1916–2024. Landings are summarized in Figure a. 
 
 Data from three fishery-independent surveys were also included in the model: 1) the National Marine Fisheries Service (NMFS) Southwest Fisheries Science Center (SWFSC) and Northwest Fisheries Science Center (NWFSC)/Pacific Whiting Conservation Cooperative (PWCC) Midwater Trawl Survey that provides pre-recruit indices of abundance, 2) the NMFS Triennial Shelf Survey which was conducted from 1977–2004 in depths less than 500 meters, and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) which has been surveying the entire U.S. West Coast in depths between 55 and 1,280 meters since 2003. 
 
-The data used in the assessment model consisted of survey abundance indices, length compositions, discard data, and age compositions. Model-based biomass indices and length compositions were determined for the NMFS Triennial Shelf and NWFSC West Coast Groundfish Bottom Trawl Surveys. Length and age compositions were also available from the five fisheries. Age data for all years of the WCGBTS were input as age-at-length compositions. Discard data for the bottom trawl, midwater trawl, and hook-and-line fisheries were available in various years in the form of discarded biomass and length compositions. A small amount of data was available to inform discarding practices of Widow Rockfish prior to 2002. The variances and sample sizes on all of the data were tuned to the expected variability in the model predictions.
+The data used in the assessment model consisted of survey abundance indices, length compositions, discard data, and age compositions. Model-based biomass indices and length compositions were determined for the NMFS Triennial Shelf and NWFSC West Coast Groundfish Bottom Trawl Surveys. Length and age compositions were also available from the five fisheries. Age data for all years of the WCGBTS were input as age-at-length compositions. Discard data for the bottom trawl, midwater trawl, and hook-and-line fisheries were available in various years in the form of discarded biomass and length compositions. A small amount of data was available to inform discarding practices of widow rockfish prior to 2002. The variances and sample sizes on all of the data were tuned to the expected variability in the model predictions.
 
 The base model estimated parameters for length-based selectivity for all fleets and surveys, retention curves based on length for the bottom trawl, midwater trawl, and hook-and-line fishing fleets, a length-at- age relationship, natural mortality for males and females assuming lognormal priors, and recruitment deviations starting in 1900. A Beverton-Holt stock-recruitment function was used to model productivity and the steepness parameter was fixed at 0.72 based on a steepness meta-analysis for west coast rockfishes. 
 
 Uncertainty for the parameter estimates and derived quantities was determined in three ways. First, estimation uncertainty in the base model was determined using approximate asymptotic 95% confidence intervals based on maximum likelihood theory. Second, model uncertainty was investigated with various sensitivity runs where alternative model structures were implemented. Finally, the major axis of uncertainty was determined to define a range of states of nature and results are presented in a decision table. 
 
-Although there are many types of data available for Widow Rockfish since the late 1970s, which were used in this assessment, there is little information about steepness and natural mortality, and recent recruitment. Estimates of steepness are uncertain partly because of variable recruitment. Uncertainty in natural mortality is common in many fish stock assessments even when length and age data are available. Finally, there is little information about the strength of recent recruitment because the young fish are seen with a lower probability in the fisheries and surveys. These uncertainties were characterized as best as possible in the predictions and projections from this assessment.
-
+Although there are many types of data available for widow rockfish since the late 1970s, which were used in this assessment, there is little information about steepness and natural mortality, and recent recruitment (although likelihood profiles in this update assessment suggest additional data has contributed higher certainty in natural mortality estimates). Estimates of steepness are uncertain partly because of variable recruitment. Uncertainty in natural mortality is common in many fish stock assessments even when length and age data are available. Finally, there is little information about the strength of recent recruitment because the young fish are seen with a lower probability in the fisheries and surveys. These uncertainties were characterized as best as possible in the predictions and projections from this assessment.
 
 ## Stock biomass and dynamics{-}
+
+```{r}
+#| label: tbl-a
+#| include: false
+
+model_path <- here::here("models", "2025 base model")
+report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
+
+table_b <- read.csv(here::here("report", "tables", "exec_summ_tables", "b_SSB_ES.csv"))
+names(table_b) <- c("Year", "SSB", "SSB_Lwr", "SSB_Upr", "Bratio", "Bratio_Lwr", "Bratio_Upr")
+
+require("dplyr")
+
+SSB <- report$derived_quants[report$derived_quants$Label %in% paste0("SSB_", 1916:2036),]
+SSB$Year <- as.integer(gsub("SSB_", "", SSB$Label))
+
+Bratio <- report$derived_quants[report$derived_quants$Label %in% paste0("Bratio_", 1916:2036),]
+Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
+
+# SSB <- SSB |>
+#   select(Year, SSB = Value, SD = StdDev) |>
+#   mutate(
+#     mu_log = log(SSB) - 0.5 * log((SD^2)/(SSB^2) + 1),
+#     sigma_log = sqrt(log(1 + ((SD^2) / (SSB^2)))),
+#     lower = qlnorm(0.025, mu_log, sigma_log),
+#     upper = qlnorm(0.975, mu_log, sigma_log)
+#   )
+
+```
+
+
+The predicted spawning biomass from the base model generally showed a slight decline over the time series until 1966 when the foreign fleet began. A short, but sharp decline occurred, followed by a steep increase (peaking in 1979) due to strong recruitment. The spawning biomass declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s. The stock continued to decline until 2000. A combination of strong recruitment and low catches resulted in a steady increase in spawning biomass through 2016, though the reestablishment of a target fishery for widow rockfish in 2017 has since resulted in a steep decline in biomass.
+
+The 2024 spawning stock biomass (SSB) relative to unfished equilibrium spawning biomass is `r round(table_b$Bratio[table_b$Year == 2024] * 100)`. This is above the target of 40% of unfished spawning biomass, and above the minimum estimated value of  of `r round(min(Bratio$Value) * 100)` which the population approached in 1998-2001.
+
+Approximate confidence intervals based on the asymptotic variance estimates show that the uncertainty in the estimated spawning biomass is high, especially in the early years. Spawning biomass is estimated to be at `r `format(SSB$Value[SSB$Year == 2024], big.mark = ",", digits = 1)` mt in 2019, with an asymptotic 95% confidence interval of `r paste(format(table_b[table_b$Year == 2024, c("SSB_Lwr", "SSB_Upr")], big.mark = ",", digits = 1), collapse = " - ")`. The corresponding confidence interval for the relative SSB is `r paste(paste0(round(table_b[table_b$Year == 2024, c("Bratio_Lwr", "Bratio_Upr")] * 100, 1), "%"), collapse = " - ")`, for which the lower bound is below the management target of 40%.
+
 
 ```{r}
 #| label: fig-b
@@ -170,13 +210,17 @@ flextable(table_B, col_keys = names(table_B)) %>%
   fontsize(size = 9, part = "all")%>%
   set_table_properties(layout = "autofit")
 
-
-
 ```
 
 {{< pagebreak >}} 
 
 ## Recruitment{-}
+
+Recruitment deviations were estimated for the entire time series modeled. There is little information regarding recruitment prior to 1965, and the uncertainty in these estimates is expressed in the model. 
+
+There are very large, but uncertain, estimates of recruitment (in descending order of magnitude) in 1970, 2008, 2016,  and 1971. Other large recruitment events (in descending order of magnitude) occurred in 1978, 1981, 2010, and 1991. Previous estimates of high recruitments in 2013 and 2014 are lower than previously estimated (see 2019 update assessment) following the addition of new data.
+
+The five lowest recruitments (in ascending order) occurred in 2012, 2019, 2020, 2011, and 1976. Estimates of recruitment appear to be episodic and characterized by periods of low recruitment.
 
 ```{r}
 #| label: fig-d
@@ -252,6 +296,12 @@ flextable(table_c, col_keys = names(table_c)) %>%
 {{< pagebreak >}} 
 
 ## Exploitation status{-}
+
+The spawning biomass of widow rockfish reached a low in 2001 before increasing due to low catch levels. 
+
+The lower bound of the 95% confidence interval of the estimated depletion dipped below the overfished threshold (25% minimum stock size threshold) in the very late 1990s and early 2000s. After recovering after 2016, the lower bound of the 95% confidence interval dipped below the 40% management target in 2024 but remains above the overfished threshold. The current depletion estimate is greater than the spawning biomass target.
+
+Throughout the 1980s and 1990s the exploitation rate and (1-SPR) were mostly above target levels. Recent exploitation rates on widow rockfish are estimated to have exceeded target levels in all years since 2018.
 
 ```{r}
 #| label: tbl-d
@@ -355,14 +405,36 @@ knitr::include_graphics(
 ```
 ## Ecosystem considerations{-}
 
-Rockfish are an important component of the California Current ecosystem along the U.S. West Coast, with its more than sixty-five species filling various niches in both soft and hard bottom habitats from the nearshore to the continental slope, as well as near bottom and pelagic zones. Widow Rockfish frequently aggregate in the pelagic zone. 
+Rockfish (Sebastes spp.) are an important component of the California Current ecosystem along the U.S. West Coast, comprising more than sixty-five species filling various niches in both soft and hard bottom habitats from the nearshore to the continental slope, as well as near bottom and pelagic zones. Widow rockfish frequently aggregate in the pelagic zone. 
 
-Recruitment is one mechanism by which the ecosystem may directly impact the population dynamics of Widow Rockfish. The specific pathways through which environmental conditions exert influence on Widow Rockfish dynamics are unclear; however, changes in water temperature and currents, distribution of prey and predators, and the amount and timing of upwelling are all possible linkages. Changes in the environment may also result in changes in age-at-maturity, fecundity, growth, and survival which can affect how the status of the stock and its susceptibility to fishing are determined. Unfortunately, there are few data available for Widow Rockfish that provide insights into these effects. 
+Recruitment is one mechanism by which the ecosystem may directly impact the population dynamics of widow rockfish. The specific pathways through which environmental conditions exert influence on widow rockfish dynamics are unclear; however, changes in water temperature and currents, distribution of prey and predators, and the amount and timing of upwelling are all possible linkages. Changes in the environment may also result in changes in age-at-maturity, fecundity, growth, and survival which can affect how the status of the stock and its susceptibility to fishing are determined. Unfortunately, there are few data available for widow rockfish that provide insights into these effects. 
 
-Fishing has effects on both the age structure of a population as well as the target species habitat.  Fishing often targets larger, older fish, and years of fishing mortality results in a truncated age-structure when compared to unfished conditions. Rockfish are often associated with habitats containing living structures such as sponges and corals, and fishing may alter that habitat to a less desirable state. This assessment provides insight on the effects of fishing on age structure, and recent studies on essential fish habitat are beginning to characterize important locations for rockfish throughout their life history; however there is little current information available to evaluate the specific effects of fishing on the ecosystem issues specific to Widow Rockfish.
-
+Fishing has effects on both the age structure of a population as well as the target species habitat.  Fishing often targets larger, older fish, and years of fishing mortality results in a truncated age-structure when compared to unfished conditions. Rockfish are often associated with habitats containing living structures such as sponges and corals, and fishing may alter that habitat to a less desirable state. This assessment provides insight on the effects of fishing on age structure, and recent studies on essential fish habitat are beginning to characterize important locations for rockfish throughout their life history; however there is little current information available to evaluate the specific effects of fishing on the ecosystem issues specific to widow rockfish.s
 
 ## Reference points{-}
+
+```{r}
+#| include: false
+
+load(file = here::here("report", "tables", "reference_points.rda"))
+df <- as.data.frame(reference_points)
+colnames(df) <- c("Label", "Est", "Lwr", "Upr")
+
+ref_pts <- setNames(
+  lapply(seq_len(nrow(df)), function(i) {
+    vals <- df[i, c("Est", "Lwr", "Upr")]
+    vals <- format(round(as.numeric(vals)), big.mark = ",", scientific = FALSE)
+    setNames(as.list(vals), c("Est", "Lwr", "Upr"))
+  }),
+  nm = gsub("\\\\%", "%", df$Label)
+)
+```
+
+Reference points were calculated using the estimated selectivities and catch distribution among fleets in the most recent year of the model (2024). Sustainable total yields (landings plus discards) were `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Est` mt when using an SPR50% reference harvest rate and with a 95% confidence interval of `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Lwr` to `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Upr` mt. The spawning biomass equivalent to 40% of the unfished spawning output (SB40%) was `r ref_pts[["Proxy Spawning Biomass (mt) SB40%"]]$Est` mt. Catches between the late 1990's and 2016 were well below the point estimate of potential long-term yields calculated using an SPR50% reference point, and the population is estimated to have increased continuously throughout that time period. However, catches from 2017 through 2024 were above the point estimate of potential long-term yields using an SPR50% reference point, exceeding the upper bound of the confidence interval in all years since 2018, and exceeding the point estimate by on average `r paste0(round(100 * (mean(catch_sum$x[catch_sum$Yr >= 2018]/ df$Est[df$Label == "Yield with SPR50 at SB SPR (mt)"]) - 1)), "%")`.
+
+The predicted spawning biomass from the base model generally showed a slight decline until the late 1970s, followed by steep increase above unfished equilibrium biomass and reaching a peak in `r report$timeseries$Yr[which.max(report$timeseries$SpawnBio)]`. This was followed by a steep decrease up to the mid-1980s, and then a more gradual decease through 2000 (Figure 61). Between 2001 and 2016, the spawning biomass increased continuously due to small catches, and several years of high recruitment (though with lower than average recruitment in other recent years). The spawning biomass relative to unfished equilibrium spawning biomass climbed above the target of 40% of unfished spawning biomass in the early 2000's. It is estimated to still be above the target, though the lower bound of the 95% confidence interval lies between the target and minimum stock size threshold (Figure 63). The fishing intensity (relative 1-SPR) exceeded the current estimates of the harvest rate limit (SPR50%) throughout the 1980s and early 1990s, and has again since 2018 (Figure 73). Exploitation rates on widow rockfish between 2001 and 2016 were predicted to be far below target levels. In recent years, the stock has experienced exploitation rates that have been above the target level while the biomass level has remained above the target level (Figure 74).
+
+The equilibrium yield plot is shown in Figure 75, based on a steepness value fixed at 0.720. The predicted maximum sustainable yield under the assumptions of this assessment occurs near 25% of equilibrium unfished spawning biomass.
 
 ```{r}
 #| label: tbl-e
@@ -396,13 +468,19 @@ flextable(table_e) %>%
 ## Management performance{-}
 
 ```{r}
+#| include: false
+
+table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
+
+```
+
+Exploitation rates on widow rockfish exceeded MSY proxy target harvest rates during the 1980s and 1990s and spawning biomass is predicted to have fallen below the proxy management target of 40%. Exploitation rates decreased in the late 1990s due to management restrictions, and have increased in recent years. Predicted catches in the last decade have not exceeded the annual catch limit (ACL) set by management.
+
+```{r}
 #| label: tbl-f
 #| echo: false
 #| warning: false
 #| tbl-cap: "Recent trend in total catch and commercial landings (mt) relative to the management guidelines. Estimated total catch reflects the commercial landings plus the model estimated dead discarded biomass."
-
-
-table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
 
 colnames(table_f) <- gsub("\\.", " ", colnames(table_f))
 
@@ -422,7 +500,18 @@ flextable(table_f) %>%
 
 ## Harvest projections{-}
 
+A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature (Table 36). 
+
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (Table 36).Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036. 
+
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2021 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from 1,790 mt in 2027 to 1,886 mt in 2036. 
+
 ## Decision table{-}
+
+Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 109 assessment which included a third factor, 2013 recruitment strength. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (0.115 yr-1 and 0.134 yr-1 for females; 0.127 yr-1 and 0.146 yr-1 for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (0.536 and 0.904). The low combination of these three factors defined the low state of nature and the high combination of these three factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model. 
+
+This assessment synthesizes many sources of data and estimates recruitment variability, thus it is classified as a Category 1 stock assessment. Therefore, the sigma for P* to determine the catch reduction to account for scientific uncertainty is 0.50.
+
 
 ```{r}
 #| label: tbl-g
@@ -511,6 +600,8 @@ flextable(table_h_reorg) |>
 
 ## Scientific uncertainty{-}
 
+Spawning biomass is estimated to be at 40,603 mt in 2025, with a sigma of 0.2753. OFL is estimated to be 5,667.1 mt in 2019 with a coefficient of variation of 0.3187.
+
 ## Research and data needs{-}
 
 There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish. Below, we specifically identify five topics that we believe are most important (order does not indicate importance).
@@ -571,5 +662,3 @@ knitr::include_graphics(
 )
 
 ```
-
-## Rebuilding projections{-}

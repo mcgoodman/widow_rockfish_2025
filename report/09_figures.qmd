@@ -83,7 +83,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "QQ for delta-gamma sdmTMB index (first panel) and lognormal sdmTMB index (second panel)"
+#| fig-cap: "QQ plots for delta-gamma (panel 1) and delta-lognormal (panel 2, used in base model) sdmTMB index."
 #| out.width: "100%"
 #| fig-align: "center"
 
@@ -141,7 +141,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated index of relative abundance for the West Coast Groundfish Bottom Trawl Survey using VAST, swept area biomass estimates (design-based), and the swept area biomass estimate from the 2015 assessment with 5 and 95% intervals."
+#| fig-cap: "Comparision of the estimated index of relative abundance for the West Coast Groundfish Bottom Trawl Survey using a GLMM (gray line, 2015 stock assessment), VAST (black line, 2019 stock assessment), a delta-gamma sdmTMB index (blue line) and a delta-lognormal sdmTMB index (red line, used in base model). The error bars give 5 and 95% intervals for each survey."
 #| out.width: "100%"
 #| fig-align: "center"
 
@@ -551,7 +551,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated and input recruitment bias adjustment ramp. Red line shows current settings for bias adjustment specified the model. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
+#| fig-cap: "Comparision of model estimated values for 2025, given as percent of the base model estimated value, by sensitivity run."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -566,7 +566,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimates of recruitment deviations for a sensitivity model with natural mortality fixed at 0.124 and 0.129 for females and males, respectively"
+#| fig-cap: "Estimates of recruitment deviations for sensitivity models."
 #| out.width: "90%"
 #| fig-align: "center"
 

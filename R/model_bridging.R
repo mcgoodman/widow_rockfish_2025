@@ -372,7 +372,8 @@ SS_writeforecast(mylist = fcst, dir = here("models", "2025 base model"), overwri
 models <- c(
   "2019 model" = here("models", "2019 base model", "Base_45_new"),
   "update catch" = here(databridge_dir, "add_catches"),
-  "update discards" = here(databridge_dir, "add_discards"),
+  "update discard catch" = here(databridge_dir, "add_discard_amounts"),
+  "update discard comps" = here(databridge_dir, "add_discard_comps"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length comp." = basedir, 
   "model bridging" = mle_dir

@@ -1370,11 +1370,11 @@ interval lies between the target and minimum stock size threshold
 (Figure~\ref{fig-spawnout-95}). The fishing intensity (relative 1-SPR)
 exceeded the current estimates of the harvest rate limit (SPR50\%)
 throughout the 1980s and early 1990s, and has again since 2018
-(\textbf{?@fig-pred}-(1-SPR)). Exploitation rates on widow rockfish
+(\textbf{?@fig-pred-one-SPR}). Exploitation rates on widow rockfish
 between 2001 and 2016 were predicted to be far below target levels. In
 recent years, the stock has experienced exploitation rates that have
 been above the target level while the biomass level has remained above
-the target level (\textbf{?@fig-relative}-(1-SPR)).
+the target level (\textbf{?@fig-relative-one-SPR}).
 
 The equilibrium yield plot is shown in Figure~\ref{fig-est-eqi-yield},
 based on a steepness value fixed at 0.720. The predicted maximum
@@ -3370,9 +3370,9 @@ substantial leverage on the model. Updates to the data had the largest
 impact on SSB among the various model bridging steps undertaken; in
 particular, the addition of (non-hook-and-line) discard data resulted in
 a small decrease in absolute SSB prior to 1980 and a large decrease in
-absolute SSB from the mid 2010s through the current year (Figure 42).
-Changes from other data sources were smaller. See ``Data'' and ``Model
-Bridging'' sections for detail.
+absolute SSB from the mid 2010s through the current year
+(Figure~\ref{fig-bridge2019-data}). Changes from other data sources were
+smaller. See ``Data'' and ``Model Bridging'' sections for detail.
 
 The structural changes to the model were minimal, and were limited to
 the addition of an additional block on midwater trawl retention (from
@@ -3401,11 +3401,10 @@ were used. Stock Synthesis v3.30.13 was used to estimate the parameters
 in the 2019 model. R4SS, version 1.35.3, along with R version 3.5.3 were
 used to investigate and plot the 2019 model fits. For the update, Stock
 Synthesis v3.30.2 and R4SS, version 1.51.0, along with R version 4.5.0
-were used. Bridging from Stock Synthesis v3.24U to v3.30.13 is
-illustrated in Figure 41. A summary of the data sources used in the
-model (details discussed above) is shown in Figure 40. Stock Synthesis
-has many options when setting up a model and the assessment model for
-Widow Rockfish was set up in the following manner.
+were used. A summary of the data sources used in the model (details
+discussed above) is shown in Figure 40. Stock Synthesis has many options
+when setting up a model and the assessment model for Widow Rockfish was
+set up in the following manner.
 
 \subsubsection{Model Overview}\label{model-overview}
 
@@ -3545,7 +3544,7 @@ adjustment based on the information available to estimate the deviates.
 The standard deviation of recruitment variability (sigma- R) was assumed
 to be 0.6 in the 2015 assessment, based on iteratively tuning to a value
 slightly less than the observed variability of recruitment deviations in
-the period 1975--2010 in 2015 (Figure 49).
+the period 1975--2010 in 2015 (Figure~\ref{fig-recfit-bias}).
 
 Survey indices and total discards were fitted assuming a lognormal
 likelihood.
@@ -3589,9 +3588,7 @@ sizes matched the mean of the adjusted input sample sizes (McAllister
 and Ianelli 1997). Once the weighting was determined, lambda factors for
 all fleets with both marginal length and marginal age compositions were
 down-weighted by 0.5 to account for the potential double use of data
-since length and age are observed from the same fish. Comparisons of
-weighting by variance adjustment factors and weighting via lambas can be
-seen in Figure XX.
+since length and age are observed from the same fish.
 
 \subsubsection{Key Assumptions and Structural
 Choices}\label{key-assumptions-and-structural-choices}
@@ -3614,31 +3611,32 @@ increasing after 2018.
 
 The exploration of models began by bridging from the 2019 update
 assessment to SS3 version 3.30.2, which produced no discernible
-difference (Figure 41). We then focused on data bridging. Updating the
-catch series did not have a substantial effect on the historical
-biomass, and estimated the stock biomass increasing from 2000 to 2020
-before decreasing up to the current period. Updating the model discards
-had the most significant impact on the absolute stock biomass (SSB),
-with a small decrease in absolute SSB prior to 1980 and a large decrease
-in absolute SSB from the mid 2010s through the current year (Figure 42).
-Updating model indices had a similar effect, while updating the age and
-length composition data increased the absolute stock biomass in the
-current period. Updates to discards likewise had the largest effect on
-relative SSB (fraction of unfished biomass); changes in relative SSB
-owing to all other datasets were in general small.
+difference. We then focused on data bridging. Updating the catch series
+did not have a substantial effect on the historical biomass, and
+estimated the stock biomass increasing from 2000 to 2020 before
+decreasing up to the current period. Updating the model discards had the
+most significant impact on the absolute stock biomass (SSB), with a
+small decrease in absolute SSB prior to 1980 and a large decrease in
+absolute SSB from the mid 2010s through the current year
+(Figure~\ref{fig-bridge2019-data}). Updating model indices had a similar
+effect, while updating the age and length composition data increased the
+absolute stock biomass in the current period. Updates to discards
+likewise had the largest effect on relative SSB (fraction of unfished
+biomass); changes in relative SSB owing to all other datasets were in
+general small.
 
 None of the model bridging steps had a substantial effect on the
-estimates of stock biomass (Figure 28). The model bridging changes
-included (1) updating the prior for natural mortality (M) to follow that
-recommended by (Hamel and Cope 2022), (2) updating fixed parameters of
-the male and female length-weight curve by fitting to data from the
-NWFSC WCGBT, ASHOP, and the triennial survey outside the model, (3)
-re-fitting the bias adjustment ramp for recruitment deviates, (4) adding
-a block on retention in the midwater trawl fishery from 2011-2016 and
-allowing estimation of retention in the final years of the model, which
-was previously fixed at 0.99, (5) adding a block to hake fleet
-selectivity from 2020-2024 (5) re-fitting the model using the MLE as
-initial values following a jittering analysis which revealed the
+estimates of stock biomass (Figure~\ref{fig-bridge2019-data}). The model
+bridging changes included (1) updating the prior for natural mortality
+(M) to follow that recommended by (Hamel and Cope 2022), (2) updating
+fixed parameters of the male and female length-weight curve by fitting
+to data from the NWFSC WCGBT, ASHOP, and the triennial survey outside
+the model, (3) re-fitting the bias adjustment ramp for recruitment
+deviates, (4) adding a block on retention in the midwater trawl fishery
+from 2011-2016 and allowing estimation of retention in the final years
+of the model, which was previously fixed at 0.99, (5) adding a block to
+hake fleet selectivity from 2020-2024 (5) re-fitting the model using the
+MLE as initial values following a jittering analysis which revealed the
 previous MLE was a local minima. These changes collectively resulted in
 a very small decrease in relative SSB post-1990, and pairwise
 correlations among all shared parameters in these models were high
@@ -3686,16 +3684,16 @@ pattern of reduced recruitment immediately before the fishery started.
 This suggests that the model is attempting to reduce the number of
 observations of older fish in the data. The estimates of M fall within
 the 95\% confidence interval of the prior distribution (0.0425--0.237),
-and are shown in Figure 44.
+and are shown in Figure~\ref{fig-NatMort-priors}.
 
 Estimating M is difficult in stock assessments, and the estimated values
 may represent model misspecification instead of the actual life-history
 trait. However, in alternative models to the base, the estimates of M
 were rarely less than 0.14 yr-1 (Table 29). Uncertainty in the estimated
-M was also much less than the range of the prior (Figure 44). The
-assumption that appeared to have the largest effect on M was introducing
-dome-shaped selectivity in the midwater trawl fleet, which made M
-smaller (Table 29).
+M was also much less than the range of the prior
+(Figure~\ref{fig-NatMort-priors}). The assumption that appeared to have
+the largest effect on M was introducing dome-shaped selectivity in the
+midwater trawl fleet, which made M smaller (Table 29).
 
 Selectivity curves were estimated for commercial and survey fleets and
 parameter estimates are provided in Table 24. The estimated selectivity,
@@ -12983,6 +12981,19 @@ maturity-at-age for ages 2 and lower set equal to zero.}
 
 \centering{
 
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/NatMort_priors.png}
+
+}
+
+\caption{\label{fig-prior-mort}Prior distributions for natural mortality
+(M).}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
 \includegraphics[width=0.8\textwidth,height=\textheight]{../figures/length_age_weight/vBL_dat.png}
 
 }
@@ -13004,6 +13015,19 @@ fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data.}
 
 \caption{\label{fig-est-age-error}Estimated ageing error for the
 Cooperative Ageing Project lab and the SWFSC.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/data_plot.png}
+
+}
+
+\caption{\label{fig-data-plot-base}Data sources by type and year that
+were used in the base model.}
 
 \end{figure}%
 
@@ -13116,6 +13140,19 @@ run.}
 
 \caption{\label{fig-recdevs-sens}Estimates of recruitment deviations for
 sensitivity models.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/sensitivities/sens_summary.png}
+
+}
+
+\caption{\label{fig-sens-summary}Comparision of model estimated values
+by sensitivity run}
 
 \end{figure}%
 
@@ -13449,6 +13486,20 @@ fig-align=`center' width=90\%\}
 
 \caption{\label{fig-est-eqi-yield}Estimated plot of equilibrium yield vs
 the fraction of unfished biomass.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/combined_retention_plots.png}
+
+}
+
+\caption{\label{fig-combined-retention}Estimated selectivity for Bottom
+Trawl (top row) and Midwater Trawl (bottom row) for males (left column)
+and females (right column)}
 
 \end{figure}%
 

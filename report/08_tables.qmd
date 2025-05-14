@@ -656,6 +656,10 @@ my_border <- fp_border(color = "black", width = 2)
 header_df <- data.frame( keys = names(table22), 
                          line1 = c("", "Initial", "Number", "Bounds","Prior"), 
                          line2 = c("Parameter", "value", "estimated", "(low, high)", "distribution"), stringsAsFactors = FALSE ) 
+
+## Fix latex error
+table22$Parameter[table22$Parameter == "Natural Mortality (M) yr^-1"] <- "Natural Mortality (M) yr-1"
+
 # Function for consistent table styling 
 flextable(table22) %>% 
   set_header_df(mapping = header_df, key = "keys") %>% 

@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-09  20:56:35
+#C file write time: 2025-05-13  23:37:47
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -59,7 +59,7 @@
 #
 #_growth_parms
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
- 0.01	     0.3	 0.124599	 -2.3	0.31	3	  5	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
+ 0.01	     0.3	 0.124599	 -2.3	0.31	3	 -5	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
    10	      40	  20.6525	   27	  99	0	  3	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
    35	      60	  49.5239	   50	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
  0.01	     0.4	 0.181107	 0.15	  99	0	  2	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
@@ -71,7 +71,7 @@
    -3	       3	  -0.7747	   -1	  99	0	-99	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
    -1	       1	        1	    1	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
     0	       1	        0	    0	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
- 0.01	     0.3	 0.136775	 -2.3	0.31	3	  5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1  
+ 0.01	     0.3	 0.136775	 -2.3	0.31	3	 -5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1  
    10	      40	  21.0408	   27	  99	0	  3	0	0	0	0	0	0	0	#_L_at_Amin_Mal_GP_1 
    35	      60	  43.6366	   45	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Mal_GP_1 
  0.01	     0.4	 0.244637	 0.19	  99	0	  2	0	0	0	0	0	0	0	#_VonBert_K_Mal_GP_1 

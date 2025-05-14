@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-10  11:25:00
+#C file write time: 2025-05-13  22:40:28
 #
 1 #_benchmarks
 2 #_MSY
@@ -19,29 +19,29 @@
 0.1 #_BfornoF
 -1 #_Flimitfraction
  #_year fraction
-   2025    1.000
-   2026    1.000
-   2027    0.935
-   2028    0.930
-   2029    0.926
-   2030    0.922
-   2031    0.917
-   2032    0.913
-   2033    0.909
-   2034    0.904
-   2035    0.900
-   2036    0.896
+   2025        1
+   2026        1
+   2027        1
+   2028        1
+   2029        1
+   2030        1
+   2031        1
+   2032        1
+   2033        1
+   2034        1
+   2035        1
+   2036        1
 -9999 0
 3 #_N_forecast_loops
 3 #_First_forecast_loop_with_stochastic_recruitment
 0 #_fcast_rec_option
 1 #_fcast_rec_val
 0 #_Fcast_loop_control_5
-2021 #_FirstYear_for_caps_and_allocations
+2027 #_FirstYear_for_caps_and_allocations
 0 #_stddev_of_log_catch_ratio
 0 #_Do_West_Coast_gfish_rebuilder_output
-2015 #_Ydecl
-2015 #_Yinit
+0 #_Ydecl
+0 #_Yinit
 2 #_fleet_relative_F
 # Note that fleet allocation is used directly as average F if Do_Forecast=4 
 2 #_basis_for_fcast_catch_tuning

@@ -6,10 +6,15 @@ It currently makes them as csv files.
 sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if you prefer.
 -->
 
-Checking to see if this works \gls{s-tri}
-
 ## Stock{-}
 
+This is an update assessment of Widow Rockfish (Sebastes entomelas) that reside in the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south. This is an update of the 2015 benchmark assessment [@hicks_status_2015]. Widow Rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of Widow Rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. 
+
+There is little evidence of genetically separate stocks along the U.S. coast and the previous benchmark assessment used a single area, coastwide model with multiple fisheries [@hicks_status_2015]. There is some evidence of biological differences between areas. For example, Widow Rockfish collected off California tend to mature at a smaller length than do Widow Rockfish collected off of Oregon [@barss_maturity_1987]. This may be due to environmental or anthropogenic effects rather than genetic differences. The 2015 benchmark assessment decided to continue with a single area model for this assessment rather than lose prediction power by splitting the model and data into two separate areas. An update assessment was carried out in 2019 and maintained the same model structure as the 2015 benchmark assessment. 
+
+
+
+{{< pagebreak >}} 
 ## Catches{-}
 
 ```{r}
@@ -44,10 +49,10 @@ flextable(table_A, col_keys = names(table_A)) %>%
   align(align = "center", part = "all") %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  colformat_num(j = 2:ncol(table_A), big.mark = "", digits = 2)
-
+  colformat_num(j = 2:ncol(table_A), big.mark = "", digits = 2)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 
 ```
@@ -68,6 +73,21 @@ knitr::include_graphics(
 ```
 
 ## Data and Assessment{-}
+
+This is an update assessment of the 2015 full assessment of Widow Rockfish [@hicks_status_2015], following a previous update assessment in 2019. In this assessment, aspects of the model including catches, data, and modelling assumptions were generally consistent with the 2015 and 2019 assessments. However, the assessment used the updated version of the length- and age-structured modeling software Stock Synthesis (version 3.30.2), while the benchmark assessment used version 3.24U. The coastwide population was modeled assuming separate growth and mortality parameters for each sex (a two-sex model) from 1916 to 2024, and forecasted beyond 2024.
+
+ The definitions of fishing fleets have not been changed from those in the 2015 assessment. Five fishing fleets were specified within the model: 1) a shorebased bottom trawl fleet with coastwide catches from 1916–2018 (bottomtrawl in Figure a), 2) a shorebased midwater trawl fleet with coastwide catches from 1979–2018 (midwater in Figure a), 3) a mostly midwater trawl fleet that targets Pacific Hake/Whiting (Merluccius productus) and includes a foreign and at-sea fleet with catches from 1975–2018, a domestic shorebased fleet that targeted Pacific Hake with catches from 1991–2018, and foreign vessels that targeted Pacific Hake and rockfish between 1966–1976 (hake in Figure a), 4) a net fishery consisting of catches mostly from California from 1981–2018 (net in Figure a), and 5) a hook-and-line fishery (predominantly longline) with coastwide catches from 1916–2018 (HnL in Figure a). 
+
+Data from three fishery-independent surveys were also included in the model: 1) the National Marine Fisheries Service (NMFS) Southwest Fisheries Science Center (SWFSC) and Northwest Fisheries Science Center (NWFSC)/Pacific Whiting Conservation Cooperative (PWCC) Midwater Trawl Survey that provides pre-recruit indices of abundance, 2) the NMFS Triennial Shelf Survey which was conducted from 1977–2004 in depths less than 500 meters, and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) which has been surveying the entire U.S. West Coast in depths between 55 and 1,280 meters since 2003. 
+
+The data used in the assessment model consisted of survey abundance indices, length compositions, discard data, and age compositions. Model-based biomass indices and length compositions were determined for the NMFS Triennial Shelf and NWFSC West Coast Groundfish Bottom Trawl Surveys. Length and age compositions were also available from the five fisheries. Age data for all years of the WCGBTS were input as age-at-length compositions. Discard data for the bottom trawl, midwater trawl, and hook-and-line fisheries were available in various years in the form of discarded biomass and length compositions. A small amount of data was available to inform discarding practices of Widow Rockfish prior to 2002. The variances and sample sizes on all of the data were tuned to the expected variability in the model predictions.
+
+The base model estimated parameters for length-based selectivity for all fleets and surveys, retention curves based on length for the bottom trawl, midwater trawl, and hook-and-line fishing fleets, a length-at- age relationship, natural mortality for males and females assuming lognormal priors, and recruitment deviations starting in 1900. A Beverton-Holt stock-recruitment function was used to model productivity and the steepness parameter was fixed at 0.72 based on a steepness meta-analysis for west coast rockfishes. 
+
+Uncertainty for the parameter estimates and derived quantities was determined in three ways. First, estimation uncertainty in the base model was determined using approximate asymptotic 95% confidence intervals based on maximum likelihood theory. Second, model uncertainty was investigated with various sensitivity runs where alternative model structures were implemented. Finally, the major axis of uncertainty was determined to define a range of states of nature and results are presented in a decision table. 
+
+Although there are many types of data available for Widow Rockfish since the late 1970s, which were used in this assessment, there is little information about steepness and natural mortality, and recent recruitment. Estimates of steepness are uncertain partly because of variable recruitment. Uncertainty in natural mortality is common in many fish stock assessments even when length and age data are available. Finally, there is little information about the strength of recent recruitment because the young fish are seen with a lower probability in the fisheries and surveys. These uncertainties were characterized as best as possible in the predictions and projections from this assessment.
+
 
 ## Stock biomass and dynamics{-}
 
@@ -107,28 +127,54 @@ knitr::include_graphics(
 #| warning: false
 #| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
 
-library(flextable)
-library(dplyr)
 #Old table 12
 table_B <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/b_SSB_ES.csv"), stringsAsFactors = FALSE))
 
 colnames(table_B) <- gsub("\\.", " ", colnames(table_B))
 
+table_B <- table_B %>%
+  mutate(
+    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval`, -`Upper Interval`)
+
+table_B <- table_B %>%
+  select(Year, `Spawning Biomass  mt `, `~95% Confidence Interval`, everything())
+
+table_B <- table_B %>%
+  mutate(
+    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval 1`, -`Upper Interval 1`)
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table_B),
+  line1 = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval"),
+  stringsAsFactors = FALSE
+)
 
 # Create flextable
-flextable(table_B)%>%
+flextable(table_B, col_keys = names(table_B)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
   merge_h(part = "header") %>%
   merge_v(part = "header") %>%
   border(part = "all") %>%
   align(align = "center", part = "all") %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  autofit() %>%
-  colformat_num(j = 1, big.mark = "", digits = 0)
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 
 
 ```
+
+{{< pagebreak >}} 
 
 ## Recruitment{-}
 
@@ -161,14 +207,31 @@ table_c <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_sum
 
 colnames(table_c) <- gsub("\\.", " ", colnames(table_c))
 
+table_c <- table_c %>%
+  mutate(
+    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval`, -`Upper Interval`)
+
+table_c <- table_c %>%
+  select(Year, `Recruitment  1 000s `, `~95% Confidence Interval`, everything())
+
+table_c <- table_c %>%
+  mutate(
+    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval 1`, -`Upper Interval 1`)
+
 
 # Build header map (multi-row header)
 header_df <- data.frame(
   keys = names(table_c),
-  line1 = c("Year", "Estimated Recruitment (nummber in thousands)", "Lower Interval", "Upper Interval", "Estimated Recruitment Deviation", "Lower Interval", "Upper Interval"),
+  line1 = c("Year", "Estimated Recruitment ", "~95% Confidence", "Estimated Recruitment", "~95% Confidence"),
+  line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
   stringsAsFactors = FALSE
 )
-
 
 # Create flextable
 flextable(table_c, col_keys = names(table_c)) %>%
@@ -179,9 +242,11 @@ flextable(table_c, col_keys = names(table_c)) %>%
   align(align = "center", part = "all") %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+  fontsize(size = 9, part = "all")%>%
+  padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
+  set_table_properties(layout = "autofit")
+
 
 ```
 {{< pagebreak >}} 
@@ -197,14 +262,32 @@ flextable(table_c, col_keys = names(table_c)) %>%
 
 table_d <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/d_SPR_ES.csv"), stringsAsFactors = FALSE))
 
-colnames(table_c) <- gsub("\\.", " ", colnames(table_c))
+colnames(table_d) <- gsub("\\.", " ", colnames(table_d))
+
+
+table_d <- table_d %>%
+  mutate(
+    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval`, -`Upper Interval`)
+
+table_d <- table_d %>%
+  select(Year, `X 1 SPR   1 SPR 50   `, `~95% Confidence Interval`, everything())
+
+table_d <- table_d %>%
+  mutate(
+    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
+  ) %>%
+  # Remove the original "Lower Interval" and "Upper Interval" columns
+  select(-`Lower Interval 1`, -`Upper Interval 1`)
 
 
 # Build header map (multi-row header)
 header_df <- data.frame(
   keys = names(table_d),
-  line1 = c("Year", "Estimated(1-SPR)/(1-SPR50%)", "Lower Interval", "Upper Interval", "Harvest rate
-(proportion)", "Lower Interval", "Upper Interval"),
+  line1 = c("Year", "Estimated", "~95% Confidence", "Harvest rate", "~95% Confidence"),
+  line2 = c("  ", "(1-SPR)/(1-SPR50%)", " Interval ", "(proportion)", " Interval "),
   stringsAsFactors = FALSE
 )
 
@@ -218,10 +301,10 @@ flextable(table_d, col_keys = names(table_d)) %>%
   align(align = "center", part = "all") %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  set_table_properties(layout = "autofit", width = 0.9, align = "center")
-
+  padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 ```
 
 {{< pagebreak >}} 
@@ -272,6 +355,13 @@ knitr::include_graphics(
 ```
 ## Ecosystem considerations{-}
 
+Rockfish are an important component of the California Current ecosystem along the U.S. West Coast, with its more than sixty-five species filling various niches in both soft and hard bottom habitats from the nearshore to the continental slope, as well as near bottom and pelagic zones. Widow Rockfish frequently aggregate in the pelagic zone. 
+
+Recruitment is one mechanism by which the ecosystem may directly impact the population dynamics of Widow Rockfish. The specific pathways through which environmental conditions exert influence on Widow Rockfish dynamics are unclear; however, changes in water temperature and currents, distribution of prey and predators, and the amount and timing of upwelling are all possible linkages. Changes in the environment may also result in changes in age-at-maturity, fecundity, growth, and survival which can affect how the status of the stock and its susceptibility to fishing are determined. Unfortunately, there are few data available for Widow Rockfish that provide insights into these effects. 
+
+Fishing has effects on both the age structure of a population as well as the target species habitat.  Fishing often targets larger, older fish, and years of fishing mortality results in a truncated age-structure when compared to unfished conditions. Rockfish are often associated with habitats containing living structures such as sponges and corals, and fishing may alter that habitat to a less desirable state. This assessment provides insight on the effects of fishing on age structure, and recent studies on essential fish habitat are beginning to characterize important locations for rockfish throughout their life history; however there is little current information available to evaluate the specific effects of fishing on the ecosystem issues specific to Widow Rockfish.
+
+
 ## Reference points{-}
 
 ```{r}
@@ -290,11 +380,13 @@ flextable(table_e) %>%
   merge_v(part = "header") %>%
   border(part = "all") %>%
   align(align = "center", part = "all") %>%
+  align(align = "left", j = 1) %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  autofit() %>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+  bold(i = c(6,11,16)  ,part="body")%>%
+  colformat_num( digits = 2)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 
 ```
@@ -321,9 +413,9 @@ flextable(table_f) %>%
   align(align = "center", part = "all") %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 
 ```
@@ -352,8 +444,8 @@ flextable(table_g) %>%
   bold(part = "header")%>%
   autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  set_table_properties(layout = "autofit", width = 0.9, align = "center")
-
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 ```
 
@@ -421,6 +513,20 @@ flextable(table_h_reorg) |>
 
 ## Research and data needs{-}
 
+There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish. Below, we specifically identify five topics that we believe are most important (order does not indicate importance).
+
+- **Historical landings and discards:** The historical landings and discards are uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for.
+
+- **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty.
+
+- **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species.
+
+- **Age data and error:** There is a considerable amount of error in the age data and potential for bias. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment. Disagreement between surface reads of age versus break-and-burn reads is worth more investigation.
+
+- **Basin-wide understanding of stock structure, biology, connectivity, and distribution:** This is a stock assessment for widow rockfish off of the west coast of the U.S. and does not consider data from British Columbia or Alaska. Further investigating and comparing the data and predictions from British Columbia and Alaska to determine if there are similarities with the U.S. West Coast observations would help to define the connectivity between widow rockfish north and south of the U.S.-Canada border.
+
+
+
 ```{r}
 #| label: tbl-i
 #| echo: false
@@ -444,7 +550,8 @@ flextable(table_i) %>%
   bold(part = "header")%>%
   autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 
 ```

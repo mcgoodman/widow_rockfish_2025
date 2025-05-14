@@ -1,21 +1,158 @@
 ---
-title: 'Status of  SPECIES off the U.S. West Coast in 2025'
+title: 'Stock Assessment Update: Status of Widow Rockfish Stock  (Sebastes entomelas) off the U.S. West Coast in 2025'
 author:
-# add authors in order
   - name: 'Michael Kinneen'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Maurice Goodman'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Anna Sulc'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Laurinne Balstad'
+    affiliations:
+      - name: 'Department of Environmental Science and Policy, University of California Davis'
+        address: 'Wickson Hall, 350 N Quad'
+        city: 'Davis'
+        state: 'CA'
+        postal-code: '95616'
+
+  - name: 'Raquel Ruiz Diaz'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Kristina Randrup'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Will Patrone'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Laura Spencer'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Alaia Morell'
+    affiliations:
+      - name: 'UW Puget Sound Institute, Center for Urban Waters'
+        address: '326 East D Street'
+        city: 'Tacoma'
+        state: 'WA'
+        postal-code: '98421-1801'
+
+  - name: 'Alberto Rovellini'
+    affiliations:
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+        address: '1122 NE Boat St'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98195'
+
+  - name: 'Allison Dedrick'
+    affiliations:
+      - name: 'California Department of Fish and Wildlife'
+        address: '1740 North Market Boulevard'
+        city: 'Sacramento'
+        state: 'CA'
+        postal-code: '95834'
+
+  - name: 'Nick Grunloh'
+    affiliations:
+      - name: 'Southwest Fisheries Science Center'
+        address: '8901 La Jolla Shores Drive'
+        city: 'La Jolla'
+        state: 'CA'
+        postal-code: '92037-1508'
+
+  - name: 'Madison Bargas'
+    affiliations:
+      - name: 'Coastal Oregon Marine Experiment Station, Oregon State University'
+        address: '430 Strand Agriculture Hall'
+        city: 'Corvallis'
+        state: 'OR'
+        postal-code: '97331'
+
+  - name: 'Stephanie Hopkins'
+    affiliations:
+      - name: "University of California, Santa Cruz, Institute of Marine Sciences’ Fisheries Collaborative Program"
+        address: '1156 High Street'
+        city: 'Santa Cruz'
+        state: 'CA'
+        postal-code: '95064'
+
+  - name: 'Vladlena Gertseva'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle'
         state: 'WA'
         postal-code: '98112-2097'
+
+  - name: 'Ian G. Taylor'
+    affiliations:
+      - name: 'NOAA Fisheries Northwest Fisheries Science Center'
+        address: '2725 Montlake Boulevard East'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98112-2097'
+
+  - name: 'Melissa A. Haltuch'
+    affiliations:
+      - name: 'NOAA Alaska Fisheries Science Center'
+        address: '7600 Sand Point Way N.E., Building 4'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98115'
+        
+  - name: 'Owen Hamel'
+    affiliations:
+      - name: 'NOAA Fisheries Northwest Fisheries Science Center'
+        address: '2725 Montlake Boulevard East'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98112-2097'
+
+
 date: today
-lang: en 
-keep-tex: true 
-cover: 
+lang: en
+keep-tex: true
+cover:
 pdf-engine: lualatex
-format: 
-  pdf: 
+format:
+  pdf:
     documentclass: scrartcl
     number-sections: true
     template-partials:
@@ -28,20 +165,21 @@ format:
     toc: true
     lof: false
     lot: false
-    titlepage-geometry: 
+    titlepage-geometry:
       - top=2in
       - bottom=1in
       - right=1in
       - left=1in
-output-file: 'SPECIES_SAR_2025' 
+output-file: 'WIDOW_SAR_2025'
 params:
-   office: 'NWFSC'
-   species: 'Widow Rockfish'
-   spp_latin: 'Sebastes entomelas'
-   region: 'U.S. West Coast'
-bibliography: 
--  asar_references.bib 
+  office: 'NWFSC'
+  species: 'Widow Rockfish'
+  spp_latin: 'Sebastes entomelas'
+  region: 'U.S. West Coast'
+bibliography:
+  - asar_references.bib
 ---
+
 ```{r}
 #| label: 'read_base_model'
 #| eval: true
@@ -165,7 +303,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Michael Kinneen, Maurice Goodman, . (2025) Status of  Widow Rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
+M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W. Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh, M.Bargas, S.Hopkins, V. Gersteva, K. Ohen, I. Taylor, M. Haltuch, O. Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
 
 {{< pagebreak >}} 
 

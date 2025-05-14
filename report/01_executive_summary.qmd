@@ -359,6 +359,64 @@ flextable(table_g) %>%
 
 {{< pagebreak >}} 
 
+```{r}
+#| label: tbl-h
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary table of 12-year projections beginning in 2021 for alternate states of nature based on the axis of uncertainty (a combination of M, h, and 2013 recruitment strength). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 20XX and 20XX are allocated using the percentage of landings for each fleet in 20XX."
+
+
+table_h <- as.data.frame(read.csv(file.path(here::here(),"data_derived/decision_table/dec_table_results.csv"), stringsAsFactors = FALSE))
+table_h <- table_h[,2:6]; table_h$OFL <- rep(0) # this is a place holder
+# break up management & state of nature
+table_h$management_choice <- substr(table_h$name, start = 1, stop = 2)
+table_h$management_choice <- plyr::revalue(table_h$management_choice, 
+                                     c("cc" = "9,000 K", 
+                                     "45" = "ACLp*=0.45, sigma=0.50", 
+                                     "25" = "ACLp*=0.25, sigma=0.50"))
+table_h$stnat <- substr(table_h$name, start = 4, stop = 7)
+
+# pivot 
+table_h |> 
+  tidyr::pivot_wider(names_from = stnat, values_from = c(SpawnBio, dep), id_cols=-name) |>
+  # getting format closer...
+  dplyr::select(c(4, 1, 3, 2, 5, 8, 6, 9, 7, 10)) ->
+  # reordering for ease
+  # note this only works if OFL included, otherwise need to subtract 1 from col number
+  table_h_reorg
+
+# colnames(table_h_reorg) <- c("Management decision", "Year", "OFL", "catch (mt)",
+#                              "Spawning biomass (mt)", "Depletion (%)",
+#                              "Spawning biomass (mt)", "Depletion (%)",
+#                              "Spawning biomass (mt)", "Depletion (%)")
+
+flextable(table_h_reorg) |>
+  set_header_labels(values = c(management_choice = "Management decision",
+                               yr = "Year", 
+                               OFL = "OFL", 
+                               catch = "catch (mt)",
+                               SpawnBio_low = "Spawning biomass (mt)",
+                               dep_low = "Depletion (%)",
+                               SpawnBio_base = "Spawning biomass (mt)",
+                               dep_base = "Depletion (%)", 
+                               SpawnBio_high = "Spawning biomass (mt)",
+                               dep_high = "Depletion (%)")
+                    ) |>
+  add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(4, 2, 2, 2)) |>
+  add_header_row(values = c("", "State of nature"), colwidths = c(4, 6)) |> 
+  align(align = "center", part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  bold(part = "header", i = 1:2) |> 
+  bold(part = "header", i = 3, j = 1) |>
+  colformat_num(j = 2, big.mark = "", digits = 0) |>
+  border_inner(part="header") |> border_outer() |> # header and outside border
+  vline(j = c(1, 4, 6, 8)) |> hline(i = 10) |> hline(i = 20) |>
+  merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+
+```
+
 ## Scientific uncertainty{-}
 
 ## Research and data needs{-}

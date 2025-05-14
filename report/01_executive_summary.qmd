@@ -95,11 +95,12 @@ Although there are many types of data available for widow rockfish since the lat
 ## Stock biomass and dynamics{-}
 
 ```{r}
-#| label: tbl-a
 #| include: false
 
 model_path <- here::here("models", "2025 base model")
 report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
+
+catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 
 table_b <- read.csv(here::here("report", "tables", "exec_summ_tables", "b_SSB_ES.csv"))
 names(table_b) <- c("Year", "SSB", "SSB_Lwr", "SSB_Upr", "Bratio", "Bratio_Lwr", "Bratio_Upr")
@@ -355,6 +356,7 @@ flextable(table_d, col_keys = names(table_d)) %>%
   padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
   fontsize(size = 9, part = "all")%>%
   set_table_properties(layout = "autofit")
+
 ```
 
 {{< pagebreak >}} 

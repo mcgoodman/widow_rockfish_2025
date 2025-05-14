@@ -11,13 +11,13 @@
 #| fig-align: "center"
 
 library(magick)
-panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page1.png"))
-panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page2.png"))
-panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page3.png"))
-
-combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
-combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
-image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_lenfit.png"))
+# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page1.png"))
+# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page2.png"))
+# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt2_page3.png"))
+# 
+# combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+# combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_lenfit.png"))
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/App_A/bottom_lenfit.png")

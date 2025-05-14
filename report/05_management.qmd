@@ -116,3 +116,35 @@ Widow Rockfish are managed on a coastwide basis and observed more often in the N
 
 <!-- 1. Describe progress on Research and Data Needs items identified in the most recent previous stock assessment document and associated STAR panel report.  -->
 <!-- 2. Describe new research and data needs and specify their priority (high, medium, low).  -->
+
+There are many areas of research that could be improved to benefit the understanding and assessment of
+Widow Rockfish. Below, we specifically identify five topics that we believe are most important (order
+does not indicate importance).
+
+* **Historical landings and discards:** The historical landings and discards are uncertain for Widow
+Rockfish and improvements would increase the certainty that fishing removals are applied
+appropriately. Because landings are assumed to be known exactly in the assessment model,
+uncertainty in the predictions does not include uncertainty in the landings. A thorough look at
+historical landings, species compositions, and discarding practices would reduce the potential
+uncertainty that is not entirely accounted for.
+
+* **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status
+and sustainable fishing levels for Widow Rockfish. The collection of additional age data, re-
+reading of older age samples, reading old age samples that are unread, and improved
+understanding of the life-history of Widow Rockfish may reduce that uncertainty.
+
+* **Maturity and fecundity:**: There are few studies on the maturity of Widow Rockfish and even
+less recent information. There have been no studies that reported results of a histological
+analysis. Further research on the maturity and fecundity of Widow Rockfish, the potential
+differences between areas, the possibility of changes over time would greatly improve the
+assessment of these species.
+* **Age data and error:** There is a considerable amount of error in the age data and potential for
+bias. Investigating the ageing error and bias would help to understand the influences that the age
+data have on this assessment. Disagreement between surface reads of age versus break-and-burn
+reads is worth more investigation.
+* **Basin-wide understanding of stock structure, biology, connectivity, and distribution:** This is
+a stock assessment for Widow Rockfish off of the west coast of the U.S. and does not consider
+data from British Columbia or Alaska. Further investigating and comparing the data and
+predictions from British Columbia and Alaska to determine if there are similarities with the U.S.
+West Coast observations would help to define the connectivity between Widow Rockfish north
+and south of the U.S.-Canada border.

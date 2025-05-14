@@ -35,7 +35,7 @@ Lastly, a major axis of uncertainty was determined from a parameter or structura
 
 ### Convergence
 
-<!-- Convergence status and convergence criteria for the base-run model (or proposed base run). Randomization of starting parameter value run (e.g., jitter) results or other evidence of search for global best estimates.  -->
+Due to it consistently hitting the lower bound when estimated, the decision was made to fix the log-ascending width of the hook-and-line fleet at -5. Model convergence was determined by examining the final gradient, checking that the Hessian was positive (semi-)definite, and initializing the minimizer from perturbed  values around the maximum likelihood estimates (MLE) to determine if the model found a better minimum (“jittering”). Initial jittering analyses indicated that the model had converged to a false (local) minimum, though the difference in log-likelihoods at the previous estimates and the new MLE was small (<0.5). After accepting the new MLE as the base case model, jittering was repeated 100 times with a jitter coefficient of 0.10 and a better minimum was not found. 4% of the jittered models achieved the minimum negative log-likelihood and 23% were within two likelihood units. The model did not experience convergence issues when provided reasonable starting values. Through the jittering done as explained above and likelihood profiles, we are confident that the base case as presented represents the best fit to the data given the assumptions made. There were no difficulties in inverting the Hessian to obtain the parameter variance-covariance matrix. Likelihood profile runs which fixed M, R0 and h at more extreme values did not initially converge. This was addressed by using the parameter estimates from models with less extreme values as starting values in subsequent models. Convergence was defined as the lowest negative log-likelihood achieved with jittering where the Hessian matrix was invertible. 
 
 ### Parameter Uncertainty
 
@@ -90,3 +90,49 @@ As R0 increased, natural mortality also increased and the relative spawning biom
 ## Unresolved Problems and Major Uncertainties
 
 <!-- Describe any special issues (e.g., unbalanced or questionable data, missing survey data) that complicate scientific assessment, questions about the best model scenario. -->
+
+This is a reconfiguration of a long line of stock assessments for Widow Rockfish on the U.S. West Coast
+and although scientifically credible advice is provided by synthesizing many sources of data, there remain
+data and structural assumptions that contribute to uncertainty in the estimates. Major sources of
+uncertainty include landings, discards, natural mortality, and recruitment, which are discussed below.30
+Discards of Widow Rockfish are even more uncertain than landings, but because Widow Rockfish is a
+marketable species, historical discard rates were likely lower than less desirable or smaller species. In
+this assessment, we assumed that discarding was nearly negligible before management restrictions began
+in 1982. Once trip limits were introduced, discarding tended to be an all or none event, and detecting
+large, but rare, discard events with far less than 100% observer coverage has a low probability. For the
+years 2002–2010, the WCGOP has provided data on discards from vessels that were randomly selected
+for observer coverage, thus some uncertainty is present in the total amount discarded. The
+implementation of trawl rationalization in 2011 resulted in almost 100% observer coverage for the trawl
+fleet and very little incentive to discard Widow Rockfish. However, the open access fixed-gear fleet is
+not monitored by the full observer coverage required under trawl rationalization and data show that
+discarding of Widow Rockfish has occurred on fixed gear vessels in recent years (limited entry vessel
+fishing with fixed gear are subject to 100% observer coverage). Uncertainty in recent discards is greatly
+reduced because of observer coverage, but it is unknown what historical discarding may have been. The
+model assumes a discard rate of 1% pre-1982, which is arbitrary, but reasonable. Discard mortality is
+assumed to be 100%, which may overestimate actual mortality (Jarvis & Lowe, 2007), but given the low
+number of discards, will have minimal effect on assessment results.
+
+There may also be uncertainty in the ability of bottom trawl surveys to be a reliable measure of widow
+abundance, which spend a significant portion of their time in mid-water (Wilkins 1986). Multiple surveys
+are used in the assessment, but further consideration of additional surveys is reasonable.
+
+Widow Rockfish is a relatively long-lived fish, and natural mortality is likely to be lower than many
+species of fish, such as gadoids. Ages above 50 years have been observed and it is expected that natural
+mortality could be less than 0.10 yr-1. However, even with length and age data available back to the late
+1970s, natural mortality was estimated above 0.14 yr-1 with a small amount of uncertainty (7% coefficient
+of variation). This assessment attempts to capture that uncertainty by estimating natural mortality (M)
+and integrating that uncertainty into the derived biomass estimates, as well as additional uncertainty by
+including levels outside of the predicted interval in a decision table.
+
+Model sensitivities and profiles over M showed that current stock status was highly sensitive to the
+assumption about natural mortality. The estimates of M varied slightly depending on the weight given to
+age and length data, or removing recent years of data, but M was always estimated above 0.123 yr-1.
+
+Profiles over natural mortality provide support for values above 0.14 yr-1.
+
+Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated
+at a value less than that. Estimates of M increased with lower steepness, while unfished equilibrium
+spawning biomass increased and current spawning biomass decreased. Equilibrium yield ranged from
+approximately 3,600 to 7,500 mt depending on the value of steepness.
+
+

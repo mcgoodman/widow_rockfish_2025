@@ -2,7 +2,7 @@
 <!-- -->
 <!-- Load the report from the completed model -->
 
-```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE }
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
 # This will need to be adjusted to point at the final model
 
@@ -22,7 +22,7 @@ catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 
 ## Reference Points
 
-```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
 load(file = here::here("report", "tables", "reference_points.rda"))
 df <- as.data.frame(reference_points)
@@ -48,6 +48,16 @@ The equilibrium yield plot is shown in Figure 75, based on a steepness value fix
 
 ## Unresolved problems and major uncertainties
 
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
+
+steep_proflik <- read.csv(here::here("report", "tables", "SR_BH_steep_quant_table.csv"))
+names(steep_proflik)[1] <- "var"
+
+steep_yspr50 <- as.numeric(steep_proflik[steep_proflik$var == "Yield SPR 50",-1])
+steep_yspr50 <- round(steep_yspr50[round(steep_yspr50) > 0])
+
+```
+
 This is a reconfiguration of a long line of stock assessments for widow rockfish on the U.S. West Coast and although scientifically credible advice is provided by synthesizing many sources of data, there remain data and structural assumptions that contribute to uncertainty in the estimates. Major sources of uncertainty include landings, discards, natural mortality, and recruitment, which are discussed below. 
 
 Discards of widow rockfish are even more uncertain than landings, but because widow rockfish is a marketable species, historical discard rates were likely lower than less desirable or smaller species. In this assessment, we assumed that discarding was nearly negligible before management restrictions began in 1982. Once trip limits were introduced, discarding tended to be an all or none event, and detecting large, but rare, discard events with far less than 100% observer coverage has a low probability. From 2002 onward, the WCGOP has provided data on discards from vessels that were randomly selected for observer coverage, thus some uncertainty is present in the total amount discarded. The implementation of trawl rationalization in 2011 resulted in almost 100% observer coverage for the trawl fleet and very little incentive to discard widow rockfish, though the 2017 reallocation of quota shares is likely to have influenced discarding practices. The open access fixed-gear fleet is not monitored by the full observer coverage required under trawl rationalization and data from the 2015 assessment show that discarding of widow rockfish has occurred on fixed gear vessels in recent years (limited entry vessel fishing with fixed gear are subject to 100% observer coverage). Uncertainty in recent discards is greatly reduced because of observer coverage, but it is unknown what historical discarding may have been. The model assumes a discard rate of 1% pre-1982, which is arbitrary, but reasonable. Discard mortality is assumed to be 100%, which may overestimate actual mortality (Jarvis & Lowe, 2007), but given the low number of discards, is likely to have a minimal effect on assessment results.
@@ -58,7 +68,7 @@ Widow rockfish is a relatively long-lived fish, and natural mortality is likely 
 
 Model sensitivities and profiles over M showed that current stock status was highly sensitive to the assumption about natural mortality. Notably, the estimated natural mortality values for both sexes from this assessment are lower than those from the 2015 and 2019 assessments, for which natural mortality was estimated above 0.15 yr^-1^ and 0.14 yr^-1^, respectively.  The estimates of M varied slightly depending on the weight given to age and length data, or removing recent years of data, but M was always estimated above 0.12 yr^-1^. The likelihood profile over natural mortality provides support for values up to or above 0.14 yr^-1^, but with greater curvature than in the 2019 assessment, suggesting additional data has reduced the support for higher natural mortality values.
 
-Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished equilibrium spawning biomass increased and current spawning biomass decreased. Equilibrium yield ranged from approximately 3,600 to 7,500 mt depending on the value of steepness.
+Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished equilibrium spawning biomass increased and current spawning biomass decreased. Sustainable yields at the SPR50% reference harvest rate ranged from approximately `r min(steep_yspr50)` to `r max(steep_yspr50)` mt depending on the value of steepness.
 
 
 ## Harvest Projections and Decision Tables
@@ -77,6 +87,8 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 ***NOT SURE WHERE ACL CATCHES ARE ***
 
 ## Evaluation of Scientific Uncertainty
+
+
 
 ## Regional management considerations
 

@@ -1,25 +1,28 @@
 % Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
+  english,
 ]{scrartcl}
-
+\usepackage{xcolor}
 \usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
 \usepackage{lmodern}
-\ifPDFTeX\else  
-    % xetex/luatex font selection
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -37,9 +40,6 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-\usepackage{xcolor}
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \makeatletter
 \ifx\paragraph\undefined\else
@@ -65,8 +65,7 @@
 \makeatother
 
 
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -78,17 +77,21 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
+
+
 % definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
@@ -122,6 +125,29 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage[english]{selnolig} % disable illegal ligatures
+\fi
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
 
 \usepackage{hyphenat}
 \usepackage{graphicx}
@@ -229,23 +255,9 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-
-\ifLuaTeX
-\usepackage[bidi=basic]{babel}
-\else
-\usepackage[bidi=default]{babel}
-\fi
-\babelprovide[main,import]{english}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage{bookmark}
-
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Stock Assessment Update: Status of Widow Rockfish Stock (Sebastes entomelas) off the U.S. West Coast in 2025},
   pdfauthor={Michael Kinneen; Maurice Goodman; Anna Sulc; Laurinne Balstad; Raquel Ruiz Diaz; Kristina Randrup; Will Patrone; Laura Spencer; Alaia Morell; Alberto Rovellini; Allison Dedrick; Nick Grunloh; Madison Bargas; Stephanie Hopkins; Vladlena Gertseva; Ian G. Taylor; Melissa A. Haltuch; Owen Hamel},
@@ -267,7 +279,6 @@ Morell \and Alberto Rovellini \and Allison Dedrick \and Nick
 Grunloh \and Madison Bargas \and Stephanie Hopkins \and Vladlena
 Gertseva \and Ian G. Taylor \and Melissa A. Haltuch \and Owen Hamel}
 \date{2025-05-14}
-
 \begin{document}
   \begin{titlepage}
   % This is a combination of Pandoc templating and LaTeX
@@ -705,7 +716,7 @@ described below.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/catch5_total_catch_(including_discards)_stacked.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/catch5_total_catch_(including_discards)_stacked.png}
 
 }
 
@@ -831,7 +842,7 @@ management target of 40\%.
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -845,7 +856,7 @@ confidence interval (dashed lines).}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
 
 }
 
@@ -990,7 +1001,7 @@ episodic and characterized by periods of low recruitment.
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
 
 }
 
@@ -1261,7 +1272,7 @@ age 4+ biomass.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}
 
 }
 
@@ -1275,7 +1286,7 @@ with approximate 95\% asymptotic confidence intervals (gray lines).}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SPR3_ratiointerval.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SPR3_ratiointerval.png}
 
 }
 
@@ -1292,7 +1303,7 @@ excess of the overfishing proxy based on SPR50\%.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}
 
 }
 
@@ -2401,7 +2412,7 @@ Widow Rockfish.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
 
 }
 
@@ -2665,19 +2676,19 @@ robustness of this trend.
 
 \subsubsection{\texorpdfstring{\acrlong{s-tri}}{}}\label{section-1}
 
-The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and the
-survey continued until 2004 (Weinberg et al. 2002). Its basic design was
-a series of equally-spaced east-to-west transects across the
-continential shelf from which searches for tows in a specific depth
-range were initiated. The survey design changed slightly over time. In
-general, all of the surveys were conducted in the mid summer through
-early fall. The 1977 survey was conducted from early July through late
-September. The surveys from 1980 through 1989 were conducted from the
-middle of July to late September. The 1992 survey was conducted from the
-middle of July through early October. The 1995 survey was conducted from
-early June through late August. The 1998 survey was conducted from early
-June through early August. Finally, the 2001 and 2004 surveys were
-conducted from May to July.
+The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and was
+conducted every three years until 2004 (\textbf{weinberg\_2001\_2002?}).
+Its basic design was a series of equally-spaced east-to-west transects
+across the continental shelf from which searches for tows in a specific
+depth range were initiated. The survey design changed slightly over
+time. In general, all of the surveys were conducted in the mid summer
+through early fall. The 1977 survey was conducted from early July
+through late September. The surveys from 1980 through 1989 were
+conducted from the middle of July to late September. The 1992 survey was
+conducted from the middle of July through early October. The 1995 survey
+was conducted from early June through late August. The 1998 survey was
+conducted from early June through early August. Finally, the 2001 and
+2004 surveys were conducted from May to July.
 
 Haul depths ranged from 91--457 m during the 1977 survey. Due to haul
 performance issues and truncated sampling with respect to depth, the
@@ -2691,14 +2702,32 @@ surveys covered the depth range 55--500 m and surveyed south to
 \gls{nwfsc} \gls{fram} conducted the survey following similar protocols
 to earlier years.
 
+Following the 2015 assessment, the triennial index was estimated using a
+delta-generalized linear mixed model (GLMM) following the methods of
+(Thorson and Ward 2013). The survey were stratified by latitude and
+depth, with the stratifications shown in Table XX. The Delta-GLMM
+approach explicitly models both the zero and non-zero catches and allows
+for skewness in the distribution of catch rates and vessel-specific
+differences in catchability (via inclusion of random effects). Multiple
+error structures were considered in 2015, including lognormal and gamma
+error structures with and without extreme catch events. The gamma
+distribution with random strata-year effects accounting for extreme
+catch events fit the data the best using median deviance values and
+Deviance Information Criterion (DIC) values and thus was used in 2015,
+2019 and here, in the 2025 assessment (though see sensitivity run for
+model without the triennial survey index). The time series suggests a
+possible slightly increasing trend in biomass from 1980--1983, although
+is relatively flat until the end of the period in 2001 and 2004 when the
+index declines significantly.
+
 \subsubsection{\texorpdfstring{\acrlong{s-wcgbt}}{}}\label{section-2}
 
 The \gls{s-wcgbt} is based on a random-grid design; covering the coastal
-waters from a depth of 55--1,280 m (Bradburn, Keller, and Horness 2011).
-This design generally uses four industry-chartered vessels per year
-assigned to a roughly equal number of randomly selected grid cells and
-divided into two `passes' of the coast. Two vessels fish from north to
-south during each pass between late May to early October. There were
+waters between depths of 55--1,280 m (Bradburn, Keller, and Horness
+2011). This design generally uses four industry-chartered vessels per
+year assigned to a roughly equal number of randomly selected grid cells
+and divided into two `passes' of the coast. Two vessels fish from north
+to south during each pass between late May to early October. There were
 only two vessels used in 2019 and three in 2013, with one of the three
 that year unable to complete its survey pass due to a government
 shutdown. No survey occurred in 2020 due to \gls{covid}. This design
@@ -2718,8 +2747,8 @@ occur south of approximately 36° N latitude, and there appears to be
 some very small fish found near 39° N latitude.
 
 Geostatistical models of biomass density were fit to survey data using
-the R package \gls{sdmtmb} {[}anderson\_sdmtmb\_2022{]}. This approach
-reflects an updated approach compared to the 2015 assessment
+the R package \gls{sdmtmb} (\textbf{Anderson\_2022\_SRP?}). This
+approach reflects an updated approach compared to the 2015 assessment
 (non-spatial delta-GLMM) and the 2019 update assessment (VAST
 delta-lognormal model). These models can account for latent spatial
 factors with a constant spatial Gaussian random field and spatiotemporal
@@ -2739,31 +2768,57 @@ combination of vessel and year in the data to account for the random
 selection of commercial vessels used during sampling (Helser, Punt, and
 Methot 2004; Thorson and Ward 2014).
 
-Results are only shown for both the delta-gamma and delta-lognormal
-distributions. Both models converged (positive, definite Hessian matrix)
-but predicted data from both models showed slightly right-heavy tails
+Results are only shown for the delta-gamma and delta-lognormal
+distributions, which reported the best diagnostics among the explored
+models. Both models converged (positive, definite Hessian matrix) but
+predicted data from both models showed slightly right-heavy tails
 compared to null expectations, with the gamma model having stronger
-divergence. The delta-lognormal distribution ulitmately had to the best
+divergence. The delta-lognormal distribution ultimately had the best
 model diagnostics, e.g., similar distributions of theoretical normal
 quantiles and model quantiles, high precision, lack of extreme
 predictions that are incompatible with the life history, and low
 \gls{aic}. Spatiotemporal estimates of positive catch for the
 delta-lognormal distribution were then converted into annual indices
 using sdmtmb::get\_index() function informed by the spatial bounds of
-the survey {[}anderson\_sdmtmb\_2022{]}.
+the survey (\textbf{Anderson\_2022\_SRP?}).
 
 The index estimate is relatively stable, with a slightly increasing
 trend in recent years and a moderate peak in 2016. Overall, the
-lognormal index estimates were more comparable to the 2019
-spatiotemporal VAST-based index and seemed less influenced by potential
-extreme catch events, particularly in 2013 and 2016; for these reasons,
-in addition to better model performance described above, the
-delta-lognormal sdmTMB-based index was used for the base model in this
-assessment. The delta-lognormal mean value (2262.824) was slightly lower
-than the means of the index values used in the 2015 assessment (2701.12)
-and the 2019 update assessment (3301.765). Comparisons of the different
-error structures, design-based estimate and the VAST index used in 2019
-are in Figure XX.
+delta-lognormal index estimates were more comparable to the 2019
+spatiotemporal VAST-based index than the delta-gamma index, and seemed
+less influenced by potential extreme catch events, particularly in 2013
+and 2016; for these reasons, in addition to better model performance
+described above, the delta-lognormal sdmTMB-based index was used for the
+base model in this assessment. The delta-lognormal mean value (2262.824)
+was slightly lower than the means of the index values used in the 2015
+assessment (2701.12) and the 2019 update assessment (3301.765).
+Comparisons of the different error structures, design-based estimate and
+the VAST index used in 2019 are in Figure XX.
+
+Length, age, and conditional age-at-length compositions were created by
+expanding to the tow and summing to give a strata specific composition
+(Table 9). The strata compositions were combined to a coastwide
+composition using a design-based index of abundance from each strata.
+The design based index is constructed by taking the average catch per
+unit effort (CPUE) defined as catch per area swept across tows in each
+stratum and year. The sum of strata specific composition data was then
+calculated, weighting by the average CPUE per stratum multiplied by the
+area of each stratum. The 2015 assessment weighted composition data by a
+Delta-GLMM. Unsexed fish were apportioned to males and females according
+to the estimated sex ratio for lengths greater than 28 cm. The sex ratio
+of lengths less than 28 cm was assumed to be 0.5. The design based
+weighting was selected because a Delta-GLMM based index was not
+constructed for this assessment and sdmTMB based weighting providing
+results inconsistent with the previous assessment.
+
+Expanded length frequencies from this survey show intermittent years of
+small fish; the 2018--2024 period generally suggests most fish are
+around 40--45cm in length (Figure 13). Age compositions (Figure 14) show
+a high proportion of a single age in 2004 and 2014, with a more even
+distribution of ages in the 2018--2024 period. Strong cohorts are not
+immediately apparent and it seems that ageing error may result in some
+variability between years. Conditional age-at-length proportions (Figure
+15) show relatively consistent length-at-age with few outliers.
 
 \subsection{Fishery-dependent data}\label{fishery-dependent-data}
 
@@ -2850,8 +2905,8 @@ which has been used in previous widow rockfish assessments as well as
 other west coast groundfish assessments.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4948}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5052}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.4948}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5052}}@{}}
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Fishery Samples
@@ -3619,7 +3674,7 @@ shown in Table 25. Estimates of key derived parameters and approximate
 
 \subsubsection{Parameter Estimates}\label{parameter-estimates}
 
-The estimates of natural mortality 0.124599 yr-1 and NA yr-1 for females
+The estimates of natural mortality 0.124273 yr-1 and NA yr-1 for females
 and males, respectively) were higher than suggested by the medians of
 the prior distributions used in this assessment and the 2015 assessment.
 Fixing M at lower values than those estimates resulted in a pattern of
@@ -4296,9 +4351,9 @@ above 50 years have been observed and it is expected that natural
 mortality could be less than 0.10 yr\textsuperscript{-1} (the median of
 the prior for natual mortality used in this assessment). However, even
 with length and age data available back to the late 1970s, natural
-mortality was estimated at 0.125 for females and 0.137
+mortality was estimated at 0.124 for females and 0.136
 yr\textsuperscript{-1} for males, with a small amount of uncertainty
-(e.g., a 6.6\% coefficient of variation for females). This assessment
+(e.g., a 0\% coefficient of variation for females). This assessment
 attempts to capture that uncertainty by estimating natural mortality (M)
 and integrating that uncertainty into the derived biomass estimates, as
 well as additional uncertainty by including levels outside of the
@@ -4463,6 +4518,13 @@ indicate importance).
 \newpage{}
 
 \subsection{Acknowledgements}\label{sec-acknowledgements}
+
+Thank you to the University of Washington Stock Assessment course
+instructors Vlada Gertseva, Melissa Haltuch, Kiva Oken and Ian Taylor
+for their guidance in preparing our model. We want to acknowledge Tanya
+Rodgers (juvenile survey data), Ian Taylor and Chantel Wetzel (NWFSC
+survey data), XXX (ASHOP data), XXX (PACFIN data) and XXX (catch
+reconstruction and composition bridging).
 
 \newpage{}
 
@@ -5478,9 +5540,7 @@ Rockfish from 2004 to 2024. Total landings (mt) are also shown.}
 
 \renewcommand*{\arraystretch}{1}
 
-:::
-
-\newpage{}
+::: \newpage{}
 
 \global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
 
@@ -6035,9 +6095,7 @@ survey (NW).}
 
 \renewcommand*{\arraystretch}{1}
 
-\newpage{}
-
-\blandscape
+\newpage{} \blandscape
 
 \global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
 
@@ -8706,8 +8764,7 @@ assessment model for Widow Rockfish.}
 
 
 
-\multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{Midwater\ trawl\ selectivtiy}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1916–1982,\ 1983–2001,
-}}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{\linebreak }}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2002–2010,\ 2011–}}}} \\
+\multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{Midwater\ trawl\ selectivtiy}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1916–1982,\ 1983–2001,}}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{\linebreak }}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2002–2010,\ 2011–}}}} \\
 
 
 
@@ -12645,7 +12702,7 @@ ln(EffN\_mult) parameter was bounded between -7 and 7.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_1_2019.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_1_2019.png}
 
 }
 
@@ -12665,7 +12722,7 @@ been stratified into two areas.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/old_figs/Figure_2_2019.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_2_2019.png}
 
 }
 
@@ -12681,7 +12738,7 @@ indicate more observations (possibly within the same tow).}
 
 \centering{
 
-\includegraphics[width=6.23in,height=\textheight]{../figures/old_figs/Figure_4_2019.png}
+\pandocbounded{\includegraphics[keepaspectratio]{../figures/old_figs/Figure_4_2019.png}}
 
 }
 
@@ -12696,7 +12753,7 @@ from the 2011 assessment scaled to the mean of their own series.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_5_2019.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_5_2019.png}
 
 }
 
@@ -12710,7 +12767,7 @@ the Triennial trawl survey (Figure from Stewart (2007)).}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/old_figs/Figure_6_2019.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_6_2019.png}
 
 }
 
@@ -12728,7 +12785,7 @@ to allow better delineation of the distribution of individual points
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/combined_qq.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/combined_qq.png}
 
 }
 
@@ -12743,7 +12800,7 @@ delta-lognormal (panel 2, used in base model) sdmTMB index.}
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/old_figs/Figure_9_2019.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_9_2019.png}
 
 }
 
@@ -12757,7 +12814,7 @@ Triennial with estimated 95\% confidence intervals. based estimates and
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/old_figs/Figure_10_2019.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_10_2019.png}
 
 }
 
@@ -12773,7 +12830,7 @@ survey.}
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/WCGBTS_survey/survey_comparision_plot.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/WCGBTS_survey/survey_comparision_plot.png}
 
 }
 
@@ -12790,7 +12847,7 @@ bars give 5 and 95\% intervals for each survey.}
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_8.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_8.png}
 
 }
 
@@ -12803,7 +12860,7 @@ the WCGBTS}
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_8.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_8.png}
 
 }
 
@@ -12816,7 +12873,7 @@ from the WCGBTS.}
 
 \centering{
 
-\includegraphics[width=1\textwidth,height=\textheight]{../figures/WCGBTS_survey/caal_WCGBTS_plot.png}
+\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/WCGBTS_survey/caal_WCGBTS_plot.png}
 
 }
 
@@ -12829,7 +12886,7 @@ WCGBTS observations for females (red) and males (blue).}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_1.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_1.png}
 
 }
 
@@ -12843,7 +12900,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_2.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_2.png}
 
 }
 
@@ -12857,7 +12914,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_3.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_3.png}
 
 }
 
@@ -12871,7 +12928,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_4.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_4.png}
 
 }
 
@@ -12885,7 +12942,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_5.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_5.png}
 
 }
 
@@ -12899,7 +12956,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_1.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_1.png}
 
 }
 
@@ -12913,7 +12970,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_2.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_2.png}
 
 }
 
@@ -12927,7 +12984,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_3.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_3.png}
 
 }
 
@@ -12941,7 +12998,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_4.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_4.png}
 
 }
 
@@ -12955,7 +13012,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_5.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_5.png}
 
 }
 
@@ -12969,7 +13026,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/discard_comps/bottom_trawl_pikitch.jpg}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/discard_comps/bottom_trawl_pikitch.jpg}
 
 }
 
@@ -12983,7 +13040,7 @@ model.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/discard_comps/bottom_trawl_wcgop.jpg}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/discard_comps/bottom_trawl_wcgop.jpg}
 
 }
 
@@ -12996,7 +13053,7 @@ for the bottom trawl.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_32_2019.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_32_2019.png}
 
 }
 
@@ -13015,7 +13072,7 @@ maturity-at-age for ages 2 and lower set equal to zero.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/length_age_weight/vBL_dat.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/length_age_weight/vBL_dat.png}
 
 }
 
@@ -13030,7 +13087,7 @@ fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_39_2019.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_39_2019.png}
 
 }
 
@@ -13043,7 +13100,7 @@ Cooperative Ageing Project lab and the SWFSC.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/bridging/bridging_compare1_spawnbio.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/bridging/bridging_compare1_spawnbio.png}
 
 }
 
@@ -13056,7 +13113,7 @@ model with updated data and bridging steps.}
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/NatMort_priors.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/NatMort_priors.png}
 
 }
 
@@ -13072,7 +13129,7 @@ estimate is shown by the vertical blue line.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png}
 
 }
 
@@ -13085,7 +13142,7 @@ fleets and surveys.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/combined_select_curves.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/combined_select_curves.png}
 
 }
 
@@ -13099,7 +13156,7 @@ triennial survey (bottomleft), and the NWFSC survey (bottomright).}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png}
 
 }
 
@@ -13114,7 +13171,7 @@ panel and versus age in the lower-left panel.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/recdev_estimates_ts.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/recdev_estimates_ts.png}
 
 }
 
@@ -13128,7 +13185,7 @@ intervals (vertical lines) from the MLE estimates.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/recruit_fit_bias_adjust.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/recruit_fit_bias_adjust.png}
 
 }
 
@@ -13142,7 +13199,7 @@ run.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/sensitivities/sens_compare11_recdevs.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/sensitivities/sens_compare11_recdevs.png}
 
 }
 
@@ -13155,7 +13212,7 @@ sensitivity models.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/surv_abundest.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/surv_abundest.png}
 
 }
 
@@ -13175,7 +13232,7 @@ additional uncertainty parameter.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/pred-obs-discards.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/pred-obs-discards.png}
 
 }
 
@@ -13190,7 +13247,7 @@ for the observations.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/lenage-pears-res-trawl.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/lenage-pears-res-trawl.png}
 
 }
 
@@ -13206,7 +13263,7 @@ indicates females, blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png}
 
 }
 
@@ -13222,7 +13279,7 @@ proportion. Red indicates females, blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit__aggregated_across_time.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit__aggregated_across_time.png}
 
 }
 
@@ -13237,7 +13294,7 @@ all years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
 
 }
 
@@ -13253,7 +13310,7 @@ blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/comp-lenfit-trien.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/comp-lenfit-trien.png}
 
 }
 
@@ -13269,7 +13326,7 @@ proportion. Red indicates females, blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
 
 }
 
@@ -13284,7 +13341,7 @@ years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/condAAL-andreplot.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/condAAL-andreplot.png}
 
 }
 
@@ -13299,7 +13356,7 @@ intervals (right) for the NWFSC WCGBT survey data.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
 
 }
 
@@ -13314,7 +13371,7 @@ years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/condAAL-resids.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/condAAL-resids.png}
 
 }
 
@@ -13329,7 +13386,7 @@ years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -13344,7 +13401,7 @@ confidence intervals.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts4_Summary_biomass_(t).png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts4_Summary_biomass_(t).png}
 
 }
 
@@ -13357,7 +13414,7 @@ the base model.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
 
 }
 
@@ -13374,7 +13431,7 @@ minimum stock size threshold of 25\% of unfished biomass.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SR_curve.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SR_curve.png}
 
 }
 
@@ -13388,7 +13445,7 @@ effect of the bias correction for the lognormal distribution.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/sensitivities/spawnbio-sens.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/sensitivities/spawnbio-sens.png}
 
 }
 
@@ -13402,7 +13459,7 @@ interval around the base model) for the base model and sensitivity runs.
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/retros.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/retros.png}
 
 }
 
@@ -13415,7 +13472,7 @@ biomass (top) and recruitment deviations (bottom).}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/Like_profile_R0.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/Like_profile_R0.png}
 
 }
 
@@ -13428,7 +13485,7 @@ likelihood profile for unfished equilibrium recruitment (R0)}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/Like_profile_Steepness.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/Like_profile_Steepness.png}
 
 }
 
@@ -13441,7 +13498,7 @@ likelihood profile for steepness (h).}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/Nat_Mort.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/Nat_Mort.png}
 
 }
 
@@ -13455,7 +13512,7 @@ natural mortality are set to the same value.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/M_likeprof_recruits.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/M_likeprof_recruits.png}
 
 }
 
@@ -13465,17 +13522,17 @@ estimates for models with different fixed values of natural mortality
 
 \end{figure}%
 
-\includegraphics{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}\{\#fig-pred-(1-SPR)
+\pandocbounded{\includegraphics[keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}}\{\#fig-pred-(1-SPR)
 fig-align=`center' width=90\%\}
 
-\includegraphics{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}\{\#fig-relative-(1-SPR)
+\pandocbounded{\includegraphics[keepaspectratio]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}}\{\#fig-relative-(1-SPR)
 fig-align=`center' width=90\%\}
 
 \begin{figure}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
 
 }
 
@@ -13504,7 +13561,7 @@ compositions}\label{appendix-a-year-specific-fits-to-the-length-and-age-composit
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/bottom_lenfit.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/bottom_lenfit.png}
 
 }
 
@@ -13517,7 +13574,7 @@ compositions for the bottom trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
 
 }
 
@@ -13530,7 +13587,7 @@ compositions for the bottom trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/midwater_lenfit.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/midwater_lenfit.png}
 
 }
 
@@ -13543,7 +13600,7 @@ compositions for the midwater trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/hake_lenfit.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/hake_lenfit.png}
 
 }
 
@@ -13556,7 +13613,7 @@ for the hake fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt4mkt0.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt4mkt0.png}
 
 }
 
@@ -13569,7 +13626,7 @@ for the net fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/hkl_lenfit.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/hkl_lenfit.png}
 
 }
 
@@ -13582,7 +13639,7 @@ for the hook-and-line fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt7mkt0.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt7mkt0.png}
 
 }
 
@@ -13595,7 +13652,7 @@ triennial survey.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt8mkt0.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt8mkt0.png}
 
 }
 
@@ -13608,7 +13665,7 @@ NWFSC WCGBT survey.}
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/bottom_agefit.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/bottom_agefit.png}
 
 }
 
@@ -13621,7 +13678,7 @@ compositions for the bottom trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/midwater_agefit.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/midwater_agefit.png}
 
 }
 
@@ -13634,7 +13691,7 @@ compositions for the midwater trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/hake_agefit.png}
+\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/hake_agefit.png}
 
 }
 
@@ -13647,7 +13704,7 @@ for the hake fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt4mkt0.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt4mkt0.png}
 
 }
 
@@ -13660,7 +13717,7 @@ for the net fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png}
+\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png}
 
 }
 
@@ -13789,16 +13846,15 @@ Thorson, James T, Ian J Stewart, and Andre E Punt. 2012.
 {``{nwfscAgeingError}: A User Interface in {R} for the {Punt} Et
 Al.(2008) Method for Calculating Ageing Error and Imprecision.''}
 
-\bibitem[\citeproctext]{ref-thorson_accounting_2014}
-Thorson, James T, and Eric J Ward. 2014. {``Accounting for Vessel
-Effects When Standardizing Catch Rates from Cooperative Surveys.''}
-\emph{Fisheries Research} 155: 168--76.
+\bibitem[\citeproctext]{ref-thorson_accounting_2013}
+Thorson, James T, and Eric J Ward. 2013. {``Accounting for Space--Time
+Interactions in Index Standardization Models.''} \emph{Fisheries
+Research} 147: 426--33.
 
-\bibitem[\citeproctext]{ref-weinberg_estimation_2002}
-Weinberg, James R, Paul J Rago, W Waldo Wakefield, and Charles Keith.
-2002. {``Estimation of Tow Distance and Spatial Heterogeneity Using Data
-from Inclinometer Sensors: An Example Using a Clam Survey Dredge.''}
-\emph{Fisheries Research} 55 (1-3): 49--61.
+\bibitem[\citeproctext]{ref-thorson_accounting_2014}
+---------. 2014. {``Accounting for Vessel Effects When Standardizing
+Catch Rates from Cooperative Surveys.''} \emph{Fisheries Research} 155:
+168--76.
 
 \end{CSLReferences}
 

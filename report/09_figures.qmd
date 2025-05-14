@@ -83,7 +83,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "QQ for delta-gamma sdmTMB index (first panel) and lognormal sdmTMB index (second panel)"
+#| fig-cap: "QQ plots for delta-gamma (panel 1) and delta-lognormal (panel 2, used in base model) sdmTMB index."
 #| out.width: "100%"
 #| fig-align: "center"
 
@@ -141,7 +141,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated index of relative abundance for the West Coast Groundfish Bottom Trawl Survey using VAST, swept area biomass estimates (design-based), and the swept area biomass estimate from the 2015 assessment with 5 and 95% intervals."
+#| fig-cap: "Comparison of the estimated index of relative abundance for the West Coast Groundfish Bottom Trawl Survey using a GLMM (gray line, 2015 stock assessment), VAST (black line, 2019 stock assessment), a delta-gamma sdmTMB index (blue line) and a delta-lognormal sdmTMB index (red line, used in base model). The error bars give 5 and 95% intervals for each survey."
 #| out.width: "100%"
 #| fig-align: "center"
 
@@ -232,7 +232,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Expanded length compositions for the hake fishery. The area of the circle is proportional to the proportion-at-length.  "
+#| fig-cap: "Expanded length compositions for the hake fishery. The area of the circle is proportional to the proportion-at-length."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -247,7 +247,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Expanded length compositions for the net fishery.The area of the circle is proportional to the proportion-at-length"
+#| fig-cap: "Expanded length compositions for the net fishery. The area of the circle is proportional to the proportion-at-length."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -277,7 +277,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Expanded age compositions for the bottom trawl fishery. The area of the circle is proportional to the proportion-at-age. "
+#| fig-cap: "Expanded age compositions for the bottom trawl fishery. The area of the circle is proportional to the proportion-at-age."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -292,7 +292,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Expanded age compositions for the midwater trawl fishery. The area of the circles is proportional to the proportion-at-age. "
+#| fig-cap: "Expanded age compositions for the midwater trawl fishery. The area of the circles is proportional to the proportion-at-age."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -307,7 +307,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Expanded age compositions for the hake fishery. The area of the circles is proportional to the proportion-at-age. "
+#| fig-cap: "Expanded age compositions for the hake fishery. The area of the circles is proportional to the proportion-at-age."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -322,7 +322,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Expanded age compositions for the net fishery. The area of the circles is proportional to the  proportion-at-age. "
+#| fig-cap: "Expanded age compositions for the net fishery. The area of the circles is proportional to the  proportion-at-age."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -352,7 +352,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Length compositions for discards from the Pikitch study. The discard length comps were fit to in the model."
+#| fig-cap: "Length compositions for discards from the Pikitch study. The discard length comps were fitted into the model."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -383,7 +383,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Maturity-at-length (left) and maturity-at-age (right) from data reported by Barss & Echeverria (1987). Circles are proportional to the number of observations at that length or age. Lines are estimated logistic curves fitted to the data. The bars at the bottom are the number of samples by each state. The purpleline is the estimated maturity-at-age using all data with each state equally weighted, and is used in the assessment model with maturity-at-age for ages 2 and lower set equal to zero."
+#| fig-cap: "Maturity-at-length (left) and maturity-at-age (right) from data reported by Barss & Echeverria (1987). Circles are proportional to the number of observations at that length or age. Lines are estimated logistic curves fitted to the data. The bars at the bottom are the number of samples by each state. The purple line is the estimated maturity-at-age using all data with each state equally weighted, and is used in the assessment model with maturity-at-age for ages 2 and lower set equal to zero."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -443,7 +443,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Bridging from the 2019 asessment model with updated data and bridging steps."
+#| fig-cap: "Bridging from the 2019 assessment model with updated data and bridging steps."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -551,7 +551,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated and input recruitment bias adjustment ramp. Red line shows current settings for bias adjustment specified the model. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
+#| fig-cap: "Comparison of model estimated values for 2025, given as percent of the base model estimated value, by sensitivity run."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -566,7 +566,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimates of recruitment deviations for a sensitivity model with natural mortality fixed at 0.124 and 0.129 for females and males, respectively"
+#| fig-cap: "Estimates of recruitment deviations for sensitivity models."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -581,7 +581,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fits (lines) to the abundance estimates (points) for the base model. Bottom trawl is in the top left, hake indices are in the top right (a separate q is estimated for the Hake series starting in 1991), the triennial trawl survey index is on the middle left, the NWFSC survey index is on the middle right, and the juvenile survey index (in numbers) is on the bottom. 95% confidence intervals are shown input the input standard errors. Thicker lines (if present) indicate input uncertainty before addition of estimated additional uncertainty parameter."
+#| fig-cap: "Fits (lines) to the abundance estimates (points) for the base model. Bottom trawl is in the top left, hake indices are in the top right (a separate q is estimated for the Hake series starting in 1991), the triennial trawl survey index is on the middle left, the NWFSC survey index is on the middle right, and the juvenile survey index (in numbers) is on the bottom. 95% confidence intervals are shown in the input standard errors. Thicker lines (if present) indicate input uncertainty before addition of the estimated additional uncertainty parameter."
 #| out.width: "80%"
 #| fig-align: "center"
  
@@ -607,7 +607,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted (blue line) and observed (open circles) discards for the bottom trawl (top) and midwater trawl (bottom) fleets from the base model. 95% confidence intervals are shown for the observations"
+#| fig-cap: "Predicted (blue line) and observed (open circles) discards for the bottom trawl (top) and midwater trawl (bottom) fleets from the base model. 95% confidence intervals are shown for the observations."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -705,7 +705,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Pearson residuals for fits to the discard length frequencies from the bottom trawl (left) and hookand-line (right) fleets. Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
+#| fig-cap: "Pearson residuals for fits to the discard length frequencies from the bottom trawl (left) and hook-and-line (right) fleets. Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -827,7 +827,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted spawning biomass (thousand mt) for Widow Rockfish using the base assessment. The solid line is the MLE estimate and the dashed lines depicts the approximate asymptotic 95% confidence intervals."
+#| fig-cap: "Predicted spawning biomass (thousand mt) for Widow Rockfish using the base assessment. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -857,7 +857,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted relative spawning biomass from the Widow Rockfish base case assessment. The solid line is the MLE estimate and the dashed lines depicts the approximate asymptotic 95% confidence intervals. The dashed lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
+#| fig-cap: "Predicted relative spawning biomass from the Widow Rockfish base case assessment. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -872,7 +872,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated recruitment (red circles) and the assumed stock-recruit relationship (black line). The dashed line shows the effect of the bias correction for the lognormal distribution."
+#| fig-cap: "Estimated recruitment and the assumed stock-recruit relationship (black line). The dashed line shows the effect of the bias correction for the lognormal distribution."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -1001,7 +1001,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Plot of the predicted (1-SPR) for each year of the model with 95% confidence intervals."
+#| fig-cap: "Plot of the summary fishing mortality for each year of the model with 95% confidence intervals."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -1016,7 +1016,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Phase plot of relative (1-SPR) (y-axis) and depletion (x-axis) for Widow Rockfish. The red point represents the year 2018."
+#| fig-cap: "Phase plot of relative (1-SPR)/(1-SPR_50%) (y-axis) and depletion (x-axis) for Widow Rockfish."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -1031,7 +1031,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated plot of equilibrium yield vs relative spawning biomass (B/B0)."
+#| fig-cap: "Estimated plot of equilibrium yield vs the fraction of unfished biomass."
 #| out.width: "90%"
 #| fig-align: "center"
 

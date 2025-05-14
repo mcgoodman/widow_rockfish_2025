@@ -1,6 +1,13 @@
 
 # Appendix A: Year-specific fits to the length and age compositions
 
+\setcounter{figure}{0}
+\setcounter{equation}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\renewcommand{\theequation}{A\arabic{equation}}
+\renewcommand{\thetable}{A\arabic{table}}
+
 ```{r}
 #| label: fig-AppA-bottomtrawl
 #| echo: false

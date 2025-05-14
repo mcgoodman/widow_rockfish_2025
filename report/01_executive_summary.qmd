@@ -12,26 +12,457 @@ Checking to see if this works \gls{s-tri}
 
 ## Catches{-}
 
+```{r}
+#| label: tbl-a
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
+
+library(flextable)
+library(dplyr)
+#Old table 12
+table_A <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/a_Catches_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_A) <- gsub("\\.", " ", colnames(table_A))
+
+
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table_A),
+  line1 = c("Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", "Total Landings","Total Mortality"),
+  stringsAsFactors = FALSE
+)
+
+# Create flextable
+flextable(table_A, col_keys = names(table_A)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  colformat_num(j = 2:ncol(table_A), big.mark = "", digits = 2)
+
+
+
+```
+
+```{r}
+#| label: fig-a
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Landings of Widow Rockfish from 1916 to 2018 for bottom trawl, midwater trawl, net, and hook- and-line fisheries, and catches of Widow Rockfish for the foreign (1966–1976) and Pacific Whiting (hake) fisheries (green)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/catch5_total_catch_(including_discards)_stacked.png")
+)
+
+```
+
 ## Data and Assessment{-}
 
 ## Stock biomass and dynamics{-}
 
+```{r}
+#| label: fig-b
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated female spawning biomass time-series from the base model (solid line) with an approximate asymptotic 95% confidence interval (dashed lines)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png")
+)
+
+```
+
+```{r}
+#| label: fig-c
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated relative spawning biomass (depletion) with approximate 95% asymptotic confidence intervals (dashed lines) for the base case assessment model."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png")
+)
+
+```
+{{< pagebreak >}} 
+```{r}
+#| label: tbl-b
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
+
+library(flextable)
+library(dplyr)
+#Old table 12
+table_B <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/b_SSB_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_B) <- gsub("\\.", " ", colnames(table_B))
+
+
+# Create flextable
+flextable(table_B)%>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)
+
+
+
+```
+
 ## Recruitment{-}
+
+```{r}
+#| label: fig-d
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time-series of estimated recruitments (medians as open circles) for the base case model with approximate asymptotic 95% confidence interval (vertical bars). Estimated mean unfished equilibrium recruitment (R0) is shown as the closed circle with a 95% confidence interval at the beginning of the time series."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png")
+)
+
+```
+
+
+```{r}
+#| label: tbl-c
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent estimated trend in Widow Rockfish recruitment with approximate 95% confidence intervals determined from the base model. Recruitment deviations were fixed at zero in 2019 in the base model."
+#| out.width: "90%"
+#| fig-align: "center"
+
+
+table_c <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/c_Recr_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_c) <- gsub("\\.", " ", colnames(table_c))
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table_c),
+  line1 = c("Year", "Estimated Recruitment (nummber in thousands)", "Lower Interval", "Upper Interval", "Estimated Recruitment Deviation", "Lower Interval", "Upper Interval"),
+  stringsAsFactors = FALSE
+)
+
+
+# Create flextable
+flextable(table_c, col_keys = names(table_c)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+```
+{{< pagebreak >}} 
 
 ## Exploitation status{-}
 
+```{r}
+#| label: tbl-d
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent trend in spawning potential ratio and summary exploitation rate. Harvest rate is defined as catch divided by age 4+ biomass."
+
+
+table_d <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/d_SPR_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_c) <- gsub("\\.", " ", colnames(table_c))
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table_d),
+  line1 = c("Year", "Estimated(1-SPR)/(1-SPR50%)", "Lower Interval", "Upper Interval", "Harvest rate
+(proportion)", "Lower Interval", "Upper Interval"),
+  stringsAsFactors = FALSE
+)
+
+
+# Create flextable
+flextable(table_d, col_keys = names(table_d)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+```
+
+{{< pagebreak >}} 
+
+```{r}
+#| label: fig-e
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time-series of estimated summary harvest rate (catch divided by age 4+ biomass) for the base case model (round points) with approximate 95% asymptotic confidence intervals (gray lines)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts_summaryF.png")
+)
+
+```
+
+```{r}
+#| label: fig-f
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Trend in estimated fishing intensity (relative to the SPR management target) through 2018 with 95% asymptotic confidence intervals. One minus SPR is used so that higher exploitation rates occur on the upper portion of the y-axis. The relative management target is plotted as a horizontal line and values above this reflect harvests in excess of the overfishing proxy based on SPR50%."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/SPR3_ratiointerval.png")
+)
+
+```
+
+```{r}
+#| label: fig-g
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Phase plot of estimated relative (1-SPR) vs. relative biomass for the base case model. The relative (1- SPR) is (1-SPR) divided by 0.5 (one minus the SPR target). 2018 is noted a red circle."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/SPR4_phase.png")
+)
+
+```
 ## Ecosystem considerations{-}
 
 ## Reference points{-}
 
+```{r}
+#| label: tbl-e
+#| echo: false
+#| warning: false
+#| tbl-cap: " Summary of reference points and management quantities for the base case model."
+
+
+table_e <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/e_ReferencePoints_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_e) <- gsub("\\.", " ", colnames(table_e))
+
+flextable(table_e) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+
+```
+
+{{< pagebreak >}} 
+
 ## Management performance{-}
+
+```{r}
+#| label: tbl-f
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent trend in total catch and commercial landings (mt) relative to the management guidelines. Estimated total catch reflects the commercial landings plus the model estimated dead discarded biomass."
+
+
+table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_f) <- gsub("\\.", " ", colnames(table_f))
+
+flextable(table_f) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+
+```
 
 ## Harvest projections{-}
 
 ## Decision table{-}
 
+```{r}
+#| label: tbl-g
+#| echo: false
+#| warning: false
+#| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by FSPR=50%."
+
+
+table_g <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/g_Projections_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_g) <- gsub("\\.", " ", colnames(table_g))
+
+flextable(table_g) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+
+```
+
+{{< pagebreak >}} 
+
+```{r}
+#| label: tbl-h
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary table of 12-year projections beginning in 2021 for alternate states of nature based on the axis of uncertainty (a combination of M, h, and 2013 recruitment strength). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 20XX and 20XX are allocated using the percentage of landings for each fleet in 20XX."
+
+
+table_h <- as.data.frame(read.csv(file.path(here::here(),"data_derived/decision_table/dec_table_results.csv"), stringsAsFactors = FALSE))
+table_h <- table_h[,2:6]; table_h$OFL <- rep(0) # this is a place holder
+# break up management & state of nature
+table_h$management_choice <- substr(table_h$name, start = 1, stop = 2)
+table_h$management_choice <- plyr::revalue(table_h$management_choice, 
+                                     c("cc" = "9,000 K", 
+                                     "45" = "ACLp*=0.45, sigma=0.50", 
+                                     "25" = "ACLp*=0.25, sigma=0.50"))
+table_h$stnat <- substr(table_h$name, start = 4, stop = 7)
+
+# pivot 
+table_h |> 
+  tidyr::pivot_wider(names_from = stnat, values_from = c(SpawnBio, dep), id_cols=-name) |>
+  # getting format closer...
+  dplyr::select(c(4, 1, 3, 2, 5, 8, 6, 9, 7, 10)) ->
+  # reordering for ease
+  # note this only works if OFL included, otherwise need to subtract 1 from col number
+  table_h_reorg
+
+# colnames(table_h_reorg) <- c("Management decision", "Year", "OFL", "catch (mt)",
+#                              "Spawning biomass (mt)", "Depletion (%)",
+#                              "Spawning biomass (mt)", "Depletion (%)",
+#                              "Spawning biomass (mt)", "Depletion (%)")
+
+flextable(table_h_reorg) |>
+  set_header_labels(values = c(management_choice = "Management decision",
+                               yr = "Year", 
+                               OFL = "OFL", 
+                               catch = "catch (mt)",
+                               SpawnBio_low = "Spawning biomass (mt)",
+                               dep_low = "Depletion (%)",
+                               SpawnBio_base = "Spawning biomass (mt)",
+                               dep_base = "Depletion (%)", 
+                               SpawnBio_high = "Spawning biomass (mt)",
+                               dep_high = "Depletion (%)")
+                    ) |>
+  add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(4, 2, 2, 2)) |>
+  add_header_row(values = c("", "State of nature"), colwidths = c(4, 6)) |> 
+  align(align = "center", part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  bold(part = "header", i = 1:2) |> 
+  bold(part = "header", i = 3, j = 1) |>
+  colformat_num(j = 2, big.mark = "", digits = 0) |>
+  border_inner(part="header") |> border_outer() |> # header and outside border
+  vline(j = c(1, 4, 6, 8)) |> hline(i = 10) |> hline(i = 20) |>
+  merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+
+```
+
 ## Scientific uncertainty{-}
 
 ## Research and data needs{-}
+
+```{r}
+#| label: tbl-i
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary table of results for the assessment of Widow Rockfish."
+
+
+table_i <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/i_Summary_ES.csv"), stringsAsFactors = FALSE))
+
+colnames(table_i) <- gsub("\\.", " ", colnames(table_i))
+colnames(table_i) <- gsub("\\X", " ", colnames(table_i))
+
+
+
+flextable(table_i) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  set_table_properties(layout = "autofit", width = 0.9, align = "center")
+
+
+```
+
+
+```{r}
+#| label: fig-h
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Equilibrium yield curve for the base case model and associated target and limit reference points. Values are based on 2019 fishery selectivity and distribution with steepness fixed at 0.720. The %unfished is relative to unfished spawning biomass."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+      file.path(here::here(),"figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png")
+)
+
+```
 
 ## Rebuilding projections{-}

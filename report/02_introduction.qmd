@@ -2,7 +2,7 @@
 
 *Sebastes entomelas* (Widow Rockfish) is named after its black-lined gut cavity (*ento* meaning within and *melas* meaning black). It has been referred to as buda, beccafico (Italian bird), and viuva (widow) prior to the 1930s. More recently, the Widow Rockfish is also called brownie, belinda bass, brown bomber, and soft brown.
 
-This is an assessment of Widow Rockfish that inhabit the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south, and does not include Puget Sound waters (Figure 1). This assessment represents a thorough reconsideration of the data, data preparation, and model structure for assessing Widow Rockfish, including reinvestigations of recent and historical catches (including discards), length and age data, and fleet structure.
+This is an assessment of Widow Rockfish that inhabit the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south, and does not include Puget Sound waters (Table 1, @fig-assessregionmap). This assessment represents a thorough reconsideration of the data, data preparation, and model structure for assessing Widow Rockfish, including reinvestigations of recent and historical catches (including discards), length and age data, and fleet structure.
 
 ## Distribution and Stock Structure
 
@@ -16,7 +16,7 @@ Widow Rockfish are atypical for West Coast rockfish species because they form de
 
 Widow Rockfish are ovoviviparous with gestation lasting from 1 to 3 months. Parturition occurs earlier in southern latitudes (December-March off California) than in northern latitudes (April in British Columbia) and occur once a year [@barss_maturity_1987]. Estimates of fecundity of Widow Rockfish range from 95,375 oocytes at 33 cm to 1,113,000 oocytes at 52 cm [@boehlert_fecundity_1982].
 
-There is little information regarding the movement of Widow Rockfish. Past assessments have assumed a two-area model because of differences in growth and maturity (see [@he_status_2011]). However, using recent observations from the NWFSC shelf/slope survey to follow two separate cohorts through time and space suggests that Widow Rockfish may recruit in the south and disperse northward as they age (Figure 2). Spatial recruitment and movement patterns of Widow Rockfish are uncertain and much more investigation and sampling is needed to fully understand them.
+There is little information regarding the movement of Widow Rockfish. Past assessments have assumed a two-area model because of differences in growth and maturity (see [@he_status_2011]). However, using recent observations from the NWFSC shelf/slope survey to follow two separate cohorts through time and space suggests that Widow Rockfish may recruit in the south and disperse northward as they age (@fig-assess-map). Spatial recruitment and movement patterns of Widow Rockfish are uncertain and much more investigation and sampling is needed to fully understand them.
 
 ## Fishery description
 

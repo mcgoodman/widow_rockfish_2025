@@ -603,6 +603,45 @@ table20 %>%
 
 ```
 
+```{r}
+#| label: tbl-speci-base-assess
+#| echo: false
+#| warning: false
+#| tbl-cap: "Specifications of the base assessment model for Widow Rockfish."
+
+#Old table 21
+
+library(flextable)
+library(dplyr)
+library(tidyr)
+library(officer)
+
+table21<- as.data.frame(openxlsx::read.xlsx(file.path(here::here(),"report/tables/table_21.xlsx")))
+colnames(table21) <- c("1","2 ","3  ")
+
+
+my_border <- fp_border(color = "black", width = 1)
+
+
+# Function for consistent table styling
+flextable(table21) %>%
+  delete_part(part="header")%>%
+  border(part = "all") %>%
+  align(align = "left", j=2) %>%
+  italic(i = c(2, 7,14,26), italic = TRUE)%>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  border(border.top = my_border, border.bottom = my_border, part = "all") %>%
+  autofit() %>%
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
+
+
+```
+
+
+
 ::: {.pagebreak page-layout="landscape"}
 
 ```{r}

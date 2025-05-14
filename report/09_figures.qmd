@@ -89,18 +89,16 @@ knitr::include_graphics(
 
 library(magick)
 
+panel1 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_gamma/index/qq.png"))
+panel2 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_lognormal/index/qq.png"))
+
+combined <- image_append(c(panel1, panel2))  # side-by-side
+
+image_write(combined, path = file.path(here::here(), "figures/combined_qq.png"))
+
 knitr::include_graphics(
-    file.path(here::here(),"data_provided/WCGBTS/combined_qq.png")
+    file.path(here::here(),"figures/combined_qq.png")
 )
-
-
-# panel1 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_gamma/index/qq.png"))
-# panel2 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_lognormal/index/qq.png"))
-# 
-# combined <- image_append(c(panel1, panel2))  # side-by-side
-# combined <- image_append(c(panel1, panel2), stack = TRUE)  # vertical stack
-
-# image_write(combined, path = file.path(here::here(), "figures/combined_qq.png"))
 ```
 
 {{< pagebreak >}}

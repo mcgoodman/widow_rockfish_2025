@@ -1,1 +1,3 @@
 ## Acknowledgements {#sec-acknowledgements}
+
+Thank you to the University of Washington Stock Assessment course instructors Vlada Gertseva, Melissa Haltuch, Kiva Oken and Ian Taylor for their guidance in preparing our model. We want to acknowledge Tanya Rodgers (juvenile survey data), Ian Taylor and Chantel Wetzel (NWFSC survey data), XXX (ASHOP data), XXX (PACFIN data) and XXX (catch reconstruction and composition bridging). 

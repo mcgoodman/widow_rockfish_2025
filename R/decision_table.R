@@ -381,6 +381,54 @@ compare_ss3_mods(
   tickEndYr = TRUE
 )
 
+
+
+#### Fomrtting the decision table 
+library(dplyr)
+library(tidyr)
+library(stringr)
+df <- read.csv(here("data_derived","decision_table","dec_table_results.csv"))
+colnames(df)
+
+dec_table_formatted <- df %>%
+  # Extract scenario and level from name
+  mutate(
+    scenario = str_extract(name, "^[^_]+"),
+    level = str_extract(name, "(?<=_)\\w+"),
+    dep = round(dep*100,2)
+  ) %>%
+  # Select relevant columns
+  select(yr, catch, scenario, level, SpawnBio, dep) %>%
+  # Group by scenario and year, as each has multiple levels
+  group_by(scenario, yr) %>%
+  # Take the first catch (should be same across levels)
+  mutate(catch = first(catch)) %>%
+  ungroup() %>%
+  # Pivot wider for SpawnBio and dep
+  pivot_wider(
+    names_from = level,
+    values_from = c(SpawnBio, dep),
+    names_glue = "{.value}_{level}"
+  ) %>%
+  # Reorder by scenario and year
+  arrange(factor(scenario, levels = c("cc", "25", "45")), yr) %>%
+  # Final column order
+  select(
+    scenario, yr, catch,
+    SpawnBio_low, dep_low,
+    SpawnBio_base, dep_base,
+    SpawnBio_high, dep_high
+  )|>
+  mutate(scenario = case_when(
+    scenario == "cc" ~ "Constant catch",
+    scenario == "25" ~ "P*0.25",
+    scenario == "45" ~ "P*0.45"
+    
+  ))
+
+write.csv(dec_table_formatted,here("report","tables","dec_table_formatted.csv"))
+write.csv(dec_table_formatted,here("data_derived","decision_table","dec_table_formatted.csv"))
+
 #### Load the rdata files
 #exec_tables <- 
 

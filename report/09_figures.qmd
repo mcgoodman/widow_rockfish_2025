@@ -831,6 +831,44 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-ret-btm-trwl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Surface plots of female (left) and male (right) time-varying retention for the bottom trawl survey."
+#| out.width: "90%"
+#| fig-align: "center"
+
+sel_tv1 <- image_read(
+  here::here(
+    "figures", "2025 base model r4ss plots", "plots", "sel05_timevary_ret_surf_flt1sex1.png"
+  )
+)
+
+sel_tv2 <- image_read(
+  here::here(
+    "figures", "2025 base model r4ss plots", "plots", "sel05_timevary_ret_surf_flt1sex2.png"
+  )
+)
+
+combined <- image_append(c(sel_tv1, sel_tv2))
+
+image_write(
+  combined, path = here::here(
+   "figures", "2025 base model r4ss plots", "ret_timevary_btm_trwl.png" 
+  )
+)
+
+knitr::include_graphics(
+  path = here::here(
+   "figures", "2025 base model r4ss plots", "ret_timevary_btm_trwl.png" 
+  )
+)
+
+```
+
+
+```{r}
 #| label: fig-comp-agefreq-all
 #| echo: false
 #| warning: false

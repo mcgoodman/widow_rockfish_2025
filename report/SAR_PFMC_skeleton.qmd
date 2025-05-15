@@ -49,7 +49,7 @@ author:
         state: 'WA'
         postal-code: '98195'
 
-  - name: 'Will Patrone'
+  - name: 'William Patrone'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'

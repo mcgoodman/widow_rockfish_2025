@@ -28,29 +28,42 @@ library(flextable)
 #| warning: false
 #| tbl-cap: "Landings for bottom trawl, midwater trawl, net, and hook-and-line (mt) fisheries from Washington, Oregon, and California."
 
-#table 1
+library(flextable)
+library(dplyr)
+library(tidyr)
+library(officer)
 
-# CatchTable <- read.csv("Tables/CatchTable.csv")%>%
-# select(-ComModelTotal)
-# CatchTable[is.na(CatchTable)] <- 0
-# CatchTable |>
-#   gt() |>
-#  cols_label(
-#     year = "Year",
-#     ComWA = "Com. WA",
-#     ComOR = "Com. OR",
-#     ComCA = "Com. CA",
-#     ComDiscards = "Com. Discards",
-#     Foreign = "For.",
-#     RecWA = "Rec. WA",
-#     RecOR = "Rec. OR",
-#     RecCA = "Rec. CA",
-#   ) |> 
-#   tab_options(
-#     table.font.size = 12,
-#     latex.use_longtable = TRUE
-#   ) |>
-#   as_latex()
+
+table1 <-  read.csv(file.path(here::here(),"report/tables/table_1.csv"))
+
+#Remove periods
+colnames(table1) <- gsub("\\.", " ", colnames(table1))
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table1),
+  line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+  line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+my_border <- fp_border(color = "black", width = 2)
+
+
+
+# Create flextable
+flextable(table1, col_keys = names(table1)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  border(border.top = my_border, i = 1) %>% 
+  border(border.top = my_border, part= "header") %>% 
+  colformat_num(j = 1, big.mark = "", digits = 0)
 
 ```
 
@@ -308,6 +321,7 @@ table7_nwfsc_data %>%
 #| echo: false
 #| warning: false
 #| tbl-cap: "Number of positive tows, lengths, and ages in each year from the Triennial survey (Tri) and the NWFSC WCGBT survey (NW)."
+#| width: 80%
 
 #Old table 9
 table9 <- as.data.frame(read.csv(file.path(here::here(),"figures/WCGBTS_survey/survey_pos_catch.csv"), stringsAsFactors = FALSE))
@@ -454,6 +468,8 @@ flextable(table12, col_keys = names(table12)) %>%
 
 ```
 
+{{< pagebreak >}}
+\blandscape
 ```{r}
 #| label: tbl-sample-age-gear-state
 #| echo: false
@@ -525,7 +541,7 @@ flextable(table14, col_keys = names(table14)) %>%
 ```
 
 ```{r}
-#| label: tbl-disc totals
+#| label: tbl-disc-totals
 #| echo: false
 #| warning: false
 #| tbl-cap: "Discard totals (mt) for four fleets derived from Pikitch data, EDCP data, and WCGOP data. Italics indicate years that were not fitted to because they were simply added to the landings (Shoreside hake) or omitted because they were outside of the main study period."
@@ -560,7 +576,7 @@ table16 %>%
 
 
 ```
-
+\elandscape
 ```{r}
 #| label: tbl-age-error
 #| echo: false
@@ -861,8 +877,8 @@ flextable(table28) %>%
 
 ```
 
-::: {.pagebreak page-layout="landscape"}
-
+{{< pagebreak >}}
+\blandscape
 ```{r}
 #| label: tbl-quant-sens-int
 #| echo: false
@@ -886,6 +902,8 @@ style_table29 <- function(ft) {
   ft %>%
     font(fontname = "Times New Roman", part = "all") %>%
     border_outer(part = "all") %>%
+    fontsize(size = 9) %>%     
+    colformat_num(digits = 3) %>%
     border_inner(part = "all") %>%
     align(align = "center", part = "header") %>%
     align(align = "center", part = "body")
@@ -903,17 +921,17 @@ likelihood_row <- which(apply(table29, 1, function(row) any(row == "Likelihood")
   border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
   # Keep the outer bottom border of the merged footer row
   border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "black", width = 1))%>%
-  style_table29()%>%
-  autofit()
+  style_table29()%>% 
+  autofit() %>% width(width = 0.6)
 
 
 
 
 ```
 
-::: 
 
 {{< pagebreak >}}
+
 ```{r}
 #| label: tbl-retros
 #| echo: false
@@ -959,7 +977,6 @@ likelihood_row <- which(apply(table30, 1, function(row) any(row == "Likelihood")
 
 ```
 
-::: {.pagebreak page-layout="landscape"}
 
 ```{r}
 #| label: tbl-like-R0
@@ -996,13 +1013,11 @@ likelihood_row <- which(apply(table31, 1, function(row) any(row == "Likelihood")
   # Keep the outer bottom border of the merged footer row
   border(i = 1, j = 1:ncol(table31), part = "footer", border = fp_border(color = "black", width = 1))%>%
   style_table31()%>%
-  autofit()
+  autofit() %>% width(width = 0.75)
 
 
 ```
-:::
 
-::: {.pagebreak page-layout="landscape"}
 
 ```{r}
 #| label: tbl-like-steep
@@ -1021,6 +1036,8 @@ style_table32 <- function(ft) {
   ft %>%
     font(fontname = "Times New Roman", part = "all") %>%
     border_outer(part = "all") %>%
+    fontsize(size = 9) %>%     
+    colformat_num(digits = 3) %>%
     border_inner(part = "all") %>%
     align(align = "center", part = "header") %>%
     align(align = "center", part = "body")
@@ -1039,13 +1056,10 @@ likelihood_row <- which(apply(table32, 1, function(row) any(row == "Likelihood")
   # Keep the outer bottom border of the merged footer row
   border(i = 1, j = 1:ncol(table32), part = "footer", border = fp_border(color = "black", width = 1))%>%
   style_table32()%>%
-  autofit()
+  autofit() %>% width(width = 0.6)
 
 
 ```
-:::
-
-::: {.pagebreak page-layout="landscape"}
 
 ```{r}
 #| label: tbl-like-Mfemale
@@ -1065,6 +1079,8 @@ style_table33 <- function(ft) {
     font(fontname = "Times New Roman", part = "all") %>%
     border_outer(part = "all") %>%
     border_inner(part = "all") %>%
+    fontsize(size = 9) %>%     
+    colformat_num(digits = 3) %>%
     align(align = "center", part = "header") %>%
     align(align = "center", part = "body")
 }
@@ -1082,13 +1098,10 @@ likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")
   # Keep the outer bottom border of the merged footer row
   border(i = 1, j = 1:ncol(table33), part = "footer", border = fp_border(color = "black", width = 1))%>%
   style_table33()%>%
-  autofit()
+  autofit() %>% width(width = 0.6)
 
 
 ```
-:::
-
-::: {.pagebreak page-layout="landscape"}
 
 ```{r}
 #| label: tbl-like-Mmale
@@ -1106,6 +1119,8 @@ colnames(table34) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.
 style_table34 <- function(ft) {
   ft %>%
     font(fontname = "Times New Roman", part = "all") %>%
+    fontsize(size = 9) %>%     
+    colformat_num(digits = 3) %>%
     border_outer(part = "all") %>%
     border_inner(part = "all") %>%
     align(align = "center", part = "header") %>%
@@ -1125,11 +1140,10 @@ likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")
   # Keep the outer bottom border of the merged footer row
   border(i = 1, j = 1:ncol(table34), part = "footer", border = fp_border(color = "black", width = 1))%>%
   style_table34()%>%
-  autofit()
+  autofit() %>% width(width = 0.6)
 
 
 ```
-:::
 
 {{< pagebreak >}}
 
@@ -1160,7 +1174,9 @@ style_table34 <- function(ft) {
 # Add a row that spans all columns (like a section header)
   flextable(table34) %>%
   style_table34()%>%
-  autofit()
+  autofit() %>% width(width = 0.75)
 
 
 ```
+
+\elandscape

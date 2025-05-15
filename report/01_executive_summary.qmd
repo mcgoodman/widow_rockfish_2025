@@ -469,12 +469,6 @@ flextable(table_e) %>%
 
 ## Management performance{-}
 
-```{r}
-#| include: false
-
-table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
-
-```
 
 Exploitation rates on widow rockfish exceeded MSY proxy target harvest rates during the 1980s and 1990s and spawning biomass is predicted to have fallen below the proxy management target of 40%. Exploitation rates decreased in the late 1990s due to management restrictions, and have increased in recent years. Predicted catches in the last decade have not exceeded the annual catch limit (ACL) set by management.
 
@@ -484,9 +478,24 @@ Exploitation rates on widow rockfish exceeded MSY proxy target harvest rates dur
 #| warning: false
 #| tbl-cap: "Recent trend in total catch and commercial landings (mt) relative to the management guidelines. Estimated total catch reflects the commercial landings plus the model estimated dead discarded biomass."
 
+library(officer)
+table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
+table_f <-table_f[,2:ncol(table_f)]
+
 colnames(table_f) <- gsub("\\.", " ", colnames(table_f))
 
-flextable(table_f) %>%
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table_f),
+  line1 = c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt) (termed OY prior to 2011)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)"),
+  # line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
+  stringsAsFactors = FALSE
+)
+
+my_border <- fp_border(color = "black", width = 2)
+# Create flextable
+flextable(table_f, col_keys = names(table_f)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
   merge_h(part = "header") %>%
   merge_v(part = "header") %>%
   border(part = "all") %>%
@@ -495,7 +504,9 @@ flextable(table_f) %>%
   bold(part = "header")%>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
   fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+  set_table_properties(layout = "autofit")%>%
+  border(border.top = my_border, part= "header")
+  
 
 
 ```

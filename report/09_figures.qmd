@@ -376,6 +376,24 @@ knitr::include_graphics(
 
 ```
 
+\clearpage
+
+```{r}
+#| label: fig-wl-fits
+#| echo: false
+#| warning: false
+#| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) using observations from all data sources. The weight-at-length curve from the 2019 assessment is inidcated with a solid line."
+#| out.width: "80%"
+#| fig-align: center
+
+#Problem
+knitr::include_graphics(
+  here::here("figures", "length_age_weight", "wl_dat.png")
+)
+```
+
+
+
 ```{r}
 #| label: fig-matlen-matage
 #| echo: false
@@ -397,12 +415,12 @@ knitr::include_graphics(
 #| warning: false
 #| eval: true
 #| fig-cap: "Prior distributions for natural mortality (M)."
-#| out.width: "80%"
+#| out.width: "70%"
 #| fig-align: "center"
 
-# knitr::include_graphics(
-#     file.path(here::here(),"figures/old_figs/nat_M_prior_dist.png")
-# )
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/NatMort_priors.png")
+)
 
 ```
 
@@ -432,6 +450,21 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/old_figs/Figure_39_2019.png")
+)
+
+```
+
+```{r}
+#| label: fig-data-plot-base
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Data sources by type and year that were used in the base model."
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/data_plot.png")
 )
 
 ```
@@ -549,7 +582,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of model estimated values for 2025, given as percent of the base model estimated value, by sensitivity run."
+#| fig-cap: "Estimated and input recruitment bias adjustment ramp. Red line shows current settings for bias adjustment ramp. Red line shows current settings for bias adjustment specified in the model. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -570,6 +603,21 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/sensitivities/sens_compare11_recdevs.png")
+)
+
+```
+
+```{r}
+#| label: fig-sens-summary
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparision of model estimated values by sensitivity run"
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/sens_summary.png")
 )
 
 ```
@@ -995,7 +1043,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-pred-one-SPR
+#| label: fig-pred-(1-SPR)
 #| echo: false
 #| warning: false
 #| eval: true
@@ -1010,7 +1058,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-relative-one-SPR
+#| label: fig-relative-(1-SPR)
 #| echo: false
 #| warning: false
 #| eval: true
@@ -1035,6 +1083,21 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png")
+)
+
+```
+
+```{r}
+#| label: fig-combined-retention
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity for Bottom Trawl (top row) and Midwater Trawl (bottom row) for males (left column) and females (right column)"
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/combined_retention_plots.png")
 )
 
 ```

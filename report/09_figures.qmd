@@ -376,6 +376,22 @@ knitr::include_graphics(
 
 ```
 
+
+```{r}
+#| label: 
+#| echo: false
+#| warning: false
+#| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) using observations from all data sources. The weight-at-length curve from the 2019 assessment is inidcated with a solid line."
+#| out.width: "80%"
+#| fig-align: center
+
+knitr::include_graphics(
+  here::here("figures", "length_age_weight", "wl_dat.png")
+)
+```
+
+
+
 ```{r}
 #| label: fig-matlen-matage
 #| echo: false
@@ -564,7 +580,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of model estimated values for 2025, given as percent of the base model estimated value, by sensitivity run."
+#| fig-cap: "Estimated and input recruitment bias adjustment ramp. Red line shows current settings for bias adjustment ramp. Red line shows current settings for bias adjustment specified in the model. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
 #| out.width: "90%"
 #| fig-align: "center"
 

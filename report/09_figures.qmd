@@ -410,6 +410,20 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-n-at-age
+#| echo: false
+#| warning: false
+#| fig-cap: "Number at age observed from all data for female and male Widow Rockfish."
+#| out.width: "80%"
+#| fig-align: center
+
+#Problem
+knitr::include_graphics(
+  file.path(here::here("figures/composition_plots/plots_2", "n_at_age.png"))
+)
+```
+
+```{r}
 #| label: fig-prior-mort
 #| echo: false
 #| warning: false
@@ -612,7 +626,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparision of model estimated values by sensitivity run"
+#| fig-cap: "Comparision of model estimated values for 2025, given as percent of the base model estimated value, by sensitivity run."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -1081,7 +1095,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-pred-(1-SPR)
+#| label: fig-pred-one-SPR
 #| echo: false
 #| warning: false
 #| eval: true
@@ -1096,7 +1110,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-relative-(1-SPR)
+#| label: fig-relative-one-SPR
 #| echo: false
 #| warning: false
 #| eval: true

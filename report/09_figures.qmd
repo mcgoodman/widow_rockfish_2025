@@ -424,11 +424,11 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-prior-mort
+#| label: fig-NatMort-priors
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Prior distributions for natural mortality (M)."
+#| fig-cap: "The prior for natural mortality (M, yr-1 ) and the estimated M for females (top) and males (bottom) with asymptotic uncertainty. The median of the prior is shown by the red triangle and the maximum likelihood estimate is shown by the vertical blue line."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -494,21 +494,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
-)
-
-```
-
-```{r}
-#| label: fig-NatMort-priors
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "The prior for natural mortality (M, yr-1 ) and the estimated M for females (top) and males (bottom) with asymptotic uncertainty based on maximum likelihood theory. The median of the prior is shown by the red triangle and the maximum likelihood estimate is shown by the vertical blue line."
-#| out.width: "70%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/NatMort_priors.png")
 )
 
 ```

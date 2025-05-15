@@ -88,9 +88,9 @@ Two categories of parameters that greatly contributed to uncertainty in the resu
 
 A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature (@tbl-dec-table, @fig-dec-table-plot). 
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-dec-table).Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036. 
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature.Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036 @tbl-dec-table, @fig-dec-table-plot).
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2021 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from 1,790 mt in 2027 to 1,886 mt in 2036. 
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2021 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from 1,790 mt in 2027 to 1,886 mt in 2036 @tbl-dec-table, @fig-dec-table-plot). 
 
 This assessment synthesizes many sources of data and estimates recruitment variability, thus it is classified as a Category 1 stock assessment. Therefore, the sigma for P* to determine the catch reduction to account for scientific uncertainty is 0.50.
 

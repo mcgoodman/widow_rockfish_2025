@@ -63,7 +63,7 @@ flextable(table1, col_keys = names(table1)) %>%
   bold(part = "header")%>%
   border(border.top = my_border, i = 1) %>% 
   border(border.top = my_border, part= "header") %>% 
-  colformat_num(j = 2, big.mark = "", digits = 0)
+  colformat_num(j = 1, big.mark = "", digits = 0)
 
 ```
 

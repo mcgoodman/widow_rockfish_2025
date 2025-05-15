@@ -1021,7 +1021,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-like_profile_R0
+#| label: fig-like_profile_Rzero
 #| echo: false
 #| warning: false
 #| eval: true
@@ -1148,3 +1148,17 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-dec-table-plot
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Base model, low state of nature, and high state of nature spawning biomass trajectories under three catch scenarios: constant catch of 9000 mt, ACL = p*0.25, ACL = p*0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/decision_table/combined_ssb_with_interval.png")
+)
+
+```

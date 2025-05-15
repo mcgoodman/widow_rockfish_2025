@@ -510,7 +510,7 @@ Please cite this publication as:
 
 M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W.
 Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh,
-M.Bargas, S.Hopkins, V. Gersteva, K. Ohen, I. Taylor, M. Haltuch, O.
+M.Bargas, S.Hopkins, V. Gersteva, K. Oken, I. Taylor, M. Haltuch, O.
 Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes
 entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management
 Council, Portland, Oregon.
@@ -2548,33 +2548,32 @@ conducted to examine the impact of including those early years (see
 section: Sensitivity Analysis).
 
 The index was built using a spatial GLM with the sdmTMB package
-{[}anderson\_sdmtmb\_2022{]}, modeling 100-day standardized
-catch-per-tow as a function of year (fixed effect), Julian date (GAM
-smoother, k = 4), spatial random field, and spatiotemporal random
-effects. Models with Tweedie, delta-lognormal, and delta-gamma error
-structures were compared; DHARMa residuals and simulation-based
-diagnostics indicated the Tweedie model performed best. The index shows
-a strong increasing trend in juvenile abundance from 2017 to 2023, with
-a slight decline in 2024. Despite the dip, recent values remain high
-relative to the previous decade, and uncertainty estimates support the
-robustness of this trend.
+(Anderson et al. 2022), modeling 100-day standardized catch-per-tow as a
+function of year (fixed effect), Julian date (GAM smoother, k = 4),
+spatial random field, and spatiotemporal random effects. Models with
+Tweedie, delta-lognormal, and delta-gamma error structures were
+compared; DHARMa residuals and simulation-based diagnostics indicated
+the Tweedie model performed best. The index shows a strong increasing
+trend in juvenile abundance from 2017 to 2023, with a slight decline in
+2024. Despite the dip, recent values remain high relative to the
+previous decade, and uncertainty estimates support the robustness of
+this trend.
 
 \subsubsection{\texorpdfstring{\acrlong{s-tri}}{}}\label{section-1}
 
 The \gls{s-tri} was first conducted by the \gls{afsc} in 1977, and was
-conducted every three years until 2004 (\textbf{weinberg\_2001\_2002?}).
-Its basic design was a series of equally-spaced east-to-west transects
-across the continental shelf from which searches for tows in a specific
-depth range were initiated. The survey design changed slightly over
-time. In general, all of the surveys were conducted in the mid summer
-through early fall. The 1977 survey was conducted from early July
-through late September. The surveys from 1980 through 1989 were
-conducted from the middle of July to late September. The 1992 survey was
-conducted from the middle of July through early October. The 1995 survey
-was conducted from early June through late August. The 1998 survey was
-conducted from early June through early August. Finally, the 2001 and
-2004 surveys were conducted from May to July
-(Figure~\ref{fig-dist-opdates}).
+conducted every three years until 2004 (Weinberg et al. 2002). Its basic
+design was a series of equally-spaced east-to-west transects across the
+continental shelf from which searches for tows in a specific depth range
+were initiated. The survey design changed slightly over time. In
+general, all of the surveys were conducted in the mid summer through
+early fall. The 1977 survey was conducted from early July through late
+September. The surveys from 1980 through 1989 were conducted from the
+middle of July to late September. The 1992 survey was conducted from the
+middle of July through early October. The 1995 survey was conducted from
+early June through late August. The 1998 survey was conducted from early
+June through early August. Finally, the 2001 and 2004 surveys were
+conducted from May to July (Figure~\ref{fig-dist-opdates}).
 
 Haul depths ranged from 91--457 m during the 1977 survey. Due to haul
 performance issues and truncated sampling with respect to depth, the
@@ -2633,8 +2632,8 @@ smaller fish tend to occur south of approximately 36° N latitude, and
 there appears to be some very small fish found near 39° N latitude.
 
 Geostatistical models of biomass density were fit to survey data using
-the R package \gls{sdmtmb} (\textbf{Anderson\_2022\_SRP?}). This
-approach reflects an updated approach compared to the 2015 assessment
+the R package \gls{sdmtmb} (Anderson et al. 2022). This approach
+reflects an updated approach compared to the 2015 assessment
 (non-spatial delta-GLMM) and the 2019 update assessment (VAST
 delta-lognormal model). These models can account for latent spatial
 factors with a constant spatial Gaussian random field and spatiotemporal
@@ -2666,7 +2665,7 @@ predictions that are incompatible with the life history, and low
 \gls{aic}. Spatiotemporal estimates of positive catch for the
 delta-lognormal distribution were then converted into annual indices
 using sdmtmb::get\_index() function informed by the spatial bounds of
-the survey (\textbf{Anderson\_2022\_SRP?}).
+the survey (Anderson et al. 2022).
 
 The index estimate is relatively stable, with a slightly increasing
 trend in recent years and a moderate peak in 2016. Overall, the
@@ -14044,11 +14043,10 @@ female and male Widow Rockfish.}
 
 }
 
-\caption{\label{fig-NatMort-priors}The prior for natural mortality (M,
-yr-1 ) and the estimated M for females (top) and males (bottom) with
-asymptotic uncertainty. The median of the prior is shown by the red
-triangle and the maximum likelihood estimate is shown by the vertical
-blue line.}
+\caption{\label{fig-NatMort-priors}The prior for natural mortality
+(black, M, yr-1 ) and the estimated M for females (red) and males (blue)
+with asymptotic approximation to the sampling distribution. The means of
+each distribution are shown with triangles.}
 
 \end{figure}%
 
@@ -14607,10 +14605,12 @@ lognormal quantiles of spawning biomass.}
 
 \subsection{References}\label{references}
 
+\clearpage
+
 \newpage{}
 
-\section{Appendix A: Year-specific fits to the length and age
-compositions}\label{appendix-a-year-specific-fits-to-the-length-and-age-compositions}
+\section{Appendix A: Annual fits to length and age
+composition}\label{appendix-a-annual-fits-to-length-and-age-composition}
 
 \setcounter{figure}{0}
 \setcounter{equation}{0}
@@ -14802,6 +14802,12 @@ Oregon: Pacific Fishery Management Council.
 Adams, PB. 1987. {``The Diet of Widow Rockfish {Sebastes} Entomelas in
 Northern {California}.''} \emph{NOAA Tech. Rep. NMFS} 48: 37--41.
 
+\bibitem[\citeproctext]{ref-anderson_sdmtmb_2022}
+Anderson, Sean C, Eric J Ward, Philina A English, and Lewis AK Barnett.
+2022. {``{sdmTMB}: An {R} Package for Fast, Flexible, and User-Friendly
+Generalized Linear Mixed Effects Models with Spatial and Spatiotemporal
+Random Fields.''} \emph{BioRxiv}, 2022--03.
+
 \bibitem[\citeproctext]{ref-barss_maturity_1987}
 Barss, WH, and T Wyllie Echeverria. 1987. {``Maturity of Widow Rockfish
 {Sebastes} Entomelas from the Northeastern {Pacific}, 1977-82.''} In,
@@ -14989,6 +14995,12 @@ Research} 147: 426--33.
 ---------. 2014. {``Accounting for Vessel Effects When Standardizing
 Catch Rates from Cooperative Surveys.''} \emph{Fisheries Research} 155:
 168--76.
+
+\bibitem[\citeproctext]{ref-weinberg_estimation_2002}
+Weinberg, James R, Paul J Rago, W Waldo Wakefield, and Charles Keith.
+2002. {``Estimation of Tow Distance and Spatial Heterogeneity Using Data
+from Inclinometer Sensors: An Example Using a Clam Survey Dredge.''}
+\emph{Fisheries Research} 55 (1-3): 49--61.
 
 \bibitem[\citeproctext]{ref-williams_status_2000}
 Williams, Erik H, Alec D MacCall, Stephen V Ralston, and Donald E

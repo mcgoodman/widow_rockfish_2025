@@ -419,7 +419,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "The prior for natural mortality (M, yr-1 ) and the estimated M for females (top) and males (bottom) with asymptotic uncertainty. The median of the prior is shown by the red triangle and the maximum likelihood estimate is shown by the vertical blue line."
+#| fig-cap: "The prior for natural mortality (black, M, yr-1 ) and the estimated M for females (red) and males (blue) with asymptotic approximation to the sampling distribution. The means of each distribution are shown with triangles."
 #| out.width: "70%"
 #| fig-align: "center"
 

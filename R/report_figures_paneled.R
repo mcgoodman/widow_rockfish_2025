@@ -6,6 +6,7 @@ library("magick")
 library("here")
 
 base_dat <- SS_readdat(here("models", "2025 base model", "2025Widow.dat"))
+base_ctl <- SS_readctl(here("models", "2025 base model", "2025Widow.ctl"), dat = here("models", "2025 base model", "2025Widow.dat"))
 base_par <- SS_output(here("models", "2025 base model"))
 
 source(here("R", "functions", "plot_selex.R"))
@@ -60,7 +61,7 @@ theme_set(
       axis.text = element_text(color = "black"), 
       axis.ticks = element_line(color = "black"), 
       axis.title = element_text(color = "black"), 
-      plot.margin = margin(r = 1, unit = "lines")
+      plot.margin = margin(t = 0.25, r = 1, b = 0.25, l = 0.25, unit = "lines")
     )
 )
 
@@ -87,6 +88,42 @@ ggsave(
   file.path(plotdir, "surv_abundest.png"), 
   index_plot, height = 8, width = 8, units = "in", dpi = 300
 )
+
+# Natural mortality -------------------------------------------------
+
+# Prior and male / female posteriors
+prior <-setNames(base_ctl$MG_parms["NatM_p_1_Fem_GP_1", c("PRIOR", "PR_SD"), drop = TRUE], c("mean", "sd"))
+postF <- setNames(base_par$parameters["NatM_uniform_Fem_GP_1", c("Value", "Parm_StDev"), drop = TRUE], c("mean", "sd"))
+postM <- setNames(base_par$parameters["NatM_uniform_Mal_GP_1", c("Value", "Parm_StDev"), drop = TRUE], c("mean", "sd"))
+
+# evaluate prior density
+Mseq <- seq(1e-3, 0.3, length.out = 500)
+prior_dens <- data.frame(type = "Prior", M = Mseq, density = dlnorm(Mseq, meanlog = prior$mean, sdlog = prior$sd))
+postF_dens <- data.frame(type = "Estimated (female)", M = Mseq, density = dnorm(Mseq, mean = postF$mean, sd = postF$sd))
+postM_dens <- data.frame(type = "Estimated (male)", M = Mseq, density = dnorm(Mseq, mean = postM$mean, sd = postM$sd))
+dens_data <- do.call("rbind", list(prior_dens, postF_dens, postM_dens))
+
+means <- data.frame(
+  type = c("Prior", "Estimated (female)", "Estimated (male)"), 
+  M = c(exp(prior$mean + (prior$sd^2)/2), postF$mean, postM$mean)
+)
+
+# Plot 
+M_dens_plot <- dens_data |> 
+  ggplot(aes(M, density, color = type)) + 
+  geom_line(linewidth = 0.8, lineend = "round") + 
+  geom_point(aes(y = -Inf),  data = means, size = 3, shape = 17) +
+  labs(x = "Natural Mortality", y = "Density") + 
+  scale_color_manual(values = rev(c("black", r4ss::rich.colors.short(2)))) +
+  theme(
+    legend.position = "inside", 
+    legend.position.inside = c(0.9, 0.9), 
+    legend.justification = c(1, 1), 
+    legend.title = element_blank()
+  ) + 
+  coord_cartesian(clip = "off")
+
+ggsave(here("figures", "2025 base model r4ss plots", "NatMort_priors.png"), height = 4, width = 6, units = "in", dpi = 300)
 
 # Discards ----------------------------------------------------------
 
@@ -201,3 +238,61 @@ panel2 <- image_read(here("figures", "diagnostics", "Like_profile_Male_M.png"))
 
 combined <- image_append(c(panel1, panel2), stack=TRUE)
 image_write(combined, path = here("figures", "diagnostics", "Nat_Mort.png"))
+
+# Appendix A: bottom trawl retained length comps --------------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt2_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt2_page2.png"))
+panel3 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt2_page3.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
+image_write(combined, path = file.path(plotdir, "App_A", "bottom_lenfit.png"))
+
+# Appendix A: midwater trawl retained length comps ------------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt2mkt2_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt2mkt2_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(plotdir, "App_A", "midwater_lenfit.png"))
+
+# Appendix A: hake retained length comps ----------------------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt3mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt3mkt0_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(plotdir, "App_A", "hake_lenfit.png"))
+
+# Appendix A: HnL retained length comps -----------------------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt5mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt5mkt0_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(plotdir, "App_A", "hkl_lenfit.png"))
+
+# Appendix A: bottom trawl retained age comps -----------------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt1mkt2_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt1mkt2_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)
+image_write(combined1, path = file.path(plotdir, "App_A", "bottom_agefit.png"))
+
+# Appendix A: midwater trawl retained age comps -----------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt2mkt2_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt2mkt2_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(plotdir, "App_A", "midwater_agefit.png"))
+
+# Appendix A: hake retained age comps -------------------------------
+
+panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt3mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt3mkt0_page2.png"))
+
+combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
+image_write(combined1, path = file.path(plotdir, "App_A", "hake_agefit.png"))

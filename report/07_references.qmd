@@ -1,6 +1,6 @@
 ## References
 
-<!---
-::: {#refs} 
+::: {refs}
 :::
---->
+
+\clearpage

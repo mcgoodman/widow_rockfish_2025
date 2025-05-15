@@ -125,7 +125,7 @@ author:
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
-        city: 'Seattle, WA'
+        city: 'Seattle'
         postal-code: '98112-2097'
 
   - name: 'Ian G. Taylor'
@@ -220,7 +220,7 @@ library(dplyr)
 #| eval: false 
 # load converted output from asar::convert_output() 
 output <- utils::read.csv('/') 
-# Call reference points and quantities below 
+# Call  reference points and quantities below 
 output <- output |> 
   dplyr::mutate(estimate = as.numeric(estimate), 
     uncertainty = as.numeric(uncertainty)) 
@@ -311,7 +311,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W. Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh, M.Bargas, S.Hopkins, V. Gersteva, K. Ohen, I. Taylor, M. Haltuch, O. Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
+M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W. Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh, M.Bargas, S.Hopkins, V. Gersteva, K. Oken, I. Taylor, M. Haltuch, O. Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
 
 {{< pagebreak >}} 
 

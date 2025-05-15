@@ -168,7 +168,7 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
-      - text: '\lohead{SPECIES assessment 2025}'
+      - text: '\lohead{Widow Rockfish assessment 2025}'
     toc: true
     lof: false
     lot: false

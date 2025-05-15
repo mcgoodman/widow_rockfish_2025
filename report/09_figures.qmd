@@ -87,15 +87,6 @@ knitr::include_graphics(
 #| out.width: "100%"
 #| fig-align: "center"
 
-library(magick)
-
-panel1 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_gamma/index/qq.png"))
-panel2 <- image_read(file.path(here::here(), "data_provided/WCGBTS/delta_lognormal/index/qq.png"))
-
-combined <- image_append(c(panel1, panel2))  # side-by-side
-
-image_write(combined, path = file.path(here::here(), "figures/combined_qq.png"))
-
 knitr::include_graphics(
     file.path(here::here(),"figures/combined_qq.png")
 )
@@ -521,17 +512,6 @@ knitr::include_graphics(
 #| fig-cap: "Estimated selectivity curves for 2018 of the hake fleet (topleft), net fishing fleets (topright), the triennial survey (bottomleft), and the NWFSC survey (bottomright)."
 #| out.width: "90%"
 #| fig-align: "center"
-# library(magick)
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt3sex1.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt4sex1.png"))
-# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt7sex1.png"))
-# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/sel09_len_flt8sex1.png"))
-#  
-# combined1 <- image_append(c(panel1, panel2))  # side-by-side
-# combined2 <- image_append(c(panel3, panel4))  # side-by-side
-# combined <- image_append(c(combined1, combined2), stack = TRUE)  # vertical stack
-
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png"))
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png")
@@ -562,13 +542,6 @@ knitr::include_graphics(
 #| fig-cap: "Estimates of recruitment (upper) and recruitment deviates (lower) with approximate asymptotic 95% confidence intervals (vertical lines) from the MLE estimates."
 #| out.width: "80%"
 #| fig-align: "center"
-
-
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/recdevs2_withbars.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"))
-# 
-# combined <- image_append(c(panel1, panel2), stack = TRUE)  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/recdev_estimates_ts.png"))
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/recdev_estimates_ts.png")
@@ -643,20 +616,9 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fits (lines) to the abundance estimates (points) for the base model. Bottom trawl is in the top left, hake indices are in the top right (a separate q is estimated for the Hake series starting in 1991), the triennial trawl survey index is on the middle left, the NWFSC survey index is on the middle right, and the juvenile survey index (in numbers) is on the bottom. 95% confidence intervals are shown in the input standard errors. Thicker lines (if present) indicate input uncertainty before addition of the estimated additional uncertainty parameter."
-#| out.width: "80%"
+#| fig-cap: "Fits (lines) to the abundance estimates (points) for the base model. A separate q is estimated for the Hake series starting in 1991. Juvenile survey index (in numbers) is on the bottom. 95% confidence intervals are shown in the input standard errors. Thicker lines (if present) indicate input uncertainty before addition of the estimated additional uncertainty parameter."
+#| out.width: "90%"
 #| fig-align: "center"
- 
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_BottomTrawl.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_Hake.png"))
-# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_Triennial.png"))
-# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_NWFSC.png"))
-# panel5 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/index2_cpuefit_JuvSurvey.png"))
-# 
-# combined1 <- image_append(c(panel1, panel2))  # side-by-side
-# combined2 <- image_append(c(panel3, panel4))  # side-by-side
-# combined <- image_append(c(combined1, combined2, panel5), stack = TRUE)  # vertical stack
-#image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/surv_abundest.png"))
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/surv_abundest.png")
@@ -673,14 +635,6 @@ knitr::include_graphics(
 #| out.width: "80%"
 #| fig-align: "center"
 
-# 
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/discard_fitBottomTrawl.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/discard_fitMidwaterTrawl.png"))
-# 
-# 
-# combined <- image_append(c(panel1, panel2), stack = TRUE)  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/pred-obs-discards.png"))
-
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/pred-obs-discards.png")
 )
@@ -696,25 +650,6 @@ knitr::include_graphics(
 #| out.width: "80%"
 #| fig-align: "center"
 
-
-
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt1mkt2_page3.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt1mkt2_page2.png"))
-# 
-# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt2mkt2_page2.png"))
-# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt2mkt2_page2.png"))
-# 
-# panel5 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt3mkt0_page2.png"))
-# panel6 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt3mkt0_page2.png"))
-# 
-# 
-# combined1 <- image_append(c(panel1, panel2))  # side-by-side
-# combined2 <- image_append(c(panel3, panel4))  # side-by-side
-# combined3 <- image_append(c(panel5, panel6))  # side-by-side
-# 
-# combined <- image_append(c(combined1, combined2, combined3), stack = TRUE)  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-trawl.png"))
-
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-trawl.png")
 )
@@ -729,17 +664,6 @@ knitr::include_graphics(
 #| fig-cap: "Pearson residuals for fits to length frequency data (left) and age frequency data (right) for landings from the net and hook-and-line commercial fleets (rows). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
 #| out.width: "80%"
 #| fig-align: "center"
- 
-# panel7 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt4mkt0.png"))
-# panel8 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt4mkt0.png"))
-# 
-# panel9 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt5mkt0_page2.png"))
-# panel10 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_residsflt5mkt0.png"))
-# # 
-# combined1 <- image_append(c(panel7, panel8))  # side-by-side
-# combined2 <- image_append(c(panel9, panel10))  # side-by-side
-# combined <- image_append(c(combined1, combined2), stack = TRUE)  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png"))
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png")
@@ -786,12 +710,6 @@ knitr::include_graphics(
 #| out.width: "90%"
 #| fig-align: "center"
 
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt7mkt0.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_residsflt8mkt0.png"))
-# 
-# combined <- image_append(c(panel1, panel2))  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/comp-lenfit-trien.png"))
-
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/comp-lenfit-trien.png")
 )
@@ -822,24 +740,6 @@ knitr::include_graphics(
 #| out.width: "90%"
 #| fig-align: "center"
 
-
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page1.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page2.png"))
-# 
-# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page3.png"))
-# panel4 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page4.png"))
-# 
-# panel5 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page5.png"))
-# panel6 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_Andre_plotsflt8mkt0_page6.png"))
-# 
-# 
-# combined1 <- image_append(c(panel1, panel2))  # side-by-side
-# combined2 <- image_append(c(panel3, panel4))  # side-by-side
-# combined3 <- image_append(c(panel5, panel6))  # side-by-side
-# 
-# combined <- image_append(c(combined1, combined2, combined3), stack = TRUE)  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/condAAL-andreplot.png"))
-
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/condAAL-andreplot.png")
 )
@@ -847,37 +747,17 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-ret-btm-trwl
+#| label: fig-ret-tv
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Surface plots of female (left) and male (right) time-varying retention for the bottom trawl survey."
+#| fig-cap: "Estimated retention curves by time block (if applicable) for each of the five fleets in the model."
 #| out.width: "90%"
 #| fig-align: "center"
 
-sel_tv1 <- image_read(
-  here::here(
-    "figures", "2025 base model r4ss plots", "plots", "sel05_timevary_ret_surf_flt1sex1.png"
-  )
-)
-
-sel_tv2 <- image_read(
-  here::here(
-    "figures", "2025 base model r4ss plots", "plots", "sel05_timevary_ret_surf_flt1sex2.png"
-  )
-)
-
-combined <- image_append(c(sel_tv1, sel_tv2))
-
-image_write(
-  combined, path = here::here(
-   "figures", "2025 base model r4ss plots", "ret_timevary_btm_trwl.png"
-  )
-)
-
 knitr::include_graphics(
   path = here::here(
-   "figures", "2025 base model r4ss plots", "ret_timevary_btm_trwl.png" 
+   "figures", "2025 base model r4ss plots", "combined_retention_curves_tv.png" 
   )
 )
 
@@ -907,14 +787,6 @@ knitr::include_graphics(
 #| fig-cap: "Combined age frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
 #| out.width: "90%"
 #| fig-align: "center"
-
-# panel1 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_residsflt8mkt0_page1.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_residsflt8mkt0_page2.png"))
-# panel3 <- image_read(file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_condAALfit_residsflt8mkt0_page3.png"))
-# 
-#  combined1 <- image_append(c(panel1, panel2))  # side-by-side
-# combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
-# image_write(combined, path = file.path(here::here(), "figures/2025 base model r4ss plots/condAAL-resids.png"))
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/condAAL-resids.png")
@@ -991,14 +863,6 @@ knitr::include_graphics(
 #| out.width: "90%"
 #| fig-align: "center"
 
-
-# panel1 <- image_read(file.path(here::here(), "figures/diagnostics/Retros/compare1_spawnbio.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/diagnostics/Retros/compare9_recruits.png"))
-# 
-# combined <- image_append(c(panel1, panel2), stack = TRUE)  
-# image_write(combined, path = file.path(here::here(), "figures/diagnostics/retros.png"))
-
-
 knitr::include_graphics(
     file.path(here::here(),"figures/diagnostics/retros.png")
 )
@@ -1044,13 +908,6 @@ knitr::include_graphics(
 #| fig-cap: "Likelihood components in the likelihood profile for natural mortality (M). Note: male and female natural mortality are set to the same value."
 #| out.width: "90%"
 #| fig-align: "center"
-
-
-# panel1 <- image_read(file.path(here::here(), "figures/diagnostics/Like_profile_Female_M.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/diagnostics/Like_profile_Male_M.png"))
-# 
-# combined <- image_append(c(panel1, panel2), stack=TRUE)  
-# image_write(combined, path = file.path(here::here(), "figures/diagnostics/Nat_Mort.png"))
 
 knitr::include_graphics(
     file.path(here::here(),"figures/diagnostics/Nat_Mort.png")
@@ -1119,7 +976,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-combined-retention
+#| label: fig-combined-selectivity
 #| echo: false
 #| warning: false
 #| eval: true
@@ -1147,3 +1004,5 @@ knitr::include_graphics(
 )
 
 ```
+
+\clearpage

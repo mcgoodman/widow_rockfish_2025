@@ -560,7 +560,7 @@ knitr::include_graphics(
 #| warning: false
 #| eval: true
 #| fig-cap: "Length at age (top-left panel) with estimated coefficient of variation (CV, thick line) and calculated standard deviation (SD, thin line) versus length at age in the top-right panel and versus age in the lower-left panel."
-#| out.width: "80%"
+#| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
@@ -568,7 +568,7 @@ knitr::include_graphics(
 )
 
 ```
-
+{{< pagebreak >}} 
 ```{r}
 #| label: fig-recdev-est
 #| echo: false
@@ -590,6 +590,8 @@ knitr::include_graphics(
 )
 
 ```
+
+
 
 ```{r}
 #| label: fig-recfit-bias
@@ -622,11 +624,26 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-spawnbio-sens-uncrt
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs. (no rec dev)"
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/sens_compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+```{r}
 #| label: fig-sens-summary
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparision of model estimated values for 2025, given as percent of the base model estimated value, by sensitivity run."
+#| fig-cap: "Comparision of model estimated quantities for 2025, given as percent of the base model estimated value, by sensitivity run."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -976,29 +993,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/plots/SR_curve.png")
-)
-
-```
-
-```{r}
-#| label: fig-spawnbio-sens
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs. (no rec dev)"
-#| out.width: "90%"
-#| fig-align: "center"
-
-# 
-# panel1 <- image_read(file.path(here::here(), "figures/sensitivities/sens_compare18_smrybio.png"))
-# panel2 <- image_read(file.path(here::here(), "figures/sensitivities/sens_compare11_recdevs.png"))
-# 
-# combined <- image_append(c(panel1, panel2))  
-# image_write(combined, path = file.path(here::here(), "figures/sensitivities/spawnbio-sens.png"))
-
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/spawnbio-sens.png")
 )
 
 ```

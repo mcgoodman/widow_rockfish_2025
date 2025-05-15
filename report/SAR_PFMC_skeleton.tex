@@ -4114,17 +4114,16 @@ structure and assumptions, including:
 Likelihood values and estimates of key parameters are shown in Table 29.
 Predicted spawning biomass trajectories, estimated recruitment
 deviations and comparisons of model estimates for 2025 are shown in in
-Figure 65 (sens\_compare2\_spawningbio\_uncertainty.png), Figure XX
-(sens\_compare11\_recdevs.png) and Figure XX (sens\_summary.png). The
-estimates of current stock depletion ranged from 49.14\%-153.59\% across
-the sensitivity runs, with fixing natural mortality to 0.1 (2015
-assessment prior) resulting in the lowest estimate and forcing
-asymptotic selectivity on the midwater trawl fleet resulting in the
-highest estimate. Generally, the trajectory of the spawning biomass was
-qualitatively similar across all tested models, e.g., peak around late
-1970s and late 2010s, projected decrease in biomass in 2025 followed by
-some recovery into the 2030s; the quantitative magnitude of these trends
-did vary across cases.
+Figure~\ref{fig-spawnbio-sens-uncrt}, Figure~\ref{fig-recdevs-sens} and
+Figure~\ref{fig-sens-summary}. The estimates of current stock depletion
+ranged from 49.14\%-153.59\% across the sensitivity runs, with fixing
+natural mortality to 0.1 (2015 assessment prior) resulting in the lowest
+estimate and forcing asymptotic selectivity on the midwater trawl fleet
+resulting in the highest estimate. Generally, the trajectory of the
+spawning biomass was qualitatively similar across all tested models,
+e.g., peak around late 1970s and late 2010s, projected decrease in
+biomass in 2025 followed by some recovery into the 2030s; the
+quantitative magnitude of these trends did vary across cases.
 
 Fixing M at values lower than the base case estimate resulted in
 decreases in estimated spawning biomass, while fixing steepness across
@@ -4188,13 +4187,14 @@ As R0 increased, natural mortality also increased and the relative
 spawning biomass in 2024 was less depleted (Table 31). There was
 variable support for each likelihood component across the range of R0
 evaluated. The total likelihood supported the estimated value (Table
-31). Profiles are illustrated in Figure 68.For steepness, the negative
-log-likelihood was minimized at a steepness of 0.825, but the 95\%
-confidence interval extends over the entire range of possible steepness
-values (Table 32). Profiles are illustrated in Figure 69. For profiles
-of natural mortality, the negative log-likelihood was minimized at a
-value of 0.132 for males, and a value of 0.121 for females (Table 33).
-Profiles are illustrated in Figure 70.
+31). Profiles are illustrated in \textbf{?@fig-like\_profile\_R0.For}
+steepness, the negative log-likelihood was minimized at a steepness of
+0.825, but the 95\% confidence interval extends over the entire range of
+possible steepness values (Table 32). Profiles are illustrated in
+Figure~\ref{fig-like_profile_Steepness}. For profiles of natural
+mortality, the negative log-likelihood was minimized at a value of 0.132
+for males, and a value of 0.121 for females (Table 33). Profiles are
+illustrated in Figure~\ref{fig-like_profile_M}.
 
 \newpage{}
 
@@ -13886,7 +13886,7 @@ triennial survey (bottomleft), and the NWFSC survey (bottomright).}
 
 \centering{
 
-\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png}
 
 }
 
@@ -13896,6 +13896,8 @@ standard deviation (SD, thin line) versus length at age in the top-right
 panel and versus age in the lower-left panel.}
 
 \end{figure}%
+
+\newpage{}
 
 \begin{figure}
 
@@ -13944,12 +13946,27 @@ sensitivity models.}
 
 \centering{
 
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/sensitivities/sens_compare2_spawnbio_uncertainty.png}
+
+}
+
+\caption{\label{fig-spawnbio-sens-uncrt}Spawning biomass (with 95\%
+confidence interval around the base model) for the base model and
+sensitivity runs. (no rec dev)}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
 \includegraphics[width=0.7\textwidth,height=\textheight]{../figures/sensitivities/sens_summary.png}
 
 }
 
-\caption{\label{fig-sens-summary}Comparision of model estimated values
-by sensitivity run}
+\caption{\label{fig-sens-summary}Comparision of model estimated
+quantities for 2025, given as percent of the base model estimated value,
+by sensitivity run.}
 
 \end{figure}%
 
@@ -14196,20 +14213,6 @@ minimum stock size threshold of 25\% of unfished biomass.}
 \caption{\label{fig-SR-curve}Estimated recruitment and the assumed
 stock-recruit relationship (black line). The dashed line shows the
 effect of the bias correction for the lognormal distribution.}
-
-\end{figure}%
-
-\begin{figure}
-
-\centering{
-
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/sensitivities/spawnbio-sens.png}
-
-}
-
-\caption{\label{fig-spawnbio-sens}Spawning biomass (with 95\% confidence
-interval around the base model) for the base model and sensitivity runs.
-(no rec dev)}
 
 \end{figure}%
 

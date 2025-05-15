@@ -177,6 +177,7 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
+    fig-pos: 'H'
 output-file: 'WIDOW_SAR_2025'
 params:
   office: 'NWFSC'

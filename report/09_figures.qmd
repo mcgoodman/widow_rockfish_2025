@@ -871,7 +871,7 @@ combined <- image_append(c(sel_tv1, sel_tv2))
 
 image_write(
   combined, path = here::here(
-   "figures", "2025 base model r4ss plots", "ret_timevary_btm_trwl.png" 
+   "figures", "2025 base model r4ss plots", "ret_timevary_btm_trwl.png"
   )
 )
 

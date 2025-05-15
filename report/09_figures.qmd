@@ -378,7 +378,7 @@ knitr::include_graphics(
 
 
 ```{r}
-#| label: 
+#| label: fig-weight-length-fits-mf
 #| echo: false
 #| warning: false
 #| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) using observations from all data sources. The weight-at-length curve from the 2019 assessment is inidcated with a solid line."

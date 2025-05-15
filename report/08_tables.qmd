@@ -28,29 +28,42 @@ library(flextable)
 #| warning: false
 #| tbl-cap: "Landings for bottom trawl, midwater trawl, net, and hook-and-line (mt) fisheries from Washington, Oregon, and California."
 
-#table 1
+library(flextable)
+library(dplyr)
+library(tidyr)
+library(officer)
 
-# CatchTable <- read.csv("Tables/CatchTable.csv")%>%
-# select(-ComModelTotal)
-# CatchTable[is.na(CatchTable)] <- 0
-# CatchTable |>
-#   gt() |>
-#  cols_label(
-#     year = "Year",
-#     ComWA = "Com. WA",
-#     ComOR = "Com. OR",
-#     ComCA = "Com. CA",
-#     ComDiscards = "Com. Discards",
-#     Foreign = "For.",
-#     RecWA = "Rec. WA",
-#     RecOR = "Rec. OR",
-#     RecCA = "Rec. CA",
-#   ) |> 
-#   tab_options(
-#     table.font.size = 12,
-#     latex.use_longtable = TRUE
-#   ) |>
-#   as_latex()
+
+table1 <-  read.csv(file.path(here::here(),"report/tables/table_1.csv"))
+
+#Remove periods
+colnames(table1) <- gsub("\\.", " ", colnames(table1))
+
+
+# Build header map (multi-row header)
+header_df <- data.frame(
+  keys = names(table1),
+  line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+  line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+  stringsAsFactors = FALSE
+)
+
+my_border <- fp_border(color = "black", width = 2)
+
+
+
+# Create flextable
+flextable(table1, col_keys = names(table1)) %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  border(border.top = my_border, i = 1) %>% 
+  border(border.top = my_border, part= "header") %>% 
+  colformat_num(j = 2, big.mark = "", digits = 0)
 
 ```
 

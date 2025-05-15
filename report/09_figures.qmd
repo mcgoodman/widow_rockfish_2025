@@ -386,6 +386,7 @@ knitr::include_graphics(
 #| fig-align: center
 
 # fig-wl-fits
+#Problem
 knitr::include_graphics(
   here::here("figures", "length_age_weight", "wl_dat.png")
 )

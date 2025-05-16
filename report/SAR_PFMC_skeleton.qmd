@@ -161,6 +161,7 @@ pdf-engine: lualatex
 format:
   pdf:
     documentclass: scrartcl
+    toc: true
     number-sections: true
     template-partials:
       - 'support_files/before-body.tex'
@@ -169,7 +170,6 @@ format:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
       - text: '\lohead{Widow Rockfish assessment 2025}'
-    toc: true
     lof: false
     lot: false
     titlepage-geometry:
@@ -178,6 +178,7 @@ format:
       - right=1in
       - left=1in
     fig-pos: 'H'
+    reference-location: section
 output-file: 'WIDOW_SAR_2025'
 params:
   office: 'NWFSC'

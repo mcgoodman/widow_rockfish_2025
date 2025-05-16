@@ -46,11 +46,11 @@ The definitions of fishing fleets have not been changed from those in the 2015 a
 
 Catches from all years (1916-2018) were carried forward into this assessment, with two exceptions. First, discards from the hook-and-line fleet were added to the removals for this fleet. The hook-and-line removals of widow rockfish are extremely minimal (@tbl-all_removals) and comprised only approximately 0.2% of the total removals over the last twenty years, with discard being a small fraction of that. The biological samples of the discard amount are also scarce, with input sample sizes not exceeding 6 and averaging around 3 per year (@tbl-disc-totals). With this limited data, the model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added hook-and-line discards to hook-and-line landings. Second, because PacFIN appear to underestimate midwater trawl catches in California in 1979-1980 (Edward Dick, Pers. Comms.) we adjusted midwater and bottom trawl catches from California in these years to reflect the ratio of California midwater to bottom trawl catches in 1981-1982. 
 
-New catches (2019-onward) from PacFIN and ASHOP were otherwise appended onto the 1916-2018 landings and apportioned among fleets using the same criteria as those documented in the 2015 assessment.
+New catches (2019-onward) from PacFIN and ASHOP appended onto the 1916-2018 landings and apportioned among fleets using the same criteria as those documented in the 2015 assessment ([@hicks-status-2015]).
 
 ### Fishery catch-per-unit-effort
 
-Three fishery-dependent CPUE indices were used as in the 2015 and 2019 assessments, derived from 1) Oregon bottom trawl (1984-1999), 2) Pacific Whiting at-sea foreign (1977-1988), and 3) Pacific whiting at-sea domestic fleets (1983-1998). These were not updated; see @adams-status-2019 for details.
+Three fishery-dependent CPUE indices were used as the last assessment ([@adams-status-2019]). Indices were derived from 1) Oregon bottom trawl (1984-1999), 2) Pacific Whiting at-sea foreign (1977-1988), and 3) Pacific whiting at-sea domestic fleets (1983-1998). These were not updated; see @adams-status-2019 for details.
 
 ### Fishery length and age data
 
@@ -103,7 +103,7 @@ $$
 
 ### Biological data
 
-The approach to the estimation of all biological parameters was the same as in @adams-status-2019.
+The approach to the estimation of all biological parameters was the same as in ([@adams-status-2019]).
 
 #### Weight-length relationship 
 
@@ -127,19 +127,19 @@ Weight-at-length data were updated from the 2019 assessment. Data used to estima
 
 #### Maturity schedule
 
-Unchanged from previous assessment; refer to @adams-status-2019.
+Unchanged from previous assessment; refer to ([@adams-status-2019]).
 
 #### Fecundity
 
-Unchanged from previous assessment; refer to @adams-status-2019.
+Unchanged from previous assessment; refer to ([@adams-status-2019]).
 
 #### Natural Mortality
 
-Natural mortality used in this update differed from the @adams-status-2019 in the treatment of the prior. The prior on natural mortality (M) in the previous assessment was defined as a lognormal with mean on the log-scale of ln(5.4/Amax) and SD(ln(M)) = 0.4384343 following analysis of the data in [@then_evaluating_2015] by Owen Hamel and the authors. In the current assessment the prior on M has been updated to reflect guidance from [@hamel_development_2022]; the log-mean therefore remains unchanged while the log-SD has been set to 0.31. Using a maximum age of 54 the point estimate and median of the prior on M is 0.10.
+Unchanged from previous assessment; refer to ([@adams-status-2019]).
 
 #### Length-at-age
 
-Estimates of length-at-age used in this update were the same as the 2015 assessment. Two different labs have aged the majority of processed otoliths for widow rockfish. The SWFSC has been aging widow rockfish otoliths for many years, including all of the fishery data prior to 2011 and otoliths collected from the NWFSC WCGBT survey in 2009 and 2010. The Cooperative Ageing Project (CAP) in Newport, Oregon aged 1,100 otoliths from the NWFSC WCGBT survey, 2,026 otoliths provided by ASHOP, and 3,467 otoliths collected by port samplers. All of the commercial fishery samples were collected in the years 2011–2014. In total, there are 105,814 paired age and length observations ranging from 1978 to 2014. @fig-len-age-vonBert shows the lengths and ages for all years and all data as well as predicted von Bertalanffy fits to the data. Females grow larger than males and sex specific growth parameters were estimated at the following values:
+Estimates of length-at-age used in this update differed from the previous assessment ([@adams-status-2019]). Sex specific growth parameters were estimated at the following values:
 
 
 $$
@@ -150,16 +150,16 @@ $$
 \text{Males: } \qquad  L_\infty = 43.64,\quad k=0.24, \quad t_0 = -2.69
 $$
 
-The data from each source (ASHOP, port sampling/BDS, Triennial survey, and NWFSC survey) are shown in Figure 36. Variance in length- at-age was estimated separately in the model For small lengths, CV was estimated 0.12 and 0.094 for females and males, respectively. For larger lengths, CV was estimated 0.048 and 0.057 for females and males, respectively. A von Bertalanffy growth curve was fit using these parameters (Figure 36).
+Variance in length- at-age was estimated separately in the model. For small lengths, CV was estimated 0.12 and 0.094 for females and males, respectively. For larger lengths, CV was estimated 0.048 and 0.057 for females and males, respectively. 
 
 
 #### Sex ratios
 
-Unchanged from previous assessment; refer to @adams-status-2019.
+Unchanged from previous assessment; refer to ([@adams-status-2019]).
 
 #### Ageing bias and imprecision
 
-Unchanged from previous assessment; refer to @adams-status-2019, @tbl-age-error, and @fig-est-age-error.
+Unchanged from previous assessment; refer to ([@adams-status-2019]), @tbl-age-error, and @fig-est-age-error.
 
 ## Environmental and Ecosystem Data
 

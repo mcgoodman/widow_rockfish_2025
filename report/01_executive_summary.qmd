@@ -32,31 +32,47 @@ Widow rockfish are a desirable market species and it is believed that discarding
 
 library(flextable)
 library(dplyr)
+library(officer)
+
+exec_tab_style <- function(ft) {
+  ft %>% 
+  font(fontname = "Times New Roman", part = "all") %>%
+  fontsize(size = 9, part = "all") %>% 
+  bold(part="header") %>%
+  hline(part="header") %>%
+  hline_top(part="header") %>% hline_bottom() %>%
+  align(align = "center", part = "header") %>%
+  align(align = "center", part = "body") %>%
+  width(width = 7/length(ft))
+}
+
 #Old table 12
 table_A <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/a_Catches_ES.csv"), stringsAsFactors = FALSE))
 
 colnames(table_A) <- gsub("\\.", " ", colnames(table_A))
+table_A <- round(table_A, 2) # manually round bc flex table isn't working well
 
-# Build header map (multi-row header)
-header_df <- data.frame(
-  keys = names(table_A),
-  line1 = c("Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", "Total Landings","Total Mortality"),
-  stringsAsFactors = FALSE
-)
+# # Build header map (multi-row header)
+# header_df <- data.frame(
+#   keys = names(table_A),
+#   line1 = c("Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", "Total Landings","Total Mortality"),
+#   stringsAsFactors = FALSE
+# )
 
 # Create flextable
 flextable(table_A, col_keys = names(table_A)) %>%
-  set_header_df(mapping = header_df, key = "keys") %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
+  # set_header_df(mapping = header_df, key = "keys") %>%
+  set_header_labels(names = names(table_A), values = c("Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", "Total Landings","Total Mortality")) %>% 
+  # merge_h(part = "header") %>%
+  # merge_v(part = "header") %>%
+  # border(part = "all") %>%
+  # align(align = "center", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
+  # bold(part = "header")%>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  colformat_num(j = 2:ncol(table_A), big.mark = "", digits = 2)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+  fontsize(size = 9, part = "all") %>%
+  set_table_properties(layout = "autofit") %>% exec_tab_style # %>%
+  # colformat_num(j = 2:ncol(table_A), big.mark = "", digits = 2) 
 
 
 ```
@@ -191,25 +207,26 @@ table_B <- table_B %>%
   select(-`Lower Interval 1`, -`Upper Interval 1`)
 
 
-# Build header map (multi-row header)
-header_df <- data.frame(
-  keys = names(table_B),
-  line1 = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval"),
-  stringsAsFactors = FALSE
-)
+# # Build header map (multi-row header)
+# header_df <- data.frame(
+#   keys = names(table_B),
+#   line1 = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval"),
+#   stringsAsFactors = FALSE
+# )
 
 # Create flextable
 flextable(table_B, col_keys = names(table_B)) %>%
-  set_header_df(mapping = header_df, key = "keys") %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
+  # set_header_df(mapping = header_df, key = "keys") %>%
+  set_header_labels(names = names(table_B), values = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval")) %>%
+  # merge_h(part = "header") %>%
+  # merge_v(part = "header") %>%
+  # border(part = "all") %>%
+  # align(align = "center", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
+  # bold(part = "header")%>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+  # fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit") %>% exec_tab_style
 
 ```
 
@@ -270,27 +287,29 @@ table_c <- table_c %>%
   select(-`Lower Interval 1`, -`Upper Interval 1`)
 
 
-# Build header map (multi-row header)
-header_df <- data.frame(
-  keys = names(table_c),
-  line1 = c("Year", "Estimated Recruitment ", "~95% Confidence", "Estimated Recruitment", "~95% Confidence"),
-  line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
-  stringsAsFactors = FALSE
-)
+# # Build header map (multi-row header)
+# header_df <- data.frame(
+#   keys = names(table_c),
+#   line1 = c("Year", "Estimated Recruitment ", "~95% Confidence", "Estimated Recruitment", "~95% Confidence"),
+#   line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
+#   stringsAsFactors = FALSE
+# )
 
 # Create flextable
 flextable(table_c, col_keys = names(table_c)) %>%
-  set_header_df(mapping = header_df, key = "keys") %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
+  set_header_labels(names = names(table_C), values = c("Year", "Estimated recruitment (number in thousands)", "~95% Confidence Interval", "Recruitment \nDeviations", "~95% Confidence Interval")) %>%
+  # set_header_df(mapping = header_df, key = "keys") %>%
+  # merge_h(part = "header") %>%
+  # merge_v(part = "header") %>%
+  # border(part = "all") %>%
+  # align(align = "center", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
+  # bold(part = "header")%>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  fontsize(size = 9, part = "all")%>%
-  padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
-  set_table_properties(layout = "autofit")
+  # fontsize(size = 9, part = "all")%>%
+  # padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
+  # set_table_properties(layout = "autofit") %>% 
+  exec_tab_style # %>% width(width = 1.2)
 
 
 ```
@@ -335,27 +354,29 @@ table_d <- table_d %>%
 
 
 # Build header map (multi-row header)
-header_df <- data.frame(
-  keys = names(table_d),
-  line1 = c("Year", "Estimated", "~95% Confidence", "Harvest rate", "~95% Confidence"),
-  line2 = c("  ", "(1-SPR)/(1-SPR50%)", " Interval ", "(proportion)", " Interval "),
-  stringsAsFactors = FALSE
-)
+# header_df <- data.frame(
+#   keys = names(table_d),
+#   line1 = c("Year", "Estimated", "~95% Confidence", "Harvest rate", "~95% Confidence"),
+#   line2 = c("  ", "(1-SPR)/(1-SPR50%)", " Interval ", "(proportion)", " Interval "),
+#   stringsAsFactors = FALSE
+# )
 
 
 # Create flextable
 flextable(table_d, col_keys = names(table_d)) %>%
-  set_header_df(mapping = header_df, key = "keys") %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
+  set_header_labels(names = names(table_C), values = c("Year", "Estimated \n(1-SPR)/(1-SPR50%)", "~95% Confidence Interval", "Harvest rate \n(proportion)", "~95% Confidence Interval")) %>%
+  # set_header_df(mapping = header_df, key = "keys") %>%
+  # merge_h(part = "header") %>%
+  # merge_v(part = "header") %>%
+  # border(part = "all") %>%
+  # align(align = "center", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
+  # bold(part = "header")%>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+  # padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
+  # fontsize(size = 9, part = "all")%>%
+  # set_table_properties(layout = "autofit") %>% 
+  exec_tab_style
 
 ```
 
@@ -442,7 +463,7 @@ The equilibrium yield plot is shown in @fig-est-eqi-yield, based on a steepness 
 #| label: tbl-e
 #| echo: false
 #| warning: false
-#| tbl-cap: " Summary of reference points and management quantities for the base case model."
+#| tbl-cap: "Summary of reference points and management quantities for the base case model."
 
 
 table_e <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/e_ReferencePoints_ES.csv"), stringsAsFactors = FALSE))
@@ -495,17 +516,19 @@ header_df <- data.frame(
 my_border <- fp_border(color = "black", width = 2)
 # Create flextable
 flextable(table_f, col_keys = names(table_f)) %>%
-  set_header_df(mapping = header_df, key = "keys") %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
+  set_header_labels(names = names(table_C), values = c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt) (termed OY prior to 2011)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")) %>%
+  # set_header_df(mapping = header_df, key = "keys") %>%
+  # merge_h(part = "header") %>%
+  # merge_v(part = "header") %>%
+  # border(part = "all") %>%
+  # align(align = "center", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
+  # bold(part = "header")%>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")%>%
-  border(border.top = my_border, part= "header")
+  # fontsize(size = 9, part = "all")%>%
+  # set_table_properties(layout = "autofit")%>%
+  # border(border.top = my_border, part= "header")
+  exec_tab_style
   
 
 
@@ -536,16 +559,16 @@ table_g <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_sum
 colnames(table_g) <- gsub("\\.", " ", colnames(table_g))
 
 flextable(table_g) %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
-  autofit() %>%
+  # merge_h(part = "header") %>%
+  # merge_v(part = "header") %>%
+  # border(part = "all") %>%
+  # align(align = "center", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
+  # bold(part = "header")%>%
+  # autofit() %>%
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+  # fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit") %>% exec_tab_style
 
 ```
 
@@ -597,6 +620,7 @@ flextable(table_h %>% select(-X)) |>
   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
   align(align = "center", part = "all") |>
   font(fontname = "Times New Roman", part = "all") |>
+  fontsize(size = 9, part ="all") |>
   bold(part = "header", i = 1:2) |>
   bold(part = "header", i = 3, j = 1) |>
   colformat_num(j = 2, big.mark = "", digits = 0) |>

@@ -1,9 +1,7 @@
 # Data
 
 <!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
-Many sources of data were available for this assessment, including indices of abundance (Table 5), length observations, and age observations from fishery-dependent and fishery-independent sources.
-
-
+Many sources of data were available for this assessment, including indices of abundance (Table 5), landings, discards, and length and age observations from fishery-dependent and fishery-independent sources.
 
 ## Fishery-independent data
 

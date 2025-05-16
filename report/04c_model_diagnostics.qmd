@@ -4,14 +4,14 @@ sens_table <- read.csv(here::here("figures", "sensitivities", "sens_table.csv"))
 sens_base_ssb <- round(as.numeric(sens_table[28, 2:13])/as.numeric(sens_table[28, 2])*100, 2)
 mod_names <- c("base model", 
                "fixing natural mortality to 0.1 (2015 assessment prior)", 
-               "fixing natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males (2011 assessment prior)", 
+               "fixing natural mortality at 0.124 yr^-1^ for females and 0.129 yr^-1^ for males (2011 assessment prior)", 
                "forcing asymptotic selectivity on the midwater trawl fleet", 
                "fitting logistic curves for NWFSC WCGBT survey selectivity", 
                "including previously excluded shrimp trawls",
                "updated Washington catch reconstruction",
-               "fixing steepness at 0.4", 
-               "fixing steepness at 0.6", 
-               "fixing steepness at 0.798 (2015 assessment value)", 
+               # "fixing steepness at 0.4", 
+               # "fixing steepness at 0.6", 
+               # "fixing steepness at 0.798 (2015 assessment value)", 
                "exclusion of the triennial survey",
                "weighting the composition data using the Francis method")
 
@@ -24,11 +24,13 @@ firstup <- function(x) {
 
 ## Model Diagnostics
 
-Three types of uncertainty are presented for the assessment of Widow Rockfish. First, uncertainty in the parameter estimates was determined using approximate asymptotic estimates of the standard error. These estimates were based on the maximum likelihood theory that the inverse of the Hessian matrix (the second derivative of the log-likelihood function with respect to the parameter vector) approaches the true uncertainty of the parameter estimates as the sample size approaches infinity. This approach takes into account the uncertainty in the data and supplies correlation estimates between parameters, but does not capture possible skewness in the error distribution of the parameters and may not accurately estimate the standard error in some cases (see [@stewart_comparison_2013]).
+<!-- Remove intro text: 
+Three types of uncertainty are presented for the assessment of widow rockfish. First, uncertainty in the parameter estimates was determined using approximate asymptotic estimates of the standard error. These estimates were based on the maximum likelihood theory that the inverse of the Hessian matrix (the second derivative of the log-likelihood function with respect to the parameter vector) approaches the true uncertainty of the parameter estimates as the sample size approaches infinity. This approach takes into account the uncertainty in the data and supplies correlation estimates between parameters, but does not capture possible skewness in the error distribution of the parameters and may not accurately estimate the standard error in some cases (see [@stewart_comparison_2013]).
 
 The second type of uncertainty that is presented is related to modeling and structural error. This uncertainty cannot be captured in the base model as it is related to errors in the assumptions used in specifying the base model. Therefore, sensitivity analyses were conducted where assumptions were modified to reveal the effect they have on the model results.
 
 Lastly, a major axis of uncertainty was determined from a parameter or structural assumption that results in the greatest change in stock status and advice, and projections were made for different states of nature based upon that parameter or structural assumption.
+-->
 
 ### Convergence
 
@@ -43,22 +45,24 @@ Parameter estimates are shown in @tbl-bio-params, @tbl-param-ests-basecase, and 
 Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. `r length(mod_names)-1` sensitivity analyses were conducted to explore the potential differences in model structure and assumptions, including:
 
 1. Fixed natural mortality at 0.1 for both sexes (2015 assessment prior)
-2. Fixed natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males (2011 assessment prior)
+2. Fixed natural mortality at 0.124 yr^-1^ for females and 0.129 yr^-1^ for males (2011 assessment prior)
+<!--
 3. Fixed steepness at 0.4
 4. Fixed steepness at 0.6
 5. Fixed steepness at 0.798 (2015 assessment value)
-6. Forcing asymptotic selectivity on the midwater trawl fleet
-7. Fitting logistic curves for NWFSC WCGBT survey selectivities
-8. Weighting the composition data using the Francis method
-9. Updated Washington catch reconstruction
-10. Inclusion of previously excluded shrimp trawl data
-11. Exclusion of triennial survey data
+-->
+4. Forcing asymptotic selectivity on the midwater trawl fleet
+5. Fitting logistic curves for NWFSC WCGBT survey selectivities
+6. Weighting the composition data using the Francis method
+7. Updated Washington catch reconstruction
+8. Inclusion of previously excluded shrimp trawl data
+9. Exclusion of triennial survey data
 
-Likelihood values and estimates of key parameters are shown in @tbl-quant-sens-int. Predicted spawning biomass trajectories, estimated recruitment deviations and comparisons of model estimates for 2025 are shown in in @fig-spawnbio-sens-uncrt, @fig-recdevs-sens and @fig-sens-summary. The estimates of current stock depletion ranged from `r min(sens_base_ssb)`%-`r max(sens_base_ssb)`% across the sensitivity runs, with `r mod_names[which(sens_base_ssb == min(sens_base_ssb))]` resulting in the lowest estimate and `r mod_names[which(sens_base_ssb == max(sens_base_ssb))]` resulting in the highest estimate. Generally, the trajectory of the spawning biomass was qualitatively similar across all tested models, e.g., peak around late 1970s and late 2010s, projected decrease in biomass in 2025 followed by some recovery into the 2030s; the quantitative magnitude of these trends did vary across cases. 
+Likelihood values and estimates of key parameters are shown in @tbl-quant-sens-int. Predicted spawning biomass trajectories, estimated recruitment deviations and comparisons of model estimates for 2025 are shown in @fig-recdevs-sens, @fig-spawnbio-sens-uncrt and @fig-sens-summary. The estimates of current stock depletion ranged from `r min(sens_base_ssb)`%-`r max(sens_base_ssb)`% across the sensitivity runs, with `r mod_names[which(sens_base_ssb == min(sens_base_ssb))]` resulting in the lowest estimate and `r mod_names[which(sens_base_ssb == max(sens_base_ssb))]` resulting in the highest estimate. Generally, the trajectory of the spawning biomass was qualitatively similar across all tested models, e.g., peak around late 1970s and late 2010s, projected decrease in biomass in 2025 followed by some recovery into the 2030s; the quantitative magnitude of these trends did vary across cases. 
 
-Fixing M at values lower than the base case estimate resulted in decreases in estimated spawning biomass, while fixing steepness across the values tested resulted in similar or increased estimated spawning biomass. The relative spawning biomass in 2025 changed to `r sens_base_ssb[which(mod_names=="fixing natural mortality at 0.124 yr-1 for females and 0.129 yr-1 for males (2011 assessment prior)")]`% with an M of 0.124 yr-1 and 0.129 yr-1 for females and males, respectively (2011 assessment prior), and to `r sens_base_ssb[which(mod_names=="fixing natural mortality to 0.1 (2015 assessment prior)")]`% with an M of 0.1 yr-1 (2015 assessment prior). 
+Fixing M at values lower than the base case estimate resulted in decreases in estimated spawning biomass, while fixing steepness across the values tested resulted in similar or increased estimated spawning biomass. The relative spawning biomass in 2025 changed to `r sens_base_ssb[which(mod_names=="fixing natural mortality at 0.124 yr^-1^ for females and 0.129 yr^-1^ for males (2011 assessment prior)")]`% with an M of 0.124 yr^-1^ and 0.129 yr^-1^ for females and males, respectively (2011 assessment prior), and to `r sens_base_ssb[which(mod_names=="fixing natural mortality to 0.1 (2015 assessment prior)")]`% with an M of 0.1 yr^-1^ (2015 assessment prior). 
 
-Fixing steepness at a value of 0.6 resulted in an increase of the spawning biomass to `r sens_base_ssb[which(mod_names=="fixing steepness at 0.6")]`% and a decrease in equilibrium yield at a SPR50% reference harvest rate, while other tested values for fixed steepness increased spawning biomass slightly (`r sens_base_ssb[which(mod_names=="fixing steepness at 0.4")]`% and `r sens_base_ssb[which(mod_names=="fixing steepness at 0.798 (2015 assessment value)")]`% for steepness at 0.4 and 0.798, respectively) and increasing equilibrium yield at a SPR50% reference harvest rate slightly. Fixing steepness at a value of 0.4 resulted in low recruitment deviations in the 2019-2024 period relative to other tested models and the base model. 
+<!-- Fixing steepness at a value of 0.6 resulted in an increase of the spawning biomass to `r sens_base_ssb[which(mod_names=="fixing steepness at 0.6")]`% and a decrease in equilibrium yield at a SPR50% reference harvest rate, while other tested values for fixed steepness increased spawning biomass slightly (`r sens_base_ssb[which(mod_names=="fixing steepness at 0.4")]`% and `r sens_base_ssb[which(mod_names=="fixing steepness at 0.798 (2015 assessment value)")]`% for steepness at 0.4 and 0.798, respectively) and increasing equilibrium yield at a SPR50% reference harvest rate slightly. Fixing steepness at a value of 0.4 resulted in low recruitment deviations in the 2019-2024 period relative to other tested models and the base model. -->
 
 Forcing asymptotic selectivity on the midwater fleet increased estimated biomass in 2025 by `r sens_base_ssb[which(mod_names=="forcing asymptotic selectivity on the midwater trawl fleet")]`% compared to base model, while forcing logistic selectivity on the NWFSC WCGBT resulted in similar estimated spawning biomass to the base model. Including shrimp trawl data and updating WA catch reconstruction had almost no impact on the estimated spawning biomass. Excluding the triennial survey data lead to slight increases in estimated spawning biomass. 
 
@@ -72,4 +76,4 @@ A 5-year retrospective analysis was conducted by running the model using data on
 
 Likelihood profiles were conducted for R0, steepness (even though it was not estimated in the base case) and over male and female natural mortality values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. There was some difficulty in achieving model convergence for many parameterizations in the likelihood profile. In some cases jittering was required. 
 
-As R0 increased, natural mortality also increased and the relative spawning biomass in 2024 was less depleted (@tbl-like-R0). There was variable support for each likelihood component across the range of R0 evaluated. The total likelihood supported the estimated value (tbl-like-Rzero). Profiles are illustrated in @fig-like_profile_Rzero. For steepness, the negative log-likelihood was minimized at a steepness of 0.825, but the 95% confidence interval extends over the entire range of possible steepness values (tbl-like-steep). Profiles are illustrated in (@fig-like_profile_Steepness). For profiles of natural mortality, the negative log-likelihood was minimized at a value of 0.132 for males, and a value of 0.121 for females  (@tbl-like-Mfemale and @tbl-like-Mmale). Profiles are illustrated in (@fig-like_profile_M).
+For profiles of natural mortality, the negative log-likelihood was minimized at a value of 0.132 for males, and a value of 0.121 for females  (@tbl-like-Mfemale and @tbl-like-Mmale). Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_M). For steepness, the negative log-likelihood was minimized at a steepness of 0.825, but the 95% confidence interval extends over the entire range of possible steepness values (@tbl-like-steep). Profiles for steepness are illustrated in (@fig-like_profile_Steepness). For R0, the total likelihood supported the estimated value, though there was variable support for each likelihood component across the range of R0 evaluated (@tbl-like-R0). As R0 increased, natural mortality also increased and the relative spawning biomass in 2024 was less depleted (@tbl-like-R0). Profiles for R0 are illustrated in @fig-like_profile_Rzero.

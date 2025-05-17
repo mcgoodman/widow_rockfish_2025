@@ -1,14 +1,16 @@
 # Introduction
 
+This is an assessment of Widow Rockfish that inhabit the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south, and does not include Puget Sound waters (Table 1, @fig-assessregionmap).
+
 *Sebastes entomelas* (Widow Rockfish) is named after its black-lined gut cavity (*ento* meaning within and *melas* meaning black). It has been referred to as buda, beccafico (Italian bird), and viuva (widow) prior to the 1930s. More recently, the Widow Rockfish is also called brownie, belinda bass, brown bomber, and soft brown.
 
-<!-- This is an assessment of Widow Rockfish that inhabit the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south, and does not include Puget Sound waters (Table 1, @fig-assessregionmap). This assessment represents a thorough reconsideration of the data, data preparation, and model structure for assessing Widow Rockfish, including reinvestigations of recent and historical catches (including discards), length and age data, and fleet structure. --> 
+<!--  This assessment represents a thorough reconsideration of the data, data preparation, and model structure for assessing Widow Rockfish, including reinvestigations of recent and historical catches (including discards), length and age data, and fleet structure. --> 
 
 ## Distribution and Stock Structure
 
 Widow Rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska, and are most abundant from British Columbia to Northern California. Although catches north of the U.S.-Canada border or south of the U.S.-Mexico border were not included in this assessment, it is possible that these populations contribute to the biomass of Widow Rockfish off of the U.S. West Coast through adult migration and/or larval dispersion.
 
-There is little evidence of genetically separate stocks along the U.S. coast and past assessments have used a single area, coastwide model with multiple fisheries [@he_status_2011]. In 2011, a two-area assessment model was brought forward for review, and was found to be similar to a coastwide model [@he_status_2011]. There is some evidence of biological differences between areas. For example, Widow Rockfish collected off California tend to mature at a smaller length than Widow Rockfish collected off of Oregon [@barss_maturity_1987]. This may be due to environmental or anthropogenic effects rather than genetic differences. The connectivity of Widow Rockfish populations throughout its range is unknown and it was decided to continue with a single area model for this assessment instead of potentially lose prediction power by splitting the data into two separate areas.
+This assessment is based on a single coastwide area model. There is little evidence of genetically separate stocks along the U.S. coast and past assessments have used a single area versus a two-area assessment model and results were found to be similar [@he_status_2011]. There is some evidence of biological differences between areas. For example, Widow Rockfish collected off California tend to mature at a smaller length than Widow Rockfish collected off of Oregon [@barss_maturity_1987]. This may be due to environmental or anthropogenic effects rather than genetic differences. 
 
 ## Life History
 
@@ -22,7 +24,7 @@ This section is not required for an update assessment; please refer to the most 
 
 ## Ecosystem Considerations
 
-This section is not required for an update assessment; please refer to the most recent full assessment @adams_status_2019 for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment ([@hicks_status_2015]) for additional information.
 
 ## Fishery description
 
@@ -34,9 +36,9 @@ Historical discarding practices are not well known, but it is believed that litt
 
 More detailed information of the fisheries in each state is given in Section 2.2.1 where the reconstructed landings are discussed. -->
 
-This section is not required for an update assessment; please refer to the most recent full assessment @adams_status_2019 for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment ([@hicks_status_2015]) for additional information.
 
-## Management History and Performance
+## Management History 
 
 <!-- Widow Rockfish has been a small large component of groundfish fisheries since the late 1970s. The landings of Widow Rockfish have been historically governed by harvest guidelines and trip limits, while recently management is imposed with total catch harvest limits in the form of overfishing limits (OFLs), acceptable biological catches (ABCs), and annual catch limits (ACLs). A trawl rationalization program, consisting of an individual fishing quota (IFQ) or catch shares system was implemented in 2011 for the limited entry trawl fleet targeting non-whiting groundfish, including Widow Rockfish, and the trawl fleet targeting and delivering whiting to shore-based processors. The limited entry at-sea trawl sectors (motherships and catch-processors) that target whiting and process at sea are managed in a system of harvest cooperatives.
 
@@ -46,17 +48,21 @@ A sorting requirement was implemented for Widow Rockfish in the early 1980s with
 
 Table 4 shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the ACL in the last 10 years.-->
 
-This section is not required for an update assessment; please refer to the most recent full assessment @adams_status_2019 for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment ([@hicks_status_2015]) for additional information.
 
-<!--
+
 ## Management performance
 
-Management performance, including a table or tables comparing Overfishing Limit (OFL), Acceptable Biological Catch (ABC), Annual Catch Limit (ACL), landings, and catch (i.e., landings plus discard) for each area and year. Groundfish assessments that estimate dead discarded catch must include a disclaimer noting that total mortality estimates from the WCGOP and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of a benchmark assessment. The rationale for modeling discard mortality can also be provided. This should be included in all update assessments.
+<!--Management performance, including a table or tables comparing Overfishing Limit (OFL), Acceptable Biological Catch (ABC), Annual Catch Limit (ACL), landings, and catch (i.e., landings plus discard) for each area and year. Groundfish assessments that estimate dead discarded catch must include a disclaimer noting that total mortality estimates from the WCGOP and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of a benchmark assessment. The rationale for modeling discard mortality can also be provided. This should be included in all update assessments.
 -->
+
+Total mortality estimates from the WCGOP and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of a benchmark assessment.
+
+Table 4 shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the ACL in the last 10 years
 
 ## Fisheries off Canada and Alaska
 
-This section is not required for an update assessment; please refer to the most recent full assessment @adams_status_2019 for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment ([@hicks_status_2015]) for additional information.
 
 <!-- Widow Rockfish are distributed throughout Canada and Southeast Alaska and are commonly caught in trawl and hook-and-line fisheries. However, the landings from the fisheries in these areas are estimated to harvest Widow Rockfish at much smaller rate than has been observed off California, Oregon, and Washington mostly due to lower abundance of Widow Rockfish, but also partly due to precautionary behavior of Canadian managers after the large catches followed by management restrictions and concerns of the U.S. fishery in the early 1980s. -->
 

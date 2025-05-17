@@ -2616,8 +2616,8 @@ to the stock.
 \section{Assessment model}\label{assessment-model}
 
 The assessment followed the same model structure as the 2015 base
-assessment ((Hicks and Wetzel 2015)) and 2019 update assessment
-((\textbf{adams-status-2019?})).
+assessment ((Hicks and Wetzel 2015)) and 2019 update assessment ((Adams
+et al. 2019)).
 
 \subsection{History of modeling
 approaches}\label{history-of-modeling-approaches}
@@ -2722,18 +2722,18 @@ To estimate discards in the model, time blocks for changes in
 selectivity and retention in discard data were used. Except for the
 aforementioned addition of blocks to the midwater trawl and hake fleets,
 the same structure for time blocks was used as in the previous
-assessment ((\textbf{adams-status-2019?})) The addition of midwater
-trawl and hake fleets block was necessitated by poor fits to midwater
-trawl discards and the length composition data from the hake fleet in
-from 2020 - 2024, respectively. The poor fit to hake fleet length
-composition data may be due to the high variability in the distribution
-of the hake / pacific whiting fleet between years, as the fleet moves to
-avoid bycatch ((Holland and Martin 2019)). Poor fit to midwater trawl
-discards is thought to be due to (1) the previous decision to fix
-late-year retention to 0.99 which represented an overestimate of the
-(very low) discards in 2011-2016, and (2) the reallocation of quota
-shares and subsequent increase in midwater trawl discards in 2017. These
-choices are described in more detail in the ``fits to data'' section.
+assessment ((Adams et al. 2019)) The addition of midwater trawl and hake
+fleets block was necessitated by poor fits to midwater trawl discards
+and the length composition data from the hake fleet in from 2020 - 2024,
+respectively. The poor fit to hake fleet length composition data may be
+due to the high variability in the distribution of the hake / pacific
+whiting fleet between years, as the fleet moves to avoid bycatch
+((Holland and Martin 2019)). Poor fit to midwater trawl discards is
+thought to be due to (1) the previous decision to fix late-year
+retention to 0.99 which represented an overestimate of the (very low)
+discards in 2011-2016, and (2) the reallocation of quota shares and
+subsequent increase in midwater trawl discards in 2017. These choices
+are described in more detail in the ``fits to data'' section.
 
 \subsubsection{Modeling Platform and
 Structure}\label{modeling-platform-and-structure}
@@ -2762,9 +2762,9 @@ output.
 \paragraph{Model Fleets and Areas}\label{model-fleets-and-areas}
 
 The assessment uses a single-area model, consistent with previous
-assessments ((\textbf{adams-status-2019?})). Multiple fisheries
-encounter Widow Rockfish. The definitions of fishing fleets have not
-been changed from previous assessments ((\textbf{adams-status-2019?})).
+assessments ((Adams et al. 2019)). Multiple fisheries encounter Widow
+Rockfish. The definitions of fishing fleets have not been changed from
+previous assessments ((Adams et al. 2019)).
 
 \subsubsection{Model Parameters}\label{model-parameters}
 
@@ -2781,28 +2781,23 @@ calculated analytically), 49 parameters for selectivity, retention, and
 time blocking of the fleets, eight parameters for survey selectivity,
 125 recruitment deviations, and 12 forecast recruitment deviations.
 
-Fixed parameters in the model were as follows. Steepness was fixed at
-0.72, which is the same as the 2019 assessment as is the mean of the
+Fixed parameters in the model were as follows. Consistent with ((Adams
+et al. 2019)), steepness was fixed at 0.72 as was the mean of the
 current west coast rockfish steepness prior as described above. A
 sensitivity analysis and a likelihood profile were done for steepness.
 The standard deviation of recruitment deviates was fixed at 0.60.
-Maturity at age was fixed as described in Section 2.3.2. Length-weight
-parameters were fixed at estimates using length-weight observations from
-the NWFSC WCGBT survey (Figure~\ref{fig-wl-fits} and
+Maturity at age was fixed as described in ((Adams et al. 2019)).
+Length-weight parameters were fixed at estimates using length-weight
+observations from the NWFSC WCGBT survey (Figure~\ref{fig-wl-fits} and
 Table~\ref{tbl-bio-params}).
 
-Dome-shaped selectivity was explored for both the fishery and the
-surveys in the 2015 assessment. Older Widow Rockfish are often found in
-deeper waters and may move into areas that limit their availability to
-fishing gear, especially trawl gear. Little evidence was found in 2015
-for domed shape selectivity in all but the midwater trawl fleet. The
-final base model assumed asymptotic selectivity (using the double-normal
-formulation in SS3) for each fishery, except for the midwater trawl
-fishery. The NWFSC and Triennial surveys both used spline curves. All
-selectivity curves were length based and the same shape as the 2019
-update, with the exception of the NWFSC survey fleet. The NWFSC survey
-fleet selectivity was estimated to be slightly lower at lengths greater
-than 45 cm, compared to the selectivity estimated in 2019.
+The final base model assumed asymptotic selectivity (using the
+double-normal formulation in SS3) for each fishery, except for the
+midwater trawl fishery. The NWFSC and Triennial surveys both used spline
+curves. All selectivity curves were length based and the same shape as
+the 2019 update, with the exception of the NWFSC survey fleet. The NWFSC
+survey fleet selectivity was estimated to be slightly lower at lengths
+greater than 45 cm, compared to the selectivity estimated in 2019.
 
 Time blocks were used for selectivity and retention parameters in the
 bottom trawl, midwater trawl, hake and hook-and-line fisheries as
@@ -2812,12 +2807,12 @@ indicated in Table~\ref{tbl-speci-base-assess}.
 
 The prior on natural mortality (M) in the previous assessment was
 defined as a lognormal with mean on the log-scale of ln(5.4/Amax) and
-SD(ln(M)) = 0.4384343 following analysis of the data in (Then et al.
-2015) by Owen Hamel and the authors. In the current assessment the prior
-on M has been updated to reflect guidance from (Hamel and Cope 2022);
-the log-mean therefore remains unchanged while the log-SD has been set
-to 0.31. Using a maximum age of 54 the point estimate and median of the
-prior on M is 0.10.
+SD(ln(M)) = 0.4384343 following analysis of the data in ((Then et al.
+2015)) by Owen Hamel and the authors. In the current assessment the
+prior on M has been updated to reflect guidance from ((Hamel and Cope
+2022)); the log-mean therefore remains unchanged while the log-SD has
+been set to 0.31. Using a maximum age of 54 the point estimate and
+median of the prior on M is 0.10.
 
 The prior for steepness (h) assumes a beta distribution with parameters
 based on an update of the Dorn rockfish prior (commonly used in past
@@ -2859,20 +2854,22 @@ likelihood.
 
 \paragraph{Sample weights}\label{sample-weights}
 
-As previous assessment used the McAllister \& Ianelli method and
-changing the weighting method is outside the TORs for an update, Francis
-weighting method is presented as a sensitivity.
+As previous full assessment used the McAllister \& Ianelli method
+((Hicks and Wetzel 2015)) and changing the weighting method is outside
+the TORs for an update, Francis weighting method is presented as a
+sensitivity.
 
-The 2015 and 2019 assessments weighted composition data via the lambdas.
-In the current assessment, the method to weight the composition datasets
-in SS3 was to use variance adjustment factors as the weighting factors.
-The fleet and data-type (length or age) factor was entered as variance
-adjustments factors until the harmonic mean of the effective sample
-sizes matched the mean of the adjusted input sample sizes (McAllister
-and Ianelli 1997). Once the weighting was determined, lambda factors for
-all fleets with both marginal length and marginal age compositions were
-down-weighted by 0.5 to account for the potential double use of data
-since length and age are observed from the same fish.
+The 2019 update assessment weighted composition data via the lambdas
+((Adams et al. 2019)). In the current assessment, the method to weight
+the composition datasets in SS3 was to use variance adjustment factors
+as the weighting factors. The fleet and data-type (length or age) factor
+was entered as variance adjustments factors until the harmonic mean of
+the effective sample sizes matched the mean of the adjusted input sample
+sizes ((McAllister and Ianelli 1997)). Once the weighting was
+determined, lambda factors for all fleets with both marginal length and
+marginal age compositions were down-weighted by 0.5 to account for the
+potential double use of data since length and age are observed from the
+same fish.
 
 \subsubsection{Key Assumptions and Structural
 Choices}\label{key-assumptions-and-structural-choices}
@@ -2942,12 +2939,12 @@ the triennial survey selected larger fish
 (Figure~\ref{fig-est-select-3478}). The NWFSC WCGBT survey exhibited a
 more pronounced dome-shaped selectivity compared to the 2015 assessment.
 
-In 2015, additional survey variability (process error added directly to
-each year's input variability) for the triennial and NWFSC WCGBT surveys
-was not estimated in the model because the estimate was zero
-((\textbf{hicks-status-2015?})). To avoid bound issues in estimation of
-the Hessian, the authors fixed these at zero because the model results
-included reasonable estimates of variance. We retained the same
+In the 2015 assessment, additional survey variability (process error
+added directly to each year's input variability) for the triennial and
+NWFSC WCGBT surveys was not estimated in the model because the estimate
+was zero ((Hicks and Wetzel 2015)). To avoid bound issues in estimation
+of the Hessian, the authors fixed these at zero because the model
+results included reasonable estimates of variance. We retained the same
 modelling approach for the update assessment. The additional standard
 deviation added to the fishery-dependent indices was quite large,
 ranging from 0.16 for the bottom trawl index and 0.58 for the foreign
@@ -2982,42 +2979,17 @@ conditional age-at-length observations for the NWFSC WCGBT survey.
 
 Survey indices and total discards were fitted assuming a lognormal
 likelihood. The five indices of abundance (three survey series, and two
-fishery indices of abundance) shown in Figure~\ref{fig-surv-abundest}.
-The Triennial Shelf Survey treatment was consistent with ((Adams et al.
-2019)). Extra standard error was estimated for all of the series except
-for the two survey series (Table~\ref{tbl-param-ests-select}). None of
-the series showed patterns in residuals, and with the large amount of
-error, none of the series showed serious lack of fit. The recent NWFSC
-WCGBT survey showed a general increase from 2003 - 2015 followed by a
-general decrease from 2016 - 2024, which was also estimated in the base
-model (Figure~\ref{fig-surv-abundest}, middle right). Low (2015, 2021,
-2022) and high (2016) estimates of abundance did not fit well in the
-model.
-
-Fitting the total observed discard amounts required time blocks
-(Figure~\ref{fig-pred-obs-discards}). Fits to the trawl discards from
-the Pikitch data in 1985--1987 in the time block 1982--1989 were quite
-good. The EDCP data (1995--1999) were not fit as well. In the time block
-1990--1997, the EDCP discard observations showed a high error, and the
-fits were within the confidence limits, but below the point estimate in
-two of the three years. The 2015 assessment introduced a time block in
-1998 because a serious reduction in trip limits occurred in that year
-(Table~\ref{tbl-manage-act}) and continued to 2010. The EDCP data showed
-a very small amount of discarding, which was consistent with the WCGOP
-data from that time period, but in 1998 and 1999, landings from the
-bottom trawl fleet were very large compared to 2000--2010. Therefore, a
-large amount of discards were predicted for 1998 and 1999, which do not
-match the observations. It is believed that the EDCP observations in
-1998 and 1999 are not indicative of the actual discards because the
-sample sizes from the EDCP data were small in those years, and 1999 had
-a few samples from early in the year and at the beginning of the
-two-month trip limit period. The predicted discards for the years
-2002--2010 were small (ranging from 1.97 to 15.8 mt). Observed discards
-from WCGOP were low (mean 0.5 mt, SD 0.7 mt) following the
-implementation of catch shares in 2011. Following the reallocation of
-quota shares and re-establishment of a target fishery for widow rockfish
-in 2017, however, observed discards increased markedly (mean 30.4 mt),
-though with high interannual variability (SD 14.9 mt).
+fishery indices of abundance) are shown in
+Figure~\ref{fig-surv-abundest}. The Triennial Shelf Survey treatment was
+consistent with ((Adams et al. 2019)). Extra standard error was
+estimated for all of the series except for the two survey series
+(Table~\ref{tbl-param-ests-select}). None of the series showed patterns
+in residuals, and with the large amount of error, none of the series
+showed serious lack of fit. The recent NWFSC WCGBT survey showed a
+general increase from 2003 - 2015 followed by a general decrease from
+2016 - 2024, which was also estimated in the base model
+(Figure~\ref{fig-surv-abundest}, middle right). Low (2015, 2021, 2022)
+and high (2016) estimates of abundance did not fit well in the model.
 
 The 2019 model applied four time blocks to midwater trawl retention,
 with constant fixed discard rates of 1\% in both early years (1916-1981)

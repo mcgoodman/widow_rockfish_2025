@@ -75,7 +75,9 @@ combined_discard_data <- bind_rows(new_data_share, new_data_nonshare) |>
     .groups = "drop"
   ) |>
   mutate(obs = if_else(obs == 0, 0.001,obs))|> # model wotn fit 0's, so make small number
-  arrange(fleet)
+  arrange(fleet)|>
+  mutate(month = 7)|>
+  select(year,month,fleet,obs,stderr)
 
 
 ## - PLot to check

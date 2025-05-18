@@ -20,7 +20,7 @@ library(flextable)
 # One is using the flextable package via R chunks.
 # For help: https://ardata-fr.github.io/flextable-book/
 
-port_tab_style <- function(ft) {
+port_tab_style <- function(ft, wd = 1) {
   ft %>% 
   font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
@@ -29,10 +29,10 @@ port_tab_style <- function(ft) {
   hline_top(part="header") %>% hline_bottom() %>%
   align(align = "center", part = "header") %>%
   align(align = "center", part = "body") %>%
-  width(width = 7/length(ft))
+  width(width = wd)
 }
 
-land_tab_style <- function(ft) {
+land_tab_style <- function(ft, wd = 0.6) {
   ft %>% 
   font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
@@ -41,7 +41,7 @@ land_tab_style <- function(ft) {
   hline_top(part="header") %>% hline_bottom() %>%
   align(align = "center", part = "header") %>%
   align(align = "center", part = "body") %>%
-  width(width = 9/length(ft))
+  width(width = wd)
 }
 
 ``` 
@@ -57,12 +57,12 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-
 table1 <- read.csv(file.path(here::here(),"report/tables/table_1.csv"))
 
 #Remove periods
 colnames(table1) <- gsub("\\.", " ", colnames(table1))
-
+# manually round
+table1[, 2:ncol(table1)] <- round(table1[, 2:ncol(table1)], 1)
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -73,8 +73,6 @@ header_df <- data.frame(
 )
 
 # my_border <- fp_border(color = "black", width = 2)
-
-
 
 # Create flextable
 flextable(table1, col_keys = names(table1)) %>%
@@ -87,7 +85,9 @@ flextable(table1, col_keys = names(table1)) %>%
  # bold(part = "header")%>%
  # border(border.top = my_border, i = 1) %>% 
  # border(border.top = my_border, part= "header") %>% 
- colformat_num(j = 1, big.mark = "", digits = 0) %>% port_tab_style %>% width(width = 0.5)
+ colformat_num(j = 1, big.mark = "", digits = 0) %>% 
+  colformat_num(j = 2:ncol(table1), digits = 1) %>%
+  port_tab_style(wd = 0.45)
 
 ```
 
@@ -107,8 +107,6 @@ library(tidyr)
 HakeTable <- read.csv(file.path(here::here(),"report/tables/Table_2_2025.csv"))
 colnames(HakeTable) <- gsub("\\.", " ", colnames(HakeTable))
 
-
-
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(HakeTable),
@@ -124,12 +122,11 @@ flextable(HakeTable, col_keys = names(HakeTable)) %>%
  # merge_v(part = "header") %>%
  # border(part = "all") %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style
+ port_tab_style(wd = 0.8)
  # align(align = "center", part = "all") %>%
  # font(fontname = "Times New Roman", part = "all") %>%
  # bold(part = "header")%>%
  # autofit()
-
 
 ```
 
@@ -139,7 +136,7 @@ flextable(HakeTable, col_keys = names(HakeTable)) %>%
 #| label: tbl-manage-act
 #| echo: false
 #| warning: false
-#| tbl-cap: "A subset of management actions of importance to fisheries that caught Widow Rockfish. "
+#| tbl-cap: "A subset of management actions of importance to fisheries that caught widow rockfish."
 
 #table 3
 
@@ -153,7 +150,6 @@ ManageTable<- ManageTable %>%
  group_by(Year)%>%
  ungroup()
  # mutate(Year_Display = ifelse(row_number() == 1, as.character(Year), "")) %>%
- 
 
 flextable(ManageTable) %>%
  set_header_labels(Year = "Year", `Management action` = "Management action") %>%
@@ -168,7 +164,6 @@ flextable(ManageTable) %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
  flextable::width(j = "Year", width = 0.7) %>% # Year column width
  flextable::width(j = "Management action", width = 5)  # Management action column width
-
 
 # select(-ComModelTotal)
 # CatchTable[is.na(CatchTable)] <- 0
@@ -193,11 +188,13 @@ flextable(ManageTable) %>%
 
 ```
 
+{{< pagebreak >}}
+
 ```{r}
 #| label: tbl-manage-guide
 #| echo: false
 #| warning: false
-#| tbl-cap: "Management guidelines for Widow Rockfish from 2004 to 2024. Total landings (mt) are also shown."
+#| tbl-cap: "Management guidelines for widow rockfish from 2004 to 2024. Total landings (mt) are also shown."
 
 #Table 4
 
@@ -228,10 +225,9 @@ flextable(table4_data) %>%
  # bold(part = "header") %>%
  # # Set font
  # font(fontname = "Times New Roman", part = "all") %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>% port_tab_style
+ colformat_num(j = 1, big.mark = "", digits = 0) %>% port_tab_style(wd=1)
 
 ```
-
 
 {{< pagebreak >}}
 
@@ -248,7 +244,6 @@ library(dplyr)
 library(tidyr)
 
 table6_data <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table6.csv"), stringsAsFactors = FALSE))
-
 
 # # Function for consistent table styling
 # style_flextable <- function(ft) {
@@ -267,11 +262,7 @@ table6_data %>%
    Years = "Years",
    Depth_range_m = "Depth range (m)",
    Southern_latitude = "Southern latitude") %>%
- port_tab_style()
-
-
-
-
+ port_tab_style(wd = 1.5)
 
 ```
 
@@ -291,14 +282,14 @@ table7_nwfsc_data <- as.data.frame(read.csv(file.path(here::here(),"report/table
 table7_triennial_data <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table7_triennial.csv"), stringsAsFactors = FALSE))
 
 # Function for consistent table styling
-style_flextable <- function(ft) {
- ft %>%
- font(fontname = "Times New Roman", part = "all") %>%
- border_outer(part = "all") %>%
- border_inner(part = "all") %>%
- align(align = "center", part = "header") %>%
- align(align = "center", part = "body")
-}
+# style_flextable <- function(ft) {
+#  ft %>%
+#  font(fontname = "Times New Roman", part = "all") %>%
+#  border_outer(part = "all") %>%
+#  border_inner(part = "all") %>%
+#  align(align = "center", part = "header") %>%
+#  align(align = "center", part = "body")
+# }
 
 # Create Flextable for Table 7 (Triennial)
 table7_triennial_data %>%
@@ -311,7 +302,7 @@ table7_triennial_data %>%
                    Latitude2 = "Latitude2") %>%
  add_header_row(values = c("Triennial"), colwidths = 6) %>%
  # style_flextable()
- port_tab_style
+ port_tab_style(wd=0.8)
 
 # Create Flextable for Table 7 (NWFSC WCGBT)
 table7_nwfsc_data %>%
@@ -324,9 +315,7 @@ table7_nwfsc_data %>%
                    Latitude2 = "Latitude2") %>%
  add_header_row(values = c("NWFSC WCGBT"), colwidths = 6) %>%
  # style_flextable()
- port_tab_style
-
-
+ port_tab_style(wd=0.8)
 
 ```
 
@@ -351,7 +340,6 @@ header_df <- data.frame(
  stringsAsFactors = FALSE
 )
 
-
 # Create flextable
 flextable(table9, col_keys = names(table9)) %>%
  set_header_df(mapping = header_df, key = "keys") %>%
@@ -363,7 +351,7 @@ flextable(table9, col_keys = names(table9)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style() %>% width(width = 0.5)
+ port_tab_style(wd=0.45)
 
 ```
 
@@ -379,8 +367,7 @@ flextable(table9, col_keys = names(table9)) %>%
 
 table10 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_10.csv"), stringsAsFactors = FALSE))
 #Remove periods
-colnames(table9) <- gsub("\\.", " ", colnames(table9))
-
+colnames(table10) <- gsub("\\.", " ", colnames(table10))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -392,7 +379,7 @@ header_df <- data.frame(
 
 # Create flextable
 flextable(table10, col_keys = names(table10)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
+  set_header_df(mapping = header_df, key = "keys") %>%
  delete_columns(j = 1) %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%
@@ -402,7 +389,7 @@ flextable(table10, col_keys = names(table10)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style() %>% width(width = 0.5)
+ land_tab_style(wd=0.6)
 
 ```
 
@@ -410,12 +397,10 @@ flextable(table10, col_keys = names(table10)) %>%
 #| label: tbl-len-gear-state
 #| echo: false
 #| warning: false
-#| tbl-cap: "Number of lengths of Widow Rockfish by gear and state for non-whiting fisheries."
+#| tbl-cap: "Number of lengths of widow rockfish by gear and state for non-whiting fisheries."
 
 #Old table 11
 table11 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_11.csv"), stringsAsFactors = FALSE))
-
-
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -437,7 +422,7 @@ flextable(table11, col_keys = names(table11)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style() %>% width(width = 0.5)
+ land_tab_style(wd=0.6)
 
 ```
 \elandscape
@@ -449,8 +434,6 @@ flextable(table11, col_keys = names(table11)) %>%
 
 #Old table 12
 table12 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_12.csv"), stringsAsFactors = FALSE))
-
-
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -472,9 +455,7 @@ flextable(table12, col_keys = names(table12)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style() %>% width(width = 0.5)
-
-
+ port_tab_style(wd=0.75)
 
 ```
 
@@ -488,8 +469,6 @@ flextable(table12, col_keys = names(table12)) %>%
 
 #Old table 13
 table13 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_13.csv"), stringsAsFactors = FALSE))
-
-
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -511,9 +490,7 @@ flextable(table13, col_keys = names(table13)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style() %>% width(width = 0.5)
-
-
+ land_tab_style(wd=0.6)
 
 ```
 
@@ -525,8 +502,6 @@ flextable(table13, col_keys = names(table13)) %>%
 
 #Old table 13
 table14 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_14.csv"), stringsAsFactors = FALSE))
-
-
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -549,7 +524,7 @@ flextable(table14, col_keys = names(table14)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style() %>% width(width = 0.5)
+ land_tab_style(wd=0.6)
 
 ```
 
@@ -582,7 +557,7 @@ table16 %>%
  flextable() %>%
  colformat_num(j = 2, big.mark = "", digits = 0) %>%
  # style_table16()
- port_tab_style
+ port_tab_style(wd=0.9)
 
 ```
 \elandscape
@@ -600,7 +575,6 @@ library(tidyr)
 library(officer)
 
 table20<- as.data.frame(read.csv(file.path(here::here(),"report/tables/table20.csv"), stringsAsFactors = FALSE))
-
 
 # Function for consistent table styling
 # style_table20 <- function(ft) {
@@ -620,8 +594,7 @@ table20 %>%
   Standard.Deviation.CAP = "Standard Deviation CAP",
   Standard.Deviation.SWFSC = "Standard Deviation SWFSC"
  ) %>%
- port_tab_style()
- 
+ port_tab_style(wd=1.5)
 
 ```
 
@@ -629,7 +602,7 @@ table20 %>%
 #| label: tbl-speci-base-assess
 #| echo: false
 #| warning: false
-#| tbl-cap: "Specifications of the base assessment model for Widow Rockfish."
+#| tbl-cap: "Specifications of the base assessment model for widow rockfish."
 
 #Old table 21
 
@@ -683,7 +656,7 @@ table22$Parameter[table22$Parameter == "Natural Mortality (M) yr^-1"] <- "Natura
 flextable(table22) %>%  
  set_header_labels(names=colnames(table22), values = c("Parameter", "Initial value", "Number estimated", "Bounds (low, high)", "Prior distribution")) %>%
  # set_header_df(mapping = header_df, key = "keys") %>% 
- port_tab_style %>%
+ port_tab_style (wd=0.85) %>%
  bold(i = c(1, 14)) %>% hline(i = c(1, 13, 14))
  # border(part = "all") %>% align(align = "left", j=2) %>% 
  # font(fontname = "Times New Roman", part = "all") %>% 
@@ -694,7 +667,7 @@ flextable(table22) %>%
  # set_table_properties(layout = "autofit")
 
 ```
-
+\blandscape
 ```{r}
 #| label: tbl-param-ests-basecase
 #| echo: false
@@ -715,7 +688,7 @@ colnames(table23) <- c(" ","Parameter", "Estimate", "SD")
 #             line2 = c("Parameter", "value", "estimated", "(low, high)", "distribution"), stringsAsFactors = FALSE ) 
 # Function for consistent table styling 
 
-flextable(table23) %>% port_tab_style %>%
+flextable(table23) %>% land_tab_style(wd=1.6) %>%
  #set_header_df(mapping = header_df, key = "keys") %>% 
  # border(part = "all") %>% 
  align(align = "left", j=2) %>% 
@@ -729,7 +702,6 @@ flextable(table23) %>% port_tab_style %>%
  # set_table_properties(layout = "autofit")
 
 ```
-
 
 ```{r}
 #| label: tbl-param-ests-select
@@ -749,7 +721,7 @@ table24$SD <- round(table24$SD, 3)
 # my_border <- fp_border(color = "black", width = 2) 
 
 # Function for consistent table styling 
-flextable(table24) %>% port_tab_style %>%
+flextable(table24) %>% port_tab_style(wd=1.5) %>%
  # border(part = "all") %>% 
  align(align = "left", j=1) %>% 
  # font(fontname = "Times New Roman", part = "all") %>% 
@@ -759,7 +731,7 @@ flextable(table24) %>% port_tab_style %>%
  # set_table_properties(layout = "autofit")
 
 ```
-
+\elandscape
 ```{r}
 #| label: tbl-likecomps
 #| echo: false
@@ -778,7 +750,7 @@ table25$Values <- round(table25$Values, 3)
 # Function for consistent table styling 
 flextable(table25) %>% 
   bold(i = 3) %>% hline(i = c(2, 3)) %>%
-  port_tab_style %>% 
+  port_tab_style(wd=2) %>% 
   align(align = c("left", "right"), part = "all") %>%
   colformat_num(i = 1, j = 2, digits = 0) 
  # border(part = "all") %>% 
@@ -818,7 +790,7 @@ table26[11,3] <- " "
 table26[16,3] <- " "
 
 # Function for consistent table styling 
-flextable(table26) %>% land_tab_style %>%
+flextable(table26) %>% land_tab_style(wd=1.9) %>%
  # border(part = "all") %>% 
  # font(fontname = "Times New Roman", part = "all") %>% 
  # bold(part = "header")%>% 
@@ -870,7 +842,7 @@ flextable(table27) %>%
                              "1-SPR (%)", 
                              "Relative exploitation rate (%)")) %>%
  # set_header_df(mapping = header_df, key = "keys") %>% 
- port_tab_style %>%
+ port_tab_style(wd=1.2) %>%
  # border(part = "all") %>% 
  # font(fontname = "Times New Roman", part = "all") %>% 
  # bold(part = "header")%>% 
@@ -880,7 +852,7 @@ flextable(table27) %>%
  # fontsize(size = 9, part = "all")%>% 
  # set_table_properties(layout = "autofit")%>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>% 
- width(width = 0.5)
+ width(width = 0.85)
 
 
 ```
@@ -901,7 +873,7 @@ my_border <- fp_border(color = "black", width = 2)
 colnames(table28) <- gsub("\\.", " ", colnames(table26))
 
 # Function for consistent table styling 
-flextable(table28) %>% port_tab_style %>%
+flextable(table28) %>% port_tab_style(wd=1.5) %>%
  # border(part = "all") %>% 
  # font(fontname = "Times New Roman", part = "all") %>% 
  # bold(part = "header")%>% 
@@ -919,7 +891,7 @@ flextable(table28) %>% port_tab_style %>%
 #| label: tbl-quant-sens-int
 #| echo: false
 #| warning: false
-#| tbl-cap: "Quantities of interest from the sensitivity analyses. ‘RSB2018’ refers to depletion in 2018 (SB$_{2015}$/SB$_0$)"
+#| tbl-cap: "Quantities of interest from the sensitivity analyses."
 
 #Old table 29
 #needs to be landscape! 
@@ -934,7 +906,7 @@ table29 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/short_se
 colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
            "MWT asymptotic selex", "WCGBTS logistic selex", 
            "Including shrimp trawl", "New WA catch recon.", 
-           "h = 0.4", "h = 0.6", "h = 0.798", 
+           # "h = 0.4", "h = 0.6", "h = 0.798", 
            "Excluding triennial", "Francis weighting")
  # gsub("\\.", " ", colnames(table29))
 
@@ -952,23 +924,30 @@ colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.12
 #   align(align = "center", part = "body")
 # }
 
-likelihood_row <- which(apply(table29, 1, function(row) any(row == "Likelihood")))
-
+likelihood_row <- which(apply(table29, 1, function(row) any(row == "LIKELIHOOD")))
+parameter_row <- which(apply(table29, 1, function(row) any(row == "PARAMETER")))
+quantity_row <- which(apply(table29, 1, function(row) any(row == "QUANTITY")))
 
 # Add a row that spans all columns (like a section header)
- flextable(table29) %>% land_tab_style %>% colformat_num(i = 15, j = 1:13, digits = 0) %>%
+ flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:ncol(table29), digits = 0) %>%
  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
  align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
- bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) %>% width(width = 0.6)
+ bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>% 
+   compose(i = parameter_row, j = 1, value = as_paragraph("Parameter values")) %>%
+ merge_at(i = parameter_row, j = 1:ncol(table29), part = "body") %>%
+ align(i = parameter_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+ bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>% 
+  compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
+ merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
+ align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+ bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row))
+ 
  # border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
  # # Keep the outer bottom border of the merged footer row
  # border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "black", width = 1))%>%
  # style_table29()%>% 
  # autofit() %>% width(width = 0.6)
-
-
-
 
 ```
 
@@ -1008,13 +987,13 @@ colnames(table30) <- gsub("\\.", " ", colnames(table30))
 likelihood_row <- which(apply(table30, 1, function(row) any(row == "Likelihood")))
 
 # Add a row that spans all columns (like a section header)
- flextable(table30) %>% land_tab_style %>% 
+ flextable(table30) %>% land_tab_style(wd=1) %>% 
  colformat_num(i = 15, j = 1:6, digits = 0) %>%
  colformat_num(j = 2:6, digits = 3) %>%
  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  merge_at(i = likelihood_row, j = 1:ncol(table30), part = "body") %>%
  align(i = likelihood_row, j = 1:ncol(table30), align = "center", part = "body") %>%
- bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) %>% width(width = 0.6)
+ bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) 
  # compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  # merge_at(i = likelihood_row, j = 1:ncol(table30), part = "body") %>%
  # align(i = likelihood_row, j = 1:ncol(table30), align = "center", part = "body") %>%
@@ -1033,7 +1012,7 @@ likelihood_row <- which(apply(table30, 1, function(row) any(row == "Likelihood")
 #| label: tbl-like-R0
 #| echo: false
 #| warning: false
-#| tbl-cap: "Results from retrospective runs, sequentially removing data over the last five years using the base case assumptions."
+#| tbl-cap: "Quantities of interest when profiling over R0 values."
 
 #Old table 31
 
@@ -1057,13 +1036,14 @@ colnames(table31) <- c("log(R0)",	"10.4","10.2","10","9.8","10.6","10.8","11","1
 likelihood_row <- which(apply(table31, 1, function(row) any(row == "Likelihood")))
 
 # Add a row that spans all columns (like a section header)
- flextable(table31) %>% land_tab_style %>% 
+ flextable(table31) %>% land_tab_style(wd=0.65) %>% 
  colformat_num(i = 15, j = 1:6, digits = 0) %>%
  colformat_num(j = 2:6, digits = 3) %>%
  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  merge_at(i = likelihood_row, j = 1:ncol(table31), part = "body") %>%
  align(i = likelihood_row, j = 1:ncol(table31), align = "center", part = "body") %>%
- bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) %>% width(width = 0.6)
+ bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row))
+ 
  # compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  # merge_at(i = likelihood_row, j = 1:ncol(table31), part = "body") %>%
  # align(i = likelihood_row, j = 1:ncol(table31), align = "center", part = "body") %>%
@@ -1106,13 +1086,14 @@ colnames(table32) <- c("steepness (h)","0.715","0.66","0.605","0.55","0.495","0.
 likelihood_row <- which(apply(table32, 1, function(row) any(row == "Likelihood")))
 
 # Add a row that spans all columns (like a section header)
- flextable(table32) %>% land_tab_style %>% 
+ flextable(table32) %>% land_tab_style(wd=0.55) %>% 
  colformat_num(i = 15, j = 1:6, digits = 0) %>%
  colformat_num(j = 2:6, digits = 3) %>%
  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  merge_at(i = likelihood_row, j = 1:ncol(table32), part = "body") %>%
  align(i = likelihood_row, j = 1:ncol(table32), align = "center", part = "body") %>%
- bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) %>% width(width = 0.6)
+ bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) 
+ 
  # compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  # merge_at(i = likelihood_row, j = 1:ncol(table32), part = "body") %>%
  # align(i = likelihood_row, j = 1:ncol(table32), align = "center", part = "body") %>%
@@ -1154,13 +1135,14 @@ colnames(table33) <- c("Natural Mortality (females)","0.121",	"0.11",	"0.099",	"
 likelihood_row <- which(apply(table33, 1, function(row) any(row == "Likelihood")))
 
 # Add a row that spans all columns (like a section header)
- flextable(table33) %>% land_tab_style %>% 
+ flextable(table33) %>% land_tab_style(wd=0.6) %>% 
  colformat_num(i = 15, j = 1:6, digits = 0) %>%
  colformat_num(j = 2:6, digits = 3) %>%
  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  merge_at(i = likelihood_row, j = 1:ncol(table33), part = "body") %>%
  align(i = likelihood_row, j = 1:ncol(table33), align = "center", part = "body") %>%
- bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) %>% width(width = 0.6)
+ bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row))
+ 
  # compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  # merge_at(i = likelihood_row, j = 1:ncol(table33), part = "body") %>%
  # align(i = likelihood_row, j = 1:ncol(table33), align = "center", part = "body") %>%
@@ -1200,15 +1182,15 @@ colnames(table34) <- c("Natural Mortality (males)","0.132",	"0.121",	"0.11",	"0.
 
 likelihood_row <- which(apply(table34, 1, function(row) any(row == "Likelihood")))
 
-
 # Add a row that spans all columns (like a section header)
- flextable(table34) %>%land_tab_style %>% 
+ flextable(table34) %>%land_tab_style(wd = 0.6) %>% 
  colformat_num(i = 15, j = 1:6, digits = 0) %>%
  colformat_num(j = 2:6, digits = 3) %>%
  compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  merge_at(i = likelihood_row, j = 1:ncol(table34), part = "body") %>%
  align(i = likelihood_row, j = 1:ncol(table34), align = "center", part = "body") %>%
- bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row)) %>% width(width = 0.5)
+ bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row-1, likelihood_row))
+ 
  # compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
  # merge_at(i = likelihood_row, j = 1:ncol(table34), part = "body") %>%
  # align(i = likelihood_row, j = 1:ncol(table34), align = "center", part = "body") %>%
@@ -1227,14 +1209,13 @@ likelihood_row <- which(apply(table34, 1, function(row) any(row == "Likelihood")
 #| label: tbl-weightingcomps
 #| echo: false
 #| warning: false
-#| tbl-cap: "Estimated Dirichlet-multinomial parameters and the corresponding data weights derived using the McAllister-Ianelli and Francis methods. The Dirichlet-multinomial ln(EffN_mult) parameter was bounded between -7 and 7."
+#| tbl-cap: "Estimated Dirichlet-multinomial parameters and the corresponding data weights derived using the McAllister-Ianelli and Francis methods."
 
 #Old table 34
 
 table34 <- read.csv(file.path(here::here(),"figures/sensitivities/weighting_comps.csv"), stringsAsFactors = FALSE)
 #Remove periods
 colnames(table34) <- gsub("\\.", " ", colnames(table34))
-
 
 # Function for consistent table styling
 # style_table34 <- function(ft) {
@@ -1247,7 +1228,6 @@ colnames(table34) <- gsub("\\.", " ", colnames(table34))
 #   align(align = "center", part = "body") 
 # }
 
-
 # Add a row that spans all columns (like a section header)
  flextable(table34) %>%
  set_header_labels(names = colnames(table34), 
@@ -1257,7 +1237,7 @@ colnames(table34) <- gsub("\\.", " ", colnames(table34))
                               "Log(Mean effN), Francis weighting", 
                               "McAllister Ianelli weighting (base model)", 
                               "Francis weighting (alternative)")) %>% 
- port_tab_style
+ port_tab_style(wd=1.2)
  # style_table34() %>% 
  # autofit() %>% width(width = 1)
 
@@ -1278,7 +1258,7 @@ colnames(table35) <- gsub("\\.", " ", colnames(table35))
 # my_border <- fp_border(color = "black", width = 2) 
 
 # Function for consistent table styling 
-flextable(table35) %>% port_tab_style() %>%
+flextable(table35) %>% port_tab_style(wd=1) %>%
  # border(part = "all") %>% align(align = "left", j=2) %>% 
  # font(fontname = "Times New Roman", part = "all") %>% 
  # align(align = "center", part = "all") %>%
@@ -1296,7 +1276,7 @@ flextable(table35) %>% port_tab_style() %>%
 #| label: tbl-dec-table
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary table of 12-year projections beginning in 2021 for alternate states of nature based on the axis of uncertainty (a combination of M, h, and 2013 recruitment strength). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 20XX and 20XX are allocated using the percentage of landings for each fleet in 20XX."
+#| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h, and 2013 recruitment strength). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 20XX and 20XX are allocated using the percentage of landings for each fleet in 20XX."
 #| out.width: "90%"
 
 table36 <- as.data.frame(read.csv(file.path(here::here(),"data_derived/decision_table/dec_table_formatted.csv"), stringsAsFactors = FALSE))

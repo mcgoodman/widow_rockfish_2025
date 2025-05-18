@@ -1,7 +1,7 @@
 
 ```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
-sens_table <- read.csv(here::here("figures", "sensitivities", "sens_table.csv"))
-sens_base_ssb <- round(as.numeric(sens_table[28, 2:13])/as.numeric(sens_table[28, 2])*100, 2)
+sens_table <- read.csv(here::here("figures", "sensitivities", "short_sens_table.csv"))
+sens_base_ssb <- round(as.numeric(sens_table[28, 2:dim(sens_table)[2]])/as.numeric(sens_table[28, 2])*100, 2)
 mod_names <- c("base model", 
                "fixing natural mortality to 0.1 (2015 assessment prior)", 
                "fixing natural mortality at 0.124 yr^-1^ for females and 0.129 yr^-1^ for males (2011 assessment prior)", 

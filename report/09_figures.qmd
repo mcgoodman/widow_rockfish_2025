@@ -8,7 +8,7 @@
 #| eval: true
 #| out.width: "60%"
 #| fig-align: "center"
-#| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not Widow Rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas."
+#| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not widow rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas."
 
 knitr::include_graphics(
     file.path(here::here(),"figures/old_figs/Figure_1_2019.png")
@@ -404,7 +404,7 @@ knitr::include_graphics(
 #| label: fig-n-at-age
 #| echo: false
 #| warning: false
-#| fig-cap: "Number at age observed from all data for female and male Widow Rockfish."
+#| fig-cap: "Number at age observed from all data for female and male widow rockfish."
 #| out.width: "80%"
 #| fig-align: center
 
@@ -434,7 +434,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Length-at-age observations (points, slightly jittered) and predicted length-at-age von Bertalanffy curves for female (top) and male (bottom) Widow Rockfish collected from all fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data."
+#| fig-cap: "Length-at-age observations (points, slightly jittered) and predicted length-at-age von Bertalanffy curves for female (top) and male (bottom) widow rockfish collected from all fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data."
 #| out.width: "80%"
 #| fig-align: "center"
 
@@ -576,7 +576,7 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/sens_compare11_recdevs.png")
+    file.path(here::here(),"figures/sensitivities/short_sens_compare11_recdevs.png")
 )
 
 ```
@@ -591,7 +591,7 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/sens_compare2_spawnbio_uncertainty.png")
+    file.path(here::here(),"figures/sensitivities/short_sens_compare2_spawnbio_uncertainty.png")
 )
 
 ```
@@ -606,7 +606,7 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/sens_summary.png")
+    file.path(here::here(),"figures/sensitivities/short_sens_summary.png")
 )
 
 ```
@@ -799,7 +799,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted spawning biomass (thousand mt) for Widow Rockfish using the base assessment. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
+#| fig-cap: "Predicted spawning biomass (thousand mt) for widow rockfish using the base assessment. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -829,7 +829,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted relative spawning biomass from the Widow Rockfish base case assessment. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
+#| fig-cap: "Predicted relative spawning biomass from the widow rockfish base case assessment. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -950,7 +950,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Phase plot of relative (1-SPR)/(1-SPR_50%) (y-axis) and depletion (x-axis) for Widow Rockfish."
+#| fig-cap: "Phase plot of relative (1-SPR)/(1-SPR_50%) (y-axis) and depletion (x-axis) for widow rockfish."
 #| out.width: "90%"
 #| fig-align: "center"
 

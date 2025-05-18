@@ -356,9 +356,9 @@ model_list <- c(
   `Logistic selectivity curves for surveys` = "LogisCurvSurvSel", 
   `Inclusing of shrimp trawl` = "ShrmpNoShrmp", 
   `New Washington catch reconstruction` = "NewWACatch",
-  `Fixed steepness at 0.4` = "FixedSteep2019_A", 
-  `Fixed steepness at 0.6` = "FixedSteep2019_B", 
-  `Fixed steepness at 0.798 (2015 assessment)` = "FixedSteep2019_C", 
+  # `Fixed steepness at 0.4` = "FixedSteep2019_A", 
+  # `Fixed steepness at 0.6` = "FixedSteep2019_B", 
+  # `Fixed steepness at 0.798 (2015 assessment)` = "FixedSteep2019_C", 
   `Exclusion of triennial survey` = "NoTriSurvey", 
   `Francis weighting` = "Francis"
 )
@@ -447,7 +447,7 @@ dir.create(outdir <- here("figures", "sensitivities"))
                           print = TRUE,  
                           plot = FALSE,
                           plotdir = outdir, 
-                          filenameprefix = "sens_",
+                          filenameprefix = "short_sens_",
 			  legendloc = "bottomleft", 
                           legendlabels = c('Base', names(model_list)), 
                           endyrvec = 2036)
@@ -481,11 +481,11 @@ big_table <- rbind(c(Label = "LIKELIHOOD", Base= "Difference from base model", r
 		   c(Label = "QUANTITY", rep("", dim(big_table)[2]-1)), big_table[21:27, ])
 
 # get likelihoods to be difference between likelihood and base
-for (b in 3:13) {
-    big_table[2:9, b] <- round(as.numeric(big_table[2:9, b]) - as.numeric(big_table[2:9, 2]), 4)
+for (b in 3:(dim(big_table)[2])) {
+    big_table[2:(dim(big_table)[2]), b] <- round(as.numeric(big_table[2:(dim(big_table)[2]), b]) - as.numeric(big_table[2:(dim(big_table)[2]), 2]), 4)
 }
 
-big_table |> write.csv(file.path(outdir, "sens_table.csv"), row.names = FALSE)
+big_table |> write.csv(file.path(outdir, "short_sens_table.csv"), row.names = FALSE)
 
 # for (i in seq_along(model_list)) {
 #   
@@ -570,7 +570,7 @@ CI.quants <- CI.quants %>% arrange(Metric)
 dev.quants |> 
   ggplot(aes(x = relErr, y = mod_num, col = Metric, pch = Metric)) +
   geom_vline(xintercept = 0, linetype = 'dotted') +
-  geom_point() +
+  geom_point(size = 3) +
   geom_segment(aes(x = CI, xend = abs(CI), col = Metric,
                    y = length(sens_paths) + 1.5 + seq(-0.5, 0.5, length.out = length(metric.labs)),
                    yend = length(sens_paths) + 1.5 + seq(-0.5, 0.5, length.out = length(metric.labs))), 
@@ -589,5 +589,5 @@ dev.quants |>
   scale_color_manual(values = c("#005BFF", "#13F240", "#F6F900", "#FFBA00", "#FF592F"), labels = metric.labs)
 #  viridis::scale_color_viridis(discrete = TRUE, labels = metric.labs, option = "turbo", begin = 0.1)
 
-ggsave(file.path(outdir, 'sens_summary.png'),  dpi = 300,  
+ggsave(file.path(outdir, 'short_sens_summary.png'),  dpi = 300,  
        width = 6, height = 7, units = "in")

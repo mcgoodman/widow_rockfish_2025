@@ -364,6 +364,8 @@ fcst$ForeCatch <-  gmt_fcst |>
   mutate(seas = 1) |> 
   select(year, seas, fleet, catch_or_F = catch_mt)
 
+fcst$Fcast_years <- rep(c(-4, 0), each = 3)
+
 SS_writeforecast(mylist = fcst, dir = here("models", "2025 base model"), overwrite = TRUE)
 
 # Bridging plots ------------------------------------------

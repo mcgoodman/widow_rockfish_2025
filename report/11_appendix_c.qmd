@@ -1,0 +1,19 @@
+
+# Appendix C: SS data file
+
+\setcounter{figure}{0}
+\setcounter{equation}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{B\arabic{figure}}
+\renewcommand{\theequation}{B\arabic{equation}}
+\renewcommand{\thetable}{B\arabic{table}}
+
+```{r}
+
+dat_file <- readLines(here::here("models","2025 base model","data_echo.ss_new"))
+cat(dat_file)
+
+
+
+```
+

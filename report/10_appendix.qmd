@@ -14,7 +14,7 @@
 #| warning: false
 #| eval: true
 #| fig-cap: "Fits to the retained length compositions for the bottom trawl fleet."
-#| out.width: "70%"
+#| out.width: "60%"
 #| fig-align: "center"
 
 knitr::include_graphics(

@@ -6,7 +6,7 @@
 #| echo: false
 #| warning: false
 #| eval: true
-#| out.width: "80%"
+#| out.width: "60%"
 #| fig-align: "center"
 #| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not Widow Rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas."
 

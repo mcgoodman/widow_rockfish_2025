@@ -14,12 +14,16 @@ library(future.apply)
 source(here("R", "functions", "bridging_functions.r"))
 source(here("R", "functions", "combine_hnl_discards.r"))
 source(here("R", "functions", "retune_reweight_ss3.R"))
+source(here("R", "functions", "set_ss3_exe.R"))
 
 #Directories
 main_dir <- here("models","data_bridging","finalised_data_bridging")
 dir.create(main_dir)
 
 ####### Data load
+
+#Data from 2019 for old discard stuff #
+dat_2019 <- r4ss::SS_read(here("models","2019 base model","Base_45_new"))
 #-------------------------- catches
 catch_2025 <- read.csv(here("data_derived","catches","2025_catches.csv"))
 #--------------------------  indices
@@ -53,11 +57,10 @@ indices_2025 <- rbind(nwfsc,juvsurv)
 
 # Prefer data from 2025 assessment if available for a given year
 discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv")) |> 
-  arrange(fleet, year, source) |> 
+  arrange(fleet, year) |> 
   group_by(year, fleet) |> 
   slice_tail() |> 
   arrange(fleet, year) |> 
-  select(-source) |> 
   as.data.frame()
 
 #--------------------------  Length comp data
@@ -145,11 +148,10 @@ r4ss::run(dir = base_model_dir, exe = ss3_exe, extras = "-nohess", skipfinished 
 #--------------------  Extend catch -----------------------------------------
 catch_dir <- here(main_dir,"add_catches") #dir
 
-model_temp <- SS_read(base_model_dir) ##read base model
 model_temp$dat$catch <- model_temp$dat$catch|>
   rbind(catch_2025|>
-          filter(year >= 2019))## append data
-
+          filter(year >= 2019))|>## append data
+  arrange(fleet)
 ###Check the data years
 model_temp$dat$catch|>
   group_by(fleet)|>
@@ -163,13 +165,23 @@ r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FAL
 model_temp <- NULL#Wipe model to be safe
 
 
-#--------------------  Extend discard amounts -----------------------------------------
+#--------------------  Extend discard amounts Midwater Bottom trawl, HnL as in 2019 -----------------------------------------
 
-discard_amnt_dir <- here(main_dir,"add_discard_amounts") #dir
+discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_2025_hnl_2019") #dir
+
+## Combine dicards for HnL from 2019 wit new discards
+hnl_disc_2019 <- r4ss::SS_read(model_2019)$dat$discard_data|>
+  filter(fleet == 5)
+
+disc_bt_mwt_2025_hnl_2019 <- discard_amounts|>
+  filter(fleet != 5)|> # Remove the 2025 hnl discards
+  rbind(hnl_disc_2019)|> # add the 2019 hnl discards
+  arrange(fleet)
 
 model_temp <- SS_read(catch_dir) ##read base model
-model_temp$dat$discard_data  <- discard_amounts|>
-  mutate(obs = if_else(obs == 0, 0.001,obs))
+model_temp$dat$discard_data  <- disc_bt_mwt_2025_hnl_2019
+
+
 
 ###Check the data years
 model_temp$dat$discard_data|>
@@ -180,17 +192,179 @@ model_temp$dat$discard_data|>
 SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
-combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5)
+#combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
 
 
+if(exists(file.path(discard_amnt_dir, ss3_exe))){
+  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
+  
+} else {
+  set_ss3_exe(discard_amnt_dir)
+}
 
-file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
-model_temp <- NULL#Wipe model to be safe
+model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
 
-#--------------------  Extend discard lencomps ---------------------------------
-discard_comp_dir <- here(main_dir,"add_discard_comps") #dir
+
+#--------------------  Extend discard amounts Midwater Bottom trawl, HnL  -----------------------------------------
+
+discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_hnl_2023_old_comps") #dir
+
+
+model_temp <- SS_read(catch_dir) ##read base model
+model_temp$dat$discard_data  <- discard_amounts
+
+
+
+###Check the data years
+model_temp$dat$discard_data|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+## write model
+SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
+
+##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
+#combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
+
+
+if(exists(file.path(discard_amnt_dir, ss3_exe))){
+  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
+  
+} else {
+  set_ss3_exe(discard_amnt_dir)
+}
+
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
+
+
+
+#--------------------  Extend discard amounts Midwater Bottom trawl, HnL + comps  -----------------------------------------
+
+discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_hnl_2023_new_comps") #dir
+
+
+model_temp <- SS_read(catch_dir) ##read base model
+model_temp$dat$discard_data  <- discard_amounts
+model_temp$dat$lencomp <- model_temp$dat$lencomp|>
+  filter(part != 1)|> #remove old discards
+  rbind(discard_lcomps|> #add new discards
+          filter(part  == 1)|>
+          filter(fleet != 3)|> #drop hake discards, minimal data an dmot modelled in the assessment
+          arrange(fleet))
+
+###Check the data years
+model_temp$dat$discard_data|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+model_temp$dat$lencomp|>
+  filter(part == 1)|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+
+## write model
+SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
+
+##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
+#combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
+
+
+if(exists(file.path(discard_amnt_dir, ss3_exe))){
+  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
+  
+} else {
+  set_ss3_exe(discard_amnt_dir)
+}
+
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
+
+
+
+
+#--------------------  Update BT, MWT, add hnl disc to landings -----------------------------------------
+
+discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc") #dir
+
+
+model_temp <- SS_read(catch_dir) ##read base model
+
+model_temp$dat$discard_data  <- discard_amounts|>
+  filter(fleet %in% c(1,2))
+
+## Add the dicard amounts to the catch for hnl
+hnl_catch_new <- model_temp$dat$catch %>%
+  filter(fleet == 5) %>%
+  full_join(
+    model_temp$dat$discard_data %>%
+      filter(fleet == 5) %>%
+      select(year, obs) %>%
+      distinct(),
+    by = "year"
+  ) %>%
+  mutate(catch = coalesce(obs, 0) + coalesce(catch, 0)) %>%
+  select(-obs)
+
+# Update model catch data
+model_temp$dat$catch <- model_temp$dat$catch %>%
+  filter(fleet != 5) %>%
+  bind_rows(hnl_catch_new) %>%
+  filter(year >= 0) %>%
+  arrange(fleet)
+
+# #add the discard lcomps
+model_temp$dat$lencomp <- model_temp$dat$lencomp|>
+  filter(part != 1)|> #remove old discards
+  rbind(discard_lcomps|> #add new discards
+          filter(part  == 1)|>
+          filter(fleet != 3)|> #drop hake discards, minimal data an dmot modelled in the assessment
+          arrange(fleet))|>
+  mutate(year = if_else(part == 1 & fleet == 5,abs(year)*-1,year))
+
+model_temp$dat$lencomp|>
+  filter(part == 1)|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+model_temp$dat$discard_data|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+
+###Check the data years
+model_temp$dat$discard_data|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+## write model
+SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
+
+
+###Check the data years
+SS_read(discard_amnt_dir)$dat$discard_data|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
+
+
+if(exists(file.path(discard_amnt_dir, ss3_exe))){
+  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
+  
+} else {
+  set_ss3_exe(discard_amnt_dir)
+}
+
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+model_temp  <- NULL#Wipe model to be safe
+
+
+
+#--------------------  Extend discard lencomps all  ---------------------------------
+discard_comp_dir <- here(main_dir,"add_discard_comps_bt_mwt_2023_hnl_removed") #dir
+
 
 model_temp <- SS_read(discard_amnt_dir) ##read base model
 
@@ -200,21 +374,33 @@ model_temp$dat$lencomp <- model_temp$dat$lencomp|>
   rbind(discard_lcomps|> #add new discards
           filter(part  == 1)|>
           filter(fleet != 3)|> #drop hake discards, minimal data an dmot modelled in the assessment
+          filter(fleet != 5)|> #drop the hnl lcomps from ythe new
           arrange(fleet))
 
 
+model_temp$dat$lencomp|>
+  filter(part == 1)|>
+  group_by(fleet)|>
+  summarise(end_yr = max(year))
 
 ## write model
 SS_write(model_temp,dir = discard_comp_dir,overwrite = T) #write the model
 
 
-combine_hnl_discards(model_dir = discard_comp_dir,hnl_fleet_id = 5)
 
 
+if(exists(file.path(discard_amnt_dir, ss3_exe))){
+  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_comp_dir, ss3_exe)) # copy the executable
+  
+} else {
+  set_ss3_exe(discard_amnt_dir)
+}
 
-file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_comp_dir, ss3_exe)) # copy the executable
 r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
-model_temp <- NULL#Wipe model to be safe
+model_temp <-discard_comp_dir<- NULL#Wipe model to be safe
+
+
+
 
 
 #--------------------  Extend indices  -----------------------------------------

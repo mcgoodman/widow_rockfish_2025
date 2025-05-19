@@ -1,23 +1,24 @@
 # Figures
 
+<!-- ```{r} -->
+<!-- #| label: fig-assessregionmap -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- #| eval: true -->
+<!-- #| out.width: "60%" -->
+<!-- #| fig-align: "center" -->
+<!-- #| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not widow rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas." -->
 
-```{r}
-#| label: fig-assessregionmap
-#| echo: false
-#| warning: false
-#| eval: true
-#| out.width: "60%"
-#| fig-align: "center"
-#| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not widow rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas."
+<!-- knitr::include_graphics( -->
+<!--     file.path(here::here(),"figures/old_figs/Figure_1_2019.png") -->
+<!-- ) -->
+<!-- ``` -->
 
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_1_2019.png")
-)
-```
-
-{{< pagebreak >}}
+<!-- {{< pagebreak >}} -->
 
 ## Data
+
+### Indices
 
 ```{r}
 #| label: fig-assess-map
@@ -185,6 +186,7 @@ knitr::include_graphics(
 
 ```
 
+### Composition data
 
 ```{r}
 #| label: fig-lencomp-fleet1
@@ -369,6 +371,8 @@ knitr::include_graphics(
 
 \clearpage
 
+### Biological data
+
 ```{r}
 #| label: fig-wl-fits
 #| echo: false
@@ -459,6 +463,10 @@ knitr::include_graphics(
 
 ```
 
+## Model
+
+### Bridging
+
 ```{r}
 #| label: fig-data-plot-base
 #| echo: false
@@ -488,6 +496,8 @@ knitr::include_graphics(
 )
 
 ```
+
+### Selectivity
 
 ```{r}
 #| label: fig-est-select-all
@@ -520,6 +530,23 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-combined-selectivity
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity for Bottom Trawl (top row) and Midwater Trawl (bottom row) for males (left column) and females (right column)"
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/combined_retention_plots.png")
+)
+
+```
+
+### Biology
+
+```{r}
 #| label: fig-sizeatage-sdcv
 #| echo: false
 #| warning: false
@@ -549,7 +576,7 @@ knitr::include_graphics(
 
 ```
 
-
+### Fits to data
 
 ```{r}
 #| label: fig-recfit-bias
@@ -562,51 +589,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/plots/recruit_fit_bias_adjust.png")
-)
-
-```
-
-```{r}
-#| label: fig-recdevs-sens
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimates of recruitment deviations for sensitivity models."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/short_sens_compare11_recdevs.png")
-)
-
-```
-
-```{r}
-#| label: fig-spawnbio-sens-uncrt
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs. (no rec dev)"
-#| out.width: "70%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/short_sens_compare2_spawnbio_uncertainty.png")
-)
-
-```
-
-```{r}
-#| label: fig-sens-summary
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparision of model estimated quantities for 2025, given as percent of the base model estimated value, by sensitivity run."
-#| out.width: "70%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/short_sens_summary.png")
 )
 
 ```
@@ -763,7 +745,6 @@ knitr::include_graphics(
 
 ```
 
-
 ```{r}
 #| label: fig-comp-agefreq-all
 #| echo: false
@@ -793,6 +774,8 @@ knitr::include_graphics(
 )
 
 ```
+
+### Timeseries
 
 ```{r}
 #| label: fig-spawnout-95
@@ -855,6 +838,87 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-pred-one-SPR
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Plot of the summary fishing mortality for each year of the model with 95% confidence intervals."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts_summaryF.png")
+)
+
+```
+
+```{r}
+#| label: fig-relative-one-SPR
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Phase plot of relative (1-SPR)/(1-SPR_50%) (y-axis) and depletion (x-axis) for widow rockfish."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/SPR4_phase.png")
+)
+
+```
+
+## Model Diganostics
+
+### Sensitivity analyses
+
+```{r}
+#| label: fig-recdevs-sens
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimates of recruitment deviations for sensitivity models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/short_sens_compare11_recdevs.png")
+)
+
+```
+
+```{r}
+#| label: fig-spawnbio-sens-uncrt
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs. (no rec dev)"
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/short_sens_compare2_spawnbio_uncertainty.png")
+)
+
+```
+
+```{r}
+#| label: fig-sens-summary
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparision of model estimated quantities for 2025, given as percent of the base model estimated value, by sensitivity run."
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/short_sens_summary.png")
+)
+
+```
+
+### Retrospective analysis
+
+```{r}
 #| label: fig-retros
 #| echo: false
 #| warning: false
@@ -868,6 +932,8 @@ knitr::include_graphics(
 )
 
 ```
+
+### Likelihood profiles
 
 ```{r}
 #| label: fig-like_profile_Rzero
@@ -883,7 +949,6 @@ knitr::include_graphics(
 )
 
 ```
-
 
 ```{r}
 #| label: fig-like_profile_Steepness
@@ -930,35 +995,8 @@ knitr::include_graphics(
 
 ```
 
-```{r}
-#| label: fig-pred-one-SPR
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Plot of the summary fishing mortality for each year of the model with 95% confidence intervals."
-#| out.width: "90%"
-#| fig-align: "center"
 
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts_summaryF.png")
-)
-
-```
-
-```{r}
-#| label: fig-relative-one-SPR
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Phase plot of relative (1-SPR)/(1-SPR_50%) (y-axis) and depletion (x-axis) for widow rockfish."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/SPR4_phase.png")
-)
-
-```
+## Management
 
 ```{r}
 #| label: fig-est-eqi-yield
@@ -971,21 +1009,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png")
-)
-
-```
-
-```{r}
-#| label: fig-combined-selectivity
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Bottom Trawl (top row) and Midwater Trawl (bottom row) for males (left column) and females (right column)"
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/combined_retention_plots.png")
 )
 
 ```

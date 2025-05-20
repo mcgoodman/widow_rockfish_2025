@@ -385,7 +385,7 @@ flextable(table14, col_keys = names(table14)) %>%
 
 #Old table 16
 
-table16 <- read.csv(here("report", "tables", "table_16_data.csv"))
+table16 <- read.csv(here("report", "tables", "discards.csv"))
 #Remove periods
 colnames(table16) <- gsub("\\.", " ", colnames(table16))
 
@@ -586,7 +586,7 @@ table20 %>%
 #Old table 21
 library("officer")
 
-table21<- openxlsx::read.xlsx(here("report", "tables", "table_21.xlsx"))
+table21<- openxlsx::read.xlsx(here("report", "tables", "base_model_specs.xlsx"))
 colnames(table21) <- c("1","2","3")
 
 table21$`2`[which(table21$`2`=="Minimum ages for first growth calcs")] <- "First reference age for growth calcs"
@@ -618,77 +618,14 @@ flextable(table21) %>%
 #| label: tbl-params
 #| echo: false
 #| warning: false
-#| tbl-cap: "Parameter estimates, estimation phase, parameter bounds (low, high), estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model."
+#| tbl-cap: "Parameter estimates, parameter bounds (low, high), estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model."
 
 table_pars <- read_rdata(here("report", "tables", "table_pars.rda"))$table
+table_pars <- table_pars |> select(-Phase)
 
 flextable(table_pars) %>% port_tab_style (wd=0.85)
 ```
-\blandscape
-```{r}
-#| label: tbl-param-ests-basecase
-#| echo: false
-#| warning: false
-#| tbl-cap: "Description of biological parameters in the base case assessment model. The lognormal (LN) prior distribution is specified with the median of the parameter and the standard deviation of the log of the parameter."
 
-#Old table 23
-
-# Function for consistent table styling
-table23 <- read.csv(here("report", "tables", "table_23.csv"))
-colnames(table23) <- c("Parameter", "Estimate", "SD")
-
-# table23
-# my_border <- fp_border(color = "black", width = 2) 
-# Build header map (multi-row header) 
-# header_df <- data.frame( keys = names(table23), 
-#             line1 = c("", "Initial", "Number", "Bounds","Prior"), 
-#             line2 = c("Parameter", "value", "estimated", "(low, high)", "distribution"), stringsAsFactors = FALSE ) 
-# Function for consistent table styling 
-
-flextable(table23) %>% land_tab_style(wd=1.6) %>%
- #set_header_df(mapping = header_df, key = "keys") %>% 
- # border(part = "all") %>% 
- align(align = "left", j=2) %>% 
- # font(fontname = "Times New Roman", part = "all") %>% 
- # italic(i=c(3,17,25), italic=TRUE)%>%
- bold(i=c(3,17,25)) %>% hline(i = c(2, 3, 16, 17, 24, 25))
- # bold(part = "header")%>% border(border.top = my_border, i = 1) %>% 
- # autofit() %>% 
- # colformat_num(j = 1, big.mark = "", digits = 0) #%>% 
- # fontsize(size = 9, part = "all")%>% 
- # set_table_properties(layout = "autofit")
-
-```
-
-```{r}
-#| label: tbl-param-ests-select
-#| echo: false
-#| warning: false
-#| tbl-cap: "Parameter estimates and approximate asymptotic standard deviations for the base case model selectivity parameters. "
-
-#Old table 24
-
-# Function for consistent table styling
-table24 <- read.csv(here("report", "tables", "table_24.csv"))
-colnames(table24) <- gsub("\\.", " ", colnames(table24))
-# manually round bc way too many digits
-table24$Estimate <- round(table24$Estimate, 3)
-table24$SD <- round(table24$SD, 3)
-
-# my_border <- fp_border(color = "black", width = 2) 
-
-# Function for consistent table styling 
-flextable(table24) %>% port_tab_style(wd=1.5) %>%
- # border(part = "all") %>% 
- align(align = "left", j=1) %>% 
- # font(fontname = "Times New Roman", part = "all") %>% 
- # bold(part = "header")%>% border(border.top = my_border, i = 1) %>% 
- # autofit() %>% 
- colformat_num(j = ncol(table24), big.mark = "", digits = 0) # %>% 
- # set_table_properties(layout = "autofit")
-
-```
-\elandscape
 ```{r}
 #| label: tbl-likecomps
 #| echo: false
@@ -698,26 +635,15 @@ flextable(table24) %>% port_tab_style(wd=1.5) %>%
 #Old table 25
 
 # Function for consistent table styling
-table25 <- read.csv(here("report", "tables", "table_25.csv"))
+table25 <- read.csv(here("report", "tables", "likelihood_components.csv"))
 # rounding up front
-table25$Values <- round(table25$Values, 3)
 
 # my_border <- fp_border(color = "black", width = 2) 
 
 # Function for consistent table styling 
 flextable(table25) %>% 
-  bold(i = 3) %>% hline(i = c(2, 3)) %>%
   port_tab_style(wd=2) %>% 
-  align(align = c("left", "right"), part = "all") %>%
   colformat_num(i = 1, j = 2, digits = 0) 
- # border(part = "all") %>% 
- # font(fontname = "Times New Roman", part = "all") %>% 
- # bold(part = "header")%>% 
- # italic(i=3,italic=TRUE)%>%
- # border(border.top = my_border, i = 1) %>% 
- # fontsize(size = 9, part = "all")%>% 
- # set_table_properties(layout = "autofit")
-
 ```
 
 ```{r}
@@ -752,47 +678,18 @@ flextable(table26) %>% land_tab_style(wd=1.9) %>%
 #Old table 27
 
 # Function for consistent table styling
-table27 <- read.csv(here("report" , "tables", "table_27.csv"))
-# build in rounding
-table27$SpawningDepletion... <- round(table27$SpawningDepletion..., 3)
-table27$X1..SPR... <- round(table27$X1..SPR..., 3)
-table27$Relative.exploitation.rate.... <- round(table27$Relative.exploitation.rate...., 3)
-table27$Age.0.recruits <- round(table27$Age.0.recruits, 1)
-table27$Estimated.Total.Catch.mt. <- round(table27$Estimated.Total.Catch.mt., 1)
+table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table
 
-# my_border <- fp_border(color = "black", width = 2)
-
-# Build header map (multi-row header) 
-# header_df <- data.frame( keys = names(table27), 
-#             line1 = c("Year", "Total", "Spawning", "Age 4+ ", "Spawning", "Age-0", "Estimated Total", "1 - SPR", "Relative Exploitation"), 
-#             line2 = c(" ", "Biomass (mt)", "Biomass (mt)","Biomass (mt)", " Depletion(mt)", "recruits", "Catch (mt)","(%)","rate (%)"), stringsAsFactors = FALSE ) 
-
+round1_cols <- c("Exploitation Rate", "Age-0 Recruits (1,000s)", "Total Mortality (mt)")
+table27[,round1_cols] <- round(table27[,round1_cols], 1)
+table27 <- round(table27, 3)
 
 # Function for consistent table styling 
 flextable(table27) %>% 
- set_header_labels(names = colnames(table27), 
-                  values = c("Year", 
-                             "Total biomass (mt)", 
-                             "Spawning biomass (mt)", 
-                             "Age 4+ biomass (mt)", 
-                             "Spawning depletion (mt)", 
-                             "Age-0 recruits (number)", 
-                             "Estiamted total catch (mt)", 
-                             "1-SPR (%)", 
-                             "Relative exploitation rate (%)")) %>%
- # set_header_df(mapping = header_df, key = "keys") %>% 
+ set_header_labels(names = colnames(table27)) %>%
  port_tab_style(wd=1.2) %>%
- # border(part = "all") %>% 
- # font(fontname = "Times New Roman", part = "all") %>% 
- # bold(part = "header")%>% 
- # align(align = "center", part="body")%>% 
- # align(align = "center", part="header")%>% 
- # border(border.top = my_border, i = 1) %>% 
- # fontsize(size = 9, part = "all")%>% 
- # set_table_properties(layout = "autofit")%>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>% 
  width(width = 0.85)
-
 
 ```
 <!-- \elandscape -->
@@ -1183,7 +1080,6 @@ table34 <- table34 %>% select(-c("Log Mean effN   2025 base model", "Log Mean ef
 
 
 ```
-\elandscape
 
 ## Management
 
@@ -1200,9 +1096,11 @@ table_g <- round(table_g, 3)
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
   set_table_properties(layout = "autofit") %>%
-  port_tab_style(wd = 1)
+  land_tab_style(wd = 1)
 
 ```
+
+\elandscape
 
 {{< pagebreak >}}
 

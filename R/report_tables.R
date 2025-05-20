@@ -318,210 +318,25 @@ ashop_hke_age |>
 table_15_dat <- age_landings_sampled |> left_join(ages_sampled, by = 'YEAR') |> rename(Year = YEAR)
 write.csv(table_15_dat, here("report", "tables", "ages_hake.csv"), row.names = FALSE)
 
-# Table 22 - bioloigal params ---------------------------------------
-
-pars <- rep_2025$parameters
-rownames(pars) <- NULL
-
-df <- pars[1:20, c("Label","Init", "Active_Cnt", "Min", "Max", "Pr_type", "Prior", "Pr_SD")] |>
-  mutate(
-    "Initial value" = round(Init, 4),
-    "Number estimated" = if_else(Active_Cnt > 0, 1, 0),
-    "Bounds (low,high)" = paste0("(", round(Min, 2), "-", round(Max, 3), ")"),
-    "Prior Distribution" = if_else(
-      Pr_type == "No_prior",
-      "",
-      paste0("LN(", round(Prior, 2), ",", round(Pr_SD, 2), ")")
-    ),
-    "Parameter" = c(
-      "Natural Mortality (M) yr^-1",
-      "Length at age 3",
-      "Length at age 40",
-      "von Bertalanffy K",
-      "ln(SD) of length at age 3",
-      "ln(SD) of length at age 40",
-      "Maturity-at-age inflection",
-      "Maturity-at-age slope",
-      "Fecundity intercept",
-      "Fecundity slope",
-      "Length-weight intercept",
-      "Length-weight slope",
-      "Natural Mortality (M) yr^-1",
-      "von Bertalanffy K",
-      "ln(SD) of length at age 3",
-      "ln(SD) of length at age 40",
-      "Fecundity intercept",
-      "Fecundity slope",
-      "Length-weight intercept",
-      "Length-weight slope"
-    )
-  ) |>
-  select("Parameter", "Initial value", "Number estimated", "Bounds (low,high)", "Prior Distribution")
-
-# Insert labels
-table_22_dat <- bind_rows(
-  tibble(Parameter = "Female", `Initial value` = NA, `Number estimated` = NA, `Bounds (low,high)` = NA, `Prior Distribution` = NA),
-  df[1:12, ],
-  tibble(Parameter = "Male", `Initial value` = NA, `Number estimated` = NA, `Bounds (low,high)` = NA, `Prior Distribution` = NA),
-  df[13:20, ]
-)
-
-write.csv(table_22_dat, here("report", "tables", "table_22.csv"), row.names = FALSE)
-
-# Table 23 - parms ests with sd -------------------------------------
-
-pars <- rep_2025$parameters[c(23,165:176,1:6,13:18),c("Value","Parm_StDev")]
-table_23 <-  data.frame(
-    "Estimate" =  c(10.4371000,NA,NA, -5.9952400  , 0.1643070 ,-11.1167000 ,  0.3712210 , -1.6365200,
-               1.6880700 , -2.0584200  , 0.0000000 , -3.1407500 ,  0.0000000 ,-11.4354000,
-                0.5779650,NA,NA,   0.1245990 , 20.6525000,  49.5239000,   0.1811070,   0.1158400,
-                0.0481482,NA,NA,   0.1367750 , 21.0408000,  43.6366000,   0.2446380,   0.0941347,
-                0.0568501),
-    "SD" = c(0.16852800 , NA,NA,        NA, 0.06078100, 0.18970500, 0.08632240,         NA,
-            0.36919200 ,0.37249900 ,        NA ,        NA ,        NA ,        NA,
-             0.15171500,NA,NA, 0.00823428, 0.45710200, 0.25586000, 0.00621185, 0.00930326,
-             0.00265739,NA,NA, 0.00840429, 0.39136500, 0.23452200, 0.00931440, 0.00703868,
-             0.00275296),
-    "Parameter" = c("LN(R0)",
-                    "",
-                    "Survey",
-                    
-                  "Bottom trawl (q)",
-                  "Bottom trawl (extra SE)",
-                  "Domestic at-sea hake (q)",
-                  "Domestic at-sea hake (extra SE)",
-                  "Juvenile (q)",
-                  "Juvenile (extra SE)",
-                  "Foreign at-sea hake (q)",
-                  "Foreign at-sea hake (extra SE)",
-                  "Triennial (q)",
-                  "Triennial (extra SE)",
-                  "NWFSC WCGBT (q)",
-                  "NWFSC WCGBT (SE)",
-                  "",
-                  "Biological - Female",
-                  "Natural Mortality (M)",
-                  "Length at age 3",
-                  "Length at age 40",
-                  "Von Bertalanaffy K",
-                  "SD (log) at age 3",
-                  "SD (log) at age 40",
-                  "",
-                  "Biological - Female",
-                  "Natural Mortality (M)",
-                  "Length at age 3",
-                  "Length at age 40",
-                  "Von Bertalanaffy K",
-                  "SD (log) at age 3",
-                  "SD (log) at age 40"))|>
-  mutate(Estimate = if_else(Parameter %in% c( "Bottom trawl (q)",
-                                           "Domestic at-sea hake (q)",
-                                           "Juvenile (q)",
-                                           "Foreign at-sea hake (q)",
-                                           "Triennial (q)",
-                                           "NWFSC WCGBT (q)"),exp(Estimate),Estimate))|>
-  mutate(
-    Estimate = if_else(is.na(Estimate), "", sprintf("%.3f", Estimate)),
-    SD = if_else(is.na(SD), "", sprintf("%.3f", SD))
-  ) |>
-   select(Parameter,Estimate,SD)
-
-write.csv(table_23, here("report", "tables", "table_23.csv"), row.names = FALSE)
-
-# Table 24 - Param ests and sd for selex pars -----------------------
-
-temp <- rep_2025$parameters[179:270,c("Value","Parm_StDev","Phase")]
-temp <- temp|>filter(Phase >= 1)
-names <- rownames(temp)  
-
-table_24 <- temp |>
-  mutate(`Selectivity Parameter` = names) |>
-  rename(
-    Estimate = Value,
-    SD = Parm_StDev
-  ) |>
-  mutate(Fleet = case_when(
-    grepl("BottomTrawl", `Selectivity Parameter`) ~ "Bottom trawl",
-    grepl("MidwaterTrawl", `Selectivity Parameter`) ~ "Midwater trawl",
-    grepl("Hake", `Selectivity Parameter`) ~ "Hake",
-    grepl("Net", `Selectivity Parameter`) ~ "Net",
-    grepl("HnL", `Selectivity Parameter`) ~ "Hook and Line",
-    grepl("NWFSC", `Selectivity Parameter`) ~ "NWFSC",
-    TRUE ~ "Other"
-  )) |>
-  mutate(`Time block` = case_when(
-    grepl("1916", `Selectivity Parameter`) ~ "1916",
-    grepl("1983", `Selectivity Parameter`) ~ "1983",
-    grepl("1998", `Selectivity Parameter`) ~ "1998",
-    grepl("1982", `Selectivity Parameter`) ~ "1982",
-    grepl("1990", `Selectivity Parameter`) ~ "1990",
-    grepl("2002", `Selectivity Parameter`) ~ "2002",
-    grepl("2011", `Selectivity Parameter`) ~ "2011",
-    TRUE ~ "NA"
-  ))|>
-  select(c('Selectivity Parameter',Estimate,SD,Fleet,'Time block'))
-
-rownames(table_24) <- NULL
-
-write.csv(table_24, here("report", "tables", "table_24.csv"), row.names = FALSE)
-
 # Table 25 - Liketemp## Table 25 - Likelihood results ---------------
 
-rep_2025$N_estimated_parameters
-lik_vals <-   c(rep_2025$N_estimated_parameters,NA,NA,7.66449e+03, 1.30223e+01, 5.41079e+03, 8.54968e+02,
-              1.36628e+03, 1.78401e+01, 6.00503e-01, 9.83289e-01)
-
-lik_names <- c("N parameters","","Log-likelihoods","Total","Indices","Discard","Length-frequency data", "Age-frequency data","Recruitment","Priors","Parameter Softbound")
-
-
-table_25 <- data.frame(
-  Description = lik_names,
-  Values = round(lik_vals,5)
-)|>
-  mutate(Values = if_else(is.na(Values), "", as.character(Values)))
-
-rownames(table_25) <- NULL
-
-write.csv(table_25, here("report", "tables", "table_25.csv"), row.names = FALSE)
-
-
-# Table 28 - recruitment deviates -----------------------------------
-
-temp <- rep_2025$parameters[44:152,c("Value","Parm_StDev")]
-names <- rownames(temp)
-years <- as.numeric(stringr::str_extract(names, "(?<=_)\\d{4}"))
-table_28 <- tibble(
-  "Year" = years,
-  "Recruitment Deviate" = temp$Value,
-  "SD" = temp$Parm_StDev
-  
-)
-
-write.csv(table_28, here("report", "tables", "table_28.csv"), row.names = FALSE)
-
-# Table 27 - Time series of population estimates --------------------
-
-unf_bio <- rep_2025$timeseries$SpawnBio[1]
-rep_2025$timeseries |>
-  filter(Yr %in% 1916:2025) |>
-  group_by(Yr) |>
-  summarise(
-    'Total biomass(mt)' = Bio_all,
-    'SpawningBiomass (mt)' = SpawnBio,
-    'Age 4+ biomass(mt)' = mature_bio,
-    'SpawningDepletion(%)' = SpawnBio/unf_bio,
-    'Age-0 recruits' = Recruit_0,
-    'Estimated Total Catch(mt)' = sum(as.numeric(unlist(select(rep_2025$timeseries[rep_2025$timeseries$Yr == Yr,], 
-                                                               matches("obs_cat:_[1-5]")))), na.rm = TRUE)
-  ) |>
+lik_vals <- rep_2025$likelihoods_used |> 
+  rownames_to_column("component") |> 
+  mutate(values = round(values, 3)) |>
+  filter(values > 0) |> 
+  rename(`log-likelihood` = values) |> 
   mutate(
-    # Add the SPR data properly joined by year
-    `1- SPR(%)` = 1 - rep_2025$sprseries[match(Yr, rep_2025$sprseries$Yr), "SPR"],
-    # Calculate the exploitation rate using the numeric columns
-    `Relative exploitation rate (%)` = `Estimated Total Catch(mt)` / `SpawningBiomass (mt)` * 100
-  )->table_27_dat
+    component = case_when(
+      component == "TOTAL" ~ "Total", 
+      grepl("_comp", component) ~ gsub("_comp", " composition", component), 
+      component == "Forecast_Recruitment" ~ "Forecast Recruitment", 
+      component == "Parm_priors" ~ "Priors",
+      component == "Parm_softbounds" ~ "Softbounds", 
+      .default = component
+    )
+  )
 
-write.csv(table_27_dat, here("report", "tables", "table_27.csv"), row.names = FALSE)
+write.csv(lik_vals, here("report", "tables", "likelihood_components.csv"), row.names = FALSE)
 
 # Decision analysis table -------------------------------------------
 

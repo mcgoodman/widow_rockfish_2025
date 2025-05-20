@@ -1,0 +1,10 @@
+"component","log-likelihood","lambdas"
+"Total",19053,NA
+"Survey",13.015,NA
+"Discard",16793.3,NA
+"Length composition",860.879,NA
+"Age composition",1366.41,NA
+"Recruitment",17.868,1
+"Forecast Recruitment",0.605,1
+"Priors",0.976,1
+"Softbounds",0.01,NA

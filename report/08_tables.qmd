@@ -57,20 +57,14 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-table1 <- read.csv(file.path(here::here(),"report/tables/table_1.csv"))
+table1 <- read.csv(here::here("report", "tables", "landings_nonhake.csv"))
 
-#Remove periods
-colnames(table1) <- gsub("\\.", " ", colnames(table1))
-# manually round
-table1[, 2:ncol(table1)] <- round(table1[, 2:ncol(table1)], 1)
+st_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][1], character(1), USE.NAMES = FALSE)
+flt_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][2], character(1), USE.NAMES = FALSE)
+flt_line <- ifelse(flt_line == "Hook.and.Line", gsub(".", "-", flt_line, fixed = TRUE), gsub(".", " ", flt_line, fixed = TRUE))
 
 # Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table1),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
+header_df <- data.frame(keys = names(table1), line1 = c("Year", flt_line), line2 = c(" ", st_line))
 
 # my_border <- fp_border(color = "black", width = 2)
 
@@ -104,19 +98,20 @@ library(flextable)
 library(dplyr)
 library(tidyr)
 
-HakeTable <- read.csv(file.path(here::here(),"report/tables/Table_2_2025.csv"))
-colnames(HakeTable) <- gsub("\\.", " ", colnames(HakeTable))
+table2 <- read.csv(here::here("report", "tables", "landings_hake.csv"))
+
+colnames(table2) <- gsub("\\.", " ", colnames(table2))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
- keys = names(HakeTable),
+ keys = names(table2),
  line1 = c("Year", "Foreign & Domestic", rep("Shoreside hake", 3)),
  line2 = c("", "At-sea", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
 # Create flextable
-flextable(HakeTable, col_keys = names(HakeTable)) %>%
+flextable(table2, col_keys = names(table2)) %>%
  set_header_df(mapping = header_df, key = "keys") %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%

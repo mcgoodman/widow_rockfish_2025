@@ -329,7 +329,7 @@ model_temp$dat$lencomp|>
 SS_write(model_temp,dir = discard_comp_dir,overwrite = T) #write the model
 
 r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
-model_temp <-discard_comp_dir<- NULL#Wipe model to be safe
+model_temp <- NULL#Wipe model to be safe
 
 # Extend indices ------------------------------------------
 
@@ -405,6 +405,7 @@ retune_reweight_ss3(base_model_dir = acomp_dir,
                                 tuning_method = "MI", 
                                 keep_tuning_runs = TRUE,
                                 lambda_weight = 0.5, 
+                                ss3_exe = ss3_exe,
                                 marg_comp_fleets = c(1,2,3,4,5))
 
 

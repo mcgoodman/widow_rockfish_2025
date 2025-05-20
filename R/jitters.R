@@ -20,11 +20,11 @@ jitter_dir <- here("models", "jitters")  # directory to house jitters
 copy_SS_inputs(dir.old = base_dir, dir.new = jitter_dir, overwrite = TRUE) 
 
 # Set number of jitters and jitter fraction
-njitters <- 100  # number of jitters to run
+if (!exists("njitters")) njitters <- 100  # number of jitters to run
 jitter_frac <- 0.1  # common value to use according to r4ss documentation (https://rdrr.io/github/r4ss/r4ss/man/jitter.html), investigate more?
 
 # Set exe
-base_exe <- "ss3"  # name of exe (set_ss3_exe doesn't work on my windows computer...)
+ss3_exe <- file.path(base_dir, set_ss3_exe(base_dir, version = "v3.30.23.1"))
 
 if (parallel) {
   library(future)

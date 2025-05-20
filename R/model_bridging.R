@@ -281,9 +281,10 @@ ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 
 # Rerun from new MLE, post jittering ----------------------
 
-# Obtain jittered MLE, if none exists
+# Obtain jittered MLE
 mle_jitter <- here("models", "jitters", "ss3.par_best.sso")
-if (!file.exists(mle_jitter)) source(here("R", "jitters.R"))
+njitters <- 50
+source(here("R", "jitters.R"))
 
 # Copy files to directory
 dir.create(mle_dir <- here(bridgedir, "jittered_mle"))

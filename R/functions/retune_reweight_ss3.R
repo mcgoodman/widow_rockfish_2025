@@ -13,6 +13,7 @@
 #'        If FALSE, these directories will be deleted. Default is TRUE.
 #' @param lambda_weight Numeric value specifying the weight to apply to fleets affected by double counting. 
 #'        Default is 0.5.
+#' @param ss3_exe absolute path to executable to use for all runs
 #' @param marg_comp_fleets Vector of integers specifying which fleet indices should have lambdas adjusted.
 #'        Default is c(1,2,3,4,5).
 #'
@@ -46,6 +47,7 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
                                 n_tuning_runs = 2, 
                                 tuning_method = "MI", 
                                 keep_tuning_runs = TRUE,
+                                ss3_exe,
                                 lambda_weight = 0.5, 
                                 marg_comp_fleets = c(1,2,3,4,5)) {
   
@@ -78,21 +80,9 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
     #' Write the model to the new directory
     SS_write(inputlist = model_temp, dir = retune_dir, overwrite = TRUE)
     
-    #' Copy executable files to the tuning directory
-    exe_files <- list.files(base_model_dir, pattern = "\\.exe$", full.names = TRUE)
-    if (length(exe_files) == 0) {
-      files <- list.files(base_model_dir, full.names = TRUE)
-      exe_files <- files[which(basename(files) %in% c("ss", "ss3", "ss_osx"))]
-      if (length(exe_files) == 0) {
-        stop("no SS3 executable found")
-      }
-    }
-    exe_name <- basename(exe_files)
-    file.copy(exe_files, to = retune_dir)
-    
     #' Run the model
     cat(paste0("Starting tuning run ",i,"..."))
-    r4ss::run(dir = retune_dir, exe = exe_name, extras = "-nohess",skipfinished = FALSE)
+    r4ss::run(dir = retune_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
     
     #' Store tuning results and directory paths
     tuning_list[[i]] <- tuning_temp$New_Var_adj
@@ -112,9 +102,8 @@ retune_reweight_ss3 <- function(base_model_dir = NULL,
   SS_write(inputlist = model_temp, dir = reweight_dir, overwrite = TRUE)
   
   #' Copy executable files and run the reweighted model
-  file.copy(exe_files, to = reweight_dir)
   cat(paste0("Starting re-weighting (lambda adjustment) run...."))
-  r4ss::run(dir = reweight_dir, exe = exe_name, extras = "-nohess", skipfinished = FALSE)
+  r4ss::run(dir = reweight_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
   
   #' Delete tuning directories if requested
   if(keep_tuning_runs == FALSE) {

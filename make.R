@@ -16,11 +16,12 @@ jobs <- list(
 
 #' rstudioapi wrapper to run a job and wait until it finishes
 #' @param path Path for R script to run
+#' @param workingDir Working directory in which to run the job
 #' @param wait If TRUE, suspend the host R session until job finishes
 #' @param ... Additional arguments to `rstudioapi::jobRunScript`
-run_job <- function(path, wait = TRUE, ...) {
+run_job <- function(path, workingDir = here(), wait = TRUE, ...) {
   
-  job_id <- rstudioapi::jobRunScript(path, ...); Sys.sleep(10)
+  job_id <- rstudioapi::jobRunScript(path, workingDir = workingDir, ...); Sys.sleep(10)
   
   while(wait & rstudioapi::jobGetState(job_id) == "running") Sys.sleep(1)
   
@@ -36,14 +37,12 @@ if (jobs$data) {
   
   run_job(
     here("R", "catches.R"), 
-    name = "process landings", 
-    workingDir = here()
+    name = "process landings"
   )
   
   run_job(
     here("R", "commercial_comps_clean_expand.R"),
-    name = "commerical comps",
-    workingDIr = here()
+    name = "commerical comps"
   )
   
 }
@@ -54,14 +53,12 @@ if (jobs$models) {
   
   run_job(
     here("R", "data_bridging.R"),
-    name = "data bridging", 
-    workingDir = here()
+    name = "data bridging"
   )
   
   run_job(
     here("R", "model_bridging.R"), 
-    name = "model bridging",
-    workingDir = here()
+    name = "model bridging"
   )
   
 }
@@ -72,21 +69,18 @@ if (jobs$diagnostics) {
   
   run_job(
     here("R", "jitters.R"), 
-    name = "jittering", 
-    workingDir = here()
+    name = "jittering"
   )
   
   run_job(
     here("R", "AllSensitivityRuns.R"), 
-    name = "senitivity runs", 
-    workingdir = here(), 
+    name = "senitivity runs",
     wait = FALSE
   )
   
   run_job(
     here("R", "Model_diagnostics.R"), 
-    name = "model diagnostics", 
-    workingDir = here()
+    name = "model diagnostics"
   )
   
 }
@@ -97,20 +91,17 @@ if (jobs$report_plots) {
   
   run_job(
     here("R", "decision_table.R"), 
-    name = "decision table",
-    workingDir = here()
+    name = "decision table"
   )
   
   run_job(
     here("R", "report_tables.R"),
-    name = "report tables", 
-    workingdir = here()
+    name = "report tables"
   )
   
   run_job(
     here("R", "report_figures_paneled.R"),
-    name = "paneled report figures", 
-    workingdir = here()
+    name = "paneled report figures"
   )
   
 }

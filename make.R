@@ -47,7 +47,7 @@ if (jobs$data) {
   
 }
 
-# Data & Model bridging (sequential) ----------------------
+# Data & Model bridging -----------------------------------
 
 if (jobs$models) {
   
@@ -63,9 +63,14 @@ if (jobs$models) {
   
 }
 
-# Diagnostics (can be parallel) ---------------------------
+# Diagnostics ---------------------------------------------
 
 if (jobs$diagnostics) {
+  
+  run_job(
+    here("R", "bridging_plots.R"), 
+    name = "model bridging plots"
+  )
   
   run_job(
     here("R", "jitters.R"), 
@@ -85,7 +90,7 @@ if (jobs$diagnostics) {
   
 }
 
-# Summaries (can be parallel) -----------------------------
+# Summary plots and tables --------------------------------
 
 if (jobs$report_plots) {
   

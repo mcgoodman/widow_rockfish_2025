@@ -615,38 +615,14 @@ flextable(table21) %>%
 
 
 ```{r}
-#| label: tbl-bio-params
+#| label: tbl-params
 #| echo: false
 #| warning: false
-#| tbl-cap: "Description of biological parameters in the base case assessment model. The lognormal (LN) prior distribution is specified with the median of the parameter and the standard deviation of the log of the parameter."
+#| tbl-cap: "Parameter estimates, estimation phase, parameter bounds (low, high), estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model."
 
-#Old table 22
+table_pars <- read_rdata(here("report", "tables", "table_pars.rda"))$table
 
-# Function for consistent table styling
-table22 <- read.csv(here("report", "tables", "table_22.csv"))
-my_border <- fp_border(color = "black", width = 2) 
-# Build header map (multi-row header) 
-header_df <- data.frame( keys = names(table22), 
-            line1 = c("", "Initial", "Number", "Bounds","Prior"), 
-            line2 = c("Parameter", "value", "estimated", "(low, high)", "distribution"), stringsAsFactors = FALSE ) 
-
-## Fix latex error
-table22$Parameter[table22$Parameter == "Natural Mortality (M) yr^-1"] <- "Natural Mortality (M) yr-1"
-
-# Function for consistent table styling 
-flextable(table22) %>%  
- set_header_labels(names=colnames(table22), values = c("Parameter", "Initial value", "Number estimated", "Bounds (low, high)", "Prior distribution")) %>%
- # set_header_df(mapping = header_df, key = "keys") %>% 
- port_tab_style (wd=0.85) %>%
- bold(i = c(1, 14)) %>% hline(i = c(1, 13, 14))
- # border(part = "all") %>% align(align = "left", j=2) %>% 
- # font(fontname = "Times New Roman", part = "all") %>% 
- # bold(part = "header")%>% border(border.top = my_border, i = 1) %>% 
- # autofit() %>% 
- # colformat_num(j = 1, big.mark = "", digits = 0)%>% 
- # fontsize(size = 9, part = "all")%>% 
- # set_table_properties(layout = "autofit")
-
+flextable(table_pars) %>% port_tab_style (wd=0.85)
 ```
 \blandscape
 ```{r}

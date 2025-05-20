@@ -281,8 +281,9 @@ ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 
 # Rerun from new MLE, post jittering ----------------------
 
-# Obtain jittered MLE
-mle_jitter <- here("models", "jitters", "ss3.par_best.sso")
+# Settings for jittering - use fewer runs, 
+# and set block run as base model
+base_dir <- blockdir
 njitters <- 50
 source(here("R", "jitters.R"))
 
@@ -339,78 +340,21 @@ if (!skip_finished) {
   )
 }
 
-# Copy selected model to new base directory ---------------
+# Set new base model, add fcst catches, run ---------------
 
 # Use base model with block on midwater trawl retention
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
-#Run the base model and store r4ss plots in figures dir so they store
-r4ss::run(dir = here("models", "2025 base model"),exe = ss3_exe, skipfinished = FALSE)
-r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")),dir = here::here("figures","2025 base model r4ss plots"))
-
-# Add new forecast catches --------------------------------
-
 fcst <- r4ss::SS_readforecast(here("models", "2025 base model", "forecast.ss"))
 
 gmt_fcst <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT_forecast_catch.csv"))
+gmt_fcst <- gmt_fcst |> mutate(seas = 1) |> select(year, seas, fleet, catch_or_F = catch_mt)
 rownames(gmt_fcst) <- paste0("#_ForeCatch", 1:nrow(gmt_fcst))
 
-fcst$ForeCatch <-  gmt_fcst |> 
-  mutate(seas = 1) |> 
-  select(year, seas, fleet, catch_or_F = catch_mt)
-
-fcst$Fcast_years <- rep(c(-4, 0), each = 3)
+fcst$Fcast_years <- setNames(rep(c(-4, 0), each = 3), names(fcst$Fcast_years))
 
 SS_writeforecast(mylist = fcst, dir = here("models", "2025 base model"), overwrite = TRUE)
 
-# Bridging plots ------------------------------------------
-
-# List directories and model names
-models <- c(
-  "2019 model" = here("models", "2019 base model", "Base_45_new"),
-  "update catch" = here(databridge_dir, "add_catches"),
-  "update_disc_amnt_bt_mwt" = here(databridge_dir, "add_discard_amounts_bt_mwt_2025_hnl_2019"),
-  "update_disc_amnt_bt_mwt_hnl" = here(databridge_dir, "add_discard_amounts_bt_mwt_hnl_2023_old_comps"),
-  "update_disc_amnt_bt_mwt_drop_hnl" = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
-  "update_disc_amnt_and_comps_bt_mwt_hnl" = here(databridge_dir, "add_discard_amounts_bt_mwt_hnl_2023_new_comps"),
-  "update_disc_amnt_and_comps_bt_mwt_drop_hnl" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
-  "update indices" = here(databridge_dir, "add_indices"),
-  "update age / length comp." = basedir, 
-  "model bridging" = mle_dir
-  
-)
-
-combined_models_list <- SSgetoutput(dirvec = models)
-names(combined_models_list) <- names(models) #name the replists
-
-
-# Plotting takes a long time, so do in parallel
-cl <- parallel::makeCluster(length(models))
-
-# Export required objects and packages
-parallel::clusterEvalQ(cl, library(r4ss)) 
-parallel::clusterExport(cl, c("models", "launch_html"))
-
-# Run the parallel loop
-combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = function(x) {
-  replist <- r4ss::SS_output(x, covar = FALSE)
-  r4ss::SS_plots(replist = replist, dir = x, html = launch_html)
-  replist
-})
-
-parallel::stopCluster(cl) # close the cluster
-names(combined_models_list) <- names(models) #name the replists
-
-
-# Plot comparisons
-compare_ss3_mods(
-  replist = combined_models_list,
-  plot_dir = here("figures", "bridging"),
-  plot_names = names(models), 
-  filenameprefix = "bridging_", 
-  legendloc = c(0.05, 1),
-  subplots = c(1:2,9:12)
-)
-
-
+r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE)
+r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")), dir = here::here("figures","2025 base model r4ss plots"))

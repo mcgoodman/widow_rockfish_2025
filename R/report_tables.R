@@ -25,6 +25,11 @@ table_exec_summary(
 
 file.rename(here("report", "tables", "tables"), here("report", "tables", "exec_summ_tables"))
 
+# Parameter tables --------------------------------------------------
+
+# Creates output in report/tables
+table_pars(rep_2025, dir = here("report"))
+
 # Add GMT reference points to exec summary --------------------------
 
 # GMC reference point table
@@ -365,7 +370,7 @@ write.csv(table_22_dat, here("report", "tables", "table_22.csv"), row.names = FA
 
 # Table 23 - parms ests with sd -------------------------------------
 
-xx <- rep_2025$parameters[c(23,165:176,1:6,13:18),c("Value","Parm_StDev")]
+pars <- rep_2025$parameters[c(23,165:176,1:6,13:18),c("Value","Parm_StDev")]
 table_23 <-  data.frame(
     "Estimate" =  c(10.4371000,NA,NA, -5.9952400  , 0.1643070 ,-11.1167000 ,  0.3712210 , -1.6365200,
                1.6880700 , -2.0584200  , 0.0000000 , -3.1407500 ,  0.0000000 ,-11.4354000,

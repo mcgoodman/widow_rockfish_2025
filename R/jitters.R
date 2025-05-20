@@ -13,7 +13,9 @@ library(here)
 source(here("R", "functions", "bridging_functions.R"))
 
 # Set directories
-base_dir <- here("models", "2025 base model")  # base model directory
+# Jitter base model unless sourcing script has overridden
+# Overidden by model_bridging.R so that jittering can be used on non-base model
+if (!exists("base_dir")) base_dir <- here("models", "2025 base model")
 jitter_dir <- here("models", "jitters")  # directory to house jitters
 
 # Copy base model into jitter folder
@@ -24,7 +26,7 @@ if (!exists("njitters")) njitters <- 100  # number of jitters to run
 jitter_frac <- 0.1  # common value to use according to r4ss documentation (https://rdrr.io/github/r4ss/r4ss/man/jitter.html), investigate more?
 
 # Set exe
-ss3_exe <- file.path(base_dir, set_ss3_exe(base_dir, version = "v3.30.23.1"))
+ss3_exe <- here(base_dir, set_ss3_exe(base_dir, version = "v3.30.23.1"))
 
 if (parallel) {
   library(future)
@@ -35,7 +37,7 @@ if (parallel) {
 
 r4ss::run(
   dir = base_dir,
-  exe = base_exe,
+  exe = ss3_exe,
   skipfinished = FALSE,
   show_in_console = TRUE,
   verbose = TRUE,
@@ -46,6 +48,8 @@ base <- SS_output(base_dir)
 
 # Run jitters ------------------------------------------------------------------
 
+dir.create(here("models", "jitters", "plots"))
+
 # Using r4ss, having issues installing nwfscDiag - make this parallel! check future::plan()
 # could use init_values_src - lets you decide whether to jitter from the par file, might be worth using if convergence issues
 jitter_loglike <- r4ss::jitter(
@@ -53,7 +57,7 @@ jitter_loglike <- r4ss::jitter(
   Njitter = njitters,
   printlikes = TRUE,
   jitter_fraction = jitter_frac,  
-  exe = base_exe,
+  exe = ss3_exe,
   verbose = TRUE,
   extras = "-nohess",
   skipfinished = FALSE,
@@ -72,6 +76,8 @@ like_df <- data.frame(run = seq(1:njitters), like = NA)  # data frame with run n
 base_like <- base$likelihoods_used$values[1]  # has to be a way to specifically call the row "TOTAL"....
 
 like_df$like <- jitter_loglike
+
+dir.create(here("figures", "diagnostics"))
 
 # Plot
 ggplot(data = like_df, aes(x = run, y = like)) +
@@ -115,7 +121,7 @@ min_mods <- SSgetoutput(
 min_sum <- SSsummarize(min_mods, verbose = TRUE)
 
 # Make comparison plots for the models that had the lowest likelihood
-plot_dir <- here(jitter_dir, "plots", "min_mods_comp_plots")
+dir.create(plot_dir <- here(jitter_dir, "plots", "min_mods_comp_plots"), recursive = TRUE)
 
 SSplotComparisons(min_sum,
                   print = TRUE,
@@ -126,7 +132,7 @@ SSplotComparisons(min_sum,
 ##### Compare one of the lowest likelihood models (since they all looked the same) to the base
 base_min_sum <- SSsummarize(list(minLL = min_mods[[1]], base = base))
 
-base_min_plot_dir <- here(jitter_dir, "plots", "base_min_comp")
+dir.create(base_min_plot_dir <- here(jitter_dir, "plots", "base_min_comp"), recursive = TRUE)
 
 # Make comparison plots
 SSplotComparisons(base_min_sum,

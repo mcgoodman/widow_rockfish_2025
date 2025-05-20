@@ -1,8 +1,5 @@
 ################ Data bridging #####################
 
-
-
-
 ### Setup
 library(here)
 library(r4ss)
@@ -14,7 +11,6 @@ library(future.apply)
 source(here("R", "functions", "bridging_functions.r"))
 source(here("R", "functions", "combine_hnl_discards.r"))
 source(here("R", "functions", "retune_reweight_ss3.R"))
-source(here("R", "functions", "set_ss3_exe.R"))
 
 #Directories
 main_dir <- here("models","data_bridging","finalised_data_bridging")
@@ -111,7 +107,7 @@ acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 ##### 2019 model run with new version of SS3
 model_2019 <- here("models", "2019 base model", "Base_45_new")
 ctl <- SS_read(model_2019)$ctl
-ss3_exe <- set_ss3_exe(model_2019, version = "v3.30.23")
+ss3_exe <- file.path(model_2019, set_ss3_exe(model_2019, version = "v3.30.23"))
 r4ss::run(dir = model_2019, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
 
 #Apply the adjustments to the model which include: updating names, extending forecasts, extending rec-devs, 
@@ -148,6 +144,8 @@ r4ss::run(dir = base_model_dir, exe = ss3_exe, extras = "-nohess", skipfinished 
 #--------------------  Extend catch -----------------------------------------
 catch_dir <- here(main_dir,"add_catches") #dir
 
+model_temp <- SS_read(base_model_dir)
+
 model_temp$dat$catch <- model_temp$dat$catch|>
   rbind(catch_2025|>
           filter(year >= 2019))|>## append data
@@ -160,7 +158,6 @@ model_temp$dat$catch|>
 
 ## write model
 SS_write(model_temp,dir = catch_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019, ss3_exe), to = file.path(catch_dir, ss3_exe)) #copy the executable
 r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
@@ -181,8 +178,6 @@ disc_bt_mwt_2025_hnl_2019 <- discard_amounts|>
 model_temp <- SS_read(catch_dir) ##read base model
 model_temp$dat$discard_data  <- disc_bt_mwt_2025_hnl_2019
 
-
-
 ###Check the data years
 model_temp$dat$discard_data|>
   group_by(fleet)|>
@@ -194,18 +189,8 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
 #combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
 
-
-if(exists(file.path(discard_amnt_dir, ss3_exe))){
-  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
-  
-} else {
-  set_ss3_exe(discard_amnt_dir)
-}
-
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
-
-
 
 #--------------------  Extend discard amounts Midwater Bottom trawl, HnL  -----------------------------------------
 
@@ -227,14 +212,6 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
 #combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
-
-
-if(exists(file.path(discard_amnt_dir, ss3_exe))){
-  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
-  
-} else {
-  set_ss3_exe(discard_amnt_dir)
-}
 
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
@@ -272,19 +249,8 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
 #combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
 
-
-if(exists(file.path(discard_amnt_dir, ss3_exe))){
-  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
-  
-} else {
-  set_ss3_exe(discard_amnt_dir)
-}
-
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
-
-
-
 
 #--------------------  Update BT, MWT, add hnl disc to landings -----------------------------------------
 
@@ -349,22 +315,11 @@ SS_read(discard_amnt_dir)$dat$discard_data|>
   group_by(fleet)|>
   summarise(end_yr = max(year))
 
-
-if(exists(file.path(discard_amnt_dir, ss3_exe))){
-  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_amnt_dir, ss3_exe)) # copy the executable
-  
-} else {
-  set_ss3_exe(discard_amnt_dir)
-}
-
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp  <- NULL#Wipe model to be safe
 
-
-
 #--------------------  Extend discard lencomps all  ---------------------------------
 discard_comp_dir <- here(main_dir,"add_discard_comps_bt_mwt_2023_hnl_removed") #dir
-
 
 model_temp <- SS_read(discard_amnt_dir) ##read base model
 
@@ -386,20 +341,8 @@ model_temp$dat$lencomp|>
 ## write model
 SS_write(model_temp,dir = discard_comp_dir,overwrite = T) #write the model
 
-
-
-
-if(exists(file.path(discard_amnt_dir, ss3_exe))){
-  file.copy(file.path(model_2019, ss3_exe), to = file.path(discard_comp_dir, ss3_exe)) # copy the executable
-  
-} else {
-  set_ss3_exe(discard_amnt_dir)
-}
-
 r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <-discard_comp_dir<- NULL#Wipe model to be safe
-
-
 
 
 
@@ -420,7 +363,6 @@ model_temp$dat$CPUE |>
 
 ## write model
 SS_write(model_temp,dir = index_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019, ss3_exe), to = file.path(index_dir, ss3_exe)) # copy the executable
 r4ss::run(dir = index_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
@@ -441,7 +383,6 @@ model_temp$dat$lencomp |>
 
 ## write model
 SS_write(model_temp,dir = lcomp_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019, ss3_exe), to = file.path(lcomp_dir, ss3_exe)) # copy the executable
 r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
@@ -465,7 +406,6 @@ model_temp$dat$agecomp |>
 
 ## write model
 SS_write(model_temp,dir = acomp_dir,overwrite = T) #write the model
-file.copy(file.path(model_2019, ss3_exe), to = file.path(acomp_dir, ss3_exe)) # copy the executable
 r4ss::run(dir = acomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 

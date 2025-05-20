@@ -10,7 +10,7 @@ library("future.apply")
 source(here("R", "functions", "bridging_functions.R"))
 
 skip_finished <- FALSE
-launch_html <- TRUE
+launch_html <- FALSE
 
 # Base model, post data-bridging --------------------------
 

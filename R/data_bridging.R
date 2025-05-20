@@ -16,7 +16,7 @@ source(here("R", "functions", "retune_reweight_ss3.R"))
 main_dir <- here("models","data_bridging","finalised_data_bridging")
 dir.create(main_dir)
 
-####### Data load
+# Read in data --------------------------------------------
 
 #Data from 2019 for old discard stuff #
 dat_2019 <- r4ss::SS_read(here("models","2019 base model","Base_45_new"))
@@ -49,7 +49,7 @@ juvsurv <- read.csv(here("data_provided", "RREAS", "widow_indices.csv"))|>
 
 indices_2025 <- rbind(nwfsc,juvsurv)
 
-# -------------------------- discards
+## Discards -----------------------------------------------
 
 # Prefer data from 2025 assessment if available for a given year
 discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv")) |> 
@@ -59,7 +59,8 @@ discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv"))
   arrange(fleet, year) |> 
   as.data.frame()
 
-#--------------------------  Length comp data
+## Length composition -------------------------------------
+
 ##  Pacfin length comps
 pacfin_lcomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))|>
   filter(!(sex == 0 & fleet ==5)) #drop unsexed hnl comps
@@ -77,7 +78,8 @@ discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comp
 
 lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
 
-# --------------------------  Age comp data
+## Age composition ----------------------------------------
+
 #pacfin
 pacfin_acomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_agecomp_2025.csv"))|>
   filter(!(sex == 0 & fleet ==5)) #drop unsexed hnl comps
@@ -92,7 +94,8 @@ nwfsc_acomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_conditiona
 acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 
 
-### -------------------------- Model adjustments 
+# Model adjustments ---------------------------------------
+
 # Adjustmnets made below are programmed into the function update_ss3_dat() in function/bridging_functions
 # They include
 # - Extendding the main rec-dev period end year
@@ -127,21 +130,8 @@ update_ss3_dat(
 #run the base to check it works
 r4ss::run(dir = base_model_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
 
+# Extend catch --------------------------------------------
 
-
-#################################
-### Startign to add data ######
-#################################
-# 1. - catch
-# 2. - dicards
-# 3. - indices
-# 4. - length comps
-# 5. - age comps
-#################################
-
-
-
-#--------------------  Extend catch -----------------------------------------
 catch_dir <- here(main_dir,"add_catches") #dir
 
 model_temp <- SS_read(base_model_dir)
@@ -162,7 +152,7 @@ r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FAL
 model_temp <- NULL#Wipe model to be safe
 
 
-#--------------------  Extend discard amounts Midwater Bottom trawl, HnL as in 2019 -----------------------------------------
+# Extend discard amounts MDT, BT, HnL as in 2019 ----------
 
 discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_2025_hnl_2019") #dir
 
@@ -192,15 +182,12 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
-#--------------------  Extend discard amounts Midwater Bottom trawl, HnL  -----------------------------------------
+# Extend discard amounts MDT, BT, HnL  --------------------
 
 discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_hnl_2023_old_comps") #dir
 
-
 model_temp <- SS_read(catch_dir) ##read base model
 model_temp$dat$discard_data  <- discard_amounts
-
-
 
 ###Check the data years
 model_temp$dat$discard_data|>
@@ -217,8 +204,7 @@ r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinishe
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
 
-
-#--------------------  Extend discard amounts Midwater Bottom trawl, HnL + comps  -----------------------------------------
+# Extend discard amounts MDT, BT, HnL + comps  ------------
 
 discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_hnl_2023_new_comps") #dir
 
@@ -252,7 +238,7 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
-#--------------------  Update BT, MWT, add hnl disc to landings -----------------------------------------
+# Update BT, MWT, add hnl disc to landings ----------------
 
 discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc") #dir
 
@@ -318,7 +304,8 @@ SS_read(discard_amnt_dir)$dat$discard_data|>
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp  <- NULL#Wipe model to be safe
 
-#--------------------  Extend discard lencomps all  ---------------------------------
+# Extend discard lencomps all  ----------------------------
+
 discard_comp_dir <- here(main_dir,"add_discard_comps_bt_mwt_2023_hnl_removed") #dir
 
 model_temp <- SS_read(discard_amnt_dir) ##read base model
@@ -344,9 +331,7 @@ SS_write(model_temp,dir = discard_comp_dir,overwrite = T) #write the model
 r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <-discard_comp_dir<- NULL#Wipe model to be safe
 
-
-
-#--------------------  Extend indices  -----------------------------------------
+# Extend indices ------------------------------------------
 
 index_dir <- here(main_dir,"add_indices") #dir
 
@@ -360,13 +345,12 @@ model_temp$dat$CPUE |>
   group_by(index)|>
   summarise(end_yr = max(year))
 
-
 ## write model
 SS_write(model_temp,dir = index_dir,overwrite = T) #write the model
 r4ss::run(dir = index_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
-#--------------------  Extend length comps  -----------------------------------------
+# Extend length comps  ------------------------------------
 lcomp_dir <- here(main_dir,"add_lcomps") #dir
 
 model_temp <- SS_read(index_dir) ##read base model (previous model run)
@@ -387,7 +371,7 @@ r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FAL
 model_temp <- NULL#Wipe model to be safe
 
 
-#--------------------  Extend Age comps  -----------------------------------------
+# Extend Age comps  ---------------------------------------
 
 acomp_dir <- here(main_dir,"add_acomps") #dir
 
@@ -411,9 +395,9 @@ model_temp <- NULL#Wipe model to be safe
 
 SS_plots(SS_output(acomp_dir))
 
-############ Model tuning ##############
+# Model tuning --------------------------------------------
+
 # All data has been added, so do a couple of tuning runs, and apply the 0.5 multiplier
-########################################
 
 retune_reweight_ss3(base_model_dir = acomp_dir, 
                                 output_dir = main_dir, 

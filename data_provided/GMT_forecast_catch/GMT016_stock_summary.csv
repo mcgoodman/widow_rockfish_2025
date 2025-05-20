@@ -1,0 +1,277 @@
+"SPECIFICATION_TYPE","SPECIFICATION_NAME","YEAR","VAL","STOCK_NAME","AREA_NAME","OUTPUT_ORDER"
+"OFL","Overfishing Limit",2017,14130,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2018,13237,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2012,4923,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2011,5097,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2014,4435,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2013,4841,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2015,4137,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2016,3990,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2019,12375,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2020,11714,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2022,14826,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2021,15749,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2023,13633,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2024,12453,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2026,11382,"Widow Rockfish","CW",1
+"OFL","Overfishing Limit",2025,12254,"Widow Rockfish","CW",1
+"ABC","Acceptable Bio Catch",2017,13508.28,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2018,12654.572,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2012,4705,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2011,4872,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2014,4212,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2013,4598,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2015,3929,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2016,3790,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2019,11830.5,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2020,11198.584,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2022,13788.18,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2021,14725.315,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2023,12624.158,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2024,11481.666,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2026,10391.766,"Widow Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2025,11236.918,"Widow Rockfish","CW",2
+"ACL","Annual Catch Limit",2017,13508,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2018,12655,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2012,600,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2011,600,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2014,1500,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2013,1500,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2015,2000,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2016,2000,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2019,11831,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2020,11199,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2022,13788,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2021,14725,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2023,12624,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2024,11482,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2026,10392,"Widow Rockfish","CW",3
+"ACL","Annual Catch Limit",2025,11237,"Widow Rockfish","CW",3
+"TRI","Tribal",2017,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2018,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2012,45,"Widow Rockfish","CW",4
+"TRI","Tribal",2011,45,"Widow Rockfish","CW",4
+"TRI","Tribal",2014,60,"Widow Rockfish","CW",4
+"TRI","Tribal",2013,60,"Widow Rockfish","CW",4
+"TRI","Tribal",2015,100,"Widow Rockfish","CW",4
+"TRI","Tribal",2016,100,"Widow Rockfish","CW",4
+"TRI","Tribal",2019,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2020,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2022,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2021,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2023,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2024,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2026,200,"Widow Rockfish","CW",4
+"TRI","Tribal",2025,200,"Widow Rockfish","CW",4
+"EFP","EFP",2017,9,"Widow Rockfish","CW",5
+"EFP","EFP",2018,9,"Widow Rockfish","CW",5
+"EFP","EFP",2012,11,"Widow Rockfish","CW",5
+"EFP","EFP",2011,11,"Widow Rockfish","CW",5
+"EFP","EFP",2014,18,"Widow Rockfish","CW",5
+"EFP","EFP",2013,18,"Widow Rockfish","CW",5
+"EFP","EFP",2015,9,"Widow Rockfish","CW",5
+"EFP","EFP",2016,9,"Widow Rockfish","CW",5
+"EFP","EFP",2019,28,"Widow Rockfish","CW",5
+"EFP","EFP",2020,28,"Widow Rockfish","CW",5
+"EFP","EFP",2022,28,"Widow Rockfish","CW",5
+"EFP","EFP",2021,28,"Widow Rockfish","CW",5
+"EFP","EFP",2023,18,"Widow Rockfish","CW",5
+"EFP","EFP",2024,18,"Widow Rockfish","CW",5
+"RSCH","Research",2017,8.2,"Widow Rockfish","CW",6
+"RSCH","Research",2018,8.2,"Widow Rockfish","CW",6
+"RSCH","Research",2012,1.6,"Widow Rockfish","CW",6
+"RSCH","Research",2011,1.6,"Widow Rockfish","CW",6
+"RSCH","Research",2014,7.9,"Widow Rockfish","CW",6
+"RSCH","Research",2013,7.9,"Widow Rockfish","CW",6
+"RSCH","Research",2015,7.9,"Widow Rockfish","CW",6
+"RSCH","Research",2016,7.9,"Widow Rockfish","CW",6
+"RSCH","Research",2019,17.3,"Widow Rockfish","CW",6
+"RSCH","Research",2020,17.3,"Widow Rockfish","CW",6
+"RSCH","Research",2022,17.27,"Widow Rockfish","CW",6
+"RSCH","Research",2021,17.27,"Widow Rockfish","CW",6
+"RSCH","Research",2023,17.27,"Widow Rockfish","CW",6
+"RSCH","Research",2024,17.27,"Widow Rockfish","CW",6
+"RSCH","Research",2026,17.3,"Widow Rockfish","CW",6
+"RSCH","Research",2025,17.3,"Widow Rockfish","CW",6
+"OA","Incidental OA",2017,.5,"Widow Rockfish","CW",7
+"OA","Incidental OA",2018,.5,"Widow Rockfish","CW",7
+"OA","Incidental OA",2012,3.3,"Widow Rockfish","CW",7
+"OA","Incidental OA",2011,3.3,"Widow Rockfish","CW",7
+"OA","Incidental OA",2014,3.3,"Widow Rockfish","CW",7
+"OA","Incidental OA",2013,3.3,"Widow Rockfish","CW",7
+"OA","Incidental OA",2015,3.3,"Widow Rockfish","CW",7
+"OA","Incidental OA",2016,3.3,"Widow Rockfish","CW",7
+"OA","Incidental OA",2019,3.1,"Widow Rockfish","CW",7
+"OA","Incidental OA",2020,3.1,"Widow Rockfish","CW",7
+"OA","Incidental OA",2022,3.05,"Widow Rockfish","CW",7
+"OA","Incidental OA",2021,3.05,"Widow Rockfish","CW",7
+"OA","Incidental OA",2023,3.05,"Widow Rockfish","CW",7
+"OA","Incidental OA",2024,3.05,"Widow Rockfish","CW",7
+"OA","Incidental OA",2026,1,"Widow Rockfish","CW",7
+"OA","Incidental OA",2025,1,"Widow Rockfish","CW",7
+"SAT","Set-aside Total",2017,217.7,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2018,217.7,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2012,60.9,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2011,60.9,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2014,89.2,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2013,89.2,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2015,120.2,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2016,120.2,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2019,248.4,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2020,248.4,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2022,248.32,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2021,248.32,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2023,238.32,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2024,238.32,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2026,218.3,"Widow Rockfish","CW",11
+"SAT","Set-aside Total",2025,218.3,"Widow Rockfish","CW",11
+"FHG","Fishery Harvest Guideline",2017,13290.3,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2018,12437.3,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2012,539.1,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2011,539.1,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2014,1410.8,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2013,1410.8,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2015,1879.8,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2016,1879.8,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2019,11582.6,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2020,10950.6,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2022,13539.68,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2021,14476.68,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2023,12385.68,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2024,11243.68,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2026,10173.7,"Widow Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2025,11018.7,"Widow Rockfish","CW",12
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2019,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2011,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2014,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2013,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2020,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2017,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2016,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2015,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2012,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2018,91,"Widow Rockfish","CW",13.2
+"ALLOC_TWL_MT","Allocation Trawl MT",2011,490.581,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2012,490.581,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2018,11317.943,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2025,10718.7,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2017,12094.173,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2026,9873.7,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2024,10843.68,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2023,11985.68,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2021,14076.68,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2022,13139.68,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2020,9965.046,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2019,10540.166,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2016,1710.618,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2015,1710.618,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2013,1283.828,"Widow Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2014,1283.828,"Widow Rockfish","CW",13.3
+"CP","Catcher Processor",2017,411.201882,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2020,338.811564,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2019,358.365644,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2014,170,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2015,170,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2012,86.7,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2011,86.7,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2013,170,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2016,170,"Widow Rockfish","CW",13.4
+"CP","Catcher Processor",2018,384.810062,"Widow Rockfish","CW",13.4
+"MS","Mothership",2011,61.2,"Widow Rockfish","CW",13.5
+"MS","Mothership",2012,61.2,"Widow Rockfish","CW",13.5
+"MS","Mothership",2014,120,"Widow Rockfish","CW",13.5
+"MS","Mothership",2019,252.963984,"Widow Rockfish","CW",13.5
+"MS","Mothership",2013,120,"Widow Rockfish","CW",13.5
+"MS","Mothership",2018,271.630632,"Widow Rockfish","CW",13.5
+"MS","Mothership",2017,290.260152,"Widow Rockfish","CW",13.5
+"MS","Mothership",2016,120,"Widow Rockfish","CW",13.5
+"MS","Mothership",2020,239.161104,"Widow Rockfish","CW",13.5
+"MS","Mothership",2015,120,"Widow Rockfish","CW",13.5
+"WSAT","At-sea Whiting Set-asides",2022,476,"Widow Rockfish","CW",14
+"WSAT","At-sea Whiting Set-asides",2021,476,"Widow Rockfish","CW",14
+"WSAT","At-sea Whiting Set-asides",2023,476,"Widow Rockfish","CW",14
+"WSAT","At-sea Whiting Set-asides",2024,476,"Widow Rockfish","CW",14
+"WSAT","At-sea Whiting Set-asides",2026,300,"Widow Rockfish","CW",14
+"WSAT","At-sea Whiting Set-asides",2025,300,"Widow Rockfish","CW",14
+"SBIFQ","SB IFQ Total",2014,993.828,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2025,10418.7,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2026,9573.7,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2016,1420.618,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2015,1420.618,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2018,10661.5,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2013,993.828,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2019,9928.84,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2012,342.681,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2020,9387.07,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2022,12663.68,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2017,11392.71,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2024,10367.68,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2023,11509.68,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2011,342.681,"Widow Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2021,13600.68,"Widow Rockfish","CW",14.2
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2015,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2011,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2016,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2017,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2018,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2019,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2020,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2014,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2012,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2013,9,"Widow Rockfish","CW",14.3
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2025,300,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2026,300,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2024,400,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2023,400,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2021,400,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2022,400,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2020,985.554,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2019,1042.434,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2016,169.182,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2015,169.182,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2013,126.972,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2014,126.972,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2011,48.519,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2012,48.519,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2018,1119.357,"Widow Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2017,1196.127,"Widow Rockfish","CW",14.4
+"WA21","Whiting A21",2017,10,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2018,10,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2012,52,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2011,52,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2014,500,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2013,500,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2015,500,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2016,500,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2019,10,"Widow Rockfish","CW",16
+"WA21","Whiting A21",2020,10,"Widow Rockfish","CW",16
+"SB_NWHIT","Shore-based Non-Whiting MT",2018,10186.1487,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2014,783.828,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2013,783.828,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2019,9486.1494,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2011,235.581,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2016,1210.618,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2012,235.581,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2020,8968.5414,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2015,1210.618,"Widow Rockfish","CW",16.1
+"SB_NWHIT","Shore-based Non-Whiting MT",2017,10884.7557,"Widow Rockfish","CW",16.1
+"SB_WHIT","Shore-based Whiting MT",2014,210,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2011,107.1,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2012,107.1,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2018,475.353606,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2017,507.955266,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2020,418.531932,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2019,442.686972,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2016,210,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2015,210,"Widow Rockfish","CW",16.2
+"SB_WHIT","Shore-based Whiting MT",2013,210,"Widow Rockfish","CW",16.2
+"WHIT_TOT","Whiting Total MT",2015,500,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2018,1131.7943,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2019,1054.0166,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2016,500,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2014,500,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2012,255,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2013,500,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2017,1209.4173,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2011,255,"Widow Rockfish","CW",16.3
+"WHIT_TOT","Whiting Total MT",2020,996.5046,"Widow Rockfish","CW",16.3

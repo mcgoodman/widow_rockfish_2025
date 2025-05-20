@@ -17,13 +17,13 @@ launch_html <- TRUE
 databridge_dir <- here("models", "data_bridging", "finalised_data_bridging")
 basedir <- here(databridge_dir, "data_bridged_model_weighted")
 
-# Download SS3 exe and return name
-base_exe <- set_ss3_exe(basedir)
+# Download SS3 exe and return absolute path
+ss3_exe <- file.path(basedir, set_ss3_exe(basedir, version = "v3.30.23.1"))
 
 # Run base model
 r4ss::run(
   dir = basedir,
-  exe = base_exe,
+  exe = ss3_exe,
   extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
@@ -51,7 +51,6 @@ dir.create(bridgedir <- here("models", "model_bridging"))
 # Copy over model files from base model to modify
 dir.create(Mdir <- here(bridgedir, "mortality"))
 r4ss::copy_SS_inputs(basedir, Mdir, overwrite = TRUE)
-Mexe <- set_ss3_exe(Mdir)
 
 # Read in control file to modify
 ctrl <- SS_readctl(paste0(Mdir, "/2025widow.ctl"), datlist = paste0(Mdir, "/2025widow.dat"))
@@ -71,7 +70,7 @@ SS_writectl(ctrl, paste0(Mdir, "/2025widow.ctl"), overwrite = TRUE)
 
 r4ss::run(
   dir = Mdir,
-  exe = Mexe,
+  exe = ss3_exe,
   extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
@@ -95,7 +94,6 @@ if (!skip_finished) {
 
 dir.create(LWdir <- here(bridgedir, "length_weight"))
 r4ss::copy_SS_inputs(Mdir, LWdir, overwrite = TRUE)
-LWexe <- set_ss3_exe(LWdir)
 
 ctrl <- SS_readctl(paste0(LWdir, "/2025widow.ctl"), datlist = paste0(LWdir, "/2025widow.dat"))
 
@@ -109,7 +107,7 @@ SS_writectl(ctrl, paste0(LWdir, "/2025widow.ctl"), overwrite = TRUE)
 # Need to run with hessian to estimate bias-adjustment ramp
 r4ss::run(
   dir = LWdir,
-  exe = LWexe,
+  exe = ss3_exe,
   show_in_console = TRUE,
   skipfinished = skip_finished
 )
@@ -134,7 +132,6 @@ if (!skip_finished) {
 
 dir.create(SRdir <- here(bridgedir, "SR_bias_adj"))
 r4ss::copy_SS_inputs(LWdir, SRdir, overwrite = TRUE)
-SRexe <- set_ss3_exe(SRdir)
 
 # Fit bias ramp
 dir.create(plot_dir <- here(SRdir, "plots"))
@@ -156,7 +153,7 @@ SS_writectl(ctrl, paste0(SRdir, "/2025widow.ctl"), overwrite = TRUE)
 
 r4ss::run(
   dir = SRdir,
-  exe = SRexe,
+  exe = ss3_exe,
   extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
@@ -180,7 +177,6 @@ if (!skip_finished) {
 
 dir.create(blockdir <- here(bridgedir, "MDT_Ret_Block"))
 r4ss::copy_SS_inputs(SRdir, blockdir, overwrite = TRUE)
-blockexe <- set_ss3_exe(blockdir)
 
 ctrl <- SS_readctl(here(blockdir, "/2025widow.ctl"), datlist = here(blockdir, "/2025widow.dat"))
 
@@ -239,7 +235,7 @@ SS_writeforecast(fcst, dir = blockdir, file = "forecast.ss", overwrite = TRUE)
 
 r4ss::run(
   dir = blockdir,
-  exe = blockexe,
+  exe = ss3_exe,
   #extras = "-nohess",
   show_in_console = TRUE,
   skipfinished = skip_finished
@@ -292,7 +288,6 @@ if (!file.exists(mle_jitter)) source(here("R", "jitters.R"))
 # Copy files to directory
 dir.create(mle_dir <- here(bridgedir, "jittered_mle"))
 r4ss::copy_SS_inputs(blockdir, mle_dir, overwrite = TRUE)
-mle_exe <- set_ss3_exe(mle_dir)
 
 # Copy par file from best jitter run
 file.copy(here("models", "jitters", "ss3.par_best.sso"), here(mle_dir, "ss.par"), overwrite = TRUE)
@@ -306,7 +301,7 @@ SS_writestarter(mle_start, dir = mle_dir, file = "starter.ss", overwrite = TRUE)
 # Run without estimation to produce new control file
 r4ss::run(
   dir = mle_dir,
-  exe = mle_exe,
+  exe = ss3_exe,
   extras = "-nohess -stopph 0",
   show_in_console = TRUE,
   skipfinished = skip_finished
@@ -324,7 +319,7 @@ SS_writestarter(mle_start, dir = mle_dir, file = "starter.ss", overwrite = TRUE)
 # Run
 r4ss::run(
   dir = mle_dir,
-  exe = mle_exe,
+  exe = ss3_exe,
   show_in_console = TRUE,
   skipfinished = skip_finished
 )
@@ -345,12 +340,12 @@ if (!skip_finished) {
 
 # Copy selected model to new base directory ---------------
 
-# Use base model without new midwater trawl block
+# Use base model with block on midwater trawl retention
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
 #Run the base model and store r4ss plots in figures dir so they store
-r4ss::run(dir = here("models", "2025 base model"),exe = base_exe,skipfinished = FALSE)
+r4ss::run(dir = here("models", "2025 base model"),exe = ss3_exe, skipfinished = FALSE)
 r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")),dir = here::here("figures","2025 base model r4ss plots"))
 
 # Add new forecast catches --------------------------------

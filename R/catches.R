@@ -39,7 +39,9 @@ load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.25.Mar.2025.RData"))
 catch_2015 <- read.csv(here("data_provided", "2015_assessment", "catch_by_state_fleet.csv"))
 catch_2015_hake <- read.csv(here("data_provided", "2015_assessment", "catch_hake_by_state.csv"))
 
-## 2019 assessment data
+## 2019 assessment data - aggregate to fleet (not state + fleet) level
+## State-level data in 2019 assessment report does not match 2019 data file, 
+## and 2014-2018 hake catches are missing from document.
 catch_2019 <- r4ss::SS_readdat(here("data_provided", "2019_assessment", "2019widow.dat"))$catch
 
 ## Oregon catch reconstruction (Source: Ali Whitman, ODFW)
@@ -109,7 +111,7 @@ catch_cleaned <- catch.pacfin |>
 catch_st_flt_yr <- catch_cleaned |> 
   group_by(year, state, fleet) |> 
   summarize(landings_mt = sum(landings_mt), .groups = "drop") |> 
-  complete(year, state, fleet, fill = list(landings_mt = 0))
+  tidyr::complete(year, state, fleet, fill = list(landings_mt = 0))
 
 ### Partition 1981-1999 Washington trawls -------------------------------------
 
@@ -184,7 +186,7 @@ catch_flt <- catch_st_flt_yr |>
     landings_mt_ashop = ifelse(is.na(landings_mt_ashop), 0, landings_mt_ashop), 
     landings_mt = landings_mt + landings_mt_ashop
   ) |> 
-  select(-landings_mt_ashop)
+  dplyr::select(-landings_mt_ashop)
 
 ## Comparison to past assessments ---------------------------------------------
 
@@ -323,7 +325,7 @@ wa_trawl_adj <- catch_2015 |>
   mutate(landings_total = sum(landings_mt)) |> ungroup() |> 
   select(year, fleet, landings_mt, landings_total) |> 
   left_join(
-    select(filter(catch_wa, gear_group == "trawl"), year, landings_wa = landings_mt), 
+    dplyr::select(filter(catch_wa, gear_group == "trawl"), year, landings_wa = landings_mt), 
     by = "year"
   ) |> 
   drop_na() |> 
@@ -356,9 +358,9 @@ wa_nontrawl_adj <- catch_2015 |>
   filter(state == "Washington" & !grepl("trawl", fleet)) |>
   group_by(year) |> 
   mutate(landings_total = sum(landings_mt)) |> ungroup() |> 
-  select(year, fleet, landings_mt, landings_total) |> 
+  dplyr::select(year, fleet, landings_mt, landings_total) |> 
   left_join(
-    select(filter(catch_wa, gear_group == "non-trawl"), year, landings_wa = landings_mt), 
+    dplyr::select(filter(catch_wa, gear_group == "non-trawl"), year, landings_wa = landings_mt), 
     by = "year"
   ) |> 
   drop_na() |> 
@@ -417,7 +419,7 @@ new_data <- catch_flt |>
     fleet = as.integer(factor(fleet, levels = fleet_lvls)), 
     catch_se = 0.01
   ) |> 
-  select(year, seas, fleet, catch = landings_mt, catch_se) |> 
+  dplyr::select(year, seas, fleet, catch = landings_mt, catch_se) |> 
   arrange(fleet, year) |> 
   as.data.frame()
 
@@ -436,13 +438,13 @@ catch_2025_wshrimp <- catch.pacfin |>
   mutate(seas = 1, fleet = 1) |> 
   right_join(catch_2025, by = c("year", "seas", "fleet")) |> 
   mutate(catch_shrimp = ifelse(is.na(catch_shrimp), 0, catch_shrimp), catch = catch + catch_shrimp) |> 
-  select(-catch_shrimp) |> 
+  dplyr::select(-catch_shrimp) |> 
   arrange(fleet, year)
 
 write.csv(catch_2025_wshrimp, here(save_dir, "2025_catch_shrimp_added.csv"), row.names = FALSE)
 
 catch_2025_wshrimp |> 
-  select(year, seas, fleet, catch_wshrimp = catch) |> 
+  dplyr::select(year, seas, fleet, catch_wshrimp = catch) |> 
   left_join(catch_2025) |> 
   group_by(year) |> 
   summarize(catch = sum(catch), catch_wshrimp = sum(catch_wshrimp)) |> 
@@ -462,8 +464,8 @@ ggsave(
 ## WA catch reconstruction (sensitivity run) ----------------------------------
 
 wa_adj <- bind_rows(
-  select(wa_trawl_adj, year, fleet, landings_diff), 
-  select(wa_nontrawl_adj, year, fleet, landings_diff)
+  dplyr::select(wa_trawl_adj, year, fleet, landings_diff), 
+  dplyr::select(wa_nontrawl_adj, year, fleet, landings_diff)
 )
 
 wa_adj$fleet <- match(wa_adj$fleet, fleet_lvls)
@@ -471,7 +473,65 @@ wa_adj$fleet <- match(wa_adj$fleet, fleet_lvls)
 catch_2025_wa <- catch_2025 |> 
   left_join(wa_adj, by = c("year", "fleet")) |> 
   mutate(catch = catch + ifelse(is.na(landings_diff), 0, landings_diff)) |> 
-  select(-landings_diff) |> 
+  dplyr::select(-landings_diff) |> 
   arrange(fleet, year)
 
 write.csv(catch_2025_wa, here(save_dir, "2025_catch_wa_reconstruction.csv"), row.names = FALSE)
+
+## Catch by state, fleet, and year (tables 1 and 2) ---------------------------
+
+## Catches from 2019 are carried forward, but the state-level catches in the 2019
+## assessment document are wrong (do not match dat file). For table 1, total catches from 
+## 2015-2018 in 2019 widow dat are partitioned among states using the ratios in the recently
+## queried PacFin data. Total catches by fleet 2014-2018 match closely between PacFin
+## and 2019 widow dat so the error from this approach is not large.
+
+## Apply midwater / bottom trawl adjustment for CA 1979-1980
+catch_2015$landings_mt[catch_2015$year %in% 1979:1980 & catch_2015$state == "California" & catch_2015$fleet == "midwater trawl"] <- 
+  catch_2015$landings_mt[catch_2015$year %in% 1979:1980 & catch_2015$state == "California" & catch_2015$fleet == "midwater trawl"] + mdt_diff
+catch_2015$landings_mt[catch_2015$year %in% 1979:1980 & catch_2015$state == "California" & catch_2015$fleet == "bottom trawl"] <- 
+  catch_2015$landings_mt[catch_2015$year %in% 1979:1980 & catch_2015$state == "California" & catch_2015$fleet == "bottom trawl"] - mdt_diff
+
+## Rescale PacFin catches 2015-2018 to match 2019 widow dat
+catch_15_18 <- catch_2019 |> 
+  mutate(fleet = factor(fleet_lvls[fleet], levels = fleet_lvls)) |> 
+  dplyr::select(year, fleet, landings_tot = catch) |> 
+  right_join(filter(catch_st_flt_yr, year %in% 2015:2018), by = c("year", "fleet")) |> 
+  group_by(year, fleet) |> 
+  mutate(landings_mt = ifelse(landings_mt == 0, 0, landings_tot * (landings_mt/sum(landings_mt)))) |> 
+  ungroup() |> 
+  dplyr::select(year, state, fleet, landings_mt) |> 
+  filter(fleet != "hake")
+
+# At-Sea foreign and domestic hake 2015-2024
+catch_ashop_15_24 <- catch_ashop_cleaned |> 
+  filter(year >= 2015 & year <= 2024) |> 
+  mutate(
+    fleet = factor("hake", levels = fleet_lvls), 
+    sector = "at-sea"
+  ) |> 
+  dplyr::select(year, fleet, sector, landings_mt = landings_mt_ashop)
+
+# Shoreside hake 2015-2024
+catch_hake_15_24 <- catch_st_flt_yr |> 
+  filter(fleet == "hake" & year >= 2015 & year <= 2024) |>
+  mutate(sector = "shoreside") |> 
+  bind_rows(catch_ashop_15_24)
+
+# Rescale 2015-2018 hake to match 2019 assessment dat
+catch_hake_15_24 <- catch_2019 |> 
+  mutate(fleet = factor(fleet_lvls[fleet], levels = fleet_lvls)) |> 
+  dplyr::select(year, fleet, landings_tot = catch) |> 
+  filter(fleet == "hake") |> 
+  right_join(catch_hake_15_24, by = c("year", "fleet"))  |> 
+  group_by(year) |> 
+  mutate(landings_mt = ifelse(is.na(landings_tot), landings_mt, landings_tot * (landings_mt/sum(landings_mt)))) |> 
+  dplyr::select(year, state, fleet, sector, landings_mt)
+  
+catch_formatted <- catch_2015 |> 
+  bind_rows(catch_15_18) |> 
+  bind_rows(catch_hake_15_24) |> 
+  bind_rows(filter(catch_st_flt_yr, year >= 2019 & fleet != "hake")) |> 
+  filter(year <= 2024)
+
+write.csv(catch_formatted, here(save_dir, "2025_catch_st_flt_yr.csv"), row.names = FALSE)

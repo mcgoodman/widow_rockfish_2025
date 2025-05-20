@@ -8,7 +8,7 @@ sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if
 
 ## Stock{-}
 
-This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south. The 2015 benchmark was first updated in 2019 (@adams_status_2019) and this assessment represents the second update assessment of this stock. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment, this update assessment is based on a single area model [@hicks_status_2015].
+This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] and first updated in 2019 [@adams_status_2019]. This assessment represents the second update assessment of this stock. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single costwide area model.
 
 {{< pagebreak >}} 
 
@@ -28,9 +28,10 @@ Widow rockfish are a desirable market species and it is believed that discarding
 #| warning: false
 #| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
 
-library(flextable)
-library(dplyr)
-library(officer)
+library("flextable")
+library("dplyr")
+library("officer")
+library("here")
 
 exec_tab_style <- function(ft) {
   ft %>% 
@@ -44,12 +45,14 @@ exec_tab_style <- function(ft) {
   width(width = 7/length(ft))
 }
 
+# Function to read in lenght-1 .Rdata / .rda with name of choice
+read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
+
 #Old table 12
-table_A <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/a_Catches_ES.csv"), stringsAsFactors = FALSE))
+table_A <- read_rdata(here("report", "tables", "exec_summ_tables", "catches_es.rda"))
 
-table_A <- table_A |> mutate(across(is.numeric, round, digits = 1))
+table_A <- table_A$table |> mutate(across(is.numeric, round, digits = 1))
 
-colnames(table_A) <- gsub("\\.", " ", colnames(table_A))
 table_A <- round(table_A, 2) # manually round bc flex table isn't working well
 
 # # Build header map (multi-row header)
@@ -83,7 +86,7 @@ flextable(table_A, col_keys = names(table_A)) %>%
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Landings of Widow Rockfish from 1916 to 2024 for bottom trawl, midwater trawl, net, and hook- and-line fisheries, and catches of Widow Rockfish for the foreign (1966–1976) and Pacific Whiting (hake) fisheries (green)."
+#| fig-cap: "Landings of widow rockfish from 1916 to 2024 for bottom trawl, midwater trawl, net, and hook- and-line fisheries, and catches of widow rockfish for the foreign (1966–1976) and Pacific Whiting (hake) fisheries (green)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -119,7 +122,7 @@ report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
 
 catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 
-table_b <- read.csv(here::here("report", "tables", "exec_summ_tables", "b_SSB_ES.csv"))
+table_b <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 names(table_b) <- c("Year", "SSB", "SSB_Lwr", "SSB_Upr", "Bratio", "Bratio_Lwr", "Bratio_Upr")
 
 require("dplyr")
@@ -186,47 +189,26 @@ knitr::include_graphics(
 #| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
 
 #Old table 12
-table_B <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/b_SSB_ES.csv"), stringsAsFactors = FALSE))
+table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 
-colnames(table_B) <- gsub("\\.", " ", colnames(table_B))
-
-table_B <- table_B %>%
+table_B <- table_B |> 
   mutate(
-    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval`, -`Upper Interval`)
+    SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
+    SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
+    SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
+    SSB_CI = paste0(SSB_lower, " - ", SSB_upper), 
+    Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
+  ) |>
+  dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
 
-table_B <- table_B %>%
-  select(Year, `Spawning Biomass  mt `, `~95% Confidence Interval`, everything())
-
-table_B <- table_B %>%
-  mutate(
-    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval 1`, -`Upper Interval 1`)
-
-
-# # Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_B),
-#   line1 = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval"),
-#   stringsAsFactors = FALSE
-# )
+colnames <- c(
+  "Year", "Spawning Biomass", "95% Confidence Interval", 
+  "Estimated Depletion (%)", "95% Confidence Interval"
+)
 
 # Create flextable
-flextable(table_B, col_keys = names(table_B)) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  set_header_labels(names = names(table_B), values = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval")) %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
+flextable(table_B, col_keys = names(table_B)) |> 
+  set_header_labels(names = names(table_B), values = colnames) |> 
   set_table_properties(layout = "autofit") %>% exec_tab_style
 
 ```
@@ -261,57 +243,31 @@ knitr::include_graphics(
 #| label: tbl-c
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent estimated trend in Widow Rockfish recruitment with approximate 95% confidence intervals determined from the base model."
+#| tbl-cap: "Recent estimated trend in widow rockfish recruitment with approximate 95% confidence intervals determined from the base model."
 #| out.width: "90%"
 #| fig-align: "center"
 
+table_c <- read_rdata(here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
 
-table_c <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/c_Recr_ES.csv"), stringsAsFactors = FALSE))
-
-colnames(table_c) <- gsub("\\.", " ", colnames(table_c))
-
-table_c <- table_c %>%
+table_c <- table_c |> 
   mutate(
-    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval`, -`Upper Interval`)
+    recr = format(round(`Recruitment (1,000s)`), big.mark = ","),
+    recr_lower = format(round(`Lower Interval (1,000s)`, 0), big.mark = ","), 
+    recr_upper = format(round(`Upper Interval (1,000s)`, 0), big.mark = ","),
+    recr_CI = paste0(recr_lower, " - ", recr_upper), 
+    recdev_CI = paste0(round(`Lower Interval`, 3),  ", ", round(`Upper Interval`, 3))
+  ) |>
+  dplyr::select(Year, recr, recr_CI, `Recruitment Deviations`, recdev_CI)
 
-table_c <- table_c %>%
-  select(Year, `Recruitment  1 000s `, `~95% Confidence Interval`, everything())
-
-table_c <- table_c %>%
-  mutate(
-    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval 1`, -`Upper Interval 1`)
-
-
-# # Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_c),
-#   line1 = c("Year", "Estimated Recruitment ", "~95% Confidence", "Estimated Recruitment", "~95% Confidence"),
-#   line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
-#   stringsAsFactors = FALSE
-# )
+colnames <- c(
+  "Year", "Estimated recruitment (number in thousands)", "95% Confidence Interval", 
+  "Recruitment \nDeviations", "95% Confidence Interval"
+)
 
 # Create flextable
-flextable(table_c, col_keys = names(table_c)) %>%
-  set_header_labels(names = names(table_C), values = c("Year", "Estimated recruitment (number in thousands)", "~95% Confidence Interval", "Recruitment \nDeviations", "~95% Confidence Interval")) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
-  # padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
-  # set_table_properties(layout = "autofit") %>% 
-  exec_tab_style # %>% width(width = 1.2)
-
+flextable(table_c, col_keys = names(table_c)) |> 
+  set_header_labels(names = names(table_C), values = colnames) %>%
+  exec_tab_style
 
 ```
 {{< pagebreak >}} 
@@ -328,53 +284,24 @@ The lower bound of the 95% confidence interval of the estimated depletion dipped
 #| warning: false
 #| tbl-cap: "Recent trend in spawning potential ratio and summary exploitation rate. Harvest rate is defined as catch divided by age 4+ biomass."
 
+table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
-table_d <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/d_SPR_ES.csv"), stringsAsFactors = FALSE))
-
-colnames(table_d) <- gsub("\\.", " ", colnames(table_d))
-
-
-table_d <- table_d %>%
+table_d <- table_d |> 
   mutate(
-    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval`, -`Upper Interval`)
+    across(is.numeric, \(x) round(x, 3)),
+    SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
+    rate_CI = paste0(`Lower Interval (Rate)`,  ", ", `Upper Interval (Rate)`)
+  ) |>
+  dplyr::select(Year, `(1-SPR)/(1-SPR 50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
 
-table_d <- table_d %>%
-  select(Year, `X 1 SPR   1 SPR 50   `, `~95% Confidence Interval`, everything())
-
-table_d <- table_d %>%
-  mutate(
-    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval 1`, -`Upper Interval 1`)
-
-
-# Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_d),
-#   line1 = c("Year", "Estimated", "~95% Confidence", "Harvest rate", "~95% Confidence"),
-#   line2 = c("  ", "(1-SPR)/(1-SPR50%)", " Interval ", "(proportion)", " Interval "),
-#   stringsAsFactors = FALSE
-# )
-
+colnames <- c(
+  "Year", "Estimated \n(1-SPR)/(1-SPR50%)", "~95% Confidence Interval", 
+  "Harvest rate \n(proportion)", "~95% Confidence Interval"
+)
 
 # Create flextable
 flextable(table_d, col_keys = names(table_d)) %>%
-  set_header_labels(names = names(table_C), values = c("Year", "Estimated \n(1-SPR)/(1-SPR50%)", "~95% Confidence Interval", "Harvest rate \n(proportion)", "~95% Confidence Interval")) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
-  # fontsize(size = 9, part = "all")%>%
-  # set_table_properties(layout = "autofit") %>% 
+  set_header_labels(names = names(table_C), values = colnames) %>%
   exec_tab_style
 
 ```
@@ -438,7 +365,7 @@ Fishing has effects on both the age structure of a population as well as the tar
 ```{r}
 #| include: false
 
-table_e <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/e_ReferencePoints_ES.csv"), stringsAsFactors = FALSE))
+table_e <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
 
 ref_pts <- table_e
 colnames(ref_pts) <- c("Label", "Est", "Lwr", "Upr")
@@ -453,7 +380,7 @@ ref_pts <- setNames(
 )
 ```
 
-Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). Total yields (landings plus discards) were `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Est` mt when using an SPR50% reference harvest rate and with a 95% confidence interval of `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Lwr` to `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Upr` mt. The spawning biomass equivalent to 40% of the unfished spawning output (SB40%) was `r ref_pts[["Proxy Spawning Biomass (mt) SB40%"]]$Est` mt. Catches between the late 1990's and 2016 were well below the point estimate of potential long-term yields calculated using an SPR50% reference point, and the population is estimated to have increased continuously throughout that time period. However, catches from 2017 through 2024 were above the point estimate of potential long-term yields using an SPR50% reference point, exceeding the upper bound of the confidence interval in all years since 2018, and exceeding the point estimate by on average `r paste0(round(100 * (mean(catch_sum$x[catch_sum$Yr >= 2018]/ ref_pts$Est[ref_pts$Label == "Yield with SPR50 at SB SPR (mt)"]) - 1)), "%")`.
+Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). Total yields (landings plus discards) were `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Est` mt when using an SPR50% reference harvest rate and with a 95% confidence interval of `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Lwr` to `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Upr` mt. The spawning biomass equivalent to 40% of the unfished spawning output (SB40%) was `r ref_pts[["Proxy Spawning Biomass (mt) SB40%"]]$Est` mt. Catches between the late 1990's and 2016 were well below the point estimate of potential long-term yields calculated using an SPR50% reference point, and the population is estimated to have increased continuously throughout that time period. However, catches from 2017 through 2024 were above the point estimate of potential long-term yields using an SPR50% reference point, exceeding the upper bound of the confidence interval in all years since 2018, and exceeding the point estimate by on average `r round(100 * (mean(catch_sum$x[catch_sum$Yr >= 2018]/ ref_pts$Est[ref_pts$Label == "Yield with SPR50 at SB SPR (mt)"]) - 1))`%.
 
 The predicted spawning biomass from the base model generally showed a slight decline until the late 1970s, followed by steep increase above unfished equilibrium biomass and reaching a peak in `r report$timeseries$Yr[which.max(report$timeseries$SpawnBio)]`. This was followed by a steep decrease up to the mid-1980s, and then a more gradual decease through 2000 (@fig-c). Between 2001 and 2016, the spawning biomass increased continuously due to small catches, and several years of high recruitment (though with lower than average recruitment in other recent years). The spawning biomass relative to unfished equilibrium spawning biomass climbed above the target of 40% of unfished spawning biomass in the early 2000's. It is estimated to still be above the target, though the lower bound of the 95% confidence interval lies between the target and minimum stock size threshold (@fig-c). The fishing intensity (relative 1-SPR) exceeded the current estimates of the harvest rate limit (SPR50%) throughout the 1980s and early 1990s, and has again since 2018 (@fig-e). Exploitation rates on widow rockfish between 2001 and 2016 were predicted to be far below target levels. In recent years, the stock has experienced exploitation rates that have been above the target level while the biomass level has remained above the target level (@fig-g).
 
@@ -465,7 +392,7 @@ The equilibrium yield plot is shown in @fig-h, based on a steepness value fixed 
 #| warning: false
 #| tbl-cap: "Summary of reference points and management quantities for the base case model."
 
-colnames(table_e) <- gsub("\\.", " ", colnames(table_e))
+table_e <- table_e |> mutate(across(is.numeric, round, digits = 2))
 
 flextable(table_e) %>%
   merge_h(part = "header") %>%
@@ -479,7 +406,6 @@ flextable(table_e) %>%
   colformat_num( digits = 2)%>%
   fontsize(size = 9, part = "all")%>%
   set_table_properties(layout = "autofit")
-
 
 ```
 
@@ -496,39 +422,14 @@ Exploitation rates on widow rockfish exceeded MSY proxy target harvest rates dur
 #| warning: false
 #| tbl-cap: "Recent trend in total catch and commercial landings (mt) relative to the management guidelines. Estimated total catch reflects the commercial landings plus the model estimated dead discarded biomass."
 
-library(officer)
-table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
-table_f <-table_f[,2:ncol(table_f)]
+table_f <- read_rdata(here("report", "tables", "exec_summ_tables", "recent_management.rda"))$table
 
-colnames(table_f) <- gsub("\\.", " ", colnames(table_f))
+colnames <- c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")
 
-# Build header map (multi-row header)
-header_df <- data.frame(
-  keys = names(table_f),
-  line1 = c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)"),
-  # line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
-  stringsAsFactors = FALSE
-)
-
-my_border <- fp_border(color = "black", width = 2)
 # Create flextable
-flextable(table_f, col_keys = names(table_f)) %>%
-  set_header_labels(names = names(table_C), values = c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt) (termed OY prior to 2011)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
-  # set_table_properties(layout = "autofit")%>%
-  # border(border.top = my_border, part= "header")
+flextable(table_f) |> 
+  colformat_num(j = 1, big.mark = "", digits = 0) %>%
   exec_tab_style
-  
-
-
 ```
 
 ## Harvest projections and decision table{-}
@@ -539,7 +440,7 @@ This assessment synthesizes many sources of data and estimates recruitment varia
 
 The report provides twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 that predicts spawning biomass will decrease over the projection period for all states of nature (@tbl-h). 
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (Table 36). Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036. 
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036. 
 
 Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from 1,790 mt in 2027 to 1,886 mt in 2036. 
 
@@ -550,8 +451,8 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 #| warning: false
 #| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
-
-table_g <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/g_Projections_ES.csv"), stringsAsFactors = FALSE))
+table_g <- read.csv(here("report", "tables", "exec_summ_tables", "g_Projections_ES.csv"))
+table_g <- round(table_g, 3)
 
 colnames(table_g) <- gsub("\\.", " ", colnames(table_g))
 
@@ -577,7 +478,8 @@ flextable(table_g) %>%
 #| warning: false
 #| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
 
-table_h <- as.data.frame(read.csv(file.path(here::here(),"data_derived/decision_table/dec_table_formatted.csv"), stringsAsFactors = FALSE))
+table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
+
 # table_h <- table_h[,2:6]
 # break up management & state of nature
 # table_h$management_choice <- substr(table_h$name, start = 1, stop = 2)
@@ -639,15 +541,16 @@ Spawning biomass is estimated to be at 40,603 mt in 2025, with a sigma of 0.2753
 
 There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish:
 
-- **Historical landings and discards:** Although progress has been done in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for.
-
 - **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty.
 
 - **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species.
 
 - **Age data and error:** There is a considerable amount of error in the age data and potential for bias. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment. Disagreement between surface reads of age versus break-and-burn reads is worth more investigation.
 
-- **Coast wide understanding of stock structure, biology, connectivity, and distribution:** This is a stock assessment for widow rockfish off of the west coast of the U.S. and does not consider data from British Columbia or Alaska. Further investigating and comparing the data and predictions from British Columbia and Alaska to determine if there are similarities with the U.S. West Coast observations would help to define the connectivity between widow rockfish north and south of the U.S.-Canada border.
+- **Coastwide understanding of stock structure, biology, connectivity, and distribution:** This is a stock assessment for widow rockfish off of the west coast of the U.S. and does not consider data from British Columbia or Alaska. Further investigating and comparing the data and predictions from British Columbia and Alaska to determine if there are similarities with the U.S. West Coast observations would help to define the connectivity between widow rockfish north and south of the U.S.-Canada border.
+
+- **Historical landings and discards:** Although progress has been done in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for.
+
 
 
 <!-- ```{r} -->

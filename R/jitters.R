@@ -67,51 +67,60 @@ jitter_loglike <- r4ss::jitter(
 )
 
 saveRDS(jitter_loglike, here("models/jitters", "jitter_loglike.RDS"))
-jitter_loglike <- readRDS(here("models/jitters", "jitter_loglike.RDS"))
 
 # Set back to sequential processing
 if (parallel) future::plan(future::sequential)
 
 # Compare likelihoods ----------------------------------------------------------
-like_df <- data.frame(run = seq(1:njitters), like = NA)  # data frame with run number and likelihood
 
-base_like <- base$likelihoods_used$values[1]  # has to be a way to specifically call the row "TOTAL"....
+like_df <- data.frame(run = seq_len(njitters), nll = jitter_loglike, max_grad = NA)
 
-like_df$like <- jitter_loglike
+# Loop over report files, extract gradients
+rep_files <- paste0("Report", seq_len(njitters), ".sso")
+for (i in seq_along(rep_files)) {
+  replines <- readLines(here(jitter_dir, rep_files[i]), n = 15)
+  conv_line <- replines[grepl("Convergence_Level", replines)]
+  like_df$max_grad[i] <- as.numeric(
+    gsub(" is_final_gradient", "", gsub("Convergence_Level: ", "", conv_line, fixed = TRUE), fixed = TRUE)
+  )
+}
+
+base_nll <- base$likelihoods_used["TOTAL", "values"]
+
+write.csv(like_df, here(jitter_dir, "jitter_loglike.csv"), row.names = FALSE)
 
 dir.create(here("figures", "diagnostics"))
 
 # Plot
-ggplot(data = like_df, aes(x = run, y = like)) +
+like_df |> 
+  ggplot(aes(x = run, y = nll)) +
   geom_point() +
-  geom_hline(yintercept = base_like) +  # horizontal line at base ll
-  xlab("run") +
+  geom_hline(yintercept = base_nll) +  # horizontal line at base ll
+  labs(x = "run", y = "negative log-likelihood") +
   theme_bw() +
   theme(axis.text.x = element_blank())
 
 ggsave(here("figures/diagnostics", "jitter_comparison.png"), width = 6, height = 5, units = "in")
 
 # Zoomed likelihood
-ggplot(data = like_df %>% filter(like < 8000), aes(x = run, y = like)) +
+like_df |> 
+  mutate(gradient = c("< 0.01", "> 0.01")[1 + (max_grad > 0.01)]) |> 
+  filter(nll <= quantile(nll, 0.9)) |> 
+  ggplot(aes(x = run, y = nll, color = gradient)) +
   geom_point() +
-  geom_hline(yintercept = base_like) +  # horizontal line at base ll
-  xlab("run") +
+  geom_hline(yintercept = base_nll) +  # horizontal line at base ll
+  labs(x = "run", y = "negative log-likelihood") +
   theme_bw() +
   theme(axis.text.x = element_blank())
 
 ggsave(here("figures/diagnostics", "jitter_comparison_zoomed.png"), width = 6, height = 5, units = "in")
 
-
-# See what likelihoods were below the base
-run_summary <- data.frame(run = 1:njitters, loglike = jitter_loglike)
-below_base <- run_summary %>%
-  filter(loglike < base_like)
-min(jitter_loglike)  # lowest loglikelihood of 7664.50 (others below are at 7664.52), base: 7664.96  (previous time: 7905.46 (base is 7912.2 for this run)
-
-
 # Compare parameters and outputs for lower LL-----------------------------------
-# Find lowest likelihood model(s)
-min_run <- run_summary %>% filter(loglike == min(jitter_loglike))  # 6 runs that hit this minimum
+
+# Find lowest likelihood model(s) among converged models
+min_run <- like_df |> 
+  filter(max_grad < 0.01) |> 
+  filter(nll == min(nll))  # 6 runs that hit this minimum
 
 # Read in and summarize model output for those minimum likelihood runs
 min_mods <- SSgetoutput(
@@ -125,22 +134,21 @@ min_sum <- SSsummarize(min_mods, verbose = TRUE)
 # Make comparison plots for the models that had the lowest likelihood
 dir.create(plot_dir <- here(jitter_dir, "plots", "min_mods_comp_plots"), recursive = TRUE)
 
-SSplotComparisons(min_sum,
-                  print = TRUE,
-                  plotdir = plot_dir,
-                  subplots = 1:20)
-
+SSplotComparisons(min_sum, print = TRUE, plotdir = plot_dir, subplots = 1:20)
 
 ##### Compare one of the lowest likelihood models (since they all looked the same) to the base
-base_min_sum <- SSsummarize(list(minLL = min_mods[[1]], base = base))
+base_min <- list(minLL = min_mods[[1]], base = base)
+base_min_sum <- SSsummarize(base_min)
 
 dir.create(base_min_plot_dir <- here(jitter_dir, "plots", "base_min_comp"), recursive = TRUE)
 
 # Make comparison plots
-SSplotComparisons(base_min_sum,
-                  print = TRUE,
-                  plotdir = base_min_plot_dir)
-
+SSplotComparisons(
+  base_min_sum,
+  print = TRUE,
+  plotdir = base_min_plot_dir, 
+  legendlabels = names(base_min)
+)
 
 # Look into parameter differences ----------------------------------------------
 # Look at parameters of lowest LL runs
@@ -152,16 +160,15 @@ base_min_pars <- base_min_sum[["pars"]]
 write.csv(base_min_pars, file = here(jitter_dir, "base_vs_minLL_parameter_estimates.csv"), row.names = FALSE)
 
 # Investigate differences between min LL parms and base
-base_min_pars_comp <- base_min_pars %>%
-  mutate(perc_diff = (minLL-base)/base)
+base_min_pars_comp <- base_min_pars %>% mutate(perc_diff = (minLL - base) / base)
 
 # Which have are more than 10% different?
 perc_diff_cutoff <- 0.1
 diff_pars <- base_min_pars_comp %>% filter(perc_diff >= perc_diff_cutoff | perc_diff <= -perc_diff_cutoff)
 write.csv(diff_pars, file = here(jitter_dir, "base_vs_minLL_most_different_parameter_estimates.csv"), row.names = FALSE)
 
-##### Save the par file from one of the lowest LL jitters to use for re-running the base
-n_min_run <- which.min(jitter_loglike)
+##### Save the par file from a converged run with the lowest NLL
+n_min_run <- min_run$run[which.min(min_run$max_grad)]
 par_name <- paste("ss3.par_", n_min_run, ".sso", sep = "")
 
 # Read in par file from best run
@@ -183,15 +190,18 @@ SS_writepar_3.30(
 # Find values for report -------------------------------------------------------
 # Checked above that min of jitter_loglike is the same as the base like
 # Find number of runs that reached the same minimum loglike (as the base)
-minLLruns <- sum(jitter_loglike == min(jitter_loglike))
+minLLruns <- sum(like_df$nll == base_nll)
 
-minLLruns_2 <- sum(jitter_loglike <= base_like + 2)  # what about within 2 likelihood units?
+minLLruns_2 <- sum(like_df$nll <= base_nll + 2)  # what about within 2 likelihood units?
 
 # Save to summarize
-jitter_summary <- list(base_like = base_like,
-                       min_jitter_like = min(jitter_loglike),
-                       njitters_at_base = minLLruns,
-                       njitters_within_2 = minLLruns_2)
+jitter_summary <- list(
+  base_like = base_nll,
+  min_jitter_like = min(like_df$nll[like_df$max_grad < 0.01]),
+  njitters_at_base = minLLruns,
+  njitters_within_2 = minLLruns_2, 
+  n_converged_001 = sum(like_df$max_grad < 0.01)
+)
 
 saveRDS(jitter_summary, here("models/jitters", "jitter_summary.RDS"))
 

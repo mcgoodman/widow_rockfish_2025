@@ -2,6 +2,8 @@
 
 # Set up -----------------------------------------------------------------------
 
+if (!exists("rerun_base")) rerun_base <- TRUE
+
 parallel <- TRUE
 
 # Load packages
@@ -38,7 +40,7 @@ if (parallel) {
 r4ss::run(
   dir = base_dir,
   exe = ss3_exe,
-  skipfinished = FALSE,
+  skipfinished = !rerun_base,
   show_in_console = TRUE,
   verbose = TRUE,
   extras = "-nohess"

@@ -10,22 +10,7 @@ library(here)
 library(r4ss)
 library(parallel)
 
-#' Wrapper for r4ss::get_ss3_exe to check for, download, and return name of SS3 exe file
-#' @param dir directory to install SS3 in
-#' @param ... Other arguments to `r4ss::get_ss3_exe`
-#'
-#' @return Character string with name of downloaded SS3 exe (without extension)
-set_ss3_exe <- function(dir, ...) {
-  
-  # Get and set filename for SS3 exe
-  ss3_exe <- c("ss", "ss3")
-  ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1))
-  if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
-  ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1)))]
-  return(ss3_exe)
-  
-}
-
+source(here("R", "functions", "bridging_functions.R"))
 
 #path to the base model
 base_model <- here::here("models","2025 base model")

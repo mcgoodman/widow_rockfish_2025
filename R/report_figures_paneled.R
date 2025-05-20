@@ -14,6 +14,52 @@ source(here("R", "functions", "plot_selex.R"))
 
 plotdir <- here("figures", "2025 base model r4ss plots")
 
+# Historical estimates of SSB ---------------------------------------
+
+theme_set(
+  theme_bw() + 
+    theme(
+      strip.background = element_blank(), 
+      strip.text = element_text(color = "black", face = "bold", size = 11),
+      panel.grid = element_blank(), 
+      axis.text = element_text(color = "black"), 
+      axis.ticks = element_line(color = "black"), 
+      axis.title = element_text(color = "black"), 
+      plot.margin = margin(t = 0.25, r = 1, b = 0.25, l = 0.25, unit = "lines")
+    )
+)
+
+ssb_hist <- read.csv(here("data_provided", "2019_assessment", "historical_SSB_estimates.csv"))
+
+ssb_hist <- ssb_hist |> 
+  pivot_longer(-Year, names_to = "assessment", values_to = "SSB", names_prefix = "X") |> 
+  mutate(assessment = as.integer(gsub(".assessment", "", assessment, fixed = TRUE)))
+
+ssb_2025 <- base_par$timeseries |> 
+  select(Year = Yr, SSB = SpawnBio) |> 
+  mutate(assessment = 2025) |> 
+  filter(Year <= 2024)
+
+ssb_hist <- ssb_hist |> bind_rows(ssb_2025)
+
+ssb_hist$assessment <- factor(as.character(ssb_hist$assessment), levels = as.character(sort(unique(ssb_hist$assessment))))
+
+colors_dark <- colorspace::darken(r4ss::rich.colors.short(length(levels(ssb_hist$assessment))))
+
+ssb_hist_plot <- ssb_hist |> 
+  ggplot(aes(Year, SSB, color = assessment)) + 
+  geom_line(linewidth = 0.8) + 
+  scale_color_manual(values = colors_dark) + 
+  scale_x_continuous(breaks = seq(1915, 2025, 10)) + 
+  scale_y_continuous(breaks = seq(1e+04, 11e+04, length.out = 5)) +
+  theme(panel.grid.major.y = element_line(color = "grey80", linetype = "dashed")) + 
+  ylab("Spawning Stock Biomass (mt)")
+
+ggsave(
+  file.path(plotdir, "SSB_historical_comparison.png"), 
+  ssb_hist_plot, height = 4, width = 8, units = "in", dpi = 300
+)
+
 # Time-varying selectivity curves 2024 ------------------------------
 
 png(
@@ -52,19 +98,6 @@ combined <- image_append(c(rec_p1, rec_p2), stack = TRUE)  # vertical stack
 image_write(combined, path = file.path(plotdir, "recdev_estimates_ts.png"))
 
 # Indices -----------------------------------------------------------
-
-theme_set(
-  theme_bw() + 
-    theme(
-      strip.background = element_blank(), 
-      strip.text = element_text(color = "black", face = "bold", size = 11),
-      panel.grid = element_blank(), 
-      axis.text = element_text(color = "black"), 
-      axis.ticks = element_line(color = "black"), 
-      axis.title = element_text(color = "black"), 
-      plot.margin = margin(t = 0.25, r = 1, b = 0.25, l = 0.25, unit = "lines")
-    )
-)
 
 index_fits <- base_par$cpue |> 
   select(Fleet_name, Year = Yr, Index = Obs, Exp, SE_input, SE) |> 

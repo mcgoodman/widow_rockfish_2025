@@ -14,12 +14,19 @@ jobs <- list(
   report = TRUE # Buld report
 )
 
+# Toggles for in-script settings
+rerun_base = FALSE # Rerun base model in diagnostic scripts
+launch_html = FALSE # Launch html exploration from SS_plots
+parallel = TRUE # Run jitters in parallel (multiple scripts can be parallelized via jobs)
+skip_finished = FALSE # skip finished runs within scripts
+
 #' rstudioapi wrapper to run a job and wait until it finishes
 #' @param path Path for R script to run
 #' @param workingDir Working directory in which to run the job
+#' @param importEnv Whether to import the global environment (required for global settings)
 #' @param wait If TRUE, suspend the host R session until job finishes
 #' @param ... Additional arguments to `rstudioapi::jobRunScript`
-run_job <- function(path, workingDir = here(), wait = TRUE, ...) {
+run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ...) {
   
   job_id <- rstudioapi::jobRunScript(path, workingDir = workingDir, ...); Sys.sleep(10)
   
@@ -69,7 +76,8 @@ if (jobs$diagnostics) {
   
   run_job(
     here("R", "bridging_plots.R"), 
-    name = "model bridging plots"
+    name = "model bridging plots", 
+    wait = FALSE
   )
   
   run_job(
@@ -79,7 +87,7 @@ if (jobs$diagnostics) {
   
   run_job(
     here("R", "AllSensitivityRuns.R"), 
-    name = "senitivity runs",
+    name = "sensitivity runs",
     wait = FALSE
   )
   

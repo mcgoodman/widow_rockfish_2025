@@ -2,6 +2,8 @@
 # Install r4ss
 # devtools::install_github("https://github.com/r4ss/r4ss.git")
 
+if (!exists("rerun_base")) rerun_base <- TRUE
+
 library("tidyverse")
 library("r4ss")
 library("here")
@@ -13,29 +15,12 @@ lapply(files, source)
 skip_finished <- FALSE
 launch_html <- TRUE
 
-#' Wrapper for r4ss::get_ss3_exe to check for, download, and return name of SS3 exe file
-#' @param dir directory to install SS3 in
-#' @param ... Other arguments to `r4ss::get_ss3_exe`
-#'
-#' @return Character string with name of downloaded SS3 exe (without extension)
-set_ss3_exe <- function(dir, ...) {
-  
-  # Get and set filename for SS3 exe
-  ss3_exe <- c("ss", "ss3")
-  ss3_check <- vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), logical(1))
-  if (!any(ss3_check)) r4ss::get_ss3_exe(dir, ...)
-  ss3_exe <- ss3_exe[which(vapply(ss3_exe, \(x) file.exists(file.path(dir, paste0(x, ".exe"))), 
-                                  logical(1)))]
-  return(ss3_exe)
-  
-}
-
 # Name of model direct
 model_directory <- 'models'
 dir.create(here("models", "sensitivities"))
 
 # Create executable
-ss3_exe <- set_ss3_exe("models", version = "v3.30.23")
+ss3_exe <- set_ss3_exe("models", version = "v3.30.23.1")
 
 # Save executable location
 exe_loc <- here(model_directory, ss3_exe)
@@ -55,7 +40,7 @@ r4ss::run(
   dir = run_base_model, # make sure to edit the directory
   exe = exe_loc,
   show_in_console = TRUE,
-  skipfinished = skip_finished
+  skipfinished = !rerun_base
 )
 
 # Get r4ss output

@@ -1,28 +1,25 @@
 % Options for packages loaded elsewhere
-% Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  english,
 ]{scrartcl}
-\usepackage{xcolor}
+
 \usepackage{amsmath,amssymb}
-\setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math} % this also loads fontspec
+  \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
 \usepackage{lmodern}
-\ifPDFTeX\else
-  % xetex/luatex font selection
+\ifPDFTeX\else  
+    % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -40,6 +37,9 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \makeatletter
 \ifx\paragraph\undefined\else
@@ -65,7 +65,8 @@
 \makeatother
 
 
-\usepackage{longtable,booktabs,array}
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -77,21 +78,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\newsavebox\pandoc@box
-\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
-  \sbox\pandoc@box{#1}%
-  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
-  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
-  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
-  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
-  \else\usebox{\pandoc@box}%
-  \fi%
-}
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 % Set default figure placement to htbp
+\makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
-
 % definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
@@ -125,29 +122,6 @@
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-
-\ifLuaTeX
-\usepackage[bidi=basic]{babel}
-\else
-\usepackage[bidi=default]{babel}
-\fi
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\ifLuaTeX
-  \usepackage[english]{selnolig} % disable illegal ligatures
-\fi
-
-
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-
-
-
- 
-
 
 \usepackage{hyphenat}
 \usepackage{graphicx}
@@ -255,9 +229,23 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same}
+\urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={Stock Assessment Update: Status of Widow Rockfish Stock (Sebastes entomelas) off the U.S. West Coast in 2025},
   pdfauthor={Michael Kinneen; Maurice Goodman; Anna Sulc; Laurinne Balstad; Raquel Ruiz Diaz; Kristina Randrup; William Patrone; Laura Spencer; Alaia Morell; Alberto Rovellini; Allison Dedrick; Nick Grunloh; Madison Bargas; Stephanie Hopkins; Vladlena Gertseva; Kiva L. Oken; Ian G. Taylor; Melissa A. Haltuch; Owen Hamel},
@@ -280,6 +268,7 @@ Grunloh \and Madison Bargas \and Stephanie Hopkins \and Vladlena
 Gertseva \and Kiva L. Oken \and Ian G. Taylor \and Melissa A.
 Haltuch \and Owen Hamel}
 \date{2025-05-19}
+
 \begin{document}
   \begin{titlepage}
   % This is a combination of Pandoc templating and LaTeX
@@ -703,7 +692,7 @@ described below.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/catch5_total_catch_(including_discards)_stacked.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/catch5_total_catch_(including_discards)_stacked.png}
 
 }
 
@@ -797,7 +786,7 @@ above the target of 40\%.
 Approximate confidence intervals based on the asymptotic variance
 estimates show that the uncertainty in the estimated spawning biomass is
 high, especially in the early years. Spawning biomass is estimated to be
-at 45,634 mt in 2024, with an asymptotic 95\% confidence interval of
+at 45,443 mt in 2024, with an asymptotic 95\% confidence interval of
 23,459 - 67,427. The corresponding confidence interval for the relative
 SSB is 36.8\% - 74.4\%, for which the lower bound is below the
 management target of 40\%.
@@ -806,7 +795,7 @@ management target of 40\%.
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -820,7 +809,7 @@ confidence interval (dashed lines).}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
 
 }
 
@@ -965,7 +954,7 @@ episodic and characterized by periods of low recruitment.
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
 
 }
 
@@ -1211,7 +1200,7 @@ age 4+ biomass.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}
 
 }
 
@@ -1225,7 +1214,7 @@ with approximate 95\% asymptotic confidence intervals (gray lines).}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SPR3_ratiointerval.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SPR3_ratiointerval.png}
 
 }
 
@@ -1242,7 +1231,7 @@ excess of the overfishing proxy based on SPR50\%.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}
 
 }
 
@@ -2093,7 +2082,7 @@ understanding and assessment of widow rockfish:
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
 
 }
 
@@ -2825,7 +2814,7 @@ intervals are shown in Table~\ref{tbl-key-deriv-params}.
 
 \subsubsection{Parameter Estimates}\label{parameter-estimates}
 
-The estimates of natural mortality (0.124273 yr\textsuperscript{-1} and
+The estimates of natural mortality (0.124599 yr\textsuperscript{-1} and
 NA yr\textsuperscript{-1} for females and males, respectively) were
 higher than suggested by the medians of the prior distributions used in
 this assessment and the 2015 assessment. Fixing M at lower values than
@@ -3357,9 +3346,9 @@ above 50 years have been observed and it is expected that natural
 mortality could be less than 0.10 yr\textsuperscript{-1} (the median of
 the prior for natual mortality used in this assessment). However, even
 with length and age data available back to the late 1970s, natural
-mortality was estimated at 0.124 for females and 0.136
+mortality was estimated at 0.125 for females and 0.137
 yr\textsuperscript{-1} for males, with a small amount of uncertainty
-(e.g., a 0\% coefficient of variation for females). This assessment
+(e.g., a 6.6\% coefficient of variation for females). This assessment
 attempts to capture that uncertainty by estimating natural mortality (M)
 and integrating that uncertainty into the derived biomass estimates, as
 well as additional uncertainty by including levels outside of the
@@ -3966,13 +3955,13 @@ and California.}
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1979}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2,315.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{519.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{305.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3,746.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2,199.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{97.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1979}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{916.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{519.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{305.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,398.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3,746.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2,199.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{97.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1980}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{5,175.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{410.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{338.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{150.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,460.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6,969.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{55.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1980}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2,109.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{410.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{338.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3,217.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,460.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6,969.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{55.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
@@ -4122,133 +4111,121 @@ and California.}
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2005}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{27.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
-
-
-
-
-
 \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2005}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{5.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{27.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2006}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{9.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2006}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{3.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{9.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2007}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2007}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2008}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{12.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2008}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{29.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{12.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2009}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{33.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2009}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{34.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2010}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{46.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2010}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{9.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{45.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2011}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{10.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{13.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{35.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2011}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{10.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{7.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{12.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{31.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2012}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{27.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{14.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{41.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2012}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{27.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{12.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{5.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{41.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2013}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{4.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{44.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{210.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{36.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2013}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{4.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{44.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{204.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{36.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2014}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{46.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{22.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{260.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{46.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2014}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{46.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{22.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{259.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{46.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2015}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{10.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{409.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{97.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2015}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{10.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{386.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{92.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2016}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{587.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{13.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2016}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{574.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{13.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2017}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{474.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{47.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{4,345.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{27.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2017}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{34.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{51.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{4,770.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{29.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2018}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{21.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{14.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{215.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{7,593.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,564.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2018}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{21.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{14.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{215.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{7,605.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,552.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2019}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{9.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{26.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{142.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6,752.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,463.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2019}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{10.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{17.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{142.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6,752.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,262.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2020}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{71.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{84.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{5,834.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,613.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2020}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{64.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{84.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{5,834.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,613.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2021}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{20.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{85.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{169.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,395.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,576.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{4.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2021}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{20.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{83.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{169.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,395.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,576.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{4.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.4}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2022}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{60.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{78.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{499.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,794.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,546.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2022}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{60.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{66.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{499.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,794.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,546.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2023}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{35.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{50.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{493.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,108.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,626.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2023}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{35.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{46.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{493.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8,108.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,626.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{6.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} \\
 
 
 
 
 
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2024}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{16.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{43.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{7,449.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,711.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{12.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
-
-
-
-
-
-\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2025}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{7.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,439.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{270.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{8.2}}}} \\
+\multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2024}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{16.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{11.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{7,449.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1,711.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{11.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.45in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.1}}}} \\
 
 \ascline{1pt}{666666}{1-12}
 
@@ -4602,6 +4579,66 @@ observers.}
 
 \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2014}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{56.2}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{250.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{35.9}}}} \\
 
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2015}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{37.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{267.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{80.8}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2016}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{193.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{187.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{59.3}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2017}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{481.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{791.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{182.8}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2018}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{207.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{720.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{153.4}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2019}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{198.9}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{605.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{297.0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2020}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{86.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{474.4}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{186.2}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2021}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{115.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{419.7}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{82.1}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2022}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{187.1}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{728.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{203.1}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2023}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{206.5}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{368.8}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{98.0}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2024}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{66.6}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{0.0}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{408.3}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 0.8in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{59.0}}}} \\
+
 \ascline{1pt}{666666}{1-5}
 
 
@@ -4757,7 +4794,9 @@ rockfish from 2004 to 2024. Total landings (mt) are also shown.}
 
 \newpage{}
 
-\newpage{} \blandscape
+\newpage{}
+
+\blandscape
 
 \global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
 
@@ -5709,7 +5748,9 @@ lengths sampled from the at-sea hake and shoreside hake fisheries.}
 
 \renewcommand*{\arraystretch}{1}
 
-\newpage{} \blandscape
+\newpage{}
+
+\blandscape
 
 \global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
 
@@ -7857,7 +7898,8 @@ assessment model for widow rockfish.}
 
 
 
-\multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{\textit{}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{Midwater\ trawl\ selectivtiy}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1916–1982,\ 1983–2001,}}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{\linebreak }}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2002–2010,\ 2011–}}}} \\
+\multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{\textit{}}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{Midwater\ trawl\ selectivtiy}}}} & \multicolumn{1}{>{}l}{\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{1916–1982,\ 1983–2001,
+}}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{\linebreak }}}\textcolor[HTML]{000000}{\fontsize{9}{9}\selectfont{\global\setmainfont{Times New Roman}{2002–2010,\ 2011–}}}} \\
 
 
 
@@ -10392,7 +10434,7 @@ for each fleet in 20XX.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_2_2019.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/old_figs/Figure_2_2019.png}
 
 }
 
@@ -10408,7 +10450,7 @@ indicate more observations (possibly within the same tow).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{../figures/old_figs/Figure_4_2019.png}}
+\includegraphics[width=6.23in,height=\textheight]{../figures/old_figs/Figure_4_2019.png}
 
 }
 
@@ -10423,7 +10465,7 @@ from the 2011 assessment scaled to the mean of their own series.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_5_2019.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_5_2019.png}
 
 }
 
@@ -10437,7 +10479,7 @@ the Triennial trawl survey (Figure from Stewart (2007)).}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_6_2019.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/old_figs/Figure_6_2019.png}
 
 }
 
@@ -10455,7 +10497,7 @@ to allow better delineation of the distribution of individual points
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/combined_qq.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/combined_qq.png}
 
 }
 
@@ -10470,7 +10512,7 @@ delta-lognormal (panel 2, used in base model) sdmTMB index.}
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_9_2019.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/old_figs/Figure_9_2019.png}
 
 }
 
@@ -10484,7 +10526,7 @@ Triennial with estimated 95\% confidence intervals. based estimates and
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_10_2019.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/old_figs/Figure_10_2019.png}
 
 }
 
@@ -10500,7 +10542,7 @@ survey.}
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/WCGBTS_survey/survey_comparision_plot.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/WCGBTS_survey/survey_comparision_plot.png}
 
 }
 
@@ -10517,7 +10559,7 @@ bars give 5 and 95\% intervals for each survey.}
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_8.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_8.png}
 
 }
 
@@ -10530,7 +10572,7 @@ the WCGBTS}
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_8.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_8.png}
 
 }
 
@@ -10543,7 +10585,7 @@ from the WCGBTS.}
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/WCGBTS_survey/caal_WCGBTS_plot.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/WCGBTS_survey/caal_WCGBTS_plot.png}
 
 }
 
@@ -10558,7 +10600,7 @@ WCGBTS observations for females (red) and males (blue).}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_1.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_1.png}
 
 }
 
@@ -10572,7 +10614,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_2.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_2.png}
 
 }
 
@@ -10586,7 +10628,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_3.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_3.png}
 
 }
 
@@ -10600,7 +10642,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_4.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_4.png}
 
 }
 
@@ -10614,7 +10656,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/lencomp_fleet_5.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/lencomp_fleet_5.png}
 
 }
 
@@ -10628,7 +10670,7 @@ proportion-at-length.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_1.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_1.png}
 
 }
 
@@ -10642,7 +10684,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_2.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_2.png}
 
 }
 
@@ -10656,7 +10698,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_3.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_3.png}
 
 }
 
@@ -10670,7 +10712,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_4.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_4.png}
 
 }
 
@@ -10684,7 +10726,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/agecomp_fleet_5.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/agecomp_fleet_5.png}
 
 }
 
@@ -10698,7 +10740,7 @@ proportion-at-age.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/discard_comps/bottom_trawl_pikitch.jpg}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/discard_comps/bottom_trawl_pikitch.jpg}
 
 }
 
@@ -10712,7 +10754,7 @@ model.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/discard_comps/bottom_trawl_wcgop.jpg}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/discard_comps/bottom_trawl_wcgop.jpg}
 
 }
 
@@ -10729,7 +10771,7 @@ for the bottom trawl.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/length_age_weight/wl_dat.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/length_age_weight/wl_dat.png}
 
 }
 
@@ -10744,7 +10786,7 @@ assessment is inidcated with a solid line.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_32_2019.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_32_2019.png}
 
 }
 
@@ -10763,7 +10805,7 @@ maturity-at-age for ages 2 and lower set equal to zero.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/composition_plots/plots_2/n_at_age.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/composition_plots/plots_2/n_at_age.png}
 
 }
 
@@ -10776,7 +10818,7 @@ female and male widow rockfish.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/NatMort_priors.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/NatMort_priors.png}
 
 }
 
@@ -10791,7 +10833,7 @@ each distribution are shown with triangles.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/length_age_weight/vBL_dat.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/length_age_weight/vBL_dat.png}
 
 }
 
@@ -10806,7 +10848,7 @@ fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/old_figs/Figure_39_2019.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/old_figs/Figure_39_2019.png}
 
 }
 
@@ -10823,7 +10865,7 @@ Cooperative Ageing Project lab and the SWFSC.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/data_plot.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/data_plot.png}
 
 }
 
@@ -10836,7 +10878,7 @@ were used in the base model.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/bridging/bridging_compare1_spawnbio.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/bridging/bridging_compare1_spawnbio.png}
 
 }
 
@@ -10851,7 +10893,7 @@ model with updated data and bridging steps.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png}
 
 }
 
@@ -10864,7 +10906,7 @@ fleets and surveys.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/combined_select_curves.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/combined_select_curves.png}
 
 }
 
@@ -10878,7 +10920,7 @@ triennial survey (bottomleft), and the NWFSC survey (bottomright).}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/combined_retention_plots.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/combined_retention_plots.png}
 
 }
 
@@ -10894,7 +10936,7 @@ column) and females (right column)}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/bio2_sizeatage_plus_CV_and_SD.png}
 
 }
 
@@ -10911,7 +10953,7 @@ panel and versus age in the lower-left panel.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/recdev_estimates_ts.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/recdev_estimates_ts.png}
 
 }
 
@@ -10927,7 +10969,7 @@ intervals (vertical lines) from the MLE estimates.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/recruit_fit_bias_adjust.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/recruit_fit_bias_adjust.png}
 
 }
 
@@ -10943,7 +10985,7 @@ adjustment relationship for recruitment deviations.}
 
 \centering{
 
-\includegraphics[width=1\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/surv_abundest.png}
+\includegraphics[width=1\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/surv_abundest.png}
 
 }
 
@@ -10960,7 +11002,7 @@ before addition of the estimated additional uncertainty parameter.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/pred-obs-discards.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/pred-obs-discards.png}
 
 }
 
@@ -10975,7 +11017,7 @@ for the observations.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/lenage-pears-res-trawl.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/lenage-pears-res-trawl.png}
 
 }
 
@@ -10991,7 +11033,7 @@ indicates females, blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png}
 
 }
 
@@ -11007,7 +11049,7 @@ proportion. Red indicates females, blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit__aggregated_across_time.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit__aggregated_across_time.png}
 
 }
 
@@ -11022,7 +11064,7 @@ all years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
 
 }
 
@@ -11038,7 +11080,7 @@ blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/comp-lenfit-trien.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/comp-lenfit-trien.png}
 
 }
 
@@ -11054,7 +11096,7 @@ proportion. Red indicates females, blue males, and gray unsexed.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
 
 }
 
@@ -11069,7 +11111,7 @@ years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/condAAL-andreplot.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/condAAL-andreplot.png}
 
 }
 
@@ -11084,7 +11126,7 @@ intervals (right) for the NWFSC WCGBT survey data.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/combined_retention_curves_tv.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/combined_retention_curves_tv.png}
 
 }
 
@@ -11097,7 +11139,7 @@ applicable) for each of the five fleets in the model.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png}
 
 }
 
@@ -11112,7 +11154,7 @@ years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/condAAL-resids.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/condAAL-resids.png}
 
 }
 
@@ -11129,7 +11171,7 @@ years from fishery (retained catch) and survey length frequency data
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -11144,7 +11186,7 @@ confidence intervals.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts4_Summary_biomass_(t).png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts4_Summary_biomass_(t).png}
 
 }
 
@@ -11157,7 +11199,7 @@ the base model.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png}
 
 }
 
@@ -11174,7 +11216,7 @@ minimum stock size threshold of 25\% of unfished biomass.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SR_curve.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SR_curve.png}
 
 }
 
@@ -11188,7 +11230,7 @@ effect of the bias correction for the lognormal distribution.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/ts_summaryF.png}
 
 }
 
@@ -11201,7 +11243,7 @@ for each year of the model with 95\% confidence intervals.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SPR4_phase.png}
 
 }
 
@@ -11219,7 +11261,7 @@ rockfish.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/sensitivities/short_sens_compare11_recdevs.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/sensitivities/short_sens_compare11_recdevs.png}
 
 }
 
@@ -11232,7 +11274,7 @@ sensitivity models.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/sensitivities/short_sens_compare2_spawnbio_uncertainty.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/sensitivities/short_sens_compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -11246,7 +11288,7 @@ sensitivity runs. (no rec dev)}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/sensitivities/short_sens_summary.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/sensitivities/short_sens_summary.png}
 
 }
 
@@ -11262,7 +11304,7 @@ by sensitivity run.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/retros.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/retros.png}
 
 }
 
@@ -11277,7 +11319,7 @@ biomass (top) and recruitment deviations (bottom).}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/Like_profile_R0.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/Like_profile_R0.png}
 
 }
 
@@ -11290,7 +11332,7 @@ likelihood profile for unfished equilibrium recruitment (R0)}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/Like_profile_Steepness.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/Like_profile_Steepness.png}
 
 }
 
@@ -11303,7 +11345,7 @@ likelihood profile for steepness (h).}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/Nat_Mort.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/Nat_Mort.png}
 
 }
 
@@ -11317,7 +11359,7 @@ natural mortality are set to the same value.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/diagnostics/M_likeprof_recruits.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/M_likeprof_recruits.png}
 
 }
 
@@ -11333,7 +11375,7 @@ estimates for models with different fixed values of natural mortality
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png}
 
 }
 
@@ -11346,7 +11388,7 @@ the fraction of unfished biomass.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/decision_table/combined_ssb_with_interval.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/decision_table/combined_ssb_with_interval.png}
 
 }
 
@@ -11467,7 +11509,7 @@ composition}\label{appendix-a-annual-fits-to-length-and-age-composition}
 
 \centering{
 
-\includegraphics[width=0.6\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/bottom_lenfit.png}
+\includegraphics[width=0.6\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/bottom_lenfit.png}
 
 }
 
@@ -11480,7 +11522,7 @@ compositions for the bottom trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png}
 
 }
 
@@ -11493,7 +11535,7 @@ compositions for the bottom trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/midwater_lenfit.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/midwater_lenfit.png}
 
 }
 
@@ -11506,7 +11548,7 @@ compositions for the midwater trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/hake_lenfit.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/hake_lenfit.png}
 
 }
 
@@ -11519,7 +11561,7 @@ for the hake fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt4mkt0.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt4mkt0.png}
 
 }
 
@@ -11532,7 +11574,7 @@ for the net fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/hkl_lenfit.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/hkl_lenfit.png}
 
 }
 
@@ -11545,7 +11587,7 @@ for the hook-and-line fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt7mkt0.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt7mkt0.png}
 
 }
 
@@ -11558,7 +11600,7 @@ triennial survey.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt8mkt0.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_lenfit_flt8mkt0.png}
 
 }
 
@@ -11571,7 +11613,7 @@ NWFSC WCGBT survey.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/bottom_agefit.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/bottom_agefit.png}
 
 }
 
@@ -11584,7 +11626,7 @@ compositions for the bottom trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/midwater_agefit.png}
+\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/midwater_agefit.png}
 
 }
 
@@ -11597,7 +11639,7 @@ compositions for the midwater trawl fleet.}
 
 \centering{
 
-\includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/App_A/hake_agefit.png}
+\includegraphics[width=0.8\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/App_A/hake_agefit.png}
 
 }
 
@@ -11610,7 +11652,7 @@ for the hake fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt4mkt0.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt4mkt0.png}
 
 }
 
@@ -11623,7 +11665,7 @@ for the net fleet.}
 
 \centering{
 
-\includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png}
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png}
 
 }
 

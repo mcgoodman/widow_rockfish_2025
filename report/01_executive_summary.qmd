@@ -8,7 +8,7 @@ sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if
 
 ## Stock{-}
 
-This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canadian border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] and first updated in 2019 [@adams_status_2019]. This assessment represents the second update assessment of this stock. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single costwide area model.
+This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canada border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] and first updated in 2019 [@adams_status_2019]. This assessment represents the second update assessment of this stock. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single costwide area model.
 
 {{< pagebreak >}} 
 
@@ -108,7 +108,9 @@ The data used in the assessment model consisted of survey abundance indices, len
 
 The base model estimated parameters for length-based selectivity for all fleets and surveys, retention curves based on length for the bottom trawl and midwater trawl fleets, a length-at- age relationship, natural mortality for males and females assuming lognormal priors, and recruitment deviations starting in 1900. A Beverton-Holt stock-recruitment function was used to model productivity and the steepness parameter was fixed at 0.72 based on a steepness meta-analysis for west coast rockfishes. 
 
-Estimation uncertainty in the base model was determined using approximate asymptotic 95% confidence intervals based on maximum likelihood theory. The major axis of uncertainty was determined to define a range of states of nature and results are presented in a decision table. 
+Estimation uncertainty in the base model was determined using approximate asymptotic 95% confidence intervals based on maximum likelihood theory. Natural mortality and steepness are major sources of uncertainty. We used high and low combinations of these parameters to define a range of states of nature, with results presented in a decision table. 
+
+<!-- The major axis of uncertainty was determined to define a range of states of nature and results are presented in a decision table.  -->
 
 <!-- Although there are many types of data available for widow rockfish since the late 1970s, which were used in this assessment, there is little information about steepness and natural mortality, and recent recruitment (although likelihood profiles in this update assessment suggest additional data has contributed higher certainty in natural mortality estimates). Estimates of steepness are uncertain partly because of variable recruitment. Uncertainty in natural mortality is common in many fish stock assessments even when length and age data are available. Finally, there is little information about the strength of recent recruitment because the young fish are seen with a lower probability in the fisheries and surveys. These uncertainties were characterized as best as possible in the predictions and projections from this assessment. -->
 
@@ -147,7 +149,7 @@ Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
 
 The predicted spawning biomass from the base model generally showed a slight decline over the time series until 1966 when the foreign fleet began. A short, but sharp decline occurred, followed by a steep increase (peaking in 1979) due to strong recruitment. The spawning biomass declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s. The stock continued to decline until 2000. A combination of strong recruitment and low catches resulted in a steady increase in spawning biomass through 2016. A target fishery for widow rockfish was reestablished in 2017. The stock exhibits a decline in most recent years with the increased catches since 2017, and lack of evidence for recent large recruitment events.
 
-The 2024 spawning stock biomass (SSB) relative to unfished equilibrium spawning biomass is `r round(table_b$Bratio[table_b$Year == 2024] * 100)`. This is at 56% of unfished spawning biomass, above the target of 40%. 
+The 2024 spawning stock biomass (SSB) relative to unfished equilibrium spawning biomass is at `r round(table_b$Bratio[table_b$Year == 2024] * 100)`, above the target of 40%. 
 
 Approximate confidence intervals based on the asymptotic variance estimates show that the uncertainty in the estimated spawning biomass is high, especially in the early years. Spawning biomass is estimated to be at `r format(SSB$Value[SSB$Year == 2024], big.mark = ",", digits = 1)` mt in 2024, with an asymptotic 95% confidence interval of `r paste(format(table_b[table_b$Year == 2024, c("SSB_Lwr", "SSB_Upr")], big.mark = ",", digits = 1), collapse = " - ")`. The corresponding confidence interval for the relative SSB is `r paste(paste0(round(table_b[table_b$Year == 2024, c("Bratio_Lwr", "Bratio_Upr")] * 100, 1), "%"), collapse = " - ")`, for which the lower bound is below the management target of 40%.
 
@@ -186,7 +188,7 @@ knitr::include_graphics(
 #| label: tbl-b
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
+#| tbl-cap: "Recent trend in estimated female spawning biomass (mt) and relative spawning biomass (depletion)."
 
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
@@ -247,7 +249,7 @@ knitr::include_graphics(
 #| out.width: "90%"
 #| fig-align: "center"
 
-table_c <- read_rdata(here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
+table_c <- read_rdata(here::here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
 
 table_c <- table_c |> 
   mutate(
@@ -267,6 +269,7 @@ colnames <- c(
 # Create flextable
 flextable(table_c, col_keys = names(table_c)) |> 
   set_header_labels(names = names(table_C), values = colnames) %>%
+  colformat_num(j=3, big.mark = ",")%>%
   exec_tab_style
 
 ```
@@ -343,7 +346,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Phase plot of estimated relative (1-SPR) vs. relative biomass for the base case model. The relative (1- SPR) is (1-SPR) divided by 0.5 (one minus the SPR target). Lines through the final point (2024) show 95% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95% region which accounts for the estimated correlation between the two quantities."
+#| fig-cap: "Phase plot of estimated relative fishing intensity relative biomass for the base case model. The relative (1- SPR) is (1-SPR) divided by 0.5 (one minus the SPR target). Lines through the final point (2024) show 95% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95% region which accounts for the estimated correlation between the two quantities."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -365,7 +368,7 @@ Fishing has effects on both the age structure of a population as well as the tar
 ```{r}
 #| include: false
 
-table_e <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
+table_e <- read_rdata(here::here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
 
 ref_pts <- table_e
 colnames(ref_pts) <- c("Label", "Est", "Lwr", "Upr")
@@ -393,6 +396,7 @@ The equilibrium yield plot is shown in @fig-h, based on a steepness value fixed 
 #| tbl-cap: "Summary of reference points and management quantities for the base case model."
 
 table_e <- table_e |> mutate(across(is.numeric, round, digits = 2))
+
 
 flextable(table_e) %>%
   merge_h(part = "header") %>%
@@ -434,11 +438,15 @@ flextable(table_f) |>
 
 ## Harvest projections and decision table{-}
 
-Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (0.115 yr^-1^ and 0.134 yr^-1^ for females; 0.127 yr^-1^ and 0.146 yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (0.536 and 0.904). The low combination of these three factors defined the low state of nature and the high combination of these three factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
+Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (0.115 yr^-1^ and 0.134 yr^-1^ for females; 0.127 yr^-1^ and 0.146 yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (0.536 and 0.904). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
 
 This assessment synthesizes many sources of data and estimates recruitment variability, thus it is classified as a Category 1 stock assessment. Therefore, the sigma to determine the catch reduction to account for scientific uncertainty is 0.50.
 
-The report provides twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 that predicts spawning biomass will decrease over the projection period for all states of nature (@tbl-h). 
+<!-- 
+Better formulation below, kept if this was clearer in the end. 
+The report projects the base model forward for twelve years with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later year, allocating catches to fleets as per the percentage of catch by fleet in 2024. This predicts spawning biomass will decrease over the projection period for all states of nature (@tbl-h).  -->
+
+A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature  (@tbl-h).
 
 Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036. 
 
@@ -451,7 +459,7 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 #| warning: false
 #| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
-table_g <- read_rdata(here("report", "tables", "exec_summ_tables", "projections.rda"))$table
+table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
 table_g <- round(table_g, 3)
 
 flextable(table_g) %>%
@@ -533,9 +541,9 @@ There are many areas of research that could be improved to benefit the understan
 
 - **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty.
 
-- **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species.
+<!-- - **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species. -->
 
-- **Age data and error:** There is a considerable amount of error in the age data and potential for bias. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment. Disagreement between surface reads of age versus break-and-burn reads is worth more investigation.
+<!-- - **Age data and error:** There is a considerable amount of error in the age data and potential for bias. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment. Disagreement between surface reads of age versus break-and-burn reads is worth more investigation. -->
 
 - **Coastwide understanding of stock structure, biology, connectivity, and distribution:** This is a stock assessment for widow rockfish off of the west coast of the U.S. and does not consider data from British Columbia or Alaska. Further investigating and comparing the data and predictions from British Columbia and Alaska to determine if there are similarities with the U.S. West Coast observations would help to define the connectivity between widow rockfish north and south of the U.S.-Canada border.
 

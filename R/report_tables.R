@@ -4,7 +4,11 @@ library("flextable")
 library("tidyverse")
 library("r4ss")
 
+read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
+
 # Executive summary tables ------------------------------------------
+
+unlink(here("report", "tables", "exec_summ_tables"), recursive = TRUE, force = TRUE)
 
 rep_2025 <- SS_output(here("models", "2025 base model"))
 
@@ -20,7 +24,7 @@ table_exec_summary(
 
 file.rename(here("report", "tables", "tables"), here("report", "tables", "exec_summ_tables"))
 
-# Add GMC reference points to exec summary --------------------------
+# Add GMT reference points to exec summary --------------------------
 
 # GMC reference point table
 gmt_refs <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT016_stock_summary.csv"))
@@ -44,6 +48,24 @@ recent_management$table <- recent_management$table |>
   select(Year, `OFL (mt)`, `ABC (mt)`, `ACL (mt)`, `Landings (mt)`, `Total Mortality (mt)`)
 
 save(recent_management, file = here("report", "tables", "exec_summ_tables", "recent_management.rda"))
+
+# Populate projection table -----------------------------------------
+
+load(here("report", "tables", "exec_summ_tables", "projections.rda"))
+
+gmt_25_26 <- gmt_refs |> 
+  filter(YEAR == 2026) |> mutate(spec = case_when(
+    SPECIFICATION_NAME == "Overfishing Limit" ~ "OFL (mt)", 
+    SPECIFICATION_NAME == "Acceptable Bio Catch" ~ "ABC (mt)", 
+    SPECIFICATION_NAME == "Annual Catch Limit"  ~ "ACL (mt)"
+  )) |>
+  filter(!is.na(spec)) |> 
+  select(Year = YEAR, spec, VAL) |> 
+  pivot_wider(names_from = "spec", values_from = "VAL")
+
+projections$table <- projections$table |> rows_update(gmt_25_26, by = "Year")
+  
+save(projections, file = here("report", "tables", "exec_summ_tables", "projections.rda"))
 
 # Table 1 - Landings for non-hake fleets ----------------------------
 
@@ -89,68 +111,6 @@ table2_dat <- catch_st_flt_yr |>
   arrange(Year)
 
 write.csv(table2_dat, here("report", "tables", "landings_hake.csv"), row.names = FALSE)
-
-# Table a - recent landings -----------------------------------------
-
-table_a <- read.csv(here("report", "tables", "exec_summ_tables", "catches_es.csv")) |>
-  rename(
-    Year = "table.Year",
-    "Bottom Trawl (mt)" = "table.BottomTrawl..mt.",
-    "Midwater Trawl (mt)" = "table.MidwaterTrawl..mt.",
-    "At-sea Hake" = "table.Hake..mt.",
-    'Net' = "table.Net..mt.",
-    "Hook-and-line" = "table.HnL..mt.",
-    "Total Landings" = "table.Total.Landings..mt.",
-    "Total Mortality" = "table.Total.Dead..mt." ) |>
-  select(-c(cap)) |>
-  mutate(across(where(is.numeric), ~ round(., 2)))
-
-write.csv(table_a, here("report", "tables", "exec_summ_tables", "recent_landings.csv"), row.names = FALSE)
-
-
-##Table b 
-rep_2025$tim
-xx <- dir.create(here("mk_scrtach","table_new"))
-SSexecutivesummary(replist = SS_output(base_mod_dir))
-
-
-### Table 1 
-catch_formatted_all <- catch.pacfin |>
-  filter(gear_group %in% unique(bds_cleaned$gear_group)) |> #Only keep catch from fleets in bds
-  filter(gear_group != "Hake") |>
-  formatCatch(
-    strat = c("state","gear_group"),
-    valuename = "LANDED_WEIGHT_MTONS"
-  ) |>
-  rename(Year = LANDING_YEAR)
-
-catch_formatted_all |>
-# complete(Year, gear_group = c("BottomTrawl", "MidwaterTrawl", "Net", "HnL"),
-#          state = c("CA", "OR", "WA"), fill = list(n = 0)) %>%
-  pivot_wider(
-    names_from = c(gear_group, state),
-    values_from = n,
-    names_sep = "_"
-  ) |> 
-  select(Year, BottomTrawl_CA, BottomTrawl_OR, BottomTrawl_WA,
-         MidwaterTrawl_CA, MidwaterTrawl_OR, MidwaterTrawl_WA,
-         Net_CA, Net_WA, HnL_CA, HnL_OR, HnL_WA)
-
-
-bds_cleaned_all <- cleanPacFIN(
-  Pdata = bds.pacfin,
-  keep_gears = used_gears,         
-  CLEAN = TRUE,
-  keep_age_method = good_age_method,
-  keep_sample_type = good_samples,
-  keep_sample_method = good_methods,
-  keep_length_type = good_lengths,
-  keep_states = good_states,
-  spp = "widow rockfish"
-) |> 
-  left_join(gear_groups_2024, by = "AGENCY_SAMPLE_NUMBER") |>
-  mutate(stratification = paste(state, gear_group, sep = ".")) |>
-  filter(!PACFIN_GEAR_NAME %in% c("XXX", "OTH-KNOWN", "DNSH SEINE"))
 
 #Table 10: Number of landings sampled for length data by gear and state for non-whiting fisheries.
 table_10_dat <- bds_cleaned_all |> 

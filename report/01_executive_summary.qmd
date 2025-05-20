@@ -424,7 +424,7 @@ Exploitation rates on widow rockfish exceeded MSY proxy target harvest rates dur
 
 table_f <- read_rdata(here("report", "tables", "exec_summ_tables", "recent_management.rda"))$table
 
-colnames <- c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")
+#colnames <- c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")
 
 # Create flextable
 flextable(table_f) |> 
@@ -451,21 +451,11 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 #| warning: false
 #| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
-table_g <- read.csv(here("report", "tables", "exec_summ_tables", "g_Projections_ES.csv"))
+table_g <- read_rdata(here("report", "tables", "exec_summ_tables", "projections.rda"))$table
 table_g <- round(table_g, 3)
 
-colnames(table_g) <- gsub("\\.", " ", colnames(table_g))
-
 flextable(table_g) %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  # autofit() %>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
+  colformat_num(j = 1, big.mark = "", digits = 0) %>%
   set_table_properties(layout = "autofit") %>% exec_tab_style
 
 ```

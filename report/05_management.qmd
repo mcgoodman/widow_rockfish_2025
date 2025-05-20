@@ -75,8 +75,8 @@ Steepness was fixed at 0.720 in the base model, but a likelihood profile showed 
 
 ```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
-projections <- read.csv(here("report", "tables", "exec_summ_tables", "g_Projections_ES.csv"))
-projections <- projections |> dplyr::mutate(across(2:ncol(projections), ~ round(.x)))
+projections <- read_rdata(here("report", "tables", "exec_summ_tables", "projections.rda"))$table
+projections <- projections |> dplyr::mutate(across(is.numeric, ~ round(.x)))
 
 ```
 

@@ -218,23 +218,21 @@ flextable(recent_management$table) |>
 #| tbl-cap: "Number of trips sampled for length data by gear and state for non-whiting fisheries."
 
 #Old table 10
-
-table10 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_10.csv"), stringsAsFactors = FALSE))
+table10 <- read.csv(here::here("report", "tables", "length_trips_nonhake.csv"))
 #Remove periods
 colnames(table10) <- gsub("\\.", " ", colnames(table10))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table10),
- line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
 # Create flextable
 flextable(table10, col_keys = names(table10)) %>%
   set_header_df(mapping = header_df, key = "keys") %>%
- delete_columns(j = 1) %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%
  # border(part = "all") %>%
@@ -254,20 +252,19 @@ flextable(table10, col_keys = names(table10)) %>%
 #| tbl-cap: "Number of lengths of widow rockfish by gear and state for non-whiting fisheries."
 
 #Old table 11
-table11 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_11.csv"), stringsAsFactors = FALSE))
+table11 <- read.csv(here::here("report", "tables", "length_samples_nonhake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table10),
- line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
 # Create flextable
 flextable(table11, col_keys = names(table11)) %>%
  set_header_df(mapping = header_df, key = "keys") %>%
- delete_columns(j = 1) %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%
  # border(part = "all") %>%
@@ -287,20 +284,19 @@ flextable(table11, col_keys = names(table11)) %>%
 #| tbl-cap: "Number of hauls or trips and number of lengths sampled from the at-sea hake and shoreside hake fisheries."
 
 #Old table 12
-table12 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_12.csv"), stringsAsFactors = FALSE))
+table12 <- read.csv(here::here("report", "tables", "lengths_hake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table12),
- line1 = c("","Year", rep("Number of hauls (at-sea) or landings (shoreside)", 2), rep("Number of lengths", 2)),
- line2 = c(" "," ","Domestic at-sea", "Shoreside","Domestic at-sea", "Shoreside" ),
+ line1 = c("Year", rep("Number of hauls (at-sea) or trips (shoreside)", 2), rep("Number of lengths", 2)),
+ line2 = c(" ","Domestic at-sea", "Shoreside","Domestic at-sea", "Shoreside" ),
  stringsAsFactors = FALSE
 )
 
 # Create flextable
 flextable(table12, col_keys = names(table12)) %>%
  set_header_df(mapping = header_df, key = "keys") %>%
- delete_columns(j = 1) %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%
  # border(part = "all") %>%
@@ -322,20 +318,19 @@ flextable(table12, col_keys = names(table12)) %>%
 #| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
 
 #Old table 13
-table13 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_13.csv"), stringsAsFactors = FALSE))
+table13 <- read.csv(here::here("report", "tables", "age_trips_nonhake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table13),
- line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
 # Create flextable
 flextable(table13, col_keys = names(table13)) %>%
  set_header_df(mapping = header_df, key = "keys") %>%
- delete_columns(j = 1) %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%
  # border(part = "all") %>%
@@ -355,13 +350,13 @@ flextable(table13, col_keys = names(table13)) %>%
 #| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
 
 #Old table 13
-table14 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_14.csv"), stringsAsFactors = FALSE))
+table14 <- read.csv(here::here("report", "tables", "age_samples_nonhake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table14),
- line1 = c("","Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" "," ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -369,7 +364,6 @@ header_df <- data.frame(
 # Create flextable
 flextable(table14, col_keys = names(table14)) %>%
  set_header_df(mapping = header_df, key = "keys") %>%
- delete_columns(j = 1) %>%
  merge_h(part = "header") %>%
  # merge_v(part = "header") %>%
  # border(part = "all") %>%

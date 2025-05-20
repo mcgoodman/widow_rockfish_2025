@@ -1,6 +1,7 @@
 
 library("here")
 library("flextable")
+library("pacfintools")
 library("tidyverse")
 library("r4ss")
 
@@ -112,8 +113,35 @@ table2_dat <- catch_st_flt_yr |>
 
 write.csv(table2_dat, here("report", "tables", "landings_hake.csv"), row.names = FALSE)
 
-#Table 10: Number of landings sampled for length data by gear and state for non-whiting fisheries.
-table_10_dat <- bds_cleaned_all |> 
+# Table 10 - Length trips for gear and state, non-hake --------------
+
+source(here("R", "commerical_comps_clean_expand.R"))
+
+catch_formatted_all <- catch.pacfin |>
+  filter(gear_group %in% unique(bds_cleaned$gear_group)) |> #Only keep catch from fleets in bds
+  filter(gear_group != "Hake") |>
+  formatCatch(
+    strat = c("state", "gear_group"),
+    valuename = "LANDED_WEIGHT_MTONS"
+  )|>
+  rename(Year = LANDING_YEAR)
+
+bds_cleaned_all <- cleanPacFIN(
+  Pdata = bds.pacfin,
+  keep_gears = used_gears,         
+  CLEAN = TRUE,
+  keep_age_method = good_age_method,
+  keep_sample_type = good_samples,
+  keep_sample_method = good_methods,
+  keep_length_type = good_lengths,
+  keep_states = good_states,
+  spp = "widow rockfish"
+) |> 
+  left_join(gear_groups_2024, by = "AGENCY_SAMPLE_NUMBER") |>
+  mutate(stratification = paste(state, gear_group, sep = ".")) |>
+  filter(!PACFIN_GEAR_NAME %in% c("XXX", "OTH-KNOWN", "DNSH SEINE"))
+
+length_trips <- bds_cleaned_all |> 
   filter(gear_group != 'Hake',SAMPLE_YEAR.x <= 2024) |> 
   distinct(SAMPLE_YEAR.x, gear_group, state, SAMPLE_NO) |> 
   count(SAMPLE_YEAR.x, gear_group, state, name = "n") |> 
@@ -129,38 +157,11 @@ table_10_dat <- bds_cleaned_all |>
          MidwaterTrawl_CA, MidwaterTrawl_OR, MidwaterTrawl_WA,
          Net_CA, Net_WA, HnL_CA, HnL_OR, HnL_WA) 
 
-write.csv(table_10_dat, here("report", "tables", "table_10.csv"), row.names = FALSE)
+write.csv(length_trips, here("report", "tables", "length_trips_nonhake.csv"), row.names = FALSE)
 
+# Table 11 - Length samples for gear and state, non-hake ------------
 
-
-%>%
-  flextable() %>%
-  set_header_labels(
-    Year = "Year",
-    BottomTrawl_CA = "CA", BottomTrawl_OR = "OR", BottomTrawl_WA = "WA",
-    MidwaterTrawl_CA = "CA", MidwaterTrawl_OR = "OR", MidwaterTrawl_WA = "WA",
-    Net_CA = "CA", Net_WA = "WA",
-    HnL_CA = "CA", HnL_OR = "OR", HnL_WA = "WA"
-  ) %>%
-  add_header_row(
-    values = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), 
-               rep("Net", 2), rep("Hook-and-line", 3)),
-    top = TRUE
-  ) %>%
-  merge_at(i = 1, j = 2:4, part = "header") %>%
-  merge_at(i = 1, j = 5:7, part = "header") %>%
-  merge_at(i = 1, j = 8:9, part = "header") %>%
-  merge_at(i = 1, j = 10:12, part = "header") %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  theme_box() %>%
-  autofit()
-
-
-
-## Table 11 - Number of lengths of Widow Rockfish by gear and state for non-whiting fisheries.
-
-
-table_11_dat <- bds_cleaned_all %>%
+length_samples <- bds_cleaned_all %>%
   filter(gear_group != 'Hake',SAMPLE_YEAR.x <= 2024) %>%
   count(SAMPLE_YEAR.x, gear_group, state)|>
   rename(Year = SAMPLE_YEAR.x) %>%
@@ -175,49 +176,14 @@ table_11_dat <- bds_cleaned_all %>%
          MidwaterTrawl_CA, MidwaterTrawl_OR, MidwaterTrawl_WA,
          Net_CA, Net_WA, HnL_CA, HnL_OR, HnL_WA)
 
-readxl::read_excel(here("data_provided","ashop","A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx"))|>
-  group_by(YEAR) |>
-  summarise(length(unique(HAUL_JOIN))) 
+write.csv(length_samples, here("report", "tables", "length_samples_nonhake.csv"), row.names = FALSE)
 
-write.csv(table_11_dat, here("report", "tables", "table_11.csv"), row.names = FALSE)
+# Table 12 - Number of trips for hake -------------------------------
 
-
-%>%
-  flextable() %>%
-  set_header_labels(
-    Year = "Year",
-    BottomTrawl_CA = "CA", BottomTrawl_OR = "OR", BottomTrawl_WA = "WA",
-    MidwaterTrawl_CA = "CA", MidwaterTrawl_OR = "OR", MidwaterTrawl_WA = "WA",
-    Net_CA = "CA", Net_WA = "WA",
-    HnL_CA = "CA", HnL_OR = "OR", HnL_WA = "WA"
-  ) %>%
-  add_header_row(
-    values = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), 
-               rep("Net", 2), rep("Hook-and-line", 3)),
-    top = TRUE
-  ) %>%
-  merge_at(i = 1, j = 2:4, part = "header") %>%
-  merge_at(i = 1, j = 5:7, part = "header") %>%
-  merge_at(i = 1, j = 8:9, part = "header") %>%
-  merge_at(i = 1, j = 10:12, part = "header") %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  theme_box() %>%
-  autofit()
-
-##Table 12: Number of landings and number of lengths sampled from the at-sea hake and shoreside hake
-##fisheries.
-
-#---------------------
-
-#Waiting for feedback on ASHOP data
-
-
-#----------------------
 ashop_hke <- readxl::read_excel(here('data_provided','ashop','A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx'))|>
   select(HAUL_JOIN,YEAR,LENGTH)|>
   mutate(source = "ASHOP")|>
   rename(SAMPLE_NO = HAUL_JOIN)
-
 
 ss_hake <- bds_cleaned_all|>filter(gear_group == "Hake")|>
   select(SAMPLE_NO,SAMPLE_YEAR.x,length)|>
@@ -226,12 +192,10 @@ ss_hake <- bds_cleaned_all|>filter(gear_group == "Hake")|>
   mutate(source = "SS")
 
 ## The number of landings sampled
-rbind(
-  ashop_hke,
-  ss_hake
-)|>
+trips_sampled <- ashop_hke |> 
+  rbind(ss_hake)|>
   select(!LENGTH)|>
-  group_by(YEAR,source) %>%
+  group_by(YEAR, source) %>%
   summarise(unique_count = n_distinct(SAMPLE_NO))|>
   pivot_wider(
     names_from = source,
@@ -239,37 +203,28 @@ rbind(
     values_fill = 0
   )|>
   rename('landings_At-Sea' = ASHOP,
-         'landings_Shoreside' = SS)->landings_sampled
-
-
-
+         'landings_Shoreside' = SS)
 
 ## The number of length sampled
-rbind(
-  ashop_hke,
-  ss_hake
-)|>
-  filter(!is.na(LENGTH))|>
-  group_by(YEAR,source) %>%
-  summarise(total_rows = n(), .groups = "drop") %>%
+lengths_sampled <- ashop_hke |> 
+  rbind(ss_hake) |>
+  filter(!is.na(LENGTH)) |>
+  group_by(YEAR, source) |> 
+  summarise(total_rows = n(), .groups = "drop") |> 
   pivot_wider(
     names_from = source,
     values_from = total_rows,
     values_fill = 0
-  )|>
+  ) |>
   rename('lengths_At-Sea' = ASHOP,
-         'lengths_Shoreside' = SS)->lengths_sampled
+         'lengths_Shoreside' = SS)
 
 ##bind all together and write to a csv
-table_12_dat <- landings_sampled|> left_join(lengths_sampled,by = 'YEAR')
-write.csv(table_12_dat, here("report","tables","table_12.csv"), row.names = FALSE)
+hake_lengths <- trips_sampled |> left_join(lengths_sampled, by = 'YEAR')
+write.csv(hake_lengths, here("report", "tables", "lengths_hake.csv"), row.names = FALSE)
 
+# Table 13 - sampled age trips by fleet and state for non-hake ------
 
-
-  
-
-
-#### Table 13: Number of landings sampled for ages by gear and state for non-whiting fisheries.
 table_13_dat <- bds_cleaned_all %>%
   filter(!is.na(Age))|>
   filter(gear_group != 'Hake',SAMPLE_YEAR.x <= 2024) %>%
@@ -287,35 +242,10 @@ table_13_dat <- bds_cleaned_all %>%
          MidwaterTrawl_CA, MidwaterTrawl_OR, MidwaterTrawl_WA,
          Net_CA, Net_WA, HnL_CA, HnL_OR, HnL_WA) 
 
-write.csv(table_13_dat, here("report","tables","table_13.csv"), row.names = FALSE)
+write.csv(table_13_dat, here("report", "tables", "age_trips_nonhake.csv"), row.names = FALSE)
 
+# Table 14 - age samples by fleet and state for non-nake ------------
 
-table_13_dat%>%
-  flextable() %>%
-  set_header_labels(
-    Year = "Year",
-    BottomTrawl_CA = "CA", BottomTrawl_OR = "OR", BottomTrawl_WA = "WA",
-    MidwaterTrawl_CA = "CA", MidwaterTrawl_OR = "OR", MidwaterTrawl_WA = "WA",
-    Net_CA = "CA", Net_WA = "WA",
-    HnL_CA = "CA", HnL_OR = "OR", HnL_WA = "WA"
-  ) %>%
-  add_header_row(
-    values = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), 
-               rep("Net", 2), rep("Hook-and-line", 3)),
-    top = TRUE
-  ) %>%
-  merge_at(i = 1, j = 2:4, part = "header") %>%
-  merge_at(i = 1, j = 5:7, part = "header") %>%
-  merge_at(i = 1, j = 8:9, part = "header") %>%
-  merge_at(i = 1, j = 10:12, part = "header") %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  theme_box() %>%
-  autofit()
-
-
-
-
-#####
 table_14_dat <- bds_cleaned_all %>%
   filter(!is.na(Age))|>
   filter(gear_group != 'Hake',SAMPLE_YEAR.x <= 2024) %>%
@@ -333,40 +263,16 @@ table_14_dat <- bds_cleaned_all %>%
          Net_CA, Net_WA, HnL_CA, HnL_OR, HnL_WA)
 
 
-write.csv(table_14_dat, here("report", "tables", "table_14.csv"), row.names = FALSE)
+write.csv(table_14_dat, here("report", "tables", "age_samples_nonhake.csv"), row.names = FALSE)
 
+# Table 15 - age trips / samples for hake fleet ---------------------
 
-table_14_dat%>%
-  flextable() %>%
-  set_header_labels(
-    Year = "Year",
-    BottomTrawl_CA = "CA", BottomTrawl_OR = "OR", BottomTrawl_WA = "WA",
-    MidwaterTrawl_CA = "CA", MidwaterTrawl_OR = "OR", MidwaterTrawl_WA = "WA",
-    Net_CA = "CA", Net_WA = "WA",
-    HnL_CA = "CA", HnL_OR = "OR", HnL_WA = "WA"
-  ) %>%
-  add_header_row(
-    values = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), 
-               rep("Net", 2), rep("Hook-and-line", 3)),
-    top = TRUE
-  ) %>%
-  merge_at(i = 1, j = 2:4, part = "header") %>%
-  merge_at(i = 1, j = 5:7, part = "header") %>%
-  merge_at(i = 1, j = 8:9, part = "header") %>%
-  merge_at(i = 1, j = 10:12, part = "header") %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  theme_box() %>%
-  autofit()
+## Number of landings and number of ages sampled from the at-sea hake and shoreside hake fisheries. 
 
-
-
-
-#### Table 15: Number of landings and number of ages sampled from the at-sea hake and shoreside hake fisheries. 
 ashop_hke_age <- readxl::read_excel(here('data_provided','ashop','A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx'))|>
   select(HAUL_JOIN,YEAR,AGE)|>
   mutate(source = "ASHOP")|>
   rename(SAMPLE_NO = HAUL_JOIN)
-
 
 ss_hake_age <- bds_cleaned_all|>filter(gear_group == "Hake")|>
   filter(!is.na(Age))|>
@@ -376,10 +282,8 @@ ss_hake_age <- bds_cleaned_all|>filter(gear_group == "Hake")|>
   mutate(source = "SS")
 
 ## The number of landings sampled
-rbind(
-  ashop_hke_age,
-  ss_hake_age
-)|>
+age_landings_sampled <- ashop_hke_age |> 
+  rbind(ss_hake_age)|>
   filter(!is.na(AGE))|>
   group_by(YEAR,source) %>%
   summarise(unique_count = n_distinct(SAMPLE_NO))|>
@@ -389,24 +293,11 @@ rbind(
     values_fill = 0
   )|>
   rename('landings_At-Sea' = ASHOP,
-         'landings_Shoreside' = SS)->age_landings_sampled
-
-
-bds_cleaned|>filter(gear_group == "Hake")|>
-  filter(!is.na(Age))|>
-  filter(SAMPLE_YEAR.x == 2017)->xxx
-
-bds_cleaned_all|>filter(gear_group == "Hake")|>
-  filter(!is.na(Age))|>
-  filter(SAMPLE_YEAR.x == 2017)->xxy
-
-
+         'landings_Shoreside' = SS)
 
 ## The number of ages sampled
-rbind(
-  ashop_hke_age,
-  ss_hake_age
-)|>
+ashop_hke_age |> 
+  rbind(ss_hake_age)|>
   filter(!is.na(AGE))|>
   group_by(YEAR,source) %>%
   summarise(total_rows = n(), .groups = "drop") %>%
@@ -419,12 +310,8 @@ rbind(
          'ages_Shoreside' = SS)->ages_sampled
 
 ##bind all together and write to a csv
-table_15_dat <- age_landings_sampled|> left_join(ages_sampled,by = 'YEAR')
-# write.csv(table_15_dat,here("report","tables","table_15.csv"))
-
-
-
-40603.1 - 1.96 * 11179.3
+table_15_dat <- age_landings_sampled |> left_join(ages_sampled, by = 'YEAR') |> rename(Year = YEAR)
+write.csv(table_15_dat, here("report", "tables", "ages_hake.csv"), row.names = FALSE)
 
 ### Table 22 - bioloigal params
 pars <- rep_2025$parameters

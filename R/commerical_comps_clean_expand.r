@@ -2,42 +2,32 @@
 #### Script to filter and clean commerical comp data for widow rockfish ########
 ################################################################################
 
-
 ################################################################################
 ################# Widow 2025 assessment    ######################################
 ################# Mico Kinneen         #########################################
 ################# 03/19/2025 ##################################################
 ################################################################################
 
-
-
-
 ################################################################################
 #### Section 1  - Formatting and cleaning PacFIN data ##########################
 ################################################################################
 
-
-
-
 ##Set up 
-library(dplyr)
-library(pacfintools)
-
-
+library("dplyr")
+library("pacfintools")
+library("here")
 
 #### 1. Data read ########
 #### Read in pacfin data 
-conf_data_path <- "D:/widow_asessment_2025_fork/secure_data_do_not_upload"
 
 ## PacFin data for widow 2025
-load(file.path(conf_data_path,"PacFIN.WDOW.bds.25.Mar.2025.RData")) #BDS
-load(file.path(conf_data_path,"PacFIN.WDOW.CompFT.25.Mar.2025.RData")) #Catch
+load(here("data_provided", "PacFIN", "PacFIN.WDOW.bds.25.Mar.2025.RData")) #BDS
+load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.25.Mar.2025.RData")) #Catch
 
 #### 2. Assign variables needed for cleaning ########
 
 common_name <- "WIDOW ROCKFISH" # Species common name based on NWFSC survey data
 species_code <- "WDOW" # PacFIN species code
-
 
 ### Filtering variables 
 # Variables are based on the filters used in the 2015 asessment, (2019 unavilable)
@@ -545,8 +535,6 @@ widow_2019_dat$lencomp|>
     partition_levels = list(as.numeric(unique(partition))),
     sex_levels = list(as.numeric(unique(sex))))|>
   arrange(fleet)->sex_fleet_year
-
-View(sex_fleet_year)
 
 ## The number of rows are different as in 2019 all unsexed fish were apportioned to 
 #sexs, so only has rows of se = 3.

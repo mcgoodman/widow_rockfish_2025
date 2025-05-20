@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-19  18:02:24
+#C file write time: 2025-05-20  13:19:04
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -227,7 +227,7 @@
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_HnL(5)                
     -5	60	   23.9094	  0	  99	0	  2	0	0	0	0	  0	 3	2	#_SizeSel_PRet_1_HnL(5)             
   0.01	 8	  0.563213	  1	  99	0	  3	0	0	0	0	  0	 3	2	#_SizeSel_PRet_2_HnL(5)             
-   -10	10	    7.2008	 10	  99	0	  1	0	0	0	0	  0	 3	2	#_SizeSel_PRet_3_HnL(5)             
+   -10	15	    7.2008	 10	  99	0	  1	0	0	0	0	  0	 3	2	#_SizeSel_PRet_3_HnL(5)             
    -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_HnL(5)             
      0	 2	         0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_Triennial(7)  
 -0.001	 1	  0.124088	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_Triennial(7)

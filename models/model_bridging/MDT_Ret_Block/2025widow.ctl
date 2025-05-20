@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-01  15:55:52
+#C file write time: 2025-05-20  13:51:09
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -107,11 +107,11 @@
 4 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1962.8933 #_last_yr_nobias_adj_in_MPD; begin of ramp
-1975.3816 #_first_yr_fullbias_adj_in_MPD; begin of plateau
-2017.1377 #_last_yr_fullbias_adj_in_MPD
-2024.2842 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-0.8514 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+1962.5992 #_last_yr_nobias_adj_in_MPD; begin of ramp
+1976.3146 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+2016.7965 #_last_yr_fullbias_adj_in_MPD
+2024.3531 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+0.8554 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -165,7 +165,7 @@
 24	1	0	0	#_2 MidwaterTrawl
 24	0	0	0	#_3 Hake         
 24	0	0	0	#_4 Net          
-24	0	0	0	#_5 HnL          
+24	1	0	0	#_5 HnL          
  0	0	0	0	#_6 JuvSurvey    
 27	0	0	3	#_7 Triennial    
 27	0	0	3	#_8 NWFSC        
@@ -223,6 +223,10 @@
     -2	10	         9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_HnL(5)                
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_HnL(5)                
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_HnL(5)                
+    -5	60	   23.9094	  0	  99	0	  2	0	0	0	0	  0	 3	2	#_SizeSel_PRet_1_HnL(5)             
+  0.01	 8	  0.563213	  1	  99	0	  3	0	0	0	0	  0	 3	2	#_SizeSel_PRet_2_HnL(5)             
+   -10	15	    7.2008	 10	  99	0	  1	0	0	0	0	  0	 3	2	#_SizeSel_PRet_3_HnL(5)             
+   -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_HnL(5)             
      0	 2	         0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_Triennial(7)  
 -0.001	 1	  0.124088	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_Triennial(7)
     -1	 1	 0.0223155	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_Triennial(7)
@@ -280,6 +284,9 @@
   -4	12	  3.72893	  3	0.05	0	 2	#_SizeSel_P_3_Hake(3)_BLK11repl_1916            
   15	59	  37.9869	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916              
   -4	12	  3.86062	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916              
+  -5	50	       -5	 34	  99	0	-2	#_SizeSel_PRet_1_HnL(5)_BLK3repl_1916           
+ 0.1	 8	      1.2	  1	  99	0	-3	#_SizeSel_PRet_2_HnL(5)_BLK3repl_1916           
+ -10	10	   4.5912	 10	  99	0	-3	#_SizeSel_PRet_3_HnL(5)_BLK3repl_1916           
 # info on dev vectors created for selex parms are reported with other devs after tag parameter section
 #
 0 #  use 2D_AR1 selectivity(0/1):  experimental feature
@@ -290,19 +297,19 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	1	0.056068	#_Variance_adjustment_list1 
-    4	2	0.205432	#_Variance_adjustment_list2 
-    4	3	0.128964	#_Variance_adjustment_list3 
-    4	4	0.498959	#_Variance_adjustment_list4 
-    4	5	0.371622	#_Variance_adjustment_list5 
-    4	7	0.372265	#_Variance_adjustment_list6 
-    4	8	0.655378	#_Variance_adjustment_list7 
-    5	1	0.163806	#_Variance_adjustment_list8 
-    5	2	0.273415	#_Variance_adjustment_list9 
-    5	3	0.251316	#_Variance_adjustment_list10
-    5	4	0.499302	#_Variance_adjustment_list11
-    5	5	0.546574	#_Variance_adjustment_list12
-    5	8	 0.29546	#_Variance_adjustment_list13
+    4	1	0.056092	#_Variance_adjustment_list1 
+    4	2	0.067327	#_Variance_adjustment_list2 
+    4	3	0.129024	#_Variance_adjustment_list3 
+    4	4	0.499195	#_Variance_adjustment_list4 
+    4	5	0.374418	#_Variance_adjustment_list5 
+    4	7	0.372288	#_Variance_adjustment_list6 
+    4	8	0.655526	#_Variance_adjustment_list7 
+    5	1	0.163708	#_Variance_adjustment_list8 
+    5	2	0.272106	#_Variance_adjustment_list9 
+    5	3	0.250877	#_Variance_adjustment_list10
+    5	4	0.499395	#_Variance_adjustment_list11
+    5	5	0.551809	#_Variance_adjustment_list12
+    5	8	0.295941	#_Variance_adjustment_list13
 -9999	0	       0	#_terminator                
 #
 1 #_maxlambdaphase

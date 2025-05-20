@@ -1,7 +1,7 @@
 
 ```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 
-library(renv)
+#library(renv)
 library(r4ss)
 
 # exe_dir<- "/Users/sulca/Documents/Github/widow-assessment-update/models/2025 base model"

@@ -28,9 +28,10 @@ Widow rockfish are a desirable market species and it is believed that discarding
 #| warning: false
 #| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
 
-library(flextable)
-library(dplyr)
-library(officer)
+library("flextable")
+library("dplyr")
+library("officer")
+library("here")
 
 exec_tab_style <- function(ft) {
   ft %>% 
@@ -44,12 +45,14 @@ exec_tab_style <- function(ft) {
   width(width = 7/length(ft))
 }
 
+# Function to read in lenght-1 .Rdata / .rda with name of choice
+read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
+
 #Old table 12
-table_A <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/a_Catches_ES.csv"), stringsAsFactors = FALSE))
+table_A <- read_rdata(here("report", "tables", "exec_summ_tables", "catches_es.rda"))
 
-table_A <- table_A |> mutate(across(is.numeric, round, digits = 1))
+table_A <- table_A$table |> mutate(across(is.numeric, round, digits = 1))
 
-colnames(table_A) <- gsub("\\.", " ", colnames(table_A))
 table_A <- round(table_A, 2) # manually round bc flex table isn't working well
 
 # # Build header map (multi-row header)
@@ -119,7 +122,7 @@ report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
 
 catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 
-table_b <- read.csv(here::here("report", "tables", "exec_summ_tables", "b_SSB_ES.csv"))
+table_b <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 names(table_b) <- c("Year", "SSB", "SSB_Lwr", "SSB_Upr", "Bratio", "Bratio_Lwr", "Bratio_Upr")
 
 require("dplyr")
@@ -186,47 +189,26 @@ knitr::include_graphics(
 #| tbl-cap: "Recent landings for the bottom trawl, midwater trawl, at-sea hake, net, and hook-and-line fisheries and the total landings across fisheries and the total mortality (discards + landings) (mt). 100% mortality is assumed for discards and catch sources are described below."
 
 #Old table 12
-table_B <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/b_SSB_ES.csv"), stringsAsFactors = FALSE))
+table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 
-colnames(table_B) <- gsub("\\.", " ", colnames(table_B))
-
-table_B <- table_B %>%
+table_B <- table_B |> 
   mutate(
-    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval`, -`Upper Interval`)
+    SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
+    SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
+    SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
+    SSB_CI = paste0(SSB_lower, " - ", SSB_upper), 
+    Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
+  ) |>
+  dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
 
-table_B <- table_B %>%
-  select(Year, `Spawning Biomass  mt `, `~95% Confidence Interval`, everything())
-
-table_B <- table_B %>%
-  mutate(
-    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval 1`, -`Upper Interval 1`)
-
-
-# # Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_B),
-#   line1 = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval"),
-#   stringsAsFactors = FALSE
-# )
+colnames <- c(
+  "Year", "Spawning Biomass", "95% Confidence Interval", 
+  "Estimated Depletion (%)", "95% Confidence Interval"
+)
 
 # Create flextable
-flextable(table_B, col_keys = names(table_B)) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  set_header_labels(names = names(table_B), values = c("Year", "Spawning Biomass", "~95% Confidence Interval", "Estimated Depletion (%)", "~95% Confidence Interval")) %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
+flextable(table_B, col_keys = names(table_B)) |> 
+  set_header_labels(names = names(table_B), values = colnames) |> 
   set_table_properties(layout = "autofit") %>% exec_tab_style
 
 ```
@@ -265,53 +247,27 @@ knitr::include_graphics(
 #| out.width: "90%"
 #| fig-align: "center"
 
+table_c <- read_rdata(here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
 
-table_c <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/c_Recr_ES.csv"), stringsAsFactors = FALSE))
-
-colnames(table_c) <- gsub("\\.", " ", colnames(table_c))
-
-table_c <- table_c %>%
+table_c <- table_c |> 
   mutate(
-    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval`, -`Upper Interval`)
+    recr = format(round(`Recruitment (1,000s)`), big.mark = ","),
+    recr_lower = format(round(`Lower Interval (1,000s)`, 0), big.mark = ","), 
+    recr_upper = format(round(`Upper Interval (1,000s)`, 0), big.mark = ","),
+    recr_CI = paste0(recr_lower, " - ", recr_upper), 
+    recdev_CI = paste0(round(`Lower Interval`, 3),  ", ", round(`Upper Interval`, 3))
+  ) |>
+  dplyr::select(Year, recr, recr_CI, `Recruitment Deviations`, recdev_CI)
 
-table_c <- table_c %>%
-  select(Year, `Recruitment  1 000s `, `~95% Confidence Interval`, everything())
-
-table_c <- table_c %>%
-  mutate(
-    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval 1`, -`Upper Interval 1`)
-
-
-# # Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_c),
-#   line1 = c("Year", "Estimated Recruitment ", "~95% Confidence", "Estimated Recruitment", "~95% Confidence"),
-#   line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
-#   stringsAsFactors = FALSE
-# )
+colnames <- c(
+  "Year", "Estimated recruitment (number in thousands)", "95% Confidence Interval", 
+  "Recruitment \nDeviations", "95% Confidence Interval"
+)
 
 # Create flextable
-flextable(table_c, col_keys = names(table_c)) %>%
-  set_header_labels(names = names(table_C), values = c("Year", "Estimated recruitment (number in thousands)", "~95% Confidence Interval", "Recruitment \nDeviations", "~95% Confidence Interval")) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
-  # padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
-  # set_table_properties(layout = "autofit") %>% 
-  exec_tab_style # %>% width(width = 1.2)
-
+flextable(table_c, col_keys = names(table_c)) |> 
+  set_header_labels(names = names(table_C), values = colnames) %>%
+  exec_tab_style
 
 ```
 {{< pagebreak >}} 
@@ -328,53 +284,24 @@ The lower bound of the 95% confidence interval of the estimated depletion dipped
 #| warning: false
 #| tbl-cap: "Recent trend in spawning potential ratio and summary exploitation rate. Harvest rate is defined as catch divided by age 4+ biomass."
 
+table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
-table_d <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/d_SPR_ES.csv"), stringsAsFactors = FALSE))
-
-colnames(table_d) <- gsub("\\.", " ", colnames(table_d))
-
-
-table_d <- table_d %>%
+table_d <- table_d |> 
   mutate(
-    `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval`, -`Upper Interval`)
+    across(is.numeric, \(x) round(x, 3)),
+    SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
+    rate_CI = paste0(`Lower Interval (Rate)`,  ", ", `Upper Interval (Rate)`)
+  ) |>
+  dplyr::select(Year, `(1-SPR)/(1-SPR 50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
 
-table_d <- table_d %>%
-  select(Year, `X 1 SPR   1 SPR 50   `, `~95% Confidence Interval`, everything())
-
-table_d <- table_d %>%
-  mutate(
-    `~95% Confidence Interval1` = paste0(`Lower Interval 1`, " - ", `Upper Interval 1`)
-  ) %>%
-  # Remove the original "Lower Interval" and "Upper Interval" columns
-  select(-`Lower Interval 1`, -`Upper Interval 1`)
-
-
-# Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_d),
-#   line1 = c("Year", "Estimated", "~95% Confidence", "Harvest rate", "~95% Confidence"),
-#   line2 = c("  ", "(1-SPR)/(1-SPR50%)", " Interval ", "(proportion)", " Interval "),
-#   stringsAsFactors = FALSE
-# )
-
+colnames <- c(
+  "Year", "Estimated \n(1-SPR)/(1-SPR50%)", "~95% Confidence Interval", 
+  "Harvest rate \n(proportion)", "~95% Confidence Interval"
+)
 
 # Create flextable
 flextable(table_d, col_keys = names(table_d)) %>%
-  set_header_labels(names = names(table_C), values = c("Year", "Estimated \n(1-SPR)/(1-SPR50%)", "~95% Confidence Interval", "Harvest rate \n(proportion)", "~95% Confidence Interval")) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # padding(part = "header", padding.top = 0.2, padding.bottom = 0.2) %>%
-  # fontsize(size = 9, part = "all")%>%
-  # set_table_properties(layout = "autofit") %>% 
+  set_header_labels(names = names(table_C), values = colnames) %>%
   exec_tab_style
 
 ```
@@ -438,7 +365,7 @@ Fishing has effects on both the age structure of a population as well as the tar
 ```{r}
 #| include: false
 
-table_e <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/e_ReferencePoints_ES.csv"), stringsAsFactors = FALSE))
+table_e <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
 
 ref_pts <- table_e
 colnames(ref_pts) <- c("Label", "Est", "Lwr", "Upr")
@@ -465,7 +392,7 @@ The equilibrium yield plot is shown in @fig-h, based on a steepness value fixed 
 #| warning: false
 #| tbl-cap: "Summary of reference points and management quantities for the base case model."
 
-colnames(table_e) <- gsub("\\.", " ", colnames(table_e))
+table_e <- table_e |> mutate(across(is.numeric, round, digits = 2))
 
 flextable(table_e) %>%
   merge_h(part = "header") %>%
@@ -479,7 +406,6 @@ flextable(table_e) %>%
   colformat_num( digits = 2)%>%
   fontsize(size = 9, part = "all")%>%
   set_table_properties(layout = "autofit")
-
 
 ```
 
@@ -496,39 +422,14 @@ Exploitation rates on widow rockfish exceeded MSY proxy target harvest rates dur
 #| warning: false
 #| tbl-cap: "Recent trend in total catch and commercial landings (mt) relative to the management guidelines. Estimated total catch reflects the commercial landings plus the model estimated dead discarded biomass."
 
-library(officer)
-table_f <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/f_Manage_ES.csv"), stringsAsFactors = FALSE))
-table_f <-table_f[,2:ncol(table_f)]
+table_f <- read_rdata(here("report", "tables", "exec_summ_tables", "recent_management.rda"))$table
 
-colnames(table_f) <- gsub("\\.", " ", colnames(table_f))
+colnames <- c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")
 
-# Build header map (multi-row header)
-header_df <- data.frame(
-  keys = names(table_f),
-  line1 = c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)"),
-  # line2 = c(" ", "(number in thousands)", " Interval ", "Deviation", " Interval "),
-  stringsAsFactors = FALSE
-)
-
-my_border <- fp_border(color = "black", width = 2)
 # Create flextable
-flextable(table_f, col_keys = names(table_f)) %>%
-  set_header_labels(names = names(table_C), values = c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt) (termed OY prior to 2011)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # fontsize(size = 9, part = "all")%>%
-  # set_table_properties(layout = "autofit")%>%
-  # border(border.top = my_border, part= "header")
+flextable(table_f) |> 
+  colformat_num(j = 1, big.mark = "", digits = 0) %>%
   exec_tab_style
-  
-
-
 ```
 
 ## Harvest projections and decision table{-}
@@ -550,8 +451,8 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 #| warning: false
 #| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
-
-table_g <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/g_Projections_ES.csv"), stringsAsFactors = FALSE))
+table_g <- read.csv(here("report", "tables", "exec_summ_tables", "g_Projections_ES.csv"))
+table_g <- round(table_g, 3)
 
 colnames(table_g) <- gsub("\\.", " ", colnames(table_g))
 
@@ -577,7 +478,8 @@ flextable(table_g) %>%
 #| warning: false
 #| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
 
-table_h <- as.data.frame(read.csv(file.path(here::here(),"data_derived/decision_table/dec_table_formatted.csv"), stringsAsFactors = FALSE))
+table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
+
 # table_h <- table_h[,2:6]
 # break up management & state of nature
 # table_h$management_choice <- substr(table_h$name, start = 1, stop = 2)

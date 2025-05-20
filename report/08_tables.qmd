@@ -10,7 +10,11 @@
 #| warning: false 
 #| eval: true 
 #| include: false
-library(flextable)
+
+library("flextable")
+
+# Function to read in lenght-1 .Rdata / .rda with name of choice
+read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 # You can save tables to read in as csv or rda files.
 # stockplotr generally uses rda files.
@@ -777,39 +781,20 @@ flextable(table25) %>%
 #| warning: false
 #| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
 
-#Old table 26
+table26 <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
 
-# Function for consistent table styling
-table26 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/e_ReferencePoints_ES.csv"), header = F)) 
-table26[1, 2:ncol(table26)] <- ""
+table26 <- table26 |> 
+  mutate(across(is.numeric, \(x) as.character(round(x, digits = 3)))) |> 
+  replace_na(list(`Estimate` = "", `Lower Interval` = "", `Upper Interval` = "")) |>  
+  mutate(`95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)) |> 
+  select(-`Lower Interval`, -`Upper Interval`)
 
-my_border <- fp_border(color = "black", width = 2)
-
-colnames(table26) <- c("Value", "Estimate", "Lower Interval", "Upper Interval")# gsub("\\.", " ", colnames(table26))
-
-table26 <- table26 %>%
- mutate(
-  `~95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)
- ) %>%
- # Remove the original "Lower Interval" and "Upper Interval" columns
- select(-`Lower Interval`, -`Upper Interval`)
-
-table26[6,3] <- " "
-table26[11,3] <- " "
-table26[16,3] <- " "
+table26[table26 == " - "] <- ""
 
 # Function for consistent table styling 
 flextable(table26) %>% land_tab_style(wd=1.9) %>%
- # border(part = "all") %>% 
- # font(fontname = "Times New Roman", part = "all") %>% 
- # bold(part = "header")%>% 
- # align(align = "center", j = c(2,3))%>% 
- # italic(i=c(6,11,13,16),italic=TRUE)%>%
  bold(i=c(1,7,11,17),bold=TRUE)%>% hline(i = c(1,6,7,11,12,16,17)) %>%
  align(j = 1, align = "left", part = "all")
- # border(border.top = my_border, i = 1) %>% 
- # fontsize(size = 9, part = "all")%>% 
- # set_table_properties(layout = "autofit")
 
 ```
 \blandscape

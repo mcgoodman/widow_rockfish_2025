@@ -26,7 +26,7 @@ file.rename(here("report", "tables", "tables"), here("report", "tables", "exec_s
 gmt_refs <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT016_stock_summary.csv"))
 load(here("report", "tables", "exec_summ_tables", "recent_management.rda"))
 
-recent_management <- recent_management$table |>
+recent_management$table <- recent_management$table |>
   select(-`OFL (mt)`, -`ABC (mt)`, -`ACL (mt)`) |>
   left_join(gmt_refs |>
               filter(SPECIFICATION_NAME == "Overfishing Limit") |>
@@ -43,7 +43,7 @@ recent_management <- recent_management$table |>
   mutate(across(where(is.numeric), \(x) round(x, digits = 2))) |>
   select(Year, `OFL (mt)`, `ABC (mt)`, `ACL (mt)`, `Landings (mt)`, `Total Mortality (mt)`)
 
-write.csv(recent_management, here("report", "tables", "exec_summ_tables", "recent_management_w_ofl.csv"))
+save(recent_management, file = here("report", "tables", "exec_summ_tables", "recent_management.rda"))
 
 # Table 1 - Landings for non-hake fleets ----------------------------
 

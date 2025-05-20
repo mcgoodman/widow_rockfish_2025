@@ -12,6 +12,7 @@
 #| include: false
 
 library("flextable")
+library("here")
 
 # Function to read in lenght-1 .Rdata / .rda with name of choice
 read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
@@ -61,7 +62,7 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-table1 <- read.csv(here::here("report", "tables", "landings_nonhake.csv"))
+table1 <- read.csv(here("report", "tables", "landings_nonhake.csv"))
 
 st_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][1], character(1), USE.NAMES = FALSE)
 flt_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][2], character(1), USE.NAMES = FALSE)
@@ -102,7 +103,7 @@ library(flextable)
 library(dplyr)
 library(tidyr)
 
-table2 <- read.csv(here::here("report", "tables", "landings_hake.csv"))
+table2 <- read.csv(here("report", "tables", "landings_hake.csv"))
 
 colnames(table2) <- gsub("\\.", " ", colnames(table2))
 
@@ -142,7 +143,7 @@ flextable(table2, col_keys = names(table2)) %>%
 <!-- library(flextable) -->
 <!-- library(dplyr) -->
 <!-- library(tidyr) -->
-<!-- ManageTable<- read.csv(file.path(here::here(),"report/tables/Table_3_2025.csv")) -->
+<!-- ManageTable<- read.csv(file.path(here(),"report/tables/Table_3_2025.csv")) -->
 <!-- colnames(ManageTable) <- c("Year","Management action") -->
 
 <!-- ManageTable<- ManageTable %>% -->
@@ -199,7 +200,7 @@ library(flextable)
 library(dplyr)
 library(tidyr)
 
-load(here::here("report", "tables", "exec_summ_tables", "recent_management.rda"))
+load(here("report", "tables", "exec_summ_tables", "recent_management.rda"))
 
 flextable(recent_management$table) |> 
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
@@ -218,7 +219,7 @@ flextable(recent_management$table) |>
 #| tbl-cap: "Number of trips sampled for length data by gear and state for non-whiting fisheries."
 
 #Old table 10
-table10 <- read.csv(here::here("report", "tables", "length_trips_nonhake.csv"))
+table10 <- read.csv(here("report", "tables", "length_trips_nonhake.csv"))
 #Remove periods
 colnames(table10) <- gsub("\\.", " ", colnames(table10))
 
@@ -252,7 +253,7 @@ flextable(table10, col_keys = names(table10)) %>%
 #| tbl-cap: "Number of lengths of widow rockfish by gear and state for non-whiting fisheries."
 
 #Old table 11
-table11 <- read.csv(here::here("report", "tables", "length_samples_nonhake.csv"))
+table11 <- read.csv(here("report", "tables", "length_samples_nonhake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -284,7 +285,7 @@ flextable(table11, col_keys = names(table11)) %>%
 #| tbl-cap: "Number of hauls or trips and number of lengths sampled from the at-sea hake and shoreside hake fisheries."
 
 #Old table 12
-table12 <- read.csv(here::here("report", "tables", "lengths_hake.csv"))
+table12 <- read.csv(here("report", "tables", "lengths_hake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -318,7 +319,7 @@ flextable(table12, col_keys = names(table12)) %>%
 #| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
 
 #Old table 13
-table13 <- read.csv(here::here("report", "tables", "age_trips_nonhake.csv"))
+table13 <- read.csv(here("report", "tables", "age_trips_nonhake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -350,7 +351,7 @@ flextable(table13, col_keys = names(table13)) %>%
 #| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
 
 #Old table 13
-table14 <- read.csv(here::here("report", "tables", "age_samples_nonhake.csv"))
+table14 <- read.csv(here("report", "tables", "age_samples_nonhake.csv"))
 
 # Build header map (multi-row header)
 header_df <- data.frame(
@@ -384,7 +385,7 @@ flextable(table14, col_keys = names(table14)) %>%
 
 #Old table 16
 
-table16 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_16_data.csv"), stringsAsFactors = FALSE))
+table16 <- read.csv(here("report", "tables", "table_16_data.csv"))
 #Remove periods
 colnames(table16) <- gsub("\\.", " ", colnames(table16))
 
@@ -424,7 +425,7 @@ library(flextable)
 library(dplyr)
 library(tidyr)
 
-table6_data <- read.csv(here::here("data_provided", "2019_assessment", "triennial_ranges.csv"))
+table6_data <- read.csv(here("data_provided", "2019_assessment", "triennial_ranges.csv"))
 
 # # Function for consistent table styling
 # style_flextable <- function(ft) {
@@ -458,9 +459,9 @@ library(flextable)
 library(dplyr)
 library(tidyr)
 
-table7_nwfsc_data <- read.csv(here::here("data_provided", "2019_assessment", "wcgbts_strata.csv"))
+table7_nwfsc_data <- read.csv(here("data_provided", "2019_assessment", "wcgbts_strata.csv"))
 
-table7_triennial_data <- read.csv(here::here("data_provided", "2019_assessment", "triennial_strata.csv"))
+table7_triennial_data <- read.csv(here("data_provided", "2019_assessment", "triennial_strata.csv"))
 
 # Function for consistent table styling
 # style_flextable <- function(ft) {
@@ -510,7 +511,7 @@ table7_nwfsc_data %>%
 #| width: 80%
 
 #Old table 9
-table9 <- as.data.frame(read.csv(file.path(here::here(),"figures/WCGBTS_survey/survey_pos_catch.csv"), stringsAsFactors = FALSE))
+table9 <- read.csv(here("figures", "WCGBTS_survey", "survey_pos_catch.csv"))
 # remove extra rows
 table9 <- table9[rowSums(is.na(table9[, 2:ncol(table9)])) != ncol(table9[, 2:ncol(table9)]),]
 
@@ -550,7 +551,7 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-table20 <- read.csv(here::here("data_provided", "2019_assessment", "aging_error.csv"))
+table20 <- read.csv(here("data_provided", "2019_assessment", "aging_error.csv"))
 
 # Function for consistent table styling
 # style_table20 <- function(ft) {
@@ -583,13 +584,9 @@ table20 %>%
 #| tbl-cap: "Specifications of the base assessment model for widow rockfish."
 
 #Old table 21
+library("officer")
 
-library(flextable)
-library(dplyr)
-library(tidyr)
-library(officer)
-
-table21<- as.data.frame(openxlsx::read.xlsx(file.path(here::here(),"report/tables/table_21.xlsx")))
+table21<- openxlsx::read.xlsx(here("report", "tables", "table_21.xlsx"))
 colnames(table21) <- c("1","2","3")
 
 table21$`2`[which(table21$`2`=="Minimum ages for first growth calcs")] <- "First reference age for growth calcs"
@@ -626,8 +623,7 @@ flextable(table21) %>%
 #Old table 22
 
 # Function for consistent table styling
-table22 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_22.csv"))) 
-table22 <- table22[,2:ncol(table22)] 
+table22 <- read.csv(here("report", "tables", "table_22.csv"))
 my_border <- fp_border(color = "black", width = 2) 
 # Build header map (multi-row header) 
 header_df <- data.frame( keys = names(table22), 
@@ -662,8 +658,8 @@ flextable(table22) %>%
 #Old table 23
 
 # Function for consistent table styling
-table23 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_23.csv"))) 
-colnames(table23) <- c(" ","Parameter", "Estimate", "SD")
+table23 <- read.csv(here("report", "tables", "table_23.csv"))
+colnames(table23) <- c("Parameter", "Estimate", "SD")
 
 # table23
 # my_border <- fp_border(color = "black", width = 2) 
@@ -697,7 +693,7 @@ flextable(table23) %>% land_tab_style(wd=1.6) %>%
 #Old table 24
 
 # Function for consistent table styling
-table24 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_24.csv"))) 
+table24 <- read.csv(here("report", "tables", "table_24.csv"))
 colnames(table24) <- gsub("\\.", " ", colnames(table24))
 # manually round bc way too many digits
 table24$Estimate <- round(table24$Estimate, 3)
@@ -726,7 +722,7 @@ flextable(table24) %>% port_tab_style(wd=1.5) %>%
 #Old table 25
 
 # Function for consistent table styling
-table25 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_25.csv"))) 
+table25 <- read.csv(here("report", "tables", "table_25.csv"))
 # rounding up front
 table25$Values <- round(table25$Values, 3)
 
@@ -780,7 +776,7 @@ flextable(table26) %>% land_tab_style(wd=1.9) %>%
 #Old table 27
 
 # Function for consistent table styling
-table27 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/table_27.csv"))) 
+table27 <- read.csv(here("report" , "tables", "table_27.csv"))
 # build in rounding
 table27$SpawningDepletion... <- round(table27$SpawningDepletion..., 3)
 table27$X1..SPR... <- round(table27$X1..SPR..., 3)
@@ -868,7 +864,7 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-table29 <- as.data.frame(read.csv(file.path(here::here(),"report/tables/short_sens_table.csv"), stringsAsFactors = FALSE))
+table29 <- read.csv(here("report", "tables", "short_sens_table.csv"))
 #Remove periods
 colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
            "MWT asymptotic selex", "WCGBTS logistic selex", 
@@ -1180,7 +1176,7 @@ flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:nc
 
 #Old table 34
 
-table34 <- read.csv(file.path(here::here(),"figures/sensitivities/weighting_comps.csv"), stringsAsFactors = FALSE)
+table34 <- read.csv(here("figures", "sensitivities", "weighting_comps.csv"))
 #Remove periods
 colnames(table34) <- gsub("\\.", " ", colnames(table34))
 table34 <- table34 %>% select(-c("Log Mean effN   2025 base model", "Log Mean effN   Francis"))
@@ -1241,13 +1237,14 @@ flextable(table_g) %>%
 #| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h, and 2013 recruitment strength). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 20XX and 20XX are allocated using the percentage of landings for each fleet in 20XX."
 #| out.width: "90%"
 
-table36 <- as.data.frame(read.csv(file.path(here::here(),"data_derived/decision_table/dec_table_formatted.csv"), stringsAsFactors = FALSE))
+table36 <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
+
 table36$scenario <- plyr::revalue(table36$scenario,
                  c("Constant catch" = "Constant catch (9,000 K)",
                   "P*0.25" = "ACLp*=0.25, sigma=0.50",
                   "P*0.45" = "ACLp*=0.45, sigma=0.50"))
 
-flextable(table36 %>% select(-X)) |>
+flextable(table36) |>
  set_header_labels(values = c(scenario = "Management decision",
                yr = "Year", 
                # OFL = "OFL", 

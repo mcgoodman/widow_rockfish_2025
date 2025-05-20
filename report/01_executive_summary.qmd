@@ -493,7 +493,7 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
 #                              "Spawning biomass (mt)", "Depletion (%)",
 #                              "Spawning biomass (mt)", "Depletion (%)")
 
-flextable(table_h %>% select(-X)) |>
+flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
                                # OFL = "OFL",

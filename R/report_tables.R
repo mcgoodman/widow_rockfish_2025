@@ -313,7 +313,8 @@ ashop_hke_age |>
 table_15_dat <- age_landings_sampled |> left_join(ages_sampled, by = 'YEAR') |> rename(Year = YEAR)
 write.csv(table_15_dat, here("report", "tables", "ages_hake.csv"), row.names = FALSE)
 
-### Table 22 - bioloigal params
+# Table 22 - bioloigal params ---------------------------------------
+
 pars <- rep_2025$parameters
 rownames(pars) <- NULL
 
@@ -362,7 +363,8 @@ table_22_dat <- bind_rows(
 
 write.csv(table_22_dat, here("report", "tables", "table_22.csv"), row.names = FALSE)
 
-## Table 23 - parms ests with sd
+# Table 23 - parms ests with sd -------------------------------------
+
 xx <- rep_2025$parameters[c(23,165:176,1:6,13:18),c("Value","Parm_StDev")]
 table_23 <-  data.frame(
     "Estimate" =  c(10.4371000,NA,NA, -5.9952400  , 0.1643070 ,-11.1167000 ,  0.3712210 , -1.6365200,
@@ -416,17 +418,13 @@ table_23 <-  data.frame(
   mutate(
     Estimate = if_else(is.na(Estimate), "", sprintf("%.3f", Estimate)),
     SD = if_else(is.na(SD), "", sprintf("%.3f", SD))
-  )|>
+  ) |>
    select(Parameter,Estimate,SD)
 
 write.csv(table_23, here("report", "tables", "table_23.csv"), row.names = FALSE)
 
+# Table 24 - Param ests and sd for selex pars -----------------------
 
-
-
-
-
-## Table 24 - Param ests and sd for selex pars
 temp <- rep_2025$parameters[179:270,c("Value","Parm_StDev","Phase")]
 temp <- temp|>filter(Phase >= 1)
 names <- rownames(temp)  
@@ -462,9 +460,8 @@ rownames(table_24) <- NULL
 
 write.csv(table_24, here("report", "tables", "table_24.csv"), row.names = FALSE)
 
+# Table 25 - Liketemp## Table 25 - Likelihood results ---------------
 
-
-## Table 25 - Liketemp## Table 25 - Likelihood results
 rep_2025$N_estimated_parameters
 lik_vals <-   c(rep_2025$N_estimated_parameters,NA,NA,7.66449e+03, 1.30223e+01, 5.41079e+03, 8.54968e+02,
               1.36628e+03, 1.78401e+01, 6.00503e-01, 9.83289e-01)
@@ -483,7 +480,8 @@ rownames(table_25) <- NULL
 write.csv(table_25, here("report", "tables", "table_25.csv"), row.names = FALSE)
 
 
-## Table likelihoods_used## Table 28 - SR time series ts
+# Table 28 - recruitment deviates -----------------------------------
+
 temp <- rep_2025$parameters[44:152,c("Value","Parm_StDev")]
 names <- rownames(temp)
 years <- as.numeric(stringr::str_extract(names, "(?<=_)\\d{4}"))
@@ -496,25 +494,7 @@ table_28 <- tibble(
 
 write.csv(table_28, here("report", "tables", "table_28.csv"), row.names = FALSE)
 
-
-
-
-
-
-##Table 27: Time series of population estimates from the base case model.
-# Total biomass(mt)
-# SpawningBiomass (mt)
-# Age 4+ biomass(mt)
-# SpawningDepletion(%)
-# Age-0
-# recruits
-# Estimated
-# Total Catch(mt)
-# 1- SPR(%)
-# Relative exploitation 
-
-### Need
-
+# Table 27 - Time series of population estimates --------------------
 
 unf_bio <- rep_2025$timeseries$SpawnBio[1]
 rep_2025$timeseries |>
@@ -536,16 +516,11 @@ rep_2025$timeseries |>
     `Relative exploitation rate (%)` = `Estimated Total Catch(mt)` / `SpawningBiomass (mt)` * 100
   )->table_27_dat
 
-write.csv(table_27_dat, here("report","tables","table_27_dat.csv"), row.names = FALSE)
+write.csv(table_27_dat, here("report", "tables", "table_27.csv"), row.names = FALSE)
 
+# Decision analysis table -------------------------------------------
 
-
-###Decision analysis table
-library(dplyr)
-library(tidyr)
-library(stringr)
-df <- read.csv(here("data_derived","decision_table","dec_table_results.csv"))
-colnames(df)
+df <- read.csv(here("data_derived", "decision_table", "dec_table_results.csv"))
 
 dec_table_formatted <- df %>%
   # Extract scenario and level from name
@@ -584,14 +559,4 @@ dec_table_formatted <- df %>%
   ))
 
 write.csv(dec_table_formatted, here("report", "tables", "dec_table_formatted.csv"), row.names = FALSE)
-write.csv(dec_table_formatted,here("data_derived", "decision_table", "dec_table_formatted.csv"), row.names = FALSE)
-
-# SpawningBiomass (mt)
-# Age 4+ biomass(mt)
-# SpawningDepletion(%)
-# Age-0
-# recruits
-# Estimated
-# Total Catch(mt)
-# 1- SPR(%)
-# Relative exploitation  rep_2025$timeseries
+write.csv(dec_table_formatted, here("data_derived", "decision_table", "dec_table_formatted.csv"), row.names = FALSE)

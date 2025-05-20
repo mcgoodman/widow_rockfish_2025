@@ -1,57 +1,57 @@
-Selectivity Parameter,Estimate,SD,Fleet,Time block
-Size_DblN_peak_BottomTrawl(1),43.3983,2.72917,Bottom trawl,NA
-Size_DblN_top_logit_BottomTrawl(1),2.49989,167.835,Bottom trawl,NA
-Size_DblN_ascend_se_BottomTrawl(1),4.59263,0.427496,Bottom trawl,NA
-Retain_L_infl_BottomTrawl(1),3.78303,178.045,Bottom trawl,NA
-Retain_L_width_BottomTrawl(1),0.996662,21.0925,Bottom trawl,NA
-Size_DblN_peak_MidwaterTrawl(2),36.9648,0.740583,Midwater trawl,NA
-Size_DblN_top_logit_MidwaterTrawl(2),-9.4211,14.639,Midwater trawl,NA
-Size_DblN_ascend_se_MidwaterTrawl(2),2.86574,0.310558,Midwater trawl,NA
-Size_DblN_descend_se_MidwaterTrawl(2),3.93475,0.719503,Midwater trawl,NA
-Size_DblN_end_logit_MidwaterTrawl(2),-1.38521,1.07105,Midwater trawl,NA
-Retain_L_asymptote_logit_MidwaterTrawl(2),5.76509,0.175106,Midwater trawl,NA
-Size_DblN_peak_Hake(3),33.5575,1.99064,Hake,NA
-Size_DblN_top_logit_Hake(3),2.49787,167.928,Hake,NA
-Size_DblN_ascend_se_Hake(3),2.11549,1.15885,Hake,NA
-Size_DblN_peak_Net(4),42.6002,0.897093,Net,NA
-Size_DblN_top_logit_Net(4),2.50861,167.839,Net,NA
-Size_DblN_ascend_se_Net(4),3.5559,0.213369,Net,NA
-Size_DblN_peak_HnL(5),23.5538,0.0714985,Hook and Line,NA
-Size_DblN_top_logit_HnL(5),2.50223,167.255,Hook and Line,NA
-SizeSpline_GradLo_Triennial(7),0.118854,0.0359208,Other,NA
-SizeSpline_GradHi_Triennial(7),0.0381025,0.0987305,Other,NA
-SizeSpline_Val_1_Triennial(7),-1.82423,0.317183,Other,NA
-SizeSpline_Val_3_Triennial(7),0.435367,0.26443,Other,NA
-SizeSpline_GradLo_NWFSC(8),0.467134,0.112173,NWFSC,NA
-SizeSpline_GradHi_NWFSC(8),-0.109047,0.0565052,NWFSC,NA
-SizeSpline_Val_1_NWFSC(8),-2.22354,0.245196,NWFSC,NA
-SizeSpline_Val_3_NWFSC(8),-0.11449,0.150555,NWFSC,NA
-Size_DblN_peak_BottomTrawl(1)_BLK4repl_1916,38.9802,0.817194,Bottom trawl,1916
-Size_DblN_ascend_se_BottomTrawl(1)_BLK4repl_1916,3.42759,0.255912,Bottom trawl,1916
-Retain_L_infl_BottomTrawl(1)_BLK2repl_1982,27.2205,4.00133,Bottom trawl,1982
-Retain_L_infl_BottomTrawl(1)_BLK2repl_1990,27.5208,3.99629,Bottom trawl,1990
-Retain_L_width_BottomTrawl(1)_BLK2repl_1982,0.969325,2.19509,Bottom trawl,1982
-Retain_L_width_BottomTrawl(1)_BLK2repl_1990,1.83064,1.80144,Bottom trawl,1990
-Retain_L_asymptote_logit_BottomTrawl(1)_BLK1repl_1982,1.71885,0.26678,Bottom trawl,1982
-Retain_L_asymptote_logit_BottomTrawl(1)_BLK1repl_1990,0.782736,0.337524,Bottom trawl,1990
-Retain_L_asymptote_logit_BottomTrawl(1)_BLK1repl_1998,0.107812,0.155833,Bottom trawl,1998
-Size_DblN_peak_MidwaterTrawl(2)_BLK7repl_1916,38.6834,0.998077,Midwater trawl,1916
-Size_DblN_peak_MidwaterTrawl(2)_BLK7repl_1983,38.0162,0.441589,Midwater trawl,1983
-Size_DblN_peak_MidwaterTrawl(2)_BLK7repl_2002,37.3983,1.84162,Midwater trawl,2002
-Size_DblN_ascend_se_MidwaterTrawl(2)_BLK7repl_1916,3.37013,0.285802,Midwater trawl,1916
-Size_DblN_ascend_se_MidwaterTrawl(2)_BLK7repl_1983,3.08059,0.139167,Midwater trawl,1983
-Size_DblN_ascend_se_MidwaterTrawl(2)_BLK7repl_2002,2.79636,0.669847,Midwater trawl,2002
-Size_DblN_descend_se_MidwaterTrawl(2)_BLK7repl_1916,4.24163,0.967303,Midwater trawl,1916
-Size_DblN_descend_se_MidwaterTrawl(2)_BLK7repl_1983,3.05555,0.598705,Midwater trawl,1983
-Size_DblN_descend_se_MidwaterTrawl(2)_BLK7repl_2002,-1.41747,10.4129,Midwater trawl,2002
-Size_DblN_end_logit_MidwaterTrawl(2)_BLK7repl_1916,-1.93352,3.01749,Midwater trawl,1916
-Size_DblN_end_logit_MidwaterTrawl(2)_BLK7repl_1983,-0.423958,0.332431,Midwater trawl,1983
-Size_DblN_end_logit_MidwaterTrawl(2)_BLK7repl_2002,1.56277,1.8185,Midwater trawl,2002
-Retain_L_asymptote_logit_MidwaterTrawl(2)_BLK12repl_1983,1.66015,0.138075,Midwater trawl,1983
-Retain_L_asymptote_logit_MidwaterTrawl(2)_BLK12repl_2002,1.8538,0.406992,Midwater trawl,2002
-Retain_L_asymptote_logit_MidwaterTrawl(2)_BLK12repl_2011,8.9466,0.20713,Midwater trawl,2011
-Size_DblN_peak_Hake(3)_BLK11repl_1916,42.7924,0.620885,Hake,1916
-Size_DblN_top_logit_Hake(3)_BLK11repl_1916,2.50445,167.727,Hake,1916
-Size_DblN_ascend_se_Hake(3)_BLK11repl_1916,3.72208,0.129149,Hake,1916
-Size_DblN_peak_HnL(5)_BLK5repl_1916,37.2194,2.01795,Hook and Line,1916
-Size_DblN_ascend_se_HnL(5)_BLK5repl_1916,3.74652,0.470362,Hook and Line,1916
+"Selectivity Parameter","Estimate","SD","Fleet","Time block"
+"Size_DblN_peak_BottomTrawl(1)",43.3983,2.72918,"Bottom trawl","NA"
+"Size_DblN_top_logit_BottomTrawl(1)",2.49989,167.835,"Bottom trawl","NA"
+"Size_DblN_ascend_se_BottomTrawl(1)",4.59264,0.427496,"Bottom trawl","NA"
+"Retain_L_infl_BottomTrawl(1)",3.78356,178.021,"Bottom trawl","NA"
+"Retain_L_width_BottomTrawl(1)",0.996656,21.0906,"Bottom trawl","NA"
+"Size_DblN_peak_MidwaterTrawl(2)",36.9648,0.740582,"Midwater trawl","NA"
+"Size_DblN_top_logit_MidwaterTrawl(2)",-9.42107,14.6395,"Midwater trawl","NA"
+"Size_DblN_ascend_se_MidwaterTrawl(2)",2.86574,0.310558,"Midwater trawl","NA"
+"Size_DblN_descend_se_MidwaterTrawl(2)",3.93475,0.719503,"Midwater trawl","NA"
+"Size_DblN_end_logit_MidwaterTrawl(2)",-1.38522,1.07105,"Midwater trawl","NA"
+"Retain_L_asymptote_logit_MidwaterTrawl(2)",5.76509,0.175106,"Midwater trawl","NA"
+"Size_DblN_peak_Hake(3)",33.5575,1.99064,"Hake","NA"
+"Size_DblN_top_logit_Hake(3)",2.49787,167.928,"Hake","NA"
+"Size_DblN_ascend_se_Hake(3)",2.11549,1.15885,"Hake","NA"
+"Size_DblN_peak_Net(4)",42.6002,0.897094,"Net","NA"
+"Size_DblN_top_logit_Net(4)",2.5086,167.84,"Net","NA"
+"Size_DblN_ascend_se_Net(4)",3.5559,0.213369,"Net","NA"
+"Size_DblN_peak_HnL(5)",23.5538,0.0714986,"Hook and Line","NA"
+"Size_DblN_top_logit_HnL(5)",2.50223,167.255,"Hook and Line","NA"
+"SizeSpline_GradLo_Triennial(7)",0.118854,0.0359208,"Other","NA"
+"SizeSpline_GradHi_Triennial(7)",0.0381034,0.0987305,"Other","NA"
+"SizeSpline_Val_1_Triennial(7)",-1.82423,0.317183,"Other","NA"
+"SizeSpline_Val_3_Triennial(7)",0.435371,0.26443,"Other","NA"
+"SizeSpline_GradLo_NWFSC(8)",0.467133,0.112173,"NWFSC","NA"
+"SizeSpline_GradHi_NWFSC(8)",-0.109047,0.0565052,"NWFSC","NA"
+"SizeSpline_Val_1_NWFSC(8)",-2.22354,0.245196,"NWFSC","NA"
+"SizeSpline_Val_3_NWFSC(8)",-0.114489,0.150555,"NWFSC","NA"
+"Size_DblN_peak_BottomTrawl(1)_BLK4repl_1916",38.9802,0.817194,"Bottom trawl","1916"
+"Size_DblN_ascend_se_BottomTrawl(1)_BLK4repl_1916",3.42759,0.255911,"Bottom trawl","1916"
+"Retain_L_infl_BottomTrawl(1)_BLK2repl_1982",27.2205,4.00128,"Bottom trawl","1982"
+"Retain_L_infl_BottomTrawl(1)_BLK2repl_1990",27.5208,3.99627,"Bottom trawl","1990"
+"Retain_L_width_BottomTrawl(1)_BLK2repl_1982",0.969279,2.19508,"Bottom trawl","1982"
+"Retain_L_width_BottomTrawl(1)_BLK2repl_1990",1.83063,1.80144,"Bottom trawl","1990"
+"Retain_L_asymptote_logit_BottomTrawl(1)_BLK1repl_1982",1.71885,0.26678,"Bottom trawl","1982"
+"Retain_L_asymptote_logit_BottomTrawl(1)_BLK1repl_1990",0.782735,0.337524,"Bottom trawl","1990"
+"Retain_L_asymptote_logit_BottomTrawl(1)_BLK1repl_1998",0.107812,0.155833,"Bottom trawl","1998"
+"Size_DblN_peak_MidwaterTrawl(2)_BLK7repl_1916",38.6834,0.998076,"Midwater trawl","1916"
+"Size_DblN_peak_MidwaterTrawl(2)_BLK7repl_1983",38.0162,0.44159,"Midwater trawl","1983"
+"Size_DblN_peak_MidwaterTrawl(2)_BLK7repl_2002",37.3983,1.84143,"Midwater trawl","2002"
+"Size_DblN_ascend_se_MidwaterTrawl(2)_BLK7repl_1916",3.37012,0.285802,"Midwater trawl","1916"
+"Size_DblN_ascend_se_MidwaterTrawl(2)_BLK7repl_1983",3.08059,0.139167,"Midwater trawl","1983"
+"Size_DblN_ascend_se_MidwaterTrawl(2)_BLK7repl_2002",2.79638,0.669794,"Midwater trawl","2002"
+"Size_DblN_descend_se_MidwaterTrawl(2)_BLK7repl_1916",4.24164,0.967297,"Midwater trawl","1916"
+"Size_DblN_descend_se_MidwaterTrawl(2)_BLK7repl_1983",3.05551,0.598711,"Midwater trawl","1983"
+"Size_DblN_descend_se_MidwaterTrawl(2)_BLK7repl_2002",-1.41795,10.4152,"Midwater trawl","2002"
+"Size_DblN_end_logit_MidwaterTrawl(2)_BLK7repl_1916",-1.93352,3.01746,"Midwater trawl","1916"
+"Size_DblN_end_logit_MidwaterTrawl(2)_BLK7repl_1983",-0.423942,0.332427,"Midwater trawl","1983"
+"Size_DblN_end_logit_MidwaterTrawl(2)_BLK7repl_2002",1.56274,1.81838,"Midwater trawl","2002"
+"Retain_L_asymptote_logit_MidwaterTrawl(2)_BLK12repl_1983",1.66015,0.138075,"Midwater trawl","1983"
+"Retain_L_asymptote_logit_MidwaterTrawl(2)_BLK12repl_2002",1.8538,0.406992,"Midwater trawl","2002"
+"Retain_L_asymptote_logit_MidwaterTrawl(2)_BLK12repl_2011",8.9466,0.20713,"Midwater trawl","2011"
+"Size_DblN_peak_Hake(3)_BLK11repl_1916",42.7924,0.620886,"Hake","1916"
+"Size_DblN_top_logit_Hake(3)_BLK11repl_1916",2.50444,167.727,"Hake","1916"
+"Size_DblN_ascend_se_Hake(3)_BLK11repl_1916",3.72208,0.129149,"Hake","1916"
+"Size_DblN_peak_HnL(5)_BLK5repl_1916",37.2195,2.01796,"Hook and Line","1916"
+"Size_DblN_ascend_se_HnL(5)_BLK5repl_1916",3.74654,0.470361,"Hook and Line","1916"

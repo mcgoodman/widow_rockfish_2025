@@ -24,8 +24,8 @@ catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 
 ```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
-load(file = here::here("report", "tables", "reference_points.rda"))
-df <- as.data.frame(reference_points)
+load(file = here::here("report", "tables", "exec_summ_tables", "reference_points.rda"))
+df <- as.data.frame(reference_points$table)
 colnames(df) <- c("Label", "Est", "Lwr", "Upr")
 
 ref_pts <- setNames(
@@ -75,9 +75,7 @@ Steepness was fixed at 0.720 in the base model, but a likelihood profile showed 
 
 ```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
-load(file=here::here("report","tables","projections.rda"))
-projections  <- as.data.frame(projections$table)
-
+projections <- read.csv(here("report", "tables", "exec_summ_tables", "g_Projections_ES.csv"))
 projections <- projections |> dplyr::mutate(across(2:ncol(projections), ~ round(.x)))
 
 ```

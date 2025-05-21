@@ -123,6 +123,9 @@ if (jobs$report_plots) {
 
 if (jobs$report) {
   
-  quarto::quarto_render(here("report", "SAR_PFMC_skeleton.qmd"))
+  quarto::quarto_render(
+    here::here("report", "SAR_PFMC_skeleton.qmd"), 
+    as_job = TRUE
+  )
   
 }

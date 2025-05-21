@@ -70,17 +70,19 @@ base_out <- SS_output(file.path(model_directory, base_model_name))
 
 ### step 1: Create outputs by copying input files 
 
+francis_dir <- file.path(model_directory, "sensitivities", "Francis")
+
 r4ss::copy_SS_inputs(dir.old = file.path(model_directory, base_model_name), 
-                       dir.new = file.path(model_directory, "sensitivities", "Francis"))
+                     dir.new = francis_dir)
 
 #### copy over the Report file 
-file.copy(from = file.path(model_directory, base_model_name,
-                           c('Report.sso', 'CompReport.sso', 
-                             'warning.sso')), 
-          to = file.path(model_directory, "sensitivities", 
-                         "Francis", c('Report.sso', 'CompReport.sso',
-                                      'warning.sso')),
-          overwrite = TRUE)
+cpy_files <- c('Report.sso', 'CompReport.sso', 'warning.sso', 'covar.sso')
+
+file.copy(
+  from = file.path(model_directory, base_model_name, cpy_files), 
+  to = file.path(francis_dir, cpy_files),
+  overwrite = TRUE
+)
 
 ### step 2: Run function tune_comps
 
@@ -93,7 +95,7 @@ tune_comps(
   exe = exe_loc,
   extras = "-nohess",
   verbose = FALSE,
-  niters_tuning = 3, 
+  niters_tuning = 3
 )
 
 ## Fixing steepness at 2019 selectivity values ---------------------------------
@@ -440,8 +442,10 @@ dir.create(outdir <- here("figures", "sensitivities"))
   big_table <- SStableComparisons(
     shortlist, 
     modelnames = c('Base', names(model_list)),
-    names =c("NatM_uniform_Fem_GP_1", "L_at_Amin_Fem_GP_1", "L_at_Amax_Fem_GP_1", "CV_young_Fem_GP_1", "CV_old_Fem_GP_1", "VonBert_K_Fem_GP_1", 
-             "NatM_uniform_Mal_GP_1", "L_at_Amin_Mal_GP_1", "L_at_Amax_Mal_GP_1", "CV_young_Mal_GP_1", "CV_old_Mal_GP_1", "VonBert_K_Mal_GP_1", 
+    names =c("NatM_uniform_Fem_GP_1", "L_at_Amin_Fem_GP_1", "L_at_Amax_Fem_GP_1", 
+             "CV_young_Fem_GP_1", "CV_old_Fem_GP_1", "VonBert_K_Fem_GP_1", 
+             "NatM_uniform_Mal_GP_1", "L_at_Amin_Mal_GP_1", "L_at_Amax_Mal_GP_1", 
+             "CV_young_Mal_GP_1", "CV_old_Mal_GP_1", "VonBert_K_Mal_GP_1", 
              "Recr_Virgin", "R0", "SmryBio_unfished", "SSB_Virg",
              "SSB_2025", "Bratio_2025", "SPRratio_2024"),
     digits = c(rep(3, 22), 1, rep(3, 4)), # not sure why this isn't cutting number of digits for smrybio_unfished

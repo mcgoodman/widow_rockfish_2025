@@ -737,7 +737,7 @@ library(dplyr)
 library(tidyr)
 library(officer)
 
-table29 <- read.csv(here("report", "tables", "short_sens_table.csv"))
+table29 <- read.csv(here("figures", "sensitivities", "short_sens_table.csv"))
 #Remove periods
 colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
            "MWT asymptotic selex", "WCGBTS logistic selex", 

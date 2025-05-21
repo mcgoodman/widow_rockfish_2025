@@ -7,11 +7,26 @@ launch_html <- FALSE
 
 source(here("R", "functions", "bridging_functions.R"))
 
-# Main bridging plot --------------------------------------
-
 base_2019 <- here("models", "2019 base model", "Base_45_new")
 databridge_dir <- here("models", "data_bridging", "finalised_data_bridging")
 base_2025 <- here("models", "2025 base model")
+
+# Base model plots ----------------------------------------
+
+base_rep <- SS_output(base_2025)
+base_plotdir <- here("figures", "2025 base model r4ss plots")
+
+SS_plots(replist = base_rep, dir = base_plotdir, html = launch_html)
+
+# Taller length-at-age plot
+png(
+  file.path(base_plotdir, "plots", "bio2_sizeatage_plus_CV_and_SD.png"), 
+  width = 2000, height = 1750, units = "px", res = 250
+  )
+SSplotBiology(replist = base_rep, subplots = 2)
+dev.off()
+
+# Main bridging plot --------------------------------------
 
 # List directories and model names
 models <- c(

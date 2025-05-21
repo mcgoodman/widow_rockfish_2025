@@ -139,8 +139,8 @@ get_t0 <- function(L_min = 20, L_max = 45,A_min = 1,A_max = 40,k = 0.21){
 }
 
 
-t0F <- get_t0(L_min = vblFMin,L_max = vblFMax,k = vblFk,A_min = min(age_bins),A_max = max(age_bins))
-t0M <- get_t0(L_min = vblMMin,L_max = vblMMax,k = vblMk,A_min = min(age_bins),A_max = max(age_bins))
+t0F <- get_t0(L_min = vblFMin,L_max = vblFMax,k = vblFk,A_min = 3,A_max = max(age_bins))
+t0M <- get_t0(L_min = vblMMin,L_max = vblMMax,k = vblMk,A_min = 3,A_max = max(age_bins))
 
 ## Make a table of pars ests for display purposes
 label_df <- data.frame(

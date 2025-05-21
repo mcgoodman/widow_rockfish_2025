@@ -11,7 +11,7 @@ jobs <- list(
   models = TRUE, # Run bridging models
   diagnostics = TRUE, # Run diagnostics (jitters, sensitivities)
   report_plots = TRUE, # Build report plots and tables
-  report = TRUE # Buld report
+  report = TRUE # Build report
 )
 
 # Toggles for in-script settings

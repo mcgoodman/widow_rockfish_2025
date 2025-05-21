@@ -83,7 +83,7 @@ To estimate discards in the model, time blocks for changes in selectivity and re
 
 ### Modeling Platform and Structure
 
-For this update assessment, new versions of the previously used software were used. Stock Synthesis v3.30.13  was used to estimate the parameters in the 2019 model. R4SS, version 1.35.3, along with  R version 3.5.3 were used to investigate and plot the 2019 model fits. For the update, Stock Synthesis v3.30.2 and R4SS, version 1.51.0, along with R version 4.5.0 were used. A summary of the data sources used in the model (details discussed above) is shown in Figure 40. 
+For this update assessment, new versions of the previously used software were used. Stock Synthesis v3.30.13  was used to estimate the parameters in the 2019 model. R4SS, version 1.35.3, along with  R version 3.5.3 were used to investigate and plot the 2019 model fits. For the update, Stock Synthesis v3.30.2 and R4SS, version 1.51.0, along with R version 4.5.0 were used. A summary of the data sources used in the model (details discussed above) is shown in @fig-data-plot-base. 
 
 ### Model Overview
 

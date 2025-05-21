@@ -578,11 +578,6 @@ flextable(table_h) |>
   width(width = 0.9, j = 1)
 
 
-SSB["SSB_2025","Value"]
-SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"]
-report$OFL_sigma
-report$derived_quants
-#OFLCatch_2025
 ```
 
 ## Scientific uncertainty{-}

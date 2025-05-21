@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-07  15:01:52
+#C file write time: 2025-05-21  15:29:59
 #
 1 #_benchmarks
 2 #_MSY
@@ -12,7 +12,7 @@
 12 #_Nforecastyrs
 1 #_F_scalar
 #_Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_recruits, end_recruits (enter actual year, or values of 0 or -integer to be rel. endyr)
-0 0 0 0 -999 0
+-4 -4 -4 0 0 0
 0 #_Fcast_selex
 3 #_ControlRuleMethod
 0.4 #_BforconstantF
@@ -61,16 +61,16 @@
 -9999 -1
 2 #_InputBasis
  #_year seas fleet catch_or_F
-   2025    1     1       76.7
-   2025    1     2     9770.0
-   2025    1     3      778.7
-   2025    1     4        0.0
-   2025    1     5       43.2
-   2026    1     1       70.8
-   2026    1     2     8975.0
-   2026    1     3      734.6
-   2026    1     4        0.0
-   2026    1     5       43.2
+   2025    1     1      35.93
+   2025    1     2    9374.26
+   2025    1     3    1455.20
+   2025    1     4       0.00
+   2025    1     5       2.70
+   2026    1     1      35.93
+   2026    1     2    9374.26
+   2026    1     3    1455.20
+   2026    1     4       0.00
+   2026    1     5       2.70
 -9999 0 0 0
 #
 999 # verify end of input 

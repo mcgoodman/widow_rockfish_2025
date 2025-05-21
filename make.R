@@ -38,17 +38,17 @@ run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ..
 
 # Data Processing -----------------------------------------
 
-# Not all data scripts are here - several need testing
+# Several data scripts are missing from this section
 
 if (jobs$data) {
   
   run_job(
-    here("R", "catches.R"), 
+    here("R", "catches.R"), # Runs
     name = "process landings"
   )
   
   run_job(
-    here("R", "commercial_comps_clean_expand.R"),
+    here("R", "commercial_comps_clean_expand.R"), # Fails
     name = "commerical comps"
   )
   
@@ -59,12 +59,12 @@ if (jobs$data) {
 if (jobs$models) {
   
   run_job(
-    here("R", "data_bridging.R"),
+    here("R", "data_bridging.R"), # Runs
     name = "data bridging"
   )
   
   run_job(
-    here("R", "model_bridging.R"), 
+    here("R", "model_bridging.R"), # Runs
     name = "model bridging"
   )
   
@@ -75,24 +75,24 @@ if (jobs$models) {
 if (jobs$diagnostics) {
   
   run_job(
-    here("R", "bridging_plots.R"), 
+    here("R", "bridging_plots.R"), # Runs
     name = "model bridging plots", 
     wait = FALSE
   )
   
   run_job(
-    here("R", "jitters.R"), 
+    here("R", "jitters.R"), # Runs
     name = "jittering"
   )
   
   run_job(
-    here("R", "AllSensitivityRuns.R"), 
+    here("R", "AllSensitivityRuns.R"), # Fails
     name = "sensitivity runs",
     wait = FALSE
   )
   
   run_job(
-    here("R", "Model_diagnostics.R"), 
+    here("R", "Model_diagnostics.R"), # Runs
     name = "model diagnostics"
   )
   
@@ -103,17 +103,17 @@ if (jobs$diagnostics) {
 if (jobs$report_plots) {
   
   run_job(
-    here("R", "decision_table.R"), 
+    here("R", "decision_table.R"), # Fails
     name = "decision table"
   )
   
   run_job(
-    here("R", "report_tables.R"),
+    here("R", "report_tables.R"), # Runs
     name = "report tables"
   )
   
   run_job(
-    here("R", "report_figures_paneled.R"),
+    here("R", "report_figures_paneled.R"), # Runs
     name = "paneled report figures"
   )
   

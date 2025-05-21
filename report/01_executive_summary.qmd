@@ -495,7 +495,10 @@ This assessment synthesizes many sources of data and estimates recruitment varia
 Better formulation below, kept if this was clearer in the end. 
 The report projects the base model forward for twelve years with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later year, allocating catches to fleets as per the percentage of catch by fleet in 2024. This predicts spawning biomass will decrease over the projection period for all states of nature (@tbl-h).  -->
 
-A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (`r format(gmt_catch|>filter(year == 2025)|>select(total_catch), big.mark = ",", digits = 1)` mt and `r format(gmt_catch|>filter(year == 2026)|>select(total_catch), big.mark = ",", digits = 1)` mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature  (@tbl-h).
+<!-- A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (`r format(gmt_catch|>filter(year == 2025)|>select(total_catch), big.mark = ",", digits = 1)` mt and `r format(gmt_catch|>filter(year == 2026)|>select(total_catch), big.mark = ",", digits = 1)` mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature  (@tbl-h). -->
+
+
+A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.25 P* were conducted (@tbl-h).
 
 Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
 
@@ -552,6 +555,35 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
 #                              "Spawning biomass (mt)", "Depletion (%)",
 #                              "Spawning biomass (mt)", "Depletion (%)")
 
+# flextable(table_h) |>
+#   set_header_labels(values = c(scenario = "Management decision",
+#                                yr = "Year",
+#                                # OFL = "OFL",
+#                                catch = "catch (mt)",
+#                                SpawnBio_low = "Spawning biomass (mt)",
+#                                dep_low = "Depletion (%)",
+#                                SpawnBio_base = "Spawning biomass (mt)",
+#                                dep_base = "Depletion (%)",
+#                                SpawnBio_high = "Spawning biomass (mt)",
+#                                dep_high = "Depletion (%)")
+#                     ) |>
+#   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
+#   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
+#   align(align = "center", part = "all") |>
+#   font(fontname = "Times New Roman", part = "all") |>
+#   fontsize(size = 9, part ="all") |>
+#   bold(part = "header", i = 1:2) |>
+#   bold(part = "header", i = 3, j = 1) |>
+#   colformat_num(j = 2, big.mark = "", digits = 0) |>
+#   border_inner(part="header") |> border_outer() |> # header and outside border
+#   vline(j = c(1, 3, 5, 7)) |> hline(i = 10) |> hline(i = 20) |>
+#   merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
+#   # set_table_properties(layout = "autofit", align = "center") |>
+#   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
+#   width(width = 0.9, j = 1)
+
+table_h <- table_h|>filter(scenario != "Constant catch (9,000 K)")
+
 flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
@@ -574,10 +606,11 @@ flextable(table_h) |>
   colformat_num(j = 2, big.mark = "", digits = 0) |>
   border_inner(part="header") |> border_outer() |> # header and outside border
   vline(j = c(1, 3, 5, 7)) |> hline(i = 10) |> hline(i = 20) |>
-  merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
+  merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1)|>
   # set_table_properties(layout = "autofit", align = "center") |>
   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
   width(width = 0.9, j = 1)
+
 
 
 ```

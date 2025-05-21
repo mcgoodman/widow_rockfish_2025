@@ -1,4 +1,4 @@
-# Executive Summary{-}
+# Executive Summary
 
 <!-- 
 Note r4ss::table_exec_summary() will create the required tables. 

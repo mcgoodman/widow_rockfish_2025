@@ -77,7 +77,7 @@ Biological data from commercial fisheries that caught widow rockfish were extrac
 
 ### Discards
 
-Data on discards on Widow Rockfish are available from three different sources. Historical sources included [@pikitch_life_1989] and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from [@pikitch_life_1989]. Discard estimates are shown in @tbl-disc-totals and range from 463 to 1,847 mt. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
+Data on discards on Widow Rockfish are available from three different sources. Historical sources included [@pikitch_evaluation_1988] and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from [@pikitch_evaluation_1988]. Discard estimates are shown in @tbl-disc-totals and range from 463 to 1,847 mt. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
 
 The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior.  
 

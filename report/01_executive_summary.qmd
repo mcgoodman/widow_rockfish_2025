@@ -498,6 +498,7 @@ The report projects the base model forward for twelve years with catches equal t
 <!-- A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (`r format(gmt_catch|>filter(year == 2025)|>select(total_catch), big.mark = ",", digits = 1)` mt and `r format(gmt_catch|>filter(year == 2026)|>select(total_catch), big.mark = ",", digits = 1)` mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature  (@tbl-h). -->
 
 
+A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.25 P* were conducted (@tbl-h).
 
 Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
 

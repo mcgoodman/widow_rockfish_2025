@@ -61,3 +61,23 @@ runnumber.ss
 
 # Whitelist par file from best jitter
 !models/jitters/ss3.par_best.sso
+
+# Intermediate rendering output from report
+report/*.html
+report/*.tex
+report/*.upa
+report/*.upb
+report/01_executive_summary_files/*
+report/02_introduction_files/*
+report/03_data_files/*
+report/04a_model_summary_files/*
+report/04b_model_results_files/*
+report/04c_model_diagnostics_files/*
+report/05_management_files/*
+report/06_acknowledgments_files/*
+report/07_references_files/*
+report/08_tables_files/*
+report/09_figures_files/*
+report/10_appendix_files/*
+report/11_appendix_c_files/*
+report/12_appendix_d_files/*

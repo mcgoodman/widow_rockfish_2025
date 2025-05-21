@@ -509,11 +509,12 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 #| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
 table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
-table_g <- round(table_g, 3)
-
+table_g <- round(signif(table_g, 5), 3)
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  set_table_properties(layout = "autofit") %>% exec_tab_style
+  set_table_properties(layout = "autofit") %>% 
+  exec_tab_style() %>% 
+  fit_to_width(max_width = 7.5)
 
 ```
 

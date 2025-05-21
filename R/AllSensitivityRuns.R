@@ -16,7 +16,7 @@ skip_finished <- FALSE
 launch_html <- TRUE
 
 # Name of model direct
-model_directory <- 'models'
+model_directory <- here("models")
 dir.create(here("models", "sensitivities"))
 
 # Create executable

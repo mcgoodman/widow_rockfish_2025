@@ -316,7 +316,7 @@ flextable(table12, col_keys = names(table12)) %>%
 #| label: tbl-sample-age-gear-state
 #| echo: false
 #| warning: false
-#| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
+#| tbl-cap: "Number of trips sampled for ages by gear and state for non-whiting fisheries."
 
 #Old table 13
 table13 <- read.csv(here("report", "tables", "age_trips_nonhake.csv"))
@@ -348,7 +348,7 @@ flextable(table13, col_keys = names(table13)) %>%
 #| label: tbl-age-gear-state
 #| echo: false
 #| warning: false
-#| tbl-cap: "Number of landings sampled for ages by gear and state for non-whiting fisheries."
+#| tbl-cap: "Number of trips sampled for ages by gear and state for non-whiting fisheries."
 
 #Old table 13
 table14 <- read.csv(here("report", "tables", "age_samples_nonhake.csv"))

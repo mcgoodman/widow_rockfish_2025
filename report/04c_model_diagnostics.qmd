@@ -50,7 +50,7 @@ Due to it consistently hitting the lower bound when estimated, the decision was 
 
 ### Parameter Uncertainty
 
-Parameter estimates are shown in @tbl-bio-params, @tbl-params and @tbl-ts-popests-basecase along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in @tbl-key-deriv-params along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2025 estimate of depletion is 30.12%–69.17% and above the management target of 40% of the unfished spawning biomass.
+Parameter estimates are shown in @tbl-params and @tbl-ts-popests-basecase along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in @tbl-key-deriv-params along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2025 estimate of depletion is 30.12%–69.17% and above the management target of 40% of the unfished spawning biomass.
 
 ### Sensitivity Analyses
 

@@ -823,6 +823,22 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-ssb-historical
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Predicted spawning biomass (2011 onward) or spawning output (2000-2009) from past assessments in comparison with the current assessment."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here("figures", "2025 base model r4ss plots", "SSB_historical_comparison.png")
+)
+
+```
+
+
+```{r}
 #| label: fig-SR-curve
 #| echo: false
 #| warning: false
@@ -924,7 +940,7 @@ knitr::include_graphics(
 #| warning: false
 #| eval: true
 #| fig-cap: "Five-year retrospective estimates of spawning biomass (top) and recruitment deviations (bottom)."
-#| out.width: "90%"
+#| out.width: "75%"
 #| fig-align: "center"
 
 knitr::include_graphics(

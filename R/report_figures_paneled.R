@@ -53,7 +53,8 @@ ssb_hist_plot <- ssb_hist |>
   scale_x_continuous(breaks = seq(1915, 2025, 10)) + 
   scale_y_continuous(breaks = seq(1e+04, 11e+04, length.out = 5)) +
   theme(panel.grid.major.y = element_line(color = "grey80", linetype = "dashed")) + 
-  ylab("Spawning Stock Biomass (mt)")
+  ylab("Spawning Stock Biomass (mt)") +
+  coord_cartesian(clip = "off")
 
 ggsave(
   file.path(plotdir, "SSB_historical_comparison.png"), 

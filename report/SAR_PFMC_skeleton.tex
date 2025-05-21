@@ -3088,10 +3088,10 @@ indicated that the model had converged to a false (local) minimum,
 though the difference in log-likelihoods at the previous estimates and
 the new MLE was small (\textless0.5). After accepting the new MLE as the
 base model, jittering was repeated 100 times with a jitter coefficient
-of 0.10 and a better minimum was not found. 4\% of the jittered models
-achieved the minimum negative log-likelihood and 23\% were within two
-likelihood units. The model did not experience convergence issues when
-provided reasonable starting values. Through the jittering done as
+of 0.10 and (using a convergence threshold of 0.01) a better minimum was
+not found. 2\% of the jittered models achieved the minimum negative
+log-likelihood and \texttt{r}paste0(jitters\$njitters\_within\_2,
+``\%'')` were within two likelihood units. Through the jittering done as
 explained above and likelihood profiles, we are confident that the base
 case as presented represents the best fit to the data given the
 assumptions made. There were no difficulties in inverting the Hessian to
@@ -3322,7 +3322,7 @@ the prior for natual mortality used in this assessment). However, even
 with length and age data available back to the late 1970s, natural
 mortality was estimated at 0.125 for females and 0.137
 yr\textsuperscript{-1} for males, with a small amount of uncertainty
-(e.g., a 0\% coefficient of variation for females). This assessment
+(e.g., a 6.6\% coefficient of variation for females). This assessment
 attempts to capture that uncertainty by estimating natural mortality (M)
 and integrating that uncertainty into the derived biomass estimates, as
 well as additional uncertainty by including levels outside of the
@@ -12063,6 +12063,20 @@ minimum stock size threshold of 25\% of unfished biomass.}
 
 \centering{
 
+\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/SSB_historical_comparison.png}
+
+}
+
+\caption{\label{fig-ssb-historical}Predicted spawning biomass (2011
+onward) or spawning output (2000-2009) from past assessments in
+comparison with the current assessment.}
+
+\end{figure}%
+
+\begin{figure}[H]
+
+\centering{
+
 \includegraphics[width=0.9\textwidth,height=\textheight]{../figures/2025 base model r4ss plots/plots/SR_curve.png}
 
 }
@@ -12151,7 +12165,7 @@ by sensitivity run.}
 
 \centering{
 
-\includegraphics[width=0.9\textwidth,height=\textheight]{../figures/diagnostics/retros.png}
+\includegraphics[width=0.75\textwidth,height=\textheight]{../figures/diagnostics/retros.png}
 
 }
 

@@ -668,20 +668,20 @@ knitr::include_graphics(
 
 ```
 
-```{r}
-#| label: fig-comp-lenfit-disc-pears
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Pearson residuals for fits to the discard length frequencies from the bottom trawl (left) and hook-and-line (right) fleets. Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png")
-)
-
-```
+# ```{r}
+# #| label: fig-comp-lenfit-disc-pears
+# #| echo: false
+# #| warning: false
+# #| eval: true
+# #| fig-cap: ""
+# #| out.width: "90%"
+# #| fig-align: "center"
+# 
+# knitr::include_graphics(
+#     file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png")
+# )
+# 
+# ```
 
 ```{r}
 #| label: fig-comp-lenfit-trien

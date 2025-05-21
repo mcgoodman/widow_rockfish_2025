@@ -67,7 +67,7 @@ knitr::include_graphics(
 #| label: fig-dist-opdates
 #| echo: false
 #| warning: false
-#| eval: true
+#| eval: false  
 #| out.width: "90%"
 #| fig-align: "center"
 #| fig-cap: "Distribution of dates of operation for the triennial survey (1980-2004). Solid bars show the mean date for each survey year, points represent individual hauls dates, but are jittered to allow better delineation of the distribution of individual points (Figure from (Stewart 2007))."
@@ -99,7 +99,7 @@ knitr::include_graphics(
 #| label: fig-mod-est-trien
 #| echo: false
 #| warning: false
-#| eval: true
+#| eval: false  
 #| fig-cap: "Model-based survey estimates for the Triennial with estimated 95% confidence intervals. based estimates and 95% confidence intervals are shown in blue for comparison."
 #| out.width: "100%"
 #| fig-align: "center"
@@ -114,7 +114,7 @@ knitr::include_graphics(
 #| label: fig-len-comp-trien
 #| echo: false
 #| warning: false
-#| eval: true
+#| eval: false  
 #| fig-cap: "Expanded length compositions weighted by estimated numbers from the GLMM in each strata for the Triennial survey."
 #| out.width: "100%"
 #| fig-align: "center"

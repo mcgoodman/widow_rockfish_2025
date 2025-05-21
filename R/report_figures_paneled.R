@@ -276,8 +276,8 @@ image_write(combined, path = here("figures", "diagnostics", "Nat_Mort.png"))
 
 # Decision table plot -----------------------------------------------
 
-pnl_cc <- image_read(here("figures", "decision_table", "cc_plots", "compare4_Bratio_uncertainty.png"))
-pnl_cc <- pnl_cc |> image_annotate("Constant catch", size = 48, location = "+200+0")
+# pnl_cc <- image_read(here("figures", "decision_table", "cc_plots", "compare4_Bratio_uncertainty.png"))
+# pnl_cc <- pnl_cc |> image_annotate("Constant catch", size = 48, location = "+200+0")
 
 pnl_25 <- image_read(here("figures", "decision_table", "25_plots", "compare4_Bratio_uncertainty.png"))
 pnl_25 <- pnl_25 |> image_annotate("ACL = p*0.25", size = 48, location = "+200+0")
@@ -285,7 +285,10 @@ pnl_25 <- pnl_25 |> image_annotate("ACL = p*0.25", size = 48, location = "+200+0
 pnl_45 <- image_read(here("figures", "decision_table", "45_plots", "compare4_Bratio_uncertainty.png"))
 pnl_45 <- pnl_45 |> image_annotate("ACL = p*0.45", size = 48, location = "+200+0")
 
-combined <- image_append(c(image_append(c(pnl_cc, pnl_25)), pnl_45), stack = TRUE)
+# combined <- image_append(c(image_append(c(pnl_cc, pnl_25)), pnl_45), stack = TRUE)
+# image_write(combined, path = here("figures", "decision_table", "combined_ssb_with_interval.png"))
+
+combined <- image_append(c(pnl_25, pnl_45), stack = TRUE)
 image_write(combined, path = here("figures", "decision_table", "combined_ssb_with_interval.png"))
 
 # Appendix A: bottom trawl retained length comps --------------------

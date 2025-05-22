@@ -32,11 +32,12 @@ dev.off()
 models <- c(
   "2019 model" = base_2019,
   "update catch" = here(databridge_dir, "add_catches"),
-  "update discard catch" = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
-  "update discard comp." = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
+  "update MWT / BT discard amount" = here(databridge_dir, "add_discard_amounts_bt_mwt_2025_hnl_2019"),
+  "update discard amount" = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
+  "update discard composition" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
-  "update age / length comp." = here(databridge_dir, "data_bridged_model_weighted"), 
-  "model bridging" = base_2025
+  "update age / length composition" = here(databridge_dir, "data_bridged_model_weighted"), 
+  "update M, L/W, bias ramp, MWT retention (2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -62,13 +63,18 @@ names(combined_models_list) <- names(models) #name the replists
 dir.create(plotdir <- here("figures", "bridging"))
 
 # Plot comparisons
+# Multiple calls for sake of legend placement
+
 compare_ss3_mods(
-  replist = combined_models_list,
-  plot_dir = plotdir,
-  plot_names = names(models), 
-  filenameprefix = "bridging_", 
-  legendloc = c(0.05, 0.5),
-  subplots = c(1:2,9:12)
+  replist = combined_models_list, plot_dir = plotdir,
+  plot_names = names(models), filenameprefix = "bridging_", 
+  legendloc = c(0.05, 0.4), subplots = c(1:2, 11:12)
+)
+
+compare_ss3_mods(
+  replist = combined_models_list, plot_dir = plotdir,
+  plot_names = names(models), filenameprefix = "bridging_", 
+  legendloc = c(0.05, 1), subplots = 9:10, clear_dir = FALSE
 )
 
 # HnL exploration bridging plot ---------------------------

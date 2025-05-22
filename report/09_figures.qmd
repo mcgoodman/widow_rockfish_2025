@@ -134,7 +134,7 @@ knitr::include_graphics(
 #| warning: false
 #| eval: true
 #| fig-cap: "Conditional age-at-length from WCGBTS observations for females (red) and males (blue)."
-#| out.width: "100%"
+#| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
@@ -398,7 +398,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Bridging from the 2019 assessment model with updated data and bridging steps."
+#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without hook-and-line) precedes the addition of all discards (including hook-and-line). Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of a block on midwater retention)."
 #| out.width: "90%"
 #| fig-align: "center"
 

@@ -79,9 +79,9 @@ insert_row <- function(data, new_row, ref_row, ...) {
 
 ##comapre function
 
-compare_ss3_mods <- function(dirs, replist = NULL, plot_dir, plot_names = NULL, ...){
+compare_ss3_mods <- function(dirs, replist = NULL, plot_dir, plot_names = NULL, clear_dir = TRUE, ...){
   
-  if(dir.exists(plot_dir)){
+  if(dir.exists(plot_dir) & clear_dir){
     file.remove(list.files(plot_dir,full.names = T)) #create a plot dir
     
   } else {

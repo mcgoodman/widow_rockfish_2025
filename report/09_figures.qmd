@@ -21,49 +21,6 @@
 ### Indices
 
 ```{r}
-#| label: fig-assess-map
-#| echo: false
-#| warning: false
-#| eval: true
-#| out.width: "90%"
-#| fig-align: "center"
-#| fig-cap: "Observations of two cohorts (2008, top and 2010, bottom) from the NWFSC WCGBT survey data. Darker circles indicate more observations (possibly within the same tow)."
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_2_2019.png")
-)
-```
-
-{{< pagebreak >}}
-```{r}
-#| label: fig-ts-indabund
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-align: "center"
-#| fig-cap: "Fishery-dependent indices of abundance from the 2011 assessment scaled to the mean of their own series."
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_4_2019.png")
-)
-```
-
-{{< pagebreak >}}
-```{r}
-#| label: fig-survtow-2004
-#| echo: false
-#| warning: false
-#| eval: true
-#| out.width: "80%"
-#| fig-align: "center"
-#| fig-cap: "Survey tow locations in 2004, showing the difference in station design for the NWFSC WCBTS survey relative to the Triennial trawl survey (Figure from Stewart (2007))."
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_5_2019.png")
-)
-```
-
-```{r}
 #| label: fig-dist-opdates
 #| echo: false
 #| warning: false
@@ -387,23 +344,6 @@ knitr::include_graphics(
 )
 ```
 
-
-
-```{r}
-#| label: fig-matlen-matage
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Maturity-at-length (left) and maturity-at-age (right) from data reported by Barss & Echeverria (1987). Circles are proportional to the number of observations at that length or age. Lines are estimated logistic curves fitted to the data. The bars at the bottom are the number of samples by each state. The purple line is the estimated maturity-at-age using all data with each state equally weighted, and is used in the assessment model with maturity-at-age for ages 2 and lower set equal to zero."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_32_2019.png")
-)
-
-```
-
 ```{r}
 #| label: fig-n-at-age
 #| echo: false
@@ -433,35 +373,6 @@ knitr::include_graphics(
 
 ```
 
-```{r}
-#| label: fig-len-age-vonBert
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Length-at-age observations (points, slightly jittered) and predicted length-at-age von Bertalanffy curves for female (top) and male (bottom) widow rockfish collected from all fishery (BDS and At-Sea) and survey (Triennial and NWFSC) data."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/length_age_weight/vBL_dat.png")
-)
-
-```
-
-```{r}
-#| label: fig-est-age-error
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated ageing error for the Cooperative Ageing Project lab and the SWFSC."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_39_2019.png")
-)
-
-```
 
 ## Model
 
@@ -746,26 +657,11 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-comp-agefreq-all
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Combined age frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/comp_agefit__aggregated_across_time.png")
-)
-
-```
-
-```{r}
 #| label: fig-condAAL-resids
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Combined age frequencies for all years from fishery (retained catch) and survey length frequency data (points). Fits are shown by the red line (females) and blue line (males)."
+#| fig-cap: "Combined age and length frequency data for all years from fishery (retained catch) and survey length frequency data (points) for females (red) and males (blue)."
 #| out.width: "90%"
 #| fig-align: "center"
 

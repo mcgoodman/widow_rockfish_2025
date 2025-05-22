@@ -538,42 +538,6 @@ flextable(table9, col_keys = names(table9)) %>%
 
 ```
 
-```{r}
-#| label: tbl-age-error
-#| echo: false
-#| warning: false
-#| tbl-cap: "Ageing error for two labs that was used in the assessment model."
-
-#Old table 20
-
-library(flextable)
-library(dplyr)
-library(tidyr)
-library(officer)
-
-table20 <- read.csv(here("data_provided", "2019_assessment", "aging_error.csv"))
-
-# Function for consistent table styling
-# style_table20 <- function(ft) {
-#  ft %>%
-#   font(fontname = "Times New Roman", part = "all") %>%
-#   border_outer(part = "all") %>%
-#   border_inner(part = "all") %>%
-#   align(align = "center", part = "header") %>%
-#   align(align = "center", part = "body")
-# }
-
-# Create Flextable for Table 20
-table20 %>%
- flextable() %>%
- set_header_labels(
-  True.Age = "True Age",
-  Standard.Deviation.CAP = "Standard Deviation CAP",
-  Standard.Deviation.SWFSC = "Standard Deviation SWFSC"
- ) %>%
- port_tab_style(wd=1.5)
-
-```
 
 ## Model results
 

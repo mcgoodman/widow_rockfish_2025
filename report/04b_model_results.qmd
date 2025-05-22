@@ -39,9 +39,9 @@ Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
 
 ## Base Model Results
 
-The base model parameter estimates along with approximate asymptotic standard errors are shown in @tbl-params and the likelihood components are shown in @tbl-likecomps. Estimates of key derived parameters and approximate 95% asymptotic confidence intervals are shown in @tbl-key-deriv-params. 
-
 ### Parameter Estimates
+
+The base model parameter estimates along with approximate asymptotic standard errors are shown in @tbl-params and the likelihood components are shown in @tbl-likecomps. Estimates of key derived parameters and approximate 95% asymptotic confidence intervals are shown in @tbl-key-deriv-params.
 
 The estimates of natural mortality (`r est_params["NatM_uniform_Fem_GP_1","Value"]` yr^-1^  and `r est_params["NatM_uniform_Mal_GP_1","Value"]` yr^-1^ for females and males, respectively) were higher than suggested by the medians of the prior distributions used in this assessment and the 2015 assessment. Fixing M at lower values than those estimates resulted in a pattern of reduced recruitment immediately before the fishery started. This suggests that the model is attempting to reduce the number of observations of older fish in the data. The estimates of M fall within the 95% confidence interval of the prior distribution (`r round(natm_prior_ci["lo"],3)`– `r round(natm_prior_ci["hi"],3)`), and are shown in @fig-NatMort-priors. 
 

@@ -40,10 +40,13 @@ This section is not required for an update assessment; please refer to the most 
 
 This section is not required for update assessments.
 
+## Responses to SSC Groundfish Subcommittee requests
+
+To be completed after SSC GFSC review.
+
 ## Model Structure and Assumptions
 
 ### Model Changes from the Last Assessment
-
 
 The assessment followed the same model structure as the 2015 base assessment [@hicks_status_2015] and 2019 update assessment [@adams_status_2019]. The changes made to the previous assessment model include:
 

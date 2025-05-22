@@ -619,21 +619,6 @@ flextable(table_h) |>
 
 Spawning biomass is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` mt in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. OFL is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2019 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`
 
-## Research and data needs{-}
-
-There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish:
-
-- **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty.
-
-<!-- - **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species. -->
-
-<!-- - **Age data and error:** There is a considerable amount of error in the age data and potential for bias. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment. Disagreement between surface reads of age versus break-and-burn reads is worth more investigation. -->
-
-- **Coastwide understanding of stock structure, biology, connectivity, and distribution:** This is a stock assessment for widow rockfish off of the west coast of the U.S. and does not consider data from British Columbia or Alaska. Further investigating and comparing the data and predictions from British Columbia and Alaska to determine if there are similarities with the U.S. West Coast observations would help to define the connectivity between widow rockfish north and south of the U.S.-Canada border.
-
-- **Historical landings and discards:** Although progress has been done in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for.
-
-
 
 <!-- ```{r} -->
 <!-- #| label: tbl-i -->

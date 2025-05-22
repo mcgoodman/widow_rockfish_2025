@@ -1,4 +1,5 @@
 ## Widow rockfish commercial discard length composition data was provided in non-confidential, expanded form by NOAA (Chantel Wetzel) from the West Coast Groundfish Observer Program (WCGOP). 
+# Laura Spencer
 
 ### Install and load package
 
@@ -41,6 +42,7 @@ library(r4ss)
 # - Length comps from 1980's from the 2019 .dat file (Pickitch study)
 # - Length comps 2004+ from new WCGOP data provided this year (2025)
 
+#ssdat.2019 <- SS_readdat("../Downloads/2019widow.dat")
 ssdat.2019 <- SS_readdat(here("data_provided/2019_assessment/", "2019widow.dat"))
 
 # Which fleets are included in the most recent assessement? 
@@ -54,6 +56,7 @@ length.comps.1980s <- ssdat.2019$lencomp %>% filter(part==1) %>% filter(year<200
 ### Read in sample and length comps data from WCGOP, 2025 version 
 #Notice there are midwater fleet length comps now!  But we will not include them in this year's update assessment. Next full assessment will need to consider them. 
 
+#length.n <- read.csv("../Downloads/biological_sample_sizes_length.csv")
 length.n <- read.csv(here("data_provided/wcgop", "../wcgop/biological_sample_sizes_length.csv"))
 length.n %>% 
   ggplot(aes(x=gear_groups,y=nsamp)) + 
@@ -68,9 +71,11 @@ length.n %>%
 
 length.comps.wcgop <- bind_cols(
   read.csv(here("data_provided/wcgop", "biological_discard_lengths_chantel-emailed-April.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
-    select(year:f56),
+#   read.csv("../Downloads/biological_discard_lengths.csv", col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding    
+     select(year:f56),
   read.csv(here("data_provided/wcgop", "biological_discard_lengths_chantel-emailed-April.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
-    select(f8:f56) %>% rename_with(~ gsub("f", "m", .))) %>%
+#   read.csv("../Downloads/biological_discard_lengths.csv", col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  select(f8:f56) %>% rename_with(~ gsub("f", "m", .))) %>%
   mutate(month=7) %>% 
   mutate(across(matches("^[f|m]\\d+"), ~ . / 100)) %>% # get into proportions to match the 2019 .dat file (currently percentage)
   mutate(fleet=case_when(
@@ -164,20 +169,20 @@ length.comps.agg.bt <- length.comps %>%
 
 # Compare new comps to 2019 .dat & 2016 .dat 
 
-# 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
-length.comps.agg.2015.bt <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 
-  filter(part==1) %>% filter(year>0)  %>%
-  filter(fleet==1) %>% 
-  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
-  mutate(count=round(Nsamp*prop)) %>%
-  select(year, sex, variable, count) %>% 
-  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
-  group_by(year,variable,sex) %>%
-  mutate(value = sum(count)) %>%
-  distinct(year, sex, variable, value) %>% 
-  left_join(length.comps %>% group_by(year) %>% summarize(n_total=sum(Nsamp))) %>% 
-  mutate(prop_total=value/n_total) %>% 
-  mutate(dat="2015 .dat")
+# # 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
+# length.comps.agg.2015.bt <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 
+#   filter(part==1) %>% filter(year>0)  %>%
+#   filter(fleet==1) %>% 
+#   pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
+#   mutate(count=round(Nsamp*prop)) %>%
+#   select(year, sex, variable, count) %>% 
+#   mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+#   group_by(year,variable,sex) %>%
+#   mutate(value = sum(count)) %>%
+#   distinct(year, sex, variable, value) %>% 
+#   left_join(length.comps %>% group_by(year) %>% summarize(n_total=sum(Nsamp))) %>% 
+#   mutate(prop_total=value/n_total) %>% 
+#   mutate(dat="2015 .dat")
 
 #2019 from .dat file 
 length.comps.agg.2019.bt <- ssdat.2019$lencomp %>% 
@@ -194,8 +199,8 @@ length.comps.agg.2019.bt <- ssdat.2019$lencomp %>%
   mutate(prop_total=value/n_total) %>% 
   mutate(dat="2019 .dat")
 
-# Plot all three assessment years' data same plot 
-print(bind_rows(length.comps.agg.2015.bt, length.comps.agg.2019.bt, 
+# Plot all assessment years' data same plot 
+print(bind_rows(length.comps.agg.2019.bt, #length.comps.agg.2015.bt, 
                 length.comps.agg.bt %>% mutate(dat="2025 WGCOP & Pikitch")) %>% 
         mutate(sex=as.factor(as.character(sex))) %>% 
         mutate(sex_desc=as.factor(case_when(
@@ -263,14 +268,14 @@ length.comps.agg.hl <- length.comps %>%
   mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
   mutate(dat="2025 WGCOP & Pikitch")
 
-# 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
-length.comps.agg.2015.hl <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 
-  filter(part==1) %>% filter(year>0)  %>%
-  filter(fleet==5) %>% 
-  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
-  filter(grepl("f", variable)) %>% 
-  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
-  mutate(dat="2015 .dat")
+# # 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
+# length.comps.agg.2015.hl <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 
+#   filter(part==1) %>% filter(year>0)  %>%
+#   filter(fleet==5) %>% 
+#   pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
+#   filter(grepl("f", variable)) %>% 
+#   mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+#   mutate(dat="2015 .dat")
 
 #2019 from .dat file 
 length.comps.agg.2019.hl <- ssdat.2019$lencomp %>% 
@@ -282,11 +287,15 @@ length.comps.agg.2019.hl <- ssdat.2019$lencomp %>%
   mutate(dat="2019 .dat")
 
 
-# Plot all three assessment years' data same plot 
-print(bind_rows(length.comps.agg.2015.hl, length.comps.agg.2019.hl, 
+# Plot all assessment years' data same plot 
+
+# Figure for report! 
+
+jpeg(here("figures/discard_comps/hook_line_discard_lengths_comparison.jpeg"), width = 2100, height = 1200, res = 300)
+print(bind_rows(length.comps.agg.2019.hl,  #length.comps.agg.2015.hl, 
                 length.comps.agg.hl) %>% 
         filter(prop>0) %>% #filter(dat!="2015 .dat") %>% 
-        mutate(dat=case_when(dat=="2025 WGCOP & Pikitch"~"New 2025 Data",
+        mutate(dat=case_when(dat=="2025 WGCOP & Pikitch"~"2025 WCGOP Data",
                              dat=="2019 .dat"~"2019 Assessment",
                              dat=="2015 .dat"~"2015 Assessment")) %>% 
         
@@ -301,13 +310,12 @@ print(bind_rows(length.comps.agg.2015.hl, length.comps.agg.2019.hl,
         geom_point(shape = 16, position = position_dodge(0.85), alpha=0.65) + 
         theme_pubclean() + 
         ylim(c(10, 60)) + 
-        ylab("Length (cm)") + 
-        xlab("Year") + 
-        ggtitle("Hook & Line, assessment comparison") +
+        labs(title ="Hook & Line discard length comps", subtitle = "Data comparison", y="Length (cm)", x="Year") +
         scale_x_continuous(breaks = years_to_display) + 
         theme(legend.position = "right") + 
-        #    facet_wrap(~dat, nrow=2) + 
-        guides(color = guide_legend(order=1, title = "Assessment .dat"), size = "none"))
+        scale_color_manual(values=c("skyblue4","salmon3")) + 
+        guides(color = guide_legend(order=1, title = "Data Source"), size = "none"))
+dev.off()
 
 # Plot just 2025 comps 
 print(length.comps.agg.hl %>%
@@ -345,14 +353,14 @@ length.comps.agg.mid <- length.comps %>%
   mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
   mutate(dat="2025 WGCOP")
 
-# 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
-length.comps.agg.2015.mid <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 
-  filter(part%in%c(2,3)) %>% filter(year>0)  %>%
-  filter(fleet%in%c(2,3)) %>% 
-  pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
-  filter(grepl("f", variable)) %>% 
-  mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
-  mutate(dat="2015 .dat")
+# # 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
+# length.comps.agg.2015.mid <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 
+#   filter(part%in%c(2,3)) %>% filter(year>0)  %>%
+#   filter(fleet%in%c(2,3)) %>% 
+#   pivot_longer(cols = f8:m56, names_to = "variable", values_to = "prop") %>%
+#   filter(grepl("f", variable)) %>% 
+#   mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
+#   mutate(dat="2015 .dat")
 
 #2019 from .dat file 
 length.comps.agg.2019.mid <- ssdat.2019$lencomp %>% 
@@ -363,9 +371,9 @@ length.comps.agg.2019.mid <- ssdat.2019$lencomp %>%
   mutate(variable=as.numeric(gsub("m|f","",variable))) %>% 
   mutate(dat="2019 .dat")
 
-# Plot all three assessment years' data same plot 
+# Plot all assessment years' data same plot 
 print(
-  bind_rows(length.comps.agg.2015.mid, length.comps.agg.2019.mid, 
+  bind_rows(length.comps.agg.2019.mid, #length.comps.agg.2015.mid, 
             length.comps.agg.mid) %>% 
     filter(prop>0) %>% #filter(dat!="2015 .dat") %>% 
     mutate(dat=case_when(dat=="2025 WGCOP"~"New 2025 Data",

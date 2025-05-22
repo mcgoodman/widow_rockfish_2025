@@ -70,10 +70,10 @@ length.n %>%
 # Note sex code = 0 (combined sexes) requires length comps to be replicated in the female and male bins (see stock synth. user manual pg. 28), while they are only in the female bins in the data from WCGOP. Here I read in the file from the WCGOP, replicate data in both male bins, set month to "7" (as was in the previous assessment .dat files), convert from percentages to proportions, and set fleet to 1=bottom trawl, 2=midwater rockfish, 3=midwater hake, and 4=hook and line. I then combine the 1980's data (pulled from the 2019 assessement) with the new WCGOP data.
 
 length.comps.wcgop <- bind_cols(
-  read.csv(here("data_provided/wcgop", "biological_discard_lengths_chantel-emailed-April.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  read.csv(here("data_provided/wcgop", "biological_discard_lengths.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
 #   read.csv("../Downloads/biological_discard_lengths.csv", col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding    
      select(year:f56),
-  read.csv(here("data_provided/wcgop", "biological_discard_lengths_chantel-emailed-April.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  read.csv(here("data_provided/wcgop", "biological_discard_lengths.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
 #   read.csv("../Downloads/biological_discard_lengths.csv", col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
   select(f8:f56) %>% rename_with(~ gsub("f", "m", .))) %>%
   mutate(month=7) %>% 
@@ -127,9 +127,9 @@ write.csv(length.comps %>% filter(fleet %in% c(1,5)), file = here("data_derived/
 length.comps.2019assess.opt2 <- ssdat.2019$lencomp %>% filter(part==1) %>% filter(year>0)
 
 length.comps.new.opt2 <- bind_cols(
-  read.csv(here("data_provided/wcgop", "biological_discard_lengths_chantel-emailed-April.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  read.csv(here("data_provided/wcgop", "biological_discard_lengths.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
     filter(year>2017) %>% select(year:f56),
-  read.csv(here("data_provided/wcgop", "biological_discard_lengths_chantel-emailed-April.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
+  read.csv(here("data_provided/wcgop", "biological_discard_lengths.csv"), col.names = names(length.comps.1980s)) %>% #use same names as .dat from 2019 for easy row binding
     filter(year>2017) %>% select(f8:f56) %>% rename_with(~ gsub("f", "m", .))) %>% 
   mutate(month=7) %>% 
   mutate(across(matches("^[f|m]\\d+"), ~ . / 100)) %>% # get into proportions to match the 2019 .dat file (currently percentage)
@@ -167,7 +167,7 @@ length.comps.agg.bt <- length.comps %>%
   left_join(length.comps %>% group_by(year) %>% summarize(n_total=sum(Nsamp))) %>% 
   mutate(prop_total=value/n_total)
 
-# Compare new comps to 2019 .dat & 2016 .dat 
+# Compare new comps previous assessment data 
 
 # # 2015 data retrieved from 2015 assessment Word doc (.dat file, starting at pg 181)
 # length.comps.agg.2015.bt <- read.csv(here("data_provided/2015_assessment", "2015_discard-length-data.csv"), col.names=names(length.comps.1980s)) %>% 

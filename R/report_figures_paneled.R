@@ -44,12 +44,10 @@ ssb_hist <- ssb_hist |> bind_rows(ssb_2025)
 
 ssb_hist$assessment <- factor(as.character(ssb_hist$assessment), levels = as.character(sort(unique(ssb_hist$assessment))))
 
-colors_dark <- colorspace::darken(r4ss::rich.colors.short(length(levels(ssb_hist$assessment))))
-
 ssb_hist_plot <- ssb_hist |> 
   ggplot(aes(Year, SSB, color = assessment)) + 
   geom_line(linewidth = 0.8) + 
-  scale_color_manual(values = colors_dark) + 
+  scale_color_manual(values = r4ss::rich.colors.short(length(levels(ssb_hist$assessment)))) + 
   scale_x_continuous(breaks = seq(1915, 2025, 10)) + 
   scale_y_continuous(breaks = seq(1e+04, 11e+04, length.out = 5)) +
   theme(panel.grid.major.y = element_line(color = "grey80", linetype = "dashed")) + 
@@ -65,20 +63,20 @@ ggsave(
 
 png(
   file.path(plotdir, "combined_select_curves.png"), 
-  width = 1800, height = 1800, res = 300
+  width = 2100, height = 1500, res = 300
 )
-par(mfrow = c(3, 2))
-for (i in 1:5) plot_sel_ret(base_par, i)
+par(mfrow = c(2, 2), cex = 0.8)
+for (i in c(1:3, 5)) plot_sel_ret(base_par, i)
 dev.off()
 
 # Time-varying Retention curves 2024 --------------------------------
 
 png(
   here(plotdir, "combined_retention_curves_tv.png"), 
-  width = 1800, height = 1800, res = 300
+  width = 2100, height = 900, res = 300
 )
-par(mfrow = c(3, 2))
-for (i in 1:5) plot_sel_ret(base_par, i, "Ret", legendloc = c(0, 0.8))
+par(mfrow = c(1, 2), cex = 0.8)
+for (i in 1:2) plot_sel_ret(base_par, i, "Ret", legendloc = c(0, 0.8))
 dev.off()
 
 # Index QQ plots ----------------------------------------------------

@@ -307,14 +307,14 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}}
 
-```{r, results='asis'}
-#| label: 'acknowledgments'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('06_acknowledgments.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
+<!-- ```{r, results='asis'} -->
+<!-- #| label: 'acknowledgments' -->
+<!-- #| eval: true -->
+<!-- #| echo: false -->
+<!-- #| warning: false -->
+<!-- a <- knitr::knit_child('06_acknowledgments.qmd', quiet = TRUE) -->
+<!-- cat(a, sep = '\n') -->
+<!-- ``` -->
 
 
  {{< pagebreak >}}

@@ -21,6 +21,19 @@
 ### Indices
 
 ```{r}
+#| label: fig-ts-indabund
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-align: "center"
+#| fig-cap: "Fishery-dependent indices of abundance from the 2011 assessment scaled to the mean of their own series."
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/old_figs/Figure_4_2019.png")
+)
+```
+
+```{r}
 #| label: fig-dist-opdates
 #| echo: false
 #| warning: false
@@ -325,6 +338,22 @@ knitr::include_graphics(
 )
 
 ```
+
+```{r}
+#| label: fig-disc-hnl-comparison
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison between discard data for the Hook & Line fleet from the 2019 assessment, which included nearshore fixed gear fleets, and discards queried from WCGOP for this assessment."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.jpeg")
+)
+```
+
+
 
 \clearpage
 
@@ -668,7 +697,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Pearson residuals for fits to the triennial survey length frequency data (left) and NWFSC WCGBT (shelf/slope) survey length frequency data (right). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
+#| fig-cap: "Pearson residuals for fits to the triennial survey length frequency data (left) and WCGBTS length frequency data (right). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -698,7 +727,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Observed and expected age-at-length with 95% confidence intervals (left) and observed and expected standard deviation of age-at-length with 95% confidence intervals (right) for the NWFSC WCGBT survey data."
+#| fig-cap: "Observed and expected age-at-length with 95% confidence intervals (left) and observed and expected standard deviation of age-at-length with 95% confidence intervals (right) for the WCGBTS."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -1001,7 +1030,7 @@ knitr::include_graphics(
 #| warning: false
 #| eval: true
 #| fig-cap: "Base model, low state of nature, and high state of nature spawning biomass trajectories under three catch scenarios: constant catch of 9000 mt, ACL = p*0.25, ACL = p*0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
-#| out.width: "90%"
+#| out.width: "75%"
 #| fig-align: "center"
 
 knitr::include_graphics(

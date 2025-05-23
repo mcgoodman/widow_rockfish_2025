@@ -414,77 +414,16 @@ table16 %>%
 ### Fishery-independent data
 
 ```{r}
-#| label: tbl-depth-surv
-#| echo: false
-#| warning: false
-#| tbl-cap: "Depth ranges and limits of the southern latitude in the Triennial survey for the different years."
-
-#Old table 6
-
-library(flextable)
-library(dplyr)
-library(tidyr)
-
-table6_data <- read.csv(here("data_provided", "2019_assessment", "triennial_ranges.csv"))
-
-# # Function for consistent table styling
-# style_flextable <- function(ft) {
-#  ft %>%
-#  font(fontname = "Times New Roman", part = "all") %>%
-#  border_outer(part = "all") %>%
-#  border_inner(part = "all") %>%
-#  align(align = "center", part = "header") %>%
-#  align(align = "center", part = "body")
-# }
-
-# Create Flextable for Table 6
-table6_data %>%
- flextable() %>%
- set_header_labels(
-   Years = "Years",
-   Depth_range_m = "Depth range (m)",
-   Southern_latitude = "Southern latitude") %>%
- port_tab_style(wd = 1.5)
-
-```
-
-
-```{r}
 #| label: tbl-strat-surv
 #| echo: false
 #| warning: false
-#| tbl-cap: "Stratifications used for the two surveys."
+#| tbl-cap: "Stratifications used for the WCGBTS."
 
 library(flextable)
 library(dplyr)
 library(tidyr)
 
 table7_nwfsc_data <- read.csv(here("data_provided", "2019_assessment", "wcgbts_strata.csv"))
-
-table7_triennial_data <- read.csv(here("data_provided", "2019_assessment", "triennial_strata.csv"))
-
-# Function for consistent table styling
-# style_flextable <- function(ft) {
-#  ft %>%
-#  font(fontname = "Times New Roman", part = "all") %>%
-#  border_outer(part = "all") %>%
-#  border_inner(part = "all") %>%
-#  align(align = "center", part = "header") %>%
-#  align(align = "center", part = "body")
-# }
-
-# Create Flextable for Table 7 (Triennial)
-table7_triennial_data %>%
- flextable() %>%
- set_header_labels(Strata = "Strata",
-                   Area_km2 = "Area (km2)",
-                   Depth1 = "Depth1",
-                   Depth2 = "Depth2",
-                   Latitude1 = "Latitude1",
-                   Latitude2 = "Latitude2") %>%
- add_header_row(values = c("Triennial"), colwidths = 6) %>%
- # style_flextable()
- port_tab_style(wd=0.8)
 
 # Create Flextable for Table 7 (NWFSC WCGBT)
 table7_nwfsc_data %>%
@@ -495,8 +434,6 @@ table7_nwfsc_data %>%
                    Depth2 = "Depth2",
                    Latitude1 = "Latitude1",
                    Latitude2 = "Latitude2") %>%
- add_header_row(values = c("NWFSC WCGBT"), colwidths = 6) %>%
- # style_flextable()
  port_tab_style(wd=0.8)
 
 ```
@@ -507,7 +444,7 @@ table7_nwfsc_data %>%
 #| label: tbl-numposi-tows
 #| echo: false
 #| warning: false
-#| tbl-cap: "Number of positive tows, lengths, and ages in each year from the Triennial survey (Tri) and the NWFSC WCGBT survey (NW)."
+#| tbl-cap: "Number of positive tows, lengths, and ages in each year from the Triennial survey (Tri) and the WCGBTS (NW)."
 #| width: 80%
 
 #Old table 9
@@ -557,7 +494,7 @@ table21$`2`[which(table21$`2`=="Minimum ages for first growth calcs")] <- "First
 table21$`2`[which(table21$`2`=="Maximum ages for first growth calcs")] <- "Second reference age for growth calcs"
 table21$`2`[which(table21$`2`=="Satrting year of estimated recruitment")] <- "Starting year of estimated recruitment"
 
-rmv_rows <- c("Fishery timing", "Triennial survey timing", "NWFSC WCGBT survey timing", "Fishing mortality methods", "maximum F")
+rmv_rows <- c("Fishery timing", "Triennial survey timing", "WCGBTS timing", "Fishing mortality methods", "maximum F")
 table21 <- table21 %>% filter(! `2` %in% rmv_rows)
 
 my_border <- fp_border(color = "black", width = 2)
@@ -585,7 +522,8 @@ flextable(table21) %>%
 #| tbl-cap: "Parameter estimates, parameter bounds (low, high), estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model."
 
 table_pars <- read_rdata(here("report", "tables", "table_pars.rda"))$table
-table_pars <- table_pars |> select(-Phase)
+table_pars <- table_pars |> select(-Phase) |> 
+  filter(!grepl("ForeRecr_", Label, fixed = TRUE))
 
 flextable(table_pars) %>% port_tab_style (wd=0.85)
 ```

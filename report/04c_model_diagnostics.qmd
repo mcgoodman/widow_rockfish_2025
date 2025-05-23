@@ -8,7 +8,7 @@ mod_names <- c("base model",
                "fixing natural mortality to 0.1 (2015 assessment prior)", 
                "fixing natural mortality at 0.124 yr^-1^ for females and 0.129 yr^-1^ for males (2011 assessment prior)", 
                "forcing asymptotic selectivity on the midwater trawl fleet", 
-               "fitting logistic curves for NWFSC WCGBT survey selectivity", 
+               "fitting logistic curves for WCGBTS selectivity", 
                "including previously excluded shrimp trawls",
                "updated Washington catch reconstruction",
                # "fixing steepness at 0.4", 
@@ -64,7 +64,7 @@ Sensitivity analysis was performed to determine the model behavior under differe
 5. Fixed steepness at 0.798 (2015 assessment value)
 -->
 4. Forcing asymptotic selectivity on the midwater trawl fleet
-5. Fitting logistic curves for NWFSC WCGBT survey selectivities
+5. Fitting logistic curves for WCGBTS selectivities
 6. Weighting the composition data using the Francis method
 7. Updated Washington catch reconstruction
 8. Inclusion of previously excluded shrimp trawl data

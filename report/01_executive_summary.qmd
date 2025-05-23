@@ -204,6 +204,7 @@ table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es
 
 table_B <- table_B |> 
   mutate(
+    Year = as.character(Year),
     SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
     SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
     SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
@@ -221,7 +222,6 @@ colnames <- c(
 flextable(table_B, col_keys = names(table_B)) |> 
   set_header_labels(names = names(table_B), values = colnames) |> 
   set_table_properties(layout = "autofit") %>% exec_tab_style
-
 ```
 
 {{< pagebreak >}} 
@@ -262,11 +262,13 @@ table_c <- read_rdata(here::here("report", "tables", "exec_summ_tables", "recr_e
 
 table_c <- table_c |> 
   mutate(
+    Year = as.character(Year),
     recr = format(round(`Recruitment (1,000s)`), big.mark = ","),
     recr_lower = format(round(`Lower Interval (1,000s)`, 0), big.mark = ","), 
     recr_upper = format(round(`Upper Interval (1,000s)`, 0), big.mark = ","),
     recr_CI = paste0(recr_lower, " - ", recr_upper), 
-    recdev_CI = paste0(round(`Lower Interval`, 3),  ", ", round(`Upper Interval`, 3))
+    recdev_CI = paste0(round(`Lower Interval`, 3),  ", ", round(`Upper Interval`, 3)), 
+    `Recruitment Deviations` = round(`Recruitment Deviations`, 3)
   ) |>
   dplyr::select(Year, recr, recr_CI, `Recruitment Deviations`, recdev_CI)
 
@@ -300,6 +302,7 @@ table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda")
 
 table_d <- table_d |> 
   mutate(
+    Year = as.character(Year),
     across(is.numeric, \(x) round(x, 3)),
     SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
     rate_CI = paste0(`Lower Interval (Rate)`,  ", ", `Upper Interval (Rate)`)

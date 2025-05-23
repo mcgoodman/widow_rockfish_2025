@@ -118,7 +118,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fits to the length compositions for the NWFSC WCGBT survey."
+#| fig-cap: "Fits to the length compositions for the WCGBTS."
 #| out.width: "90%"
 #| fig-align: "center"
 

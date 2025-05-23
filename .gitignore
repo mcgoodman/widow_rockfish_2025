@@ -64,9 +64,9 @@ runnumber.ss
 
 # Intermediate rendering output from report
 report/*.html
-report/*.tex
 report/*.upa
 report/*.upb
+report/SAR_PFMC_skeleton.tex
 report/01_executive_summary_files/*
 report/02_introduction_files/*
 report/03_data_files/*

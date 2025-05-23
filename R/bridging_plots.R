@@ -76,37 +76,20 @@ models <- c(
 
 combined_models_list <- SSgetoutput(dirvec = models)
 names(combined_models_list) <- names(models) #name the replists
+model_summary <- SSsummarize(combined_models_list)
 
-# Plotting takes a long time, so do in parallel
-cl <- parallel::makeCluster(length(models))
-
-# Export required objects and packages
-parallel::clusterEvalQ(cl, library(r4ss)) 
-parallel::clusterExport(cl, c("models", "launch_html"))
-
-# Run the parallel loop
-combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = function(x) {
-  replist <- r4ss::SS_output(x, covar = FALSE)
-  r4ss::SS_plots(replist = replist, dir = x, html = launch_html)
-  replist
-})
-
-parallel::stopCluster(cl) # close the cluster
-names(combined_models_list) <- names(models) #name the replists
-
-# Plot comparisons
-# Multiple calls for sake of legend placement
-
-compare_ss3_mods(
-  replist = combined_models_list, plot_dir = plotdir,
-  plot_names = names(models), filenameprefix = "bridging_", 
-  legendloc = c(0.05, 0.4), subplots = c(1:2, 11:12)
+SSplotComparisons(
+  model_summary, plotdir = plotdir,
+  legendlabels = names(models), filenameprefix = "bridging_", 
+  legendloc = c(0.05, 0.4), subplots = c(1:2, 11:12), 
+  plot = FALSE, png = TRUE
 )
 
-compare_ss3_mods(
-  replist = combined_models_list, plot_dir = plotdir,
-  plot_names = names(models), filenameprefix = "bridging_", 
-  legendloc = c(0.05, 1), subplots = 9:10, clear_dir = FALSE
+SSplotComparisons(
+  model_summary, plotdir = plotdir,
+  legendlabels = names(models), filenameprefix = "bridging_", 
+  legendloc = c(0.05, 1), subplots = 9:10, 
+  plot = FALSE, png = TRUE
 )
 
 # HnL exploration bridging plot ---------------------------
@@ -117,41 +100,22 @@ models <- c(
   "update catch" = here(databridge_dir, "add_catches"),
   "update trawl disc. amnt." = here(databridge_dir, "add_discard_amounts_bt_mwt_2025_hnl_2019"),
   "update trawl + HnL disc. amnt." = here(databridge_dir, "add_discard_amounts_bt_mwt_hnl_2023_old_comps"),
-  "update trawl disc. amnt., drop HnL" = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
   "update trawl + HnL disc. + comp." = here(databridge_dir, "add_discard_amounts_bt_mwt_hnl_2023_new_comps"),
-  "update trawl disc. + comp., drop HnL" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
+  "drop HnL disc. amnt." = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
+  "drop HnL disc. comp." = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update M, L/W, bias ramp, trawl ret. (2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
 names(combined_models_list) <- names(models) #name the replists
-
-# Plotting takes a long time, so do in parallel
-cl <- parallel::makeCluster(length(models))
-
-# Export required objects and packages
-parallel::clusterEvalQ(cl, library(r4ss)) 
-parallel::clusterExport(cl, c("models", "launch_html"))
-
-# Run the parallel loop
-combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = function(x) {
-  replist <- r4ss::SS_output(x, covar = FALSE)
-  r4ss::SS_plots(replist = replist, dir = x, html = launch_html)
-  replist
-})
-
-parallel::stopCluster(cl) # close the cluster
-names(combined_models_list) <- names(models) #name the replists
+model_summary <- SSsummarize(combined_models_list)
 
 dir.create(plotdir <- here("figures", "bridging", "HnL"))
 
-# Plot comparisons
-compare_ss3_mods(
-  replist = combined_models_list,
-  plot_dir = plotdir,
-  plot_names = names(models), 
-  filenameprefix = "bridging_HnL_", 
-  legendloc = c(0.05, 1),
-  subplots = c(1:2,9:12)
+SSplotComparisons(
+  model_summary, plotdir = plotdir,
+  legendlabels = names(models), filenameprefix = "bridging_HnL_", 
+  legendloc = c(0.05, 1), subplots = c(1:2, 9:12), 
+  plot = FALSE, png = TRUE
 )

@@ -427,7 +427,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without hook-and-line) precedes the addition of all discards (including hook-and-line). Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of a block on midwater retention)."
+#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of a block on midwater retention)."
 #| out.width: "90%"
 #| fig-align: "center"
 

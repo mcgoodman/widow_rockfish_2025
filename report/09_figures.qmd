@@ -455,6 +455,75 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-base_19_25_ssb
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of spawning stock biomass (SSB) estimates and asymptotic 95% confidence intervals estimates from 2019 and 2025 base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+  here::here(
+    "figures", "bridging", "base_19_25_comparison", 
+    "base_19_25_compare2_spawnbio_uncertainty.png"
+  )
+)
+
+```
+
+```{r}
+#| label: fig-base_19_25_bratio
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of fraction of unfished spawning stock biomass estimates and asymptotic 95% confidence intervals estimates from 2019 and 2025 base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+  here::here(
+    "figures", "bridging", "base_19_25_comparison", 
+    "base_19_25_compare4_Bratio_uncertainty.png"
+  )
+)
+
+```
+
+```{r}
+#| label: fig-base_19_25_recr
+#| echo: false
+#| warning: false
+#| fig-cap: "Estimates of age-0 recruits (in millions of individuals) from 2019 and 2025 base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+  here::here(
+    "figures", "bridging", "base_19_25_comparison", 
+    "base_19_25_compare9_recruits.png"
+  )
+)
+
+```
+
+```{r}
+#| label: fig-base_19_25_recdevs
+#| echo: false
+#| warning: false
+#| fig-cap: "Estimates of age-0 (log-)recruitment deviations from 2019 and 2025 base models, with asymptotic 95% confidence intervals."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+  here::here(
+    "figures", "bridging", "base_19_25_comparison", 
+    "base_19_25_compare12_recdevs_uncertainty.png"
+  )
+)
+
+```
+
+
 ### Biology
 
 ```{r}
@@ -891,6 +960,7 @@ knitr::include_graphics(
 )
 
 ```
+
 
 ```{r}
 #| label: fig-like_profile_recruits

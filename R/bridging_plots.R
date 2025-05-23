@@ -3,13 +3,22 @@ library("r4ss")
 library("here")
 library("parallel")
 
+dir.create(plotdir <- here("figures", "bridging"))
+
 launch_html <- FALSE
+if (!exists("rerun_base")) rerun_base <- TRUE
 
 source(here("R", "functions", "bridging_functions.R"))
 
 base_2019 <- here("models", "2019 base model", "Base_45_new")
 databridge_dir <- here("models", "data_bridging", "finalised_data_bridging")
 base_2025 <- here("models", "2025 base model")
+
+# Rerun base 2019 & 2025 ----------------------------------
+
+# With Hessian, to show uncertainty in both 
+r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = !rerun_base)
+r4ss::run(base_2025, exe = set_ss3_exe(base_2025), skipfinished = !rerun_base)
 
 # Base model plots ----------------------------------------
 
@@ -26,14 +35,39 @@ png(
 SSplotBiology(replist = base_rep, subplots = 2)
 dev.off()
 
+# Base models, 2019 & 2025 --------------------------------
+
+dir.create(base_compare_dir <- file.path(plotdir, "base_19_25_comparison"))
+
+models <- c("2019 assessment" = base_2019, "2025 assessment" = base_2025)
+
+combined_models_list <- SSgetoutput(dirvec = models)
+names(combined_models_list) <- names(models) 
+model_summary <- SSsummarize(combined_models_list)
+
+# Two calls to `SSplotComparisons` for different legend placement
+SSplotComparisons(
+  model_summary, plotdir = base_compare_dir,
+  legendlabels = names(models), filenameprefix = "base_19_25_", 
+  legendloc = c(0.05, 0.2), subplots = c(2, 4, 11:12), 
+  plot = FALSE, png = TRUE
+)
+
+SSplotComparisons(
+  model_summary, plotdir = base_compare_dir,
+  legendlabels = names(models), filenameprefix = "base_19_25_", 
+  legendloc = c(0.05, 0.9), subplots = 9:10, 
+  plot = FALSE, png = TRUE
+)
+
 # Main bridging plot --------------------------------------
 
 # List directories and model names
 models <- c(
   "2019 model" = base_2019,
-  "update catch" = here(databridge_dir, "add_catches"),
+  "update landings" = here(databridge_dir, "add_catches"),
   "update MWT / BT discard amount" = here(databridge_dir, "add_discard_amounts_bt_mwt_2025_hnl_2019"),
-  "update discard amount" = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
+  "add HnL discards to landings" = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
   "update discard composition" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length composition" = here(databridge_dir, "data_bridged_model_weighted"), 
@@ -59,8 +93,6 @@ combined_models_list <- parallel::clusterApply(cl = cl, x = models, fun = functi
 
 parallel::stopCluster(cl) # close the cluster
 names(combined_models_list) <- names(models) #name the replists
-
-dir.create(plotdir <- here("figures", "bridging"))
 
 # Plot comparisons
 # Multiple calls for sake of legend placement

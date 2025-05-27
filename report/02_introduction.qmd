@@ -56,7 +56,7 @@ This section is not required for an update assessment; please refer to the most 
 <!--Management performance, including a table or tables comparing Overfishing Limit (OFL), Acceptable Biological Catch (ABC), Annual Catch Limit (ACL), landings, and catch (i.e., landings plus discard) for each area and year. Groundfish assessments that estimate dead discarded catch must include a disclaimer noting that total mortality estimates from the WCGOP and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of a benchmark assessment. The rationale for modeling discard mortality can also be provided. This should be included in all update assessments.
 -->
 
-Total mortality estimates from the WCGOP and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of a benchmark assessment. @tbl-manage-guide shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the ACL in the last 10 years.
+Total mortality estimates from the \gls{wcgop} and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of a benchmark assessment. @tbl-manage-guide shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the \gls{acl}, and it is unlikely that total mortality has exceeded the \gls{acl} in the last 10 years.
 
 ## Fisheries off Canada and Alaska
 

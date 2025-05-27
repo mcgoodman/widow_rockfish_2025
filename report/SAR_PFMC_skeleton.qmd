@@ -3,7 +3,7 @@ title: 'Status of Widow Rockfish Stock off the U.S. West Coast in 2025'
 author:
   - name: 'Michael Kinneen'
     affiliations:
-      - name: 'University of Washington'
+      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'

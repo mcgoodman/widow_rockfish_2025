@@ -601,11 +601,41 @@ flextable(table_h) |>
   bold(part = "header", i = 3, j = 1) |>
   colformat_num(j = 2, big.mark = "", digits = 0) |>
   border_inner(part="header") |> border_outer() |> # header and outside border
-  vline(j = c(1, 3, 5, 7)) |> hline(i = 10) |> hline(i = 20) |>
-  merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1)|>
-  # set_table_properties(layout = "autofit", align = "center") |>
+  vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |> hline(i = 36)|>
+  merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1)|> merge_at(i = c(25:36), j = 1)|>
+  border(i = c(12, 24, 36), j = 1, 
+         border.bottom = officer::fp_border(color = "black", width = 1))|>  # set_table_properties(layout = "autofit", align = "center") |>
   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
   width(width = 0.9, j = 1)
+
+flextable(table_h[13:36, ]) |>
+  set_header_labels(values = c(scenario = "Management decision",
+                               yr = "Year",
+                               catch = "catch (mt)",
+                               SpawnBio_low = "Spawning biomass (mt)",
+                               dep_low = "Depletion (%)",
+                               SpawnBio_base = "Spawning biomass (mt)",
+                               dep_base = "Depletion (%)",
+                               SpawnBio_high = "Spawning biomass (mt)",
+                               dep_high = "Depletion (%)")
+                    ) |>
+  add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
+  add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
+  align(align = "center", part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  fontsize(size = 9, part = "all") |>
+  bold(part = "header", i = 1:2) |>
+  bold(part = "header", i = 3, j = 1) |>
+  colformat_num(j = 2, big.mark = "", digits = 0) |>
+  border_inner(part = "header") |> border_outer() |>
+  vline(j = c(1, 3, 5, 7)) |> 
+  merge_at(i = 1:12, j = 1) |> merge_at(i = 13:24, j = 1) |>
+  # border(i = c(12), j = 1, border.bottom = officer::fp_border(color = "black", width = 1)) |>
+  # border(i = c(24), j = 1, border.bottom = officer::fp_border(color = "black", width = 1)) |>
+  width(width = 0.6, j = 2:(ncol(table_h) - 1)) |>
+  width(width = 0.9, j = 1)|>
+    hline(i = 12)|>
+  hline_bottom(i = 24)
 
 
 

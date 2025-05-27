@@ -1,9 +1,9 @@
 ---
-title: 'Stock Assessment Update: Status of Widow Rockfish Stock (Sebastes entomelas) off the U.S. West Coast in 2025'
+title: 'Status of Widow Rockfish Stock off the U.S. West Coast in 2025'
 author:
   - name: 'Michael Kinneen'
     affiliations:
-      - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
+      - name: 'University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
@@ -61,7 +61,6 @@ author:
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Allison Dedrick'
     affiliations:
       - name: 'California Department of Fish and Wildlife'
@@ -141,7 +140,7 @@ format:
     sansfont: 'Latin Modern Sans'
     lot: false
     titlepage-geometry:
-      - top=2in
+      - top=1in
       - bottom=1in
       - right=1in
       - left=1in
@@ -295,14 +294,14 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}}
 
-<!-- ```{r, results='asis'} -->
-<!-- #| label: 'acknowledgments' -->
-<!-- #| eval: true -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- a <- knitr::knit_child('06_acknowledgments.qmd', quiet = TRUE) -->
-<!-- cat(a, sep = '\n') -->
-<!-- ``` -->
+```{r, results='asis'}
+#| label: 'acknowledgments'
+#| eval: false
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('06_acknowledgments.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
 
 
  {{< pagebreak >}}
@@ -338,7 +337,7 @@ a <- knitr::knit_child('07_references.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}}
+<!-- {{< pagebreak >}} -->
 
 ```{r, results='asis'}
 #| label: 'appendix'

@@ -1,5 +1,5 @@
 ---
-title: 'Stock Assessment Update: Status of Widow Rockfish Stock  (Sebastes entomelas) off the U.S. West Coast in 2025'
+title: 'Stock Assessment Update: Status of Widow Rockfish Stock (Sebastes entomelas) off the U.S. West Coast in 2025'
 author:
   - name: 'Michael Kinneen'
     affiliations:
@@ -7,63 +7,54 @@ author:
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Maurice Goodman'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Anna Sulc'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Laurinne Balstad'
     affiliations:
       - name: 'Department of Environmental Science and Policy, University of California Davis'
         address: 'Wickson Hall, 350 N Quad'
         city: 'Davis, CA'
         postal-code: '95616'
-
   - name: 'Raquel Ruiz Diaz'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Kristina Randrup'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'William Patrone'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Laura Spencer'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
         city: 'Seattle, WA'
         postal-code: '98195'
-
   - name: 'Alaia Morell'
     affiliations:
       - name: 'UW Puget Sound Institute, Center for Urban Waters'
         address: '326 East D Street'
         city: 'Tacoma, WA'
         postal-code: '98421'
-
   - name: 'Alberto Rovellini'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
@@ -77,68 +68,59 @@ author:
         address: '1740 North Market Boulevard'
         city: 'Sacramento, CA'
         postal-code: '95834'
-
   - name: 'Nick Grunloh'
     affiliations:
       - name: 'Southwest Fisheries Science Center'
         address: '8901 La Jolla Shores Drive'
         city: 'La Jolla, CA'
         postal-code: '92037'
-
   - name: 'Madison Bargas'
     affiliations:
       - name: 'Coastal Oregon Marine Experiment Station, Oregon State University'
         address: '430 Strand Agriculture Hall'
         city: 'Corvallis, OR'
         postal-code: '97331'
-
   - name: 'Stephanie Hopkins'
     affiliations:
       - name: "University of California, Santa Cruz, Institute of Marine Sciences’ Fisheries Collaborative Program"
         address: '1156 High Street'
         city: 'Santa Cruz, CA'
         postal-code: '95064'
-
   - name: 'Vladlena Gertseva'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle, WA'
         postal-code: '98112'
-        
   - name: 'Kiva L. Oken'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle, WA'
         postal-code: '98112'
-
   - name: 'Ian G. Taylor'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle, WA'
         postal-code: '98112'
-
   - name: 'Melissa A. Haltuch'
     affiliations:
       - name: 'NOAA Alaska Fisheries Science Center'
         address: '7600 Sand Point Way N.E., Building 4'
         city: 'Seattle, WA'
         postal-code: '98115'
-        
   - name: 'Owen Hamel'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle, WA'
         postal-code: '98112'
-
-
 date: today
 lang: en
 keep-tex: true
-cover:
+mainfont: 'Latin Modern Sans' 
+cover: support_files/Widow_rockfish.png
 pdf-engine: lualatex
 format:
   pdf:
@@ -151,8 +133,12 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
-      - text: '\lohead{Widow Rockfish assessment 2025}'
+    include-after-body:
+      text: |
+        \newpage{}
+        \printnoidxglossaries
     lof: false
+    sansfont: 'Latin Modern Sans'
     lot: false
     titlepage-geometry:
       - top=2in
@@ -202,7 +188,9 @@ library(dplyr)
 
 Please cite this publication as: 
 
-M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W. Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh, M.Bargas, S.Hopkins, V. Gersteva, K. Oken, I. Taylor, M. Haltuch, O. Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
+<!-- Change the order or first and last name in the citation to follow Last, FI., MI., ect (FI = first name initial, MI = middle name initial) -->
+
+M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W. Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh, M.Bargas, S.Hopkins, V. Gersteva, K. Oken, I. Taylor, M. Haltuch, O. Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon. \pageref*{LastPage}{} pp.
 
 {{< pagebreak >}} 
 

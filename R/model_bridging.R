@@ -347,18 +347,16 @@ dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
 ##Read in the newly formatted forecast file, edit and overwrite
-fcst <- r4ss::SS_readforecast(here("models", "2025 base model", "forecast.ss"))
+fcst <- r4ss::SS_readforecast(here("scratch","newly_formatted_2025_foc.ss"))
 
 gmt_fcst <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT_forecast_catch.csv"))
 gmt_fcst <- gmt_fcst |> mutate(seas = 1) |> select(year, seas, fleet, catch_or_F = catch_mt)
-rownames(gmt_fcst) <- paste0("#_ForeCatch", 1:nrow(gmt_fcst))
 
-fcst$Fcast_years <- setNames(rep(c(-4, 0), each = 3), names(fcst$Fcast_years))
 
 SS_writeforecast(mylist = fcst, dir = here("models", "2025 base model"), overwrite = TRUE)
 
 
-
+#new comment test
 
 
 r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE)

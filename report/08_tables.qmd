@@ -514,7 +514,7 @@ flextable(table21) %>%
 
 ```
 
-
+\blandscape
 ```{r}
 #| label: tbl-params
 #| echo: false
@@ -525,9 +525,9 @@ table_pars <- read_rdata(here("report", "tables", "table_pars.rda"))$table
 table_pars <- table_pars |> select(-Phase) |> 
   filter(!grepl("ForeRecr_", Label, fixed = TRUE))
 
-flextable(table_pars) %>% port_tab_style (wd=0.85)
+flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 ```
-
+\elandscape
 ```{r}
 #| label: tbl-likecomps
 #| echo: false
@@ -647,6 +647,7 @@ colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.12
            # "h = 0.4", "h = 0.6", "h = 0.798", 
            "Excluding triennial", "Francis weighting")
  # gsub("\\.", " ", colnames(table29))
+table29$`Base model` <- as.numeric(table29$`Base model`)
 
 
 # Function for consistent table styling
@@ -665,6 +666,7 @@ colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.12
 likelihood_row <- which(apply(table29, 1, function(row) any(row == "LIKELIHOOD")))
 parameter_row <- which(apply(table29, 1, function(row) any(row == "PARAMETER")))
 quantity_row <- which(apply(table29, 1, function(row) any(row == "QUANTITY")))
+unfished_row <- which(apply(table29, 1, function(row) any(row == "SSB unfished (mt)")))
 
 # Add a row that spans all columns (like a section header)
 flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:ncol(table29), digits = 0) %>%
@@ -679,7 +681,8 @@ flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:nc
   flextable::compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
   merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
   align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row))
+  bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>% 
+  colformat_num(i = unfished_row, j = 2:ncol(table29), big.mark = ",", digits = 0)
 
 # border(i = 1, j = 1:ncol(table29), part = "footer", border = fp_border(color = "transparent", width = 0)) %>%
  # # Keep the outer bottom border of the merged footer row

@@ -195,7 +195,7 @@ knitr::include_graphics(
 #| tbl-cap: "Recent trend in estimated female spawning biomass (mt) and relative spawning biomass (depletion)."
 
 #Old table 12
-table_B <- read_rdata(here::here("report", "tables", "kiva_tables", "tables", "ssb_es.rda"))$table
+table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 
 table_B <- table_B |> 
   mutate(
@@ -204,7 +204,7 @@ table_B <- table_B |>
     SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
     SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
     SSB_CI = paste0(SSB_lower, " - ", SSB_upper), 
-    Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
+    Bratio_CI = paste0(round(`Lower Interval`, 3),  ", ", round(`Upper Interval`, 3))
   ) |>
   dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
 
@@ -358,7 +358,7 @@ ref_pts <- setNames(
 )
 ```
 
-Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. SPR, or the spawning potential ratio, is the fraction of expected lifetime reproductive output under a given fishing intensity divided by unfished expected lifetime reproductive output. While the estimate of total population scale has remained steady across the 2015, 2019, and 2025 assessments, unfished recruitment and natural mortality, which are positively correlated, have declined from 2015 (female natural mortality of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age$`0`[1], 3)` yr^-1^). Thus, although the scale is estimated consistently, additional years of data following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, model estimate of MSY).
+Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. SPR, or the spawning potential ratio, is the fraction of expected lifetime reproductive output under a given fishing intensity divided by unfished expected lifetime reproductive output. While the estimate of total population scale has remained steady across the 2015, 2019, and 2025 assessments, unfished recruitment and natural mortality, which are positively correlated, have declined from 2015 (female natural mortality of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^). Thus, although the scale is estimated consistently, additional years of data following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, model estimate of MSY).
 
 ```{r}
 #| label: tbl-e
@@ -538,33 +538,33 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
 
 table_h <- table_h|>filter(scenario != "Constant catch (9,000 K)")
 # 
-flextable(table_h) |>
-  set_header_labels(values = c(scenario = "Management decision",
-                               yr = "Year",
-                               # OFL = "OFL",
-                               catch = "catch (mt)",
-                               SpawnBio_low = "Spawning biomass (mt)",
-                               dep_low = "Depletion (%)",
-                               SpawnBio_base = "Spawning biomass (mt)",
-                               dep_base = "Depletion (%)",
-                               SpawnBio_high = "Spawning biomass (mt)",
-                               dep_high = "Depletion (%)")
-                    ) |>
-  add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
-  add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
-  align(align = "center", part = "all") |>
-  font(fontname = "Times New Roman", part = "all") |>
-  fontsize(size = 9, part ="all") |>
-  bold(part = "header", i = 1:2) |>
-  bold(part = "header", i = 3, j = 1) |>
-  colformat_num(j = 2, big.mark = "", digits = 0) |>
-  border_inner(part="header") |> border_outer() |> # header and outside border
-  vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |> hline(i = 36)|>
-  merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1)|> merge_at(i = c(25:36), j = 1)|>
-  border(i = c(12, 24, 36), j = 1,
-         border.bottom = officer::fp_border(color = "black", width = 1))|>  # set_table_properties(layout = "autofit", align = "center") |>
-  width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
-  width(width = 0.9, j = 1)
+# flextable(table_h) |>
+#   set_header_labels(values = c(scenario = "Management decision",
+#                                yr = "Year",
+#                                # OFL = "OFL",
+#                                catch = "catch (mt)",
+#                                SpawnBio_low = "Spawning biomass (mt)",
+#                                dep_low = "Depletion (%)",
+#                                SpawnBio_base = "Spawning biomass (mt)",
+#                                dep_base = "Depletion (%)",
+#                                SpawnBio_high = "Spawning biomass (mt)",
+#                                dep_high = "Depletion (%)")
+#                     ) |>
+#   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
+#   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
+#   align(align = "center", part = "all") |>
+#   font(fontname = "Times New Roman", part = "all") |>
+#   fontsize(size = 9, part ="all") |>
+#   bold(part = "header", i = 1:2) |>
+#   bold(part = "header", i = 3, j = 1) |>
+#   colformat_num(j = 2, big.mark = "", digits = 0) |>
+#   border_inner(part="header") |> border_outer() |> # header and outside border
+#   vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |> hline(i = 36)|>
+#   merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1)|> merge_at(i = c(25:36), j = 1)|>
+#   border(i = c(12, 24, 36), j = 1,
+#          border.bottom = officer::fp_border(color = "black", width = 1))|>  # set_table_properties(layout = "autofit", align = "center") |>
+#   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
+#   width(width = 0.9, j = 1)
 
 flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
@@ -595,13 +595,11 @@ flextable(table_h) |>
     hline(i = 12)|>
   hline_bottom(j = 9)
 
-
-
 ```
 
 ## Scientific uncertainty{-}
 
-Spawning biomass is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` mt in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. OFL is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2019 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`
+Spawning biomass is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` mt in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. OFL is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2019 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`.
 
 
 <!-- ```{r} -->

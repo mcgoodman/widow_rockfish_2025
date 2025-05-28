@@ -901,7 +901,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs. (no rec dev)"
+#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs."
 #| out.width: "70%"
 #| fig-align: "center"
 

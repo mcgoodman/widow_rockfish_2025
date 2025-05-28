@@ -323,6 +323,21 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-disc-hnl-comparison
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison between discard data for the Hook & Line fleet from the 2019 assessment, which included nearshore fixed gear fleets, and discards queried from WCGOP for this assessment."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.jpeg")
+)
+```
+
+
 
 ```{r}
 #| label: fig-disccomps-wcgop
@@ -339,19 +354,6 @@ knitr::include_graphics(
 
 ```
 
-```{r}
-#| label: fig-disc-hnl-comparison
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison between discard data for the Hook & Line fleet from the 2019 assessment, which included nearshore fixed gear fleets, and discards queried from WCGOP for this assessment."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.jpeg")
-)
-```
 
 
 

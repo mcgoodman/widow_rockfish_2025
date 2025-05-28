@@ -352,7 +352,6 @@ fcst <- r4ss::SS_readforecast(here("scratch","newly_formatted_2025_foc.ss"))
 gmt_fcst <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT_forecast_catch.csv"))
 gmt_fcst <- gmt_fcst |> mutate(seas = 1) |> select(year, seas, fleet, catch_or_F = catch_mt)
 
-fcst$Fcast_years <- setNames(rep(c(-4, 0), each = 3), names(fcst$Fcast_years))
 
 SS_writeforecast(mylist = fcst, dir = here("models", "2025 base model"), overwrite = TRUE)
 

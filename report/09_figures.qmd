@@ -390,18 +390,17 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-NatMort-priors
+#| label: fig-NatMort
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "The prior for natural mortality (black, M, yr-1 ) and the estimated M for females (red) and males (blue) with asymptotic approximation to the sampling distribution. The means of each distribution are shown with triangles."
-#| out.width: "70%"
+#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
+#| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/NatMort_priors.png")
+    here::here("figures", "bridging", "NatM_bridging.png")
 )
-
 ```
 
 

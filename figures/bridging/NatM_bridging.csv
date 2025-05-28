@@ -1,0 +1,25 @@
+"model","type","median","lower","upper"
+"2019 model","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
+"2019 model","Female",0.144401,0.125732,0.16307
+"2019 model","Male",0.154867,0.136038,0.173697
+"update removals, discard composition","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
+"update removals, discard composition","Female",0.143925,0.143925,0.143925
+"update removals, discard composition","Male",0.154394,0.154394,0.154394
+"update indices","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
+"update indices","Female",0.145658,0.145658,0.145658
+"update indices","Male",0.157259,0.157259,0.157259
+"update length composition","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
+"update length composition","Female",0.150062,0.150062,0.150062
+"update length composition","Male",0.161809,0.161809,0.161809
+"update age composition","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
+"update age composition","Female",0.127085,0.127085,0.127085
+"update age composition","Male",0.138774,0.138774,0.138774
+"update M prior","Prior",0.100258843722804,0.0546072383116512,0.184075152954382
+"update M prior","Female",0.125644,0.125644,0.125644
+"update M prior","Male",0.137282,0.137282,0.137282
+"update L/W, bias ramp, MWT retention (2025 base)","Prior",0.100258843722804,0.0546072383116512,0.184075152954382
+"update L/W, bias ramp, MWT retention (2025 base)","Female",0.124511,0.108357,0.140665
+"update L/W, bias ramp, MWT retention (2025 base)","Male",0.136682,0.120191,0.153173
+"2015 model","Prior",0.081,0.029,0.225
+"2015 model","Female",0.1572,0.1362,0.1782
+"2015 model","Male",0.1705,0.1485,0.1925

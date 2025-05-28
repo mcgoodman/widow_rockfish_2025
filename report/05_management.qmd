@@ -6,6 +6,9 @@
 
 # This will need to be adjusted to point at the final model
 
+library("here")
+read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
+
 #renv::activate()
 model_path <- here::here("models", "2025 base model")
 
@@ -43,7 +46,7 @@ Reference points were calculated using the estimated selectivities and catch dis
 
 The predicted spawning biomass from the base model generally showed a slight decline until the late 1970s, followed by steep increase above unfished equilibrium biomass and reaching a peak in `r report$timeseries$Yr[which.max(report$timeseries$SpawnBio)]`. This was followed by a steep decrease up to the mid-1980s, and then a more gradual decease through 2000 (@fig-rel-spawn-bio). Between 2001 and 2016, the spawning biomass increased continuously due to small catches, and several years of high recruitment (though with lower than average recruitment in other recent years). The spawning biomass relative to unfished equilibrium spawning biomass climbed above the target of 40% of unfished spawning biomass in the early 2000's. It is estimated to still be above the target, though the lower bound of the 95% confidence interval lies between the target and minimum stock size threshold (@fig-rel-spawn-bio). The fishing intensity (relative 1-SPR) exceeded the current estimates of the harvest rate limit (SPR50%) throughout the 1980s and early 1990s, and has again since 2018 (@fig-pred-one-SPR). Exploitation rates on widow rockfish between 2001 and 2016 were predicted to be far below target levels. In recent years, the stock has experienced exploitation rates that have been above the target level while the biomass level has remained above the target level (@fig-relative-one-SPR).
 
-The equilibrium yield plot is shown in @fig-est-eqi-yield, based on a steepness value fixed at 0.720. The predicted maximum sustainable yield under the assumptions of this assessment occurs near 25% of equilibrium unfished spawning biomass.
+The equilibrium yield plot is shown in @fig-est-eqi-yield, based on a steepness value fixed at 0.720. The predicted maximum sustainable yield under the assumptions of this assessment occurs near 27% of equilibrium unfished spawning biomass, however this represents only 12% more yield, with considerably more risk, than under the 50% SPR policy, which occurs near 45% of unfished spawning biomass. 
 
 
 ## Unresolved problems and major uncertainties
@@ -96,7 +99,7 @@ This assessment synthesizes many sources of data and estimates recruitment varia
 
 ## Evaluation of Scientific Uncertainty
 
-Spawning biomass is estimated to be at 40,603 mt in 2025, with a sigma of 0.2753. OFL is estimated to be 5,667.1 mt in 2019 with a coefficient of variation of 0.3187.
+Spawning biomass is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` mt in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. OFL is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2019 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`.
 
 ## Regional management considerations
 

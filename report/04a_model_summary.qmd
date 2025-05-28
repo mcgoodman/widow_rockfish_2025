@@ -89,7 +89,7 @@ For this update assessment, new versions of the previously used software were us
 
 ### Model Overview
 
-The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. A curvilinear ageing imprecision relationship was estimated and used to model ageing error. Fecundity was assumed to be proportional to body weight, thus spawning biomass was used as the measure of spawning output.
+The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. Ageing error was retained from the 2015 assessment [@hicks_status_2015]. Fecundity was assumed to be proportional to body weight, thus spawning biomass was used as the measure of spawning output.
 
 #### Model Fleets and Areas
 

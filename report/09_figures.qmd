@@ -438,6 +438,21 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-bridge2019-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning stock biomass (fraction unfished / depletion) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare3_Bratio.png")
+)
+
+```
+
 ### Selectivity
 
 ```{r}

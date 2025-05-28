@@ -218,6 +218,7 @@ colnames <- c(
   "Estimated Depletion (%)", "95% Confidence Interval"
 )
 
+
 # Create flextable
 flextable(table_B, col_keys = names(table_B)) |> 
   set_header_labels(names = names(table_B), values = colnames) |> 
@@ -307,7 +308,7 @@ table_d <- table_d |>
     SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
     rate_CI = paste0(`Lower Interval (Rate)`,  ", ", `Upper Interval (Rate)`)
   ) |>
-  dplyr::select(Year, `(1-SPR)/(1-SPR 50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
+  dplyr::select(Year, `(1-SPR)/(1-SPR50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
 
 colnames <- c(
   "Year", "Estimated \n(1-SPR)/(1-SPR50%)", "~95% Confidence Interval", 
@@ -579,7 +580,7 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
 #   width(width = 0.9, j = 1)
 
 table_h <- table_h|>filter(scenario != "Constant catch (9,000 K)")
-
+# 
 flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
@@ -603,12 +604,12 @@ flextable(table_h) |>
   border_inner(part="header") |> border_outer() |> # header and outside border
   vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |> hline(i = 36)|>
   merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1)|> merge_at(i = c(25:36), j = 1)|>
-  border(i = c(12, 24, 36), j = 1, 
+  border(i = c(12, 24, 36), j = 1,
          border.bottom = officer::fp_border(color = "black", width = 1))|>  # set_table_properties(layout = "autofit", align = "center") |>
   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
   width(width = 0.9, j = 1)
 
-flextable(table_h[13:36, ]) |>
+flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
                                catch = "catch (mt)",
@@ -635,7 +636,7 @@ flextable(table_h[13:36, ]) |>
   width(width = 0.6, j = 2:(ncol(table_h) - 1)) |>
   width(width = 0.9, j = 1)|>
     hline(i = 12)|>
-  hline_bottom(i = 24)
+  hline_bottom(j = 9)
 
 
 

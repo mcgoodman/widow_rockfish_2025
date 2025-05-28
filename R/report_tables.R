@@ -13,15 +13,18 @@ unlink(here("report", "tables", "exec_summ_tables"), recursive = TRUE, force = T
 
 rep_2025 <- SS_output(here("models", "2025 base model"))
 
-table_exec_summary(
-  replist = rep_2025,
-  dir = here("report", "tables"),
-  ci_value = 0.95,
-  fleetnames = rep_2025$FleetNames,
-  so_units = "biomass (mt)",
-  endyr = 2025,
-  verbose = TRUE
-)
+# table_exec_summary(
+#   replist = rep_2025,
+#   dir = here("report", "tables"),
+#   ci_value = 0.95,
+#   fleetnames = rep_2025$FleetNames,
+#   so_units = "biomass (mt)",
+#   endyr = 2025,
+#   verbose = TRUE
+# )
+
+r4ss::table_all(replist = rep_2025,verbose = T,dir = here("report", "tables"))
+
 
 file.rename(here("report", "tables", "tables"), here("report", "tables", "exec_summ_tables"))
 
@@ -339,6 +342,7 @@ lik_vals <- rep_2025$likelihoods_used |>
 write.csv(lik_vals, here("report", "tables", "likelihood_components.csv"), row.names = FALSE)
 
 # Decision analysis table -------------------------------------------
+
 
 df <- read.csv(here("data_derived", "decision_table", "dec_table_results.csv"))
 

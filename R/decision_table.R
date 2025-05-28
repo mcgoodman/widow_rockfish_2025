@@ -33,7 +33,9 @@ base_mod <- SS_read(base_mod_dir)
 rep <- r4ss::SS_output(base_mod_dir)
 
 #data
-gmt_catch <- read.csv(here("data_provided","GMT_forecast_catch","GMT_forecast_catch.csv"))|>select(-c(fleet_name,Source))
+gmt_catch <- read.csv(here("data_provided","GMT_forecast_catch","GMT_forecast_catch.csv"))|>
+  mutate(seas = 1)|>
+  select(year,seas,fleet,catch_mt)
 
 #-----------------------------------------------------------------#
 #-------- 1. Management actions -----------------------------------#
@@ -46,14 +48,14 @@ cc_base <- base_mod
 cc_base_dir <- here("data_derived","decision_table","cc_base")
 cc_base$fore$Flimitfraction <- -1
 cc_base$fore$Flimitfraction_m <- cc_base$fore$Flimitfraction_m|>mutate(fraction = 1)
-cc_base$fore$FirstYear_for_caps_and_allocations <- 2027
+cc_base$fore$FirstYear_for_caps_and_allocations <- 2037
 cc_base$fore$Ydecl <- 0
 cc_base$fore$Yinit <- 0
 
 ### Proportions to assign catch by fleet
 fleet_prop <- gmt_catch |>
   group_by(year) |>
-  summarise(vec = list(catch_or_F / sum(catch_or_F)), .groups = "drop") |>
+  summarise(vec = list(catch_mt / sum(catch_mt)), .groups = "drop") |>
   summarise(mean_vec = list(reduce(vec, `+`) / length(vec))) |>
   pull(mean_vec) |>
   unlist()
@@ -68,7 +70,7 @@ proj_cc <-  data.frame(
   year = rep(2027:2036, each = length(fleet_prop)),
   seas = 1,
   fleet = rep(1:5,length(2027:2036)),
-  catch_or_F = rep(forc_cc, times = length(2027:2036))
+  catch_mt = rep(forc_cc, times = length(2027:2036))
 )
 
 #All forecast catch: gmt catches + projection years
@@ -82,11 +84,11 @@ r4ss::run(dir = cc_base_dir,exe = "ss3","-nohess",skipfinished = FALSE)
 
 ## Re run th emodel with natM forxed for M and F
 cc_base <- SS_read(cc_base_dir)
-cc_base$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(cc_base_dir),yrs = 2027:2036,average = FALSE)
+cc_base$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(cc_base_dir),yrs = 2025:2036,average = FALSE)
 cc_base$ctl$MG_parms <- cc_base$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2.300,PHASE * -1,PHASE))
 
 SS_write(cc_base,dir = cc_base_dir,overwrite = T)
-r4ss::run(dir = cc_base_dir,exe = "ss3",skipfinished = FALSE)
+#r4ss::run(dir = cc_base_dir,exe = "ss3",skipfinished = FALSE)
 
 #-------- Catch stream 2 - ACL* P*0.25, sigma = 0.5 ------------#
 
@@ -95,7 +97,7 @@ p_star_25 <- base_mod
 p_star <- 0.25
 p_star_25$fore$Flimitfraction <- -1
 p_star_25$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = p_star)
-p_star_25$fore$FirstYear_for_caps_and_allocations <- 2027
+p_star_25$fore$FirstYear_for_caps_and_allocations <- 2037
 p_star_25$fore$Ydecl <- 0
 p_star_25$fore$Yinit <- 0
 p_star_25$fore$ForeCatch <- gmt_catch
@@ -107,15 +109,15 @@ r4ss::run(dir = p_star_25_dir,exe = "ss3","-nohess",skipfinished = FALSE)
 
 #Read the model and add the catches back into the base file
 p_star_25 <- SS_read(p_star_25_dir)
-p_star_25$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(p_star_25_dir),yrs = 2027:2036,average = FALSE)
+p_star_25$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(p_star_25_dir),yrs = 2025:2036,average = FALSE)
 p_star_25$ctl$MG_parms <- p_star_25$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2.300,PHASE * -1,PHASE))
 
 SS_write(p_star_25,dir = p_star_25_dir,overwrite = T)
-r4ss::run(dir = p_star_25_dir,exe = "ss3",skipfinished = FALSE)
+#r4ss::run(dir = p_star_25_dir,exe = "ss3",skipfinished = FALSE)
 
 
 
-#-------- Catch stream 2 - ACL* P*0.25, sigma = 0.5 ------------#
+#-------- Catch stream 3 - ACL* P*0.45, sigma = 0.5 ------------#
 
 ## P*0.45 base
 p_star_45_dir <- here("data_derived","decision_table","45_base")
@@ -123,7 +125,7 @@ p_star_45 <- base_mod
 p_star <- 0.45
 p_star_45$fore$Flimitfraction <- -1
 p_star_45$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = p_star)
-p_star_45$fore$FirstYear_for_caps_and_allocations <- 2027
+p_star_45$fore$FirstYear_for_caps_and_allocations <- 2037
 p_star_45$fore$Ydecl <- 0
 p_star_45$fore$Yinit <- 0
 p_star_45$fore$ForeCatch <- gmt_catch
@@ -135,29 +137,31 @@ r4ss::run(dir = p_star_45_dir,exe = "ss3","-nohess",skipfinished = FALSE)
 
 #Read the model and add the catches back into the base file
 p_star_45 <- SS_read(p_star_45_dir)
-p_star_45$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(p_star_45_dir),yrs = 2027:2036,average = FALSE)
+p_star_45$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(p_star_45_dir),yrs = 2025:2036,average = FALSE)
 SS_write(p_star_45,dir = p_star_45_dir,overwrite = T)
 
 p_star_45$ctl$MG_parms <- p_star_45$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2.300,PHASE * -1,PHASE))
 
 SS_write(p_star_45,dir = p_star_45_dir,overwrite = T)
-r4ss::run(dir = p_star_45,exe = "ss3",skipfinished = FALSE)
+#r4ss::run(dir = p_star_45,exe = "ss3",skipfinished = FALSE)
 
 
 ###Re-run the modelx now forecasts have been updated and M fixed
 n_cores <- 3
 cl <- makeCluster(n_cores)
+
+dirs <- list(cc_base_dir, p_star_25_dir, p_star_45_dir)
+
 # Export needed variables and packages to workers
-clusterExport(cl, varlist = c("dirs"))
+clusterExport(cl, varlist = "dirs")
 clusterEvalQ(cl, library(r4ss))
 
 # Run SS3 in parallel
-parLapply(cl, list(cc_base_dir,p_star_25,p_star_45_dir), function(x) {
-  r4ss::run(dir = x,
+parLapply(cl, dirs, function(x) {
+  r4ss::run(dir = as.character(x),
             exe = "ss3",
             show_in_console = TRUE,
             skipfinished = FALSE)
-  
 })
 
 # Stop the cluster
@@ -240,6 +244,7 @@ dirs <- c(here("data_derived","decision_table","cc_low"),      #low SON, P*0.25
 )
 
 
+
 ## This loops through each combinatio of SON and manegment action, creating the relavent models
 for( i in seq_along(dirs)){
   
@@ -293,6 +298,7 @@ all_dirs <-  c(here("data_derived","decision_table","cc_low"),
                here("data_derived","decision_table","25_base"),
                here("data_derived","decision_table","25_high"))
 
+
 if (run_paralell == TRUE) {
   n_cores <- length(all_dirs)
   cl <- makeCluster(n_cores)
@@ -339,7 +345,7 @@ saveRDS(dec_table_latex,file = here("data_derived", "decision_table","dec_table_
 
 ### Pull the values to save them
 dec_table_results <- imap_dfr(dec_table_reps, function(x, name) {
-  df <- SS_decision_table_stuff(x, yrs = 2027:2036, digits = c(0, 0, 3))
+  df <- SS_decision_table_stuff(x, yrs = 2025:2036, digits = c(0, 0, 3))
   df$name <- name
   df
 })
@@ -360,7 +366,8 @@ compare_ss3_mods(
   plot_names = c("Base", "Low", "High"),
   endyrvec = rep(2036, 3),
   shadeForecast = TRUE,
-  tickEndYr = TRUE
+  tickEndYr = TRUE,
+  subplots = 1:20
 )
 
 compare_ss3_mods(
@@ -369,7 +376,9 @@ compare_ss3_mods(
   plot_names = c("Base", "Low", "High"),
   endyrvec = rep(2036, 3),
   shadeForecast = TRUE,
-  tickEndYr = TRUE
+  tickEndYr = TRUE,
+  subplots = 1:20
+  
 )
 
 compare_ss3_mods(
@@ -378,7 +387,9 @@ compare_ss3_mods(
   plot_names = c("Base", "Low", "High"),
   endyrvec = rep(2036, 3),
   shadeForecast = TRUE,
-  tickEndYr = TRUE
+  tickEndYr = TRUE,
+  subplots = 1:20
+  
 )
 
 

@@ -12,13 +12,13 @@ For pre-written descriptions of our main surveys, go here: https://github.com/pf
 And copy the text from the files 21s-tri.Rmd and 21s-wcgbts.Rmd
 -->
 
-Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). Depth and latitude strata used to analyze the catch-rates, length compositions, and age compositions are the same as in the 2019 assessment (@adams_status_2019, @tbl-strat-surv).
+Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). Depth and latitude strata used to analyze the catch-rates, length compositions, and age compositions are the same as in the 2019 assessment [@adams_status_2019] and shown in @tbl-strat-surv.
 
 ### \acrlong{s-tri}
 
 The Alaska Fisheries Science Center/Northwest Fisheries Science Center West Coast Triennial Shelf Survey (Triennial Survey) was first conducted by the Alaska Fisheries Science Center (AFSC) in 1977 and was conducted every three years, ending 2004. The survey’s design and sampling methods are most recently described in [@weinberg_estimation_2002].
 
-The time series suggests a possible slightly increasing trend in biomass from 1980–1983, although is relatively flat until the end of the period in 2001 and 2004 when the index declines significantly. The index and length compositions for this historical Triennial survey were unchanged from the previous assessment. Please refer to to @hicks_status_2015 for details on those data inputs.
+The time series suggests a possible slightly increasing trend in biomass from 1980–1983, although is relatively flat until the end of the period in 2001 and 2004 when the index declines significantly. The index and length compositions for this historical Triennial survey were unchanged from the previous assessment. Please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for details on those data inputs.
 
 ### \acrlong{s-wcgbt}
 
@@ -30,7 +30,7 @@ Results are shown for the delta-gamma and delta-lognormal distributions, which r
 
 Overall, the delta-lognormal index estimates is more comparable to the 2019 spatiotemporal VAST-based index than the delta-gamma index, and less influenced by extreme catch events, particularly in 2013 and 2016; for these reasons, in addition to better model performance observed above, the delta-lognormal sdmTMB-based index was used for the base model in this assessment. The delta-lognormal mean value (2262.824) was slightly lower than the means of the index values used in the 2015 assessment (2701.12) and the 2019 update assessment (3301.765). However, since these are used as relative indices, these differences in mean values have no impact in themselves on the outcome of the assessment. Comparisons of the different error structures, design-based estimate and the VAST index used in 2019 are in @fig-absurv-compare. 
 
-Length, age, and conditional age-at-length compositions were processed using the nwfscSurvey package in R publicly available on GitHub [@wetzel_nwfscsurvey_2025]. Length compositions were created by expanding to the tow and summing to give a strata specific composition ([@tbl-sample-age-gear-state]). Strata definition was retained from the benchmark assessment. The strata compositions were combined to a coastwide composition using a design-based index of abundance from each stratum. The design based index is constructed by taking the average catch per unit effort (CPUE) defined as catch per area swept across tows in each stratum and year. The sum of strata specific composition data was then calculated, weighting by the average CPUE per stratum multiplied by the area of each stratum. Age distributions were included in the model as conditional-age-at-length (CAAL) observations. The marginal age-compositions were also included, but only for easier viewing of strong cohorts. The CAAL data were not expanded and were binned according to length, age, sex, and year.
+Length, age, and conditional age-at-length compositions were processed using the nwfscSurvey package in R publicly available on GitHub [@wetzel_nwfscsurvey_2025]. Length compositions were created by expanding to the tow and summing to give a strata specific composition [@tbl-sample-age-gear-state]. Strata definition was retained from the benchmark assessment. The strata compositions were combined to a coastwide composition using a design-based index of abundance from each stratum. The design based index is constructed by taking the average catch per unit effort (CPUE) defined as catch per area swept across tows in each stratum and year. The sum of strata specific composition data was then calculated, weighting by the average CPUE per stratum multiplied by the area of each stratum. Age distributions were included in the model as conditional-age-at-length (CAAL) observations. The marginal age-compositions were also included, but only for easier viewing of strong cohorts. The CAAL data were not expanded and were binned according to length, age, sex, and year.
 
 The input sample sizes for length and marginal age-composition data were calculated based on [@stewart_bootstrapping_2014]. The input sample size of CAAL data was set at the number of fish at each length by sex and by year. Expanded length frequencies from this survey show intermittent years of small fish; the 2018–2024 period generally suggests most fish are around 40–45cm in length (@fig-exp-lencomp-WCBTS). Strong cohorts are not immediately apparent and it seems that ageing error may result in some variability between years. Conditional age-at-length proportions (@fig-cond-agelen-WCBTS) show relatively consistent length-at-age with few outliers.
 
@@ -50,11 +50,11 @@ The definitions of fishing fleets have not been changed from those in the 2015 a
 
 Landings from the 1916-2018 period were carried forward into this assessment with slight modifications to the midwater and bottom trawl catches from California. Because PacFIN appear to underestimate midwater trawl catches in California in 1979-1980 when midwater trawl fishery for widow rockfish developed (Edward Dick, Pers. Comms.) we adjusted midwater and bottom trawl catches from California in these years to reflect the ratio of California midwater to bottom trawl catches in 1981-1982. 
 
-Recent catches (2019-onward) were extracted from PacFIN for commercial shorebased data and NORPAC for at-sea hake fishery bycatch, and were otherwise appended onto the 1916-2018 landings and apportioned among fleets using the same criteria as those documented in the 2015 assessment @hicks_status_2015.
+Recent catches (2019-onward) were extracted from PacFIN for commercial shorebased data and NORPAC for at-sea hake fishery bycatch, and were otherwise appended onto the 1916-2018 landings and apportioned among fleets using the same criteria as those documented in the 2015 benchmark assessment @hicks_status_2015.
 
 ### Fishery catch-per-unit-effort
 
-Three fishery-dependent CPUE indices were included as in the last assessment [@adams_status_2019]. Indices were derived from 1) Oregon bottom trawl (1984-1999), 2) Pacific Whiting at-sea foreign (1977-1988), and 3) Pacific whiting at-sea domestic fleets (1983-1998). These were not updated; see @hicks_status_2015 and @adams_status_2019 for details.
+Three fishery-dependent CPUE indices were included as in the most recent update assessment [@adams_status_2019]. Indices were derived from 1) Oregon bottom trawl (1984-1999), 2) Pacific Whiting at-sea foreign (1977-1988), and 3) Pacific whiting at-sea domestic fleets (1983-1998). These were not updated; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 ### Fishery length and age data
 
@@ -98,7 +98,7 @@ The commencement of trawl rationalization in 2011 led to 100% observer coverage 
 
 ### Biological data
 
-The approach to the estimation of all biological parameters was the same as in @adams_status_2019.
+The approach to the estimation of all biological parameters was the same as in the 2019 update assessment, @adams_status_2019.
 
 #### Weight-length relationship 
 
@@ -124,11 +124,11 @@ where weight is measured in kilograms and length in cm. These parameters were us
 
 #### Maturity schedule
 
-Maturity parameters in this update assessment were carried over from 2015 benchmark and 2019 update assessments. Please refer to @hicks_status_2015 for further details.
+Maturity parameters in this update assessment were carried over from 2015 benchmark and 2019 update assessments; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 #### Fecundity
 
-Fecundity parameters remain unchanged from previous assessment. Please refer to @hicks_status_2015 for further details.
+Fecundity parameters remain unchanged from previous assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 #### Natural Mortality
 
@@ -140,7 +140,7 @@ Growth parameters were fully estimated within the assessment model, for females 
 
 #### Ageing bias and imprecision
 
-Ageing error matrices were unchanged from the previous assessment. Please refer to @hicks_status_2015 for details.
+Ageing error matrices were unchanged from the previous assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 ## Environmental and Ecosystem Data
 

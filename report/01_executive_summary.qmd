@@ -392,7 +392,7 @@ flextable(table_e) %>%
 
 ## Management performance{-}
 
-Since annual catch limits for widow rockfish increased in 2017 and new fishing opportunities for use of midwater trawl gear became available, attainment of the annual catch limit has been high (@tbl-f). Specifically, it has exceeded 70% every year, averaged 77% from 2017-2024, and was as high as 88% in 2024. 
+Since annual catch limits for widow rockfish increased in 2017 and new fishing opportunities for use of midwater trawl gear became available, attainment of the annual catch limit has been high (@tbl-f). Specifically, attainment of the ACL has exceeded 70% every year since 2018, averaged 77% from 2017-2024, and was as high as 88% in 2022. 
 
 ```{r}
 #| label: tbl-f

@@ -5,7 +5,7 @@
 # Code to implement a decision table for Widow rockfish based on the 2019
 #report. 
 # States of nature: low (M, h @ 12.5% quantile), base (M,h as estimated), high(M,h @ 87.5%)
-# Management actions: 1) Constant catch of F 9000 MT, 2) ACL p*0.25, sig = 0.5, 3)ACL p*0.45, sig = 0.5
+# Management actions: 1) Constant catch of F 9000 MT, 2) ACL p*0.40, sig = 0.5, 3)ACL p*0.45, sig = 0.5
 # Mico Kinneen 10/05/2025
 
 devtools::install_github("pfmc-assessments/PEPtools")
@@ -30,6 +30,7 @@ source(url(format_dec_table))# From Yellowtail 2025 assessment, @Ian Taylor
 ## Read in the base model
 base_mod_dir <- here::here("models","2025 base model")
 base_mod <- SS_read(base_mod_dir)
+base_mod$start$init_values_src <- 0
 rep <- r4ss::SS_output(base_mod_dir)
 
 #data
@@ -90,30 +91,30 @@ cc_base$ctl$MG_parms <- cc_base$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2
 SS_write(cc_base,dir = cc_base_dir,overwrite = T)
 #r4ss::run(dir = cc_base_dir,exe = "ss3",skipfinished = FALSE)
 
-#-------- Catch stream 2 - ACL* P*0.25, sigma = 0.5 ------------#
+#-------- Catch stream 2 - ACL* P*0.40, sigma = 0.5 ------------#
 
-p_star_25_dir <- here("data_derived","decision_table","25_base")
-p_star_25 <- base_mod
-p_star <- 0.25
-p_star_25$fore$Flimitfraction <- -1
-p_star_25$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = p_star)
-p_star_25$fore$FirstYear_for_caps_and_allocations <- 2037
-p_star_25$fore$Ydecl <- 0
-p_star_25$fore$Yinit <- 0
-p_star_25$fore$ForeCatch <- gmt_catch
+p_star_40_dir <- here("data_derived","decision_table","40_base")
+p_star_40 <- base_mod
+p_star <- 0.40
+p_star_40$fore$Flimitfraction <- -1
+p_star_40$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = p_star)
+p_star_40$fore$FirstYear_for_caps_and_allocations <- 2037
+p_star_40$fore$Ydecl <- 0
+p_star_40$fore$Yinit <- 0
+p_star_40$fore$ForeCatch <- gmt_catch
 
 ## Write th model and run it
-SS_write(p_star_25,dir = p_star_25_dir,overwrite = T)
-set_ss3_exe(dir = p_star_25_dir)
-r4ss::run(dir = p_star_25_dir,exe = "ss3","-nohess",skipfinished = FALSE)
+SS_write(p_star_40,dir = p_star_40_dir,overwrite = T)
+set_ss3_exe(dir = p_star_40_dir)
+r4ss::run(dir = p_star_40_dir,exe = "ss3","-nohess",skipfinished = FALSE)
 
 #Read the model and add the catches back into the base file
-p_star_25 <- SS_read(p_star_25_dir)
-p_star_25$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(p_star_25_dir),yrs = 2025:2036,average = FALSE)
-p_star_25$ctl$MG_parms <- p_star_25$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2.300,PHASE * -1,PHASE))
+p_star_40 <- SS_read(p_star_40_dir)
+p_star_40$fore$ForeCatch <- SS_ForeCatch(replist = SS_output(p_star_40_dir),yrs = 2025:2036,average = FALSE)
+p_star_40$ctl$MG_parms <- p_star_40$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2.300,PHASE * -1,PHASE))
 
-SS_write(p_star_25,dir = p_star_25_dir,overwrite = T)
-#r4ss::run(dir = p_star_25_dir,exe = "ss3",skipfinished = FALSE)
+SS_write(p_star_40,dir = p_star_40_dir,overwrite = T)
+#r4ss::run(dir = p_star_40_dir,exe = "ss3",skipfinished = FALSE)
 
 
 
@@ -150,7 +151,7 @@ SS_write(p_star_45,dir = p_star_45_dir,overwrite = T)
 n_cores <- 3
 cl <- makeCluster(n_cores)
 
-dirs <- list(cc_base_dir, p_star_25_dir, p_star_45_dir)
+dirs <- list(cc_base_dir, p_star_40_dir, p_star_45_dir)
 
 # Export needed variables and packages to workers
 clusterExport(cl, varlist = "dirs")
@@ -177,9 +178,9 @@ catch_series <-
     "f_limit_frac" = cc_base$fore$Flimitfraction_m,
     "forc_catch" = cc_base$fore$ForeCatch),
   
-  "25" = list( #Catch stream 2
-    "f_limit_frac" =  p_star_25$fore$Flimitfraction_m,
-    "forc_catch" = p_star_25$fore$ForeCatch
+  "40" = list( #Catch stream 2
+    "f_limit_frac" =  p_star_40$fore$Flimitfraction_m,
+    "forc_catch" = p_star_40$fore$ForeCatch
   ),
   
   "45" = list( #Catch stream 3
@@ -202,7 +203,7 @@ pars_table <- rep$parameters|> #make sure to ppull from report, not input file s
   filter(Num %in% c(1,13,24))|> #natM Female, natM male, steepness
   select(value,sd)|>
   mutate(
-    q125 = qnorm(0.125,mean = value,sd = sd), #apply the quantiles
+    q140 = qnorm(0.140,mean = value,sd = sd), #apply the quantiles
     q875 = qnorm(0.875,mean = value,sd = sd),
     phase = -1,
     name = c("NatM_p_1_Fem_GP_1", #name the parms - easier to do manually as report and r4ss::read() have different parameter names
@@ -212,34 +213,34 @@ pars_table <- rep$parameters|> #make sure to ppull from report, not input file s
 
 
 ##Plot the params to check they make sense and quantiles are resonable
-par(mfrow = c(1,3))
-
-for(i in 1:3){
-  curve(
-    dnorm(x, mean = pars_table[i,"value"], sd = pars_table[i,"sd"]),
-    from = pars_table[i,"value"] - 4*pars_table[i,"sd"],
-    to = pars_table[i,"value"] + 4*pars_table[i,"sd"],
-    ylab = "Density",
-    xlab = pars_table[i,"name"]
-  )
-  abline(v = pars_table[i,"value"],col = "red",lty = 2)
-  abline(v = pars_table[i,"q125"],col = "blue",lty = 3)
-  abline(v = pars_table[i,"q875"],col = "blue",lty = 3)
-  if(i == 3){
-  legend("topright",
-         legend = c("MLE", "q0.125,q0.875"),
-         col = c("red", "blue"),
-         lty = c(2, 3),
-         bty = "n")  # 'bty = "n"' removes the legend box (optional)
-  }
-}
+# par(mfrow = c(1,3))
+# 
+# for(i in 1:3){
+#   curve(
+#     dnorm(x, mean = pars_table[i,"value"], sd = pars_table[i,"sd"]),
+#     from = pars_table[i,"value"] - 4*pars_table[i,"sd"],
+#     to = pars_table[i,"value"] + 4*pars_table[i,"sd"],
+#     ylab = "Density",
+#     xlab = pars_table[i,"name"]
+#   )
+#   abline(v = pars_table[i,"value"],col = "red",lty = 2)
+#   abline(v = pars_table[i,"q140"],col = "blue",lty = 3)
+#   abline(v = pars_table[i,"q875"],col = "blue",lty = 3)
+#   if(i == 3){
+#   legend("topright",
+#          legend = c("MLE", "q0.140,q0.875"),
+#          col = c("red", "blue"),
+#          lty = c(2, 3),
+#          bty = "n")  # 'bty = "n"' removes the legend box (optional)
+#   }
+# }
 
 #Dirs
-dirs <- c(here("data_derived","decision_table","cc_low"),      #low SON, P*0.25 
-              here("data_derived","decision_table","25_low"),  #low SON, P*0.45
+dirs <- c(here("data_derived","decision_table","cc_low"),      #low SON, P*0.40 
+              here("data_derived","decision_table","40_low"),  #low SON, P*0.45
               here("data_derived","decision_table","45_low"),  #low SON cc
-              here("data_derived","decision_table","cc_high"), #High SON, P*0.25 
-              here("data_derived","decision_table","25_high"), #High SON, P*0.45
+              here("data_derived","decision_table","cc_high"), #High SON, P*0.40 
+              here("data_derived","decision_table","40_high"), #High SON, P*0.45
               here("data_derived","decision_table","45_high")  #High SON cc
 )
 
@@ -247,21 +248,21 @@ dirs <- c(here("data_derived","decision_table","cc_low"),      #low SON, P*0.25
 
 ## This loops through each combinatio of SON and manegment action, creating the relavent models
 for( i in seq_along(dirs)){
-  
   #create the dir
   temp_dir <- dirs[i]
-  scenario <- sub("_(low|high)$", "", basename(temp_dir))  # extract "cc", "25", or "45"
+  scenario <- sub("_(low|high)$", "", basename(temp_dir))  # extract "cc", "40", or "45"
 
 
   #Copy the base model
   copy_SS_inputs(dir.old = cc_base_dir,
                  dir.new = temp_dir,
                  overwrite = T,
-                 create.dir = T)
+                 create.dir = T,
+                 copy_par = TRUE)
   
   #ACondtitionally choose quantile, depending on SON
   new_vals <- if (grepl("low", basename(temp_dir))) {
-    pars_table$q125
+    pars_table$q140
   } else {
     pars_table$q875
   }    
@@ -294,9 +295,9 @@ all_dirs <-  c(here("data_derived","decision_table","cc_low"),
                here("data_derived","decision_table","45_low"),
                here("data_derived","decision_table","45_base"),
                here("data_derived","decision_table","45_high"),
-               here("data_derived","decision_table","25_low"),
-               here("data_derived","decision_table","25_base"),
-               here("data_derived","decision_table","25_high"))
+               here("data_derived","decision_table","40_low"),
+               here("data_derived","decision_table","40_base"),
+               here("data_derived","decision_table","40_high"))
 
 
 if (run_paralell == TRUE) {
@@ -336,7 +337,7 @@ names(dec_table_reps) <- basename(all_dirs)
 #Use Ians code to generate latex
 dec_table_latex <- table_decision(
   list(dec_table_reps[['cc_low']], dec_table_reps[['cc_base']], dec_table_reps[['cc_high']]),
-  list(dec_table_reps[['25_low']], dec_table_reps[['25_base']], dec_table_reps[['25_high']]),
+  list(dec_table_reps[['40_low']], dec_table_reps[['40_base']], dec_table_reps[['40_high']]),
   list(dec_table_reps[['45_low']], dec_table_reps[['45_base']], dec_table_reps[['45_high']]),
   years = 2027:2036
 )
@@ -382,8 +383,8 @@ compare_ss3_mods(
 )
 
 compare_ss3_mods(
-  replist = list(dec_table_reps[['25_base']], dec_table_reps[['25_low']], dec_table_reps[['25_high']]),
-  plot_dir = here("figures", "decision_table","25_plots"),
+  replist = list(dec_table_reps[['40_base']], dec_table_reps[['40_low']], dec_table_reps[['40_high']]),
+  plot_dir = here("figures", "decision_table","40_plots"),
   plot_names = c("Base", "Low", "High"),
   endyrvec = rep(2036, 3),
   shadeForecast = TRUE,
@@ -422,7 +423,7 @@ dec_table_formatted <- df %>%
     names_glue = "{.value}_{level}"
   ) %>%
   # Reorder by scenario and year
-  arrange(factor(scenario, levels = c("cc", "25", "45")), yr) %>%
+  arrange(factor(scenario, levels = c("cc", "40", "45")), yr) %>%
   # Final column order
   select(
     scenario, yr, catch,
@@ -432,7 +433,7 @@ dec_table_formatted <- df %>%
   )|>
   mutate(scenario = case_when(
     scenario == "cc" ~ "Constant catch",
-    scenario == "25" ~ "P*0.25",
+    scenario == "40" ~ "P*0.40",
     scenario == "45" ~ "P*0.45"
     
   ))
@@ -456,4 +457,5 @@ write.csv(dec_table_formatted,here("data_derived","decision_table","dec_table_fo
 
 
 
-##
+### Dec tbale wording 
+# Priot assessments included ad additional axis of uncertainty, the strength of recent year classes. As no recent year classes were signicantly larger than average, this axis was not inlcuded 

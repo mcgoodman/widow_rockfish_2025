@@ -201,27 +201,36 @@ knitr::include_graphics(
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 
-table_B <- table_B |> 
-  mutate(
-    Year = as.character(Year),
-    SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
-    SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
-    SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
-    SSB_CI = paste0(SSB_lower, " - ", SSB_upper), 
-    Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
-  ) |>
-  dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
+colnames(table_B) <- c("Year", 
+                       "Spawning Biomass (mt)", 
+                       "Lower Interval (SSB, mt)", "Upper Interval (SSB, mt)" , 
+                       "Fraction Unfished", 
+                       "Lower Interval (Frac. Unfish.)", "Upper Interval (Frac. Unfish.)")
 
-colnames <- c(
-  "Year", "Spawning Biomass", "95% Confidence Interval", 
-  "Estimated Depletion (%)", "95% Confidence Interval"
-)
-
+# table_B <- table_B |> 
+#   mutate(
+#     Year = as.character(Year),
+#     SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
+#     SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
+#     SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
+#     SSB_CI = paste0(SSB_lower, " - ", SSB_upper), 
+#     Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
+#   ) |>
+#   dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
+# 
+# colnames <- c(
+#   "Year", "Spawning Biomass", "95% Confidence Interval", 
+#   "Estimated Depletion (%)", "95% Confidence Interval"
+# )
 
 # Create flextable
-flextable(table_B, col_keys = names(table_B)) |> 
-  set_header_labels(names = names(table_B), values = colnames) |> 
+# flextable(table_B, col_keys = names(table_B)) |> 
+#   set_header_labels(names = names(table_B), values = colnames) |> 
+#   set_table_properties(layout = "autofit") %>% exec_tab_style
+
+flextable(table_B) |> 
   set_table_properties(layout = "autofit") %>% exec_tab_style
+
 ```
 
 {{< pagebreak >}} 
@@ -260,26 +269,34 @@ knitr::include_graphics(
 
 table_c <- read_rdata(here::here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
 
-table_c <- table_c |> 
-  mutate(
-    Year = as.character(Year),
-    recr = format(round(`Recruitment (1,000s)`), big.mark = ","),
-    recr_lower = format(round(`Lower Interval (1,000s)`, 0), big.mark = ","), 
-    recr_upper = format(round(`Upper Interval (1,000s)`, 0), big.mark = ","),
-    recr_CI = paste0(recr_lower, " - ", recr_upper), 
-    recdev_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3)), 
-    `Recruitment Deviations` = round(`Recruitment Deviations`, 3)
-  ) |>
-  dplyr::select(Year, recr, recr_CI, `Recruitment Deviations`, recdev_CI)
+colnames(table_c) <- c("Year", 
+                       "Recruitment (1,000s)", "Lower Interval (Rec, 1,000s)", "Upper Interval (Rec, 1,000s)", 
+                       "Recruitment Deviations", "Lower Interval (Rec Devs)", "Upper Interval (Rec Devs)" )
 
-colnames <- c(
-  "Year", "Estimated recruitment (number in thousands)", "95% Confidence Interval", 
-  "Recruitment \nDeviations", "95% Confidence Interval"
-)
+# table_c <- table_c |> 
+#   mutate(
+#     Year = as.character(Year),
+#     recr = format(round(`Recruitment (1,000s)`), big.mark = ","),
+#     recr_lower = format(round(`Lower Interval (1,000s)`, 0), big.mark = ","), 
+#     recr_upper = format(round(`Upper Interval (1,000s)`, 0), big.mark = ","),
+#     recr_CI = paste0(recr_lower, " - ", recr_upper), 
+#     recdev_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3)), 
+#     `Recruitment Deviations` = round(`Recruitment Deviations`, 3)
+#   ) |>
+#   dplyr::select(Year, recr, recr_CI, `Recruitment Deviations`, recdev_CI)
+# 
+# colnames <- c(
+#   "Year", "Estimated recruitment (number in thousands)", "95% Confidence Interval", 
+#   "Recruitment \nDeviations", "95% Confidence Interval"
+# )
 
 # Create flextable
-flextable(table_c, col_keys = names(table_c)) |> 
-  set_header_labels(names = names(table_C), values = colnames) %>%
+# flextable(table_c, col_keys = names(table_c)) |> 
+#   set_header_labels(names = names(table_C), values = colnames) %>%
+#   colformat_num(j=3, big.mark = ",")%>%
+#   exec_tab_style
+flextable(table_c) %>%
+  colformat_num(j = 1, big.mark = "") %>%
   colformat_num(j=3, big.mark = ",")%>%
   exec_tab_style
 
@@ -298,23 +315,25 @@ The population declined throughout the 1980s and 1990s when fishing intensity wa
 
 table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
-table_d <- table_d |> 
-  mutate(
-    Year = as.character(Year),
-    across(is.numeric, \(x) round(x, 3)),
-    SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
-    rate_CI = paste0(`Lower Interval (Rate)`,  " - ", `Upper Interval (Rate)`)
-  ) |>
-  dplyr::select(Year, `(1-SPR)/(1-SPR50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
-
-colnames <- c(
-  "Year", "Estimated \n(1-SPR)/(1-SPR50%)", "95% Confidence Interval", 
-  "Harvest rate \n(proportion)", "95% Confidence Interval"
-)
+# table_d <- table_d |> 
+#   mutate(
+#     Year = as.character(Year),
+#     across(is.numeric, \(x) round(x, 3)),
+#     SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
+#     rate_CI = paste0(`Lower Interval (Rate)`,  " - ", `Upper Interval (Rate)`)
+#   ) |>
+#   dplyr::select(Year, `(1-SPR)/(1-SPR50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
+# 
+# colnames <- c(
+#   "Year", "Estimated \n(1-SPR)/(1-SPR50%)", "95% Confidence Interval", 
+#   "Harvest rate \n(proportion)", "95% Confidence Interval"
+# )
 
 # Create flextable
-flextable(table_d, col_keys = names(table_d)) %>%
-  set_header_labels(names = names(table_C), values = colnames) %>%
+# flextable(table_d, col_keys = names(table_d)) %>%
+#   set_header_labels(names = names(table_C), values = colnames) %>%
+#   exec_tab_style
+flextable(table_d) %>%
   exec_tab_style
 
 ```
@@ -660,7 +679,7 @@ knitr::include_graphics(
 )
 
 ```
---> 
+-->
 
 ## Research and Data Needs
 

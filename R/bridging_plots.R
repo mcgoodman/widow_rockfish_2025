@@ -84,7 +84,7 @@ model_summary <- SSsummarize(combined_models_list)
 SSplotComparisons(
   model_summary, plotdir = plotdir,
   legendlabels = names(models), filenameprefix = "bridging_", 
-  legendloc = c(0.05, 0.4), subplots = c(1:2, 11:12), 
+  legendloc = c(0.05, 0.4), subplots = c(1:3, 11:12), 
   plot = FALSE, png = TRUE
 )
 

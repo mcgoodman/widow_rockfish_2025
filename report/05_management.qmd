@@ -85,21 +85,62 @@ projections <- projections |> dplyr::mutate(across(is.numeric, ~ round(.x)))
 
 
 
-Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 109 assessment which included a third factor, 2013 recruitment strength. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (0.115 yr^-1^ and 0.134 yr^-1^ for females; 0.127 yr^-1^ and 0.146 yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (0.536 and 0.904). The low combination of these three factors defined the low state of nature and the high combination of these three factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model. 
+```{r}
+#| include: false
 
-<!-- A twelve year projection of the base model with catches equal to the current ACL in 2025 and 2026 (10,669 mt and 9824 mt, respectively) and catches of 9,000 mt for all later years and a catch allocation equal to the percentages for each fleet in 2024 predicts spawning biomass will decrease over the projection period for all states of nature (@tbl-dec-table, @fig-dec-table-plot).  -->
+##dec table params
+dec_table_pars <- report$parameters|> #make sure to ppull from report, not input file so est values are used
+  mutate(
+         value = Value,
+         sd = if_else(is.na(Parm_StDev),Pr_SD,Parm_StDev))|> #If est par, use param sd, otherwise use prior sd
+  filter(Num %in% c(1,13,24))|> #natM Female, natM male, steepness
+  select(value,sd)|>
+  mutate(
+    q125 = round(qnorm(0.125,mean = value,sd = sd),3), #apply the quantiles
+    q875 = round(qnorm(0.875,mean = value,sd = sd),3),
+    phase = -1,
+    name = c("NatM_p_1_Fem_GP_1", #name the parms - easier to do manually as report and r4ss::read() have different parameter names
+             "NatM_p_1_Mal_GP_1",
+             "SR_BH_steep") 
+  )
 
-A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.25 P* were conducted (@tbl-dec-table).
+#dec tables stuff
+dec_table_pars["NatM_uniform_Fem_GP_1","q125"]
+colnames(dec_table_pars)
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature.Predicted ACL catches range from 3,321 mt in 2027 to 4,392 mt in 2036 @tbl-dec-table, @fig-dec-table-plot).
+dec_table_res <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from 1,790 mt in 2027 to 1,886 mt in 2036 @tbl-dec-table, @fig-dec-table-plot). 
+##gmt stuff
+gmt_catch <- data.frame(read.csv(here("data_provided", "gmt_forecast_catch", "GMT_forecast_catch.csv"))|>
+  group_by(year)|>
+  summarise(total_catch = sum(catch_mt)))
+
+dec_table_summ <- list(
+  "p45_2027" = dec_table_res|>filter(scenario == "P*0.45" & yr == 2027)|>pull(catch),
+  "p45_2036" = dec_table_res|>filter(scenario == "P*0.45" & yr == 2036)|>pull(catch),
+  "p40_2027" = dec_table_res|>filter(scenario == "P*0.40" & yr == 2027)|>pull(catch),
+  "p40_2036" = dec_table_res|>filter(scenario == "P*0.40" & yr == 2036)|>pull(catch)
+)
+```
+
+
+Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
+
+Previous assessments included recent large recruitments as a third axis of uncertainty. As no large recruitments occured in the recent period, this axis was not included in the harvest projection.
+
+This assessment synthesizes many sources of data and estimates recruitment variability, thus it is classified as a Category 1 stock assessment. Therefore, the sigma to determine the catch reduction to account for scientific uncertainty is 0.50.
+
+A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.40 P* were conducted (@tbl-h).
+
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
+
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.40  P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from `r format(dec_table_summ$p40_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p40_2036, big.mark = ",", digits = 1)` mt in 2036 @tbl-dec-table, @fig-dec-table-plot). 
 
 This assessment synthesizes many sources of data and estimates recruitment variability, thus it is classified as a Category 1 stock assessment. Therefore, the sigma for P* to determine the catch reduction to account for scientific uncertainty is 0.50.
 
 ## Evaluation of Scientific Uncertainty
 
-Spawning biomass is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` mt in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. OFL is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2019 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`.
+Spawning biomass is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` mt in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. OFL is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2025 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`.
 
 ## Regional management considerations
 

@@ -110,6 +110,11 @@ index_fits <- base_par$cpue |>
 index_fits$lower_in[index_fits$SE_input == index_fits$SE] <- NA
 index_fits$upper_in[index_fits$SE_input == index_fits$SE] <- NA
 
+# Limit y-axis scale for juvenile survey
+index_fits$upper_out[index_fits$Fleet_name == "JuvSurvey" & index_fits$upper_out > 5e+05] <- 5e+05
+
+index_fits$Fleet_name[index_fits$Fleet_name == "NWFSC"] <- "WCGBTS"
+
 index_plot <- index_fits |> 
   ggplot(aes(Year, Index)) + 
   geom_pointrange(aes(ymin = lower_out, ymax = upper_out), size = 0.25, linewidth = 0.25, lineend = "round") + 
@@ -277,16 +282,16 @@ image_write(combined, path = here("figures", "diagnostics", "Nat_Mort.png"))
 # pnl_cc <- image_read(here("figures", "decision_table", "cc_plots", "compare4_Bratio_uncertainty.png"))
 # pnl_cc <- pnl_cc |> image_annotate("Constant catch", size = 48, location = "+200+0")
 
-pnl_25 <- image_read(here("figures", "decision_table", "25_plots", "compare4_Bratio_uncertainty.png"))
-pnl_25 <- pnl_25 |> image_annotate("ACL = p*0.25", size = 48, location = "+200+0")
+pnl_40 <- image_read(here("figures", "decision_table", "40_plots", "compare4_Bratio_uncertainty.png"))
+pnl_40 <- pnl_40 |> image_annotate("ACL = p*0.40", size = 48, location = "+200+0")
 
 pnl_45 <- image_read(here("figures", "decision_table", "45_plots", "compare4_Bratio_uncertainty.png"))
 pnl_45 <- pnl_45 |> image_annotate("ACL = p*0.45", size = 48, location = "+200+0")
 
-# combined <- image_append(c(image_append(c(pnl_cc, pnl_25)), pnl_45), stack = TRUE)
+# combined <- image_append(c(image_append(c(pnl_cc, pnl_40)), pnl_45), stack = TRUE)
 # image_write(combined, path = here("figures", "decision_table", "combined_ssb_with_interval.png"))
 
-combined <- image_append(c(pnl_25, pnl_45), stack = TRUE)
+combined <- image_append(c(pnl_40, pnl_45), stack = TRUE)
 image_write(combined, path = here("figures", "decision_table", "combined_ssb_with_interval.png"))
 
 # Appendix A: bottom trawl retained length comps --------------------

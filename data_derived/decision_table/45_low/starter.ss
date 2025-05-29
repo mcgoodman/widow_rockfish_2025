@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-24  00:53:38
+#C file write time: 2025-05-29  00:20:17
 #
 2025widow.dat #_datfile
 2025widow.ctl #_ctlfile
@@ -11,7 +11,7 @@
 0 #_cumreport
 1 #_prior_like
 1 #_soft_bounds
-0 #_N_bootstraps
+1 #_N_bootstraps
 10 #_last_estimation_phase
 1 #_MCMCburn
 1 #_MCMCthin

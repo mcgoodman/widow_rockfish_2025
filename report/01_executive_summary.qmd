@@ -450,19 +450,19 @@ gmt_catch <- data.frame(read.csv(here("data_provided", "gmt_forecast_catch", "GM
 dec_table_summ <- list(
   "p45_2027" = dec_table_res|>filter(scenario == "P*0.45" & yr == 2027)|>pull(catch),
   "p45_2036" = dec_table_res|>filter(scenario == "P*0.45" & yr == 2036)|>pull(catch),
-  "p25_2027" = dec_table_res|>filter(scenario == "P*0.25" & yr == 2027)|>pull(catch),
-  "p25_2036" = dec_table_res|>filter(scenario == "P*0.25" & yr == 2036)|>pull(catch)
+  "p40_2027" = dec_table_res|>filter(scenario == "P*0.40" & yr == 2027)|>pull(catch),
+  "p40_2036" = dec_table_res|>filter(scenario == "P*0.40" & yr == 2036)|>pull(catch)
 )
 ```
 
 
 Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
 
-A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.25 P* were conducted (@tbl-h).
+A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.40 P* were conducted (@tbl-h).
 
 Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 in 2027 suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.25 P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from `r format(dec_table_summ$p25_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p25_2036, big.mark = ",", digits = 1)` mt in 2036. 
+Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.40  P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from `r format(dec_table_summ$p40_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p40_2036, big.mark = ",", digits = 1)` mt in 2036. 
 
 
 ```{r}
@@ -497,7 +497,7 @@ table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.
 # table_h$management_choice <- substr(table_h$name, start = 1, stop = 2)
 table_h$scenario <- plyr::revalue(table_h$scenario,
                                   c("Constant catch" = "Constant catch (9,000 K)",
-                                    "P*0.25" = "ACLp*=0.25, sigma=0.50",
+                                    "P*0.40" = "ACLp*=0.40, sigma=0.50",
                                     "P*0.45" = "ACLp*=0.45, sigma=0.50"))
 # table_h$stnat <- substr(table_h$name, start = 4, stop = 7)
 
@@ -542,7 +542,7 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
 #   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
 #   width(width = 0.9, j = 1)
 
-table_h <- table_h|>filter(scenario != "Constant catch (9,000 K)")
+table_h <- table_h|>filter(scenario != "Constant catch (9,000 K)")|>select(-X)
 # 
 # flextable(table_h) |>
 #   set_header_labels(values = c(scenario = "Management decision",
@@ -603,9 +603,12 @@ flextable(table_h) |>
 
 ```
 
+{{< pagebreak >}} 
+
 ## Scientific uncertainty{-}
 
 The model estimate of the log-scale standard deviation of the overfishing limit (OFL) in 2025 is `r round(report$OFL_sigma, 3)`. This is less than the default SSC value of 0.5 for a category 1 assessment, so harvest projections assume an initial sigma of 0.5.
+
 
 <!-- ```{r} -->
 <!-- #| label: tbl-i -->

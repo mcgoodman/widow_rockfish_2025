@@ -20,11 +20,11 @@ widow rockfish are ovoviviparous with gestation lasting from 1 to 3 months. Part
 
 There is little information regarding the movement of widow rockfish. Past assessments have assumed a two-area model because of differences in growth and maturity (see [@he_status_2011]). However, using recent observations from the NWFSC shelf/slope survey to follow two separate cohorts through time and space suggests that widow rockfish may recruit in the south and disperse northward as they age (@fig-assess-map). Spatial recruitment and movement patterns of widow rockfish are uncertain and much more investigation and sampling is needed to fully understand them. --> 
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@hicks_status_2015] for additional information.
+This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] for information.
 
 ## Ecosystem Considerations
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@hicks_status_2015] for additional information.
+This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] for information.
 
 ## Fishery description
 
@@ -36,7 +36,7 @@ Historical discarding practices are not well known, but it is believed that litt
 
 More detailed information of the fisheries in each state is given in Section 2.2.1 where the reconstructed landings are discussed. -->
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@hicks_status_2015] for additional information.
+This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] for information.
 
 ## Management History 
 
@@ -48,7 +48,7 @@ A sorting requirement was implemented for widow rockfish in the early 1980s with
 
 Table 4 shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the ACL in the last 10 years.-->
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@hicks_status_2015] for additional information.
+This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] for information.
 
 
 ## Management performance
@@ -60,7 +60,7 @@ Total mortality estimates from the WCGOP and from the stock assessment may diffe
 
 ## Fisheries off Canada and Alaska
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@hicks_status_2015] for additional information.
+This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] for information.
 
 <!-- widow rockfish are distributed throughout Canada and Southeast Alaska and are commonly caught in trawl and hook-and-line fisheries. However, the landings from the fisheries in these areas are estimated to harvest widow rockfish at much smaller rate than has been observed off California, Oregon, and Washington mostly due to lower abundance of widow rockfish, but also partly due to precautionary behavior of Canadian managers after the large catches followed by management restrictions and concerns of the U.S. fishery in the early 1980s. -->
 

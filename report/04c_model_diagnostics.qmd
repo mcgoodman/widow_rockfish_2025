@@ -82,7 +82,9 @@ The alternative weighting using the Francis method generally increased the estim
 
 ### Retrospective Analysis
 
-A 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the spawning population was basically unchanged for all of these retrospectives. Removing 4–5 years of data led to slightly lower estimates of fishing mortality (F) and slightly higher spawning biomass over the last 15 years. In contrast, removing only 1–2 years resulted in higher F and lower biomass estimates. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
+First, a 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the spawning population was basically unchanged for all of these retrospectives. Removing 4–5 years of data led to slightly lower estimates of fishing mortality (F) and slightly higher spawning biomass over the last 15 years. In contrast, removing only 1–2 years resulted in higher F and lower biomass estimates. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
+
+Second, a comparison of biomass time series across multiple previous assessments was conducted [@fig-ssb-historical] and shows that the base model biomass follows the same trajectory as previous assessment, and estimated stock scale is in the middle range of previous assessments.
 
 ### Likelihood Profiles and key parameters
 

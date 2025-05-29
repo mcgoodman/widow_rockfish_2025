@@ -71,7 +71,7 @@ nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_com
          fleet = rep(8))
 
 #discard lcomps - think wcgop
-discard_lcomps <- read.csv(here("discard_length_comps_April_no-midwater.csv")) |>
+discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_no-midwater.csv")) |>
   #rename(part = part,input_n = Nsamp)|>
   select(-X) #drop weird rownumber column from excel
   

@@ -2,6 +2,8 @@
 library("r4ss")
 library("here")
 library("parallel")
+library("ggplot2")
+library("dplyr")
 
 dir.create(plotdir <- here("figures", "bridging"))
 
@@ -60,9 +62,10 @@ SSplotComparisons(
   plot = FALSE, png = TRUE
 )
 
-# Main bridging plot --------------------------------------
+# Main bridging plots -------------------------------------
 
-# List directories and model names
+## SSB, SPR, etc. -----------------------------------------
+
 models <- c(
   "2019 model" = base_2019,
   "update landings" = here(databridge_dir, "add_catches"),
@@ -81,7 +84,7 @@ model_summary <- SSsummarize(combined_models_list)
 SSplotComparisons(
   model_summary, plotdir = plotdir,
   legendlabels = names(models), filenameprefix = "bridging_", 
-  legendloc = c(0.05, 0.4), subplots = c(1:2, 11:12), 
+  legendloc = c(0.05, 0.4), subplots = c(1:3, 11:12), 
   plot = FALSE, png = TRUE
 )
 
@@ -92,7 +95,76 @@ SSplotComparisons(
   plot = FALSE, png = TRUE
 )
 
-# HnL exploration bridging plot ---------------------------
+## Natural mortality --------------------------------------
+
+models <- c(
+  "2019 model" = base_2019,
+  "update removals, discard composition" = here(databridge_dir, "add_catches"),
+  "update indices" = here(databridge_dir, "add_indices"),
+  "update length composition" = here(databridge_dir, "add_lcomps"),
+  "update age composition" = here(databridge_dir, "data_bridged_model_weighted"), 
+  "update M prior" = here("models", "model_bridging", "mortality"), 
+  "update L/W, bias ramp, MWT retention (2025 base)" = base_2025
+)
+
+combined_models_list <- SSgetoutput(dirvec = models)
+names(combined_models_list) <- names(models) #name the replists
+
+M_2015 <- data.frame(
+  model = "2015 model",
+  type = c("Prior", "Female", "Male"), 
+  median = c(0.081, 0.1572, 0.1705), 
+  lower = c(0.029, 0.1362, 0.1485), 
+  upper = c(0.225, 0.1782, 0.1925)
+)
+
+M_bridge <- setNames(vector("list", length(combined_models_list)), names(combined_models_list))
+
+for (i in seq_along(M_bridge)) {
+
+  MFi <- combined_models_list[[i]]$parameters["NatM_uniform_Fem_GP_1",]
+  MMi <- combined_models_list[[i]]$parameters["NatM_uniform_Mal_GP_1",]
+  
+  M_bridge[[i]] <- data.frame(
+    model = names(M_bridge)[i],
+    type = c("Prior", "Female", "Male"), 
+    median = c(exp(MFi$Prior), MFi$Value, MMi$Value), 
+    lower = c(qlnorm(0.025, MFi$Prior, MFi$Pr_SD), MFi$`Value-1.96*SD`, MMi$`Value-1.96*SD`), 
+    upper = c(qlnorm(0.975, MFi$Prior, MFi$Pr_SD), MFi$`Value+1.96*SD`, MMi$`Value+1.96*SD`)
+  )
+  
+}
+
+M_bridge <- do.call("rbind", append(M_bridge, list(M_2015)))
+M_bridge$model <- factor(M_bridge$model, levels = rev(c("2015 model", names(combined_models_list))))
+
+M_plot <- M_bridge |> 
+  ggplot(aes(model, median, color = type)) + 
+  geom_pointrange(
+    aes(ymin = lower, ymax = upper), position = position_dodge(width = 0.5), 
+    size = 0.5, linewidth = 0.8, lineend = "round"
+  ) + 
+  scale_x_discrete(labels = function(x) stringr::str_wrap(x, width = 30)) + 
+  scale_color_manual(values = rev(c("grey20", r4ss::rich.colors.short(2)))) +
+  guides(color = guide_legend(reverse = TRUE)) +
+  labs(y = "Natural Mortality (M)", color = "") + 
+  coord_flip(clip = "off") + 
+  expand_limits(y = 0) + 
+  theme_bw() + 
+  theme(
+    panel.grid.major.y = element_blank(), 
+    axis.text = element_text(size = 12, color = "black"), 
+    axis.ticks = element_line(color = "black"), 
+    axis.title = element_text(color = "black"), 
+    plot.margin = margin(t = 0.25, r = 1, b = 0.25, l = 0.25, unit = "lines"), 
+    axis.title.y = element_blank()
+  )
+
+ggsave(here(plotdir, "NatM_bridging.png"), M_plot, height = 5, width = 9, units = "in", dpi = 300)
+
+write.csv(M_bridge, here(plotdir, "NatM_bridging.csv"), row.names = FALSE)
+
+# HnL exploration bridging plots --------------------------
 
 # List directories and model names
 models <- c(

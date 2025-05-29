@@ -390,18 +390,17 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-NatMort-priors
+#| label: fig-NatMort
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "The prior for natural mortality (black, M, yr-1 ) and the estimated M for females (red) and males (blue) with asymptotic approximation to the sampling distribution. The means of each distribution are shown with triangles."
-#| out.width: "70%"
+#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
+#| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/NatMort_priors.png")
+    here::here("figures", "bridging", "NatM_bridging.png")
 )
-
 ```
 
 
@@ -435,6 +434,21 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2019-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning stock biomass (fraction unfished / depletion) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare3_Bratio.png")
 )
 
 ```
@@ -609,7 +623,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fits (blue lines) to the abundance estimates (black points) for the base model. A separate q is estimated for the Hake series starting in 1991. Except the juvenile survey (counts) all indices are biomass-based. 95% confidence intervals are shown in the input standard errors. Thicker lines (if present) indicate input uncertainty before addition of the estimated additional uncertainty parameter."
+#| fig-cap: "Fits (blue lines) to the abundance estimates (black points) for the base model. A separate q is estimated for the Hake series starting in 1991. Except the juvenile survey (counts) all indices are biomass-based. 95% confidence intervals are shown assuming a normal distribution of the log-estimates. Thicker lines (if present) indicate input uncertainty before addition of the estimated additional uncertainty parameter. The y-axis of the juvenile survey is truncated to highlight interannual variability in counts."
 #| out.width: "100%"
 #| fig-align: "center"
 

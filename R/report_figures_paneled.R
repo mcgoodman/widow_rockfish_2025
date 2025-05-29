@@ -110,6 +110,11 @@ index_fits <- base_par$cpue |>
 index_fits$lower_in[index_fits$SE_input == index_fits$SE] <- NA
 index_fits$upper_in[index_fits$SE_input == index_fits$SE] <- NA
 
+# Limit y-axis scale for juvenile survey
+index_fits$upper_out[index_fits$Fleet_name == "JuvSurvey" & index_fits$upper_out > 5e+05] <- 5e+05
+
+index_fits$Fleet_name[index_fits$Fleet_name == "NWFSC"] <- "WCGBTS"
+
 index_plot <- index_fits |> 
   ggplot(aes(Year, Index)) + 
   geom_pointrange(aes(ymin = lower_out, ymax = upper_out), size = 0.25, linewidth = 0.25, lineend = "round") + 

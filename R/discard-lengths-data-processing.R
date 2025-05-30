@@ -563,3 +563,31 @@ jpeg(here("figures/discard_comps/bottom_trawl_wcgop.jpg"), width = 2550, height 
     }
   }
 dev.off()  
+
+
+##Plot Midwater Trawl WCGOP 
+jpeg(here("figures/discard_comps/midwater_trawl_wcgop.jpg"), width = 2550, height = 1650, res = 300)
+
+# Plot Bottom Trawl from WCGOP 
+par(mfrow=c(1,1))
+fltsrv <- "Midwater Trawl Discard, WCGOP"
+dat_sub <- lcomps.2025[which(lcomps.2025$fleet == 2),]
+dat_sub <- dat_sub[which(dat_sub$year > 1990),]
+dat_sub <- dat_sub[which(dat_sub$part %in% c(1)),]
+ylab="Length (cm)"; xlab="Year"
+
+nbins <- 25
+x <- as.numeric(as.character(dat_sub$year))
+dat <- dat_sub[,7:31]
+inch <- 0.1
+y <- as.numeric(substring(names(dat),2))
+y <- y[1:nbins]
+xlim <- range(x)
+
+plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = fltsrv)
+for(j in 1:nrow(dat_sub)){
+  if(dat_sub$year[j] > 1990){
+    symbols(rep(dat_sub$year[j], nbins),y,circles=dat[j,grep("f", colnames(dat))],inches=inch, add = TRUE)
+  }
+}
+dev.off()  

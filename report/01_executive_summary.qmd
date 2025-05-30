@@ -33,6 +33,8 @@ library("dplyr")
 library("officer")
 library("here")
 
+
+
 exec_tab_style <- function(ft) {
   ft %>% 
   font(fontname = "Times New Roman", part = "all") %>%
@@ -496,6 +498,7 @@ table_g <- round(signif(table_g[,], 5), 3)
 
 
 #manually add buffer
+model_path <- here::here("models","2025 base model")
 buffer <- r4ss::SS_readforecast(file = here(model_path,"forecast.ss"),verbose =  FALSE)$Flimitfraction_m$fraction
 
 ### modify projections table for model that falls below target

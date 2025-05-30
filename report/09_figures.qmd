@@ -354,6 +354,20 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-disccomps-mwt-wcgop
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Length compositions of the discards for the midwater trawl."
+#| out.width: "80%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/discard_comps/midwater_trawl_wcgop.jpg")
+)
+
+```
 
 
 

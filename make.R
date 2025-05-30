@@ -42,6 +42,11 @@ run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ..
 
 if (jobs$data) {
   
+  run_jobs(
+    here("R", "length_weight.R"), 
+    name = "length-weight parameters"
+  )
+  
   run_job(
     here("R", "catches.R"), # Runs
     name = "process landings"
@@ -102,7 +107,7 @@ if (jobs$diagnostics) {
 if (jobs$report_plots) {
   
   run_job(
-    here("R", "decision_table.R"), # Fails
+    here("R", "decision_table.R"), # Runs
     name = "decision table"
   )
   

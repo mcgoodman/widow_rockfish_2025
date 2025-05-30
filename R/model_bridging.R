@@ -95,12 +95,14 @@ if (!skip_finished) {
 dir.create(LWdir <- here(bridgedir, "length_weight"))
 r4ss::copy_SS_inputs(Mdir, LWdir, overwrite = TRUE)
 
+lw_pars <- read.csv(here("data_derived", "length_weight", "weight_length_estimates.csv"))
+
 ctrl <- SS_readctl(paste0(LWdir, "/2025widow.ctl"), datlist = paste0(LWdir, "/2025widow.dat"))
 
-ctrl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT <- 1.59e-5
-ctrl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT <- 2.99
-ctrl$MG_parms["Wtlen_1_Mal_GP_1", ]$INIT <- 1.45e-5
-ctrl$MG_parms["Wtlen_2_Mal_GP_1", ]$INIT <- 3.01
+ctrl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT <- lw_pars$A[lw_pars$Source == "All" & lw_pars$sex == "female"]
+ctrl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT <- lw_pars$B[lw_pars$Source == "All" & lw_pars$sex == "female"]
+ctrl$MG_parms["Wtlen_1_Mal_GP_1", ]$INIT <- lw_pars$A[lw_pars$Source == "All" & lw_pars$sex == "male"]
+ctrl$MG_parms["Wtlen_2_Mal_GP_1", ]$INIT <- lw_pars$B[lw_pars$Source == "All" & lw_pars$sex == "male"]
 
 SS_writectl(ctrl, paste0(LWdir, "/2025widow.ctl"), overwrite = TRUE)
 

@@ -7,6 +7,8 @@ library("tidyverse")
 library("nwfscSurvey")
 library("openxlsx")
 
+# Read in data --------------------------------------------
+
 historical_length <- openxlsx::read.xlsx(here("data_provided", "ASHOP",
                                "A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx"), 2)
 historical_length <- historical_length %>% 
@@ -23,7 +25,7 @@ ashop_age <- openxlsx::read.xlsx(here("data_provided", "ASHOP",
                          "A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx"), sheet = 1)
 ashop_age <- ashop_age %>% mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN)
 
-# create new column for mathcing length bin?
+# Compute comps -------------------------------------------
 
 raw_ashop_lengths_historic <- get_raw_comps(
   data = historical_length,
@@ -53,7 +55,6 @@ raw_ashop_lengths_modern <- get_raw_comps(
   verbose = TRUE
 )
 
-
 raw_ashop_age <- get_raw_comps(
   data = ashop_age,
   comp_bins = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 
@@ -69,6 +70,8 @@ raw_ashop_age <- get_raw_comps(
   printfolder = "forSS3",
   verbose = TRUE
 )
+
+# Save ----------------------------------------------------
 
 write_csv(raw_ashop_lengths_historic$sexed, file = here("data_derived", "ASHOP_composition", "ASHOP_lengths_1976-1986_sexed.csv"))
 write_csv(raw_ashop_lengths_historic$unsexed, file = here("data_derived", "ASHOP_composition", "ASHOP_lengths_1976-1986_unsexed.csv"))

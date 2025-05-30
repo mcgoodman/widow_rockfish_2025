@@ -128,7 +128,7 @@ write.csv(table2_dat, here("report", "tables", "landings_hake.csv"), row.names =
 
 # Table 10 - Length trips for gear and state, non-hake --------------
 
-source(here("R", "commerical_comps_clean_expand.R"))
+source(here("R", "commercial_comps_clean_expand.R"))
 
 catch_formatted_all <- catch.pacfin |>
   filter(gear_group %in% unique(bds_cleaned$gear_group)) |> #Only keep catch from fleets in bds

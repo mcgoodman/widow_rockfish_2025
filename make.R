@@ -42,19 +42,24 @@ run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ..
 
 if (jobs$data) {
   
-  run_jobs(
-    here("R", "length_weight.R"), 
+  run_job(
+    here("R", "length_weight.R"), # Runs
     name = "length-weight parameters"
+  )
+  
+  run_job(
+    here("R", "ASHOP_composition.R"), # Runs
+    name = "process ASHOP comps"
+  )
+  
+  run_job(
+    here("R", "commercial_comps_clean_expand.R"), # Runs
+    name = "expand commercial comps"
   )
   
   run_job(
     here("R", "catches.R"), # Runs
     name = "process landings"
-  )
-  
-  run_job(
-    here("R", "commercial_comps_clean_expand.R"), # Fails
-    name = "commerical comps"
   )
   
 }

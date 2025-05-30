@@ -63,16 +63,21 @@ save(recent_management, file = here("report", "tables", "exec_summ_tables", "rec
 load(here("report", "tables", "exec_summ_tables", "projections.rda"))
 
 gmt_25_26 <- gmt_refs |> 
-  filter(YEAR == 2026) |> mutate(spec = case_when(
-    SPECIFICATION_NAME == "Overfishing Limit" ~ "OFL (mt)", 
+  filter(YEAR %in% c(2025,2026)) |> mutate(spec = case_when(
+    SPECIFICATION_NAME == "Overfishing Limit" ~ "Adopted OFL (mt)", 
     SPECIFICATION_NAME == "Acceptable Bio Catch" ~ "ABC (mt)", 
-    SPECIFICATION_NAME == "Annual Catch Limit"  ~ "ACL (mt)"
+    SPECIFICATION_NAME == "Annual Catch Limit"  ~ "Adopted ACL (mt)"
   )) |>
   filter(!is.na(spec)) |> 
   select(Year = YEAR, spec, VAL) |> 
   pivot_wider(names_from = "spec", values_from = "VAL")
 
-projections$table <- projections$table |> rows_update(gmt_25_26, by = "Year")
+projections$table <- projections$table |>
+  mutate(
+    `Adopted OFL (mt)` = as.numeric(`Adopted OFL (mt)`),
+    `ABC (mt)` = as.numeric(`ABC (mt)`),
+    `Adopted ACL (mt)` = as.numeric(`Adopted ACL (mt)`)
+  )|> rows_update(gmt_25_26, by = "Year")
   
 save(projections, file = here("report", "tables", "exec_summ_tables", "projections.rda"))
 

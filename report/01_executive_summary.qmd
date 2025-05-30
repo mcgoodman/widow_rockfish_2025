@@ -203,34 +203,42 @@ knitr::include_graphics(
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 
-colnames(table_B) <- c("Year", 
-                       "Spawning Biomass (mt)", 
-                       "Lower Interval (SSB, mt)", "Upper Interval (SSB, mt)" , 
-                       "Fraction Unfished", 
-                       "Lower Interval (Frac. Unfish.)", "Upper Interval (Frac. Unfish.)")
+# colnames(table_B) <- c("Year",
+#                        "Spawning Biomass (mt)",
+#                        "Lower Interval (SSB, mt)", "Upper Interval (SSB, mt)" ,
+#                        "Fraction Unfished",
+#                        "Lower Interval (Frac. Unfish.)", "Upper Interval (Frac. Unfish.)")
 
-# table_B <- table_B |> 
+#  table_B <- table_B |>
 #   mutate(
 #     Year = as.character(Year),
 #     SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
-#     SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","), 
+#     SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","),
 #     SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
-#     SSB_CI = paste0(SSB_lower, " - ", SSB_upper), 
+#     SSB_CI = paste0(SSB_lower, " - ", SSB_upper),
 #     Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
 #   ) |>
 #   dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
 # 
 # colnames <- c(
-#   "Year", "Spawning Biomass", "95% Confidence Interval", 
+#   "Year", "Spawning Biomass", "95% Confidence Interval",
 #   "Estimated Depletion (%)", "95% Confidence Interval"
 # )
 
 # Create flextable
-# flextable(table_B, col_keys = names(table_B)) |> 
-#   set_header_labels(names = names(table_B), values = colnames) |> 
+# flextable(table_B, col_keys = names(table_B)) |>
+#   set_header_labels(names = names(table_B), values = colnames) |>
 #   set_table_properties(layout = "autofit") %>% exec_tab_style
 
+
+table_B <- table_B %>%
+  mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3)))
+
 flextable(table_B) |> 
+  colformat_num(j = 1, big.mark = "", digits = 0)%>%
+  # mutate(
+  #   "Fraction Unfished" = format("Fraction Unfished",3)
+  # )
   set_table_properties(layout = "autofit") %>% exec_tab_style
 
 ```
@@ -297,6 +305,11 @@ colnames(table_c) <- c("Year",
 #   set_header_labels(names = names(table_C), values = colnames) %>%
 #   colformat_num(j=3, big.mark = ",")%>%
 #   exec_tab_style
+table_c <- table_c %>%
+  mutate(across(2:4, ~ round(.x, 0)))|>
+  mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3)))
+
+
 flextable(table_c) %>%
   colformat_num(j = 1, big.mark = "") %>%
   colformat_num(j=3, big.mark = ",")%>%
@@ -335,8 +348,13 @@ table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda")
 # flextable(table_d, col_keys = names(table_d)) %>%
 #   set_header_labels(names = names(table_C), values = colnames) %>%
 #   exec_tab_style
+table_d <- table_d|>
+mutate(across(2:7, ~ round(.x, 3)))
+
 flextable(table_d) %>%
+    colformat_num(j = 1, big.mark = "") %>%
   exec_tab_style
+
 
 ```
 
@@ -384,6 +402,9 @@ ref_pts <- setNames(
 ```
 
 Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. SPR, or the spawning potential ratio, is the fraction of expected lifetime reproductive output under a given fishing intensity divided by unfished expected lifetime reproductive output. While the estimate of total population scale has remained relatively steady across the 2015, 2019, and 2025 assessments, unfished recruitment and natural mortality, which are positively correlated, have declined from 2015 (female natural mortality of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^). Thus, although the scale is estimated consistently, additional years of data (in particular, age composition data) following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, and model estimate of MSY).
+
+{{< pagebreak >}} 
+
 
 ```{r}
 #| label: tbl-e
@@ -646,7 +667,9 @@ flextable(table_h) |>
   width(width = 0.6, j = 2:(ncol(table_h) - 1)) |>
   width(width = 0.9, j = 1)|>
     hline(i = 12)|>
-  hline_bottom(j = 9)
+  hline_bottom(j = 9)|>
+  line_spacing(space = 0.8, part = "all")
+
 
 ```
 

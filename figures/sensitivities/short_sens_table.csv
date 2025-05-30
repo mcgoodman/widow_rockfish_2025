@@ -1,4 +1,4 @@
-"Label","Base","Fixed natural mortality to 2015 prior","Fixed natural mortality to 2011 prior","Midwatertrawl asymptotic selectivity forced","Logistic selectivity curves for surveys","Inclusing of shrimp trawl","New Washington catch reconstruction","Exclusion of triennial survey","Francis weighting"
+"Label","Base","Fixed natural mortality to 2015 prior","Fixed natural mortality to 2011 prior","Midwatertrawl asymptotic selectivity forced","Logistic selectivity curves for surveys","Inclusion of shrimp trawl","New Washington catch reconstruction","Exclusion of triennial survey","Francis weighting"
 "LIKELIHOOD","Difference from base model","","","","","","","",""
 "Total","19047","21.7","5.4","234.9","239.2","0.8","685","90.1","-1230.4"
 "Survey","13.022","2.609","0.323","1.504","-1.633","-0.01","-0.056","7.917","0.458"

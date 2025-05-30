@@ -28,9 +28,7 @@ exe_loc <- here(model_directory, ss3_exe)
 # Base model name
 base_model_name <- '2025 base model'
 
-# ------------------------------------------------------------------------------
-# 2025 Base Model (only if not already run!)
-# ------------------------------------------------------------------------------
+# 2025 Base Model -------------------------------------------------------------
 
 # Read in the base file
 run_base_model <- here(model_directory, base_model_name)
@@ -51,10 +49,6 @@ replist <- SS_output( # make the output files
   covar = TRUE
 )
 
-# ------------------------------------------------------------------------------
-# If 2025 Base Model is run
-# ------------------------------------------------------------------------------
-
 # Read base model if made
 base_model <- SS_read(file.path(model_directory, base_model_name), 
                       ss_new = FALSE)
@@ -62,11 +56,9 @@ base_model <- SS_read(file.path(model_directory, base_model_name),
 # Where Outputs are stored
 base_out <- SS_output(file.path(model_directory, base_model_name))
 
-# ------------------------------------------------------------------------------
-# Write sensitivities 
-# ------------------------------------------------------------------------------
+# Write sensitivities ---------------------------------------------------------
 
-## Weighting composition data with Francis Method ------------------------------
+## Weighting composition data with Francis Method -----------------------------
 
 ### step 1: Create outputs by copying input files 
 
@@ -341,7 +333,7 @@ model_list <- c(
   `Fixed natural mortality to 2011 prior` = "FixedFMort2019_B", 
   `Midwatertrawl asymptotic selectivity forced` = "AsympSelMidwaterTrawl", 
   `Logistic selectivity curves for surveys` = "LogisCurvSurvSel", 
-  `Inclusing of shrimp trawl` = "ShrmpNoShrmp", 
+  `Inclusion of shrimp trawl` = "ShrmpNoShrmp", 
   `New Washington catch reconstruction` = "NewWACatch",
   # `Fixed steepness at 0.4` = "FixedSteep2019_A", 
   # `Fixed steepness at 0.6` = "FixedSteep2019_B", 
@@ -372,47 +364,8 @@ parallel::stopCluster(cl)
 run_checks <- vapply(runs, \(x) x == "ran model" | x == "contained Report.sso", logical(1))
 if(!all(run_checks)) stop("1 or more runs failed")
 
-#-------------------------------------------------------------------------------
-# Only needed if updating indices in sensitivity runs
-#-------------------------------------------------------------------------------
 
-# furrr::future_map(sensi_dirs[-tuning_mods], \(x) 
-#                   run(file.path("models", 'sensitivities ', x), 
-#                       exe = exe_loc, extras = '-nohess', skipfinished = FALSE)
-# )
-
-# Indices sensitivities used in yelloweye rock fish assessment begin here-------
-
-#furrr::future_map(c('nonlinear_q', 'oceanographic_index'), \(x) 
-#                  run(file.path("models", 'sensitivities ', x), 
-#                      exe = exe_loc, extras = '-nohess', skipfinished = FALSE)
-#)
-#
-#future::plan(future::sequential)
-
-
-# Plot stuff --------------------------------------------------------------
-
-#-------------------------------------------------------------------------------
-# Grouped plots
-#-------------------------------------------------------------------------------
-
-## If testing indices sensitivities --------------------------------------------
-
-# indices <- c(
-#   `No indices` = "no_indices", 
-#   `- SMURF index` = "no_smurf", 
-#   `+ WCGOP index` = "observer_index", 
-#   `+ Oceanographic index` = "oceanographic_index", 
-#   `+ ORBS index` = "ORBS", 
-#   `+ ORBS w/added SE` = "ORBS_SE", 
-#   `+ RREAS index` = "RREAS", 
-#   `Decrease WCGBTS CV` = "upweight_wcgbts"
-# )
-
-# model_list <- c(model_list, indices)
-
-## Put it all together ---------------------------------------------------------
+## Put it all together --------------------------------------------------------
 
 # sens_paths <- c(base = here("GitHub", "widow-assessment-update", "models", "2025 base model"), model_paths) # missing RStudio
 sens_paths <- c(base = here("models", "2025 base model"), model_paths)
@@ -420,7 +373,7 @@ sens_paths <- c(base = here("models", "2025 base model"), model_paths)
 big_sensitivity_output <- SSgetoutput(dirvec = sens_paths) |>
   setNames(c('2025 base model', names(model_list)))
 
-## Test to make sure they all read correctly -----------------------------------
+## Test to make sure they all read correctly ----------------------------------
 
 which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
 
@@ -476,36 +429,7 @@ for (b in 3:(dim(big_table)[2])) {
 
 big_table |> write.csv(file.path(outdir, "short_sens_table.csv"), row.names = FALSE)
 
-# for (i in seq_along(model_list)) {
-#   
-#   shortlist <- r4ss::SSsummarize(big_sensitivity_output[c('base', names(model_list))])
-#   
-#   r4ss::SSplotComparisons(shortlist,
-#                           subplots = c(2, 4, 18), 
-#                           print = TRUE,  
-#                           plot = FALSE,
-#                           plotdir = outdir, 
-#                           filenameprefix = tmp,
-# 			  legendloc = "bottomleft",
-#                           legendlabels = c('Base', names(model_list)), 
-#                           endyrvec = 2036)
-#   
-#   SStableComparisons(
-#     shortlist, 
-#     modelnames = c('Base', names(model_list)[i]),
-#     names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SmryBio_unfished", "SSB_Virg",
-#              "SSB_2025", "Bratio_2025", "SPRratio_2024", "LnQ_base_WCGBTS"),
-#     likenames = c(
-#       "TOTAL", "Survey", "Length_comp", "Age_comp",
-#       "Discard", "Mean_body_wt", "Recruitment", "priors"
-#     )
-#   ) |> 
-#     setNames(c('Label', 'Base', names(model_list))) |>
-#     write.csv(file.path(outdir, paste0(i, '_table.csv')), row.names = FALSE)
-#   
-# }
-
-## Big plot --------------------------------------------------------------------
+# Summary plot ----------------------------------------------------------------
 
 current.year <- 2025
 CI <- 0.95

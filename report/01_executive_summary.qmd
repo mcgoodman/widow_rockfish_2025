@@ -1,4 +1,4 @@
-# Executive Summary
+# Executive Summary {.unnumbered}
 
 <!-- 
 Note r4ss::table_exec_summary() will create the required tables. 
@@ -488,10 +488,11 @@ Projections with catches based on the predicted annual catch limit (ACL) using t
 #| label: tbl-g
 #| echo: false
 #| warning: false
-#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning biomass (mt), and fraction of unfished spawning biomass. The predicted OFL is the calculated total catch determined by FSPR=50%."
+#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning biomass (mt), and fraction of unfished spawning biomass with adopted OFLs and ACLs and assumed catch for the first two years of the projection period. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
 table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
-table_g <- round(signif(table_g[,-c(2:3)], 5), 3)
+table_g <- round(signif(table_g[,], 5), 3)
+#table_g <- round(signif(table_g[,-c(2:3)], 5), 3)
 
 
 #manually add buffer
@@ -511,6 +512,9 @@ table_g[NA_rows, "ABC (mt)"] <- table_g[["Buffer"]][NA_rows] * table_g$"OFL (mt)
 
 #replace NA with dashes
 table_g[is.na(table_g)] <- "-"
+
+#Replace OFL, bufferm ABC and ACL for 2025, 2026
+table_g[c(1,2),c("OFL (mt)","Buffer","ABC (mt)","ACL (mt)")] <- "-"
 
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%

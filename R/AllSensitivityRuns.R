@@ -73,7 +73,7 @@ base_out <- SS_output(file.path(model_directory, base_model_name))
 francis_dir <- file.path(model_directory, "sensitivities", "Francis")
 
 r4ss::copy_SS_inputs(dir.old = file.path(model_directory, base_model_name), 
-                     dir.new = francis_dir)
+                     dir.new = francis_dir, overwrite = TRUE)
 
 #### copy over the Report file 
 cpy_files <- c('Report.sso', 'CompReport.sso', 'warning.sso', 'covar.sso')
@@ -204,40 +204,40 @@ SS_write(asy_select_mwt, file.path("models", "sensitivities", "AsympSelMidwaterT
 log_select_survey <- base_model
 
 ### Step 2: Apply sensitivity changes
-log_select_survey$ctl$size_selex_types["NWFSC",]$Pattern <- 1 # for logisitic
-log_select_survey$ctl$age_selex_types["NWFSC",]$Pattern <- 12 # for logisitic
+log_select_survey$ctl$size_selex_types["WCGBTS",]$Pattern <- 1 # for logisitic
+log_select_survey$ctl$age_selex_types["WCGBTS",]$Pattern <- 12 # for logisitic
 # size selectivity: replace with P_1 & P_2
 # names to remove
-rm_old_spline <- c("SizeSel_Spline_Code_NWFSC(8)", 
-                   "SizeSel_Spline_GradLo_NWFSC(8)",
-                   "SizeSel_Spline_GradLo_NWFSC(8)",
-                   "SizeSel_Spline_GradHi_NWFSC(8)",
-                   "SizeSel_Spline_Knot_1_NWFSC(8)",
-                   "SizeSel_Spline_Knot_2_NWFSC(8)",
-                   "SizeSel_Spline_Knot_3_NWFSC(8)",
-                   "SizeSel_Spine_Val_1_NWFSC(8)",
-                   "SizeSel_Spine_Val_2_NWFSC(8)",
-                   "SizeSel_Spine_Val_3_NWFSC(8)")
+rm_old_spline <- c("SizeSel_Spline_Code_WCGBTS(8)", 
+                   "SizeSel_Spline_GradLo_WCGBTS(8)",
+                   "SizeSel_Spline_GradLo_WCGBTS(8)",
+                   "SizeSel_Spline_GradHi_WCGBTS(8)",
+                   "SizeSel_Spline_Knot_1_WCGBTS(8)",
+                   "SizeSel_Spline_Knot_2_WCGBTS(8)",
+                   "SizeSel_Spline_Knot_3_WCGBTS(8)",
+                   "SizeSel_Spine_Val_1_WCGBTS(8)",
+                   "SizeSel_Spine_Val_2_WCGBTS(8)",
+                   "SizeSel_Spine_Val_3_WCGBTS(8)")
 log_select_survey$ctl$size_selex_parms <- log_select_survey$ctl$size_selex_parms[!(row.names(log_select_survey$ctl$size_selex_parms) %in% rm_old_spline), ]
 # and insert the two new parameters, choosing inital values based on 2019 spline results
 log_select_survey$ctl$size_selex_parms <- 
   log_select_survey$ctl$size_selex_parms |> 
   insert_row(
-    new_row = "SizeSel_P_1_NWFSC(8)",
+    new_row = "SizeSel_P_1_WCGBTS(8)",
     ref_row = "SizeSel_Spine_Val_3_Triennial(7)"
   )
-log_select_survey$ctl$size_selex_parms["SizeSel_P_1_NWFSC(8)", ] <- c(20, 50, 35, 35, 0.5, 0, 2, 0, 0, 0, 0, 0.5, 0, 0) 
+log_select_survey$ctl$size_selex_parms["SizeSel_P_1_WCGBTS(8)", ] <- c(20, 50, 35, 35, 0.5, 0, 2, 0, 0, 0, 0, 0.5, 0, 0) 
 log_select_survey$ctl$size_selex_parms <- 
   log_select_survey$ctl$size_selex_parms |> 
   insert_row(
-    new_row = "SizeSel_P_2_NWFSC(8)",
-    ref_row = "SizeSel_P_1_NWFSC(8)"
+    new_row = "SizeSel_P_2_WCGBTS(8)",
+    ref_row = "SizeSel_P_1_WCGBTS(8)"
   )
-log_select_survey$ctl$size_selex_parms["SizeSel_P_2_NWFSC(8)", ] <- c(5, 20, 15, 15, 0.5, 0, 2, 0, 0, 0, 0, 0.5, 0, 0) 
+log_select_survey$ctl$size_selex_parms["SizeSel_P_2_WCGBTS(8)", ] <- c(5, 20, 15, 15, 0.5, 0, 2, 0, 0, 0, 0, 0.5, 0, 0) 
 
 # hold age_selex_parms for now, they are P_1, P_2.... though add estimation of them, i.e., change phase to positive number
-log_select_survey$ctl$age_selex_parms["AgeSel_P_1_NWFSC(8)", ]$PHASE <- 2
-log_select_survey$ctl$age_selex_parms["AgeSel_P_2_NWFSC(8)", ]$PHASE <- 2
+log_select_survey$ctl$age_selex_parms["AgeSel_P_1_WCGBTS(8)", ]$PHASE <- 2
+log_select_survey$ctl$age_selex_parms["AgeSel_P_2_WCGBTS(8)", ]$PHASE <- 2
 
 ### Step 3: Save sensitivity as new model
 

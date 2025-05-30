@@ -54,21 +54,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-AppA-midtrawl-disc
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Fits to the discarded length compositions for the midwater trawl fleet."
-#| out.width: "70%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt2mkt1.png")
-)
-
-```
-
-```{r}
 #| label: fig-AppA-hake
 #| echo: false
 #| warning: false

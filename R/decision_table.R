@@ -21,7 +21,6 @@ if (!requireNamespace("tinytex", quietly = TRUE)) {
 library(tinytex)
 
 #Other required code
-source(here("R","functions","set_ss3_exe.R"))
 source(here("R","functions","bridging_functions.R"))
 
 format_dec_table <- "https://raw.githubusercontent.com/pfmc-assessments/yellowtail_2025/main/Rscripts/table_decision.R"

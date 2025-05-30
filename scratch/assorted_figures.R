@@ -32,7 +32,7 @@ tri_bio$age_data$fleet <- rep("Triennial")
 # use caal_fm, caal_ml
 caal_fm$Sex <- rep("female"); caal_ml$Sex <- rep("male")
 surv_agelen <- rbind(caal_fm, caal_ml) %>% filter(count > 0, Lbin_lo > 0)
-surv_agelen$fleet <- rep("NWFSC") # no other data w Lbin_lo > 0
+surv_agelen$fleet <- rep("WCGBTS") # no other data w Lbin_lo > 0
 
 # pacfin data **ADD**
 # read in here
@@ -120,7 +120,7 @@ vbl_lines <- data.frame(widow_age = c(age_range, age_range, age_range, age_range
 #   scale_color_manual(values = c( "#005BFF", "#FF592F","gray", "#F6F900")) 
 
 all_agelen <- all_agelen %>%
-  mutate(widow_fleet = factor(widow_fleet, levels = c("NWFSC", "ASHOP", "Triennial", "PACFIN")))
+  mutate(widow_fleet = factor(widow_fleet, levels = c("WCGBTS", "ASHOP", "Triennial", "PACFIN")))
 
 ##Need to calculate t0 as our models has a non-traditional paramterisation of Vb, while the plot has classic
 get_t0 <- function(L_min = 20, L_max = 45,A_min = 1,A_max = 40,k = 0.21){
@@ -186,7 +186,7 @@ ggplot(all_agelen, aes(widow_age, widow_len)) +
   ) +
   scale_color_manual(
     values = c(
-      "NWFSC" = "#005BFF",
+      "WCGBTS" = "#005BFF",
       "ASHOP" = "#FF592F",
       "Triennial" = "gray",
       "PACFIN" = "#2E8B57"

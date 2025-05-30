@@ -346,21 +346,9 @@ if (!skip_finished) {
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
-
-##Adjust the name of the NWFSC-WCBTS fleet in the model
-dat_2025 <- SS_readdat(here(Base2025,"2025widow.dat"),verbose = FALSE)
-dat_2025$fleetnames <- ifelse(dat_2025$fleetnames == "NWFSC", "WCGBTS", dat_2025$fleetnames)
-dat_2025$fleetinfo$fleetname <- ifelse(dat_2025$fleetinfo$fleetname  == "NWFSC", "WCGBTS", dat_2025$fleetinfo$fleetname)
-rownames(dat_2025$CPUEinfo) <- ifelse(rownames(dat_2025$CPUEinfo) == "NWFSC","WCGBTS",rownames(dat_2025$CPUEinfo))
-rownames(dat_2025$len_info) <- ifelse(rownames(dat_2025$len_info) == "NWFSC","WCGBTS",rownames(dat_2025$len_info))
-rownames(dat_2025$age_info) <- ifelse(rownames(dat_2025$age_info) == "NWFSC","WCGBTS",rownames(dat_2025$age_info))
-
-SS_writedat(datlist = dat_2025,outfile  = here(Base2025,"2025widow.dat"),verbose = FALSE,overwrite = T)
-
-
-
 ##Read in the newly formatted forecast file, edit and overwrite
 fcst <- r4ss::SS_readforecast(here("scratch","newly_formatted_2025_foc.ss"))
+
 #Set P*45 for projection table
 fcst$Flimitfraction_m <- SS_read(here("data_derived","decision_table","45_base"))$fore$Flimitfraction_m
 
@@ -370,7 +358,7 @@ fcst$ForeCatch <- gmt_fcst
 
 SS_writeforecast(mylist = fcst, dir = Base2025, overwrite = TRUE)
 
-
 #Run the model
 r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE)
+r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE, extras = "-hess_step")
 r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")), dir = here::here("figures","2025 base model r4ss plots"))

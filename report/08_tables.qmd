@@ -1041,6 +1041,7 @@ flextable(table_g) %>%
 #| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
 
 table36 <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
+table36$scenario[is.na(table36$scenario)] <- "P*0.40"
 
 # table36 <- table36[,2:6]
 # break up management & state of nature
@@ -1092,7 +1093,7 @@ table36$scenario <- plyr::revalue(table36$scenario,
 #   width(width = 0.6, j = 2:(dim(table36)[2]-1)) |>
 #   width(width = 0.9, j = 1)
 
-table36 <- table36|>filter(scenario != "Constant catch (9,000 K)")|>select(-X)
+table36 <- table36|>filter(scenario != "Constant catch (9,000 K)")
 # 
 # flextable(table36) |>
 #   set_header_labels(values = c(scenario = "Management decision",

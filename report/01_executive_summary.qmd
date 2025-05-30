@@ -558,6 +558,7 @@ flextable(table_g) %>%
 #| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
+table_h$scenario[is.na(table_h$scenario)] <- "P*0.40"
 
 # table_h <- table_h[,2:6]
 # break up management & state of nature
@@ -609,7 +610,7 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
 #   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
 #   width(width = 0.9, j = 1)
 
-table_h <- table_h|>filter(scenario != "Constant catch (9,000 K)")|>select(-X)
+table_h <- table_h |> filter(scenario != "Constant catch (9,000 K)")
 # 
 # flextable(table_h) |>
 #   set_header_labels(values = c(scenario = "Management decision",
@@ -760,7 +761,7 @@ Steepness was fixed at 0.720 in the base model, but a likelihood profile showed 
 
 - **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment, particularly the influence of age data on natural mortality.
 
-- **Historical landings and discards:** Although progress has been made in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for.
+- **Historical landings and discards:** Although progress has been made in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for. In addition, discard composition data have become available for the midwater trawl fleet in recent years and should be included in future assessments.
 
 <!-- - **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species. -->
 

@@ -158,7 +158,7 @@ fits_all_assessments <- comparison_curves |>
   labs(x = "Length (cm)", y = "Weight (kg)") +
   coord_cartesian(xlim = c(0, 70), ylim = c(0, 4))
 
-ggsave(here(fig_dir, "WL_fits_by_assessment.png"), fits_all_assessments, height = 5, width = 10, units = "in", dpi = 300)
+ggsave(here(fig_dir, "WL_fits_by_assessment.png"), fits_all_assessments, height = 4, width = 8, units = "in", dpi = 300)
 
 # Compare only 2019 and 2025
 fits_2019_2025 <- comparison_curves |> 
@@ -173,4 +173,4 @@ fits_2019_2025 <- comparison_curves |>
   labs(x = "Length (cm)", y = "Weight (kg)") +
   coord_cartesian(xlim = c(0, 70), ylim = c(0, 4))
 
-ggsave(here(fig_dir, "WL_fits_2019_2025.png"), fits_2019_2025, height = 5, width = 10, units = "in", dpi = 300)
+ggsave(here(fig_dir, "WL_fits_2019_2025.png"), fits_2019_2025, height = 4, width = 8, units = "in", dpi = 300)

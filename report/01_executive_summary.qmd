@@ -652,7 +652,7 @@ flextable(table_h) |>
                     ) |>
   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
-  align(align = "center", part = "all") # |> valign(j = 1, valign = "top") |>
+  align(align = "center", part = "all") |>  # |> valign(j = 1, valign = "top") |>
   font(fontname = "Times New Roman", part = "all") |>
   fontsize(size = 8, part = "all") |>
   padding(padding.top = -2, part = "all") |>

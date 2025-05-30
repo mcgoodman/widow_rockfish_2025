@@ -1,9 +1,9 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-20  16:26:39
+#C file write time: 2025-05-29  15:56:45
 #
 2025widow.dat #_datfile
 2025widow.ctl #_ctlfile
-1 #_init_values_src
+0 #_init_values_src
 1 #_run_display_detail
 1 #_detailed_age_structure
 0 #_checkup
@@ -11,7 +11,7 @@
 0 #_cumreport
 1 #_prior_like
 1 #_soft_bounds
-1 #_N_bootstraps
+0 #_N_bootstraps
 10 #_last_estimation_phase
 1 #_MCMCburn
 1 #_MCMCthin

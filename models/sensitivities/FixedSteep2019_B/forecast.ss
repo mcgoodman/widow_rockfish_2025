@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-21  15:29:31
+#C file write time: 2025-05-30  13:29:52
 #
 1 #_benchmarks
 2 #_MSY
@@ -7,13 +7,23 @@
 0.4 #_Btarget
 #_Bmark_years: beg_bio, end_bio, beg_selex, end_selex, beg_relF, end_relF,  beg_recr_dist, end_recr_dist, beg_SRparm, end_SRparm (enter actual year, or values of 0 or -integer to be rel. endyr)
 0 0 0 0 0 0 1916 0 1916 0
-1 #_Bmark_relF_Basis
+2 #_Bmark_relF_Basis
 1 #_Forecast
 12 #_Nforecastyrs
 1 #_F_scalar
-#_Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_recruits, end_recruits (enter actual year, or values of 0 or -integer to be rel. endyr)
--4 -4 -4 0 0 0
-0 #_Fcast_selex
+-12345  # code to invoke new format for expanded fcast year controls
+# biology and selectivity vectors are updated annually in the forecast according to timevary parameters, so check end year of blocks and dev vectors
+# input in this section directs creation of averages over historical years to override any time_vary changes
+#_Types implemented so far: 1=M, 4=recr_dist, 5=migration, 10=selectivity, 11=rel. F, recruitment
+#_list: type, method (1, 2), start year, end year
+#_Terminate with -9999 for type
+#_ year input can be actual year, or values <=0 to be rel. styr or endyr
+#_Method = 0 (or omitted) means continue using time_vary parms; 1 means to use average of derived factor
+ #_MG_type method st_year end_year
+        10      1      -4        0
+        11      1      -4        0
+        12      1      -4        0
+-9999 0 0 0
 3 #_ControlRuleMethod
 0.4 #_BforconstantF
 0.1 #_BfornoF
@@ -37,22 +47,14 @@
 0 #_fcast_rec_option
 1 #_fcast_rec_val
 0 #_Fcast_loop_control_5
-2021 #_FirstYear_for_caps_and_allocations
+2027 #_FirstYear_for_caps_and_allocations
 0 #_stddev_of_log_catch_ratio
 0 #_Do_West_Coast_gfish_rebuilder_output
 2015 #_Ydecl
 2015 #_Yinit
-2 #_fleet_relative_F
+1 #_fleet_relative_F
 # Note that fleet allocation is used directly as average F if Do_Forecast=4 
 2 #_basis_for_fcast_catch_tuning
-#_vals_fleet_relative_f
- #_seas fleet  Relative F
-      1     1 0.003306009
-      1     2 0.862548985
-      1     3 0.133896572
-      1     4 0.000100000
-      1     5 0.000248434
--9999 0 0
 # enter list of fleet number and max for fleets with max annual catch; terminate with fleet=-9999
 -9999 -1
 # enter list of area ID and max annual catch; terminate with area=-9999
@@ -61,16 +63,16 @@
 -9999 -1
 2 #_InputBasis
  #_year seas fleet catch_or_F
-   2025    1     1      35.93
-   2025    1     2    9374.26
-   2025    1     3    1455.20
-   2025    1     4       0.00
-   2025    1     5       2.70
-   2026    1     1      35.93
-   2026    1     2    9374.26
-   2026    1     3    1455.20
-   2026    1     4       0.00
-   2026    1     5       2.70
+   2025    1     1       76.7
+   2025    1     2     9770.0
+   2025    1     3      778.7
+   2025    1     4        0.0
+   2025    1     5       43.2
+   2026    1     1       70.8
+   2026    1     2     8975.0
+   2026    1     3      734.6
+   2026    1     4        0.0
+   2026    1     5       43.2
 -9999 0 0 0
 #
 999 # verify end of input 

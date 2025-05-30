@@ -1,6 +1,6 @@
 #C 2025 Widow Rockfish Update Assessment
 #C file created using an r4ss function
-#C file write time: 2025-05-20  13:13:50
+#C file write time: 2025-05-29  14:56:36
 #
 1916 #_styr
 2024 #_endyr
@@ -21,7 +21,7 @@
 1	-1	1	1	0	HnL          	#_5
 3	 1	1	2	0	JuvSurvey    	#_6
 3	 1	1	2	0	Triennial    	#_7
-3	 1	1	2	0	NWFSC        	#_8
+3	 1	1	2	0	WCGBTS       	#_8
 3	 1	1	2	0	ForeignAtSea 	#_9
 #_Catch data
 #_year	season	fleet	catch	catch_se
@@ -558,7 +558,7 @@
 5	1	0	0	#_HnL          
 6	0	0	0	#_JuvSurvey    
 7	1	0	0	#_Triennial    
-8	1	0	0	#_NWFSC        
+8	1	0	0	#_WCGBTS       
 9	1	0	0	#_ForeignAtSea 
 #
 #_CPUE_data
@@ -748,7 +748,7 @@
 -1	1e-04	7	0	0	0	0.01	#_HnL          
 -1	1e-04	7	0	0	0	0.01	#_JuvSurvey    
 -1	1e-04	7	0	0	0	0.01	#_Triennial    
--1	1e-04	7	0	0	0	0.01	#_NWFSC        
+-1	1e-04	7	0	0	0	0.01	#_WCGBTS       
 -1	1e-04	7	0	0	0	0.01	#_ForeignAtSea 
 25 #_N_lbins
 #_lbin_vector
@@ -1018,7 +1018,7 @@
 -1	1e-04	2	0	0	0	0.01	#_HnL          
 -1	1e-04	2	0	0	0	0.01	#_JuvSurvey    
 -1	1e-04	2	0	0	0	0.01	#_Triennial    
--1	1e-04	2	0	0	0	0.01	#_NWFSC        
+-1	1e-04	2	0	0	0	0.01	#_WCGBTS       
 -1	1e-04	2	0	0	0	0.01	#_ForeignAtSea 
 3 #_Lbin_method: 1=poplenbins; 2=datalenbins; 3=lengths
  #_combine males into females at or below this bin number

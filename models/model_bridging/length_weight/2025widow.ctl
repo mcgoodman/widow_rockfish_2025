@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-20  13:41:16
+#C file write time: 2025-05-29  15:23:31
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -138,7 +138,7 @@
     3	1	0	1	1	0	#_Hake        
     6	1	0	1	0	1	#_JuvSurvey   
     7	1	0	1	1	0	#_Triennial   
-    8	1	0	1	0	1	#_NWFSC       
+    8	1	0	1	0	1	#_WCGBTS      
     9	1	0	1	0	1	#_ForeignAtSea
 -9999	0	0	0	0	0	#_terminator  
 #_Q_parms(if_any);Qunits_are_ln(q)
@@ -151,8 +151,8 @@
   0	 2	 0.83169	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_JuvSurvey(6)   
  -4	 4	-2.17803	0	99	0	 2	0	0	0	0	0	 9	1	#_LnQ_base_Triennial(7)    
   0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_Triennial(7)   
--25	25	-3.16502	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_NWFSC(8)        
-  0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_NWFSC(8)       
+-25	25	-3.16502	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_WCGBTS(8)       
+  0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_WCGBTS(8)      
 -25	25	-11.4795	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_ForeignAtSea(9) 
   0	 2	0.579699	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_ForeignAtSea(9)
 # timevary Q parameters
@@ -170,7 +170,7 @@
 24	1	0	0	#_5 HnL          
  0	0	0	0	#_6 JuvSurvey    
 27	0	0	3	#_7 Triennial    
-27	0	0	3	#_8 NWFSC        
+27	0	0	3	#_8 WCGBTS       
  5	0	0	3	#_9 ForeignAtSea 
 #
 #_age_selex_patterns
@@ -182,7 +182,7 @@
 10	0	0	0	#_5 HnL          
 11	0	0	0	#_6 JuvSurvey    
 10	0	0	0	#_7 Triennial    
-11	0	0	0	#_8 NWFSC        
+11	0	0	0	#_8 WCGBTS       
 10	0	0	0	#_9 ForeignAtSea 
 #
 #_SizeSelex
@@ -238,22 +238,22 @@
    -10	10	  -1.87994	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_Triennial(7)  
    -10	10	        -1	-10	  99	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_Triennial(7)  
    -10	10	  0.449632	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_Triennial(7)  
-     0	 2	         0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_NWFSC(8)      
--0.001	 1	  0.493265	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_NWFSC(8)    
-    -1	 1	-0.0163988	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_NWFSC(8)    
-     8	56	        24	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_1_NWFSC(8)    
-     8	56	        34	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_2_NWFSC(8)    
-     8	56	        48	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_3_NWFSC(8)    
-   -10	10	  -2.75945	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_NWFSC(8)      
-   -10	10	        -1	-10	  99	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_NWFSC(8)      
-   -10	10	-0.0378029	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_NWFSC(8)      
+     0	 2	         0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_WCGBTS(8)     
+-0.001	 1	  0.493265	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_WCGBTS(8)   
+    -1	 1	-0.0163988	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_WCGBTS(8)   
+     8	56	        24	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_1_WCGBTS(8)   
+     8	56	        34	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_2_WCGBTS(8)   
+     8	56	        48	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_3_WCGBTS(8)   
+   -10	10	  -2.75945	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_WCGBTS(8)     
+   -10	10	        -1	-10	  99	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_WCGBTS(8)     
+   -10	10	-0.0378029	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_WCGBTS(8)     
     -2	60	         0	  0	 0.2	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_P_1_ForeignAtSea(9)       
     -2	60	         0	  0	 0.2	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_ForeignAtSea(9)       
 #_AgeSelex
 0	 1	 0	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_1_JuvSurvey(6)
 0	 1	 0	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_2_JuvSurvey(6)
-0	 1	 0	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_1_NWFSC(8)    
-0	50	40	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_2_NWFSC(8)    
+0	 1	 0	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_1_WCGBTS(8)   
+0	50	40	0	99	0	-99	0	0	0	0	0.5	0	0	#_AgeSel_P_2_WCGBTS(8)   
 # timevary selex parameters 
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
   10	59	  39.3021	 45	0.05	0	 1	#_SizeSel_P_1_BottomTrawl(1)_BLK4repl_1916     
@@ -298,19 +298,19 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	1	0.056092	#_Variance_adjustment_list1 
-    4	2	0.067327	#_Variance_adjustment_list2 
-    4	3	0.129024	#_Variance_adjustment_list3 
-    4	4	0.499195	#_Variance_adjustment_list4 
-    4	5	0.374418	#_Variance_adjustment_list5 
-    4	7	0.372288	#_Variance_adjustment_list6 
-    4	8	0.655526	#_Variance_adjustment_list7 
-    5	1	0.163708	#_Variance_adjustment_list8 
-    5	2	0.272106	#_Variance_adjustment_list9 
-    5	3	0.250877	#_Variance_adjustment_list10
-    5	4	0.499395	#_Variance_adjustment_list11
-    5	5	0.551809	#_Variance_adjustment_list12
-    5	8	0.295941	#_Variance_adjustment_list13
+    4	1	0.056074	#_Variance_adjustment_list1 
+    4	2	0.205429	#_Variance_adjustment_list2 
+    4	3	0.129091	#_Variance_adjustment_list3 
+    4	4	 0.49916	#_Variance_adjustment_list4 
+    4	5	 0.37429	#_Variance_adjustment_list5 
+    4	7	0.372312	#_Variance_adjustment_list6 
+    4	8	0.655323	#_Variance_adjustment_list7 
+    5	1	0.163748	#_Variance_adjustment_list8 
+    5	2	0.273171	#_Variance_adjustment_list9 
+    5	3	0.251147	#_Variance_adjustment_list10
+    5	4	0.499399	#_Variance_adjustment_list11
+    5	5	0.551862	#_Variance_adjustment_list12
+    5	8	 0.29579	#_Variance_adjustment_list13
 -9999	0	       0	#_terminator                
 #
 1 #_maxlambdaphase
@@ -323,13 +323,13 @@
     4	4	1	0.5	1	#_length_Net_sizefreq_method_1_Phz1          
     4	5	1	0.5	1	#_length_HnL_sizefreq_method_1_Phz1          
     4	7	1	  1	1	#_length_Triennial_sizefreq_method_1_Phz1    
-    4	8	1	  1	1	#_length_NWFSC_sizefreq_method_1_Phz1        
+    4	8	1	  1	1	#_length_WCGBTS_sizefreq_method_1_Phz1       
     5	1	1	0.5	1	#_age_BottomTrawl_Phz1                       
     5	2	1	0.5	1	#_age_MidwaterTrawl_Phz1                     
     5	3	1	0.5	1	#_age_Hake_Phz1                              
     5	4	1	0.5	1	#_age_Net_Phz1                               
     5	5	1	0.5	1	#_age_HnL_Phz1                               
-    5	8	1	  1	1	#_age_NWFSC_Phz1                             
+    5	8	1	  1	1	#_age_WCGBTS_Phz1                            
 -9999	0	0	  0	0	#_terminator                                 
 #
 0 # 0/1 read specs for more stddev reporting

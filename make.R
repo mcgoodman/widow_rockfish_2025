@@ -76,8 +76,7 @@ if (jobs$diagnostics) {
   
   run_job(
     here("R", "bridging_plots.R"), # Runs
-    name = "model bridging plots", 
-    wait = FALSE
+    name = "model bridging plots"
   )
   
   run_job(

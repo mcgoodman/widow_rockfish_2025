@@ -485,6 +485,7 @@ dec_table_pars["NatM_uniform_Fem_GP_1","q125"]
 colnames(dec_table_pars)
 
 dec_table_res <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
+dec_table_res$scenario[is.na(dec_table_res$scenario)] <- "P*0.40"
 
 ##gmt stuff
 gmt_catch <- data.frame(read.csv(here("data_provided", "gmt_forecast_catch", "GMT_forecast_catch.csv"))|>

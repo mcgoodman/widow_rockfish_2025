@@ -363,13 +363,13 @@ knitr::include_graphics(
 #| label: fig-wl-fits
 #| echo: false
 #| warning: false
-#| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) using observations from all data sources. The weight-at-length curve from the 2019 assessment is inidcated with a solid line."
-#| out.width: "80%"
+#| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) from the previous and current assessments. Fits to the current assessment use observations from all data sources (points)"
+#| out.width: "95%"
 #| fig-align: center
 
 #Problem
 knitr::include_graphics(
-  here::here("figures", "length_age_weight", "wl_dat.png")
+  here::here("figures", "length_weight", "WL_fits_2019_2025.png")
 )
 ```
 

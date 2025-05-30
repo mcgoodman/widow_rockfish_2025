@@ -17,7 +17,7 @@ load(here("data_provided", "PacFIN", "PacFIN.WDOW.CompFT.25.Mar.2025.RData")) #C
 
 ### Filtering variables -----------------------------------
 
-# Variables are based on the filters used in the 2015 asessment, (2019 unavilable)
+# Variables are based on the filters used in the 2015 assessment, (2019 unavilable)
 # docmented in the widoww code archive and can be found in the script "CommComps.R
 common_name <- "WIDOW ROCKFISH" # Species common name based on NWFSC survey data
 species_code <- "WDOW" # PacFIN species code

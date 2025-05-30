@@ -1,24 +1,25 @@
-#-----------------------------------------------------------------#
-#-------- Decision table -----------------------------------------#
-#-----------------------------------------------------------------#
 
-# Code to implement a decision table for Widow rockfish based on the 2019
-#report. 
+# Author: Mico Kineen
+# Code to implement a decision table for Widow rockfish based on the 2019 report. 
 # States of nature: low (M, h @ 12.5% quantile), base (M,h as estimated), high(M,h @ 87.5%)
 # Management actions: 1) Constant catch of F 9000 MT, 2) ACL p*0.40, sig = 0.5, 3)ACL p*0.45, sig = 0.5
-# Mico Kinneen 10/05/2025
 
-devtools::install_github("pfmc-assessments/PEPtools")
+# Setup ---------------------------------------------------
 
-library(PEPtools)
-library(r4ss)
-library(tidyverse)
-library(here)
-library(parallel)
-if (!requireNamespace("tinytex", quietly = TRUE)) {
+if (!require("PEPtools")) {
+  devtools::install_github("pfmc-assessments/PEPtools")
+  library("PEPtools")
+} 
+
+if (!require("tinytex")){
   install.packages("tinytex")
+  library("tinytex")
 }
-library(tinytex)
+
+library("r4ss")
+library("tidyverse")
+library("here")
+library("parallel")
 
 #Other required code
 source(here("R","functions","bridging_functions.R"))
@@ -37,12 +38,9 @@ gmt_catch <- read.csv(here("data_provided","GMT_forecast_catch","GMT_forecast_ca
   mutate(seas = 1)|>
   select(year,seas,fleet,catch_mt)
 
-#-----------------------------------------------------------------#
-#-------- 1. Management actions -----------------------------------#
-#-----------------------------------------------------------------#
+# Management actions --------------------------------------
 
-
-#-------- Catch stream 1 - Constant catch of 9000 mt ------------#
+## Constant catch of 9000 mt ------------------------------
 
 cc_base <- base_mod
 cc_base_dir <- here("data_derived","decision_table","cc_base")
@@ -60,10 +58,8 @@ fleet_prop <- gmt_catch |>
   pull(mean_vec) |>
   unlist()
 
-
 cc_amount <- 9000 #the total catch
 forc_cc <- cc_amount * fleet_prop #apportioned catch
-
 
 #For all projection years, except 2025, 2026, which are determined by GMT
 proj_cc <-  data.frame( 
@@ -75,7 +71,6 @@ proj_cc <-  data.frame(
 
 #All forecast catch: gmt catches + projection years
 cc_base$fore$ForeCatch <- rbind(gmt_catch,proj_cc)
-
 
 ## Write th model and run it
 SS_write(cc_base,dir = cc_base_dir,overwrite = T)
@@ -90,7 +85,7 @@ cc_base$ctl$MG_parms <- cc_base$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR == -2
 SS_write(cc_base,dir = cc_base_dir,overwrite = T)
 #r4ss::run(dir = cc_base_dir,exe = "ss3",skipfinished = FALSE)
 
-#-------- Catch stream 2 - ACL* P*0.40, sigma = 0.5 ------------#
+## ACL* P*0.40, sigma = 0.5 -------------------------------
 
 p_star_40_dir <- here("data_derived","decision_table","40_base")
 p_star_40 <- base_mod
@@ -115,9 +110,7 @@ p_star_40$ctl$MG_parms <- p_star_40$ctl$MG_parms|>mutate(PHASE = if_else(PRIOR =
 SS_write(p_star_40,dir = p_star_40_dir,overwrite = T)
 #r4ss::run(dir = p_star_40_dir,exe = "ss3",skipfinished = FALSE)
 
-
-
-#-------- Catch stream 3 - ACL* P*0.45, sigma = 0.5 ------------#
+## ACL* P*0.45, sigma = 0.5 -------------------------------
 
 ## P*0.45 base
 p_star_45_dir <- here("data_derived","decision_table","45_base")
@@ -167,9 +160,7 @@ parLapply(cl, dirs, function(x) {
 # Stop the cluster
 stopCluster(cl)
 
-
-
-#### Combined all the forecast catches into a single list, with f limit and forcast catches
+## Combine all the forecast catches into a single list, with f limit and forecast catches
 
 catch_series <-
   list(
@@ -189,12 +180,9 @@ catch_series <-
 )
 
 
-#-----------------------------------------------------------------#
-#-------- 2. States of nature  -----------------------------------#
-#-----------------------------------------------------------------#
+# States of nature ----------------------------------------
 
-
-#Get all the params into a table
+# Get all the params into a table
 pars_table <- rep$parameters|> #make sure to ppull from report, not input file so est values are used
   mutate(
          value = Value,
@@ -210,31 +198,7 @@ pars_table <- rep$parameters|> #make sure to ppull from report, not input file s
              "SR_BH_steep") 
   )
 
-
-##Plot the params to check they make sense and quantiles are resonable
-# par(mfrow = c(1,3))
-# 
-# for(i in 1:3){
-#   curve(
-#     dnorm(x, mean = pars_table[i,"value"], sd = pars_table[i,"sd"]),
-#     from = pars_table[i,"value"] - 4*pars_table[i,"sd"],
-#     to = pars_table[i,"value"] + 4*pars_table[i,"sd"],
-#     ylab = "Density",
-#     xlab = pars_table[i,"name"]
-#   )
-#   abline(v = pars_table[i,"value"],col = "red",lty = 2)
-#   abline(v = pars_table[i,"q140"],col = "blue",lty = 3)
-#   abline(v = pars_table[i,"q875"],col = "blue",lty = 3)
-#   if(i == 3){
-#   legend("topright",
-#          legend = c("MLE", "q0.140,q0.875"),
-#          col = c("red", "blue"),
-#          lty = c(2, 3),
-#          bty = "n")  # 'bty = "n"' removes the legend box (optional)
-#   }
-# }
-
-#Dirs
+# Dirs
 dirs <- c(here("data_derived","decision_table","cc_low"),      #low SON, P*0.40 
               here("data_derived","decision_table","40_low"),  #low SON, P*0.45
               here("data_derived","decision_table","45_low"),  #low SON cc
@@ -244,8 +208,7 @@ dirs <- c(here("data_derived","decision_table","cc_low"),      #low SON, P*0.40
 )
 
 
-
-## This loops through each combinatio of SON and manegment action, creating the relavent models
+## This loops through each combination of SON and management action, creating the relevant models
 for( i in seq_along(dirs)){
   #create the dir
   temp_dir <- dirs[i]
@@ -282,10 +245,7 @@ for( i in seq_along(dirs)){
 }
               
 
-
-#-----------------------------------------------------------------#
-#-------- 3. Model runs and processing  --------------------------#
-#-----------------------------------------------------------------#
+# Model runs and processing -------------------------------
 
 run_paralell <- TRUE
 all_dirs <-  c(here("data_derived","decision_table","cc_low"),
@@ -352,10 +312,7 @@ dec_table_results <- imap_dfr(dec_table_reps, function(x, name) {
 
 write.csv(dec_table_results,file = here("data_derived", "decision_table","dec_table_results.csv"))
 
-
-#-----------------------------------------------------------------#
-#-------- 4. Plotting  --------------------------#
-#-----------------------------------------------------------------#
+# Plots ---------------------------------------------------
 
 dir.create(here("figures", "decision_table"))
 
@@ -392,9 +349,8 @@ compare_ss3_mods(
   
 )
 
+# Decision table ------------------------------------------
 
-
-#### Fomrtting the decision table 
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -439,22 +395,3 @@ dec_table_formatted <- df %>%
 
 write.csv(dec_table_formatted,here("report","tables","dec_table_formatted.csv"))
 write.csv(dec_table_formatted,here("data_derived","decision_table","dec_table_formatted.csv"))
-
-#### Load the rdata files
-#exec_tables <- 
-
-###### End
-# compare_ss3_mods(
-#   replist = list(dec_table_reps[['cc_base']], dec_table_reps[['cc_low']], SS_output(here("scratch","decision_table","cc_high_fix_trienn_q"))),
-#   plot_dir = here("figures", "decision_table","cc_plots_fix_par"),
-#   plot_names = c("Base", "Low", "High"),
-#   subplots = 1:17,
-#   endyrvec = rep(2036, 3),
-#   shadeForecast = TRUE,
-#   tickEndYr = TRUE
-# )
-
-
-
-### Dec tbale wording 
-# Priot assessments included ad additional axis of uncertainty, the strength of recent year classes. As no recent year classes were signicantly larger than average, this axis was not inlcuded 

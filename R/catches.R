@@ -208,7 +208,7 @@ catch_st_flt_yr |>
   ggplot(aes(year, landings_mt)) + 
   geom_segment(aes(xend = year, y = 0, yend = landings_mt), data = all_2019, color = "red") + 
   geom_bar(aes(fill = fleet), stat = "identity", width = 1, color = "black") + 
-  geom_point(aes(color = "2019 asessment"), data = all_2019, size = 2) + 
+  geom_point(aes(color = "2019 assessment"), data = all_2019, size = 2) + 
   geom_point(aes(color = "all PacFIN"), data = all_pacfin, size = 2) + 
   scale_fill_viridis_d(option = "mako", begin = 0.2, end = 0.8) + 
   scale_color_manual(values = c("red", "orange")) + 

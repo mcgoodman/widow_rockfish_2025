@@ -992,16 +992,41 @@ table34 <- table34 %>% select(-c("Log Mean effN   2025 base model", "Log Mean ef
 #| label: tbl-proj-ofl
 #| echo: false
 #| warning: false
-#| tbl-cap: "Projection of potential OFL, landings, and catch, summary biomass (age-4 and older), spawning biomass, and depletion for the base case model projected with total catch equal to the predicted ABC. The predicted OFL is the calculated total catch determined by F SPR=50%"
-#| out.width: "90%"
+#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning biomass (mt), and fraction of unfished spawning biomass with adopted OFLs and ACLs and assumed catch for the first two years of the projection period. The predicted OFL is the calculated total catch determined by FSPR=50%."
 
-table_g <- read_rdata(here("report", "tables", "exec_summ_tables", "projections.rda"))$table
-table_g <- round(table_g, 3)
+model_path <- here::here("models","2025 base model")
+table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
+table_g <- round(signif(table_g[,], 5), 3)
+#table_g <- round(signif(table_g[,-c(2:3)], 5), 3)
+
+
+#manually add buffer
+buffer <- r4ss::SS_readforecast(file = here(model_path,"forecast.ss"),verbose =  FALSE)$Flimitfraction_m$fraction
+
+### modify projections table for model that falls below target
+# get table from list saved above
+
+# get buffers from forecast file
+buffers <- r4ss::SS_readforecast(file = here(model_path,"forecast.ss"),verbose =  FALSE)$Flimitfraction_m
+# which rows in the table are missing buffer and ABC values?
+NA_rows <- is.na(table_g[["Buffer"]])
+# fill in Buffer column from forecast file values
+table_g[["Buffer"]][NA_rows] <- buffers[["fraction"]][match(table_g[["Year"]][NA_rows], buffers[["year"]])]
+# fill in ABC as product of Buffer and OFL
+table_g[NA_rows, "ABC (mt)"] <- table_g[["Buffer"]][NA_rows] * table_g$"OFL (mt)"[NA_rows]
+
+#replace NA with dashes
+table_g[is.na(table_g)] <- "-"
+
+#Replace OFL, bufferm ABC and ACL for 2025, 2026
+table_g[c(1,2),c("OFL (mt)","Buffer","ABC (mt)","ACL (mt)")] <- "-"
 
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  set_table_properties(layout = "autofit") %>%
-  land_tab_style(wd = 1)
+  set_table_properties(layout = "autofit") %>% 
+  exec_tab_style() %>% 
+  fit_to_width(max_width = 7.5)
+
 
 ```
 
@@ -1013,69 +1038,119 @@ flextable(table_g) %>%
 #| label: tbl-dec-table
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h, and 2013 recruitment strength). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet from 2019-2024"
-#| out.width: "90%"
+#| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
 
 table36 <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
+# table36 <- table36[,2:6]
+# break up management & state of nature
+# table36$management_choice <- substr(table36$name, start = 1, stop = 2)
 table36$scenario <- plyr::revalue(table36$scenario,
-                 c("Constant catch" = "Constant catch (9,000 K)",
-                  "P*0.40" = "ACLp*=0.40, sigma=0.50",
-                  "P*0.45" = "ACLp*=0.45, sigma=0.50"))
+                                  c("Constant catch" = "Constant catch (9,000 K)",
+                                    "P*0.40" = "ACLp*=0.40, sigma=0.50",
+                                    "P*0.45" = "ACLp*=0.45, sigma=0.50"))
+# table36$stnat <- substr(table36$name, start = 4, stop = 7)
+
+# pivot
+# table36 |>
+#   tidyr::pivot_wider(names_from = stnat, values_from = c(SpawnBio, dep), id_cols=-name) |>
+#   # getting format closer...
+#   dplyr::select(c(4, 1, 3, 2, 5, 8, 6, 9, 7, 10)) ->
+#   # reordering for ease
+#   # note this only works if OFL included, otherwise need to subtract 1 from col number
+#   table36_reorg
+
+# colnames(table36_reorg) <- c("Management decision", "Year", "OFL", "catch (mt)",
+#                              "Spawning biomass (mt)", "Depletion (%)",
+#                              "Spawning biomass (mt)", "Depletion (%)",
+#                              "Spawning biomass (mt)", "Depletion (%)")
 
 # flextable(table36) |>
-#  set_header_labels(values = c(scenario = "Management decision",
-#                yr = "Year", 
-#                # OFL = "OFL", 
-#                catch = "catch (mt)",
-#                SpawnBio_low = "Spawning biomass (mt)",
-#                dep_low = "Depletion (%)",
-#                SpawnBio_base = "Spawning biomass (mt)",
-#                dep_base = "Depletion (%)", 
-#                SpawnBio_high = "Spawning biomass (mt)",
-#                dep_high = "Depletion (%)")
-#           ) |>
-#  add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
-#  add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |> 
-#  align(align = "center", part = "all") |>
-#  font(fontname = "Times New Roman", part = "all") |>
-#  fontsize(size = 9, part = "all") |>
-#  bold(part = "header", i = 1:2) |> 
-#  bold(part = "header", i = 3, j = 1) |>
-#  colformat_num(j = 2, big.mark = "", digits = 0) |>
-#  border_inner(part="header") |> border_outer() |> # header and outside border
-#  vline(j = c(1, 3, 5, 7)) |> hline(i = 10) |> hline(i = 20) |>
-#  merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
-#  # set_table_properties(layout = "autofit", align = "center") |> 
-#  width(width = 0.6, j = 2:(dim(table36)[2]-1)) |> 
-#  width(width = 0.9, j = 1)
-table36 <- table36 %>% filter( scenario != "Constant catch (9,000 K)") %>% select(2:ncol(table36)) # remove X col
+#   set_header_labels(values = c(scenario = "Management decision",
+#                                yr = "Year",
+#                                # OFL = "OFL",
+#                                catch = "catch (mt)",
+#                                SpawnBio_low = "Spawning biomass (mt)",
+#                                dep_low = "Depletion (%)",
+#                                SpawnBio_base = "Spawning biomass (mt)",
+#                                dep_base = "Depletion (%)",
+#                                SpawnBio_high = "Spawning biomass (mt)",
+#                                dep_high = "Depletion (%)")
+#                     ) |>
+#   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
+#   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
+#   align(align = "center", part = "all") |>
+#   font(fontname = "Times New Roman", part = "all") |>
+#   fontsize(size = 9, part ="all") |>
+#   bold(part = "header", i = 1:2) |>
+#   bold(part = "header", i = 3, j = 1) |>
+#   colformat_num(j = 2, big.mark = "", digits = 0) |>
+#   border_inner(part="header") |> border_outer() |> # header and outside border
+#   vline(j = c(1, 3, 5, 7)) |> hline(i = 10) |> hline(i = 20) |>
+#   merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
+#   # set_table_properties(layout = "autofit", align = "center") |>
+#   width(width = 0.6, j = 2:(dim(table36)[2]-1)) |>
+#   width(width = 0.9, j = 1)
+
+table36 <- table36|>filter(scenario != "Constant catch (9,000 K)")|>select(-X)
+# 
+# flextable(table36) |>
+#   set_header_labels(values = c(scenario = "Management decision",
+#                                yr = "Year",
+#                                # OFL = "OFL",
+#                                catch = "catch (mt)",
+#                                SpawnBio_low = "Spawning biomass (mt)",
+#                                dep_low = "Depletion (%)",
+#                                SpawnBio_base = "Spawning biomass (mt)",
+#                                dep_base = "Depletion (%)",
+#                                SpawnBio_high = "Spawning biomass (mt)",
+#                                dep_high = "Depletion (%)")
+#                     ) |>
+#   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
+#   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
+#   align(align = "center", part = "all") |>
+#   font(fontname = "Times New Roman", part = "all") |>
+#   fontsize(size = 9, part ="all") |>
+#   bold(part = "header", i = 1:2) |>
+#   bold(part = "header", i = 3, j = 1) |>
+#   colformat_num(j = 2, big.mark = "", digits = 0) |>
+#   border_inner(part="header") |> border_outer() |> # header and outside border
+#   vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |> hline(i = 36)|>
+#   merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1)|> merge_at(i = c(25:36), j = 1)|>
+#   border(i = c(12, 24, 36), j = 1,
+#          border.bottom = officer::fp_border(color = "black", width = 1))|>  # set_table_properties(layout = "autofit", align = "center") |>
+#   width(width = 0.6, j = 2:(dim(table36)[2]-1)) |>
+#   width(width = 0.9, j = 1)
+
 flextable(table36) |>
- set_header_labels(values = c(scenario = "Management decision",
-               yr = "Year", 
-               # OFL = "OFL", 
-               catch = "catch (mt)",
-               SpawnBio_low = "Spawning biomass (mt)",
-               dep_low = "Depletion (%)",
-               SpawnBio_base = "Spawning biomass (mt)",
-               dep_base = "Depletion (%)", 
-               SpawnBio_high = "Spawning biomass (mt)",
-               dep_high = "Depletion (%)")
-          ) |>
- add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
- add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |> 
- align(align = "center", part = "all") |>
- font(fontname = "Times New Roman", part = "all") |>
- fontsize(size = 9, part = "all") |>
- bold(part = "header", i = 1:2) |> 
- bold(part = "header", i = 3, j = 1) |>
- colformat_num(j = 2, big.mark = "", digits = 0) |>
- border_inner(part="header") |> border_outer() |> # header and outside border
- vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |>
- merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1) |>
- # set_table_properties(layout = "autofit", align = "center") |> 
- width(width = 0.6, j = 2:(dim(table36)[2]-1)) |> 
- width(width = 0.9, j = 1)
+  set_header_labels(values = c(scenario = "Management decision",
+                               yr = "Year",
+                               catch = "catch (mt)",
+                               SpawnBio_low = "Spawning biomass (mt)",
+                               dep_low = "Depletion (%)",
+                               SpawnBio_base = "Spawning biomass (mt)",
+                               dep_base = "Depletion (%)",
+                               SpawnBio_high = "Spawning biomass (mt)",
+                               dep_high = "Depletion (%)")
+                    ) |>
+  add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
+  add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
+  align(align = "center", part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  fontsize(size = 8, part = "all") |>
+  padding(padding.top = -2, part = "all") |>
+  bold(part = "header", i = 1:2) |>
+  bold(part = "header", i = 3, j = 1) |>
+  colformat_num(j = 2, big.mark = "", digits = 0) |>
+  border_inner(part = "header") |> border_outer() |>
+  vline(j = c(1, 3, 5, 7)) |> 
+  merge_at(i = 1:12, j = 1) |> merge_at(i = 13:24, j = 1) |>
+  # border(i = c(12), j = 1, border.bottom = officer::fp_border(color = "black", width = 1)) |>
+  # border(i = c(24), j = 1, border.bottom = officer::fp_border(color = "black", width = 1)) |>
+  width(width = 0.6, j = 2:(ncol(table36) - 1)) |>
+  width(width = 0.9, j = 1)|>
+    hline(i = 12)|>
+  hline_bottom(j = 9)
 
 
 ```

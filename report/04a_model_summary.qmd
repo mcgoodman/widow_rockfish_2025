@@ -62,14 +62,6 @@ this report).
 
 Comparison of spawning biomass and relative fraction unfished between 2019 and 2025 models are shown in @fig-base_19_25_ssb to @fig-base_19_25_recdevs. See "Model Bridging" section for further details.
 
-<!-- The specifications of the assessment are listed in @tbl-speci-base-assess and are unchanged from the previous assessment [@adams_status_2019], except by updating data, the prior on natural mortality, time blocks on selectivity and retention parameters, and other routine model bridging steps. -->
-
-<!-- Data updated from the 2019 assessment included landings, survey indices, age / length composition data, and discard data. The only major change to the treatment of data and fleets was the addition of hook-and-line discards to hook-and-line landings, and the accompanying removal of the likelihood for hook-and-line discards. Removals from the hook-and-line fleet are generally minimal, approximately 0.2% of the total removals in the last two decades, of which discards are a small fraction. Owing to the very limited discard sample size for this fleet, the model was unable to reliably estimate discards and these data displayed substantial leverage on the model. Updates to the data had the largest impact on SSB among the various model bridging steps undertaken; in particular, the addition of (non-hook-and-line) discard data resulted in a small decrease in absolute SSB prior to 1980 and a large decrease in absolute SSB from the mid 2010s through the current year (@fig-bridge2019-data). Changes from other data sources were smaller. See “Data” and “Model Bridging” sections for detail. -->
-
-<!-- The structural changes to the model were minimal, and were limited to the addition of an additional block on midwater trawl retention (from 2011–2016) and hake selectivity (from 2020 onward). In addition, the 2025 model estimates retention in the midwater trawl in late years (2017 onward), whereas retention was fixed at 0.99 in the previous assessment. These changes were undertaken to address poor fit to midwater trawl discards and hake fleet length compositions, assumed to be due to management changes in 2017 and shifts in the spatial distribution of the hake fleet, respectively. Neither change had a discernible influence on the estimated SSB. See “Model Bridging” section for detail. -->
-
-<!-- Other model bridging steps undertaken include updating the prior on natural mortality, updating fixed length-weight regression parameters, updating recruitment bias adjustment parameters, and amending initial values after jittering analyses suggested the model had converged to a local (but highly similar) minimum. None of these changes had a discernible effect on the model estimates; see “Parameters” and “Model Bridging” sections for detail. -->
-
 #### Model Bridging
 
 <!-- Due to significant impact of updating data on estimated absolute stock biomass (SSB), bridging steps are detailed below. -->

@@ -455,10 +455,6 @@ flextable(table_f) |>
 
 ```
 
-## Unresolved problems and major uncertainties
-
-Discuss fit to survey data and natural mortality.
-
 ## Harvest projections and decision table{-}
 
 ```{r}
@@ -729,7 +725,7 @@ knitr::include_graphics(
 -->
 
 
-## Unresolved problems and major uncertainties
+## Unresolved problems and major uncertainties{-}
 
 ```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
@@ -753,7 +749,7 @@ Model sensitivities and profiles over M showed that current stock status was hig
 
 Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished equilibrium spawning biomass increased and current spawning biomass decreased. Sustainable yields at the SPR50% reference harvest rate ranged from approximately `r min(steep_yspr50)` to `r max(steep_yspr50)` mt depending on the value of steepness.
 
-## Research and Data Needs
+## Research and Data Needs{-}
 
 <!-- 1. Describe progress on Research and Data Needs items identified in the most recent previous stock assessment document and associated STAR panel report.  -->
 <!-- 2. Describe new research and data needs and specify their priority (high, medium, low).  -->

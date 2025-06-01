@@ -410,8 +410,8 @@ if(grepl("PASS", result)){
     ))
   
   
-  write.csv(dec_table_formatted,here("report","tables","dec_table_formatted.csv"))
-  write.csv(dec_table_formatted,here("data_derived","decision_table","dec_table_formatted.csv"))
+  write.csv(dec_table_formatted,here("report","tables","dec_table_formatted.csv"),row.names = FALSE)
+  write.csv(dec_table_formatted,here("data_derived","decision_table","dec_table_formatted.csv"), row.names= FALSE)
   
   
 }

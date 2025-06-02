@@ -351,6 +351,9 @@ r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 ##Read in the newly formatted forecast file, edit and overwrite
 fcst <- r4ss::SS_readforecast(here("scratch","newly_formatted_2025_foc.ss"))
 
+## Set the rebuilder years to 0 -> West coast rebuilder is off, so this hsouldnt make a difference
+fcst$Ydecl  <- 0
+fcst$Yinit  <- 0
 #Set P*45 for projection table
 fcst$Flimitfraction_m <- SS_read(here("data_derived","decision_table","45_base"))$fore$Flimitfraction_m
 

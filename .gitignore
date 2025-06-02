@@ -13,6 +13,7 @@
 
 # Whitelist PNG files written to figures directory
 !figures/**/*.png
+!report/**/*.png
 
 # Directories
 data_provided/PacFIN/*

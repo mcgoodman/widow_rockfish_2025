@@ -1,28 +1,7 @@
 
 ```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
 
-#library(renv)
 library(r4ss)
-
-# exe_dir<- "/Users/sulca/Documents/Github/widow-assessment-update/models/2025 base model"
-# 
-# 
-# # r4ss::run(dir= exe_dir,exe="/Users/sulca/Documents/Github/widow-assessment-update/ss_osx",show_in_console = TRUE, skipfinished = FALSE)
-# 
-# 
-# 
-# df <- load(here::here("report", "tables","reference_"),stringsAsFactors = FALSE)
-# colnames(df) <- c("Label", "Estimate", "Lower.Interval", "Upper.Interval")
-# 
-# reference_points <- setNames(
-#   lapply(seq_len(nrow(df)), function(i) {
-#     vals <- df[i, c("Estimate", "Lower.Interval", "Upper.Interval")]
-#     vals <- format(round(as.numeric(vals)), big.mark = ",", scientific = FALSE)
-#     setNames(as.list(vals), c("Estimate", "Lower.Interval", "Upper.Interval"))
-#   }),
-#   nm = gsub("\\\\%", "%", df$Label)
-# )
-
 
 ```
 
@@ -31,10 +10,6 @@ library(r4ss)
 ## History of modeling approaches
 
 This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
-
-<!-- The history of model approaches for all years prior 2019 is detailed in @hicks_status_2015. In 2017, the NMFS implemented a quota share (QS) reallocation rule which re-established a target fishery for widow rockfish by allocating quotas among permit holders based on historical allocations, removing daily vessel limits, and allowing the trading of QS -->
-
-<!-- [@national_marine_fisheries_service_nmfs_national_oceanic_and_atmospheric_administration_noaa_commerce_magnuson-stevens_2017]. The most recent update assessment was conducted in 2019 [@adams_status_2019]. The 2019 assessment included updated data (landings, survey indices, length / age composition, and discards), an updated prior on natural mortality (M), updated fixed steepness, and routine model bridging steps, but the model was otherwise unchanged from the 2015 assessment. The assessment estimated spawning stock biomass (SSB) in 2018 to be near the unfished SSB. -->
 
 ## Responses to most recent past STAR Panel recommendations
 
@@ -60,11 +35,9 @@ this report).
 - **Adding a block to the retention curve for the midwater trawl fleet and a block to hake fleet selectivity to account for recent changes in fleet behavior.** Adding a block to the retention curve for midwater trawl allowed for recent increases in midwater trawl discards (from 2017 forward), and improved fit to discard amounts modeled in the assessment. Adding a block to hake fleet selectivity accounted for a change in fish mean length (2020-2024) due to shifts in the spatial distribution of the hake fleet and to improve fit to length compositions. Neither change had a discernible influence on the estimated SSB. See Model Bridging section for detail.
 - **Adding hook-and-line discards to landings in the hook-and-line fleet.** The change to the treatment of hook-and-line discard was necessary since discard lengths for the hook-and-line fleet provided by WCGOP this year were corrected to omit nearshore fixed gear fleets samples, which were erroneously included with the hook-and-line fleet in the previous benchmark and update assessments. This change resulted in changes to the discard length distribution and years for which data was available [@fig-disc-hnl-comparison]. With decreased sample sizes of hook-and-line discard length data available, the model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings. Correction of the hook-and-line discard lengths translated into lower estimated recruitment in the 2010s than that of in 2019 update assessment (higher recruitment estimates in the 2019 assessment were previously informed by erroneous estimates of smaller fish, which were corrected in this assessment). Lower recruitment in turn contributed to a decrease in stock size in recent years.
 
-Comparison of spawning biomass and relative fraction unfished between 2019 and 2025 models are shown in @fig-base_19_25_ssb to @fig-base_19_25_recdevs. See "Model Bridging" section for further details.
+Comparison of \gls{ssb} and fraction unfished between 2019 and 2025 models are shown in @fig-base_19_25_ssb to @fig-base_19_25_recdevs. See "Model Bridging" section for further details.
 
 #### Model Bridging
-
-<!-- Due to significant impact of updating data on estimated absolute stock biomass (SSB), bridging steps are detailed below. -->
 
 The exploration of models began by bridging from the 2019 update assessment to SS3 version 3.30.2, which produced no discernible difference. We then focused on data bridging. Updating the catch series did not have a substantial effect on the historical biomass, and estimated the stock biomass increasing from 2000 to 2020 before decreasing up to the current period. Updating the model discards had the most significant impact on the absolute stock biomass (SSB), with a small decrease in absolute SSB prior to 1980 and a large decrease in absolute SSB from the mid 2010s through the current year (@fig-bridge2019-data). Updating model indices had a similar effect, while updating the age and length composition data increased the absolute stock biomass in the current period. Updates to discards likewise had the largest effect on relative SSB (fraction of unfished biomass); changes in relative SSB owing to all other datasets were in general small.
 
@@ -72,18 +45,13 @@ None of the other model bridging steps had a substantial effect on the estimates
 
 To estimate discards in the model, time blocks for changes in selectivity and retention in discard data were used. Except for the aforementioned addition of blocks to the midwater trawl and hake fleets, the same structure for time blocks was used as in the previous full assessment [@adams_status_2019]. The addition of midwater trawl and hake fleets block was necessitated by poor fits to midwater trawl discards and the length composition data from the hake fleet in from 2020 - 2024, respectively. The poor fit to hake fleet length composition data may be due to the high variability in the distribution of the hake fleet between years, as the fleet moves to avoid bycatch [@holland_bycatch_2019]. Poor fit to midwater trawl discards is thought to be due to (1) the previous decision to fix late-year retention to 0.99 which represented an overestimate of the (very low) discards in 2011-2016, and (2) the reallocation of quota shares and subsequent increase in midwater trawl discards in 2017. These choices are described in more detail in the “fits to data” section.
 
-
-<!-- The 2015 assessment attempted to estimate discards in the model, wherein the authors investigated time blocks for changes in selectivity and retention to match the limited discard data as best as possible. Using major changes in management (mainly in trip limits, @tbl-manage-act) and observed changes in landings, a set of blocks was found for the bottom trawl, midwater trawl, and hook-and-line fleets. In the spirit of parsimony, they used as few blocks as possible, allowed blocks only for time periods with data, and added new blocks when they felt they were justified by changes in management and they improved the fit to the data. The same structure was followed for the update, except for the aforementioned addition of blocks to the midwater trawl and hake fleets. The addition of midwater trawl and hake fleets block was necessitated by poor fits to midwater trawl discards and the length composition data from the hake fleet in from 2020 - 2024, respectively. The poor fit to hake fleet length composition data may be due to the high variability in the distribution of the hake / pacific whiting fleet between years, as the fleet moves to avoid bycatch [@holland_bycatch_2019]. Poor fit to midwater trawl discards is thought to be due to (1) the previous decision to fix late-year retention to 0.99 which represented an overestimate of the (very low) discards in 2011-2016, and (2) the reallocation of quota shares and subsequent increase in midwater trawl discards in 2017. These choices are described in more detail in the “fits to data” section. -->
-
-
-
 ### Modeling Platform and Structure
 
 For this update assessment, new versions of the previously used software were used. Stock Synthesis v3.30.13  was used to estimate the parameters in the 2019 model. R4SS, version 1.35.3, along with  R version 3.5.3 were used to investigate and plot the 2019 model fits. For the update, Stock Synthesis v3.30.2 and R4SS, version 1.52.0, along with R version 4.5.0 were used. A summary of the data sources used in the model (details discussed above) is shown in @fig-data-plot-base. 
 
 ### Model Overview
 
-The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. Ageing error was retained from the 2015 benchmark assessment [@hicks_status_2015]. Fecundity was assumed to be proportional to body weight, thus spawning biomass was used as the measure of spawning output.
+The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. Ageing error was retained from the 2015 benchmark assessment [@hicks_status_2015]. Fecundity was assumed to be proportional to body weight, thus \gls{ssb} was used as the measure of spawning output.
 
 #### Model Fleets and Areas
 
@@ -95,9 +63,7 @@ The assessment uses a single-area model, consistent with previous assessments [@
 
 There were 214 estimated parameters in the base model. These included one parameter for recruitment (R0), 10 sex-specific parameters for growth, two sex-specific natural mortality parameters, four parameters for extra variability on the survey indices (survey indices were fixed at zero), four parameters for the catchability of the hake series and the Triennial Shelf survey (the catchabilities for other surveys were calculated analytically), 49 parameters for selectivity, retention, and time blocking of the fleets, eight parameters for survey selectivity, 125 recruitment deviations, and 12 forecast recruitment deviations.
 
-Fixed parameters in the model were as follows. Consistent with the previous full assessment [@adams_status_2019], steepness was fixed at 0.72 as was the mean of the current west coast rockfish steepness prior as described above. A likelihood profile were done for steepness. The standard deviation of recruitment deviates was fixed at 0.60. Maturity at age was fixed as described in @adams_status_2019. Length-weight parameters were fixed at estimates using length-weight observations from the WCGBTS (@fig-wl-fits and @tbl-params). 
-
-<!-- Dome-shaped selectivity was explored for both the fishery and the surveys in the 2015 assessment. Older Widow Rockfish are often found in deeper waters and may move into areas that limit their availability to fishing gear, especially trawl gear. Little evidence was found in 2015 for domed shape selectivity in all but the midwater trawl fleet.  -->
+Fixed parameters in the model were as follows. Consistent with the previous full assessment [@adams_status_2019], steepness was fixed at 0.72 as was the mean of the current west coast rockfish steepness prior as described above. A likelihood profile were done for steepness. The standard deviation of recruitment deviates was fixed at 0.60. Maturity at age was fixed as described in @adams_status_2019. Length-weight parameters were fixed at estimates using length-weight observations from the WCGBTS (@fig-wl-fits and @tbl-params).
 
 The final base model assumed asymptotic selectivity (using the double-normal formulation in SS3) for each fishery, except for the midwater trawl fishery. The \gls{s-wcgbt} and Triennial surveys both used spline curves. All selectivity curves were length based and the same shape as the 2019 update, with the exception of the \gls{s-wcgbt} survey fleet. The \gls{s-wcgbt} survey fleet selectivity was estimated to be slightly lower at lengths greater than 45 cm, compared to the selectivity estimated in 2019.
 

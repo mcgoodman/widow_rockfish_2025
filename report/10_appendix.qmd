@@ -1,5 +1,5 @@
 
-# Appendix A: Annual fits to length and age composition
+# Appendix A: Annual fits to length and age composition{#Appendix-A}
 
 \setcounter{figure}{0}
 \setcounter{equation}{0}

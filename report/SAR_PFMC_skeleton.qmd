@@ -1,5 +1,5 @@
 ---
-title: 'Stock Assessment Update: Status of Widow Rockfish Stock  (Sebastes entomelas) off the U.S. West Coast in 2025'
+title: 'Status of widow rockfish stock off the U.S. West Coast in 2025'
 author:
   - name: 'Michael Kinneen'
     affiliations:
@@ -8,7 +8,7 @@ author:
         city: 'Seattle, WA'
         postal-code: '98195'
 
-  - name: 'Maurice Goodman'
+  - name: 'Maurice Codespoti Goodman'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'
@@ -138,7 +138,8 @@ author:
 date: today
 lang: en
 keep-tex: true
-cover:
+mainfont: 'Latin Modern Sans'
+cover: support_files/Widow_rockfish.png
 pdf-engine: lualatex
 format:
   pdf:
@@ -151,11 +152,15 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
-      - text: '\lohead{Widow Rockfish assessment 2025}'
+    include-after-body:
+      text: |
+        \newpage{}
+        \printnoidxglossaries
     lof: false
+    sansfont: 'Latin Modern Sans'
     lot: false
     titlepage-geometry:
-      - top=2in
+      - top=1in
       - bottom=1in
       - right=1in
       - left=1in
@@ -202,7 +207,7 @@ library(dplyr)
 
 Please cite this publication as: 
 
-M. Kinneen, M. Goodman, A. Sulc, L. Balstad, R. Diaz, K. Randrup, W. Patrone, L. Spencer, A. Morell, A. Rovellini, A. Dedrick, N. Grunloh, M.Bargas, S.Hopkins, V. Gersteva, K. Oken, I. Taylor, M. Haltuch, O. Hamel (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
+Kinneen, M., Goodman, M. C., Sulc, A., Balstad, L., Diaz, R., Randrup, K., Patrone, W., Spencer, L., Morell, A., Rovellini, A., Dedrick, A., Grunloh, N., Bargas, M., Hopkins, S., Gersteva, V., Oken, K., Taylor, I., Haltuch, M., \& Hamel, O. (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
 
 {{< pagebreak >}} 
 
@@ -307,14 +312,14 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}}
 
-<!-- ```{r, results='asis'} -->
-<!-- #| label: 'acknowledgments' -->
-<!-- #| eval: true -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- a <- knitr::knit_child('06_acknowledgments.qmd', quiet = TRUE) -->
-<!-- cat(a, sep = '\n') -->
-<!-- ``` -->
+```{r, results='asis'}
+#| label: 'acknowledgments'
+#| eval: false
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('06_acknowledgments.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
 
 
  {{< pagebreak >}}
@@ -350,7 +355,7 @@ a <- knitr::knit_child('07_references.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}}
+ <!-- {{< pagebreak >}} -->
 
 ```{r, results='asis'}
 #| label: 'appendix'

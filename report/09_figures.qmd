@@ -790,7 +790,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted spawning biomass (thousand mt) for widow rockfish using the base assessment. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
+#| fig-cap: "Predicted \\gls{ssb} (thousand mt) for widow rockfish using the base assessment. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -820,7 +820,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted relative spawning biomass from the widow rockfish base case assessment. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
+#| fig-cap: "Predicted relative \\gls{ssb} from the widow rockfish base assessment model. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -835,7 +835,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted spawning biomass (2011 onward) or spawning output (2000-2009) from past assessments in comparison with the current assessment."
+#| fig-cap: "Predicted \\gls{ssb} (2011 onward) or spawning output (2000-2009) from past assessments in comparison with the current assessment."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -915,7 +915,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning biomass (with 95% confidence interval around the base model) for the base model and sensitivity runs."
+#| fig-cap: "\\gls{ssb} (with 95% confidence interval around the base model) for the base model and sensitivity runs."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -947,7 +947,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Five-year retrospective estimates of spawning biomass (top) and recruitment deviations (bottom)."
+#| fig-cap: "Five-year retrospective estimates of \\gls{ssb} (top) and recruitment deviations (bottom)."
 #| out.width: "75%"
 #| fig-align: "center"
 
@@ -1043,7 +1043,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Base model, low state of nature, and high state of nature spawning biomass trajectories under two catch scenarios: ACL = p&#42;0.4, ACL = p&#42;0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
+#| fig-cap: "Base model, low state of nature, and high state of nature \\gls{ssb} trajectories under two catch scenarios: \\gls{acl} = p&#42;0.4, \\gls{acl} = p&#42;0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
 #| out.width: "75%"
 #| fig-align: "center"
 

@@ -194,7 +194,7 @@ flextable(table2, col_keys = names(table2)) %>%
 #| label: tbl-manage-guide
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent trend in the overfishing limits (OFLs), the acceptable biological catches (ABCs), the annual catch limits (ACLs), the total landings, and total mortality all in metric tons (mt)."
+#| tbl-cap: "Recent trend in the \\gls{ofl}, \\gls{abc}, \\gls{acl}, total landings, total mortality all in metric tons (mt)."
 
 library(flextable)
 library(dplyr)
@@ -992,7 +992,7 @@ table34 <- table34 %>% select(-c("Log Mean effN   2025 base model", "Log Mean ef
 #| label: tbl-proj-ofl
 #| echo: false
 #| warning: false
-#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning biomass (mt), and fraction of unfished spawning biomass with adopted OFLs and ACLs and assumed catch for the first two years of the projection period. The predicted OFL is the calculated total catch determined by FSPR=50%."
+#| tbl-cap: "Potential \\gls{ofl}, \\gls{abc}, \\gls{acl}, the buffer between the \\gls{ofl} and \\gls{abc}, estimated \\gls{ssb} (mt), and fraction of unfished \\gls{ssb} with adopted \\gls{ofl} and \\gls{abc} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%."
 
 model_path <- here::here("models","2025 base model")
 table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table

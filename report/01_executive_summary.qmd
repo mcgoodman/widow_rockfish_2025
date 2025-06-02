@@ -18,7 +18,7 @@ Historically, fisheries have caught widow rockfish since the turn of the 20th ce
 
 Total landings of widow rockfish peaked in the early 1980s, increasing from approximately 1,000 metric tons (mt) in 1978 to over 25,000 mt in 1981. The large landings in the early 1980s were curtailed with trip limits beginning in 1982, which resulted in a decline in landings throughout the 1980s and 1990s following sequential reductions in the trip limits. From 2000 to 2003, landings of widow rockfish dropped from over 4,000 mt to about 40 mt and remained low through 2016. Catches increased rapidly following the quota share reallocation in 2017, and have been near or above 10,000 mt in all years between 2018-2024. Midwater trawl gears in groundfish and Pacific hake/whiting (*Merluccius productus*, hereafter ``hake'') fisheries account for the majority of the recent catch. 
 
-Widow rockfish are a desirable market species and it is believed that discarding was low historically. However, management restrictions (e.g., trip limits) resulted in a substantial amount of discarding beginning in the early 1980s. Trawl rationalization was introduced in 2011. Between 2011 and 2024 very little discarding of widow rockfish is estimated to have occurred. Recent discards in the model informed by data from the West Coast Observer Program (WCGOP), and total catches (discards plus landings) are reported in addition to landings. Landings for the past ten years are in @tbl-a and for the entire time series in @fig-a.
+Widow rockfish are a desirable market species and it is believed that discarding was low historically. However, management restrictions (e.g., trip limits) resulted in a substantial amount of discarding beginning in the early 1980s. Trawl rationalization was introduced in 2011. Between 2011 and 2024 very little discarding of widow rockfish is estimated to have occurred. Recent discards in the model informed by data from the \gls{wcgop}, and total catches (discards plus landings) are reported in addition to landings. Landings for the past ten years are in @tbl-a and for the entire time series in @fig-a.
 
 {{< pagebreak >}} 
 
@@ -115,15 +115,11 @@ The model includes catch, age, and length data for five fishing fleets: 1) a coa
 
 The 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events in 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. With the updated data, this led to implausible population dynamics, so the decision was made to add discard biomass from the \gls{gemm} to the landed catch for the hook-and-line fleet, rather than estimating retention. Retention is still estimated for the midwater and bottom trawl fleets, which have more available data.
 
-Data from three fishery-independent surveys were also included in the model: 1) length compositions and an index for the \gls{s-tri} were retained from the 2015 benchmark (1977–2004), 2) age-at-length, length, and an index for the \gls{s-wcgbt} (2003-2024), and 3) a recruitment index from the National Marine Fisheries Service (NMFS) Southwest Fisheries Science Center (SWFSC) and Northwest Fisheries Science Center (NWFSC)/Pacific Whiting Conservation Cooperative (PWCC) Midwater Trawl Survey (2004-2024).
+Data from three fishery-independent surveys were also included in the model: 1) length compositions and an index for the \gls{s-tri} were retained from the 2015 benchmark (1977–2004), 2) age-at-length, length, and an index for the \gls{s-wcgbt} (2003-2024), and 3) a recruitment index from the \gls{nmfs} \gls{s-juv} (2004-2024).
 
 The base model estimated parameters for length-based selectivity for all fleets and surveys, retention curves for the bottom trawl and midwater trawl fleets, a sex-specific length-at-age relationship, sex-specific natural mortality, and recruitment deviations. A Beverton-Holt stock-recruitment function was used to model productivity, and the steepness parameter was fixed at `r report$parameters["SR_BH_steep","Value"]` based on a steepness meta-analysis [@thorson_steep_2019] for west coast rockfishes. 
 
 Natural mortality and steepness are major sources of uncertainty. We used high and low combinations of these parameters to define a range of states of nature, with results presented in a decision table. 
-
-<!-- The major axis of uncertainty was determined to define a range of states of nature and results are presented in a decision table.  -->
-
-<!-- Although there are many types of data available for widow rockfish since the late 1970s, which were used in this assessment, there is little information about steepness and natural mortality, and recent recruitment (although likelihood profiles in this update assessment suggest additional data has contributed higher certainty in natural mortality estimates). Estimates of steepness are uncertain partly because of variable recruitment. Uncertainty in natural mortality is common in many fish stock assessments even when length and age data are available. Finally, there is little information about the strength of recent recruitment because the young fish are seen with a lower probability in the fisheries and surveys. These uncertainties were characterized as best as possible in the predictions and projections from this assessment. -->
 
 ## Stock biomass and dynamics{-}
 
@@ -146,30 +142,21 @@ SSB$Year <- as.integer(gsub("SSB_", "", SSB$Label))
 Bratio <- report$derived_quants[report$derived_quants$Label %in% paste0("Bratio_", 1916:2036),]
 Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
 
-# SSB <- SSB |>
-#   select(Year, SSB = Value, SD = StdDev) |>
-#   mutate(
-#     mu_log = log(SSB) - 0.5 * log((SD^2)/(SSB^2) + 1),
-#     sigma_log = sqrt(log(1 + ((SD^2) / (SSB^2)))),
-#     lower = qlnorm(0.025, mu_log, sigma_log),
-#     upper = qlnorm(0.975, mu_log, sigma_log)
-#   )
-
 ```
 
 
-The time series of estimated spawning biomass and relative spawning biomass is in @fig-b and @fig-c, respectively, and for the most recent year in @tbl-b. The spawning biomass declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s. Low abundance continued until 2000. A combination of strong recruitment and low catches resulted in a steady increase in spawning biomass through 2016. A target fishery for widow rockfish was reestablished in 2017. The stock exhibits a decline in most recent years with the increased catches since 2017.
+The time series of estimated \gls{ssb} and relative \gls{ssb} is in @fig-b and @fig-c, respectively, and for the most recent year in @tbl-b. The \gls{ssb} declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s. Low abundance continued until 2000. A combination of strong recruitment and low catches resulted in a steady increase in \gls{ssb} through 2016. A target fishery for widow rockfish was reestablished in 2017. The stock exhibits a decline in most recent years with the increased catches since 2017.
 
-The 2025 spawning biomass relative to unfished equilibrium spawning biomass is `r round(table_b$Bratio[table_b$Year == 2025] * 100)`, above the target of 40% (95% confidence interval of `r round(table_b$Bratio_Lwr[table_b$Year == 2025] * 100)` - `r round(table_b$Bratio_Upr[table_b$Year == 2025] * 100)`%). 
+The 2025 \gls{ssb} relative to unfished equilibrium \gls{ssb} is `r round(table_b$Bratio[table_b$Year == 2025] * 100)`, above the target of 40% (95% confidence interval of `r round(table_b$Bratio_Lwr[table_b$Year == 2025] * 100)` - `r round(table_b$Bratio_Upr[table_b$Year == 2025] * 100)`%). 
 
-Spawning biomass is estimated to be at `r format(SSB$Value[SSB$Year == 2025], big.mark = ",", digits = 1)` mt in 2025 (95% confidence interval of `r paste(format(table_b[table_b$Year == 2025, c("SSB_Lwr", "SSB_Upr")], big.mark = ",", digits = 1), collapse = " - ")` mt). The uncertainty in the estimated spawning biomass is high, especially in the early years. 
+\gls{ssb} is estimated to be at `r format(SSB$Value[SSB$Year == 2025], big.mark = ",", digits = 1)` mt in 2025 (95% confidence interval of `r paste(format(table_b[table_b$Year == 2025, c("SSB_Lwr", "SSB_Upr")], big.mark = ",", digits = 1), collapse = " - ")` mt). The uncertainty in the estimated \gls{ssb} is high, especially in the early years. 
 
 ```{r}
 #| label: fig-b
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated female spawning biomass time-series from the base model (solid line) with an approximate asymptotic 95% confidence interval (dashed lines)."
+#| fig-cap: "Estimated female \\gls{ssb} time-series from the base model (solid line) with an approximate asymptotic 95% confidence interval (dashed lines)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -184,7 +171,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated relative spawning biomass (depletion) with approximate 95% asymptotic confidence intervals (dashed lines) for the base case assessment model."
+#| fig-cap: "Estimated relative \\gls{ssb} (depletion) with approximate 95% asymptotic confidence intervals (dashed lines) for the base case assessment model."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -198,38 +185,10 @@ knitr::include_graphics(
 #| label: tbl-b
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent trend in estimated female spawning biomass (mt) and relative spawning biomass (depletion)."
+#| tbl-cap: "Recent trend in estimated female \\gls{ssb} (mt) and relative \\gls{ssb} (depletion)."
 
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
-
-# colnames(table_B) <- c("Year",
-#                        "Spawning Biomass (mt)",
-#                        "Lower Interval (SSB, mt)", "Upper Interval (SSB, mt)" ,
-#                        "Fraction Unfished",
-#                        "Lower Interval (Frac. Unfish.)", "Upper Interval (Frac. Unfish.)")
-
-#  table_B <- table_B |>
-#   mutate(
-#     Year = as.character(Year),
-#     SSB = format(round(`Spawning Biomass (mt)`), big.mark = ","),
-#     SSB_lower = format(round(`Lower Interval (mt)`, 0), big.mark = ","),
-#     SSB_upper = format(round(`Upper Interval (mt)`, 0), big.mark = ","),
-#     SSB_CI = paste0(SSB_lower, " - ", SSB_upper),
-#     Bratio_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3))
-#   ) |>
-#   dplyr::select(Year, SSB, SSB_CI, `Fraction Unfished`, Bratio_CI)
-# 
-# colnames <- c(
-#   "Year", "Spawning Biomass", "95% Confidence Interval",
-#   "Estimated Depletion (%)", "95% Confidence Interval"
-# )
-
-# Create flextable
-# flextable(table_B, col_keys = names(table_B)) |>
-#   set_header_labels(names = names(table_B), values = colnames) |>
-#   set_table_properties(layout = "autofit") %>% exec_tab_style
-
 
 table_B <- table_B %>%
   mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3)))
@@ -328,7 +287,7 @@ The population declined throughout the 1980s and 1990s when fishing intensity wa
 #| label: tbl-d
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent trend in spawning potential ratio and summary exploitation rate. Harvest rate is defined as catch divided by age 4+ biomass."
+#| tbl-cap: "Recent trend in \\gls{spr} and summary exploitation rate. Harvest rate is defined as catch divided by age 4+ biomass."
 
 table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
@@ -403,7 +362,7 @@ ref_pts <- setNames(
 )
 ```
 
-Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. SPR, or the spawning potential ratio, is the fraction of expected lifetime reproductive output under a given fishing intensity divided by unfished expected lifetime reproductive output. While the estimate of total population scale has remained relatively steady across the 2015, 2019, and 2025 assessments, unfished recruitment and natural mortality, which are positively correlated, have declined from 2015 (female natural mortality of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^). Thus, although the scale is estimated consistently, additional years of data (in particular, age composition data) following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, and model estimate of MSY).
+Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a \gls{spr} of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. SPR, or the \gls{spr}, is the fraction of expected lifetime reproductive output under a given fishing intensity divided by unfished expected lifetime reproductive output. While the estimate of total population scale has remained relatively steady across the 2015, 2019, and 2025 assessments, unfished recruitment and natural mortality, which are positively correlated, have declined from 2015 (female natural mortality of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^). Thus, although the scale is estimated consistently, additional years of data (in particular, age composition data) following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, and model estimate of MSY).
 
 {{< pagebreak >}} 
 
@@ -436,7 +395,7 @@ flextable(table_e) %>%
 
 ## Management performance{-}
 
-Since annual catch limits for widow rockfish increased in 2017 and new fishing opportunities for use of midwater trawl gear became available, attainment of the annual catch limit has been high (@tbl-f). Specifically, attainment of the ACL has exceeded 70% every year since 2018, averaged 77% from 2017-2024, and was as high as 88% in 2022. 
+Since annual catch limits for widow rockfish increased in 2017 and new fishing opportunities for use of midwater trawl gear became available, attainment of the annual catch limit has been high (@tbl-f). Specifically, attainment of the \gls{acl} has exceeded 70% every year since 2018, averaged 77% from 2017-2024, and was as high as 88% in 2022. 
 
 ```{r}
 #| label: tbl-f
@@ -496,20 +455,20 @@ dec_table_summ <- list(
 ```
 
 
-Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of spawning biomass in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
+Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of \gls{ssb} in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
 
-A twelve year projection of the base model with two catch streams based on ACL adjustments of 0.45 P* and 0.40 P* were conducted (@tbl-h).
+A twelve year projection of the base model with two catch streams based on \gls{acl} adjustments of 0.45 P&#42; and 0.40 P&#42; were conducted (@tbl-h).
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.45 P* adjustment using a sigma of 0.50 in 2027 suggest that the spawning biomass will decrease over the projection period for all states of nature (@tbl-h). Predicted ACL catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
+Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.45 P&#42; adjustment using a sigma of 0.50 in 2027 suggest that the \gls{ssb} will decrease over the projection period for all states of nature (@tbl-h). Predicted \gls{acl} catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
 
-Projections with catches based on the predicted annual catch limit (ACL) using the SPR rate of 50%, the 40:10 control rule, and a 0.40  P* adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning biomass will decrease over the projection period for all states of nature. Predicted ACL catches range from `r format(dec_table_summ$p40_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p40_2036, big.mark = ",", digits = 1)` mt in 2036. 
+Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the \gls{ssb} will decrease over the projection period for all states of nature. Predicted \gls{acl} catches range from `r format(dec_table_summ$p40_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p40_2036, big.mark = ",", digits = 1)` mt in 2036. 
 
 
 ```{r}
 #| label: tbl-g
 #| echo: false
 #| warning: false
-#| tbl-cap: "Potential OFLs (mt), ABCs (mt), ACLs (mt), the buffer between the OFL and ABC, estimated spawning biomass (mt), and fraction of unfished spawning biomass with adopted OFLs and ACLs and assumed catch for the first two years of the projection period. The predicted OFL is the calculated total catch determined by FSPR=50%."
+#| tbl-cap: "Potential \\gls{ofl} (mt), \\gls{abc} (mt), \\gls{acl} (mt), the buffer between the \\gls{ofl} and \\gls{abc}, estimated \\gls{ssb} (mt), and fraction of unfished \\gls{ssb} with adopted \\gls{ofl} and \\gls{acl} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%."
 
 table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
 table_g <- round(signif(table_g[,], 5), 3)
@@ -555,85 +514,12 @@ flextable(table_g) %>%
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
-# table_h <- table_h[,2:6]
-# break up management & state of nature
-# table_h$management_choice <- substr(table_h$name, start = 1, stop = 2)
 table_h$scenario <- plyr::revalue(table_h$scenario,
                                   c("Constant catch" = "Constant catch (9,000 K)",
                                     "P*0.40" = "ACLp*=0.40, sigma=0.50",
                                     "P*0.45" = "ACLp*=0.45, sigma=0.50"))
-# table_h$stnat <- substr(table_h$name, start = 4, stop = 7)
-
-# pivot
-# table_h |>
-#   tidyr::pivot_wider(names_from = stnat, values_from = c(SpawnBio, dep), id_cols=-name) |>
-#   # getting format closer...
-#   dplyr::select(c(4, 1, 3, 2, 5, 8, 6, 9, 7, 10)) ->
-#   # reordering for ease
-#   # note this only works if OFL included, otherwise need to subtract 1 from col number
-#   table_h_reorg
-
-# colnames(table_h_reorg) <- c("Management decision", "Year", "OFL", "catch (mt)",
-#                              "Spawning biomass (mt)", "Depletion (%)",
-#                              "Spawning biomass (mt)", "Depletion (%)",
-#                              "Spawning biomass (mt)", "Depletion (%)")
-
-# flextable(table_h) |>
-#   set_header_labels(values = c(scenario = "Management decision",
-#                                yr = "Year",
-#                                # OFL = "OFL",
-#                                catch = "catch (mt)",
-#                                SpawnBio_low = "Spawning biomass (mt)",
-#                                dep_low = "Depletion (%)",
-#                                SpawnBio_base = "Spawning biomass (mt)",
-#                                dep_base = "Depletion (%)",
-#                                SpawnBio_high = "Spawning biomass (mt)",
-#                                dep_high = "Depletion (%)")
-#                     ) |>
-#   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
-#   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
-#   align(align = "center", part = "all") |>
-#   font(fontname = "Times New Roman", part = "all") |>
-#   fontsize(size = 9, part ="all") |>
-#   bold(part = "header", i = 1:2) |>
-#   bold(part = "header", i = 3, j = 1) |>
-#   colformat_num(j = 2, big.mark = "", digits = 0) |>
-#   border_inner(part="header") |> border_outer() |> # header and outside border
-#   vline(j = c(1, 3, 5, 7)) |> hline(i = 10) |> hline(i = 20) |>
-#   merge_at(i = c(1:10), j = 1) |> merge_at(i = c(11:20), j = 1) |> merge_at(i = c(21:30), j = 1) |>
-#   # set_table_properties(layout = "autofit", align = "center") |>
-#   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
-#   width(width = 0.9, j = 1)
 
 table_h <- table_h |> filter(scenario != "Constant catch (9,000 K)")
-# 
-# flextable(table_h) |>
-#   set_header_labels(values = c(scenario = "Management decision",
-#                                yr = "Year",
-#                                # OFL = "OFL",
-#                                catch = "catch (mt)",
-#                                SpawnBio_low = "Spawning biomass (mt)",
-#                                dep_low = "Depletion (%)",
-#                                SpawnBio_base = "Spawning biomass (mt)",
-#                                dep_base = "Depletion (%)",
-#                                SpawnBio_high = "Spawning biomass (mt)",
-#                                dep_high = "Depletion (%)")
-#                     ) |>
-#   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
-#   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
-#   align(align = "center", part = "all") |>
-#   font(fontname = "Times New Roman", part = "all") |>
-#   fontsize(size = 9, part ="all") |>
-#   bold(part = "header", i = 1:2) |>
-#   bold(part = "header", i = 3, j = 1) |>
-#   colformat_num(j = 2, big.mark = "", digits = 0) |>
-#   border_inner(part="header") |> border_outer() |> # header and outside border
-#   vline(j = c(1, 3, 5, 7)) |> hline(i = 12) |> hline(i = 24) |> hline(i = 36)|>
-#   merge_at(i = c(1:12), j = 1) |> merge_at(i = c(13:24), j = 1)|> merge_at(i = c(25:36), j = 1)|>
-#   border(i = c(12, 24, 36), j = 1,
-#          border.bottom = officer::fp_border(color = "black", width = 1))|>  # set_table_properties(layout = "autofit", align = "center") |>
-#   width(width = 0.6, j = 2:(dim(table_h)[2]-1)) |>
-#   width(width = 0.9, j = 1)
 
 flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
@@ -673,54 +559,7 @@ flextable(table_h) |>
 
 ## Scientific uncertainty{-}
 
-The model estimate of the log-scale standard deviation of the overfishing limit (OFL) in 2025 is `r round(report$OFL_sigma, 3)`. This is less than the default SSC value of 0.5 for a category 1 assessment, so harvest projections assume an initial sigma of 0.5.
-
-
-<!-- ```{r} -->
-<!-- #| label: tbl-i -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- #| tbl-cap: "Summary table of results for the assessment of Widow Rockfish." -->
-
-
-<!-- table_i <- as.data.frame(read.csv(file.path(here::here(),"report/tables/exec_summ_tables/i_Summary_ES.csv"), stringsAsFactors = FALSE)) -->
-
-<!-- colnames(table_i) <- gsub("\\.", " ", colnames(table_i)) -->
-<!-- colnames(table_i) <- gsub("\\X", " ", colnames(table_i)) -->
-
-
-
-<!-- flextable(table_i) %>% -->
-<!--   merge_h(part = "header") %>% -->
-<!--   merge_v(part = "header") %>% -->
-<!--   border(part = "all") %>% -->
-<!--   align(align = "center", part = "all") %>% -->
-<!--   font(fontname = "Times New Roman", part = "all") %>% -->
-<!--   bold(part = "header")%>% -->
-<!--   autofit() %>% -->
-<!--   colformat_num(j = 1, big.mark = "", digits = 0)%>% -->
-<!--   fontsize(size = 9, part = "all")%>% -->
-<!--   set_table_properties(layout = "autofit") -->
-
-
-<!-- ``` -->
-
-<!--
-```{r}
-#| label: fig-h
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Equilibrium yield curve for the base case model and associated target and limit reference points. Values are based on most recent fishery selectivity and distribution with steepness fixed at 0.720. The fraction unfished is relative to unfished spawning biomass."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-      file.path(here::here(),"figures/2025 base model r4ss plots/plots/yield2_yield_curve_with_refpoints.png")
-)
-
-```
--->
+The model estimate of the log-scale standard deviation of the \gls{ofl} in 2025 is `r round(report$OFL_sigma, 3)`. This is less than the default SSC value of 0.5 for a category 1 assessment, so harvest projections assume an initial sigma of 0.5.
 
 
 ## Unresolved problems and major uncertainties{-}
@@ -745,7 +584,7 @@ Widow rockfish is a relatively long-lived fish, and natural mortality is likely 
 
 Model sensitivities and profiles over M showed that current stock status was highly sensitive to the assumption about natural mortality. Notably, the estimated natural mortality values for both sexes from this assessment are lower than those from the 2015 and 2019 assessments, for which natural mortality was estimated above 0.15 yr^-1^ and 0.14 yr^-1^, respectively.  The estimates of M varied slightly depending on the weight given to age and length data, or removing recent years of data, but M was always estimated above 0.12 yr^-1^. The likelihood profile over natural mortality provides support for values up to or above 0.14 yr^-1^, but with greater curvature than in the 2019 assessment, suggesting additional data has reduced the support for higher natural mortality values.
 
-Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished equilibrium spawning biomass increased and current spawning biomass decreased. Sustainable yields at the SPR50% reference harvest rate ranged from approximately `r min(steep_yspr50)` to `r max(steep_yspr50)` mt depending on the value of steepness.
+Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished \gls{ssb} increased and current \gls{ssb} decreased. Sustainable yields at the SPR50% reference harvest rate ranged from approximately `r min(steep_yspr50)` to `r max(steep_yspr50)` mt depending on the value of steepness.
 
 ## Research and Data Needs{-}
 

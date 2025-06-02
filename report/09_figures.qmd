@@ -1043,7 +1043,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Base model, low state of nature, and high state of nature spawning biomass trajectories under two catch scenarios: ACL = p*0.4, ACL = p*0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
+#| fig-cap: "Base model, low state of nature, and high state of nature spawning biomass trajectories under two catch scenarios: ACL = p&#42;0.4, ACL = p&#42;0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
 #| out.width: "75%"
 #| fig-align: "center"
 

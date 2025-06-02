@@ -207,7 +207,7 @@ library(dplyr)
 
 Please cite this publication as: 
 
-Kinneen, M., Goodman, M. C., Sulc, A., Balstad, L., Diaz, R., Randrup, K., Patrone, W., Spencer, L., Morell, A., Rovellini, A., Dedrick, A., Grunloh, N., Bargas, M., Hopkins, S., Gersteva, V., Oken, K., Taylor, I., Haltuch, M., \& Hamel, O. (2025) Stock Assessment Update: Status of Widow Rockfish (Sebastes entomelas) Along the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
+Kinneen, M., Goodman, M. C., Sulc, A., Balstad, L., Diaz, R., Randrup, K., Patrone, W., Spencer, L., Morell, A., Rovellini, A., Dedrick, A., Grunloh, N., Bargas, M., Hopkins, S., Gersteva, V., Oken, K., Taylor, I., Haltuch, M., \& Hamel, O. (2025) Status of widow rockfish stock off the U.S. West Coast in 2025. Pacific Fishery Management Council, Portland, Oregon.
 
 {{< pagebreak >}} 
 

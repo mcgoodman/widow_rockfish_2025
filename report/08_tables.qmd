@@ -130,64 +130,6 @@ flextable(table2, col_keys = names(table2)) %>%
 
 ```
 
-<!-- {{< pagebreak >}} -->
-
-<!-- ```{r} -->
-<!-- #| label: tbl-manage-act -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- #| tbl-cap: "A subset of management actions of importance to fisheries that caught widow rockfish." -->
-
-<!-- #table 3 -->
-
-<!-- library(flextable) -->
-<!-- library(dplyr) -->
-<!-- library(tidyr) -->
-<!-- ManageTable<- read.csv(file.path(here(),"report/tables/Table_3_2025.csv")) -->
-<!-- colnames(ManageTable) <- c("Year","Management action") -->
-
-<!-- ManageTable<- ManageTable %>% -->
-<!--  group_by(Year)%>% -->
-<!--  ungroup() -->
-<!--  # mutate(Year_Display = ifelse(row_number() == 1, as.character(Year), "")) %>% -->
-
-<!-- flextable(ManageTable) %>% -->
-<!--  set_header_labels(Year = "Year", `Management action` = "Management action") %>% -->
-<!--  merge_v(j = "Year") %>% -->
-<!--  align(j = "Year", align = "center", part = "all") %>% -->
-<!--  align(j = "Management action", align = "left", part = "all") %>% -->
-<!--  font(fontname = "Times New Roman", part = "all") %>%  -->
-<!--  fontsize(size = 9, part = "all") %>% -->
-<!--  bold(part= "header") %>%  -->
-<!--  border_outer(part = "all") %>% -->
-<!--  border_inner(part = "all") %>% -->
-<!--  colformat_num(j = 1, big.mark = "", digits = 0) %>% -->
-<!--  flextable::width(j = "Year", width = 0.7) %>% # Year column width -->
-<!--  flextable::width(j = "Management action", width = 5)  # Management action column width -->
-
-<!-- # select(-ComModelTotal) -->
-<!-- # CatchTable[is.na(CatchTable)] <- 0 -->
-<!-- # CatchTable |> -->
-<!-- # gt() |> -->
-<!-- # cols_label( -->
-<!-- #  year = "Year", -->
-<!-- #  ComWA = "Com. WA", -->
-<!-- #  ComOR = "Com. OR", -->
-<!-- #  ComCA = "Com. CA", -->
-<!-- #  ComDiscards = "Com. Discards", -->
-<!-- #  Foreign = "For.", -->
-<!-- #  RecWA = "Rec. WA", -->
-<!-- #  RecOR = "Rec. OR", -->
-<!-- #  RecCA = "Rec. CA", -->
-<!-- #  ) |>  -->
-<!-- #  tab_options( -->
-<!-- #  table.font.size = 12, -->
-<!-- #  latex.use_longtable = TRUE -->
-<!-- #  ) |> -->
-<!-- #  as_latex() -->
-
-<!-- ``` -->
-
 {{< pagebreak >}}
 
 ```{r}

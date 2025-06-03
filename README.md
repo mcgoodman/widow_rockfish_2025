@@ -11,11 +11,12 @@ Some data needed to run R code in this repository is confidential and therefore 
 The contents of this repository are as follows:
 
 -   :file_folder: `R` Code for generating derived data products and figures
--   :file_folder: `data_provided` Data products from assessment class instructors, agencies, etc. **Do not push confidential data to this repository.**
--   :file_folder: `data_derived` Processed data files for use as inputs to Stock synthesis
--   :file_folder: `doc` Relevant documents
--   :file_folder: `scratch` Scripts that do not produce inputs or figures for the assessment update
+-   :file_folder: `data_provided` Data products from scientific surveys, state agencies, and past assessments
+-   :file_folder: `data_derived` Processed data files for use as inputs to Stock Synthesis
 -   :file_folder: `figures` Figures for assessment update
+-   :file_folder: `report` Quarto source code for rendering the report (saved as `report/WIDOW_SAR_2025.pdf`)
+-   :file_folder: `doc` Relevant documents
+-   :file_folder: `scratch` Assorted scripts that do not produce inputs or figures for the assessment update
 
 Please cite the contents of this repository or the associated assessment report as:
 

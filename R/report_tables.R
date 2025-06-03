@@ -2,6 +2,7 @@
 library("here")
 library("flextable")
 library("pacfintools")
+library("nwfscSurvey")
 library("tidyverse")
 library("r4ss")
 
@@ -389,3 +390,110 @@ dec_table_formatted <- df %>%
 
 write.csv(dec_table_formatted, here("report", "tables", "dec_table_formatted.csv"), row.names = FALSE)
 write.csv(dec_table_formatted, here("data_derived", "decision_table", "dec_table_formatted.csv"), row.names = FALSE)
+
+# Francis composition weighting -------------------------------------
+
+base_dir <- here("models", "2025 base model")
+frans_dir <- here("models", "sensitivities", "Francis")
+
+big_sensitivity_output <- SSgetoutput(dirvec = c(base_dir, frans_dir)) |>
+  setNames(c('2025 base model', 'Francis weighting'))
+
+frans_tc <- tune_comps(big_sensitivity_output$`Francis weighting`, dir = frans_dir)
+base_tc <- tune_comps(big_sensitivity_output$`2025 base model`, dir = base_dir)
+
+# get effN from big_sensitity_output directly
+effN_F <- rbind(big_sensitivity_output$`Francis weighting`$Age_Comp_Fit_Summary[, c(1, 18, 21)], big_sensitivity_output$`Francis weighting`$Length_Comp_Fit_Summary[, c(1, 18, 21)])
+effN_B <- rbind(big_sensitivity_output$`2025 base model`$Age_Comp_Fit_Summary[, c(1, 18, 21)], big_sensitivity_output$`2025 base model`$Length_Comp_Fit_Summary[, c(1, 18, 21)])
+colnames(effN_F) <- c("Data_type", "Mean effN, Francis", "Fleet_name")
+colnames(effN_B) <- c("Data_type", "Mean effN, 2025 base model", "Fleet_name")
+effN <- merge(effN_B, effN_F , by = c("Fleet_name", "Data_type"))
+effN$`Mean effN, 2025 base model` <- log(effN$`Mean effN, 2025 base model`)
+effN$`Mean effN, Francis` <- log(effN$`Mean effN, Francis`)
+
+# make the table
+tc <- data.frame(Fleet_name = frans_tc$Name, 
+                 Data_type = frans_tc$`#factor`, 
+                 base_MI = base_tc$New_Var_adj, 
+                 frans_MI = frans_tc$New_Var_adj)
+
+full_tab <- merge(effN, tc, by = c("Fleet_name", "Data_type")) %>% arrange(Data_type)
+
+colnames(full_tab) <- c("Fleet", "Composition data type", 
+                        "Log(Mean effN), 2025 base model", "Log(Mean effN), Francis", 
+                        "Base model (McAllister Ianelli) weighting", "Francis weighting")
+
+full_tab$`Composition data type` <- ifelse(full_tab$`Composition data type` == 4, "Length", "Age")
+
+full_tab |> write.csv(file.path(here("figures","sensitivities"), "weighting_comps.csv"), row.names = FALSE)
+
+# Survey positive tows ----------------------------------------------
+
+plot_save_dir <- here("figures", "WCGBTS_survey")
+
+pos_catch <- data.frame(Year = 1977:2024)
+
+sci_name <- "Sebastes entomelas"
+catch <- nwfscSurvey::pull_catch(sci_name = sci_name, survey = "NWFSC.Combo")
+tri_catch <- nwfscSurvey::pull_catch(sci_name = sci_name, survey = "Triennial")
+bio <- nwfscSurvey::pull_bio(sci_name = sci_name, survey = "NWFSC.Combo")
+tri_bio <- nwfscSurvey::pull_bio(sci_name = sci_name, survey = "Triennial")
+
+# use the catch dataframe for positive tows
+# tri
+tri_catch |> group_by(Year) |> 
+  filter(cpue_kg_km2 > 0) |>
+  summarise("Number of positive tows, Tri"=length(unique(Trawl_id))) -> T_tot_catch
+pos_catch <- merge(pos_catch, T_tot_catch, by = "Year", all = TRUE)
+
+# nw
+catch |> group_by(Year) |> 
+  filter(cpue_kg_km2 > 0) |>
+  summarise("Number of positive tows, NW"=length(unique(Trawl_id))) -> tot_catch
+pos_catch <- merge(pos_catch, tot_catch, by = "Year", all = TRUE)
+
+# use the bio dataframe for tows w/lengths, ages and the nubmer of each
+tri_bio$length_data |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of tows with lengths, Tri"=length(unique(Trawl_id))) -> T_tot_len_tows
+pos_catch <- merge(pos_catch, T_tot_len_tows, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of tows with lengths, NW"=length(unique(Trawl_id))) -> tot_len_tows
+pos_catch <- merge(pos_catch, tot_len_tows, by = "Year", all = TRUE)
+
+tri_bio$length_data |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of lengths, Tri"=n()) -> T_tot_len_num
+pos_catch <- merge(pos_catch, T_tot_len_num, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Length_cm)) |> 
+  summarise("Number of lengths, NW"=n()) -> tot_len_num
+pos_catch <- merge(pos_catch, tot_len_num, by = "Year", all = TRUE)
+
+tri_bio$age_data |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of twos with ages, Tri"=length(unique(Trawl_id))) -> T_tot_age_tows
+pos_catch <- merge(pos_catch, T_tot_age_tows, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of tows with ages, NW"=length(unique(Trawl_id))) -> tot_age_tows
+pos_catch <- merge(pos_catch, tot_age_tows, by = "Year", all = TRUE)
+
+tri_bio$age_data |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of ages, Tri"=n()) -> T_tot_age_num
+pos_catch <- merge(pos_catch, T_tot_age_num, by = "Year", all = TRUE)
+
+bio |> group_by(Year) |> 
+  filter(!is.na(Age)) |> 
+  summarise("Number of ages, NW"=n()) -> tot_age_num
+pos_catch <- merge(pos_catch, tot_age_num, by = "Year", all = TRUE)
+
+pos_catch[(is.na(pos_catch))] <- "" # cleaning for csv
+
+pos_catch |> 
+  write.csv(file.path(plot_save_dir, "survey_pos_catch.csv"), row.names = FALSE)

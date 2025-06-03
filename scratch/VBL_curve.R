@@ -1,12 +1,11 @@
-library(ggplot2)
-library(dplyr)
-library(r4ss)
-library(here)
+
+library("tidyverse")
+library("r4ss")
+library("here")
 library("nwfscSurvey")
 library("mgcv")
-library(tidyverse)
-library(cowplot)
-library(readxl)
+library("cowplot")
+library("readxl")
 
 # weight/length and length/age things: ------------------------------
 
@@ -110,15 +109,6 @@ vbl_lines <- data.frame(widow_age = c(age_range, age_range, age_range, age_range
                         vbl_type = c(rep("model estimated", length(age_range)*2), 
                                      rep("model prior", length(age_range)*2)))
 
-#re-order the factor levels to place pacfin on the bottom
-# make vBL plots **ADD PACFIN STILL**
-# ggplot(all_agelen, aes(widow_age, widow_len, col = widow_fleet)) +
-#   geom_jitter(size = 1.6,alpha = 0.5) + facet_wrap(~widow_sex, nrow = 2) +
-#   geom_line(data = vbl_lines %>% filter(vbl_type == "model estimated"), col = "black", lwd = 1) + 
-#   labs(x = "Age", y = "Length", col = "Fleet:") + 
-#   theme_bw() + theme(legend.position = "bottom", legend.box="vertical", text = element_text(size = 22)) + 
-#   scale_color_manual(values = c( "#005BFF", "#FF592F","gray", "#F6F900")) 
-
 all_agelen <- all_agelen %>%
   mutate(widow_fleet = factor(widow_fleet, levels = c("WCGBTS", "ASHOP", "Triennial", "PACFIN")))
 
@@ -154,7 +144,6 @@ label_df <- data.frame(
             paste0("k = ",round(vblMk,2)),
             paste0("t0 = ",round(t0M,2))
   ))
-
 
 
 # Make vBL plots
@@ -197,105 +186,3 @@ ggplot(all_agelen, aes(widow_age, widow_len)) +
 
 ggsave(file.path(plot_save_dir, 'vBL_dat.png'),  dpi = 300,  
        width = 8, height = 8, units = "in")
-
-# sensitivity table--weighting comps ------------------------------
-base_dir <- here("models", "2025 base model")
-frans_dir <- here("models", "sensitivities", "Francis")
-
-big_sensitivity_output <- SSgetoutput(dirvec = c(base_dir, frans_dir)) |>
-  setNames(c('2025 base model', 'Francis weighting'))
-
-frans_tc <- tune_comps(big_sensitivity_output$`Francis weighting`, dir = frans_dir)
-base_tc <- tune_comps(big_sensitivity_output$`2025 base model`, dir = base_dir)
-
-# get effN from big_sensitity_output directly
-effN_F <- rbind(big_sensitivity_output$`Francis weighting`$Age_Comp_Fit_Summary[, c(1, 18, 21)], big_sensitivity_output$`Francis weighting`$Length_Comp_Fit_Summary[, c(1, 18, 21)])
-effN_B <- rbind(big_sensitivity_output$`2025 base model`$Age_Comp_Fit_Summary[, c(1, 18, 21)], big_sensitivity_output$`2025 base model`$Length_Comp_Fit_Summary[, c(1, 18, 21)])
-colnames(effN_F) <- c("Data_type", "Mean effN, Francis", "Fleet_name")
-colnames(effN_B) <- c("Data_type", "Mean effN, 2025 base model", "Fleet_name")
-effN <- merge(effN_B, effN_F , by = c("Fleet_name", "Data_type"))
-effN$`Mean effN, 2025 base model` <- log(effN$`Mean effN, 2025 base model`)
-effN$`Mean effN, Francis` <- log(effN$`Mean effN, Francis`)
-
-# make the table
-tc <- data.frame(Fleet_name = frans_tc$Name, 
-                 Data_type = frans_tc$`#factor`, 
-                 base_MI = base_tc$New_Var_adj, 
-                 frans_MI = frans_tc$New_Var_adj)
-
-full_tab <- merge(effN, tc, by = c("Fleet_name", "Data_type")) %>% arrange(Data_type)
-
-colnames(full_tab) <- c("Fleet", "Composition data type", 
-                        "Log(Mean effN), 2025 base model", "Log(Mean effN), Francis", 
-                        "Base model (McAllister Ianelli) weighting", "Francis weighting")
-
-full_tab$`Composition data type` <- ifelse(full_tab$`Composition data type` == 4, "Length", "Age")
-
-full_tab |> write.csv(file.path(here("figures","sensitivities"), "weighting_comps.csv"), row.names = FALSE)
-
-# survey positive tows ------------------------------
-plot_save_dir <- here("figures", "WCGBTS_survey")
-
-pos_catch <- data.frame(
-  Year = 1977:2024
-)
-
-# use the catch dataframe for positive tows
-# tri
-tri_catch |> group_by(Year) |> 
-  filter(cpue_kg_km2 > 0) |>
-  summarise("Number of positive tows, Tri"=length(unique(Trawl_id))) -> T_tot_catch
-pos_catch <- merge(pos_catch, T_tot_catch, by = "Year", all = TRUE)
-
-# nw
-catch |> group_by(Year) |> 
-  filter(cpue_kg_km2 > 0) |>
-  summarise("Number of positive tows, NW"=length(unique(Trawl_id))) -> tot_catch
-pos_catch <- merge(pos_catch, tot_catch, by = "Year", all = TRUE)
-
-# use the bio dataframe for tows w/lengths, ages and the nubmer of each
-tri_bio$length_data |> group_by(Year) |> 
-  filter(!is.na(Length_cm)) |> 
-  summarise("Number of tows with lengths, Tri"=length(unique(Trawl_id))) -> T_tot_len_tows
-pos_catch <- merge(pos_catch, T_tot_len_tows, by = "Year", all = TRUE)
-
-bio |> group_by(Year) |> 
-  filter(!is.na(Length_cm)) |> 
-  summarise("Number of tows with lengths, NW"=length(unique(Trawl_id))) -> tot_len_tows
-pos_catch <- merge(pos_catch, tot_len_tows, by = "Year", all = TRUE)
-
-tri_bio$length_data |> group_by(Year) |> 
-  filter(!is.na(Length_cm)) |> 
-  summarise("Number of lengths, Tri"=n()) -> T_tot_len_num
-pos_catch <- merge(pos_catch, T_tot_len_num, by = "Year", all = TRUE)
-
-bio |> group_by(Year) |> 
-  filter(!is.na(Length_cm)) |> 
-  summarise("Number of lengths, NW"=n()) -> tot_len_num
-pos_catch <- merge(pos_catch, tot_len_num, by = "Year", all = TRUE)
-
-tri_bio$age_data |> group_by(Year) |> 
-  filter(!is.na(Age)) |> 
-  summarise("Number of twos with ages, Tri"=length(unique(Trawl_id))) -> T_tot_age_tows
-pos_catch <- merge(pos_catch, T_tot_age_tows, by = "Year", all = TRUE)
-
-bio |> group_by(Year) |> 
-  filter(!is.na(Age)) |> 
-  summarise("Number of tows with ages, NW"=length(unique(Trawl_id))) -> tot_age_tows
-pos_catch <- merge(pos_catch, tot_age_tows, by = "Year", all = TRUE)
-
-tri_bio$age_data |> group_by(Year) |> 
-  filter(!is.na(Age)) |> 
-  summarise("Number of ages, Tri"=n()) -> T_tot_age_num
-pos_catch <- merge(pos_catch, T_tot_age_num, by = "Year", all = TRUE)
-
-bio |> group_by(Year) |> 
-  filter(!is.na(Age)) |> 
-  summarise("Number of ages, NW"=n()) -> tot_age_num
-pos_catch <- merge(pos_catch, tot_age_num, by = "Year", all = TRUE)
-
-pos_catch[(is.na(pos_catch))] <- "" # cleaning for csv
-
-pos_catch |> 
-  write.csv(file.path(plot_save_dir, "survey_pos_catch.csv"), row.names = FALSE)
-

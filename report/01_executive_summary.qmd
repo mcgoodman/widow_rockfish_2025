@@ -43,8 +43,7 @@ exec_tab_style <- function(ft) {
   hline(part="header") %>%
   hline_top(part="header") %>% hline_bottom() %>%
   align(align = "center", part = "header") %>%
-  align(align = "center", part = "body") %>%
-  width(width = 7/length(ft))
+  align(align = "center", part = "body")
 }
 
 # Function to read in lenght-1 .Rdata / .rda with name of choice
@@ -57,27 +56,17 @@ table_A <- table_A$table |> mutate(across(is.numeric, round, digits = 1))
 
 table_A <- round(table_A, 2) # manually round bc flex table isn't working well
 
-# # Build header map (multi-row header)
-# header_df <- data.frame(
-#   keys = names(table_A),
-#   line1 = c("Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", "Total Landings","Total Mortality"),
-#   stringsAsFactors = FALSE
-# )
+colnames_A <- c(
+  "Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", 
+  "Total Landings","Total Mortality"
+)
 
-# Create flextable
 flextable(table_A, col_keys = names(table_A)) %>%
-  # set_header_df(mapping = header_df, key = "keys") %>%
-  set_header_labels(names = names(table_A), values = c("Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", "Net","Hook-and-line", "Total Landings","Total Mortality")) %>% 
-  # merge_h(part = "header") %>%
-  # merge_v(part = "header") %>%
-  # border(part = "all") %>%
-  # align(align = "center", part = "all") %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  # bold(part = "header")%>%
+  set_header_labels(names = names(table_A), values = colnames_A) %>% 
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
   fontsize(size = 9, part = "all") %>%
-  set_table_properties(layout = "autofit") %>% exec_tab_style # %>%
-  # colformat_num(j = 2:ncol(table_A), big.mark = "", digits = 2) 
+  set_table_properties(layout = "autofit") %>% 
+  exec_tab_style
 
 
 ```
@@ -115,7 +104,7 @@ The model includes catch, age, and length data for five fishing fleets: 1) a coa
 
 The 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events in 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. With the updated data, this led to implausible population dynamics, so the decision was made to add discard biomass from the \gls{gemm} to the landed catch for the hook-and-line fleet, rather than estimating retention. Retention is still estimated for the midwater and bottom trawl fleets, which have more available data.
 
-Data from three fishery-independent surveys were also included in the model: 1) length compositions and an index for the \gls{s-tri} were retained from the 2015 benchmark (1977–2004), 2) age-at-length, length, and an index for the \gls{s-wcgbt} (2003-2024), and 3) a recruitment index from the \gls{nmfs} \gls{s-juv} (2004-2024).
+Data from three fishery-independent surveys were also included in the model: 1) length composition and an index for the \gls{s-tri} were retained from the 2015 benchmark (1977–2004), 2) conditional age-at-length composition and an index for the \gls{s-wcgbt} (2003-2024), and 3) a recruitment index from the \gls{nmfs} \gls{s-juv} (2004-2024).
 
 The base model estimated parameters for length-based selectivity for all fleets and surveys, retention curves for the bottom trawl and midwater trawl fleets, a sex-specific length-at-age relationship, sex-specific natural mortality, and recruitment deviations. A Beverton-Holt stock-recruitment function was used to model productivity, and the steepness parameter was fixed at `r report$parameters["SR_BH_steep","Value"]` based on a steepness meta-analysis [@thorson_steep_2019] for west coast rockfishes. 
 
@@ -147,7 +136,7 @@ Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
 
 The time series of estimated \gls{ssb} and relative \gls{ssb} is in @fig-b and @fig-c, respectively, and for the most recent year in @tbl-b. The \gls{ssb} declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s. Low abundance continued until 2000. A combination of strong recruitment and low catches resulted in a steady increase in \gls{ssb} through 2016. A target fishery for widow rockfish was reestablished in 2017. The stock exhibits a decline in most recent years with the increased catches since 2017.
 
-The 2025 \gls{ssb} relative to unfished equilibrium \gls{ssb} is `r round(table_b$Bratio[table_b$Year == 2025] * 100)`, above the target of 40% (95% confidence interval of `r round(table_b$Bratio_Lwr[table_b$Year == 2025] * 100)` - `r round(table_b$Bratio_Upr[table_b$Year == 2025] * 100)`%). 
+The 2025 \gls{ssb} relative to unfished equilibrium \gls{ssb} is `r paste0(round(table_b$Bratio[table_b$Year == 2025] * 100), "%")`, above the target of 40% (95% confidence interval of `r round(table_b$Bratio_Lwr[table_b$Year == 2025] * 100)` - `r round(table_b$Bratio_Upr[table_b$Year == 2025] * 100)`%). 
 
 \gls{ssb} is estimated to be at `r format(SSB$Value[SSB$Year == 2025], big.mark = ",", digits = 1)` mt in 2025 (95% confidence interval of `r paste(format(table_b[table_b$Year == 2025, c("SSB_Lwr", "SSB_Upr")], big.mark = ",", digits = 1), collapse = " - ")` mt). The uncertainty in the estimated \gls{ssb} is high, especially in the early years. 
 
@@ -190,17 +179,19 @@ knitr::include_graphics(
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
 
-table_B <- table_B %>%
+names(table_B)[2] <- "SB (mt)"
+
+table_B <- table_B |> 
+  mutate(across(2:4, ~ round(.x, 0))) |> 
   mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3)))
 
 flextable(table_B) |> 
   colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  # mutate(
-  #   "Fraction Unfished" = format("Fraction Unfished",3)
-  # )
-  set_table_properties(layout = "autofit") %>% exec_tab_style %>% 
-  width(width = 0.6)
-
+  exec_tab_style %>% 
+  width(j = 1, width = 0.4) %>% 
+  width(j = 2, width = 0.6) %>%
+  width(j = 3:4, width = 0.95) %>%
+  width(j = 5:7, width = 0.8)
 ```
 
 {{< pagebreak >}} 
@@ -239,42 +230,22 @@ knitr::include_graphics(
 
 table_c <- read_rdata(here::here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
 
-colnames(table_c) <- c("Year", 
-                       "Recruitment (1,000s)", "Lower Interval (Rec, 1,000s)", "Upper Interval (Rec, 1,000s)", 
-                       "Recruitment Deviations", "Lower Interval (Rec Devs)", "Upper Interval (Rec Devs)" )
+colnames(table_c) <- c(
+  "Year", 
+  "Recruitment (1,000s)", "Lower Interval (1,000s)", "Upper Interval (1,000s)", 
+  "Recruitment Deviations", "Lower Interval", "Upper Interval" 
+)
 
-# table_c <- table_c |> 
-#   mutate(
-#     Year = as.character(Year),
-#     recr = format(round(`Recruitment (1,000s)`), big.mark = ","),
-#     recr_lower = format(round(`Lower Interval (1,000s)`, 0), big.mark = ","), 
-#     recr_upper = format(round(`Upper Interval (1,000s)`, 0), big.mark = ","),
-#     recr_CI = paste0(recr_lower, " - ", recr_upper), 
-#     recdev_CI = paste0(round(`Lower Interval`, 3),  " - ", round(`Upper Interval`, 3)), 
-#     `Recruitment Deviations` = round(`Recruitment Deviations`, 3)
-#   ) |>
-#   dplyr::select(Year, recr, recr_CI, `Recruitment Deviations`, recdev_CI)
-# 
-# colnames <- c(
-#   "Year", "Estimated recruitment (number in thousands)", "95% Confidence Interval", 
-#   "Recruitment \nDeviations", "95% Confidence Interval"
-# )
-
-# Create flextable
-# flextable(table_c, col_keys = names(table_c)) |> 
-#   set_header_labels(names = names(table_C), values = colnames) %>%
-#   colformat_num(j=3, big.mark = ",")%>%
-#   exec_tab_style
 table_c <- table_c %>%
   mutate(across(2:4, ~ round(.x, 0)))|>
   mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3))) 
 
-
 flextable(table_c) %>%
   colformat_num(j = 1, big.mark = "") %>%
-  colformat_num(j=3, big.mark = ",")%>%
+  colformat_num(j = 3, big.mark = ",")%>%
   exec_tab_style %>%
-  width(width = 0.6)
+  width(j = 1, width = 0.4) %>%
+  width(j = 2:7, width = 0.8)
 
 ```
 {{< pagebreak >}} 
@@ -291,32 +262,16 @@ The population declined throughout the 1980s and 1990s when fishing intensity wa
 
 table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
-# table_d <- table_d |> 
-#   mutate(
-#     Year = as.character(Year),
-#     across(is.numeric, \(x) round(x, 3)),
-#     SPR_CI = paste0(`Lower Interval (SPR)`, " - ", `Upper Interval (SPR)`), 
-#     rate_CI = paste0(`Lower Interval (Rate)`,  " - ", `Upper Interval (Rate)`)
-#   ) |>
-#   dplyr::select(Year, `(1-SPR)/(1-SPR50%)`, SPR_CI, `Exploitation Rate`, rate_CI)
-# 
-# colnames <- c(
-#   "Year", "Estimated \n(1-SPR)/(1-SPR50%)", "95% Confidence Interval", 
-#   "Harvest rate \n(proportion)", "95% Confidence Interval"
-# )
-
-# Create flextable
-# flextable(table_d, col_keys = names(table_d)) %>%
-#   set_header_labels(names = names(table_C), values = colnames) %>%
-#   exec_tab_style
 table_d <- table_d|>
 mutate(across(2:7, ~ round(.x, 3)))
 
 flextable(table_d) %>%
-    colformat_num(j = 1, big.mark = "") %>%
-  exec_tab_style %>% width(width = 0.85)
-
-
+  colformat_num(j = 1, big.mark = "") %>%
+  exec_tab_style %>% 
+  width(j = 1, width = 0.4) %>%
+  width(j = 2, width = 0.8) %>%
+  width(j = 3:7, width = 0.9)
+  
 ```
 
 {{< pagebreak >}} 
@@ -405,13 +360,14 @@ Since annual catch limits for widow rockfish increased in 2017 and new fishing o
 
 table_f <- read_rdata(here("report", "tables", "exec_summ_tables", "recent_management.rda"))$table
 
-#colnames <- c("Year", "OFL (mt) (termed ABC prior to 2011)", "ABC (mt)", "ACL (mt)", "Estimated Total Catch (mt)", "Estimated Total Mortality (mt)")
+table_f <- table_f |> 
+  mutate(across(contains("mt"), \(x) format(round(x, 0), big.mark = ",")))
 
-# Create flextable
 flextable(table_f) |> 
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  exec_tab_style
-
+  exec_tab_style %>%
+  width(j = 1, width = 0.5) %>%
+  width(j = 2:6, width = 1)
 ```
 
 ## Harvest projections and decision table{-}
@@ -471,38 +427,42 @@ Projections with catches based on the predicted \gls{acl} using the \gls{spr} ra
 #| tbl-cap: "Potential \\gls{ofl} (mt), \\gls{abc} (mt), \\gls{acl} (mt), the buffer between the \\gls{ofl} and \\gls{abc}, estimated \\gls{ssb} (mt), and fraction of unfished \\gls{ssb} with adopted \\gls{ofl} and \\gls{acl} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%."
 
 table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
-table_g <- round(signif(table_g[,], 5), 3)
-#table_g <- round(signif(table_g[,-c(2:3)], 5), 3)
-
-
-#manually add buffer
-model_path <- here::here("models","2025 base model")
-buffer <- r4ss::SS_readforecast(file = here(model_path,"forecast.ss"),verbose =  FALSE)$Flimitfraction_m$fraction
-
-### modify projections table for model that falls below target
-# get table from list saved above
 
 # get buffers from forecast file
-buffers <- r4ss::SS_readforecast(file = here(model_path,"forecast.ss"),verbose =  FALSE)$Flimitfraction_m
+fcst <- r4ss::SS_readforecast(here(model_path, "forecast.ss"), verbose =  FALSE)
+buffers <- fcst$Flimitfraction_m
+
 # which rows in the table are missing buffer and ABC values?
 NA_rows <- is.na(table_g[["Buffer"]])
+
 # fill in Buffer column from forecast file values
 table_g[["Buffer"]][NA_rows] <- buffers[["fraction"]][match(table_g[["Year"]][NA_rows], buffers[["year"]])]
+
 # fill in ABC as product of Buffer and OFL
 table_g[NA_rows, "ABC (mt)"] <- table_g[["Buffer"]][NA_rows] * table_g$"OFL (mt)"[NA_rows]
+
+table_g <- table_g |> 
+  mutate(
+    across(contains("mt"), \(x) ifelse(
+      is.na(x), NA, format(round(x, 0), big.mark = ",")
+    )),
+    `Fraction Unfished` = round(`Fraction Unfished`, 3)
+  )
 
 #replace NA with dashes
 table_g[is.na(table_g)] <- "-"
 
 #Replace OFL, bufferm ABC and ACL for 2025, 2026
-table_g[c(1,2),c("OFL (mt)","Buffer","ABC (mt)","ACL (mt)")] <- "-"
+table_g[c(1,2), c("OFL (mt)", "Buffer", "ABC (mt)", "ACL (mt)")] <- "-"
+
+names(table_g)[names(table_g) == "Spawning Biomass (mt)"] <- "SB (mt)"
 
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  # set_table_properties(layout = "autofit") %>% 
   exec_tab_style() %>% 
-  width(width = 0.6)
-
+  width(j = 1, width = 0.25) %>%
+  width(j = 2:10, width = 0.55) %>%
+  fontsize(size = 8, part = "all")
 
 ```
 
@@ -519,17 +479,19 @@ table_h$scenario <- plyr::revalue(table_h$scenario,
                                     "P*0.40" = "ACLp*=0.40, sigma=0.50",
                                     "P*0.45" = "ACLp*=0.45, sigma=0.50"))
 
-table_h <- table_h |> filter(scenario != "Constant catch (9,000 K)")
+table_h <- table_h |> 
+  filter(scenario != "Constant catch (9,000 K)") |> 
+  mutate(across(starts_with("SpawnBio"), \(x) round(x, 0)))
 
 flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
                                catch = "catch (mt)",
-                               SpawnBio_low = "Spawning biomass (mt)",
+                               SpawnBio_low = "SB (mt)",
                                dep_low = "Depletion (%)",
-                               SpawnBio_base = "Spawning biomass (mt)",
+                               SpawnBio_base = "SB (mt)",
                                dep_base = "Depletion (%)",
-                               SpawnBio_high = "Spawning biomass (mt)",
+                               SpawnBio_high = "SB (mt)",
                                dep_high = "Depletion (%)")
                     ) |>
   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
@@ -544,10 +506,10 @@ flextable(table_h) |>
   border_inner(part = "header") |> border_outer() |>
   vline(j = c(1, 3, 5, 7)) |> 
   merge_at(i = 1:12, j = 1) |> merge_at(i = 13:24, j = 1) |>
-  # border(i = c(12), j = 1, border.bottom = officer::fp_border(color = "black", width = 1)) |>
-  # border(i = c(24), j = 1, border.bottom = officer::fp_border(color = "black", width = 1)) |>
-  width(width = 0.6, j = 2:(ncol(table_h) - 1)) |>
-  width(width = 0.9, j = 1)|>
+  width(width = 0.35, j = 2) |> 
+  width(width = 0.55, j = c(3, 4, 6, 8)) |> 
+  width(width = 0.6, j = c(5, 7, 9)) |>
+  width(width = 0.8, j = 1)|>
     hline(i = 12)|>
   hline_bottom(j = 9)|>
   line_spacing(space = 0.8, part = "all")
@@ -588,18 +550,9 @@ Steepness was fixed at 0.720 in the base model, but a likelihood profile showed 
 
 ## Research and Data Needs{-}
 
-<!-- 1. Describe progress on Research and Data Needs items identified in the most recent previous stock assessment document and associated STAR panel report.  -->
-<!-- 2. Describe new research and data needs and specify their priority (high, medium, low).  -->
-
-<!-- There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish: -->
-
 - **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment, particularly the influence of age data on natural mortality.
 
 - **Historical landings and discards:** Although progress has been made in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for. In addition, discard composition data have become available for the midwater trawl fleet in recent years and should be included in future assessments.
-
-<!-- - **Maturity and fecundity::** There are few studies on the maturity of widow rockfish and even less recent information. There have been no studies that reported results of a histological analysis. Further research on the maturity and fecundity of widow rockfish, the potential differences between areas, the possibility of changes over time would greatly improve the assessment of these species. -->
-
-<!-- - **Age data and error:** There is a considerable amount of error in the age data and potential for bias. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment. Disagreement between surface reads of age versus break-and-burn reads is worth more investigation. -->
 
 - **Sex-specific selectivity:** The midwater and bottom trawl length-composition data fits showed divergent residual patterns between male and female fish. The underlying mechanism driving this pattern is unclear, and could be related to growth, sexing error, or to sex-specific selectivity (e.g., when widow rockfish aggregate, sexes possibly may be aggregating separately). Sex-specific selectivity for these two fleets could be explored or included to address this.
 

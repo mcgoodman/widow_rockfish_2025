@@ -1,21 +1,5 @@
 # Figures
 
-<!-- ```{r} -->
-<!-- #| label: fig-assessregionmap -->
-<!-- #| echo: false -->
-<!-- #| warning: false -->
-<!-- #| eval: true -->
-<!-- #| out.width: "60%" -->
-<!-- #| fig-align: "center" -->
-<!-- #| fig-cap: "A map of the west coast of the U.S. with the EEZ and the 40° 10ꞌ line that divides management into northern and southern regions for some species (although not widow rockfish). The line at latitude 43° N latitude is where past assessment models have been stratified into two areas." -->
-
-<!-- knitr::include_graphics( -->
-<!--     file.path(here::here(),"figures/old_figs/Figure_1_2019.png") -->
-<!-- ) -->
-<!-- ``` -->
-
-<!-- {{< pagebreak >}} -->
-
 ## Data
 
 ### Indices
@@ -990,20 +974,34 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-like_profile_M
+#| label: fig-like_profile_MF
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Likelihood components in the likelihood profile for natural mortality (M). Note: male and female natural mortality are set to the same value."
+#| fig-cap: "Likelihood components in the likelihood profile for female natural mortality (M). Male natural mortality are set to the same value."
 #| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/diagnostics/Nat_Mort.png")
+    here::here("figures", "diagnostics", "Like_profile_Female_M.png")
 )
 
 ```
 
+```{r}
+#| label: fig-like_profile_MM
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Likelihood components in the likelihood profile for male natural mortality (M). Female natural mortality is set to the same value."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "diagnostics", "Like_profile_Male_M.png")
+)
+
+```
 
 ```{r}
 #| label: fig-like_profile_recruits

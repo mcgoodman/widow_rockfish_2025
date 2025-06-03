@@ -24,7 +24,7 @@ This section is not required for an update assessment; please refer to the most 
 
 ## Management History 
 
-This section is not required for an update assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] for information.
+Management history prior to 2015 is detailed in the most recent benchmark assessment [@hicks_status_2015]. In 2017, the \gls{nmfs} implemented a quota share (QS) reallocation rule which re-established a target fishery for widow rockfish by allocating quotas among permit holders based on historical allocations, removing daily vessel limits, and allowing the trading of QS [@nmfs_reallocation_2017].
 
 ## Management performance
 

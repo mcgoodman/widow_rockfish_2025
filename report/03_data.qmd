@@ -5,13 +5,6 @@ Many sources of data were available for this assessment (@fig-data-plot-base), i
 
 ## Fishery-independent data
 
-<!-- 
-Fishery-independent data: Description of surveys used in the assessment, description of methods to estimate abundance indices, sample size information for length- and age- composition data by survey and year, including both the number of tows (or drops or sites for hook and line data) and fish sampled. Include complete tables and figures and date of data extraction. 
-
-For pre-written descriptions of our main surveys, go here: https://github.com/pfmc-assessments/sa4ss/tree/main/inst/rmarkdown/templates/sa/skeleton
-And copy the text from the files 21s-tri.Rmd and 21s-wcgbts.Rmd
--->
-
 Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). Depth and latitude strata used to analyze the catch-rates, length compositions, and age compositions are the same as in the 2019 update assessment [@adams_status_2019] and shown in @tbl-strat-surv.
 
 ### \acrlong{s-tri}

@@ -1,22 +1,16 @@
 # Executive summary {.unnumbered}
 
-<!-- 
-Note r4ss::table_exec_summary() will create the required tables. 
-It currently makes them as csv files. 
-sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if you prefer.
--->
-
 ## Stock{-}
 
-This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canada border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] and first updated in 2019 [@adams_status_2019]. This assessment represents the second update of the 2015 benchmark stock assessment. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single costwide area model.
+This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canada border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] and first updated in 2019 [@adams_status_2019]. This assessment represents the second update of the 2015 benchmark stock assessment. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single coastwide area model.
 
 {{< pagebreak >}} 
 
 ## Catches{-}
 
-Historically, fisheries have caught widow rockfish since the turn of the 20th century. Landings in the trawl fishery are estimated to have increased into the 1940s and remained relatively constant and small (below 1,000 mt per year) throughout the 1950s and into the 1960s before the foreign trawl fleet increased catches into the 1970s, with a peak at almost 5,000 mt in 1967. In the late 1970s a midwater trawl fishery developed for widow rockfish and catches increased rapidly with the discovery of large aggregations that form at night. 
+Historically, fisheries have caught widow rockfish since the turn of the 20th century. Landings in the trawl fishery are estimated to have increased into the 1940s and remained relatively constant and small (below 1,000 mt per year) throughout the 1950s and into the 1960s before catches increased from a foreign trawl fleet in the 1970s, with a peak at almost 5,000 mt in 1967. Catches by a midwater trawl fleet increased rapidly in the late 1970s following the discovery that widow rockfish form large aggregations at night.
 
-Total landings of widow rockfish peaked in the early 1980s, increasing from approximately 1,000 metric tons (mt) in 1978 to over 25,000 mt in 1981. The large landings in the early 1980s were curtailed with trip limits beginning in 1982, which resulted in a decline in landings throughout the 1980s and 1990s following sequential reductions in the trip limits. From 2000 to 2003, landings of widow rockfish dropped from over 4,000 mt to about 40 mt and remained low through 2016. Catches increased rapidly following the quota share reallocation in 2017, and have been near or above 10,000 mt in all years between 2018-2024. Midwater trawl gears in groundfish and Pacific hake/whiting (*Merluccius productus*, hereafter ``hake'') fisheries account for the majority of the recent catch. 
+Total landings of widow rockfish peaked in the early 1980s, increasing from approximately 1,000 metric tons (mt) in 1978 to over 25,000 mt in 1981. The large landings in the early 1980s were curtailed with trip limits beginning in 1982, which resulted in a decline in landings throughout the 1980s and 1990s following sequential reductions in the trip limits. From 2000 to 2003, landings of widow rockfish dropped from over 4,000 mt to about 40 mt and remained low through 2016. Catches increased rapidly following the quota share reallocation in 2017, and have been near or above 10,000 mt in all years between 2018 and 2024. Midwater trawl gears in groundfish and Pacific hake/whiting (*Merluccius productus*, hereafter "hake") fisheries account for the majority of the recent catch. 
 
 Widow rockfish are a desirable market species and it is believed that discarding was low historically. However, management restrictions (e.g., trip limits) resulted in a substantial amount of discarding beginning in the early 1980s. Trawl rationalization was introduced in 2011. Between 2011 and 2024 very little discarding of widow rockfish is estimated to have occurred. Recent discards in the model informed by data from the \gls{wcgop}, and total catches (discards plus landings) are reported in addition to landings. Landings for the past ten years are in @tbl-a and for the entire time series in @fig-a.
 
@@ -77,7 +71,7 @@ flextable(table_A, col_keys = names(table_A)) %>%
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Landings of widow rockfish from 1916 to 2024 for bottom trawl, midwater trawl, net, and hook- and-line fisheries, and catches of widow rockfish for the foreign (1966–1976) and Pacific Whiting (hake) fisheries (green)."
+#| fig-cap: "Landings of widow rockfish from 1916 to 2024 for bottom trawl, midwater trawl, net, and hook-and-line fisheries, and catches of widow rockfish for the foreign (1966–1976) and Pacific Whiting (hake) fisheries (green)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -100,9 +94,9 @@ report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
 
 This assessment uses the length- and age-structured modeling software Stock Synthesis (version 3.30.23.1). The coastwide population was modeled assuming separate growth and mortality parameters for males and females from 1916 to 2024.
 
-The model includes catch, age, and length data for five fishing fleets: 1) a coastwide shore-based bottom trawl fleet (1916–2024), 2) a coastwide shore-based midwater trawl fleet (1979–2024), 3) a mostly midwater trawl fleet that targets hake and includes a foreign and at-sea fleet (1975–2024), a domestic shore-based fleet (1991–2024), and foreign vessels that targeted hake and rockfish between 1966–1976, 4) a net fishery consisting of catches mostly from California (1981–2024), and 5) a coastwide hook-and-line fishery (1916–2024). There are three older fishery-dependent CPUE indices retained from the 2015 benchmark: 1) Oregon bottom trawl (1984-1999), 2) hake at-sea foreign (1977-1988), and 3) hake at-sea domestic fleets (1983-1998).
+The model includes catch, age, and length data for five fishing fleets: 1) a coastwide shore-based bottom trawl fleet (1916–2024), 2) a coastwide shore-based midwater trawl fleet (1979–2024), 3) a mostly midwater trawl fleet that targets hake and includes a foreign and at-sea fleet (1975–2024), a domestic shore-based fleet (1991–2024), and foreign vessels that targeted hake and rockfish between 1966–1976, 4) a net fishery consisting of catches mostly from California (1981–2024), and 5) a coastwide hook-and-line fishery (1916–2024). There are three older fishery-dependent CPUE indices retained from the 2015 benchmark: 1) Oregon bottom trawl (1984-1999), 2) at-sea foreign hake (1977-1988), and 3) at-sea domestic hake fleets (1983-1998).
 
-The 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events in 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. With the updated data, this led to implausible population dynamics, so the decision was made to add discard biomass from the \gls{gemm} to the landed catch for the hook-and-line fleet, rather than estimating retention. Retention is still estimated for the midwater and bottom trawl fleets, which have more available data.
+The 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events previously estimated for 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. With the updated data, this led to implausible population dynamics, so the decision was made to add discard biomass from the \gls{gemm} to the landed catch for the hook-and-line fleet, rather than estimating retention. Retention is still estimated for the midwater and bottom trawl fleets, which have more data available.
 
 Data from three fishery-independent surveys were also included in the model: 1) length composition and an index for the \gls{s-tri} were retained from the 2015 benchmark (1977–2004), 2) conditional age-at-length composition and an index for the \gls{s-wcgbt} (2003-2024), and 3) a recruitment index from the \gls{nmfs} \gls{s-juv} (2004-2024).
 
@@ -134,7 +128,7 @@ Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
 ```
 
 
-The time series of estimated \gls{ssb} and relative \gls{ssb} is in @fig-b and @fig-c, respectively, and for the most recent year in @tbl-b. The \gls{ssb} declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s. Low abundance continued until 2000. A combination of strong recruitment and low catches resulted in a steady increase in \gls{ssb} through 2016. A target fishery for widow rockfish was reestablished in 2017. The stock exhibits a decline in most recent years with the increased catches since 2017.
+The time series of estimated \gls{ssb} and relative \gls{ssb} is in @fig-b and @fig-c, respectively, and for the most recent year in @tbl-b. The \gls{ssb} declined rapidly with the developing domestic midwater fishery in the late 1970s and early 1980s, and remained low until 2000. A combination of strong recruitment and low catches resulted in a steady increase in \gls{ssb} through 2016. A target fishery for widow rockfish was reestablished in 2017. The stock exhibits a decline in most recent years with the increased catches since 2017.
 
 The 2025 \gls{ssb} relative to unfished equilibrium \gls{ssb} is `r paste0(round(table_b$Bratio[table_b$Year == 2025] * 100), "%")`, above the target of 40% (95% confidence interval of `r round(table_b$Bratio_Lwr[table_b$Year == 2025] * 100)` - `r round(table_b$Bratio_Upr[table_b$Year == 2025] * 100)`%). 
 
@@ -145,7 +139,7 @@ The 2025 \gls{ssb} relative to unfished equilibrium \gls{ssb} is `r paste0(round
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated female \\gls{ssb} time-series from the base model (solid line) with an approximate asymptotic 95% confidence interval (dashed lines)."
+#| fig-cap: "Estimated female \\gls{ssb} time-series from the base model (solid line) with asymptotic 95% confidence interval (dashed lines)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -160,7 +154,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated relative \\gls{ssb} (depletion) with approximate 95% asymptotic confidence intervals (dashed lines) for the base case assessment model."
+#| fig-cap: "Estimated relative \\gls{ssb} (depletion) with asymptotic 95% confidence interval (dashed lines) for the base case assessment model."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -200,7 +194,7 @@ flextable(table_B) |>
 
 Recruitment deviations were estimated for the entire time series modeled. There is little information regarding recruitment prior to 1965, and the uncertainty in these estimates is expressed in the model. 
 
-There are several very large, but uncertain, estimates of recruitment (in descending order of magnitude) in 1970, 2008, 2016, and 1971. The five lowest recruitments (in ascending order) occurred in 2012, 2019, 2020, 2011, and 1976. Estimates of recruitment appear to be episodic and characterized by periods of low recruitment (@fig-d, @fig-e).
+There are several very large, but uncertain, estimates of recruitment (in descending order of magnitude) in 1970, 2008, 2016, and 1971. The five lowest recruitment events (in ascending order) occurred in 2012, 2019, 2020, 2011, and 1976. Estimates of recruitment appear to be episodic and characterized by periods of low recruitment (@fig-d, @fig-e).
 
 The 2019 update assessment [@adams_status_2019] estimated the largest recruitment on record in 2013, and above-average recruitment in 2014. With the more stable treatment of hook-and-line discards in this assessment, and the additional years of data, 2013 is now estimated as only the tenth-largest recruitment on record, and 2014 is estimated as below average.
 
@@ -209,7 +203,7 @@ The 2019 update assessment [@adams_status_2019] estimated the largest recruitmen
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time-series of estimated recruitments (medians as open circles) for the base case model with approximate asymptotic 95% confidence interval (vertical bars). Estimated mean unfished equilibrium recruitment (R0) is shown as the closed circle with a 95% confidence interval at the beginning of the time series."
+#| fig-cap: "Time-series of estimated recruitments (medians as open circles) for the base case model with asymptotic 95% confidence interval (vertical bars). Estimated unfished equilibrium recruitment (R~0~) is indicated with a filled circle."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -224,7 +218,7 @@ knitr::include_graphics(
 #| label: tbl-c
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent estimated trend in widow rockfish recruitment with approximate 95% confidence intervals determined from the base model."
+#| tbl-cap: "Recent estimated trend in widow rockfish recruitment with asymptotic 95% confidence intervals determined from the base model."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -252,13 +246,13 @@ flextable(table_c) %>%
 
 ## Exploitation status{-}
 
-The population declined throughout the 1980s and 1990s when fishing intensity was above the management target and overfishing was occurring. The population then increased from around 2000 to 2016 when fishing intensity was well below the management management target. Fishing intensity has increased substantially since 2017, and is estimated to have been above the management target since 2018 (i.e., overfishing is occurring), though the relative spawning output remains above the management target of 40% (i.e., the population is not overfished). Recent fishing intensities are in @tbl-d, and a full time series of relative spawning output and fishing intensity is in @fig-e.
+The population declined throughout the 1980s and 1990s when fishing intensity was above the management target and overfishing was occurring. The population then increased between 2000 and 2016 when fishing intensity was well below the management management target. Fishing intensity has increased substantially since 2017, and is estimated to have been above the management target since 2018 (i.e., overfishing is occurring), though the relative spawning output remains above the management target of 40% (i.e., the population is not overfished). Recent fishing intensities are in @tbl-d, and a full time series of relative spawning output and fishing intensity is in @fig-e.
 
 ```{r}
 #| label: tbl-d
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent trend in \\gls{spr} and summary exploitation rate. Harvest rate is defined as catch divided by age 4+ biomass."
+#| tbl-cap: "Estimated recent trend in relative fishing intensity ((1-SPR)/(1-SPR~50%~)) and exploitation rate (as the proportion of age 4+ biomass) with asymptotic 95% confidence intervals for both quantities."
 
 table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
@@ -281,7 +275,7 @@ flextable(table_d) %>%
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Phase plot of fishing intensity versus fraction unfished. Each point represents the spawning biomass ratio at the start of the year and the relative fishing intensity in that same year. Lines through the final point show 95% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95% region which accounts for the estimated correlation between the two quantities."
+#| fig-cap: "Phase plot of fishing intensity ((1-SPR)/(1-SPR~50%~)) versus fraction unfished (spawning output, (B/B~0~). Lines through the final point show marginal asymptotic 95% intervals for each dimension. The shaded ellipse is an approximate 95% confidence region which accounts for the estimated covariance between the two quantities."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -295,7 +289,7 @@ knitr::include_graphics(
 
 Recruitment is a key mechanism by which the ecosystem may directly impact the population dynamics of widow rockfish; however, the specific pathways through which environmental conditions exert influence on widow rockfish dynamics are unclear. Changes in the environment may result in changes in other population processes, as well. Unfortunately, there are few data available for widow rockfish that provide insights into these effects. 
 
-Fishing has effects on habitats, in addition to the population itself. Rockfish are often associated with habitats containing living structures such as sponges and corals, and fishing may alter that habitat to a less desirable state. Recent studies on essential fish habitat are beginning to characterize important locations for rockfish throughout their life history; however there is little current information available to evaluate the specific effects of fishing on the ecosystem issues specific to widow rockfish.
+Fishing has effects on habitats, in addition to the population itself. Rockfish are often associated with habitats containing living structures such as sponges and corals which fishing may threaten. Recent studies on essential fish habitat are beginning to characterize important locations for rockfish throughout their life history; however there is little current information available to evaluate the specific effects of fishing on the ecosystem characteristics pertinent to the management of widow rockfish.
 
 ## Reference points{-}
 
@@ -317,7 +311,9 @@ ref_pts <- setNames(
 )
 ```
 
-Reference points were calculated using the estimated selectivities and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a \gls{spr} of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. SPR, or the \gls{spr}, is the fraction of expected lifetime reproductive output under a given fishing intensity divided by unfished expected lifetime reproductive output. While the estimate of total population scale has remained relatively steady across the 2015, 2019, and 2025 assessments, unfished recruitment and natural mortality, which are positively correlated, have declined from 2015 (female natural mortality of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^). Thus, although the scale is estimated consistently, additional years of data (in particular, age composition data) following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, and model estimate of MSY).
+Reference points were calculated using the estimated selectivity parameters and average catch distribution among fleets in the most recent five years of the model (2019-2024). A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a \gls{spr} of 0.5, and 3) the model estimate of maximum sustainable yield (MSY), are all listed in @tbl-e. The \gls{spr} is expected lifetime reproductive output under a given fishing intensity as a proportion of the unfished expected lifetime reproductive output. 
+
+While the estimate of population scale (total \gls{ssb}) has remained relatively steady across the 2015, 2019, and 2025 assessments, unfished recruitment ($R_0$) and natural mortality (M), which are positively correlated, have declined from 2015 (female M of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^). Thus, although the population scale is estimated consistently, additional years of data (in particular, age composition data) following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, and model estimate of MSY).
 
 {{< pagebreak >}} 
 
@@ -411,7 +407,7 @@ dec_table_summ <- list(
 ```
 
 
-Two categories of parameters that greatly contributed to uncertainty in the results were natural mortality (an important estimated parameter) and steepness (not estimated in the model). A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of \gls{ssb} in 2025 from the low and high states of nature are close to the 12.5% and 87.5% lognormal quantiles from the base model.
+Uncertainty in both natural mortality (estimated for both sexes) and steepness (not estimated in the model) contributed greatly to uncertainty in the results. A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of \gls{ssb} in 2025 from the low and high states of nature are close to the 12.5% and 87.5% quantiles from the base model.
 
 A twelve year projection of the base model with two catch streams based on \gls{acl} adjustments of 0.45 P&#42; and 0.40 P&#42; were conducted (@tbl-h).
 
@@ -470,7 +466,7 @@ flextable(table_g) %>%
 #| label: tbl-h
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
+#| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019-2024."
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
@@ -538,21 +534,23 @@ steep_yspr50 <- round(steep_yspr50[round(steep_yspr50) > 0])
 
 Major sources of uncertainty include landings, discards, natural mortality, and recruitment, which are discussed below. 
 
-Because widow rockfish is a marketable species, historical discard rates were likely lower than less desirable or smaller species. This assessment assumed that discarding was nearly negligible before management restrictions began in 1982. Once trip limits were introduced, discarding tended to be an all or none event, and detecting large, but rare, discard events with far less than 100% observer coverage has a low probability. From 2002 onward, the WCGOP has provided data on discards from vessels that were randomly selected for observer coverage, thus some uncertainty is present in the total amount discarded. The implementation of trawl rationalization in 2011 resulted in almost 100% observer coverage for the trawl fleet and very little incentive to discard widow rockfish. The open access fixed-gear fleet is not monitored by the full observer coverage required under trawl rationalization. Discard mortality is assumed to be 100%, which may overestimate actual mortality (Jarvis & Lowe, 2007), but given the low number of discards, is likely to have a minimal effect on assessment results.
+Because widow rockfish is a marketable species, historical discard rates were likely lower than less desirable or smaller species. This assessment assumed that discarding was nearly negligible before management restrictions began in 1982. Once trip limits were introduced, discarding tended to be an all or none event; rare, but large, discard events are unlikely to have been detected given low observer coverage. From 2002 onward, the \gls{wcgop} has provided data on discards from vessels that were randomly selected for observer coverage, thus some uncertainty is present in the total amount discarded. The implementation of trawl rationalization in 2011 resulted in almost 100% observer coverage for the trawl fleet and very little incentive to discard widow rockfish. The open access fixed-gear fleet is not monitored by the full observer coverage required under trawl rationalization. Discard mortality is assumed to be 100%, which may overestimate actual mortality (Jarvis & Lowe, 2007), but given the low number of discards, is likely to have a minimal effect on assessment results.
 
-There may also be uncertainty in the ability of bottom trawl surveys to be a reliable measure of widow abundance, which spend a significant portion of their time in mid-water (Wilkins 1986). Multiple surveys are used in the assessment, but further consideration of additional surveys is reasonable.
+There may also be uncertainty in the ability of bottom trawl surveys to reliably estimate abundances of widow rockfish, which spend a significant portion of their time in mid-water (Wilkins 1986). Multiple surveys are used in the assessment, but further consideration of additional surveys is reasonable.
 
-Widow rockfish is a relatively long-lived fish, and natural mortality is likely to be lower than many species of fish, such as gadoids. Ages above 50 years have been observed and it is expected that natural mortality could be less than 0.10 yr^-1^ (the median of the prior for natual mortality used in this assessment). However, even with length and age data available back to the late 1970s, natural mortality was estimated at `r round(report$parameters["NatM_uniform_Fem_GP_1",]$Value, 3)` for females and `r round(report$parameters["NatM_uniform_Mal_GP_1",]$Value, 3)` yr^-1^ for males, with a small amount of uncertainty (e.g., a `r paste0(round(100 * report$parameters["NatM_uniform_Fem_GP_1",]$Parm_StDev/report$parameters["NatM_uniform_Fem_GP_1",]$Value, 1), "%")` coefficient of variation for females). This assessment attempts to capture that uncertainty by estimating natural mortality (M) and integrating that uncertainty into the derived biomass estimates, as well as additional uncertainty by including levels outside of the predicted interval in a decision table. One contributing factor to this change is the increase in the mean age of the catch observed by the \gls{s-wcgbt} survey in recent years. These observations are poorly fit by the model, and considertation should be given in future to structural changes which may improve the fit to \gls{s-wcgbt} CAAL data. One possible explanation as to the increased observation of older fish is that successfully rebounding of the stock as a result of reduced fishing pressure from 2003-2016 allowed year classes to grow older and are now being fully observed by \gls{s-wcgbt}.
+This assessment attempts to capture uncertainty in M by estimating it inside the model (thereby propagating uncertainty in M into uncertainty in \gls{ssb} and other derived quantities), and by incorporating variation in M in a decision table. Model sensitivities and profiles over M showed that current stock status was highly sensitive to the assumption about natural mortality.
 
-Model sensitivities and profiles over M showed that current stock status was highly sensitive to the assumption about natural mortality. Notably, the estimated natural mortality values for both sexes from this assessment are lower than those from the 2015 and 2019 assessments, for which natural mortality was estimated above 0.15 yr^-1^ and 0.14 yr^-1^, respectively.  The estimates of M varied slightly depending on the weight given to age and length data, or removing recent years of data, but M was always estimated above 0.12 yr^-1^. The likelihood profile over natural mortality provides support for values up to or above 0.14 yr^-1^, but with greater curvature than in the 2019 assessment, suggesting additional data has reduced the support for higher natural mortality values.
+Widow rockfish is a relatively long-lived fish, and their natural mortality (M) is likely to be lower than many managed fish stocks (e.g., gadoids). Ages above 50 years have been observed and it is expected that natural mortality could be less than 0.10 yr^-1^ (the median of the prior for natural mortality used in this assessment). However, even with length and age data available back to the late 1970s, M was estimated at `r round(report$parameters["NatM_uniform_Fem_GP_1",]$Value, 3)` for females and `r round(report$parameters["NatM_uniform_Mal_GP_1",]$Value, 3)` yr^-1^ for males, with a small amount of uncertainty (e.g., a `r paste0(round(100 * report$parameters["NatM_uniform_Fem_GP_1",]$Parm_StDev/report$parameters["NatM_uniform_Fem_GP_1",]$Value, 1), "%")` coefficient of variation for females). 
 
-Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished \gls{ssb} increased and current \gls{ssb} decreased. Sustainable yields at the SPR50% reference harvest rate ranged from approximately `r min(steep_yspr50)` to `r max(steep_yspr50)` mt depending on the value of steepness.
+Notably, the estimated M for both sexes from this assessment are lower than those from the 2015 and 2019 assessments, for which natural mortality was estimated above 0.15 yr^-1^ and 0.14 yr^-1^, respectively. The estimates of M varied slightly depending on the weight given to age and length data, or removing recent years of data, but M was always estimated above 0.12 yr^-1^. The likelihood profile over natural mortality provides support for values up to or above 0.14 yr^-1^, but with greater curvature than in the 2019 assessment, suggesting additional data has reduced the support for higher natural mortality values. A contributing factor to this change may be the increased mean age and frequency of older fish in catch observed by the \gls{s-wcgbt} survey in recent years. The successful rebounding of the stock as a result of reduced fishing pressure from 2003-2016 may have allowed year classes to age and become fully observed by \gls{s-wcgbt}. However, consideration should be given in future assessments to structural changes which may improve the fits to \gls{s-wcgbt} CAAL data, which are poor in some years.
+
+Steepness was fixed at 0.720 in the base model, but a likelihood profile showed that it would be estimated at a value less than that. Estimates of M increased with lower steepness, while unfished \gls{ssb} increased and current \gls{ssb} decreased. Sustainable yields at the SPR~50%~ reference harvest rate ranged from approximately `r min(steep_yspr50)` to `r max(steep_yspr50)` mt depending on the value of steepness.
 
 ## Research and Data Needs{-}
 
 - **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment, particularly the influence of age data on natural mortality.
 
-- **Historical landings and discards:** Although progress has been made in reconstructing historical landings of rockfish on the U.S. West Coast, the historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for. In addition, discard composition data have become available for the midwater trawl fleet in recent years and should be included in future assessments.
+- **Historical landings and discards:** Although progress has been made in reconstructing historical catches of rockfish on the U.S. West Coast, historical landings and discards continue to be uncertain for widow rockfish and improvements would increase the certainty that fishing removals are applied appropriately. Because landings are assumed to be known exactly in the assessment model, uncertainty in the predictions does not include uncertainty in the landings. A thorough look at historical landings, species compositions, and discarding practices would reduce the potential uncertainty that is not entirely accounted for. In addition, discard composition data have become available for the midwater trawl fleet in recent years and should be included in future assessments.
 
 - **Sex-specific selectivity:** The midwater and bottom trawl length-composition data fits showed divergent residual patterns between male and female fish. The underlying mechanism driving this pattern is unclear, and could be related to growth, sexing error, or to sex-specific selectivity (e.g., when widow rockfish aggregate, sexes possibly may be aggregating separately). Sex-specific selectivity for these two fleets could be explored or included to address this.
 

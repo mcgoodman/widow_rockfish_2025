@@ -362,12 +362,12 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| fig-cap: "Number at age observed from all data for female and male widow rockfish."
-#| out.width: "80%"
+#| out.width: "90%"
 #| fig-align: center
 
 #Problem
 knitr::include_graphics(
-  file.path(here::here("figures/composition_plots/plots_2", "n_at_age.png"))
+  here::here("figures", "composition_plots", "n_at_age.png")
 )
 ```
 

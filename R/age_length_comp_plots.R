@@ -1,32 +1,26 @@
+
 # May 2019 - Grant Adams
-# Adapted May 2024 Mico Kinneen
-library(r4ss)
-library(data.table)
-library(here)
-####################################################
-## GET BASE CASE VALUES FOR ASSESSMENT
-####################################################
+# Adapted May 2024 Mico Kinneen, Maurice Goodman
 
+library("r4ss")
+library("data.table")
+library("ggplot2")
+library("here")
 
-
-
-# directories where models were run need to be defined
-# oldwd <- getwd()
-# setwd("../") # Move back one
-dir = here("models","2025 base model")
-plot_dir <- here("figures","composition_plots")
+dir <- here("models", "2025 base model")
+plot_dir <- here("figures", "composition_plots")
 dir.create(plot_dir)
 
-SSplotComps(replist = mod1)
 mod1 <- SS_output(dir = dir)
+SSplotComps(replist = mod1)
 data1 <- SS_readdat(file = here(dir, "2025widow.dat"))
-data2 <- SS_readdat(file = here("models","2019 base model","Base_45_new", "2019widow.dat"))
-
-data1$lencomp->xx
+data2 <- SS_readdat(file = here("models", "2019 base model", "Base_45_new", "2019widow.dat"))
 
 fleet_names <- data1$fleetinfo$fleetname
+
 # Plot age comp
 for(i in 1:length(unique(data1$agecomp$fleet))){
+  
   fltsrv <- sort(unique(data1$agecomp$fleet))[i]
   flt_name <- fleet_names[i]
   
@@ -87,11 +81,20 @@ dat <- dat_sub[,10:ncol(dat_sub)]
 fdat <- dat[,grep("f", colnames(dat))]
 mdat <- dat[,grep("m", colnames(dat))]
 
-par(mfrow = c(2, 1))
-# females
-plot( y = colSums(fdat), x =  0:40, type = "l", xlab = "Age", ylab = "Number observed", main = "Females")
-# males
-plot( y = colSums(mdat), x =  0:40, type = "l", xlab = "Age", ylab = "Number observed", main = "Males")
+ages <- 0:(ncol(fdat) - 1)
+all_ages <- data.frame(age = rep(ages, 2), sex = rep(c("female", "male"), each = length(ages)), count = c(colSums(fdat), colSums(mdat)))
+
+all_age_plot <- all_ages |> 
+  ggplot(aes(age, count, color = sex)) + 
+  geom_line(linewidth = 1) + 
+  scale_color_manual(values = rev(r4ss::rich.colors.short(2))) + 
+  theme_bw() + 
+  theme(axis.text = element_text(color = "black"), 
+        axis.ticks = element_line(color = "black"), 
+        axis.line = element_line(color = "black")) + 
+  coord_cartesian(clip = "off")
+
+ggsave(here("figures", "composition_plots", "n_at_age.png"), all_age_plot, height = 4, width = 9, units = "in", dpi = 300)
 
 # Plot length comp
 for(i in 1:length(unique(data1$lencomp$fleet))){

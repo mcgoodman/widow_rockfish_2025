@@ -1,24 +1,31 @@
 
-```{r}
-#| include: false
+<!-- -->
+<!-- Load the report from the completed model -->
+
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
+
+# This will need to be adjusted to point at the final model
 
 library("here")
 read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
+#renv::activate()
 model_path <- here::here("models", "2025 base model")
 
 report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
+#r4ss::SSexecutivesummary(replist = report) 
 
 catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 
+##Now parse exec tables into the items we wan
 ```
+
 
 # Management 
 
 ## Reference Points
 
-```{r}
-#| include: false
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
 load(file = here::here("report", "tables", "exec_summ_tables", "reference_points.rda"))
 df <- as.data.frame(reference_points$table)
@@ -35,17 +42,16 @@ ref_pts <- setNames(
 
 ```
 
-Reference points were calculated using the estimated selectivity parameters and catch distribution among fleets in the five most recent years of the model (2019-2024). Sustainable total yields (landings plus discards) were `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Est` mt when using an SPR~50%~ reference harvest rate with a 95% confidence interval of `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Lwr` to `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Upr` mt. The \gls{ssb} equivalent to 40% of the unfished spawning output (SB~40%~) was `r ref_pts[["Proxy Spawning Biomass (mt) SB40%"]]$Est` mt. Catches between the late 1990's and 2016 were well below the point estimate of potential long-term yields calculated using an SPR~50%~ reference point, and the population is estimated to have increased continuously throughout that time period. However, catches from 2017 through 2024 were above the point estimate of potential long-term yields using an SPR50% reference point, exceeding the upper bound of the confidence interval in all years since 2018, and exceeding the point estimate by on average `r paste0(round(100 * (mean(catch_sum$x[catch_sum$Yr >= 2018]/ df$Est[df$Label == "Yield with SPR50 at SB SPR (mt)"]) - 1)), "%")`.
+Reference points were calculated using the estimated selectivities and catch distribution among fleets in the most recent year of the model (2024). Sustainable total yields (landings plus discards) were `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Est` mt when using an SPR50% reference harvest rate and with a 95% confidence interval of `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Lwr` to `r ref_pts[["Yield with SPR50 at SB SPR (mt)"]]$Upr` mt. The \gls{ssb} equivalent to 40% of the unfished spawning output (SB40%) was `r ref_pts[["Proxy Spawning Biomass (mt) SB40%"]]$Est` mt. Catches between the late 1990's and 2016 were well below the point estimate of potential long-term yields calculated using an SPR50% reference point, and the population is estimated to have increased continuously throughout that time period. However, catches from 2017 through 2024 were above the point estimate of potential long-term yields using an SPR50% reference point, exceeding the upper bound of the confidence interval in all years since 2018, and exceeding the point estimate by on average `r paste0(round(100 * (mean(catch_sum$x[catch_sum$Yr >= 2018]/ df$Est[df$Label == "Yield with SPR50 at SB SPR (mt)"]) - 1)), "%")`.
 
-The predicted \gls{ssb} from the base model generally showed a slight decline until the late 1970's, followed by steep increase above unfished equilibrium biomass and reaching a peak in `r report$timeseries$Yr[which.max(report$timeseries$SpawnBio)]`. This was followed by a steep decrease up to the mid-1980's, and then a more gradual decease through 2000 (@fig-rel-spawn-bio). Between 2001 and 2016, the \gls{ssb} increased continuously due to small catches, and several years of high recruitment (though with lower than average recruitment in other recent years). The \gls{ssb} relative to unfished equilibrium \gls{ssb} climbed above the target of 40% of unfished \gls{ssb} in the early 2000's. It is estimated to still be above the target, though the lower bound of the 95% confidence interval lies between the target and minimum stock size threshold (@fig-rel-spawn-bio). The fishing intensity (relative 1-SPR) exceeded the current estimates of the harvest rate limit (SPR50%) throughout the 1980's and early 1990's, and has again since 2018 (@fig-pred-one-SPR). Exploitation rates on widow rockfish between 2001 and 2016 were predicted to be far below target levels. In recent years, the stock has experienced exploitation rates that have been above the target level while the biomass level has remained above the target level (@fig-relative-one-SPR).
+The predicted \gls{ssb} from the base model generally showed a slight decline until the late 1970s, followed by steep increase above unfished equilibrium biomass and reaching a peak in `r report$timeseries$Yr[which.max(report$timeseries$SpawnBio)]`. This was followed by a steep decrease up to the mid-1980s, and then a more gradual decease through 2000 (@fig-rel-spawn-bio). Between 2001 and 2016, the \gls{ssb} increased continuously due to small catches, and several years of high recruitment (though with lower than average recruitment in other recent years). The \gls{ssb} relative to unfished equilibrium \gls{ssb} climbed above the target of 40% of unfished \gls{ssb} in the early 2000's. It is estimated to still be above the target, though the lower bound of the 95% confidence interval lies between the target and minimum stock size threshold (@fig-rel-spawn-bio). The fishing intensity (relative 1-SPR) exceeded the current estimates of the harvest rate limit (SPR50%) throughout the 1980s and early 1990s, and has again since 2018 (@fig-pred-one-SPR). Exploitation rates on widow rockfish between 2001 and 2016 were predicted to be far below target levels. In recent years, the stock has experienced exploitation rates that have been above the target level while the biomass level has remained above the target level (@fig-relative-one-SPR).
 
 The equilibrium yield plot is shown in @fig-est-eqi-yield, based on a steepness value fixed at 0.720. The predicted maximum sustainable yield under the assumptions of this assessment occurs near 27% of equilibrium unfished \gls{ssb}, however this represents only 12% more yield, with considerably more risk, than under the 50% SPR policy, which occurs near 45% of unfished \gls{ssb}. 
 
 
 ## Unresolved problems and major uncertainties
 
-```{r}
-#| include: false
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
 steep_proflik <- read.csv(here::here("report", "tables", "SR_BH_steep_quant_table.csv"))
 names(steep_proflik)[1] <- "var"
@@ -61,7 +67,7 @@ Because widow rockfish is a marketable species, historical discard rates were li
 
 There may also be uncertainty in the ability of bottom trawl surveys to be a reliable measure of widow abundance, which spend a significant portion of their time in mid-water (Wilkins 1986). Multiple surveys are used in the assessment, but further consideration of additional surveys is reasonable.
 
-Widow rockfish is a relatively long-lived fish, and natural mortality is likely to be lower than many species of fish, such as gadoids. Ages above 50 years have been observed and it is expected that natural mortality could be less than 0.10 yr^-1^ (the median of the prior for natual mortality used in this assessment). However, even with length and age data available back to the late 1970's, natural mortality was estimated at `r round(report$parameters["NatM_uniform_Fem_GP_1",]$Value, 3)` for females and `r round(report$parameters["NatM_uniform_Mal_GP_1",]$Value, 3)` yr^-1^ for males, with a small amount of uncertainty (e.g., a `r paste0(round(100 * report$parameters["NatM_uniform_Fem_GP_1",]$Parm_StDev/report$parameters["NatM_uniform_Fem_GP_1",]$Value, 1), "%")` coefficient of variation for females). This assessment attempts to capture that uncertainty by estimating natural mortality (M) and integrating that uncertainty into the derived biomass estimates, as well as additional uncertainty by including levels outside of the predicted interval in a decision table. One contributing factor to this change is the increase in the mean age of the catch observed by the \gls{s-wcgbt} survey in recent years. These observations are poorly fit by the model, and considertation should be given in future to structural changes which may improve the fit to \gls{s-wcgbt} CAAL data. One possible explanation as to the increased observation of older fish is that successfully rebounding of the stock as a result of reduced fishing pressure form 2003-2016 allowed year classes to grow older and are now being fully observed by \gls{s-wcgbt}.
+Widow rockfish is a relatively long-lived fish, and natural mortality is likely to be lower than many species of fish, such as gadoids. Ages above 50 years have been observed and it is expected that natural mortality could be less than 0.10 yr^-1^ (the median of the prior for natual mortality used in this assessment). However, even with length and age data available back to the late 1970s, natural mortality was estimated at `r round(report$parameters["NatM_uniform_Fem_GP_1",]$Value, 3)` for females and `r round(report$parameters["NatM_uniform_Mal_GP_1",]$Value, 3)` yr^-1^ for males, with a small amount of uncertainty (e.g., a `r paste0(round(100 * report$parameters["NatM_uniform_Fem_GP_1",]$Parm_StDev/report$parameters["NatM_uniform_Fem_GP_1",]$Value, 1), "%")` coefficient of variation for females). This assessment attempts to capture that uncertainty by estimating natural mortality (M) and integrating that uncertainty into the derived biomass estimates, as well as additional uncertainty by including levels outside of the predicted interval in a decision table. One contributing factor to this change is the increase in the mean age of the catch observed by the \gls{s-wcgbt} survey in recent years. These observations are poorly fit by the model, and considertation should be given in future to structural changes which may improve the fit to \gls{s-wcgbt} CAAL data. One possible explanation as to the increased observation of older fish is that successfully rebounding of the stock as a result of reduced fishing pressure form 2003-2016 allowed year classes to grow older and are now being fully observed by \gls{s-wcgbt}.
 
 Model sensitivities and profiles over M showed that current stock status was highly sensitive to the assumption about natural mortality. Notably, the estimated natural mortality values for both sexes from this assessment are lower than those from the 2015 and 2019 assessments, for which natural mortality was estimated above 0.15 yr^-1^ and 0.14 yr^-1^, respectively.  The estimates of M varied slightly depending on the weight given to age and length data, or removing recent years of data, but M was always estimated above 0.12 yr^-1^. The likelihood profile over natural mortality provides support for values up to or above 0.14 yr^-1^, but with greater curvature than in the 2019 assessment, suggesting additional data has reduced the support for higher natural mortality values.
 
@@ -71,8 +77,7 @@ Steepness was fixed at 0.720 in the base model, but a likelihood profile showed 
 
 ## Harvest Projections and Decision Tables
 
-```{r}
-#| include: false
+```{r echo = FALSE, results = 'hide', message = FALSE, warning = FALSE }
 
 projections <- read_rdata(here("report", "tables", "exec_summ_tables", "projections.rda"))$table
 projections <- projections |> dplyr::mutate(across(is.numeric, ~ round(.x)))

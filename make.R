@@ -68,6 +68,11 @@ if (jobs$data) {
   )
   
   run_job(
+    here("R", "discard-lengths-data-processing.R"), # Runs
+    name = "process discard length comps"
+  )
+  
+  run_job(
     here("R", "NWFSCCombo_age_length_comps.R"), # Runs
     name = "process WCGBTS comps"
   )

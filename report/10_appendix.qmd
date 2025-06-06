@@ -1,5 +1,5 @@
 
-# Appendix A: Annual fits to length and age composition{#Appendix-A}
+# Appendix A: Annual fits to length and age composition and supplemental figures{#Appendix-A}
 
 \setcounter{figure}{0}
 \setcounter{equation}{0}
@@ -201,6 +201,21 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png")
+)
+
+```
+
+```{r}
+#| label: fig-exp-agecomp-WCBTS
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Expanded marginal age compositions from the WCGBTS."
+#| out.width: "100%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/composition_plots/agecomp_fleet_8.png")
 )
 
 ```

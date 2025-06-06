@@ -10,8 +10,7 @@ library("here")
 
 base_dir <- here('models', '2019 base model', 'Base_45_new') #the base input model
 
-old_data <- SS_read(base_dir)[["dat"]][["discard_data"]] %>% 
-  mutate(source = "2019 assessment")
+old_data <- SS_read(base_dir)[["dat"]][["discard_data"]]
 
 # Catch share data ----------------------------------------
 
@@ -19,28 +18,27 @@ old_data <- SS_read(base_dir)[["dat"]][["discard_data"]] %>%
 new_data_share <- 
   read.csv(here("data_provided", "wcgop", "discard_rates_combined_catch_share.csv")) %>% 
   select(year,fleet,observed_discard_mt)%>%
-  mutate(month = 7)%>%
+  mutate(month = 7L) %>%
   rename(obs = observed_discard_mt)%>%
   filter(fleet != "midwaterhake-coastwide")%>%
   mutate(fleet = case_when(
-    fleet == "bottomtrawl-coastwide" ~ "1",
-    fleet == "midwaterrockfish-coastwide" ~ "2",
-    fleet == "hook-and-line-coastwide" ~ "5"))|>
-  mutate(stderr = if_else(fleet == 5,
+    fleet == "bottomtrawl-coastwide" ~ 1L,
+    fleet == "midwaterrockfish-coastwide" ~ 2L,
+    fleet == "hook-and-line-coastwide" ~ 5L))|>
+  mutate(stderr = if_else(fleet == 5L,
                           0.5, # Observed at 13 % so make this large
                           0.05)) |>  # 100% obsered
   arrange(fleet)
-
 
 # Non catch-share data ------------------------------------
 
 new_data_nonshare <- read.csv(here("data_provided", "wcgop", "discard_rates_noncatch_share.csv")) %>% 
   select(year,fleet,obs_discard, sd_discard,median_discard)%>%
-  mutate(month = 7,
+  mutate(month = 7L,
          stderr = sd_discard/median_discard)%>%
   mutate(fleet = case_when(
-    fleet == "bottomtrawl-coastwide" ~ "1",
-    fleet == "hook-and-line-coastwide" ~ "5"))|>
+    fleet == "bottomtrawl-coastwide" ~ 1L,
+    fleet == "hook-and-line-coastwide" ~ 5L))|>
   rename(obs = obs_discard)|>
   select(year,fleet,obs,stderr)
 
@@ -62,21 +60,29 @@ new_data_nonshare <-  new_data_nonshare |>
 
 # Combine the fleets --------------------------------------
 
-combined_discard_data <- bind_rows(new_data_share, new_data_nonshare) |>
-  group_by(year,fleet) |>
+combined_discard_data <- new_data_share |> 
+  bind_rows(new_data_nonshare) |>
+  group_by(year, fleet) |>
   summarise(
     obs = sum(obs, na.rm = TRUE),
     stderr = mean(stderr, na.rm = TRUE),
     .groups = "drop"
   ) |>
-  mutate(obs = if_else(obs == 0, 0.001,obs))|> # model wotn fit 0's, so make small number
+  mutate(obs = if_else(obs == 0, 0.001,obs)) |> # model wotn fit 0's, so make small number
   arrange(fleet)|>
-  mutate(month = 7)|>
-  select(year,month,fleet,obs,stderr)
+  mutate(month = 7) |>
+  select(year, month, fleet, obs, stderr)
 
+# Append 
+combined_discard_data <- combined_discard_data |> 
+  anti_join(old_data, by = c("year", "month", "fleet")) |> 
+  bind_rows(old_data) |> 
+  arrange(fleet, year)
 
 ## PLot to check
-ggplot(combined_discard_data, aes(x = year, y = log(obs)),col = fleet) +
+combined_discard_data |> 
+  mutate(fleet = factor(fleet)) |> 
+  ggplot(aes(year, log(obs), color = fleet)) +
   geom_point() +
   geom_errorbar(aes(
     ymin = log(obs) - 1.96 * sqrt(log(1 + stderr^2)),

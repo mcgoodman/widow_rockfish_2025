@@ -1,4 +1,34 @@
 
+# Dependencies --------------------------------------------
+
+if (!require("remotes")) {
+  install.packages("remotes")
+  library("remotes")
+}
+
+# R packages and associated repositories
+pkgs <- list(
+  CRAN = c(
+    "tidyverse", "parallel", "future", "parallelly","future.apply", "here", "readxl", 
+    "magick", "data.table", "ggpubr", "cowplot", "flextable", "testthat"
+  ), 
+  GitHub = c(
+    "r4ss" = "r4ss/r4ss",
+    "pacfintools" = "pfmc-assessments/pacfintools",
+    "nwfscSurvey" = "pfmc-assessments/nwfscSurvey",
+    "nwfscDiag" = "pfmc-assessments/nwfscDiag",
+    "PEPtools" = "pfmc-assessments/PEPtools"
+  )
+)
+
+# Install packages from CRAN
+pkgs_cran_new <- pkgs$CRAN[!(pkgs$CRAN %in% installed.packages()[,"Package"])]
+if(length(pkgs_cran_new)) install.packages(pkgs_cran_new)
+
+# Install packages from GitHub
+pkgs_gh_new <- pkgs$GitHub[!(names(pkgs$GitHub) %in% installed.packages()[,"Package"])]
+if(length(pkgs_gh_new)) sapply(pkgs_gh_new, remotes::install_github)
+
 # Setup ---------------------------------------------------
 
 library("here")

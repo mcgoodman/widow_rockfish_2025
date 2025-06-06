@@ -4,8 +4,6 @@ library("tidyr")
 library("ggplot2")
 library("r4ss")
 library("here")
-library("renv")
-library("future.apply")
 
 source(here("R", "functions", "bridging_functions.R"))
 

@@ -1,11 +1,9 @@
 ################ Data bridging #####################
 
 ### Setup
-library(here)
-library(r4ss)
-library(dplyr)
-library(renv)
-library(future.apply)
+library("here")
+library("r4ss")
+library("dplyr")
 
 # Load bridging functions
 source(here("R", "functions", "bridging_functions.r"))

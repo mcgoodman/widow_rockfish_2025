@@ -62,6 +62,16 @@ if (jobs$data) {
     name = "process landings"
   )
   
+  run_job(
+    here("R", "WCGOP_discard_data_preparation.R"), # Runs
+    name = "process WCGOP discards"
+  )
+  
+  run_job(
+    here("R", "NWFSCCombo_age_length_comps.R"), # Runs
+    name = "process WCGBTS comps"
+  )
+  
 }
 
 # Data & Model bridging -----------------------------------
@@ -126,6 +136,11 @@ if (jobs$report_plots) {
     name = "paneled report figures"
   )
   
+  run_job(
+    here("R", "age_length_comp_plots.R"), # Runs
+    name = "age / length composition plots"
+  )
+
 }
 
 # Render report -------------------------------------------

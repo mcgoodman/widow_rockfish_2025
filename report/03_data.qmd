@@ -55,19 +55,6 @@ Biological data from commercial fisheries that caught widow rockfish were extrac
 
 @tbl-num-land-length shows the number of trips sampled and @tbl-len-gear-state shows the number of lengths taken for each year, gear, and fleet for non-hake ffleets from the three states. @tbl-landings-hake shows these numbers for the shoreside and at-sea hake fisheries. Expanded length compositions for bottom trawl, midwater trawl, hake, net, and hook-and-line fleets are shown in @fig-lencomp-fleet1 to @fig-lencomp-fleet5. Age compositions for the five fleets are shown in @fig-agecomp-fleet1 and @fig-agecomp-fleet5. Occasional cohorts appear to move through the population, indicating that widow rockfish population dynamics may be characterized by episodic recruitment events.
 
-<!-- Consistent with the 2019 assessment, length and age samples from PacFIN were expanded up to the total landing then combined into state-specific frequencies (@tbl-sample-age-gear-state). Expansion factors were calculated in a way such that large expansions would not occur and based on ideas first presented by Owen Hamel (pers. comm., NWFSC). First the expansion factor (Ek) was the total catch weight (Wk) divided by the sample weight (wk), and raised to 0.9 to account for non-homogeneity within a trip. Then, expansion factors greater than 300 were capped (100 for net fisheries) to reduce the influence of small samples (i.e., a few fish representing a large catch). The predicted total numbers at length or age weighted by landings for each state were added to create a coast-wide length frequency. The effective sample sizes of the state combined length frequencies were determined from the following formula, which has been used in previous Widow Rockfish assessments as well as other west coast groundfish assessments. -->
-
-
-<!-- | Fishery Samples                                  | Survey Samples                                   | -->
-<!-- | :----------------------------------------------- | :------------------------------------------------ | -->
-<!-- |  $\ N_{eff} = N_{sample} + 0.138N_{fish} , \frac{N_{fish}}{N_{sample}} < 44$ | $\ N_{eff} = N_{sample} + 0.0707N_{fish} , \frac{N_{fish}}{N_{sample}} < 55$ | -->
-<!-- |  $\ N_{eff} = 7.06N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 44$    | $\ N_{eff} = 4.89N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 55$     | -->
-
-
-<!-- This is slightly different from the sample size of 2.43 per haul for rockfish that Stewart & Hamel (2014) report.  -->
-
-<!-- Observed lengths were expanded to the tow from At-Sea Hake Observer Program samples (ASHOP). Tows are typically well sampled, thus expansion factors were not modified from what was calculated. Hake fishery length compositions were created by combining shoreside and at-sea length compositions, weighting by the catch from each sector. The effective sample sizes for hake fishery length and age 9 comps were calculated using the above equations for the shoreside fleet and added to the number of tows sampled from the at-sea fleet.  -->
-
 ### Discards
 
 ```{r}
@@ -80,9 +67,7 @@ disc_max <- format(max(disc), big.mark = ",", scientific = FALSE)
 
 ```
 
-
-
-Data on discards on widow rockfish are available from three different sources. Historical sources included [@pikitch_evaluation_1988] and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from [@pikitch_evaluation_1988].Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
+Data on discards on widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988.Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
 
 The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior.Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
 

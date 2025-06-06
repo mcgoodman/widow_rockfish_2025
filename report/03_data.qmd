@@ -1,6 +1,5 @@
 # Data
 
-<!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
 Many sources of data were available for this assessment (@fig-data-plot-base), including indices of abundance, landings, discards, and length and age observations from fishery-dependent and fishery-independent sources. Data used in this assessment are described below. No new data sources were considered in this update assessment.
 
 ## Fishery-independent data
@@ -67,28 +66,21 @@ disc_max <- format(max(disc), big.mark = ",", scientific = FALSE)
 
 ```
 
-Data on discards on widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988.Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
+Data on discards on widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
 
-The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior.Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
+The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior. Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
 
 Discard length data for 2004-2023 was provided by WCGOP. In line with the 2015 and 2019 assessments, these data were used to estimate retention curves for bottom trawl and hook-and-like fleets. WCGOP discard lengths for the bottom trawl fleet from 2004-2017 are unchanged from the 2019 assessment, and new data were added for 2018-2023.
 
 Major changes occurred only in the treatment of the hook-and-line discard data. Previous assessments in 2015 and 2019 erroneously combined WCGOP length composition data for the hook-and-line fleet with data from nearshore fixed gear fleets (pot, net).The current assessment omitted these nearshore fixed gear data from the hook-and-line data in the model. This change resulted in changes to the discard length distribution and years for which data was available (@fig-disc-hnl-comparison). The hook-and-line removals comprised only approximately 0.2% of the total removals over the last twenty years (@tbl-all_removals), with discard being a small fraction of that. The biological samples of the discard amount are also scarce, with input sample sizes not exceeding 6 and averaging around 3 per year.  With this limited data, the model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard amounts to hook-and-line landings. 
 
-<!-- Discard length composition data became available this year for the midwater trawl fleet, but was not available for previous assessments. These newly available data for midwater trawl fleets (hake, rockfish) beginning in 2016, were not included in this updated assessment as this would require major changes to the model structure which are beyond the scope of this update assessment but will need to be considered in the next full assessment. @fig-disccomps-pikitch shows discard sources and totals in metric tons for each year.  -->
-
 The commencement of trawl rationalization in 2011 led to 100% observer coverage for the bottom and midwater trawl fleets. As a result coefficients of variation (CV) were fixed at 5% for observed discards. For years preceding this, CV were fixed at values used in the 2015 benchmark assessment @tbl-disc-totals. Length compositions of the discards for the bottom trawl fleet can be seen in @fig-disccomps-wcgop.
-
-0.0-3,353
-<!-- Discard lengths for the hook & line fleet provided by WCGOP this year were corrected to omit nearshore fixed gear fleets, which were included with the hook-and-line fleet in the previous benchmark and update assessments erroneously. This change resulted in changes to the discard length distribution and years for which data was available (@fig-disc-hnl-comparison). The hook-and-line removals comprised only approximately 0.2% of the total removals over the last twenty years (@tbl-all_removals), with discard being a small fraction of that. The biological samples of the discard amount are also scarce, with input sample sizes not exceeding 6 and averaging around 3 per year. With this limited data, the model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings.  -->
 
 Discard length composition data became available this year for the midwater trawl fleet, but
 was not available for previous assessments. These newly available data for midwater trawl
 fleets (hake, rockfish) beginning in 2016, were not included in this updated assessment as
 this would require major changes to the model structure which are beyond the scope of this
 update assessment but will need to be considered in the next full assessment.
-
-<!-- @fig-disccomps-pikitch shows discard sources and totals in metric tons for each year. Coefficients of variation (CV) are set to 5% for years/fleets with 100% observer coverage. Length compositions of the discards for the bottom trawl fleet can be seen in @fig-disccomps-wcgop. -->
 
 ### Biological data
 
@@ -99,11 +91,6 @@ The approach to the estimation of all biological parameters was the same as in t
 Weight-at-length data were updated for this assessment. Following the approach used in the 2015 benchmark, data used to estimate the length-weight relationship for widow rockfish were gathered from commercial catch sampling schemes (PACFIN, ASHOP) and fishery-independent surveys (Triennial and WCGBT Survey). 
 
 The following relationships between weight and length for females and males were used in the current assessment:
-
-<!-- WCGOP data were not used because only small fish were sampled, the weight of these small fish were typically less than from other sources (Figure 30 - TBC), and the curves fitted to only WCGOP data were unable to estimate the slope. There were only 81 observations from the WCGOP data, which is a small amount of data compared to everything available. However, these observations may be useful to understand discards. -->
-
-<!-- The weight-length relationship used in the 2011 assessment was similar for males but predicted slightly heavier females at larger sizes than the 2015 benchmark assessment (@fig-wl-fits). The following relationships between weight and length for females and males were estimated for the 2015 benchmark assessment from all of the data combined and were used in the current assessment: -->
-
 
 $$
 \text{Females: } \qquad weight = 1.7355 \times 10^{-5} \cdot Length^{2.9617}

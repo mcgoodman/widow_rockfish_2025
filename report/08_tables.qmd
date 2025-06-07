@@ -318,18 +318,21 @@ flextable(table14, col_keys = names(table14)) %>%
  land_tab_style(wd=0.6)
 
 ```
+\elandscape
 
 ```{r}
 #| label: tbl-disc-totals
 #| echo: false
 #| warning: false
-#| tbl-cap: "Discard totals (mt) for four fleets derived from Pikitch data, EDCP data, and WCGOP data. Italics indicate years that were not fitted to because they were simply added to the landings (Shoreside hake) or omitted because they were outside of the main study period."
+#| tbl-cap: "Discard totals (mt) for two fleets derived from Pikitch data, EDCP data, and WCGOP data."
 
 #Old table 16
 
 table16 <- read.csv(here("report", "tables", "discards.csv"))
 #Remove periods
 colnames(table16) <- gsub("\\.", " ", colnames(table16))
+# deal w rounding 
+table16$Discards <- round(table16$Discards, 0)
 
 # Function for consistent table styling
 # style_table16 <- function(ft) {
@@ -351,7 +354,6 @@ table16 %>%
  port_tab_style(wd=0.9)
 
 ```
-\elandscape
 
 ### Fishery-independent data
 

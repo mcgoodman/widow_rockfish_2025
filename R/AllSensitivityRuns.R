@@ -332,7 +332,7 @@ model_list <- c(
   `Fixed natural mortality to 2015 prior` = "FixedFMort2019_A", 
   `Fixed natural mortality to 2011 prior` = "FixedFMort2019_B", 
   `Midwatertrawl asymptotic selectivity forced` = "AsympSelMidwaterTrawl", 
-  `Logistic selectivity curves for surveys` = "LogisCurvSurvSel", 
+  `Logistic selectivity curves for WCGBTS` = "LogisCurvSurvSel", 
   `Inclusion of shrimp trawl` = "ShrmpNoShrmp", 
   `New Washington catch reconstruction` = "NewWACatch",
   # `Fixed steepness at 0.4` = "FixedSteep2019_A", 

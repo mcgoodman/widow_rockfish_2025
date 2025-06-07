@@ -49,6 +49,15 @@ dep <- ref_points[ref_points$`Reference Point` == "2025 Fraction Unfished",c("Lo
 depletion_ints <- c("low" = round(dep[[1]]*100,2), "high" = round(dep[[2]]*100,2))
 
 depletion_ints[["low"]]
+
+
+## Liklihood profiles 
+nat_M_male <- read.csv(here("models","diagnostics","2025 base model_profile_NatM_uniform_Mal_GP_1","NatM_uniform_Mal_GP_1_quant_table.csv"))
+nat_M_female <- read.csv(here("models","diagnostics","2025 base model_profile_NatM_uniform_Fem_GP_1","NatM_uniform_Fem_GP_1_quant_table.csv"))
+steepness <- read.csv(here("models","diagnostics","2025 base model_profile_SR_BH_steep","SR_BH_steep_quant_table.csv"))
+ln_R0 <- read.csv(here("models","diagnostics","2025 base model_profile_SR_LN(R0)","SR_LN(R0)_quant_table.csv"))
+
+
 ```
 
 
@@ -77,16 +86,17 @@ Fixing M at values lower than the base case estimate resulted in decreases in es
 
 Forcing asymptotic selectivity on the midwater fleet decreased estimated SSB in the early years, but had little effect in recent years. Forcing logistic selectivity on the \gls{s-wcgbt} increased peak SSB estimates in 2017 but likely had little effect on recent estimates. Excluding the triennial survey decreased estimated \gls{ssb} dramatically and decreased recruitment deviations in the 2019-2025 period [@fig-recdevs-sens]. Updating WA catch reconstruction and adding shrimp trawl data to the historical landings had almost no impact on the estimated \gls{ssb}. 
 
-The alternative weighting using the Francis method generally increased the estimate of \gls{ssb} across the time series. While the \gls{ssb} from the Francis weighted model is higher than that from the base model, the \gls{ofl} from the Francis weighted model is actually lower than the base model.
+The alternative weighting using the Francis method generally increased the estimate of \gls{ssb} across the time series.
 
 ### Retrospective Analysis
 
-First, a 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the \gls{ssb} was basically unchanged for all of these retrospectives. Removing 4–5 years of data led to slightly lower estimates of fishing mortality (F) and slightly higher \gls{ssb} over the last 15 years. In contrast, removing only 1–2 years resulted in higher F and lower biomass estimates. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
+First, a 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the \gls{ssb} was effectively unchanged for all retrospective runs. Removing 4–5 years of data led to slightly higher estimated \gls{ssb} over the last 15 years.In contrast, removing only 1–2 years resulted lower estimated \gls{ssb} over the period. Removing 1-5 years of data resulted in increased estimated  recruitment over the past 5 years, but decreased estimates in 10 years prior to this. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
 
-Second, a comparison of biomass time series across multiple previous assessments was conducted [@fig-ssb-historical] and shows that the base model biomass follows the same trajectory as previous assessment, and estimated stock scale is in the middle range of previous assessments.
+Estimated \gls{ssb} from the base model was comapred with previous assessments. For assessment prior to 2009 (2000, 2003, 2005, 2009), \gls{ssb} was compared with spawning output, and \gls{ssb} for models thereafter (2011, 2015, 2019) [@fig-ssb-historical].The current update follows a similar trend to prvious assessments over the model period, and estimated \gls{ssb} falls within the mid-range of previous assessments.
+
 
 ### Likelihood Profiles and key parameters
 
-Likelihood profiles were conducted for R0, steepness (even though it was not estimated in the base case) and over male and female natural mortality values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. 
+Likelihood profiles were conducted for unfished virgin recruitment (*R0*), steepness (*h*) and sex-specific natural mortality (*M*) values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. 
 
-For profiles of natural mortality, the negative log-likelihood was minimized at a value of 0.132 for males, and a value of 0.121 for females. Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_MF, @fig-like_profile_MM). For steepness, the negative log-likelihood was minimized at a steepness of 0.825, but the 95% confidence interval extends over the entire range of possible steepness values. Profiles for steepness are illustrated in (@fig-like_profile_Steepness). For R0, the total likelihood supported the estimated value, though there was variable support for each likelihood component across the range of R0 evaluated. As R0 increased, natural mortality also increased and the relative \gls{ssb} in 2024 was less depleted. Profiles for R0 are illustrated in @fig-like_profile_Rzero.
+For profiles of natural mortality, the negative log-likelihood was minimized at a value of 0.132 for males, and a value of 0.121 for females. Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_MF, @fig-like_profile_MM). For steepness, the negative log-likelihood was minimized at a steepness of 0.715, however the 95% confidence interval extends over the entire range of possible steepness values. Profiles for steepness are illustrated in (@fig-like_profile_Steepness). For R0, the total likelihood supported the estimated value, though there was variable support for each likelihood component across the range of R0 evaluated. As R0 increased, natural mortality also increased and the relative \gls{ssb} in 2024 was less depleted. Profiles for R0 are illustrated in @fig-like_profile_Rzero.

@@ -1,11 +1,9 @@
 ################ Data bridging #####################
 
 ### Setup
-library(here)
-library(r4ss)
-library(dplyr)
-library(renv)
-library(future.apply)
+library("here")
+library("r4ss")
+library("dplyr")
 
 # Load bridging functions
 source(here("R", "functions", "bridging_functions.r"))
@@ -18,12 +16,16 @@ dir.create(main_dir)
 
 # Read in data --------------------------------------------
 
-#Data from 2019 for old discard stuff #
+## Data from 2019 for old discard stuff #
 dat_2019 <- r4ss::SS_read(here("models","2019 base model","Base_45_new"))
-#-------------------------- catches
+
+## Catches ------------------------------------------------
+
 catch_2025 <- read.csv(here("data_derived","catches","2025_catches.csv"))
-#--------------------------  indices
-#NWFSC
+
+## Indices ------------------------------------------------
+
+## WCGBTS
 nwfsc <- read.csv(here("data_provided", "WCGBTS", "delta_lognormal", "index", "est_by_area.csv"))|>
   filter(area == "Coastwide")|>
   select(year,est,se)|>
@@ -35,8 +37,7 @@ nwfsc <- read.csv(here("data_provided", "WCGBTS", "delta_lognormal", "index", "e
   )|>
   select(year,month,index,obs,se_log)
   
-
-#Juveile survey
+## Juvenile survey 
 juvsurv <- read.csv(here("data_provided", "RREAS", "widow_indices.csv"))|>
   rename(year = YEAR,
          obs = est,
@@ -61,21 +62,20 @@ discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv"))
 
 ## Length composition -------------------------------------
 
-##  Pacfin length comps
+## Pacfin length comps
 pacfin_lcomps <- read.csv(here("data_derived","PacFIN_compdata_2025","widow_pacfin_lencomp_2025.csv"))|>
   filter(!(sex == 0 & fleet ==5)) #drop unsexed hnl comps
-# WCGBTS  comps
+
+## WCGBTS comps
 nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_comps_data.csv"))|>
   mutate(year = year, 
          month = rep(8.8), 
          fleet = rep(8))
 
-#discard lcomps - think wcgop
+# Discard lcomps - think wcgop
 discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_with-midwater.csv")) |>
-  #rename(part = part,input_n = Nsamp)|>
-  select(-X) #drop weird rownumber column from excel
+  #rename(part = part,input_n = Nsamp)
   
-
 lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
 
 ## Age composition ----------------------------------------
@@ -90,19 +90,18 @@ nwfsc_acomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_conditiona
          month = rep(8.8), 
          fleet = rep(8))
 
-
 acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 
 
 # Model adjustments ---------------------------------------
 
-# Adjustmnets made below are programmed into the function update_ss3_dat() in function/bridging_functions
+# Adjustments made below are programmed into the function update_ss3_dat() in function/bridging_functions
 # They include
-# - Extendding the main rec-dev period end year
+# - Extending the main rec-dev period end year
 # - Extending the forecasts years in the forecast file
-# - Sdding time varying selectivity for hake seelx pars 1,2,3 (adding paramters, blocks etc)
-# - Moving the data weighting into the var adjustmnet section (lambdas are then used to re-tune the model weights,
-#                                                              this is to prevent doible counting fish used for marginal age comps) 
+# - Adding time varying selectivity for hake selex pars 1,2,3 (adding parameters, blocks etc)
+# - Moving the data weighting into the var adjustment section (lambdas are then used to re-tune the model weights,
+#                                                              this is to prevent double counting fish used for marginal age comps) 
 # - Extending the end year of the model
 # 
 # - Updating file names e.g. '2019widow.ctl' --> '2025widow.ctl'
@@ -114,8 +113,7 @@ ss3_exe <- file.path(model_2019, set_ss3_exe(model_2019, version = "v3.30.23"))
 r4ss::run(dir = model_2019, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
 
 #Apply the adjustments to the model which include: updating names, extending forecasts, extending rec-devs, 
-#adding time varyin selex, extending data end year
-
+#adding time varying selex, extending data end year
 
 base_model_dir <- here(main_dir,"base_model")
 
@@ -136,21 +134,20 @@ catch_dir <- here(main_dir,"add_catches") #dir
 
 model_temp <- SS_read(base_model_dir)
 
-model_temp$dat$catch <- model_temp$dat$catch|>
-  rbind(catch_2025|>
-          filter(year >= 2019))|>## append data
+model_temp$dat$catch <- model_temp$dat$catch |>
+  rbind(catch_2025 |>
+          filter(year >= 2019)) |>## append data
   arrange(fleet)
-###Check the data years
-model_temp$dat$catch|>
-  group_by(fleet)|>
-  summarise(end_yr = max(year))
 
+###Check the data years
+model_temp$dat$catch |>
+  group_by(fleet) |>
+  summarise(end_yr = max(year))
 
 ## write model
 SS_write(model_temp,dir = catch_dir,overwrite = T) #write the model
 r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- NULL#Wipe model to be safe
-
 
 # Extend discard amounts MDT, BT, HnL as in 2019 ----------
 
@@ -203,11 +200,9 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
-
 # Extend discard amounts MDT, BT, HnL + comps  ------------
 
 discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_hnl_2023_new_comps") #dir
-
 
 model_temp <- SS_read(catch_dir) ##read base model
 model_temp$dat$discard_data  <- discard_amounts
@@ -228,7 +223,6 @@ model_temp$dat$lencomp|>
   group_by(fleet)|>
   summarise(end_yr = max(year))
 
-
 ## write model
 SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 
@@ -241,7 +235,6 @@ model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 # Update BT, MWT, add hnl disc to landings ----------------
 
 discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc") #dir
-
 
 model_temp <- SS_read(catch_dir) ##read base model
 
@@ -286,7 +279,6 @@ model_temp$dat$discard_data|>
   group_by(fleet)|>
   summarise(end_yr = max(year))
 
-
 ###Check the data years
 model_temp$dat$discard_data|>
   group_by(fleet)|>
@@ -294,7 +286,6 @@ model_temp$dat$discard_data|>
 
 ## write model
 SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
-
 
 ###Check the data years
 SS_read(discard_amnt_dir)$dat$discard_data|>

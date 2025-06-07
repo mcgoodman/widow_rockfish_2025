@@ -4,8 +4,6 @@ library("tidyr")
 library("ggplot2")
 library("r4ss")
 library("here")
-library("renv")
-library("future.apply")
 
 source(here("R", "functions", "bridging_functions.R"))
 
@@ -193,6 +191,8 @@ ctrl$blocks_per_pattern <- c(ctrl$blocks_per_pattern, "blocks_per_pattern_12" = 
 
 # Reassign block for retention asymptote
 ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "Block"] <- 12
+
+# Turn on estimation of retention in the final time block
 ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "PHASE"] <- 2
 
 # Add rows to time-varying selectivity for relevant parameters
@@ -348,8 +348,10 @@ if (!skip_finished) {
 dir.create(Base2025 <- here("models", "2025 base model"))
 r4ss::copy_SS_inputs(mle_dir, Base2025, overwrite = TRUE)
 
+## Forecast file changes ----------------------------------
+
 ##Read in the newly formatted forecast file, edit and overwrite
-fcst <- r4ss::SS_readforecast(here("scratch","newly_formatted_2025_foc.ss"))
+fcst <- r4ss::SS_readforecast(here("data_provided", "SS3_inputs", "forecast_reformatted_2025.ss"))
 
 ## Set the rebuilder years to 0 -> West coast rebuilder is off, so this hsouldnt make a difference
 fcst$Ydecl  <- 0
@@ -363,7 +365,17 @@ fcst$ForeCatch <- gmt_fcst
 
 SS_writeforecast(mylist = fcst, dir = Base2025, overwrite = TRUE)
 
-#Run the model
+## Clean up data file -------------------------------------
+
+dat <- r4ss::SS_readdat(here(Base2025, "2025widow.dat"))
+
+dat$CPUE <- dat$CPUE[dat$CPUE$year > 0,]
+dat$lencomp <- arrange(dat$lencomp[dat$lencomp$year > 0,], fleet, year)
+dat$agecomp <- arrange(dat$agecomp[dat$agecomp$year > 0,], fleet, year)
+
+r4ss::SS_writedat(dat, here(Base2025, "2025widow.dat"), overwrite = TRUE)
+
+# Run the model, use Hessian around MLE to improve final gradient
 r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE)
 r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE, extras = "-hess_step")
 r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")), dir = here::here("figures","2025 base model r4ss plots"))

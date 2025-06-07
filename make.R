@@ -1,4 +1,34 @@
 
+# Dependencies --------------------------------------------
+
+if (!require("remotes")) {
+  install.packages("remotes")
+  library("remotes")
+}
+
+# R packages and associated repositories
+pkgs <- list(
+  CRAN = c(
+    "tidyverse", "parallel", "future", "parallelly","future.apply", "here", "readxl", 
+    "magick", "data.table", "ggpubr", "cowplot", "flextable", "testthat"
+  ), 
+  GitHub = c(
+    "r4ss" = "r4ss/r4ss",
+    "pacfintools" = "pfmc-assessments/pacfintools",
+    "nwfscSurvey" = "pfmc-assessments/nwfscSurvey",
+    "nwfscDiag" = "pfmc-assessments/nwfscDiag",
+    "PEPtools" = "pfmc-assessments/PEPtools"
+  )
+)
+
+# Install packages from CRAN
+pkgs_cran_new <- pkgs$CRAN[!(pkgs$CRAN %in% installed.packages()[,"Package"])]
+if(length(pkgs_cran_new)) install.packages(pkgs_cran_new)
+
+# Install packages from GitHub
+pkgs_gh_new <- pkgs$GitHub[!(names(pkgs$GitHub) %in% installed.packages()[,"Package"])]
+if(length(pkgs_gh_new)) sapply(pkgs_gh_new, remotes::install_github)
+
 # Setup ---------------------------------------------------
 
 library("here")
@@ -43,23 +73,38 @@ run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ..
 if (jobs$data) {
   
   run_job(
-    here("R", "length_weight.R"), # Runs
+    here("R", "length_weight.R"),
     name = "length-weight parameters"
   )
   
   run_job(
-    here("R", "ASHOP_composition.R"), # Runs
+    here("R", "ASHOP_composition.R"),
     name = "process ASHOP comps"
   )
   
   run_job(
-    here("R", "commercial_comps_clean_expand.R"), # Runs
+    here("R", "commercial_comps_clean_expand.R"),
     name = "expand commercial comps"
   )
   
   run_job(
-    here("R", "catches.R"), # Runs
+    here("R", "catches.R"),
     name = "process landings"
+  )
+  
+  run_job(
+    here("R", "WCGOP_discard_data_preparation.R"),
+    name = "process WCGOP discards"
+  )
+  
+  run_job(
+    here("R", "discard-lengths-data-processing.R"),
+    name = "process discard length comps"
+  )
+  
+  run_job(
+    here("R", "NWFSCCombo_age_length_comps.R"),
+    name = "process WCGBTS comps"
   )
   
 }
@@ -69,12 +114,12 @@ if (jobs$data) {
 if (jobs$models) {
   
   run_job(
-    here("R", "data_bridging.R"), # Runs
+    here("R", "data_bridging.R"),
     name = "data bridging"
   )
   
   run_job(
-    here("R", "model_bridging.R"), # Runs
+    here("R", "model_bridging.R"),
     name = "model bridging"
   )
   
@@ -85,23 +130,23 @@ if (jobs$models) {
 if (jobs$diagnostics) {
   
   run_job(
-    here("R", "bridging_plots.R"), # Runs
+    here("R", "bridging_plots.R"),
     name = "model bridging plots"
   )
   
   run_job(
-    here("R", "jitters.R"), # Runs
+    here("R", "jitters.R"),
     name = "jittering"
   )
   
   run_job(
-    here("R", "AllSensitivityRuns.R"), # Runs
+    here("R", "AllSensitivityRuns.R"),
     name = "sensitivity runs",
     wait = FALSE
   )
   
   run_job(
-    here("R", "Model_diagnostics.R"), # Runs
+    here("R", "Model_diagnostics.R"),
     name = "model diagnostics"
   )
   
@@ -112,20 +157,25 @@ if (jobs$diagnostics) {
 if (jobs$report_plots) {
   
   run_job(
-    here("R", "decision_table.R"), # Runs
+    here("R", "decision_table.R"),
     name = "decision table"
   )
   
   run_job(
-    here("R", "report_tables.R"), # Runs
+    here("R", "report_tables.R"),
     name = "report tables"
   )
   
   run_job(
-    here("R", "report_figures_paneled.R"), # Runs
+    here("R", "report_figures_paneled.R"),
     name = "paneled report figures"
   )
   
+  run_job(
+    here("R", "age_length_comp_plots.R"),
+    name = "age / length composition plots"
+  )
+
 }
 
 # Render report -------------------------------------------

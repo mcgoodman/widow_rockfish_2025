@@ -110,20 +110,6 @@ knitr::include_graphics(
 )
 
 ```
-```{r}
-#| label: fig-exp-agecomp-WCBTS
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Expanded marginal age compositions from the WCGBTS."
-#| out.width: "100%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/composition_plots/agecomp_fleet_8.png")
-)
-
-```
 
 ```{r}
 #| label: fig-cond-agelen-WCBTS

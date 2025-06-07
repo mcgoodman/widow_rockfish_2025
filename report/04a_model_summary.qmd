@@ -1,5 +1,6 @@
 
-```{r  echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+```{r}
+#| include: false
 
 library(r4ss)
 
@@ -55,7 +56,7 @@ The model is a two-sex, age-structured model starting in 1916 with an accumulate
 
 #### Model Fleets and Areas
 
-The assessment uses a single-area model, consistent with previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019]. Multiple fisheries encounter widow rockfish. The definitions of fishing fleets have not been changed from previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019].
+The assessment uses a single-area model, consistent with the previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019]. Multiple fisheries encounter widow rockfish. The definitions of fishing fleets have not been changed from previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019].
 
 ### Model Parameters 
 
@@ -79,9 +80,9 @@ The prior for steepness (h) assumes a beta distribution with parameters based on
 
 Recruitment deviations from 1900--2024 were estimated to appropriately quantify uncertainty; inappropriate specifications can have a large effect on model uncertainty. The standard deviation of recruitment variability (sigma-R) was assumed to be 0.6 in the 2015 assessment, based on iteratively tuning to a value slightly less than the observed variability of recruitment deviations in the period 1975--2010 in 2015 (@fig-recfit-bias). The earliest length-composition data occur in 1976 and the earliest age data were in 1978. The most informed years for estimating recruitment deviations based on available composition data were from about the mid-1970s to about 2019. The period from 1900--1970 was fit using an early series with little or no bias adjustment, the main period of recruitment deviates was 1971--2020 using a bias adjustment ramp, and 2021 onward was fit using forecast recruitment deviates with little bias adjustment. @methot_adjusting_2011 summarize the reasoning behind varying levels of bias adjustment based on the information available to estimate the deviates.
 
-####  Sample weights
+#### Sample weights
 
-Because the most recent benchmark assessment used the McAllister & Ianelli method [@hicks_status_2015] and changing the weighting method is outside the TOR for an update, this assessment uses McAllister & Ianelli method. The Francis weighting method is presented as a sensitivity.
+As the most recent benchmark assessment [@hicks_status_2015] used the @mcallister_bayesian_1997 method and changing the weighting method is outside the TOR for an update, the @francis_data_2011 weighting method is presented as a sensitivity.
 
 In the current assessment, the weighting method the composition datasets in SS3 was to use variance adjustment factors as the weighting factors. The fleet and data-type (length or age) factor was entered as variance adjustments factors until the harmonic mean of the effective sample sizes matched the mean of the adjusted input sample sizes [@mcallister_bayesian_1997]. Once the weighting was determined, lambda factors for all fleets with both marginal length and marginal age compositions were down-weighted by 0.5 to account for the potential double use of data since length and age are observed from the same fish. This differs from McAllister & Ianelli weighting method the 2019 update assessment, which weighted composition data via the lambdas [@adams_status_2019]. 
 

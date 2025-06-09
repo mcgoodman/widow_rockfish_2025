@@ -45,7 +45,7 @@ parallel::clusterExport(cl, varlist = c("profile_df", "diag_dir")) # export the 
 
 ## Run each profile in parallel
 parLapply(cl = cl, X = 1:nrow(profile_df), function(x){
-  
+
   get = get_settings_profile( parameters =  profile_df[x,"parameters"],
                               low =  profile_df[x,"low"],
                               high = profile_df[x,"high"],
@@ -59,14 +59,16 @@ parLapply(cl = cl, X = 1:nrow(profile_df), function(x){
     profile_details = get
   ))
   
+  if(model_settings$exe != "ss3"){model_settings$exe <- "ss3"}
+  
   #Apply additional settings to aid convergence
   model_settings$usepar <- TRUE #use previous run estimates as starting vals
   model_settings$init_values_src <- 1 #read starting vals from paramter file
   model_settings$parlinenum <- profile_df[x,"parlinenum"] #this refers to the line number that steepness is on in the ss3.par file
   model_settings$overwrite <- TRUE
   
-  run_diagnostics(mydir = diag_dir, model_settings = model_settings)
-  
+   run_diagnostics(mydir = diag_dir, model_settings = model_settings)
+  # 
 })
 
 parallel::stopCluster(cl)

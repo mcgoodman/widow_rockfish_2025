@@ -460,8 +460,8 @@ flextable(table21) %>%
 #| tbl-cap: "Parameter estimates, parameter bounds (low, high), estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model."
 
 table_pars <- read_rdata(here("report", "tables", "table_pars.rda"))$table
-table_pars <- table_pars |> select(-Phase) |> 
-  filter(!grepl("ForeRecr_", Label, fixed = TRUE))
+table_pars <- table_pars |> select(-Phase) # |> 
+  # filter(!grepl("ForeRecr_", Label, fixed = TRUE))
 
 flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 ```

@@ -8,7 +8,7 @@ This is an assessment of widow rockfish that inhabit the waters off California, 
 
 Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska, and are most abundant from British Columbia to Northern California. Although catches north of the U.S.-Canada border or south of the U.S.-Mexico border were not included in this assessment, it is possible that these populations contribute to the biomass of widow rockfish off of the U.S. West Coast through adult migration and/or larval dispersion.
 
-This assessment is based on a single coastwide area model. There is little evidence of genetically separate stocks along the U.S. coast and past assessments have used a single area versus a two-area assessment model and results were found to be similar [@he_status_2011]. There is some evidence of biological differences between areas. For example, widow rockfish collected off California tend to mature at a smaller length than widow rockfish collected off of Oregon [@barss_maturity_1987]. This may be due to environmental or anthropogenic effects rather than genetic differences. 
+This assessment is based on a single coastwide area model. There is little evidence of genetically separate stocks along the U.S. coast and past assessments have used a single area versus a two-area assessment model and results were found to be similar [@he_status_2011]. There is some evidence of biological differences between areas. For example, widow rockfish collected off California tend to mature at a smaller length than widow rockfish collected off of Oregon [@barss_maturity_1987]. This could be due to environmental or anthropogenic effects rather than genetic differences. 
 
 ## Life History
 
@@ -24,11 +24,11 @@ This section is not required for an update assessment; please refer to the most 
 
 ## Management History 
 
-Management history prior to 2015 is detailed in the most recent benchmark assessment [@hicks_status_2015]. In 2017, the \gls{nmfs} implemented a quota share (QS) reallocation rule which re-established a target fishery for widow rockfish by allocating quotas among permit holders based on historical allocations, removing daily vessel limits, and allowing the trading of QS [@nmfs_reallocation_2017].
+Management history prior to 2015 is detailed in the most recent benchmark assessment [@hicks_status_2015]. In 2017, the \gls{nmfs} implemented a quota share (QS) reallocation rule, which re-established a target fishery for widow rockfish by allocating quotas among permit holders based on historical allocations, removing daily vessel limits, and allowing the trading of QS [@nmfs_reallocation_2017].
 
 ## Management performance
 
-Total mortality estimates from the \gls{wcgop} and from the stock assessment may differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of an update assessment. @tbl-manage-guide shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the \gls{acl} in the last 10 years.
+Total mortality estimates from the \gls{wcgop} and from the stock assessment might differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of an update assessment. @tbl-manage-guide shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the \gls{acl} in the last 10 years.
 
 ## Fisheries off Canada and Alaska
 

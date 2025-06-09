@@ -5,25 +5,29 @@
 library("here")
 library("tidyverse")
 library("nwfscSurvey")
-library("openxlsx")
+library("readxl")
 
 # Read in data --------------------------------------------
 
-historical_length <- openxlsx::read.xlsx(here("data_provided", "ASHOP",
-                               "A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx"), 2)
-historical_length <- historical_length %>% 
-  mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) %>% 
-  uncount(weights = FREQUENCY)
+historical_length <- 
+  here("data_provided", "ASHOP","A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx") |> 
+  read_excel(sheet = 2) |> 
+  mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) |> 
+  uncount(weights = FREQUENCY) |> 
+  as.data.frame()
 
-modern_length <- openxlsx::read.xlsx(here("data_provided", "ASHOP",
-                                     "A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx"), 1)
-modern_length <- modern_length %>% 
-  mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) %>% 
-  uncount(weights = FREQUENCY)
+modern_length <- 
+  here("data_provided", "ASHOP", "A_SHOP_Widow_Lengths_1976-2024_removedConfiendtialFields_012725.xlsx") |> 
+  read_excel(sheet = 1) |> 
+  mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) |> 
+  uncount(weights = FREQUENCY) |> 
+  as.data.frame()
 
-ashop_age <- openxlsx::read.xlsx(here("data_provided", "ASHOP", 
-                         "A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx"), sheet = 1)
-ashop_age <- ashop_age %>% mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN)
+ashop_age <- 
+  here("data_provided", "ASHOP", "A_SHOP_Widow_Ages_2003-2024_removedConfidentialFields_012725.xlsx") |> 
+  read_excel(sheet = 1) |> 
+  mutate(common_name = "widow rockfish", trawl_id = HAUL_JOIN) |> 
+  as.data.frame()
 
 # Compute comps -------------------------------------------
 

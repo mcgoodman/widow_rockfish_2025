@@ -298,7 +298,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison between discard data for the Hook & Line fleet from the 2019 assessment, which included nearshore fixed gear fleets, and discards queried from WCGOP for this assessment."
+#| fig-cap: "Comparison between discard data for the hook-and-line fleet from the 2019 assessment, which included nearshore fixed gear fleets, and discards queried from WCGOP for this assessment."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -357,116 +357,9 @@ knitr::include_graphics(
 )
 ```
 
-```{r}
-#| label: fig-NatMort
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    here::here("figures", "bridging", "NatM_bridging.png")
-)
-```
-
-
 ## Model
 
 ### Bridging
-
-```{r}
-#| label: fig-data-plot-base
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Data sources by type and year that were used in the base model."
-#| out.width: "70%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/data_plot.png")
-)
-
-```
-
-```{r}
-#| label: fig-bridge2019-data
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of a block on midwater retention)."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
-)
-
-```
-
-```{r}
-#| label: fig-bridge2019-bratio
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Time series of relative spawning stock biomass (fraction unfished / depletion) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red)."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/bridging/bridging_compare3_Bratio.png")
-)
-
-```
-
-### Selectivity
-
-```{r}
-#| label: fig-est-select-all
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for different fleets and surveys."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"/figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png")
-)
-
-```
-
-```{r}
-#| label: fig-est-select-3478
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity curves by time block for bottom trawl, midwater trawl, hake, and hook-and-line fleets."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png")
-)
-
-```
-
-```{r}
-#| label: fig-combined-selectivity
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Bottom Trawl (top row) and Midwater Trawl (bottom row) for males (left column) and females (right column)"
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/combined_retention_plots.png")
-)
-
-```
 
 ```{r}
 #| label: fig-base_19_25_ssb
@@ -536,6 +429,113 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-bridge2019-data
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of a block on midwater retention)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2019-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning stock biomass (fraction unfished / depletion) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare3_Bratio.png")
+)
+
+```
+
+```{r}
+#| label: fig-data-plot-base
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Data sources by type and year that were used in the base model."
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/data_plot.png")
+)
+
+```
+
+```{r}
+#| label: fig-NatMort
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "NatM_bridging.png")
+)
+```
+
+
+
+### Selectivity
+
+```{r}
+#| label: fig-est-select-all
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity for different fleets and surveys."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/2025 base model r4ss plots/plots/sel01_multiple_fleets_length1.png")
+)
+
+```
+
+```{r}
+#| label: fig-est-select-3478
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity curves by time block for bottom trawl, midwater trawl, hake, and hook-and-line fleets."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png")
+)
+
+```
+
+```{r}
+#| label: fig-combined-selectivity
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated selectivity for Bottom Trawl (top row) and Midwater Trawl (bottom row) for males (left column) and females (right column)"
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/combined_retention_plots.png")
+)
+
+```
 
 ### Biology
 

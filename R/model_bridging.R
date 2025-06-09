@@ -4,8 +4,6 @@ library("tidyr")
 library("ggplot2")
 library("r4ss")
 library("here")
-library("renv")
-library("future.apply")
 
 source(here("R", "functions", "bridging_functions.R"))
 
@@ -224,6 +222,8 @@ ctrl$blocks_per_pattern <- c(ctrl$blocks_per_pattern, "blocks_per_pattern_12" = 
 
 # Reassign block for retention asymptote
 ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "Block"] <- 12
+
+# Turn on estimation of retention in the final time block
 ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "PHASE"] <- 2
 
 # Add rows to time-varying selectivity for relevant parameters

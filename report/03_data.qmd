@@ -66,7 +66,7 @@ disc_max <- format(max(disc), big.mark = ",", scientific = FALSE)
 
 ```
 
-Data on discards on widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
+Data on discards on widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collection Project (EDCP, @sampson2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
 
 The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior. Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
 
@@ -76,11 +76,7 @@ Major changes occurred only in the treatment of the hook-and-line discard data. 
 
 The commencement of trawl rationalization in 2011 led to 100% observer coverage for the bottom and midwater trawl fleets. As a result coefficients of variation (CV) were fixed at 5% for observed discards. For years preceding this, CV were fixed at values used in the 2015 benchmark assessment @tbl-disc-totals. Length compositions of the discards for the bottom trawl fleet can be seen in @fig-disccomps-wcgop.
 
-Discard length composition data became available this year for the midwater trawl fleet, but
-was not available for previous assessments. These newly available data for midwater trawl
-fleets (hake, rockfish) beginning in 2016, were not included in this updated assessment as
-this would require major changes to the model structure which are beyond the scope of this
-update assessment but will need to be considered in the next full assessment.
+Discard length composition data became available this year for the midwater trawl fleet, but was not available for previous assessments. These newly available data for midwater trawl fleets (hake, rockfish) beginning in 2016, were not included in this updated assessment as this would require major changes to the model structure which are beyond the scope of this update assessment but will need to be considered in the next full assessment.
 
 ### Biological data
 

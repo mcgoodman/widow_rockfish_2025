@@ -74,7 +74,7 @@ models <- c(
   "update discard composition" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length composition" = here(databridge_dir, "data_bridged_model_weighted"), 
-  "update M, L/W, bias ramp, MWT retention (2025 base)" = base_2025
+  "update M, L/W, bias ramp, MWT + Hake blocks (2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -104,7 +104,7 @@ models <- c(
   "update length composition" = here(databridge_dir, "add_lcomps"),
   "update age composition" = here(databridge_dir, "data_bridged_model_weighted"), 
   "update M prior" = here("models", "model_bridging", "mortality"), 
-  "update L/W, bias ramp, MWT retention (2025 base)" = base_2025
+  "update M, L/W, bias ramp, MWT + Hake blocks (2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -176,7 +176,7 @@ models <- c(
   "drop HnL disc. amnt." = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
   "drop HnL disc. comp." = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
-  "update M, L/W, bias ramp, trawl ret. (2025 base)" = base_2025
+  "update M, L/W, bias ramp, MWT + Hake blocks (2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)

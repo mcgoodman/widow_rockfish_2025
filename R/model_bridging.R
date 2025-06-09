@@ -173,12 +173,43 @@ if (!skip_finished) {
   )
 }
 
-# Midwater trawl blocks -----------------------------------
+# Midwater, Hke, Hnl time blocks -----------------------------------
 
-dir.create(blockdir <- here(bridgedir, "MDT_Ret_Block"))
+dir.create(blockdir <- here(bridgedir, "MDT_HKE_Ret_Block"))
 r4ss::copy_SS_inputs(SRdir, blockdir, overwrite = TRUE)
 
 ctrl <- SS_readctl(here(blockdir, "/2025widow.ctl"), datlist = here(blockdir, "/2025widow.dat"))
+
+
+# Hake retention 
+# Add new block for midwater trawl retention
+ctrl$Block_Design[[11]] <- c(1916, 2019)
+
+# Increment the number of block designs
+ctrl$N_Block_Designs <- ctrl$N_Block_Designs + 1
+
+# Number of blocks in new block group
+ctrl$blocks_per_pattern <- c(ctrl$blocks_per_pattern, "blocks_per_pattern_11" = 1)
+
+#Adjust the blocks on hake selx pars 1,2,3
+old_sel_pars <- ctrl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),]
+new_sel_pars <- old_sel_pars|>
+  mutate(Block = 11,
+         Block_Fxn = 2)
+
+# Reassign block for hake selex
+ctrl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),] <- new_sel_pars
+ctrl$size_selex_parms["SizeSel_PRet_3_MidwaterTrawl(2)", "PHASE"] <- 2
+
+# Add rows to time-varying selectivity for relevant parameters
+ctrl$size_selex_parms_tv <- rbind(ctrl$size_selex_parms_tv[1:24,], #up to midwater sel pars
+                                 new_sel_pars[,1:7], # new hake sel pars
+                                 ctrl$size_selex_parms_tv[25:29,]) #hnl onward sl pars
+
+# # Update row names in time-varying selectivity parameters block
+# mdt_ret_rows <- grepl("SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_", rownames(ctrl$size_selex_parms_tv), fixed = TRUE)
+# rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows] <- gsub("BLK7", "BLK12", rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows])
+
 
 # Add new block for midwater trawl retention
 ctrl$Block_Design[[12]] <- c(ctrl$Block_Design[[7]], c(2011, 2016))

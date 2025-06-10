@@ -5,6 +5,8 @@ library("here")
 library("r4ss")
 library("dplyr")
 
+if (!exists("skip_finished")) skip_finished <- FALSE
+
 # Load bridging functions
 source(here("R", "functions", "bridging_functions.r"))
 source(here("R", "functions", "combine_hnl_discards.r"))
@@ -73,7 +75,7 @@ nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_com
          fleet = rep(8))
 
 # Discard lcomps - think wcgop
-discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_with-midwater.csv"))
+discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_no-midwater.csv"))
   #rename(part = part,input_n = Nsamp)
   
 lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
@@ -110,7 +112,7 @@ acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 model_2019 <- here("models", "2019 base model", "Base_45_new")
 ctl <- SS_read(model_2019)$ctl
 ss3_exe <- file.path(model_2019, set_ss3_exe(model_2019, version = "v3.30.23"))
-r4ss::run(dir = model_2019, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
+r4ss::run(dir = model_2019, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished)
 
 #Apply the adjustments to the model which include: updating names, extending forecasts, extending rec-devs, 
 #adding time varying selex, extending data end year
@@ -126,7 +128,7 @@ update_ss3_dat(
 )
 
 #run the base to check it works
-r4ss::run(dir = base_model_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE)
+r4ss::run(dir = base_model_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished)
 
 # Extend catch --------------------------------------------
 
@@ -147,7 +149,7 @@ stopifnot("Catch does not run through 2024" = all(catch_endyr == 2024))
 
 ## write model
 SS_write(model_temp,dir = catch_dir,overwrite = T) #write the model
-r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = catch_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 # Extend discard amounts MDT, BT, HnL as in 2019 ----------
@@ -177,7 +179,7 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
 #combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
 
-r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
 # Extend discard amounts MDT, BT, HnL  --------------------
@@ -198,7 +200,7 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
 #combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
 
-r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
 # Extend discard amounts MDT, BT, HnL + comps  ------------
@@ -230,7 +232,7 @@ SS_write(model_temp,dir = discard_amnt_dir,overwrite = T) #write the model
 ##Apply model changes that i) remove the HnL discards fleet, ii) add hnl discrd amounts to catch and iii) drop hnl discard comps.
 #combine_hnl_discards(model_dir = discard_amnt_dir,hnl_fleet_id = 5,drop_comps = FALSE)
 
-r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- discard_amnt_dir <- NULL#Wipe model to be safe
 
 # Update BT, MWT, add hnl disc to landings ----------------
@@ -293,7 +295,7 @@ SS_read(discard_amnt_dir)$dat$discard_data|>
   group_by(fleet)|>
   summarise(end_yr = max(year))
 
-r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = discard_amnt_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp  <- NULL#Wipe model to be safe
 
 # Extend discard lencomps all  ----------------------------
@@ -320,7 +322,7 @@ model_temp$dat$lencomp|>
 ## write model
 SS_write(model_temp,dir = discard_comp_dir,overwrite = T) #write the model
 
-r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = discard_comp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 # Extend indices ------------------------------------------
@@ -328,9 +330,6 @@ model_temp <- NULL#Wipe model to be safe
 index_dir <- here(main_dir,"add_indices") #dir
 
 model_temp <- SS_read(discard_comp_dir) ##read base model (previous model run)
-model_temp$dat$CPUE <- model_temp$dat$CPUE|>
-  rbind(indices_2025|>
-          filter(year >= 2019))## append data
 
 ###Check the data years
 model_temp$dat$CPUE |>
@@ -339,7 +338,7 @@ model_temp$dat$CPUE |>
 
 ## write model
 SS_write(model_temp,dir = index_dir,overwrite = T) #write the model
-r4ss::run(dir = index_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = index_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 # Extend length comps  ------------------------------------
@@ -359,7 +358,7 @@ model_temp$dat$lencomp |>
 
 ## write model
 SS_write(model_temp,dir = lcomp_dir,overwrite = T) #write the model
-r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 
@@ -382,7 +381,7 @@ model_temp$dat$agecomp |>
 
 ## write model
 SS_write(model_temp,dir = acomp_dir,overwrite = T) #write the model
-r4ss::run(dir = acomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = FALSE) #run the model  
+r4ss::run(dir = acomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- NULL#Wipe model to be safe
 
 SS_plots(SS_output(acomp_dir))

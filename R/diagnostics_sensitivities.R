@@ -278,7 +278,7 @@ catch_wa_new <- catch_wa_new[catch_wa_new$year != -999,]
 
 ### Add back in Hook & Line discards (added during data bridging)
 ### Done by simply differencing catches from base model and those written out from R/catches.R
-catch_noHnLdisc <- SS_readdat(here("models", "data_bridging", "finalised_data_bridging", "add_catches", "2025widow.dat"))$catch
+catch_noHnLdisc <- SS_readdat(here("models", "data_bridging", "add_catches", "2025widow.dat"))$catch
 catch_noHnLdisc <- catch_noHnLdisc |> rename(catch_noHnL = catch) |> select(-catch_se)
 
 catch_diff <- base_model$dat$catch |> left_join(catch_noHnLdisc, by = c("year", "seas", "fleet")) |> 

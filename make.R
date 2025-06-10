@@ -73,37 +73,37 @@ run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ..
 if (jobs$data) {
   
   run_job(
-    here("R", "length_weight.R"),
+    here("R", "data_length_weight.R"),
     name = "length-weight parameters"
   )
   
   run_job(
-    here("R", "ASHOP_composition.R"),
+    here("R", "data_ASHOP_composition.R"),
     name = "process ASHOP comps"
   )
   
   run_job(
-    here("R", "commercial_comps_clean_expand.R"),
+    here("R", "data_commercial_comps.R"),
     name = "expand commercial comps"
   )
   
   run_job(
-    here("R", "catches.R"),
+    here("R", "data_landings.R"),
     name = "process landings"
   )
   
   run_job(
-    here("R", "WCGOP_discard_data_preparation.R"),
+    here("R", "data_WCGOP_discards.R"),
     name = "process WCGOP discards"
   )
   
   run_job(
-    here("R", "discard-lengths-data-processing.R"),
+    here("R", "data_discard_lengths.R"),
     name = "process discard length comps"
   )
   
   run_job(
-    here("R", "NWFSCCombo_age_length_comps.R"),
+    here("R", "data_WCGBTS_comps.R"),
     name = "process WCGBTS comps"
   )
   
@@ -114,13 +114,13 @@ if (jobs$data) {
 if (jobs$models) {
   
   run_job(
-    here("R", "data_bridging.R"),
-    name = "data bridging"
+    here("R", "models_data_bridging.R"),
+    name = "model data bridging"
   )
   
   run_job(
-    here("R", "model_bridging.R"),
-    name = "model bridging"
+    here("R", "models_parameter_bridging.R"),
+    name = "model parameter bridging"
   )
   
 }
@@ -130,24 +130,19 @@ if (jobs$models) {
 if (jobs$diagnostics) {
   
   run_job(
-    here("R", "bridging_plots.R"),
-    name = "model bridging plots"
-  )
-  
-  run_job(
-    here("R", "jitters.R"),
+    here("R", "diagonstics_jitters.R"),
     name = "jittering"
   )
   
   run_job(
-    here("R", "AllSensitivityRuns.R"),
+    here("R", "diagnostics_sensitivities.R"),
     name = "sensitivity runs",
     wait = FALSE
   )
   
   run_job(
-    here("R", "Model_diagnostics.R"),
-    name = "model diagnostics"
+    here("R", "diagnostics_profiles_retros.R"),
+    name = "likelihood profiles and retrospectives"
   )
   
 }
@@ -157,23 +152,28 @@ if (jobs$diagnostics) {
 if (jobs$report_plots) {
   
   run_job(
-    here("R", "decision_table.R"),
-    name = "decision table"
+    here("R", "plots_bridging.R"),
+    name = "model bridging plots"
   )
   
   run_job(
-    here("R", "report_tables.R"),
-    name = "report tables"
-  )
-  
-  run_job(
-    here("R", "report_figures_paneled.R"),
+    here("R", "plots_report_figures_paneled.R"),
     name = "paneled report figures"
   )
   
   run_job(
-    here("R", "age_length_comp_plots.R"),
+    here("R", "plots_age_length.R"),
     name = "age / length composition plots"
+  )
+  
+  run_job(
+    here("R", "tables_decision.R"),
+    name = "decision table"
+  )
+  
+  run_job(
+    here("R", "tables_report.R"),
+    name = "report tables"
   )
 
 }

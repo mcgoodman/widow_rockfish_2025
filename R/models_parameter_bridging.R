@@ -12,7 +12,7 @@ launch_html <- FALSE
 
 # Base model, post data-bridging --------------------------
 
-databridge_dir <- here("models", "data_bridging", "finalised_data_bridging")
+databridge_dir <- here("models", "data_bridging")
 basedir <- here(databridge_dir, "data_bridged_model_weighted")
 
 # Download SS3 exe and return absolute path
@@ -318,7 +318,7 @@ ggsave(here(plot_dir, "discard_fits.png"), height = 3, width = 6, units = "in")
 # and set block run as base model
 base_dir <- blockdir
 njitters <- 50
-source(here("R", "jitters.R"))
+source(here("R", "diagnostics_jitters.R"))
 
 # Copy files to directory
 dir.create(mle_dir <- here(bridgedir, "jittered_mle"))

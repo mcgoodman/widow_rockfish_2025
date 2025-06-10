@@ -41,7 +41,7 @@ profile_df <- data.frame(
 ## Set up parallel
 cl <- parallel::makeCluster(nrow(profile_df))
 parallel::clusterEvalQ(cl, { library(nwfscDiag) }) # export diags package to cluster
-parallel::clusterExport(cl, varlist = c("profile_df", "diag_dir")) # export the settings df
+parallel::clusterExport(cl, varlist = c("profile_df", "diag_dir", "ss3_exe")) # export the settings df
 
 ## Run each profile in parallel
 parLapply(cl = cl, X = 1:nrow(profile_df), function(x){
@@ -59,7 +59,7 @@ parLapply(cl = cl, X = 1:nrow(profile_df), function(x){
     profile_details = get
   ))
   
-  if(model_settings$exe != "ss3"){model_settings$exe <- "ss3"}
+  if(model_settings$exe != ss3_exe) model_settings$exe <- ss3_exe
   
   #Apply additional settings to aid convergence
   model_settings$usepar <- TRUE #use previous run estimates as starting vals

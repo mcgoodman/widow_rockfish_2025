@@ -11,7 +11,7 @@ source(here("R", "functions", "combine_hnl_discards.r"))
 source(here("R", "functions", "retune_reweight_ss3.R"))
 
 #Directories
-main_dir <- here("models","data_bridging","finalised_data_bridging")
+main_dir <- here("models", "data_bridging")
 dir.create(main_dir)
 
 # Read in data --------------------------------------------

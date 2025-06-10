@@ -331,6 +331,11 @@ index_dir <- here(main_dir,"add_indices") #dir
 
 model_temp <- SS_read(discard_comp_dir) ##read base model (previous model run)
 
+model_temp$dat$CPUE <- model_temp$dat$CPUE|>
+  filter(!index %in% c(6,8))|>
+  rbind(indices_2025)|>
+  arrange(index)
+
 ###Check the data years
 model_temp$dat$CPUE |>
   group_by(index)|>
@@ -355,7 +360,6 @@ model_temp$dat$lencomp |>
   group_by(fleet,partition)|>
   summarise(end_yr = max(year))
 
-
 ## write model
 SS_write(model_temp,dir = lcomp_dir,overwrite = T) #write the model
 r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
@@ -377,7 +381,6 @@ model_temp$dat$agecomp <- model_temp$dat$agecomp|>
 model_temp$dat$agecomp |>
   group_by(fleet,partition)|>
   summarise(end_yr = max(year))
-
 
 ## write model
 SS_write(model_temp,dir = acomp_dir,overwrite = T) #write the model

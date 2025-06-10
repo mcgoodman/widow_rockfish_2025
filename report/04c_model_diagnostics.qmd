@@ -54,10 +54,24 @@ depletion_ints[["low"]]
 
 
 ## Liklihood profiles 
-nat_M_male <- read.csv(here("models","diagnostics","2025 base model_profile_NatM_uniform_Mal_GP_1","profile_NatM_uniform_Mal_GP_1_results.csv"))
-nat_M_female <- read.csv(here("models","diagnostics","2025 base model_profile_NatM_uniform_Fem_GP_1","profile_NatM_uniform_Fem_GP_1_results.csv"))
-steepness <- read.csv(here("models","diagnostics","2025 base model_profile_SR_BH_steep","profile_SR_BH_steep_results.csv"))
-ln_R0 <- read.csv(here("models","diagnostics","2025 base model_profile_SR_LN(R0)","profile_SR_LN(R0)_results.csv"))
+nat_M_male <- read.csv(here(
+  "models","diagnostics","2025 base model_profile_NatM_uniform_Mal_GP_1", 
+  "NatM_uniform_Mal_GP_1_results.csv"
+))
+nat_M_female <- read.csv(here(
+  "models","diagnostics","2025 base model_profile_NatM_uniform_Fem_GP_1", 
+  "NatM_uniform_Fem_GP_1_results.csv"
+))
+
+steepness <- read.csv(here(
+  "models", "diagnostics", "2025 base model_profile_SR_BH_steep", 
+  "SR_BH_steep_results.csv"
+))
+
+ln_R0 <- read.csv(here(
+  "models", "diagnostics", "2025 base model_profile_SR_LN(R0)", 
+  "SR_LN(R0)_results.csv"
+))
 
 
 male_m_min <- nat_M_male[nat_M_male$likelihood == min(nat_M_male$likelihood),"parameter_value"]
@@ -74,7 +88,7 @@ Model convergence was determined by examining the final gradient, checking that 
 
 ### Parameter Uncertainty
 
-Parameter estimates are shown in @tbl-params and @tbl-ts-popests-basecase along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in @tbl-key-deriv-params along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2025 estimate of depletion is `r depletion_ints[["low"]]`%–`r depletion_ints[["high"]]h`% and mostly above the management target of 40% of the unfished \gls{ssb}.
+Parameter estimates are shown in @tbl-params and @tbl-ts-popests-basecase along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in @tbl-key-deriv-params along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2025 estimate of depletion is `r depletion_ints[["low"]]`%–`r depletion_ints[["high"]]`% and mostly above the management target of 40% of the unfished \gls{ssb}.
 
 ### Sensitivity Analyses
 

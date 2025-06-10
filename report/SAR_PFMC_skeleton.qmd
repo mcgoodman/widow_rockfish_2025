@@ -8,7 +8,7 @@ author:
         city: 'Seattle, WA'
         postal-code: '98195'
 
-  - name: 'Maurice Codespoti Goodman'
+  - name: 'Maurice C. Goodman'
     affiliations:
       - name: 'School of Aquatic & Fishery Sciences (SAFS), University of Washington'
         address: '1122 NE Boat St'

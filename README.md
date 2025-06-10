@@ -13,6 +13,7 @@ The contents of this repository are as follows:
 -   :file_folder: `R` Code for generating derived data products and figures
 -   :file_folder: `data_provided` Data products from scientific surveys, state agencies, and past assessments
 -   :file_folder: `data_derived` Processed data files for use as inputs to Stock Synthesis
+-   :file_folder: `models` Stock Synthesis model input files
 -   :file_folder: `figures` Figures for assessment update
 -   :file_folder: `report` Quarto source code for rendering the report (saved as `report/WIDOW_SAR_2025.pdf`)
 -   :file_folder: `doc` Relevant documents

@@ -59,7 +59,7 @@ Biological data from commercial fisheries that caught widow rockfish were extrac
 ```{r}
 #| include: false
 
-disc<- read.csv(here("report", "tables", "discards.csv"))[["Discards"]]
+disc<- read.csv(here::here("report", "tables", "discards.csv"))[["Discards"]]
 
 disc_min <- format(min(disc), big.mark = ",", scientific = FALSE)
 disc_max <- format(max(disc), big.mark = ",", scientific = FALSE)
@@ -88,12 +88,31 @@ Weight-at-length data were updated for this assessment. Following the approach u
 
 The following relationships between weight and length for females and males were used in the current assessment:
 
+```{r}
+#| include: false
+
+library(dplyr)
+lw_pars  <- read.csv(here::here("data_derived", "length_weight", "weight_length_estimates.csv"))
+
+f_lw <- c(
+  round(lw_pars|>filter(Source == "All", sex == "female")|>pull(A)*100000,4),
+  round(lw_pars|>filter(Source == "All", sex == "female")|>pull(B),4)
+)
+
+m_lw <- c(
+  round(lw_pars|>filter(Source == "All", sex == "male")|>pull(A)*100000,4),
+  round(lw_pars|>filter(Source == "All", sex == "male")|>pull(B),4)
+)
+
+```
+
+
 $$
-\text{Females: } \qquad weight = 1.7355 \times 10^{-5} \cdot Length^{2.9617}
+\text{Females: } \qquad weight = `r f_lw[[1]]` \times 10^{-5} \cdot Length^{`r f_lw[[2]]`}
 $$
 
 $$
-\text{Males: } \qquad weight = 1.4824 \times 10^{-5} \cdot Length^{3.0047}
+\text{Males: } \qquad weight = `r m_lw[[1]]` \times 10^{-5} \cdot Length^{`r m_lw[[2]]`}
 $$
 
 where weight is measured in kilograms and length in cm. These parameters were used in the assessment as fixed.

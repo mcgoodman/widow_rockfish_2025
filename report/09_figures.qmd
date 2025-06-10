@@ -10,24 +10,11 @@
 #| warning: false
 #| eval: true
 #| fig-align: "center"
+#| out.width: "90%"
 #| fig-cap: "Fishery-dependent indices of abundance from the 2011 assessment scaled to the mean of their own series."
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_4_2019.png")
-)
-```
-
-```{r}
-#| label: fig-dist-opdates
-#| echo: false
-#| warning: false
-#| eval: false  
-#| out.width: "90%"
-#| fig-align: "center"
-#| fig-cap: "Distribution of dates of operation for the triennial survey (1980-2004). Solid bars show the mean date for each survey year, points represent individual hauls dates, but are jittered to allow better delineation of the distribution of individual points (Figure from (Stewart 2007))."
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/old_figs/Figure_6_2019.png")
+    here::here("figures", "2015_assessment", "figure_05.png")
 )
 ```
 
@@ -434,7 +421,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of a block on midwater retention)."
+#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of blocks on midwater and hake retention)."
 #| out.width: "90%"
 #| fig-align: "center"
 

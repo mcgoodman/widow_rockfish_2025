@@ -2,8 +2,6 @@
 # Install r4ss
 # devtools::install_github("https://github.com/r4ss/r4ss.git")
 
-if (!exists("rerun_base")) rerun_base <- TRUE
-
 library("tidyverse")
 library("r4ss")
 library("here")
@@ -12,8 +10,8 @@ library("parallel")
 files <- list.files(here("R", "functions"), full.names = TRUE)
 lapply(files, source)
 
-skip_finished <- FALSE
-launch_html <- TRUE
+if (!exists("rerun_base")) rerun_base <- FALSE
+if (!exists("skip_finished")) skip_finished <- FALSE
 
 # Name of model direct
 model_directory <- here("models")

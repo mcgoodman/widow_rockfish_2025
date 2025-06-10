@@ -135,51 +135,27 @@ update_ss3_dat <- function(new_dir, base_dir = here(wd, 'models', '2019 base mod
   ctl <- temp$ctl
   ctl$MainRdevYrLast <- 2020
   
-  ##Swap lambdas and variacne adjustmne tfactors
+  # Swap lambdas and variance adjustment factors
   new_var_adj_df <- ctl$lambdas|>
     select(like_comp,fleet,value)|>
     rename(factor = like_comp,fleet = fleet)
   
-  #Now set the lambdas to 1
+  # Now set the lambdas to 1
   ctl$lambdas <- ctl$lambdas|>
     mutate(value = 1)
   
-  #Now add var adjustment factors data type, fleet, value
+  # Now add var adjustment factors data type, fleet, value
   ctl$DoVar_adjust <- 1 # turn on var adjust
   ctl$Variance_adjustment_list <- new_var_adj_df#add vARIANCE ADJUSTMNE TLIST
   
-  ##Add the timae varying selex for hake
-  if(ctl$N_Block_Designs != 11 ){
-    
-    ctl$N_Block_Designs <- 11
-    ctl$blocks_per_pattern <- c(ctl$blocks_per_pattern ,"blocks_per_pattern_12" = 1)
-    ctl$Block_Design[[11]] <- c(1916, 2019)
-    
-    #Adjust the blocks on hake selx pars 1,2,3
-    old_sel_pars <- ctl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),]
-    new_sel_pars <- old_sel_pars|>
-      mutate(Block = 11,
-             Block_Fxn = 2)
-    
-    #replace the ctl model ones
-    
-    #Add some to the trimmed verion
-    ctl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),] <- new_sel_pars
-    ctl$size_selex_parms_tv <- rbind(ctl$size_selex_parms_tv[1:24,], #up to midwater sel pars
-                                     new_sel_pars[,1:7], # new hake sel pars
-                                     ctl$size_selex_parms_tv[25:29,]) #hnl onward sl pars
-  }
-  
   SS_writectl(ctllist = ctl,here(new_dir,paste0(assessment_yr,"widow.ctl")),overwrite = T)
   
-  #Correct names
+  # Correct names
   ctl <- readLines(list.files(path = here::here(new_dir),pattern = "\\.ctl$",full.names = TRUE))
   ctl <- gsub(paste0(old_assesment_yr,"widow"), "2025widow", ctl)
   writeLines(ctl, here(new_dir, paste0(assessment_yr,"widow.ctl")))
   
-  
-  
-  #updat the starter file 
+  # update the starter file 
   strt <- readLines(here(base_dir, "starter.ss"))
   strt <- gsub(paste0(old_assesment_yr,"widow"), paste0(assessment_yr,"widow"), strt)
   writeLines(strt, here(new_dir, "starter.ss"))

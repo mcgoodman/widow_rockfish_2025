@@ -6,23 +6,16 @@
 
 # Setup ---------------------------------------------------
 
-if (!require("PEPtools")) {
-  devtools::install_github("pfmc-assessments/PEPtools")
-  library("PEPtools")
-} 
-
-if (!require("tinytex")){
-  install.packages("tinytex")
-  library("tinytex")
-}
-
+library("PEPtools")
 library("r4ss")
 library("tidyverse")
 library("here")
 library("parallel")
-library("tidyr")
+library("tinytex")
 library("stringr")
 library("magick")
+
+if (!exists("skip_finished")) skip_finished <- FALSE
 
 #Other required code
 source(here("R","functions","bridging_functions.R"))
@@ -120,7 +113,7 @@ n_cores <- length(dirs)
 cl <- makeCluster(n_cores)
 
 # Export needed variables and packages to workers
-clusterExport(cl, varlist = "dirs")
+clusterExport(cl, varlist = c("dirs", "skip_finished"))
 clusterEvalQ(cl, {
   library(r4ss)
   library(dplyr)
@@ -134,7 +127,7 @@ catch_series_list <- parLapply(cl, dirs, function(x) {
             exe = "ss3",
             extras = "-nohess",
             show_in_console = TRUE,
-            skipfinished = FALSE)
+            skipfinished = skip_finished)
   
   # Read the model and add the catches back into the base file
   mod <- SS_read(dir, verbose = FALSE)
@@ -246,7 +239,7 @@ if (run_paralell == TRUE) {
   n_cores <- length(all_dirs)
   cl <- makeCluster(n_cores)
   # Export needed variables and packages to workers
-  clusterExport(cl, varlist = c("all_dirs"))
+  clusterExport(cl, varlist = c("all_dirs", "skip_finished"))
   clusterEvalQ(cl, library(r4ss))
   
   # Run SS3 in parallel
@@ -254,7 +247,7 @@ if (run_paralell == TRUE) {
     r4ss::run(dir = x,
               exe = "ss3",
               show_in_console = TRUE,
-              skipfinished = FALSE)
+              skipfinished = skip_finished)
     
   })
   
@@ -266,7 +259,7 @@ if (run_paralell == TRUE) {
               exe = "ss3",
               extras = "-nohess",
               show_in_console = T,
-              skipfinished = FALSE)
+              skipfinished = skip_finished)
     
   })
 }
@@ -281,7 +274,7 @@ names(dec_table_reps) <- basename(all_dirs)
 
 
 
-# Test whether the 45 base SSB is equl to the projection table SSB ( should be)
+# Test whether the 45 base SSB is equal to the projection table SSB ( should be)
 result <- tryCatch({
   load(here("report","tables","exec_summ_tables","projections.RDA"))
   testthat::expect_equal(object = SS_decision_table_stuff(dec_table_reps[["45_base"]], yrs = 2025:2036, digits = c(0, 5, 3))$SpawnBio ,

@@ -10,7 +10,7 @@ if (!require("remotes")) {
 pkgs <- list(
   CRAN = c(
     "tidyverse", "parallel", "future", "parallelly","future.apply", "here", "readxl", 
-    "magick", "data.table", "ggpubr", "cowplot", "flextable", "testthat"
+    "magick", "data.table", "ggpubr", "cowplot", "flextable", "testthat", "tinytex"
   ), 
   GitHub = c(
     "r4ss" = "r4ss/r4ss",
@@ -37,7 +37,7 @@ library("quarto")
 
 # Toggles for running script types
 jobs <- list(
-  data = FALSE, # Process data
+  data = TRUE, # Process data
   models = TRUE, # Run bridging models
   diagnostics = TRUE, # Run diagnostics (jitters, sensitivities)
   report_plots = TRUE, # Build report plots and tables
@@ -58,7 +58,7 @@ skip_finished = FALSE # skip finished runs within scripts
 #' @param ... Additional arguments to `rstudioapi::jobRunScript`
 run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ...) {
   
-  job_id <- rstudioapi::jobRunScript(path, workingDir = workingDir, ...); Sys.sleep(10)
+  job_id <- rstudioapi::jobRunScript(path, workingDir = workingDir, importEnv = importEnv, ...); Sys.sleep(10)
   
   while(wait & rstudioapi::jobGetState(job_id) == "running") Sys.sleep(1)
   
@@ -130,14 +130,13 @@ if (jobs$models) {
 if (jobs$diagnostics) {
   
   run_job(
-    here("R", "diagonstics_jitters.R"),
+    here("R", "diagnostics_jitters.R"),
     name = "jittering"
   )
   
   run_job(
     here("R", "diagnostics_sensitivities.R"),
-    name = "sensitivity runs",
-    wait = FALSE
+    name = "sensitivity runs"
   )
   
   run_job(

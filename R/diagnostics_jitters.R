@@ -2,9 +2,8 @@
 
 # Set up -----------------------------------------------------------------------
 
-if (!exists("rerun_base")) rerun_base <- TRUE
-
-parallel <- TRUE
+if (!exists("rerun_base")) rerun_base <- FALSE
+if (!exists("parallel")) parallel <- TRUE
 
 # Load packages
 library(tidyverse)

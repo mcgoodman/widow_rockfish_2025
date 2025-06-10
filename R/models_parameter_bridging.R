@@ -7,13 +7,16 @@ library("here")
 
 source(here("R", "functions", "bridging_functions.R"))
 
-skip_finished <- FALSE
-launch_html <- FALSE
+if (!exists("skip_finished")) skip_finished <- FALSE
+if (!exists("launch_html")) launch_html <- FALSE
 
 # Base model, post data-bridging --------------------------
 
 databridge_dir <- here("models", "data_bridging")
 basedir <- here(databridge_dir, "data_bridged_model_weighted")
+
+# Location for all model bridging runs
+dir.create(bridgedir <- here("models", "model_bridging"))
 
 # Download SS3 exe and return absolute path
 ss3_exe <- file.path(basedir, set_ss3_exe(basedir, version = "v3.30.23.1"))
@@ -42,9 +45,6 @@ if (!skip_finished) {
 }
 
 # Mortality -----------------------------------------------
-
-# Location for all model bridging runs
-dir.create(bridgedir <- here("models", "model_bridging"))
 
 # Copy over model files from base model to modify
 dir.create(Mdir <- here(bridgedir, "mortality"))
@@ -173,16 +173,15 @@ if (!skip_finished) {
   )
 }
 
-# Midwater, Hke, Hnl time blocks -----------------------------------
+# Midwater, Hke, Hnl time blocks --------------------------
 
 dir.create(blockdir <- here(bridgedir, "MDT_HKE_Ret_Block"))
 r4ss::copy_SS_inputs(SRdir, blockdir, overwrite = TRUE)
 
 ctrl <- SS_readctl(here(blockdir, "/2025widow.ctl"), datlist = here(blockdir, "/2025widow.dat"))
 
+## New hake retention block -------------------------------
 
-# Hake retention 
-# Add new block for midwater trawl retention
 ctrl$Block_Design[[11]] <- c(1916, 2019)
 
 # Increment the number of block designs
@@ -192,10 +191,8 @@ ctrl$N_Block_Designs <- ctrl$N_Block_Designs + 1
 ctrl$blocks_per_pattern <- c(ctrl$blocks_per_pattern, "blocks_per_pattern_11" = 1)
 
 #Adjust the blocks on hake selx pars 1,2,3
-old_sel_pars <- ctrl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),]
-new_sel_pars <- old_sel_pars|>
-  mutate(Block = 11,
-         Block_Fxn = 2)
+old_sel_pars <- ctrl$size_selex_parms[c("SizeSel_P_1_Hake(3)", "SizeSel_P_2_Hake(3)", "SizeSel_P_3_Hake(3)"),]
+new_sel_pars <- old_sel_pars |> mutate(Block = 11, Block_Fxn = 2)
 
 # Reassign block for hake selex
 ctrl$size_selex_parms[c("SizeSel_P_1_Hake(3)","SizeSel_P_2_Hake(3)","SizeSel_P_3_Hake(3)"),] <- new_sel_pars
@@ -206,12 +203,12 @@ ctrl$size_selex_parms_tv <- rbind(ctrl$size_selex_parms_tv[1:24,], #up to midwat
                                  new_sel_pars[,1:7], # new hake sel pars
                                  ctrl$size_selex_parms_tv[25:29,]) #hnl onward sl pars
 
-# # Update row names in time-varying selectivity parameters block
-# mdt_ret_rows <- grepl("SizeSel_PRet_3_MidwaterTrawl(2)_BLK7repl_", rownames(ctrl$size_selex_parms_tv), fixed = TRUE)
-# rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows] <- gsub("BLK7", "BLK12", rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows])
+# Update row names in time-varying selectivity parameters block
+hake_ret_rows <- grepl("_Hake(3)", rownames(ctrl$size_selex_parms_tv), fixed = TRUE)
+rownames(ctrl$size_selex_parms_tv)[hake_ret_rows] <- paste0(rownames(ctrl$size_selex_parms_tv)[hake_ret_rows], "_BLK11repl_1916")
 
+## New midwater trawl retention block ---------------------
 
-# Add new block for midwater trawl retention
 ctrl$Block_Design[[12]] <- c(ctrl$Block_Design[[7]], c(2011, 2016))
 
 # Increment the number of block designs
@@ -244,6 +241,8 @@ rownames(ctrl$size_selex_parms_tv)[mdt_ret_rows] <- gsub("BLK7", "BLK12", rownam
 ctrl$size_selex_parms["SizeSel_P_3_HnL(5)", "INIT"] <- -5
 ctrl$size_selex_parms["SizeSel_P_3_HnL(5)", "PHASE"] <- -2
 
+## Address warnings ---------------------------------------
+
 # SS3 Warning: 
 # Note 2 Suggestion: This model has just one settlement event. 
 # Changing to recr_dist_method 4 and removing the recruitment distribution parameters
@@ -265,6 +264,8 @@ SS_writedat(dat, here(blockdir, "/2025widow.dat"), overwrite = TRUE)
 fcst <- SS_readforecast(here(blockdir, "forecast.ss"))
 fcst$vals_fleet_relative_f[fcst$vals_fleet_relative_f == 0]  <- 1e-4
 SS_writeforecast(fcst, dir = blockdir, file = "forecast.ss", overwrite = TRUE)
+
+## Run with blocks ----------------------------------------
 
 r4ss::run(
   dir = blockdir,
@@ -406,7 +407,9 @@ dat$agecomp <- arrange(dat$agecomp[dat$agecomp$year > 0,], fleet, year)
 
 r4ss::SS_writedat(dat, here(Base2025, "2025widow.dat"), overwrite = TRUE)
 
-# Run the model, use Hessian around MLE to improve final gradient
+## Run using Hessian information --------------------------
+
+## Run with Hessian around MLE to improve final gradient
 r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE)
 r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE, extras = "-hess_step")
 r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")), dir = here::here("figures","2025 base model r4ss plots"))

@@ -130,7 +130,7 @@ length.comps.agg.2019.hl <- ssdat.2019$lencomp %>%
 # Write data files ----------------------------------------
 
 #Including all four fleets 
-write.csv(length.comps, here("data_derived", "discards", "discard_length_comps_April.csv"), row.names = FALSE)
+write.csv(length.comps, here("data_derived", "discards", "discard_length_comps_April_with-midwater.csv"), row.names = FALSE)
 
 #Excluding midwater fleets (new this year)
 length.comps |> 

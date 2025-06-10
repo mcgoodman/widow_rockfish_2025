@@ -73,7 +73,7 @@ nwfsc_lcomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_length_com
          fleet = rep(8))
 
 # Discard lcomps - think wcgop
-discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_with-midwater.csv")) |>
+discard_lcomps <- read.csv(here("data_derived", "discards", "discard_length_comps_April_with-midwater.csv"))
   #rename(part = part,input_n = Nsamp)
   
 lcomp_2025 <- rbind(pacfin_lcomps,nwfsc_lcomps) #combine into one source
@@ -140,9 +140,10 @@ model_temp$dat$catch <- model_temp$dat$catch |>
   arrange(fleet)
 
 ###Check the data years
-model_temp$dat$catch |>
-  group_by(fleet) |>
-  summarise(end_yr = max(year))
+catch_endyr <- model_temp$dat$catch |> group_by(fleet) |> 
+  summarise(end_yr = max(year)) |> pull(end_yr) 
+
+stopifnot("Catch does not run through 2024" = all(catch_endyr == 2024))
 
 ## write model
 SS_write(model_temp,dir = catch_dir,overwrite = T) #write the model
@@ -206,8 +207,8 @@ discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_hnl_2023_new_comps
 
 model_temp <- SS_read(catch_dir) ##read base model
 model_temp$dat$discard_data  <- discard_amounts
-model_temp$dat$lencomp <- model_temp$dat$lencomp|>
-  filter(part != 1)|> #remove old discards
+model_temp$dat$lencomp <- model_temp$dat$lencomp |>
+  filter(part != 1) |> #remove old discards
   rbind(discard_lcomps|> #add new discards
           filter(part  == 1)|>
           filter(fleet != 3)|> #drop hake discards, minimal data an dmot modelled in the assessment

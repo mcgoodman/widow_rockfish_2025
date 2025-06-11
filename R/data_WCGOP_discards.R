@@ -12,6 +12,9 @@ base_dir <- here('models', '2019 base model', 'Base_45_new') #the base input mod
 
 old_data <- SS_read(base_dir)[["dat"]][["discard_data"]]
 
+# Remove years from 2019 data that were asssumed to be 0.01 to replace with actual values
+old_data <- old_data |> filter(!(fleet == 2 & year >= 2012))
+
 # Catch share data ----------------------------------------
 
 # Observer rate Trawl fleets is close to 100%, so use 0.05 as the standard error

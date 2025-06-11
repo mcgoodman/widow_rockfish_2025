@@ -94,7 +94,6 @@ nwfsc_acomps <- read.csv(here("data_derived","NWFSCCombo","NWFSCCombo_conditiona
 
 acomp_2025 <- rbind(pacfin_acomps,nwfsc_acomps)
 
-
 # Model adjustments ---------------------------------------
 
 # Adjustments made below are programmed into the function update_ss3_dat() in function/bridging_functions
@@ -240,36 +239,29 @@ discard_amnt_dir <- here(main_dir,"add_discard_amounts_bt_mwt_combine_hnl_drop_h
 
 model_temp <- SS_read(catch_dir) ##read base model
 
-model_temp$dat$discard_data  <- discard_amounts|>
+# Exclude HnL from discard data
+model_temp$dat$discard_data  <- discard_amounts |>
   filter(fleet %in% c(1,2))
 
-## Add the dicard amounts to the catch for hnl
-hnl_catch_new <- model_temp$dat$catch %>%
-  filter(fleet == 5) %>%
-  full_join(
-    model_temp$dat$discard_data %>%
-      filter(fleet == 5) %>%
-      select(year, obs) %>%
-      distinct(),
-    by = "year"
-  ) %>%
-  mutate(catch = coalesce(obs, 0) + coalesce(catch, 0)) %>%
-  select(-obs)
+HnL_discards <- discard_amounts |> filter(fleet == 5) |> select(-month, -stderr, disc = obs)
 
-# Update model catch data
-model_temp$dat$catch <- model_temp$dat$catch %>%
-  filter(fleet != 5) %>%
-  bind_rows(hnl_catch_new) %>%
-  filter(year >= 0) %>%
-  arrange(fleet)
+## Add the discard amounts to the catch for HnL
+model_temp$dat$catch <- 
+  model_temp$dat$catch |> 
+  left_join(HnL_discards, by = c("year", "fleet")) |> 
+  mutate(
+    disc = ifelse(is.na(disc), 0, disc), 
+    catch = catch + disc
+  ) |> 
+  select(-disc)
 
 # #add the discard lcomps
-model_temp$dat$lencomp <- model_temp$dat$lencomp|>
+model_temp$dat$lencomp <- model_temp$dat$lencomp |>
   filter(part != 1)|> #remove old discards
-  rbind(discard_lcomps|> #add new discards
-          filter(part  == 1)|>
-          filter(fleet != 3)|> #drop hake discards, minimal data an dmot modelled in the assessment
-          arrange(fleet))|>
+  rbind(discard_lcomps |> #add new discards
+          filter(part  == 1) |>
+          filter(fleet != 3) |> #drop hake discards, minimal data and not modeled in the assessment
+          arrange(fleet)) |>
   mutate(year = if_else(part == 1 & fleet == 5,abs(year)*-1,year))
 
 model_temp$dat$lencomp|>

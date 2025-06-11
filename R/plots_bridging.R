@@ -7,8 +7,9 @@ library("dplyr")
 
 dir.create(plotdir <- here("figures", "bridging"))
 
+if (!exists("skip_finished")) skip_finished <- FALSE
+if (!exists("rerun_base")) rerun_base <- FALSE
 if (!exists("launch_html")) launch_html <- FALSE
-if (!exists("rerun_base")) rerun_base <- TRUE
 
 source(here("R", "functions", "bridging_functions.R"))
 
@@ -19,7 +20,7 @@ base_2025 <- here("models", "2025 base model")
 # Rerun base 2019 & 2025 ----------------------------------
 
 # With Hessian, to show uncertainty in both 
-r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = !rerun_base)
+r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = skip_finished)
 r4ss::run(base_2025, exe = set_ss3_exe(base_2025), skipfinished = !rerun_base, extras = "-hess_step")
 
 # Base model plots ----------------------------------------

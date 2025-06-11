@@ -108,11 +108,11 @@ m_lw <- c(
 
 
 $$
-\text{Females: } \qquad weight = `r f_lw[[1]]` \times 10^{-5} \cdot Length^{`r f_lw[[2]]`}
+\text{Females: } \qquad weight = `r f_lw[[1]]` \times 10^{-5} \cdot length^{`r f_lw[[2]]`}
 $$
 
 $$
-\text{Males: } \qquad weight = `r m_lw[[1]]` \times 10^{-5} \cdot Length^{`r m_lw[[2]]`}
+\text{Males: } \qquad weight = `r m_lw[[1]]` \times 10^{-5} \cdot length^{`r m_lw[[2]]`}
 $$
 
 where weight is measured in kilograms and length in cm. These parameters were used in the assessment as fixed.

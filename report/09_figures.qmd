@@ -524,6 +524,23 @@ knitr::include_graphics(
 
 ```
 
+```{r}
+#| label: fig-ret-tv
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated retention curves by time block for bottom and midwater trawl fleets."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+  path = here::here(
+   "figures", "2025 base model r4ss plots", "combined_retention_curves_tv.png" 
+  )
+)
+
+```
+
 ### Biology
 
 ```{r}
@@ -704,23 +721,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/2025 base model r4ss plots/condAAL-andreplot.png")
-)
-
-```
-
-```{r}
-#| label: fig-ret-tv
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated retention curves by time block for bottom and midwater trawl fleets."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-  path = here::here(
-   "figures", "2025 base model r4ss plots", "combined_retention_curves_tv.png" 
-  )
 )
 
 ```

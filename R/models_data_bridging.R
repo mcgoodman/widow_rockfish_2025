@@ -136,10 +136,9 @@ catch_dir <- here(main_dir,"add_catches") #dir
 
 model_temp <- SS_read(base_model_dir)
 
-model_temp$dat$catch <- model_temp$dat$catch |>
-  rbind(catch_2025 |>
-          filter(year >= 2019)) |>## append data
-  arrange(fleet)
+# Overwrite catch file - catch_2025 includes historic
+# catches and adjustments to 1979/1980 catch reconstruction
+model_temp$dat$catch <- catch_2025
 
 ###Check the data years
 catch_endyr <- model_temp$dat$catch |> group_by(fleet) |> 

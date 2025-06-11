@@ -25,7 +25,7 @@ model <- r4ss::SS_read(base_dir)
 model$start$N_bootstraps <- 1
 r4ss::SS_write(inputlist = model, dir = base_diag_dir, overwrite = TRUE)
 
-ss3_exe <- here("models", set_ss3_exe(here("models"), version = "v3.30.23.1"))
+ss3_exe <- here(base_diag_dir, set_ss3_exe(base_diag_dir, version = "v3.30.23.1"))
 
 r4ss::run(base_diag_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished)
 
@@ -90,5 +90,7 @@ model_settings_retros <- get_settings(
     retro_yrs = -1:-5
   )
 )
+
+if(model_settings_retros$exe != ss3_exe) model_settings_retros$exe <- ss3_exe
 
 run_diagnostics(mydir = diag_dir, model_settings = model_settings_retros)

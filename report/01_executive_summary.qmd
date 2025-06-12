@@ -479,10 +479,10 @@ table_h <- table_h |>
   mutate(across(starts_with("SpawnBio"), \(x) round(x, 0))) |> 
   add_rownames() |> 
   mutate(scenario = case_when(
-    scenario == "P*0.45" & rowname == 2 ~ "ACLp*=0.45,", 
-    scenario == "P*0.45" & rowname == 3 ~ "sigma=0.50",
-    scenario == "P*0.40" & rowname == 14 ~ "ACLp*=0.40,",
-    scenario == "P*0.40" & rowname == 15 ~ "sigma=0.50"
+    scenario == "P*0.45" & rowname == "14" ~ "ACLp*=0.45,", 
+    scenario == "P*0.45" & rowname == "15" ~ "sigma=0.50",
+    scenario == "P*0.40" & rowname == "2" ~ "ACLp*=0.40,",
+    scenario == "P*0.40" & rowname == "3" ~ "sigma=0.50"
   )) |> 
   select(-rowname)
 

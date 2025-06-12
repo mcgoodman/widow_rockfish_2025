@@ -4,6 +4,7 @@ library("tidyr")
 library("ggplot2")
 library("r4ss")
 library("here")
+library("PEPtools")
 
 source(here("R", "functions", "bridging_functions.R"))
 
@@ -403,7 +404,7 @@ fcst <- r4ss::SS_readforecast(here("data_provided", "SS3_inputs", "forecast_refo
 fcst$Ydecl  <- 0
 fcst$Yinit  <- 0
 #Set P*45 for projection table
-fcst$Flimitfraction_m <- SS_read(here("data_derived","decision_table","45_base"))$fore$Flimitfraction_m
+fcst$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.45)
 
 gmt_fcst <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT_forecast_catch.csv"))
 gmt_fcst <- gmt_fcst |> mutate(seas = 1) |> select(year, seas, fleet, catch_or_F = catch_mt)

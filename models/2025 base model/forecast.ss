@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-06-11  18:36:54
+#C file write time: 2025-06-12  10:32:58
 #
 1 #_benchmarks
 2 #_MSY
@@ -28,19 +28,19 @@
 0.4 #_BforconstantF
 0.1 #_BfornoF
 -1 #_Flimitfraction
- #_year fraction
-   2025    1.000
-   2026    1.000
-   2027    0.935
-   2028    0.930
-   2029    0.926
-   2030    0.922
-   2031    0.917
-   2032    0.913
-   2033    0.909
-   2034    0.904
-   2035    0.900
-   2036    0.896
+ #_year buffer
+   2025  1.000
+   2026  1.000
+   2027  0.935
+   2028  0.930
+   2029  0.926
+   2030  0.922
+   2031  0.917
+   2032  0.913
+   2033  0.909
+   2034  0.904
+   2035  0.900
+   2036  0.896
 -9999 0
 3 #_N_forecast_loops
 3 #_First_forecast_loop_with_stochastic_recruitment

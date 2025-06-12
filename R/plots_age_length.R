@@ -18,14 +18,15 @@ mod1 <- SS_output(dir = dir)
 SSplotComps(replist = mod1)
 data <- SS_readdat(file = here(dir, "2025widow.dat"))
 
+fleets <- sort(unique(data$agecomp$fleet))[sort(unique(data$agecomp$fleet)) > 0]
 fleet_names <- data$fleetinfo$fleetname
 
 # Plot age composition ------------------------------------
 
-for(i in 1:length(unique(data$agecomp$fleet))){
+for(i in seq_along(fleets)){
   
-  fltsrv <- sort(unique(data$agecomp$fleet))[i]
-  flt_name <- fleet_names[i]
+  fltsrv <- fleets[i]
+  flt_name <- fleet_names[fltsrv]
   
   if(fltsrv > 0){
     dat_sub <- data$agecomp[data$agecomp$fleet == fltsrv, ]
@@ -41,39 +42,41 @@ for(i in 1:length(unique(data$agecomp$fleet))){
     y <- y[1:nages]
     xlim <- range(x)
     
-    # Save plot to file
-    png(filename = here(plot_dir,paste0("agecomp_fleet_", fltsrv, ".png")), width = 1000, height = 600)
-    
-    par(mfrow = c(2,1), mar = c(4, 4, 3, 2))  # Adjust margins if needed
-    
-    # Female plot
-    name <- "Female"
-    plot(NA, NA, xlab = xlab, ylab = ylab, xlim = xlim, ylim = c(0, nages),
-         main = paste(name, fltsrv), cex.main = 1.5)
-    
-    for(j in 1:nrow(dat_sub)){
-      if(dat_sub$year[j] > 0 && dat_sub$Lbin_lo[j] < 0 && dat_sub$sex[j] %in% c(1, 3)){
-        symbols(rep(dat_sub$year[j], length(0:nages)), 0:nages,
-                circles = dat[j, grep("f", colnames(dat))],
-                inches = inch, add = TRUE)
+    if (all(dat_sub$Lbin_lo < 0)) {
+      # Save plot to file
+      png(filename = here(plot_dir,paste0("agecomp_fleet_", fltsrv, ".png")), width = 1000, height = 600)
+      
+      par(mfrow = c(2,1), mar = c(4, 4, 3, 2))  # Adjust margins if needed
+      
+      # Female plot
+      name <- "Female"
+      plot(NA, NA, xlab = xlab, ylab = ylab, xlim = xlim, ylim = c(0, nages),
+           main = paste(name, flt_name), cex.main = 1.5)
+      
+      for(j in 1:nrow(dat_sub)){
+        if(dat_sub$year[j] > 0 && dat_sub$sex[j] %in% c(1, 3)){
+          symbols(rep(dat_sub$year[j], length(0:nages)), 0:nages,
+                  circles = dat[j, grep("f", colnames(dat))],
+                  inches = inch, add = TRUE)
+        }
       }
-    }
-    
-    # Male plot
-    name <- "Male"
-    plot(NA, NA, xlab = xlab, ylab = ylab, xlim = xlim, ylim = c(0, nages),
-         main = paste(name, fltsrv), cex.main = 1.5)
-    
-    for(j in 1:nrow(dat_sub)){
-      if(dat_sub$year[j] > 0 && dat_sub$Lbin_lo[j] < 0 && dat_sub$sex[j] %in% c(2, 3)){
-        symbols(rep(dat_sub$year[j], length(0:nages)), 0:nages,
-                circles = dat[j, grep("m", colnames(dat))],
-                inches = inch, add = TRUE)
+      
+      # Male plot
+      name <- "Male"
+      plot(NA, NA, xlab = xlab, ylab = ylab, xlim = xlim, ylim = c(0, nages),
+           main = paste(name, flt_name), cex.main = 1.5)
+      
+      for(j in 1:nrow(dat_sub)){
+        if(dat_sub$year[j] > 0 && dat_sub$sex[j] %in% c(2, 3)){
+          symbols(rep(dat_sub$year[j], length(0:nages)), 0:nages,
+                  circles = dat[j, grep("m", colnames(dat))],
+                  inches = inch, add = TRUE)
+        }
       }
+      
+      # Close the PNG device
+      dev.off()
     }
-    
-    # Close the PNG device
-    dev.off()
   }
 }
 
@@ -101,8 +104,9 @@ ggsave(here("figures", "composition_plots", "n_at_age.png"), all_age_plot, heigh
 
 # Plot length composition ---------------------------------
 
-for(i in 1:length(unique(data$lencomp$fleet))){
-  fltsrv <- sort(unique(data$lencomp$fleet))[i]
+for(i in seq_along(fleets)){
+  fltsrv <- fleets[i]
+  flt_name <- fleet_names[fltsrv]
   if(fltsrv > 0 ){
     dat_sub <- data$lencomp[which(data$lencomp$fleet == fltsrv),]
     dat_sub <- dat_sub[which(dat_sub$year > 0),]
@@ -124,7 +128,7 @@ for(i in 1:length(unique(data$lencomp$fleet))){
       par(mfrow = c(2,1), mar = c(4, 4, 3, 2))  # Adjust margins if needed
       
       name <- "Female"
-      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "catch", fltsrv))
+      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "catch", flt_name))
       for(j in 1:nrow(dat_sub)){
         if(dat_sub$year[j] > 0){
           if(dat_sub$sex[j] %in% c(1, 3)){
@@ -134,7 +138,7 @@ for(i in 1:length(unique(data$lencomp$fleet))){
       }
       
       name <- "Male"
-      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "catch", fltsrv))
+      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "catch", flt_name))
       for(j in 1:nrow(dat_sub)){
         if(dat_sub$year[j] > 0){
           if(dat_sub$sex[j] %in% c(2, 3)){
@@ -150,9 +154,10 @@ for(i in 1:length(unique(data$lencomp$fleet))){
 
 # Discard length composition ------------------------------
 
-for(i in 1:length(unique(data$lencomp$fleet))){
+for(i in seq_along(fleets)){
   
-  fltsrv <- sort(unique(data$lencomp$fleet))[i]
+  fltsrv <- fleets[i]
+  flt_name <- fleet_names[fltsrv]
   
   if(fltsrv > 0 ){
     
@@ -177,7 +182,7 @@ for(i in 1:length(unique(data$lencomp$fleet))){
       
       name <- "Female"
       
-      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "discard", fltsrv))
+      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "discard", flt_name))
       
       for(j in 1:nrow(dat_sub)){
         if(dat_sub$year[j] > 0){
@@ -188,7 +193,7 @@ for(i in 1:length(unique(data$lencomp$fleet))){
       }
       
       name <- "Male"
-      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "discard", fltsrv))
+      plot(NA, NA,xlab=xlab,ylab=ylab,xlim=xlim, ylim = range(y), main = paste(name, "discard", flt_name))
       for(j in 1:nrow(dat_sub)){
         if(dat_sub$year[j] > 0){
           if(dat_sub$sex[j] == 2){

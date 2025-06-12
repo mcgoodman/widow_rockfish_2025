@@ -414,6 +414,7 @@ Projections with catches based on the predicted \gls{acl} using the \gls{spr} ra
 
 Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the \gls{ssb} is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(dec_table_summ$p40_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p40_2036, big.mark = ",", digits = 1)` mt in 2036. 
 
+{{< pagebreak >}} 
 
 ```{r}
 #| label: tbl-g
@@ -461,6 +462,8 @@ flextable(table_g) %>%
 
 ```
 
+{{< pagebreak >}} 
+
 ```{r}
 #| label: tbl-h
 #| echo: false
@@ -469,14 +472,19 @@ flextable(table_g) %>%
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
-table_h$scenario <- plyr::revalue(table_h$scenario,
-                                  c("Constant catch" = "Constant catch (9,000 K)",
-                                    "P*0.40" = "ACLp*=0.40, sigma=0.50",
-                                    "P*0.45" = "ACLp*=0.45, sigma=0.50"))
-
+# Merge rows manually because merging via flextable causes 
+# alignment issues when table spans multiple pages
 table_h <- table_h |> 
-  filter(scenario != "Constant catch (9,000 K)") |> 
-  mutate(across(starts_with("SpawnBio"), \(x) round(x, 0)))
+  filter(scenario != "Constant catch") |> 
+  mutate(across(starts_with("SpawnBio"), \(x) round(x, 0))) |> 
+  add_rownames() |> 
+  mutate(scenario = case_when(
+    scenario == "P*0.45" & rowname == 2 ~ "ACLp*=0.45,", 
+    scenario == "P*0.45" & rowname == 3 ~ "sigma=0.50",
+    scenario == "P*0.40" & rowname == 14 ~ "ACLp*=0.40,",
+    scenario == "P*0.40" & rowname == 15 ~ "sigma=0.50"
+  )) |> 
+  select(-rowname)
 
 flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
@@ -500,12 +508,12 @@ flextable(table_h) |>
   colformat_num(j = 2, big.mark = "", digits = 0) |>
   border_inner(part = "header") |> border_outer() |>
   vline(j = c(1, 3, 5, 7)) |> 
-  merge_at(i = 1:12, j = 1) |> merge_at(i = 13:24, j = 1) |>
+  #merge_at(i = 1:12, j = 1) |> merge_at(i = 13:24, j = 1) |>
   width(width = 0.35, j = 2) |> 
   width(width = 0.55, j = c(3, 4, 6, 8)) |> 
   width(width = 0.6, j = c(5, 7, 9)) |>
   width(width = 0.8, j = 1)|>
-    hline(i = 12)|>
+  hline(i = 12) |>
   hline_bottom(j = 9)|>
   line_spacing(space = 0.8, part = "all")
 

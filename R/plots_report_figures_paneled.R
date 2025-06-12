@@ -111,9 +111,7 @@ index_fits$lower_in[index_fits$SE_input == index_fits$SE] <- NA
 index_fits$upper_in[index_fits$SE_input == index_fits$SE] <- NA
 
 # Limit y-axis scale for juvenile survey
-index_fits$upper_out[index_fits$Fleet_name == "JuvSurvey" & index_fits$upper_out > 5e+05] <- 5e+05
-
-index_fits$Fleet_name[index_fits$Fleet_name == "NWFSC"] <- "WCGBTS"
+index_fits$upper_out[index_fits$Fleet_name == "JuvSurvey" & index_fits$upper_out > 1.2e+05] <- 1.2e+05
 
 index_plot <- index_fits |> 
   ggplot(aes(Year, Index)) + 

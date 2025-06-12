@@ -105,11 +105,8 @@ Sensitivity analysis was performed to determine the model behavior under differe
 
 Likelihood values and estimates of key parameters are shown in @tbl-quant-sens-int. Predicted \gls{ssb} trajectories, estimated recruitment deviations and comparisons of model estimates for 2025 are shown in @fig-recdevs-sens, @fig-spawnbio-sens-uncrt and @fig-sens-summary. The estimates of SSB in 2025 ranged from `r min(sens_base_ssb)` to `r max(sens_base_ssb)` thousand metric tons across the sensitivity runs, with `r mod_names[which(sens_base_ssb == min(sens_base_ssb))]` resulting in the lowest estimate and `r mod_names[which(sens_base_ssb == max(sens_base_ssb))]` resulting in the highest estimate. Generally, the trajectory of the \gls{ssb} was qualitatively similar across all tested models, e.g., peak around late 1970s and late 2010s, projected decrease in biomass in 2025 followed by some recovery into the 2030s; the quantitative magnitude of these trends did vary across cases. 
 
-Fixing M at values lower than the base case estimate resulted in decreases in estimated \gls{ssb}. 
+Fixing M at values lower than the base case estimate resulted in decreases in estimated \gls{ssb}. The alternative weighting using the Francis method generally increased the estimate of \gls{ssb} across the time series. Other changes, including forcing asymptotic selectivity on the midwater fleet, forcing logistic selectivity on the \gls{s-wcgbt}, and excluding the triennial survey had relatively small effects on \gls{ssb} [@fig-spawnbio-sens-uncrt] and recruitment [@fig-recdevs-sens]. Changes to the historical landings (updating WA catch reconstruction and including shrimp trawl data) had no discernible on the estimated \gls{ssb}. 
 
-Forcing asymptotic selectivity on the midwater fleet decreased estimated SSB in the early years, but had little effect in recent years. Forcing logistic selectivity on the \gls{s-wcgbt} increased peak SSB estimates in 2017 but likely had little effect on recent estimates. Excluding the triennial survey decreased estimated \gls{ssb} dramatically and decreased recruitment deviations in the 2019-2025 period [@fig-recdevs-sens]. Updating WA catch reconstruction and adding shrimp trawl data to the historical landings had almost no impact on the estimated \gls{ssb}. 
-
-The alternative weighting using the Francis method generally increased the estimate of \gls{ssb} across the time series.
 
 ### Retrospective Analysis
 

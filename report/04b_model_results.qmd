@@ -28,7 +28,7 @@ Bratio$Year <- as.integer(gsub("Bratio_", "", Bratio$Label))
 
 ## Base Model Results
 
-As a supplement to the model results figures included in this report and described below, a full set of [diagnostic plots](https://github.com/mcgoodman/widow-assessment-update/tree/main/figures/2025%20base%20model%20r4ss%20plots) created by the r4ss package [@taylor_2021_r4ss] is available on the assessment GitHub repository ([github.com/mcgoodman/widow-assessment-update](https://github.com/mcgoodman/widow-assessment-update/)) along with the Stock Synthesis [input files](https://github.com/mcgoodman/widow-assessment-update/tree/main/models/2025%20base%20model).
+As a supplement to the model results figures included in this report and described below, a full set of [diagnostic plots](https://github.com/mcgoodman/widow_rockfish_2025/tree/main/figures/2025%20base%20model%20r4ss%20plots) created by the r4ss package [@taylor_2021_r4ss] is available on the assessment GitHub repository ([github.com/mcgoodman/widow_rockfish_2025](https://github.com/mcgoodman/widow_rockfish_2025/)) along with the Stock Synthesis [input files](https://github.com/mcgoodman/widow_rockfish_2025/tree/main/models/2025%20base%20model).
 
 ### Parameter Estimates
 

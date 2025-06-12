@@ -369,7 +369,6 @@ if(!all(run_checks)) stop("1 or more runs failed")
 
 ## Put it all together --------------------------------------------------------
 
-# sens_paths <- c(base = here("GitHub", "widow-assessment-update", "models", "2025 base model"), model_paths) # missing RStudio
 sens_paths <- c(base = here("models", "2025 base model"), model_paths)
 
 big_sensitivity_output <- SSgetoutput(dirvec = sens_paths) |>
@@ -380,37 +379,35 @@ big_sensitivity_output <- SSgetoutput(dirvec = sens_paths) |>
 which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
 
 dir.create(outdir <- here("figures", "sensitivities"))
-# outdir <- here("GitHub", "widow-assessment-update", "figures", "sensitivities")
 
-  shortlist <- r4ss::SSsummarize(big_sensitivity_output)
+shortlist <- r4ss::SSsummarize(big_sensitivity_output)
 
-  r4ss::SSplotComparisons(shortlist,
-                          subplots = c(2, 4, 11, 18), 
-                          print = TRUE,  
-                          plot = FALSE,
-                          plotdir = outdir, 
-                          filenameprefix = "short_sens_",
-			  legendloc = "bottomleft", 
-                          legendlabels = c('Base', names(model_list)), 
-                          endyrvec = 2036)
+r4ss::SSplotComparisons(shortlist,
+                        subplots = c(2, 4, 11, 18), 
+                        print = TRUE,  
+                        plot = FALSE,
+                        plotdir = outdir, 
+                        filenameprefix = "short_sens_",
+                        legendloc = "bottomleft", 
+                        legendlabels = c('Base', names(model_list)), 
+                        endyrvec = 2036)
 
-  big_table <- SStableComparisons(
-    shortlist, 
-    modelnames = c('Base', names(model_list)),
-    names =c("NatM_uniform_Fem_GP_1", "L_at_Amin_Fem_GP_1", "L_at_Amax_Fem_GP_1", 
-             "CV_young_Fem_GP_1", "CV_old_Fem_GP_1", "VonBert_K_Fem_GP_1", 
-             "NatM_uniform_Mal_GP_1", "L_at_Amin_Mal_GP_1", "L_at_Amax_Mal_GP_1", 
-             "CV_young_Mal_GP_1", "CV_old_Mal_GP_1", "VonBert_K_Mal_GP_1", 
-             "Recr_Virgin", "R0", "SmryBio_unfished", "SSB_Virg",
-             "SSB_2025", "Bratio_2025", "SPRratio_2024"),
-    digits = c(rep(3, 22), 1, rep(3, 4)), # not sure why this isn't cutting number of digits for smrybio_unfished
-    likenames = c(
-      "TOTAL", "Survey", "Length_comp", "Age_comp",
-      "Discard", "Mean_body_wt", "Recruitment", "priors"
-    )
-  ) |> 
-    setNames(c('Label', 'Base', names(model_list)))  # |>
-    # write.csv(file.path(outdir, "sens_table.csv"), row.names = FALSE)
+big_table <- SStableComparisons(
+  shortlist, 
+  modelnames = c('Base', names(model_list)),
+  names =c("NatM_uniform_Fem_GP_1", "L_at_Amin_Fem_GP_1", "L_at_Amax_Fem_GP_1", 
+           "CV_young_Fem_GP_1", "CV_old_Fem_GP_1", "VonBert_K_Fem_GP_1", 
+           "NatM_uniform_Mal_GP_1", "L_at_Amin_Mal_GP_1", "L_at_Amax_Mal_GP_1", 
+           "CV_young_Mal_GP_1", "CV_old_Mal_GP_1", "VonBert_K_Mal_GP_1", 
+           "Recr_Virgin", "R0", "SmryBio_unfished", "SSB_Virg",
+           "SSB_2025", "Bratio_2025", "SPRratio_2024"),
+  digits = c(rep(3, 22), 1, rep(3, 4)), # not sure why this isn't cutting number of digits for smrybio_unfished
+  likenames = c(
+    "TOTAL", "Survey", "Length_comp", "Age_comp",
+    "Discard", "Mean_body_wt", "Recruitment", "priors"
+  )
+) |> 
+  setNames(c('Label', 'Base', names(model_list)))
 
 # rename labels to be informative
 big_table$Label <- c("Total", "Survey", "Length", "Age", "Discards", "Recruitment", "Forecast recruitment", "Parameter priors",

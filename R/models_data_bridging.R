@@ -1,4 +1,6 @@
-################ Data bridging #####################
+
+# Data bridging
+# Author: Mico Kineen
 
 ### Setup
 library("here")
@@ -48,7 +50,9 @@ juvsurv <- read.csv(here("data_provided", "RREAS", "widow_indices.csv"))|>
     month = rep(7),
     index = rep(6)
   )|>
-  select(year,month,index,obs,se_log)
+  select(year,month,index,obs,se_log) |> 
+  # Remove years with incomplete sampling
+  filter(!(year %in% c(2001:2003, 2010, 2012)))
 
 indices_2025 <- rbind(nwfsc,juvsurv)
 
@@ -56,11 +60,7 @@ indices_2025 <- rbind(nwfsc,juvsurv)
 
 # Prefer data from 2025 assessment if available for a given year
 discard_amounts <- read.csv(here("data_derived","discards","discards_2025.csv")) |> 
-  arrange(fleet, year) |> 
-  group_by(year, fleet) |> 
-  slice_tail() |> 
-  arrange(fleet, year) |> 
-  as.data.frame()
+  arrange(fleet, year)
 
 ## Length composition -------------------------------------
 
@@ -338,6 +338,7 @@ r4ss::run(dir = index_dir, exe = ss3_exe, extras = "-nohess", skipfinished = ski
 model_temp <- NULL#Wipe model to be safe
 
 # Extend length comps  ------------------------------------
+
 lcomp_dir <- here(main_dir,"add_lcomps") #dir
 
 model_temp <- SS_read(index_dir) ##read base model (previous model run)
@@ -355,7 +356,6 @@ model_temp$dat$lencomp |>
 SS_write(model_temp,dir = lcomp_dir,overwrite = T) #write the model
 r4ss::run(dir = lcomp_dir, exe = ss3_exe, extras = "-nohess", skipfinished = skip_finished) #run the model  
 model_temp <- NULL#Wipe model to be safe
-
 
 # Extend Age comps  ---------------------------------------
 

@@ -105,7 +105,7 @@ models <- c(
   "update length composition" = here(databridge_dir, "add_lcomps"),
   "update age composition" = here(databridge_dir, "data_bridged_model_weighted"), 
   "update M prior" = here("models", "model_bridging", "mortality"), 
-  "update M, L/W, bias ramp, blocks (2025 base)" = base_2025
+  "update L/W, bias ramp, blocks (2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)

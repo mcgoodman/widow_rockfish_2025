@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-30  14:13:54
+#C file write time: 2025-06-11  19:08:45
 #
 1 #_benchmarks
 2 #_MSY
@@ -50,8 +50,8 @@
 2027 #_FirstYear_for_caps_and_allocations
 0 #_stddev_of_log_catch_ratio
 0 #_Do_West_Coast_gfish_rebuilder_output
-2015 #_Ydecl
-2015 #_Yinit
+0 #_Ydecl
+0 #_Yinit
 1 #_fleet_relative_F
 # Note that fleet allocation is used directly as average F if Do_Forecast=4 
 2 #_basis_for_fcast_catch_tuning

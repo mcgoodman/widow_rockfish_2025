@@ -3,23 +3,23 @@
 "2019 model","Female",0.144401,0.125732,0.16307
 "2019 model","Male",0.154867,0.136038,0.173697
 "update removals, discard composition","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
-"update removals, discard composition","Female",0.143925,0.143925,0.143925
-"update removals, discard composition","Male",0.154394,0.154394,0.154394
+"update removals, discard composition","Female",0.144191,0.144191,0.144191
+"update removals, discard composition","Male",0.154558,0.154558,0.154558
 "update indices","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
-"update indices","Female",0.145567,0.145567,0.145567
-"update indices","Male",0.157145,0.157145,0.157145
+"update indices","Female",0.144379,0.144379,0.144379
+"update indices","Male",0.155746,0.155746,0.155746
 "update length composition","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
-"update length composition","Female",0.149841,0.149841,0.149841
-"update length composition","Male",0.161582,0.161582,0.161582
+"update length composition","Female",0.147255,0.147255,0.147255
+"update length composition","Male",0.159003,0.159003,0.159003
 "update age composition","Prior",0.100258843722804,0.0424909475217105,0.236564170274096
-"update age composition","Female",0.126024,0.126024,0.126024
-"update age composition","Male",0.138228,0.138228,0.138228
+"update age composition","Female",0.123166,0.123166,0.123166
+"update age composition","Male",0.135954,0.135954,0.135954
 "update M prior","Prior",0.100258843722804,0.0546072383116512,0.184075152954382
-"update M prior","Female",0.124532,0.124532,0.124532
-"update M prior","Male",0.136704,0.136704,0.136704
-"update L/W, bias ramp, MWT retention (2025 base)","Prior",0.100258843722804,0.0546072383116512,0.184075152954382
-"update L/W, bias ramp, MWT retention (2025 base)","Female",0.124599,0.10846,0.140739
-"update L/W, bias ramp, MWT retention (2025 base)","Male",0.136775,0.120302,0.153248
+"update M prior","Female",0.121859,0.121859,0.121859
+"update M prior","Male",0.134611,0.134611,0.134611
+"update L/W, bias ramp, blocks (2025 base)","Prior",0.100258843722804,0.0546072383116512,0.184075152954382
+"update L/W, bias ramp, blocks (2025 base)","Female",0.122307,0.106916,0.137697
+"update L/W, bias ramp, blocks (2025 base)","Male",0.134775,0.119055,0.150495
 "2015 model","Prior",0.081,0.029,0.225
 "2015 model","Female",0.1572,0.1362,0.1782
 "2015 model","Male",0.1705,0.1485,0.1925

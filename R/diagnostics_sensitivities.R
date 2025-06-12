@@ -272,19 +272,20 @@ wa_reconstruction <- base_model
 
 ### Read in catch using new WA historical reconstruction
 catch_wa_new <- read.csv(here("data_derived", "catches", "2025_catch_wa_reconstruction.csv"))
-catch_wa_new <- catch_wa_new[catch_wa_new$year != -999,]
 
 ### Add back in Hook & Line discards (added during data bridging)
-### Done by simply differencing catches from base model and those written out from R/catches.R
-catch_noHnLdisc <- SS_readdat(here("models", "data_bridging", "add_catches", "2025widow.dat"))$catch
-catch_noHnLdisc <- catch_noHnLdisc |> rename(catch_noHnL = catch) |> select(-catch_se)
+HnL_discards <- read.csv(here("data_derived","discards","discards_2025.csv")) |> 
+  filter(fleet == 5) |> arrange(year) |> 
+  select(-month, -stderr, disc = obs)
 
-catch_diff <- base_model$dat$catch |> left_join(catch_noHnLdisc, by = c("year", "seas", "fleet")) |> 
-  mutate(diff = catch - catch_noHnL) |> select(year, fleet, diff)
-
-catch_wa_new <- catch_wa_new |> left_join(catch_diff, by = c("year", "fleet"))  |> 
-  mutate(catch = catch + diff) |> select(-diff)
-wa_reconstruction$dat$catch <- catch_wa_new
+wa_reconstruction$dat$catch <- 
+  catch_wa_new |> 
+  left_join(HnL_discards, by = c("year", "fleet")) |> 
+  mutate(
+    disc = ifelse(is.na(disc), 0, disc), 
+    catch = catch + disc
+  ) |> 
+  select(-disc)
 
 ### Step 3: Save sensitivity as new model
 SS_write(wa_reconstruction, file.path("models", "sensitivities", "NewWACatch"),
@@ -299,13 +300,16 @@ shrimp_trawl <- base_model
 
 ### Read in catch with shrimp trawls added in
 catch_w_shrimp <- read.csv(here("data_derived", "catches", "2025_catch_shrimp_added.csv"))
-catch_w_shrimp <- catch_w_shrimp[catch_w_shrimp$year != -999,]
 
 ### Add back in Hook & Line discards
-catch_w_shrimp <- catch_w_shrimp |> left_join(catch_diff, by = c("year", "fleet"))  |> 
-  mutate(catch = catch + diff) |> select(-diff)
-
-shrimp_trawl$dat$catch <- catch_w_shrimp
+shrimp_trawl$dat$catch <- 
+  catch_w_shrimp |> 
+  left_join(HnL_discards, by = c("year", "fleet")) |> 
+  mutate(
+    disc = ifelse(is.na(disc), 0, disc), 
+    catch = catch + disc
+  ) |> 
+  select(-disc)
 
 ### Step 3: Save sensitivity as new model
 SS_write(shrimp_trawl, file.path("models", "sensitivities", "ShrmpNoShrmp"),

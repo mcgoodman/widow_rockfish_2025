@@ -1,8 +1,10 @@
+\markright{Executive Summary}
+
 # Executive summary {.unnumbered}
 
 ## Stock{-}
 
-This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canada border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] and first updated in 2019 [@adams_status_2019]. This assessment represents the second update of the 2015 benchmark stock assessment. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single coastwide area model.
+This is an update assessment of widow rockfish (*Sebastes entomelas*) that reside in the waters off California, Oregon, and Washington from the U.S.-Canada border in the north to the U.S.-Mexico border in the south. The most recent benchmark was conducted in 2015 [@hicks_status_2015] which was then updated in 2019 [@adams_status_2019]. This assessment represents the second update of the 2015 benchmark stock assessment. Widow rockfish inhabit water depths of 25–370 m from northern Baja California, Mexico to Southeastern Alaska. Although catches north of the U.S.-Canada border and south of the U.S.-Mexico border were not included in this assessment, it is not certain if those populations contribute to the biomass of widow rockfish off of the U.S. West Coast, possibly through adult migration and/or larval dispersion. Following the 2015 benchmark assessment [@hicks_status_2015], this update assessment is based on a single coastwide area model.
 
 {{< pagebreak >}} 
 
@@ -246,7 +248,7 @@ flextable(table_c) %>%
 
 ## Exploitation status{-}
 
-The population declined throughout the 1980s and 1990s when fishing intensity was above the management target and overfishing was occurring. The population then increased between 2000 and 2016 when fishing intensity was well below the management management target. Fishing intensity has increased substantially since 2017, and is estimated to have been above the management target since 2018 (i.e., overfishing is occurring), though the relative spawning output remains above the management target of 40% (i.e., the population is not overfished). Recent fishing intensities are in @tbl-d, and a full time series of relative spawning output and fishing intensity is in @fig-e.
+The population declined throughout the 1980s and 1990s when fishing intensity was above the management target. The population then increased between 2000 and 2016 when fishing intensity was well below the management management target. Fishing intensity has increased substantially since 2017, and is estimated to have been above the management target since 2018, though the relative spawning output remains above the management target of 40%. Recent fishing intensities are in @tbl-d, and a full time series of relative spawning output and fishing intensity is in @fig-e.
 
 ```{r}
 #| label: tbl-d
@@ -324,7 +326,13 @@ While the estimate of population scale (total \gls{ssb}) has remained relatively
 #| warning: false
 #| tbl-cap: "Summary of reference points and management quantities for the base case model."
 
-table_e <- table_e |> mutate(across(is.numeric, round, digits = 2))
+table_e <- table_e |> mutate(across(is.numeric, \(x) {
+  ifelse(
+    x > 1, 
+    format(round(x, digits = 1), big.mark = ","), 
+    round(x, digits = 3)
+    )
+}))
 
 
 flextable(table_e) %>%
@@ -335,7 +343,7 @@ flextable(table_e) %>%
   align(align = "left", j = 1) %>%
   font(fontname = "Times New Roman", part = "all") %>%
   bold(part = "header")%>%
-  bold(i = c(6,11,16)  ,part="body")%>%
+  bold(i = c(6,11,16), part="body")%>%
   colformat_num( digits = 2)%>%
   fontsize(size = 9, part = "all")%>%
   set_table_properties(layout = "autofit")
@@ -404,15 +412,20 @@ dec_table_summ <- list(
   "p40_2027" = dec_table_res|>filter(scenario == "P*0.40" & yr == 2027)|>pull(catch),
   "p40_2036" = dec_table_res|>filter(scenario == "P*0.40" & yr == 2036)|>pull(catch)
 )
+
+ctch_rng <- dec_table_res |> 
+  filter(yr >= 2027 & scenario != "Constant catch") |> 
+  slice(c(which.min(catch), which.max(catch)), .by = "scenario") |> 
+  mutate(stat = ifelse(catch == max(catch), "max", "min"), .by = "scenario")
 ```
 
-Uncertainty in both natural mortality (estimated for both sexes) and steepness (not estimated in the model) contributed greatly to uncertainty in the results. A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness is probably the most important factor since it was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of \gls{ssb} in 2025 from the low and high states of nature are close to the 12.5% and 87.5% quantiles from the base model.
+Uncertainty in both natural mortality (estimated for both sexes) and steepness (not estimated in the model) contributed greatly to uncertainty in the results. A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of \gls{ssb} in 2025 from the low and high states of nature are close to the 12.5% and 87.5% quantiles from the base model.
 
-A twelve year projection of the base model with two catch streams based on \gls{acl} adjustments of 0.45 P&#42; and 0.40 P&#42; were conducted (@tbl-h).
+A twelve year projection of the base model with two catch streams based on \gls{acl} = \gls{abc} based on adjustments of P&#42; = 0.45 and P&#42; = 0.40 were conducted (@tbl-h).
 
-Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.45 P&#42; adjustment using a sigma of 0.50 in 2027 suggest the \gls{ssb} (@tbl-h) is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(dec_table_summ$p45_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p45_2036, big.mark = ",", digits = 1)` mt in 2036. 
+Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.45 P&#42; adjustment using a sigma of 0.50 in 2027 suggest the \gls{ssb} (@tbl-h) is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"]`. 
 
-Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the \gls{ssb} is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(dec_table_summ$p40_2027, big.mark = ",", digits = 1)` mt in 2027 to `r format(dec_table_summ$p40_2036, big.mark = ",", digits = 1)` mt in 2036. 
+Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the \gls{ssb} is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"]`. 
 
 {{< pagebreak >}} 
 

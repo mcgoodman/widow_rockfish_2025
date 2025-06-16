@@ -26,14 +26,6 @@ firstup <- function(x) {
 
 ## Model Diagnostics
 
-<!-- Remove intro text: 
-Three types of uncertainty are presented for the assessment of widow rockfish. First, uncertainty in the parameter estimates was determined using approximate asymptotic estimates of the standard error. These estimates were based on the maximum likelihood theory that the inverse of the Hessian matrix (the second derivative of the log-likelihood function with respect to the parameter vector) approaches the true uncertainty of the parameter estimates as the sample size approaches infinity. This approach takes into account the uncertainty in the data and supplies correlation estimates between parameters, but does not capture possible skewness in the error distribution of the parameters and may not accurately estimate the standard error in some cases (see [@stewart_comparison_2013]).
-
-The second type of uncertainty that is presented is related to modeling and structural error. This uncertainty cannot be captured in the base model as it is related to errors in the assumptions used in specifying the base model. Therefore, sensitivity analyses were conducted where assumptions were modified to reveal the effect they have on the model results.
-
-Lastly, a major axis of uncertainty was determined from a parameter or structural assumption that results in the greatest change in stock status and advice, and projections were made for different states of nature based upon that parameter or structural assumption.
--->
-
 ### Convergence
 
 ```{r}
@@ -74,10 +66,10 @@ ln_R0 <- read.csv(here(
 ))
 
 
-male_m_min <- nat_M_male[nat_M_male$likelihood == min(nat_M_male$likelihood),"parameter_value"]
-female_m_min <- nat_M_female[nat_M_female$likelihood == min(nat_M_female$likelihood),"parameter_value"]
-sr_min <- ln_R0[ln_R0$likelihood == min(ln_R0$likelihood),"parameter_value"][[1]]
-steep_min <- steepness[steepness$likelihood == min(steepness$likelihood),"parameter_value"]
+male_m_min <- round(nat_M_male[which.min(nat_M_male$likelihood),"parameter_value"], 3)
+female_m_min <- round(nat_M_female[which.min(nat_M_female$likelihood),"parameter_value"], 3)
+sr_min <- round(ln_R0[which.min(ln_R0$likelihood),"parameter_value"][[1]], 2)
+steep_min <- round(steepness[which.min(steepness$likelihood),"parameter_value"], 3)
 
 #base model R0 est
 r0_bm <- round(rep$parameters[rep$parameters$Label == "SR_LN(R0)","Value"],3)
@@ -112,11 +104,11 @@ Fixing M at values lower than the base case estimate resulted in decreases in es
 
 First, a 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the \gls{ssb} was effectively unchanged for all retrospective runs. Removing 4–5 years of data led to slightly higher estimated \gls{ssb} over the last 15 years.In contrast, removing only 1–2 years resulted lower estimated \gls{ssb} over the period. Removing 1-5 years of data resulted in increased estimated  recruitment over the past 5 years, but decreased estimates in 10 years prior to this. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
 
-Estimated \gls{ssb} from the base model was comapred with previous assessments. For assessment prior to 2009 (2000, 2003, 2005, 2009), \gls{ssb} was compared with spawning output, and \gls{ssb} for models thereafter (2011, 2015, 2019) [@fig-ssb-historical].The current update follows a similar trend to prvious assessments over the model period, and estimated \gls{ssb} falls within the mid-range of previous assessments.
+Estimated \gls{ssb} from the base model was comapred with previous assessments. For assessments prior to 2009 (2000, 2003, 2005, 2009), \gls{ssb} was compared with spawning output, and \gls{ssb} for models thereafter (2011, 2015, 2019) [@fig-ssb-historical].The current update follows a similar trend to prvious assessments over the model period, and estimated \gls{ssb} falls within the mid-range of previous assessments.
 
 
 ### Likelihood Profiles and key parameters
 
 Likelihood profiles were conducted for unfished virgin recruitment (*R0*), steepness (*h*) and sex-specific natural mortality (*M*) values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. 
 
-For profiles of natural mortality, the negative log-likelihood was minimized at a value of `r male_m_min` for males, and a value of `r female_m_min` for females. Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_MF, @fig-like_profile_MM). For steepness, the negative log-likelihood was minimized at a steepness of `r steep_min`, however the 95% confidence interval extends over the entire range of possible steepness values. Profiles for steepness are illustrated in (@fig-like_profile_Steepness). Natural mortality for both sexes increased as R0 was fixed at increasingly large values, as did \gls{ssb} in the final year. For R0, the negative log-liklihood was minmised at a value of `r sr_min`, which supports the base model estimates of R0 at `r r0_bm`.Profiles for R0 are illustrated in @fig-like_profile_Rzero.
+For profiles of natural mortality, the negative log-likelihood was minimized at a value of `r male_m_min` for males, and a value of `r female_m_min` for females. Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_MF, @fig-like_profile_MM). For steepness, the negative log-likelihood was minimized at a steepness of `r steep_min`, however the 95% confidence interval extends over the entire range of possible steepness values. Profiles for steepness are illustrated in (@fig-like_profile_Steepness). Natural mortality for both sexes increased as R0 was fixed at increasingly large values, as did \gls{ssb} in the final year. For R0, the negative log-liklihood was minimized at a value of `r sr_min`, which supports the base model estimates of R0 at `r r0_bm`.Profiles for R0 are illustrated in @fig-like_profile_Rzero.

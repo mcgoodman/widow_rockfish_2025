@@ -1,6 +1,6 @@
 \markright{Executive Summary}
 
-# Executive summary {.unnumbered}
+# Executive summary {-}
 
 ## Stock{-}
 
@@ -423,9 +423,9 @@ Uncertainty in both natural mortality (estimated for both sexes) and steepness (
 
 A twelve year projection of the base model with two catch streams based on \gls{acl} = \gls{abc} based on adjustments of P&#42; = 0.45 and P&#42; = 0.40 were conducted (@tbl-h).
 
-Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.45 P&#42; adjustment using a sigma of 0.50 in 2027 suggest the \gls{ssb} (@tbl-h) is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"]`. 
+Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.45 P&#42; adjustment using a sigma of 0.50 in 2027 suggest the \gls{ssb} (@tbl-h) is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `r  ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"]`. 
 
-Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the \gls{ssb} is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"]`. 
+Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the \gls{ssb} is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"]`. 
 
 {{< pagebreak >}} 
 

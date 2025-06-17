@@ -169,39 +169,13 @@ format:
 output-file: 'WIDOW_SAR_2025'
 params:
   office: 'NWFSC'
-  species: 'Widow Rockfish'
+  species: 'Widow rockfish'
   spp_latin: 'Sebastes entomelas'
   region: 'U.S. West Coast'
 bibliography:
   - asar_references.bib
 csl: 'canadian-journal-of-fisheries-and-aquatic-sciences.csl'
 ---
-
-```{r}
-#| label: 'read_base_model'
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-
-library(here)
-library(dplyr)
-
-# source(here('Rscripts/table_sens.R'))
-
-# TODO list of things to update when changing the base model:
-# - [ ] run Rscripts/make_r4ss_figs_tables.R
-# - [ ] run Rscripts/run_diagnostics.R
-# - [ ] run Rscripts/sensitivities.R
-# - [ ] update any hardwired values in the text (or make them dynamic)
-#   - [ ] text on 2019 discards "inadvertently left out of the base model"
-#   - [ ] 
-# base_mod <- '5.09_no_extra_se'
-# mod_in <- r4ss::SS_read(here('model_runs', base_mod))
-# mod_out <- r4ss::SS_output(here('model_runs', base_mod), verbose = FALSE, printstats = FALSE)
-
-```
-
 
 {{< pagebreak >}} 
 
@@ -226,7 +200,7 @@ a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
- {{< pagebreak >}} 
+{{< pagebreak >}} 
 
 ```{r, results='asis'}
 #| label: 'executive_summary'
@@ -238,7 +212,7 @@ cat(a, sep = '\n')
 ```
 
 
- {{< pagebreak >}}
+{{< pagebreak >}}
 
 \setlength{\parskip}{5mm plus1mm minus1mm}
 \pagenumbering{arabic}

@@ -6,13 +6,13 @@ Many sources of data were available for this assessment (@fig-data-plot-base), i
 
 Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). Depth and latitude strata used to analyze the catch-rates, length compositions, and age compositions are the same as in the 2019 update assessment [@adams_status_2019] and shown in @tbl-strat-surv.
 
-### \acrlong{s-tri}
+### Triennial Survey
 
 The Alaska Fisheries Science Center/Northwest Fisheries Science Center West Coast Triennial Shelf Survey (Triennial Survey) was first conducted by the Alaska Fisheries Science Center (AFSC) in 1977 and was conducted every three years, ending 2004. The survey’s design and sampling methods are most recently described in [@weinberg_estimation_2002].
 
 The time series suggests a possible slightly increasing trend in biomass from 1980–1983, although is relatively flat until the end of the period in 2001 and 2004 when the index declines significantly. The index and length compositions for this historical Triennial survey were unchanged from the previous assessment. Please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for details on those data inputs.
 
-### \acrlong{s-wcgbt}
+### West Coast Groundfish Bottom Trawl Survey
 
 The Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (\gls{s-wcgbt}) has been conducted annually, since 2003. It is based on a random-grid design; covering the coastal waters between depths of 55–1,280 m [@bradburn_2003_2011]. No survey occurred in 2020 due to Coronavirus pandemic (COVID-19). Widow rockfish are not commonly caught in the WCGBTS. Higher catch rates occur north of 40° N latitude and catches are rare south of 36° N latitude. Few large fish are found shallower than 100 m and few small fish are found in the deeper water of the slope. There is no clear trend in length with latitude other than smaller fish tend to occur south of approximately 36° N latitude, and there appears to be some very small fish found near 39° N latitude.
 
@@ -26,7 +26,7 @@ Length, age, and conditional age-at-length compositions were processed using the
 
 The input sample sizes for length and marginal age-composition data were calculated based on [@stewart_bootstrapping_2014]. The input sample size of CAAL data was set at the number of fish at each length by sex and by year. Expanded length frequencies from this survey show intermittent years of small fish; the 2018–2024 period generally suggests most fish are around 40–45cm in length (@fig-exp-lencomp-WCBTS). Strong cohorts are not immediately apparent and it seems that ageing error may result in some variability between years. Conditional age-at-length proportions (@fig-cond-agelen-WCBTS) show relatively consistent length-at-age with few outliers.
 
-### \acrlong{s-juv}
+### Juvenile Survey
 
 An updated coastwide pre-recruit index of abundance for 2001-2024 for widow rockfish was created  using data from three midwater trawl surveys targeting young-of-the-year (YOY) rockfish (\gls{s-juv}), provided by Tanya Rogers (SWFSC, pers. comm.). All surveys used identical gear, enabling the construction of a consistent coastwide index spanning from 36°N to the U.S./Canada border since 2004. Sampling in 2020 was limited due to the COVID-19 pandemic and excluded from all models. In 2010 and 2012, coverage was incomplete, so these years excluded from the final model to align with the 2019 assessment. Following the 2015 and 2019 assessments, data from 2001–2003 were also excluded due to limited spatial coverage (36°30′ to 38°20′ N latitude). 
 

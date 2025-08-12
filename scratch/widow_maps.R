@@ -152,4 +152,13 @@ wcgbts_props |>
   ) + 
   geom_point() + 
   geom_line() + 
-  facet_wrap(~state, ncol = 1)
+  facet_wrap(~state, ncol = 1) + 
+  theme_minimal() + 
+  theme(
+    strip.background = element_blank(), 
+    plot.background = element_rect(fill = "white", color = NA)
+  ) + 
+  labs(y = "proportion biomass (WCGBTS)")
+
+ggsave(here("scratch", "prop_wcgbts_catch_by_state.png"), height = 4, width = 6, units = "in", 
+       dpi = 300)

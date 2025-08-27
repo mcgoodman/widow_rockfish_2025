@@ -34,6 +34,9 @@ gmt_catch <- read.csv(here("data_provided","GMT_forecast_catch","GMT_forecast_ca
   mutate(seas = 1)|>
   select(year,seas,fleet,catch_mt)
 
+# Create executable
+ss3_exe <- here("models", set_ss3_exe(here("models"), version = "v3.30.23.1"))
+
 # Management actions --------------------------------------
 # CC of 3000 mt, p*40 and p*45
 
@@ -113,7 +116,7 @@ n_cores <- length(dirs)
 cl <- makeCluster(n_cores)
 
 # Export needed variables and packages to workers
-clusterExport(cl, varlist = c("dirs", "skip_finished"))
+clusterExport(cl, varlist = c("dirs", "skip_finished", "ss3_exe"))
 clusterEvalQ(cl, {
   library(r4ss)
   library(dplyr)
@@ -124,7 +127,7 @@ catch_series_list <- parLapply(cl, dirs, function(x) {
   dir <- as.character(x)
   
   r4ss::run(dir = dir,
-            exe = "ss3",
+            exe = ss3_exe,
             extras = "-nohess",
             show_in_console = TRUE,
             skipfinished = skip_finished)
@@ -239,13 +242,13 @@ if (run_paralell == TRUE) {
   n_cores <- length(all_dirs)
   cl <- makeCluster(n_cores)
   # Export needed variables and packages to workers
-  clusterExport(cl, varlist = c("all_dirs", "skip_finished"))
+  clusterExport(cl, varlist = c("all_dirs", "skip_finished", "ss3_exe"))
   clusterEvalQ(cl, library(r4ss))
   
   # Run SS3 in parallel
   parLapply(cl, all_dirs, function(x) {
     r4ss::run(dir = x,
-              exe = "ss3",
+              exe = ss3_exe,
               show_in_console = TRUE,
               skipfinished = skip_finished)
     
@@ -256,7 +259,7 @@ if (run_paralell == TRUE) {
 } else {
   lapply(list.dirs(here("data_derived", "decision_table"))[-1], function(x) {
     r4ss::run(dir = x,
-              exe = "ss3",
+              exe = ss3_exe,
               extras = "-nohess",
               show_in_console = T,
               skipfinished = skip_finished)

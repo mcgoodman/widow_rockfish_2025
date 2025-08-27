@@ -16,7 +16,9 @@ age_summary_coastwide <- bio |>
             q80 = quantile(Age, 0.80),
             q85 = quantile(Age, 0.85), 
             q90 = quantile(Age, 0.90),
-            q95 = quantile(Age, 0.95)) |> 
+            q95 = quantile(Age, 0.95),
+            q97.5 = quantile(Age, 0.975),
+            q99 = quantile(Age, 0.99)) |> 
   pivot_longer(cols = c(mean, starts_with("q")), names_to = "statistic", values_to = "age") 
   
 age_summary_coastwide |> 

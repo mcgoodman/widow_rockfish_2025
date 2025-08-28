@@ -288,6 +288,42 @@ r4ss::SSplotComparisons(
     indexPlotEach = TRUE
 )
 
+# ratios of index values
+z <- output$cpue |>
+    dplyr::filter(Fleet == 6) |>
+    dplyr::select(Yr, Obs, Exp) |>
+    dplyr::filter(Yr %in% 2013:2014)
+
+# ratio of 2013 to 2014 observations
+z$Obs[1] / z$Obs[2]
+# [1] 5.100351
+
+# ratio of 2013 obs to 2013 expected value
+z$Obs[1] / z$Exp[1]
+# [1] 26.8491
+
+# plot absolute-scale index fits again without uncertainty
+r4ss::SSplotComparisons(
+    r4ss::SSsummarize(list(base_output, output)),
+    legendlabels = c(
+        "August 2025 base model (extra SE estimated at 1.25)",
+        "Fix pelagic juvenile survey extra SE to 0.1 (mean total CV similar to sigmaR = 0.6)"
+    ),
+    subplots = 13,
+    endyrvec = 2025,
+    print = TRUE,
+    plot = FALSE,
+    plotdir = here::here(
+        "models",
+        "supplemental_requests",
+        "pelagic_juvenile_survey_CV"
+    ),
+    verbose = FALSE,
+    indexUncertainty = FALSE,
+    legendloc = "left",
+    filenameprefix = "no_index_uncertainty_"
+)
+
 r4ss::SStableComparisons(
     r4ss::SSsummarize(list(base_output, output)),
     names = c(
@@ -323,8 +359,11 @@ cbind(
         dplyr::filter(grepl("ForeCatch_", Label)) |>
         dplyr::select(Value)
 ) |>
-    setNames(c("base", "smaller_JuvSurveyCV")) |> 
-    dplyr::mutate(ratio = round(smaller_JuvSurveyCV / base, 2), diff = smaller_JuvSurveyCV - base)
+    setNames(c("base", "smaller_JuvSurveyCV")) |>
+    dplyr::mutate(
+        ratio = round(smaller_JuvSurveyCV / base, 2),
+        diff = smaller_JuvSurveyCV - base
+    )
 
 #                    base smaller_JuvSurveyCV ratio    diff
 # ForeCatch_2025 10668.60            10668.60  1.00    0.00
@@ -339,6 +378,133 @@ cbind(
 # ForeCatch_2034  5359.67             6539.74  1.22 1180.07
 # ForeCatch_2035  5354.68             6274.44  1.17  919.76
 # ForeCatch_2036  5347.47             6072.03  1.14  724.56
+
+##############################################################################
+## REQUEST: Reweight the compositional data using Francis methods
+## (as was done in the sensitivity analysis for the draft document)
+## and provide a profile across M with Francis weighting.
+##############################################################################
+
+# first explore removing lambdas
+inputs <- base_inputs
+# there are 10 lambdas set to 0.5
+table(inputs$ctl$lambdas$value)
+# 0.5   1
+#  10   3
+inputs$ctl$lambdas$value <- 1
+inputs$dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "lambda1_MI"
+)
+# write files
+r4ss::SS_write(
+    inputs,
+    dir = inputs$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+
+# run the model (took a few tries, so need to not skip run even if Report.sso is present)
+r4ss::run(inputs$dir, extras = "-nohess", skipfinished = FALSE)
+
+# apply Francis reweighting to the resulting model with lambdas = 1
+
+### step 1: Create outputs by copying input files
+
+dir_lambda1_Francis <- here::here(
+    "models",
+    "supplemental_requests",
+    "lambda1_Francis"
+)
+dir.create(dir_lambda1_Francis)
+
+#### copy over the input and output files (output needed for tune_comps)
+cpy_files <- dir(inputs$dir)[grepl(
+    "\\.ss$|\\.sso$|\\.dat$|\\.ctl$",
+    dir(inputs$dir)
+)]
+
+file.copy(
+    from = file.path(inputs$dir, cpy_files),
+    to = file.path(dir_lambda1_Francis, cpy_files),
+    overwrite = TRUE
+)
+
+### step 2: Run function tune_comps
+
+#### Run Francis data weighting, and tune original model method in 1 go.
+#### Note that the original model must have been previously run with Stock
+#### Synthesis, so that a report file is available.
+tune_comps(
+    dir = dir_lambda1_Francis,
+    option = "Francis",
+    exe = exe_loc,
+    extras = "-nohess",
+    verbose = FALSE,
+    niters_tuning = 3
+)
+
+output_lambda0.5_Francis <- SS_output(
+    "models/supplemental_requests/lambda0.5_Francis",
+    printstats = FALSE,
+    verbose = FALSE
+) # "models/supplemental_requests/lambda0.5_Francis"
+output_lambda1_MI <- SS_output(inputs$dir, printstats = FALSE, verbose = FALSE) # "models/supplemental_requests/lambda1_MI"
+output_lambda1_Francis <- SS_output(
+    dir_lambda1_Francis,
+    printstats = FALSE,
+    verbose = FALSE
+)
+SSplotComparisons(
+    SSsummarize(list(
+        base_output,
+        output_lambda0.5_Francis,
+        output_lambda1_MI,
+        output_lambda1_Francis
+    )),
+    legendlabels = c(
+        "August 2025 base model (M-I, lambdas = 0.5)",
+        "Francis weighting, lambdas = 0.5",
+        "M-I weighting, lambdas = 1",
+        "Francis weighting, lambdas = 1"
+    ),
+    endyrvec = 2036,
+    print = TRUE,
+    plot = FALSE,
+    plotdir = inputs$dir,
+    verbose = FALSE
+)
+
+r4ss::SStableComparisons(
+    r4ss::SSsummarize(list(
+        base_output,
+        output_lambda0.5_Francis,
+        output_lambda1_MI,
+        output_lambda1_Francis
+    )),
+    names = c(
+        "NatM",
+        "SSB_2025",
+        "Bratio_2025",
+        "ForeCatch_2027",
+        "SPR_MSY",
+        "Dead_Catch_SPR"
+    )
+)
+#                    Label      model1      model2      model3      model4
+# 1             TOTAL_like 1.90165e+04 1.77943e+04 2.01024e+04 1.35946e+04
+# 2            Survey_like 8.04479e+00 8.47381e+00 8.50489e+00 1.22647e+01
+# 3       Length_comp_like 8.29491e+02 2.31808e+02 1.31914e+03 4.78772e+02
+# 4          Age_comp_like 1.36719e+03 7.53171e+02 1.95653e+03 1.18477e+03
+# 5       Parm_priors_like 9.03229e-01 1.39297e+00 1.05306e+00 1.82207e-01
+# 6  NatM_uniform_Fem_GP_1 1.22306e-01 1.33219e-01 1.26805e-01 1.02317e-01
+# 7  NatM_uniform_Mal_GP_1 1.34775e-01 1.46405e-01 1.39766e-01 1.13523e-01
+# 8   SSB_2025_thousand_mt 4.69340e+01 5.49820e+01 4.21830e+01 4.17910e+01
+# 9            Bratio_2025 5.49186e-01 5.91803e-01 5.49754e-01 4.74469e-01
+# 10        ForeCatch_2027 4.23801e+03 6.24214e+03 3.94436e+03 2.84247e+03
+# 11               SPR_MSY 3.36819e-01 3.34478e-01 3.36581e-01 3.40962e-01
+# 12        Dead_Catch_SPR 5.82212e+03 6.99630e+03 5.46901e+03 5.12887e+03
 
 ##############################################################################
 ## REQUEST: Explore some means to remove, combine or down-weight the H&L and

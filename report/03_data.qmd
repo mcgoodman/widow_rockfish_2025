@@ -1,97 +1,86 @@
 # Data
 
-<!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
 Many sources of data were available for this assessment (@fig-data-plot-base), including indices of abundance, landings, discards, and length and age observations from fishery-dependent and fishery-independent sources. Data used in this assessment are described below. No new data sources were considered in this update assessment.
 
 ## Fishery-independent data
 
-<!-- 
-Fishery-independent data: Description of surveys used in the assessment, description of methods to estimate abundance indices, sample size information for length- and age- composition data by survey and year, including both the number of tows (or drops or sites for hook and line data) and fish sampled. Include complete tables and figures and date of data extraction. 
+Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). Depth and latitude strata used to analyze the catch-rates, length compositions, and age compositions are the same as in the 2019 update assessment [@adams_status_2019] and shown in @tbl-strat-surv.
 
-For pre-written descriptions of our main surveys, go here: https://github.com/pfmc-assessments/sa4ss/tree/main/inst/rmarkdown/templates/sa/skeleton
-And copy the text from the files 21s-tri.Rmd and 21s-wcgbts.Rmd
--->
-
-Data from three fishery-independent surveys were used in this assessment: 1) the SWFSC and NWFSC/PWCC Midwater Trawl Survey (hereafter, “juvenile survey”); 2) the Alaska Fisheries Science Center (AFSC)/NWFSC Triennial Shelf Trawl Survey (hereafter, “triennial survey”); and 3) the NWFSC West Coast Groundfish Bottom Trawl Survey (hereafter, “WCGBTS”). Depth and latitude strata used to analyze the catch-rates, length compositions, and age compositions are the same as in the 2019 assessment (@adams_status_2019, @tbl-strat-surv).
-
-### \acrlong{s-tri}
+### Triennial Survey
 
 The Alaska Fisheries Science Center/Northwest Fisheries Science Center West Coast Triennial Shelf Survey (Triennial Survey) was first conducted by the Alaska Fisheries Science Center (AFSC) in 1977 and was conducted every three years, ending 2004. The survey’s design and sampling methods are most recently described in [@weinberg_estimation_2002].
 
-The time series suggests a possible slightly increasing trend in biomass from 1980–1983, although is relatively flat until the end of the period in 2001 and 2004 when the index declines significantly. The index and length compositions for this historical Triennial survey were unchanged from the previous assessment. Please refer to to @hicks_status_2015 for details on those data inputs.
+The time series suggests a possible slightly increasing trend in biomass from 1980–1983, although is relatively flat until the end of the period in 2001 and 2004 when the index declines significantly. The index and length compositions for this historical Triennial survey were unchanged from the previous assessment. Please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for details on those data inputs.
 
-### \acrlong{s-wcgbt}
+### West Coast Groundfish Bottom Trawl Survey
 
-The Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (\gls{s-wcgbt}) has been conducted annually, since 2003. It is based on a random-grid design; covering the coastal waters between depths of 55–1,280 m [@bradburn_2003_2011]. No survey occurred in 2020 due to Coronavirus disease (COVID-19). Widow rockfish are not commonly caught in the WCGBTS. Higher catch rates occur north of 40° N latitude and catches are rare south of 36° N latitude. Few large fish are found shallower than 100 m and few small fish are found in the deeper water of the slope. There is no clear trend in length with latitude other than smaller fish tend to occur south of approximately 36° N latitude, and there appears to be some very small fish found near 39° N latitude.
+The Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (\gls{s-wcgbt}) has been conducted annually, since 2003. It is based on a random-grid design; covering the coastal waters between depths of 55–1,280 m [@bradburn_2003_2011]. No survey occurred in 2020 due to Coronavirus pandemic (COVID-19). Widow rockfish are not commonly caught in the WCGBTS. Higher catch rates occur north of 40° N latitude and catches are rare south of 36° N latitude. Few large fish are found shallower than 100 m and few small fish are found in the deeper water of the slope. There is no clear trend in length with latitude other than smaller fish tend to occur south of approximately 36° N latitude, and there appears to be some very small fish found near 39° N latitude.
 
-For this assessment, geostatistical models of biomass density were fit to survey data using the R package \gls{sdmtmb} [@anderson_sdmtmb_2022]. This is an updated approach compared to the 2015 assessment (non-spatial delta-GLMM) and the 2019 update assessment (VAST delta-lognormal model). The \gls{sdmtmb} model used a 200 knot mesh of the survey area [@thorson_geostatistical_2015]. The prediction grid was truncated to only include available survey locations in depths between 55--500 m to limit extrapolating beyond the data and edge effects. Tweedie, delta-binomial, delta-gamma, and mixture distributions, which allow for extreme catch events, were investigated. The positive catch weight model includes survey pass ('first' for early season or 'second' for late season) and year. Vessel-year effects, which have traditionally been included in index standardization for this survey, were not included as the estimated variance for the random effect was close to zero. Vessel-year effects were more prominent when models did not include spatial effects and were included for each unique combination of vessel and year in the data to account for the random selection of commercial vessels used during sampling [@helser_generalized_2004; @thorson_accounting_2014]. 
+For this assessment, geostatistical models of biomass density were fit to survey data using the R package \gls{sdmtmb} [@anderson_sdmtmb_2022]. This is an updated approach compared to the 2015 benchmark assessment (non-spatial delta-GLMM) and the 2019 update assessment (VAST delta-lognormal model). The \gls{sdmtmb} model used a 200 knot mesh of the survey area [@thorson_geostatistical_2015]. The prediction grid was truncated to only include available survey locations in depths between 55--500 m to limit extrapolating beyond the data and edge effects. Tweedie, delta-binomial, delta-gamma, and mixture distributions, which allow for extreme catch events, were investigated. The positive catch weight model includes survey pass ('first' for early season or 'second' for late season) and year. Vessel-year effects, which have traditionally been included in index standardization for this survey, were not included as the estimated variance for the random effect was close to zero. Vessel-year effects were more prominent when models did not include spatial effects and were included for each unique combination of vessel and year in the data to account for the random selection of commercial vessels used during sampling [@helser_generalized_2004; @thorson_accounting_2014]. 
 
-Results are only shown for the delta-gamma and delta-lognormal distributions, which reported the best diagnostics among the explored models (@fig-qq-sdmtmb). Both models converged (positive definite Hessian matrix) but predicted data from both models showed slightly right-heavy tails compared to null expectations, with the gamma model having stronger divergence. Spatiotemporal estimates of positive catch for the delta-lognormal distribution were then converted into annual indices using sdmtmb::get_index() function informed by the spatial bounds of the survey [@anderson_sdmtmb_2022].
+Results are shown for the delta-gamma and delta-lognormal distributions, which reported the best diagnostics among the explored models (@fig-qq-sdmtmb). Both models converged (positive definite Hessian matrix) but predicted data from both models showed slightly right-heavy tails compared to the assumed likelihoods, with the gamma model having stronger divergence. Spatiotemporal estimates of biomass from the delta-lognormal model were then converted into annual indices using sdmtmb::get_index() function by integrating across the spatial domain of the survey [@anderson_sdmtmb_2022].
 
-Overall, the delta-lognormal index estimates is more comparable to the 2019 spatiotemporal VAST-based index than the delta-gamma index, and less influenced by extreme catch events, particularly in 2013 and 2016; for these reasons, in addition to better model performance observed above, the delta-lognormal sdmTMB-based index was used for the base model in this assessment. The delta-lognormal mean value (2262.824) was slightly lower than the means of the index values used in the 2015 assessment (2701.12) and the 2019 update assessment (3301.765). Comparisons of the different error structures, design-based estimate and the VAST index used in 2019 are in @fig-absurv-compare. 
+Overall, the delta-lognormal index estimates is more comparable to the 2019 spatiotemporal VAST-based index than the delta-gamma index, and less influenced by extreme catch events, particularly in 2013 and 2016; for these reasons, in addition to better model performance observed above, the delta-lognormal sdmTMB-based index was used for the base model in this assessment. The delta-lognormal mean value (2262.824) was slightly lower than the means of the index values used in the 2015 benchmark assessment (2701.12) and the 2019 update assessment (3301.765). However, since these are used as relative indices, these differences in mean values have no impact in themselves on the outcome of the assessment. Comparisons of the different error structures, design-based estimate and the VAST index used in 2019 are in @fig-absurv-compare. 
 
-Length, age, and conditional age-at-length compositions were processed using the nwfscSurvey package in R publicly available on GitHub [@wetzel_nwfscsurvey_2025]. Length compositions were created by expanding to the tow and summing to give a strata specific composition ([@tbl-sample-age-gear-state]). Strata definition was retained from the benchmark assessment. The strata compositions were combined to a coastwide composition using a design-based index of abundance from each strata. The design based index is constructed by taking the average catch per unit effort (CPUE) defined as catch per area swept across tows in each stratum and year. The sum of strata specific composition data was then calculated, weighting by the average CPUE per stratum multiplied by the area of each stratum. Age distributions were included in the model as conditional-age-at-length (CAAL) observations. The marginal age-compositions were also included, but only for easier viewing of strong cohorts. The CAAL data were not expanded and were binned according to length, age, sex, and year.
+Length, age, and conditional age-at-length compositions were processed using the nwfscSurvey package in R publicly available on GitHub [@wetzel_nwfscsurvey_2025]. Length compositions were created by expanding to the tow and summing to give a strata specific composition [@tbl-sample-age-gear-state]. Strata definition was retained from the benchmark assessment. The strata compositions were combined to a coastwide composition using a design-based index of abundance from each stratum. The design based index is constructed by taking the average catch per unit effort (CPUE) defined as catch per area swept across tows in each stratum and year. The sum of strata specific composition data was then calculated, weighting by the average CPUE per stratum multiplied by the area of each stratum. Age distributions were included in the model as conditional-age-at-length (CAAL) observations. The marginal age-compositions were also included, but only for easier viewing of strong cohorts. The CAAL data were not expanded and were binned according to length, age, sex, and year.
 
 The input sample sizes for length and marginal age-composition data were calculated based on [@stewart_bootstrapping_2014]. The input sample size of CAAL data was set at the number of fish at each length by sex and by year. Expanded length frequencies from this survey show intermittent years of small fish; the 2018–2024 period generally suggests most fish are around 40–45cm in length (@fig-exp-lencomp-WCBTS). Strong cohorts are not immediately apparent and it seems that ageing error may result in some variability between years. Conditional age-at-length proportions (@fig-cond-agelen-WCBTS) show relatively consistent length-at-age with few outliers.
 
-### \acrlong{s-juv}
+### Juvenile Survey
 
 An updated coastwide pre-recruit index of abundance for 2001-2024 for widow rockfish was created  using data from three midwater trawl surveys targeting young-of-the-year (YOY) rockfish (\gls{s-juv}), provided by Tanya Rogers (SWFSC, pers. comm.). All surveys used identical gear, enabling the construction of a consistent coastwide index spanning from 36°N to the U.S./Canada border since 2004. Sampling in 2020 was limited due to the COVID-19 pandemic and excluded from all models. In 2010 and 2012, coverage was incomplete, so these years excluded from the final model to align with the 2019 assessment. Following the 2015 and 2019 assessments, data from 2001–2003 were also excluded due to limited spatial coverage (36°30′ to 38°20′ N latitude). 
 
-The index was built using a spatial GLM with the sdmTMB package [@anderson_sdmtmb_2022], modeling 100-day standardized catch-per-tow as a function of year (fixed effect), Julian date (GAM smoother, k = 4), spatial random field, and spatiotemporal random effects. Models with Tweedie, delta-lognormal, and delta-gamma error structures were compared; DHARMa residuals and simulation-based diagnostics indicated the Tweedie model performed best. The index shows a strong increasing trend in juvenile abundance from 2017 to 2023, with a slight decline in 2024. Recent values remain high relative to the previous decade, and uncertainty estimates support the robustness of this trend.
+The index was built using a spatial GLM with the sdmTMB package [@anderson_sdmtmb_2022], modeling 100-day standardized catch-per-tow as a function of year (fixed effect), Julian date (GAM smoother, k = 4), spatial random field, and spatiotemporal random effects. Models with Tweedie, delta-lognormal, and delta-gamma error structures were compared; DHARMa residuals and simulation-based diagnostics indicated the Tweedie model performed best. The index shows a moderately strong increasing trend in juvenile abundance from 2017 to 2023, with a slight decline in 2024 (@fig-surv-abundest). Recent values remain high relative to the previous decade, and uncertainty estimates support the robustness of this trend.
 
 ## Fishery-dependent data
 
 ### Landings
 
-Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake. Minimal amounts are also taken by non-trawl gears such as hook-and-line and net (@tbl-disc-totals). 
+Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake/whiting (*Merluccius productus*, hereafter "hake"). Minimal amounts are also taken by non-trawl gears such as hook-and-line and net (@tbl-disc-totals). 
 
-The definitions of fishing fleets have not been changed from those in the 2015 and 2019 assessments. Five fishing fleets were specified within the model: 1) a shorebased bottom trawl fleet with coastwide catches from 1916–2024, 2) a shorebased midwater trawl fleet with coastwide catches from 1979–2024, 3) a mostly midwater trawl fleet that targets Pacific Hake/Whiting (Merluccius productus) and includes a foreign and at-sea fleet with catches from 1975–2024, a domestic shorebased fleet that targeted Pacific Hake with catches from 1991–2024, and foreign vessels that targeted Pacific Hake and rockfish between 1966–1976, 4) a net fishery consisting of catches mostly from California from 1981–2024, and 5) a hook-and-line fishery (predominantly longline) with coastwide catches from 1916–2024. As in previous assessments, catches from Puget Sound and those from commercial shrimp trawls, commercial pots, and recreational fisheries were excluded (as these are generally minimal).
+The definitions of fishing fleets have not been changed from those in the 2015 and 2019 assessments. Five fishing fleets were specified within the model: 1) a shorebased bottom trawl fleet with coastwide catches from 1916–2024, 2) a shorebased midwater trawl fleet with coastwide catches from 1979–2024, 3) a mostly midwater trawl fleet that targets hake and includes a foreign and at-sea fleet with catches from 1975–2024, a domestic shorebased fleet that targeted Pacific Hake with catches from 1991–2024, and foreign vessels that targeted Pacific Hake and rockfish between 1966–1976, 4) a net fishery consisting of catches mostly from California from 1981–2024, and 5) a hook-and-line fishery (predominantly longline) with coastwide catches from 1916–2024. As in previous assessments, catches from Puget Sound and those from commercial shrimp trawls, commercial pots, and recreational fisheries were excluded (as these are generally minimal).
 
-Landings from the 1916-2018 period were carried forward into this assessment with slight modifications to the midwater and bottom trawl catches from California. Because PacFIN appear to underestimate midwater trawl catches in California in 1979-1980 when midwater trawl fishery for widow rockfish developed (Edward Dick, Pers. Comms.) we adjusted midwater and bottom trawl catches from California in these years to reflect the ratio of California midwater to bottom trawl catches in 1981-1982. 
+Landings from the 1916-2018 period were carried forward into this assessment with slight modifications to the midwater and bottom trawl catches from California. Because PacFIN appears to underestimate midwater trawl catches in California in 1979-1980 when midwater trawl fishery for widow rockfish developed (Edward Dick, Pers. Comms.) we adjusted midwater and bottom trawl catches from California in these years to reflect the ratio of California midwater to bottom trawl catches in 1981-1982. 
 
-Recent catches (2019-onward) were extracted from PacFIN for commercial shorebased data and NORPAC for at-sea hake fishery bycatch, and were otherwise appended onto the 1916-2018 landings and apportioned among fleets using the same criteria as those documented in the 2015 assessment @hicks_status_2015.
+Recent catches (2019-onward) were extracted from PacFIN for commercial shorebased data and NORPAC for at-sea hake fishery bycatch, and were otherwise appended onto the 1916-2018 landings and apportioned among fleets using the same criteria as those documented in the 2015 benchmark assessment @hicks_status_2015.
 
 ### Fishery catch-per-unit-effort
 
-Three fishery-dependent CPUE indices were included as in the last assessment [@adams_status_2019]. Indices were derived from 1) Oregon bottom trawl (1984-1999), 2) Pacific Whiting at-sea foreign (1977-1988), and 3) Pacific whiting at-sea domestic fleets (1983-1998). These were not updated; see @adams_status_2019 for details.
+Three fishery-dependent CPUE indices were included as in the most recent update assessment [@adams_status_2019]. Indices were derived from 1) Oregon bottom trawl (1984-1999), 2) hake at-sea foreign (1977-1988), and 3) hake at-sea domestic fleets (1983-1998). These were not updated; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 ### Fishery length and age data
 
-Biological data from commercial fisheries that caught widow rockfish were extracted from PacFIN on March 25, 2025 and from the NORPAC database. Lengths and age samples taken during port sampling in California, Oregon, and Washington were used to generate length and age compositions. The data were classified into bottom trawl, midwater trawl, hake trawl, net, and hook-and-line fleets using pacfintools package in R. For each fleet, the raw observations were expanded to the trip level, to account for differences in samples sizes relative catch weights among trips (first stage expansion). The expanded length observations were then further expanded to state level, to account for differences in sampling intensity of widow rockfish landings among states combined into a single fleet (second stage expansion).
+Biological data from commercial fisheries that caught widow rockfish were extracted from PacFIN on March 25, 2025 and from the NORPAC database on February 3, 2025. Lengths and age samples taken during port sampling in California, Oregon, and Washington were used to generate length and age compositions. The data were classified into bottom trawl, midwater trawl, hake trawl, net, and hook-and-line fleets. For each fleet, the raw observations were expanded to the trip level, to account for differences in samples sizes relative to catch weights among trips (first stage expansion). The expanded length observations were then further expanded to state level, to account for differences in sampling intensity of widow rockfish landings among states combined into a single fleet (second stage expansion).
 
-@tbl-num-land-length shows the number of trips sampled and @tbl-len-gear-state shows the number of lengths taken for each year, gear, and fleet from the three states. @tbl-landings-hake shows these numbers for the at-sea fleet. Expanded length compositions for bottom trawl, midwater trawl, hake fisheries, net, and hook-and-line are shown in @fig-lencomp-fleet1 to @fig-lencomp-fleet5. Age compositions for the five fleets are shown in @fig-agecomp-fleet1 and @fig-agecomp-fleet5. Occasional cohorts appear to move through the population, indicating that widow rockfish population dynamics may be characterized by episodic recruitment events.
-
-<!-- Consistent with the 2019 assessment, length and age samples from PacFIN were expanded up to the total landing then combined into state-specific frequencies (@tbl-sample-age-gear-state). Expansion factors were calculated in a way such that large expansions would not occur and based on ideas first presented by Owen Hamel (pers. comm., NWFSC). First the expansion factor (Ek) was the total catch weight (Wk) divided by the sample weight (wk), and raised to 0.9 to account for non-homogeneity within a trip. Then, expansion factors greater than 300 were capped (100 for net fisheries) to reduce the influence of small samples (i.e., a few fish representing a large catch). The predicted total numbers at length or age weighted by landings for each state were added to create a coast-wide length frequency. The effective sample sizes of the state combined length frequencies were determined from the following formula, which has been used in previous Widow Rockfish assessments as well as other west coast groundfish assessments. -->
-
-
-<!-- | Fishery Samples                                  | Survey Samples                                   | -->
-<!-- | :----------------------------------------------- | :------------------------------------------------ | -->
-<!-- |  $\ N_{eff} = N_{sample} + 0.138N_{fish} , \frac{N_{fish}}{N_{sample}} < 44$ | $\ N_{eff} = N_{sample} + 0.0707N_{fish} , \frac{N_{fish}}{N_{sample}} < 55$ | -->
-<!-- |  $\ N_{eff} = 7.06N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 44$    | $\ N_{eff} = 4.89N_{sample} , \frac{N_{fish}}{N_{sample}} \geq 55$     | -->
-
-
-<!-- This is slightly different from the sample size of 2.43 per haul for rockfish that Stewart & Hamel (2014) report.  -->
-
-<!-- Observed lengths were expanded to the tow from At-Sea Hake Observer Program samples (ASHOP). Tows are typically well sampled, thus expansion factors were not modified from what was calculated. Hake fishery length compositions were created by combining shoreside and at-sea length compositions, weighting by the catch from each sector. The effective sample sizes for hake fishery length and age 9 comps were calculated using the above equations for the shoreside fleet and added to the number of tows sampled from the at-sea fleet.  -->
+@tbl-num-land-length shows the number of trips sampled and @tbl-len-gear-state shows the number of lengths taken for each year, gear, and fleet for non-hake fleets from the three states. @tbl-landings-hake shows these numbers for the shoreside and at-sea hake fisheries. Expanded length compositions for bottom trawl, midwater trawl, hake, net, and hook-and-line fleets are shown in @fig-lencomp-fleet1 to @fig-lencomp-fleet5. Age compositions for the five fleets are shown in @fig-agecomp-fleet1 and @fig-agecomp-fleet5. Occasional cohorts appear to move through the population, indicating that widow rockfish population dynamics may be characterized by episodic recruitment events.
 
 ### Discards
 
-Data on discards on widow rockfish are available from three different sources. Historical sources included [@pikitch_evaluation_1988] and Enhanced Data Collected Project (EDCP, Sampson 2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from [@pikitch_evaluation_1988]. Discard estimates are shown in @tbl-disc-totals and range from 463 to 1,847 mt. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
+```{r}
+#| include: false
 
-The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior.  
+disc<- read.csv(here::here("report", "tables", "discards.csv"))[["Discards"]]
 
-Discard length data for 2004-2023 was provided by WCGOP. In 2015 and 2019 assessments, these data were used to estimate retention curves for bottom trawl and hook-and-like fleets. WCGOP discard lengths from 2004-2017 are unchanged for the bottom trawl fleet, and new data are added for all consecutive years through 2023. 
+disc_min <- format(min(disc), big.mark = ",", scientific = FALSE)
+disc_max <- format(max(disc), big.mark = ",", scientific = FALSE)
 
-Major changes occurred only in the treatment of the hook-and-line discard data; discards from the hook-and-line fleet were combined with landings into the removals for this fleet. Discard lengths for the hook & line fleet provided by WCGOP this year were corrected to omit nearshore fixed gear fleets, which were included with the hook-and-line fleet in the previous benchmark and update assessments erroneously. This change resulted in changes to the discard length distribution and years for which data was available (@fig-disc-hnl-comparison). The hook-and-line removals comprised only approximately 0.2% of the total removals over the last twenty years (@tbl-all_removals), with discard being a small fraction of that. The biological samples of the discard amount are also scarce, with input sample sizes not exceeding 6 and averaging around 3 per year. With this limited data, the model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings. 
+```
 
-Discard length composition data became available this year for the midwater trawl fleet, but was not available for previous assessments. These newly available data for midwater fleets (hake, rockfish) beginning in 2016, were not included in this updated assessment as this would require major changes to the model structure which are beyond the scope of this update assessment but will need to be considered in the next full assessment.
+Data on discards of widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collection Project (EDCP, @sampson2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
 
-@fig-disccomps-pikitch shows discard sources and totals in metric tons for each year. Coefficients of variation (CV) are set to 5% for years/fleets with 100% observer coverage. Length compositions of the discards for the bottom trawl fleet can be seen in @fig-disccomps-wcgop.
+The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior. Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
+
+Discard length data for 2004-2023 was provided by WCGOP. In line with the 2015 and 2019 assessments, these data were used to estimate retention curves for bottom trawl and hook-and-like fleets. WCGOP discard lengths for the bottom trawl fleet from 2004-2017 are unchanged from the 2019 assessment, and new data were added for 2018-2023.
+
+Major changes occurred only in the treatment of the hook-and-line discard data. Previous assessments in 2015 and 2019 erroneously combined WCGOP length composition data for the hook-and-line fleet with data from nearshore fixed gear fleets (pot, net).The current assessment omitted these nearshore fixed gear data from the hook-and-line data in the model. This change resulted in changes to the discard length distribution and years for which data was available (@fig-disc-hnl-comparison). The hook-and-line removals comprised only approximately 0.2% of the total removals over the last twenty years (@tbl-all_removals), with discard being a small fraction of that. The biological samples of the discard amount are also scarce, with input sample sizes not exceeding 6 and averaging around 3 per year.  With this limited data, the model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard amounts to hook-and-line landings. 
+
+The commencement of trawl rationalization in 2011 led to 100% observer coverage for the bottom and midwater trawl fleets. As a result, coefficients of variation (CV) were fixed at 5% for observed discards. For years preceding this, CV were fixed at values used in the 2015 benchmark assessment @tbl-disc-totals. Length compositions of the discards for the bottom trawl fleet can be seen in @fig-disccomps-wcgop.
+
+Discard length composition data became available this year for the midwater trawl fleet, but was not available for previous assessments. These newly available data for midwater trawl fleets (hake, rockfish) beginning in 2016, were not included in this updated assessment as this would require major changes to the model structure which are beyond the scope of this update assessment but will need to be considered in the next full assessment.
 
 ### Biological data
 
-The approach to the estimation of all biological parameters was the same as in @adams_status_2019.
+The approach to the estimation of all biological parameters was the same as in the 2019 update assessment, @adams_status_2019.
 
 #### Weight-length relationship 
 
@@ -99,17 +88,31 @@ Weight-at-length data were updated for this assessment. Following the approach u
 
 The following relationships between weight and length for females and males were used in the current assessment:
 
-<!-- WCGOP data were not used because only small fish were sampled, the weight of these small fish were typically less than from other sources (Figure 30 - TBC), and the curves fitted to only WCGOP data were unable to estimate the slope. There were only 81 observations from the WCGOP data, which is a small amount of data compared to everything available. However, these observations may be useful to understand discards. -->
+```{r}
+#| include: false
 
-<!-- The weight-length relationship used in the 2011 assessment was similar for males but predicted slightly heavier females at larger sizes than the 2015 assessment (@fig-wl-fits). The following relationships between weight and length for females and males were estimated for the 2015 assessment from all of the data combined and were used in the current assessment: -->
+library(dplyr)
+lw_pars  <- read.csv(here::here("data_derived", "length_weight", "weight_length_estimates.csv"))
+
+f_lw <- c(
+  round(lw_pars|>filter(Source == "All", sex == "female")|>pull(A)*100000,4),
+  round(lw_pars|>filter(Source == "All", sex == "female")|>pull(B),4)
+)
+
+m_lw <- c(
+  round(lw_pars|>filter(Source == "All", sex == "male")|>pull(A)*100000,4),
+  round(lw_pars|>filter(Source == "All", sex == "male")|>pull(B),4)
+)
+
+```
 
 
 $$
-\text{Females: } \qquad weight = 1.7355 \times 10^{-5} \cdot Length^{2.9617}
+\text{Females: } \qquad weight = `r f_lw[[1]]` \times 10^{-5} \cdot length^{`r f_lw[[2]]`}
 $$
 
 $$
-\text{Males: } \qquad weight = 1.4824 \times 10^{-5} \cdot Length^{3.0047}
+\text{Males: } \qquad weight = `r m_lw[[1]]` \times 10^{-5} \cdot length^{`r m_lw[[2]]`}
 $$
 
 where weight is measured in kilograms and length in cm. These parameters were used in the assessment as fixed.
@@ -117,11 +120,11 @@ where weight is measured in kilograms and length in cm. These parameters were us
 
 #### Maturity schedule
 
-Maturity parameters in this update assessment were carried over from 2015 benchmark and 2019 update assessments. Please refer to @hicks_status_2015 for further details.
+Maturity parameters in this update assessment were carried over from 2015 benchmark and 2019 update assessments; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 #### Fecundity
 
-Fecundity parameters remain unchanged from previous assessment. Please refer to @hicks_status_2015 for further details.
+Fecundity is assumed proportional to the biomass of mature females, as was the case in the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019].
 
 #### Natural Mortality
 
@@ -133,7 +136,7 @@ Growth parameters were fully estimated within the assessment model, for females 
 
 #### Ageing bias and imprecision
 
-Ageing error matrices were unchanged from the previous assessment. Please refer to @hicks_status_2015 for details.
+Ageing error matrices were unchanged from the previous assessment; please refer to the most recent benchmark assessment [@hicks_status_2015] and most recent update assessment [@adams_status_2019] for information.
 
 ## Environmental and Ecosystem Data
 

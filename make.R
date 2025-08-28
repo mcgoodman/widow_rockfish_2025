@@ -1,4 +1,34 @@
 
+# Dependencies --------------------------------------------
+
+if (!require("remotes")) {
+  install.packages("remotes")
+  library("remotes")
+}
+
+# R packages and associated repositories
+pkgs <- list(
+  CRAN = c(
+    "tidyverse", "parallel", "future", "parallelly","future.apply", "here", "readxl", 
+    "magick", "data.table", "ggpubr", "cowplot", "flextable", "testthat", "tinytex"
+  ), 
+  GitHub = c(
+    "r4ss" = "r4ss/r4ss",
+    "pacfintools" = "pfmc-assessments/pacfintools",
+    "nwfscSurvey" = "pfmc-assessments/nwfscSurvey",
+    "nwfscDiag" = "pfmc-assessments/nwfscDiag",
+    "PEPtools" = "pfmc-assessments/PEPtools"
+  )
+)
+
+# Install packages from CRAN
+pkgs_cran_new <- pkgs$CRAN[!(pkgs$CRAN %in% installed.packages()[,"Package"])]
+if(length(pkgs_cran_new)) install.packages(pkgs_cran_new)
+
+# Install packages from GitHub
+pkgs_gh_new <- pkgs$GitHub[!(names(pkgs$GitHub) %in% installed.packages()[,"Package"])]
+if(length(pkgs_gh_new)) sapply(pkgs_gh_new, remotes::install_github)
+
 # Setup ---------------------------------------------------
 
 library("here")
@@ -7,7 +37,7 @@ library("quarto")
 
 # Toggles for running script types
 jobs <- list(
-  data = FALSE, # Process data
+  data = TRUE, # Process data
   models = TRUE, # Run bridging models
   diagnostics = TRUE, # Run diagnostics (jitters, sensitivities)
   report_plots = TRUE, # Build report plots and tables
@@ -28,7 +58,7 @@ skip_finished = FALSE # skip finished runs within scripts
 #' @param ... Additional arguments to `rstudioapi::jobRunScript`
 run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ...) {
   
-  job_id <- rstudioapi::jobRunScript(path, workingDir = workingDir, ...); Sys.sleep(10)
+  job_id <- rstudioapi::jobRunScript(path, workingDir = workingDir, importEnv = importEnv, ...); Sys.sleep(10)
   
   while(wait & rstudioapi::jobGetState(job_id) == "running") Sys.sleep(1)
   
@@ -43,13 +73,38 @@ run_job <- function(path, workingDir = here(), importEnv = TRUE, wait = TRUE, ..
 if (jobs$data) {
   
   run_job(
-    here("R", "catches.R"), # Runs
+    here("R", "data_length_weight.R"),
+    name = "length-weight parameters"
+  )
+  
+  run_job(
+    here("R", "data_ASHOP_composition.R"),
+    name = "process ASHOP comps"
+  )
+  
+  run_job(
+    here("R", "data_commercial_comps.R"),
+    name = "expand commercial comps"
+  )
+  
+  run_job(
+    here("R", "data_landings.R"),
     name = "process landings"
   )
   
   run_job(
-    here("R", "commercial_comps_clean_expand.R"), # Fails
-    name = "commerical comps"
+    here("R", "data_WCGOP_discards.R"),
+    name = "process WCGOP discards"
+  )
+  
+  run_job(
+    here("R", "data_discard_lengths.R"),
+    name = "process discard length comps"
+  )
+  
+  run_job(
+    here("R", "data_WCGBTS_comps.R"),
+    name = "process WCGBTS comps"
   )
   
 }
@@ -59,13 +114,13 @@ if (jobs$data) {
 if (jobs$models) {
   
   run_job(
-    here("R", "data_bridging.R"), # Runs
-    name = "data bridging"
+    here("R", "models_data_bridging.R"),
+    name = "model data bridging"
   )
   
   run_job(
-    here("R", "model_bridging.R"), # Runs
-    name = "model bridging"
+    here("R", "models_parameter_bridging.R"),
+    name = "model parameter bridging"
   )
   
 }
@@ -75,25 +130,18 @@ if (jobs$models) {
 if (jobs$diagnostics) {
   
   run_job(
-    here("R", "bridging_plots.R"), # Runs
-    name = "model bridging plots", 
-    wait = FALSE
-  )
-  
-  run_job(
-    here("R", "jitters.R"), # Runs
+    here("R", "diagnostics_jitters.R"),
     name = "jittering"
   )
   
   run_job(
-    here("R", "AllSensitivityRuns.R"), # Runs
-    name = "sensitivity runs",
-    wait = FALSE
+    here("R", "diagnostics_sensitivities.R"),
+    name = "sensitivity runs"
   )
   
   run_job(
-    here("R", "Model_diagnostics.R"), # Runs
-    name = "model diagnostics"
+    here("R", "diagnostics_profiles_retros.R"),
+    name = "likelihood profiles and retrospectives"
   )
   
 }
@@ -103,20 +151,30 @@ if (jobs$diagnostics) {
 if (jobs$report_plots) {
   
   run_job(
-    here("R", "decision_table.R"), # Fails
+    here("R", "plots_bridging.R"),
+    name = "model bridging plots"
+  )
+  
+  run_job(
+    here("R", "plots_report_figures_paneled.R"),
+    name = "paneled report figures"
+  )
+  
+  run_job(
+    here("R", "plots_age_length.R"),
+    name = "age / length composition plots"
+  )
+  
+  run_job(
+    here("R", "tables_decision.R"),
     name = "decision table"
   )
   
   run_job(
-    here("R", "report_tables.R"), # Runs
+    here("R", "tables_report.R"),
     name = "report tables"
   )
-  
-  run_job(
-    here("R", "report_figures_paneled.R"), # Runs
-    name = "paneled report figures"
-  )
-  
+
 }
 
 # Render report -------------------------------------------

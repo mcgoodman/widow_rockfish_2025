@@ -98,74 +98,16 @@ run_loo <- function(inputlist, dir, index = TRUE, lengths = TRUE, ages = TRUE, .
   }
 }
 
-table_sens <- function(file_csv,
-                       #  caption = "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model.",
-                       #  caption_extra = "",
-                       # label = "tbl-sens",
-                       sens_group = NULL,
-                       dir = file.path("..", "tables"),
-                       format = "latex") {
-  
-  conditional_color <- function(x) {
-    kableExtra::cell_spec(x,
-                          color = ifelse(is.na(x) | x >= 0, "black", "red"),
-                          format = format
-    )
-  }
-  if (!is.data.frame(file_csv)) {
-    file_csv <- utils::read.csv(file_csv, check.names = FALSE) 
-  }
-  data <- file_csv |>
-    dplyr::filter(!grepl("VonBert", Label)) |> # remove VonBert K to fit on page
-    dplyr::filter(!grepl("Forecast", Label)) |> # remove VonBert K to fit on page
-    dplyr::rename_with(~ gsub(" & ", "-", .x)) |>
-    table_convert_vals() |>
-    table_convert_offsets() |>
-    dplyr::filter(!grepl("NatM_break_2_Mal", Label)) |>
-    table_clean_labels()
-  
-  tt <- kableExtra::kbl(
-    data |>
-      dplyr::mutate_if(is.numeric, round, 3) |>
-      dplyr::mutate_if(is.numeric, conditional_color),
-    booktabs = TRUE, longtable = TRUE,
-    format = format, escape = FALSE,
-    digits = 3 # ,
-    # caption = caption,
-    # label = label
-  ) |> 
-    kableExtra::kable_styling(font_size = 9)
-  
-  # decrease column width for tables with lots of columns
-  if (NCOL(data) <= 7) {
-    tt <- tt |>
-      kableExtra::column_spec(3:NCOL(data), width = "5em")
-  }
-  if (NCOL(data) > 7) {
-    tt <- tt |>
-      kableExtra::column_spec(3:NCOL(data), width = "4em")
-  }
-  
-  # add subsection to improve readability
-  # needs to be customized for the quantities chosen
-  switch1 <- grep("Recruitment unfished", data[, 1])[1] # age X+ summary biomass is first derived quantity
-  switch2 <- grep("+ bio", data[, 1])[1] # age X+ summary biomass is first derived quantity
-  tt <- tt |>
-    kableExtra::pack_rows("Diff. in likelihood from base model", 1, switch1 - 1) |>
-    kableExtra::pack_rows("Estimates of key parameters", switch1, switch2 - 1) |>
-    kableExtra::pack_rows("Estimates of derived quantities", switch2, NROW(data))
-  return(tt)
-}
-
 base_dir <- here('models', '2025 base model')
 base_in <- SS_read(base_dir)
 base_out <- SS_output(base_dir)
 future::plan(future::multisession(workers = parallelly::availableCores(omit = 1)))
 run_loo(base_in, 'models/loo', exe = here('models', 'ss3.exe'), extras = '-nohess', skipfinished = FALSE, verbose = FALSE)
 
-loo_index <- SSgetoutput(dirvec = list.dirs('models/loo/indices')[-1]) |> # first element is just models/loo/indices
-  `names<-`(stringr::str_extract(string = list.dirs('models/loo/indices')[-1], 
-                                 pattern = '(?<=/indices/)[:alpha:]+')) |> # any number of letters preceded by /indices/
+loo_index <- SSgetoutput(dirvec = list.dirs('models/loo/indices')[-1], # first element is just models/loo/indices
+                         modelnames = stringr::str_extract(string = list.dirs('models/loo/indices')[-1], 
+                                                           pattern = '(?<=/indices/)[:alpha:]+')) |> 
+  # regular expression: any number of letters preceded by /indices/
   c(list(Base = base_out)) |> 
   SSsummarize() 
 
@@ -181,16 +123,18 @@ loo_ages <- SSgetoutput(dirvec = list.dirs('models/loo/ages')[-1]) |>
   c(list(Base = base_out)) |> 
   SSsummarize() 
 
-list(indices = SStableComparisons(loo_index, 
-                                  modelnames = head(names(loo_index$parphases), -1),
-                                  names = c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
-                                            "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027")),
-     ages = SStableComparisons(loo_ages, 
-                               modelnames = head(names(loo_ages$parphases), -1),
-                               names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
-                                        "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027")),
-     lengths = SStableComparisons(loo_lengths, 
-                                  modelnames = head(names(loo_lengths$parphases), -1),
-                                  names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
-                                           "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"))) |>
-  saveRDS('models/loo/loo_res.rds')
+SStableComparisons(loo_index, 
+                   names = c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
+                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
+                   likenames = c('TOTAL', 'Discard', 'Length_comp', 'Age_comp', 'priors')) |>
+  write.csv('models/loo/indices.csv', row.names = FALSE)
+SStableComparisons(loo_ages, 
+                   names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
+                            "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
+                   likenames = c('TOTAL', 'Survey', 'Discard', 'Length_comp', 'priors'))  |>
+  write.csv('models/loo/ages.csv', row.names = FALSE)
+SStableComparisons(loo_lengths, 
+                   names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
+                            "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
+                   likenames = c('TOTAL', 'Survey', 'Discard', 'Age_comp', 'priors')) |>
+  write.csv('models/loo/lengths.csv', row.names = FALSE)

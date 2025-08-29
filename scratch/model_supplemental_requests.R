@@ -647,7 +647,7 @@ output3 <- r4ss::SS_output(
 
 # plot the comparison of the two models
 r4ss::SSplotComparisons(
-    r4ss::SSsummarize(list(base_output, output)),
+    r4ss::SSsummarize(list(base_output, output3)),
     legendlabels = c(
         "August 2025 base model",
         "Remove H&L and Net length and age data, mirror selectivity of BottomTrawl"
@@ -660,7 +660,7 @@ r4ss::SSplotComparisons(
 )
 
 r4ss::SStableComparisons(
-    r4ss::SSsummarize(list(base_output, output1, output2)),
+    r4ss::SSsummarize(list(base_output, output3)),
     names = c(
         "NatM",
         "SSB_2025",

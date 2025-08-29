@@ -526,7 +526,9 @@ inputs <- base_inputs_start_values
 inputs$dir <- here::here(
     "models",
     "supplemental_requests",
-    "mirror_fixed_gear_selex"
+    # "mirror_fixed_gear_selex"
+    # "mirror_fixed_gear_selex_midwater_fixed_at_MLE"
+    "mirror_fixed_gear_selex_rephase"
 )
 
 # figure out which fleets are H&L and Net
@@ -585,6 +587,32 @@ inputs$dat$lencomp <- inputs$dat$lencomp |>
 inputs$dat$agecomp <- inputs$dat$agecomp |>
     dplyr::filter(!fleet %in% 4:5)
 
+# optionally fix the midwater trawl selectivity at MLE values
+inputs$ctl$size_selex_parms[
+    grepl("SizeSel_P_._MidwaterTrawl", rownames(inputs$ctl$size_selex_parms)),
+    "PHASE"
+] <- -1
+inputs$ctl$size_selex_parms_tv[
+    grepl(
+        "SizeSel_P_._MidwaterTrawl",
+        rownames(inputs$ctl$size_selex_parms_tv)
+    ),
+    "PHASE"
+] <- -1
+
+# fix the midwater trawl selectivity at MLE values (or estimate in a later phase)
+inputs$ctl$size_selex_parms[
+    grepl("SizeSel_P_._MidwaterTrawl", rownames(inputs$ctl$size_selex_parms)),
+    "PHASE"
+] <- 6
+inputs$ctl$size_selex_parms_tv[
+    grepl(
+        "SizeSel_P_._MidwaterTrawl",
+        rownames(inputs$ctl$size_selex_parms_tv)
+    ),
+    "PHASE"
+] <- 6
+
 # write files
 r4ss::SS_write(
     inputs,
@@ -597,9 +625,22 @@ r4ss::SS_write(
 r4ss::run(inputs$dir, extras = "-nohess", skipfinished = FALSE)
 
 # get output
-output <- r4ss::SS_output(
+output1 <- r4ss::SS_output(
     # inputs$dir,
     here::here("models", "supplemental_requests", "mirror_fixed_gear_selex"),
+    printstats = FALSE,
+    verbose = FALSE
+)
+# get output from midwater selectivity fixed at MLE
+output2 <- r4ss::SS_output(
+    here::here("models", "supplemental_requests", "mirror_fixed_gear_selex_midwater_fixed_at_MLE"),
+    printstats = FALSE,
+    verbose = FALSE
+)
+
+# get output from midwater selectivity starting at MLE and estimated in a later phase
+output3 <- r4ss::SS_output(
+    here::here("models", "supplemental_requests", "mirror_fixed_gear_selex_rephase"),
     printstats = FALSE,
     verbose = FALSE
 )
@@ -619,7 +660,7 @@ r4ss::SSplotComparisons(
 )
 
 r4ss::SStableComparisons(
-    r4ss::SSsummarize(list(base_output, output)),
+    r4ss::SSsummarize(list(base_output, output1, output2)),
     names = c(
         "NatM",
         "SSB_2025",

@@ -113,6 +113,29 @@ catch_st_flt_yr <- catch_cleaned |>
   summarize(landings_mt = sum(landings_mt), .groups = "drop") |> 
   tidyr::complete(year, state, fleet, fill = list(landings_mt = 0))
 
+# Plot proportion by state over time
+catch |> 
+  group_by(state, year) |> 
+  summarize(landings_mt = sum(landings_mt), .groups = "drop") |> 
+  group_by(year) |> 
+  mutate(prop_landings = landings_mt/sum(landings_mt)) |> 
+  mutate(state = ifelse(is.na(state), "at-sea hake", state)) |> 
+  filter(year >= 1980) |> 
+  ggplot(aes(year, prop_landings, fill = state)) + 
+  geom_area(stat = "identity", position = position_stack(), color = "white") + 
+  coord_cartesian(expand = FALSE, clip = "off") + 
+  scale_fill_viridis_d(option = "mako", direction = -1, end = 0.8, begin = 0.1) + 
+  geom_vline(xintercept = 2015, linetype = "dashed", color = "white") + 
+  scale_x_continuous(breaks = seq(1980, 2020, 5)) + 
+  theme(panel.border = element_rect(fill = NA, color = "black")) + 
+  scale_y_continuous(breaks = seq(0.1, 0.9, 0.1)) + 
+  labs(y = "proportion landings")
+
+ggsave(
+  here("figures", "current_catches", "proportion_catch_by_state.png"), 
+  height = 5, width = 10, units = "in", dpi = 500
+)
+
 ### Partition 1981-1999 Washington trawls -------------------------------------
 
 trawl_ratio <- catch_2015 |> 

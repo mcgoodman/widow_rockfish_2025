@@ -77,7 +77,6 @@ for (i in seq_len(nrow(strata))) {
 comps_strata <- do.call("rbind", comps_strata)
 
 # Proportion by age bins
-
 age_binned <- comps_strata |> 
   pivot_longer(starts_with("u"), names_to = "age", values_to = "comp", names_prefix = "u") |> 
   mutate(age = as.integer(age)) |> 

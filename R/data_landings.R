@@ -343,7 +343,7 @@ ggsave(
 
 wa_trawl_adj <- catch_2015 |> 
   bind_rows(catch_2015_hake) |> 
-  filter(state == "Washington" & grepl("trawl", fleet)) |>
+  filter(state == "Washington" & (fleet %in% c("bottom trawl", "midwater trawl", "hake"))) |>
   group_by(year) |> 
   mutate(landings_total = sum(landings_mt)) |> ungroup() |> 
   select(year, fleet, landings_mt, landings_total) |> 
@@ -378,7 +378,7 @@ ggsave(
 
 wa_nontrawl_adj <- catch_2015 |> 
   bind_rows(catch_2015_hake) |> 
-  filter(state == "Washington" & !grepl("trawl", fleet)) |>
+  filter(state == "Washington" & (fleet %in% c("net", "hook and line"))) |>
   group_by(year) |> 
   mutate(landings_total = sum(landings_mt)) |> ungroup() |> 
   dplyr::select(year, fleet, landings_mt, landings_total) |> 

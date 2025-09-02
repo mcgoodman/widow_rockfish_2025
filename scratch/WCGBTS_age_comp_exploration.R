@@ -2,6 +2,9 @@
 library("tidyverse")
 library("nwfscSurvey")
 library("modi")
+library("here")
+
+dir.create(fig_dir <- here("scratch", "wcgbts_agecomp"))
 
 catch = pull_catch(common_name = "widow rockfish", survey = "NWFSC.Combo")
 
@@ -73,9 +76,7 @@ for (i in seq_len(nrow(strata))) {
 
 comps_strata <- do.call("rbind", comps_strata)
 
-
 # Proportion by age bins
-
 age_binned <- comps_strata |> 
   pivot_longer(starts_with("u"), names_to = "age", values_to = "comp", names_prefix = "u") |> 
   mutate(age = as.integer(age)) |> 
@@ -109,7 +110,7 @@ age_binned |>
   labs(y = "% age composition", fill = "age bin") + 
   coord_cartesian(expand = FALSE)
 
-ggsave("~/Downloads/WCGBTS_age_binned.png", height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)
+ggsave(file.path(fig_dir, "WCGBTS_age_binned.png"), height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)
 
 # Compute mean age and age quantiles by state and year
 
@@ -137,7 +138,7 @@ age_stats |>
   labs(y = "age (WCGBTS)", color = "statistic") + 
   scale_color_viridis_d(option = "mako", end = 0.8)
 
-ggsave("~/Downloads/WCGBTS_age_quantiles_loess.png", height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)
+ggsave(file.path(fig_dir, "WCGBTS_age_quantiles_loess.png"), height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)
 
 age_stats |> 
   ggplot(aes(year, age, color = statistic)) + 
@@ -151,4 +152,4 @@ age_stats |>
   labs(y = "age (WCGBTS)", color = "statistic") + 
   scale_color_viridis_d(option = "mako", end = 0.8)
 
-ggsave("~/Downloads/WCGBTS_age_quantiles_linear.png", height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)
+ggsave(file.path(fig_dir, "WCGBTS_age_quantiles_linear.png"), height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)

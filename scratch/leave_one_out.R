@@ -98,7 +98,7 @@ run_loo <- function(inputlist, dir, index = TRUE, lengths = TRUE, ages = TRUE, .
   }
 }
 
-base_dir <- here('models', '2025 base model')
+base_dir <- here('models', 'supplemental_requests', 'Aug2025_base_model_cleaned_ss_new_remove_HnL_retention')
 base_in <- SS_read(base_dir)
 base_out <- SS_output(base_dir)
 future::plan(future::multisession(workers = parallelly::availableCores(omit = 1)))
@@ -123,19 +123,49 @@ loo_ages <- SSgetoutput(dirvec = list.dirs('models/loo/ages')[-1]) |>
   c(list(Base = base_out)) |> 
   SSsummarize() 
 
+SSplotComparisons(loo_index, subplots = c(1,3), new = FALSE)
 SStableComparisons(loo_index, 
                    names = c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                              "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
                    likenames = NULL) |>
-  knitr::kable(digits = 3)
-  write.csv('models/loo/indices.csv', row.names = FALSE)
+  knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
+
+SSplotComparisons(loo_ages, subplots = c(1,3), new = FALSE)
 SStableComparisons(loo_ages, 
                    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
                    likenames = NULL)  |>
-  write.csv('models/loo/ages.csv', row.names = FALSE)
+  knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
+
+SSplotComparisons(loo_ages, subplots = c(1,3), new = FALSE)
 SStableComparisons(loo_lengths, 
                    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
                    likenames = NULL) |>
-  write.csv('models/loo/lengths.csv', row.names = FALSE)
+  knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
+
+remove_age_yrs <- function(inputlist, flt, yr, dir, ...) {
+  new_mod <- inputlist
+  new_mod$dat$agecomp <- inputlist$dat$agecomp |>
+    mutate(fleet = ifelse(fleet == flt & year >= yr, -1 * fleet, fleet))
+  
+  SS_write(new_mod, dir = file.path(dir, yr), overwrite = TRUE)
+  run(file.path(dir, yr), ...)
+}
+
+furrr::future_walk(2019:2024, remove_age_yrs, inputlist = base_in, flt = 8, dir = 'models/loo/wcgbts_by_yr',
+                   exe = here('models', 'ss3.exe'), extras = '-nohess', skipfinished = FALSE, verbose = FALSE)
+
+furrr::future_walk(2019:2024, remove_age_yrs, inputlist = base_in, flt = 2, dir = 'models/loo/midwater_by_yr',
+                   exe = here('models', 'ss3.exe'), extras = '-nohess', skipfinished = FALSE, verbose = FALSE)
+
+lfo_wcgbts <- SSgetoutput(dirvec = list.dirs('models/loo/wcgbts_by_yr')[-1], modelnames = as.character(2019:2024)) |> 
+  c(list(Base = base_out)) |> 
+  SSsummarize() 
+
+lfo_midwater <- SSgetoutput(dirvec = list.dirs('models/loo/midwater_by_yr')[-1], modelnames = as.character(2019:2024)) |> 
+  c(list(Base = base_out)) |> 
+  SSsummarize() 
+
+SSplotComparisons(lfo_wcgbts, subplots = c(1,3,19), new = FALSE)
+SSplotComparisons(lfo_midwater, subplots = c(1,3,19), new = FALSE)

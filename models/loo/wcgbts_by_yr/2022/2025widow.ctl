@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-09-04  10:15:59
+#C file write time: 2025-09-04  17:32:19
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -61,7 +61,7 @@
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
  0.01	     0.3	   0.122306	 -2.3	0.31	3	  5	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
    10	      40	    20.6577	   27	  99	0	  3	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
-   35	      60	    49.4919	   50	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
+   35	      60	    49.4918	   50	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
  0.01	     0.4	   0.181125	 0.15	  99	0	  2	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
  0.01	     0.4	   0.115621	 0.07	  99	0	  3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1  
  0.01	     0.4	  0.0480224	 0.04	  99	0	  3	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1    
@@ -142,21 +142,21 @@
 #_Q_parms(if_any);Qunits_are_ln(q)
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name
 -25	25	-5.98424	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_BottomTrawl(1)  
-  0	 2	0.163403	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_BottomTrawl(1) 
+  0	 2	0.163399	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_BottomTrawl(1) 
 -20	 2	-11.1104	0	99	0	 1	0	0	0	0	0	10	1	#_LnQ_base_Hake(3)         
-  0	 2	 0.37122	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_Hake(3)        
--25	25	-4.86424	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_JuvSurvey(6)    
-  0	 2	 1.25019	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_JuvSurvey(6)   
- -4	 4	-2.04354	0	99	0	 2	0	0	0	0	0	 9	1	#_LnQ_base_Triennial(7)    
+  0	 2	0.371218	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_Hake(3)        
+-25	25	-4.86425	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_JuvSurvey(6)    
+  0	 2	 1.25018	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_JuvSurvey(6)   
+ -4	 4	-2.04353	0	99	0	 2	0	0	0	0	0	 9	1	#_LnQ_base_Triennial(7)    
   0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_Triennial(7)   
--25	25	 -3.4694	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_WCGBTS(8)       
+-25	25	-3.46941	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_WCGBTS(8)       
   0	 2	       0	0	99	0	-2	0	0	0	0	0	 0	0	#_Q_extraSD_WCGBTS(8)      
 -25	25	-11.4283	0	 1	0	-1	0	0	0	0	0	 0	0	#_LnQ_base_ForeignAtSea(9) 
   0	 2	0.578482	0	99	0	 2	0	0	0	0	0	 0	0	#_Q_extraSD_ForeignAtSea(9)
 # timevary Q parameters
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
-1e-04	2	0.463502	0.5	0.5	6	3	#_LnQ_base_Hake(3)_BLK10add_1991    
-1e-04	2	0.153881	0.5	0.5	6	3	#_LnQ_base_Triennial(7)_BLK9add_1995
+1e-04	2	0.463501	0.5	0.5	6	3	#_LnQ_base_Hake(3)_BLK10add_1991    
+1e-04	2	0.153883	0.5	0.5	6	3	#_LnQ_base_Triennial(7)_BLK9add_1995
 # info on dev vectors created for Q parms are reported with other devs after tag parameter section
 #
 #_size_selex_patterns
@@ -165,7 +165,7 @@
 24	1	0	0	#_2 MidwaterTrawl
 24	0	0	0	#_3 Hake         
 24	0	0	0	#_4 Net          
-24	1	0	0	#_5 HnL          
+24	0	0	0	#_5 HnL          
  0	0	0	0	#_6 JuvSurvey    
 27	0	0	3	#_7 Triennial    
 27	0	0	3	#_8 WCGBTS       
@@ -185,66 +185,62 @@
 #
 #_SizeSelex
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name
-    10	59	    43.475	 45	0.05	0	  1	0	0	0	0	0.5	 4	2	#_SizeSel_P_1_BottomTrawl(1)        
-    -5	10	  -1.80319	  5	0.05	0	  3	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_BottomTrawl(1)        
-    -4	12	    4.5978	  3	0.05	0	  2	0	0	0	0	0.5	 4	2	#_SizeSel_P_3_BottomTrawl(1)        
+    10	59	    43.475	 45	0.05	0	  4	0	0	0	0	0.5	 4	2	#_SizeSel_P_1_BottomTrawl(1)        
+    -5	10	  -1.78864	  5	0.05	0	  6	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_BottomTrawl(1)        
+    -4	12	    4.5978	  3	0.05	0	  5	0	0	0	0	0.5	 4	2	#_SizeSel_P_3_BottomTrawl(1)        
     -2	10	         9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_BottomTrawl(1)        
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_BottomTrawl(1)        
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_BottomTrawl(1)        
-    -5	60	   3.63825	  0	  99	0	  4	0	0	0	0	  0	 2	2	#_SizeSel_PRet_1_BottomTrawl(1)     
-  0.01	 8	  0.946652	  1	  99	0	  4	0	0	0	0	  0	 2	2	#_SizeSel_PRet_2_BottomTrawl(1)     
+    -5	60	   3.66226	  0	  99	0	  7	0	0	0	0	  0	 2	2	#_SizeSel_PRet_1_BottomTrawl(1)     
+  0.01	 8	  0.943978	  1	  99	0	  7	0	0	0	0	  0	 2	2	#_SizeSel_PRet_2_BottomTrawl(1)     
    -10	10	   4.59512	 10	  99	0	 -2	0	0	0	0	  0	 1	2	#_SizeSel_PRet_3_BottomTrawl(1)     
    -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_BottomTrawl(1)     
-    10	59	   36.9438	 45	0.05	0	  1	0	0	0	0	0.5	 7	2	#_SizeSel_P_1_MidwaterTrawl(2)      
-   -10	10	   -9.4266	  5	0.05	0	  3	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_MidwaterTrawl(2)      
-    -4	12	   2.86134	  3	0.05	0	  2	0	0	0	0	0.5	 7	2	#_SizeSel_P_3_MidwaterTrawl(2)      
-    -2	10	   3.92888	 10	0.05	0	  4	0	0	0	0	0.5	 7	2	#_SizeSel_P_4_MidwaterTrawl(2)      
+    10	59	   36.9438	 45	0.05	0	  4	0	0	0	0	0.5	 7	2	#_SizeSel_P_1_MidwaterTrawl(2)      
+   -10	10	  -9.42776	  5	0.05	0	  6	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_MidwaterTrawl(2)      
+    -4	12	   2.86133	  3	0.05	0	  5	0	0	0	0	0.5	 7	2	#_SizeSel_P_3_MidwaterTrawl(2)      
+    -2	10	   3.92888	 10	0.05	0	  7	0	0	0	0	0.5	 7	2	#_SizeSel_P_4_MidwaterTrawl(2)      
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_MidwaterTrawl(2)      
-    -9	 9	   -1.3053	0.5	0.05	0	  4	0	0	0	0	0.5	 7	2	#_SizeSel_P_6_MidwaterTrawl(2)      
+    -9	 9	   -1.3053	0.5	0.05	0	  7	0	0	0	0	0.5	 7	2	#_SizeSel_P_6_MidwaterTrawl(2)      
     -5	60	        -5	  0	  99	0	 -9	0	0	0	0	  0	 0	0	#_SizeSel_PRet_1_MidwaterTrawl(2)   
   0.01	 8	       1.2	  1	  99	0	 -9	0	0	0	0	  0	 0	0	#_SizeSel_PRet_2_MidwaterTrawl(2)   
-   -10	10	   5.76562	 10	  99	0	  2	0	0	0	0	  0	12	2	#_SizeSel_PRet_3_MidwaterTrawl(2)   
+   -10	10	   5.76562	 10	  99	0	  5	0	0	0	0	  0	12	2	#_SizeSel_PRet_3_MidwaterTrawl(2)   
    -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_MidwaterTrawl(2)   
-    10	59	   33.4722	 45	0.05	0	  1	0	0	0	0	0.5	11	2	#_SizeSel_P_1_Hake(3)               
-    -5	10	  -2.01891	  5	0.05	0	  3	0	0	0	0	0.5	11	2	#_SizeSel_P_2_Hake(3)               
-    -4	12	   2.07545	  3	0.05	0	  2	0	0	0	0	0.5	11	2	#_SizeSel_P_3_Hake(3)               
+    10	59	   33.4722	 45	0.05	0	  4	0	0	0	0	0.5	11	2	#_SizeSel_P_1_Hake(3)               
+    -5	10	  -1.93809	  5	0.05	0	  6	0	0	0	0	0.5	11	2	#_SizeSel_P_2_Hake(3)               
+    -4	12	   2.07546	  3	0.05	0	  5	0	0	0	0	0.5	11	2	#_SizeSel_P_3_Hake(3)               
     -2	10	         9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_Hake(3)               
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_Hake(3)               
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_Hake(3)               
-    10	59	   42.6264	 45	0.05	0	  1	0	0	0	0	0.5	 0	0	#_SizeSel_P_1_Net(4)                
-    -5	10	   2.29204	  5	0.05	0	  3	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_Net(4)                
-    -4	12	   3.56161	  3	0.05	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_P_3_Net(4)                
+    10	59	   42.6264	 45	0.05	0	  4	0	0	0	0	0.5	 0	0	#_SizeSel_P_1_Net(4)                
+    -5	10	   2.40492	  5	0.05	0	  6	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_Net(4)                
+    -4	12	   3.56162	  3	0.05	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_P_3_Net(4)                
     -2	10	         9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_Net(4)                
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_Net(4)                
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_Net(4)                
-    10	59	   23.4175	 45	0.05	0	  5	0	0	0	0	0.5	 5	2	#_SizeSel_P_1_HnL(5)                
-    -5	10	   2.55128	  5	0.05	0	  3	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_HnL(5)                
+    10	59	   23.4175	 45	0.05	0	  8	0	0	0	0	0.5	 5	2	#_SizeSel_P_1_HnL(5)                
+    -5	10	   2.52573	  5	0.05	0	  6	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_HnL(5)                
     -5	12	        -5	  3	0.05	0	 -2	0	0	0	0	0.5	 5	2	#_SizeSel_P_3_HnL(5)                
     -2	10	         9	 10	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_4_HnL(5)                
     -9	10	        -9	0.5	0.05	0	 -3	0	0	0	0	0.5	 0	0	#_SizeSel_P_5_HnL(5)                
     -9	 9	         8	0.5	0.05	0	 -4	0	0	0	0	0.5	 0	0	#_SizeSel_P_6_HnL(5)                
-    -5	60	   16.1776	  0	  99	0	  2	0	0	0	0	  0	 3	2	#_SizeSel_PRet_1_HnL(5)             
-  0.01	 8	   2.64716	  1	  99	0	  3	0	0	0	0	  0	 3	2	#_SizeSel_PRet_2_HnL(5)             
-   -10	15	   7.43741	 10	  99	0	  1	0	0	0	0	  0	 3	2	#_SizeSel_PRet_3_HnL(5)             
-   -10	10	         0	  0	  99	0	-99	0	0	0	0	  0	 0	0	#_SizeSel_PRet_4_HnL(5)             
      0	 2	         0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_Triennial(7)  
--0.001	 1	  0.118711	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_Triennial(7)
-    -1	 1	 0.0395709	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_Triennial(7)
+-0.001	 1	  0.118709	  0	   0	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_Triennial(7)
+    -1	 1	 0.0395725	  0	   0	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_Triennial(7)
      8	56	        24	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_1_Triennial(7)
      8	56	        34	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_2_Triennial(7)
      8	56	        48	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_3_Triennial(7)
-   -10	10	  -1.82325	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_Triennial(7)  
+   -10	10	  -1.82324	-10	  99	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_Triennial(7)  
    -10	10	        -1	-10	  99	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_Triennial(7)  
-   -10	10	  0.448466	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_Triennial(7)  
+   -10	10	  0.448477	-10	  99	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_Triennial(7)  
      0	 2	         0	  0	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Code_WCGBTS(8)     
--0.001	 1	   0.46773	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_WCGBTS(8)   
-    -1	 1	 -0.100002	  0	   0	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_WCGBTS(8)   
+-0.001	 1	   0.46773	  0	   0	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradLo_WCGBTS(8)   
+    -1	 1	 -0.100001	  0	   0	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_GradHi_WCGBTS(8)   
      8	56	        24	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_1_WCGBTS(8)   
      8	56	        34	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_2_WCGBTS(8)   
      8	56	        48	-10	   0	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spline_Knot_3_WCGBTS(8)   
-   -10	10	  -2.22974	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_WCGBTS(8)     
+   -10	10	  -2.22974	-10	  99	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_1_WCGBTS(8)     
    -10	10	        -1	-10	  99	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_2_WCGBTS(8)     
-   -10	10	-0.0895604	-10	  99	0	  2	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_WCGBTS(8)     
+   -10	10	-0.0895607	-10	  99	0	  5	0	0	0	0	0.5	 0	0	#_SizeSel_Spine_Val_3_WCGBTS(8)     
     -2	60	         1	  0	 0.2	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_P_1_ForeignAtSea(9)       
     -2	60	        -1	  0	 0.2	0	-99	0	0	0	0	0.5	 0	0	#_SizeSel_P_2_ForeignAtSea(9)       
 #_AgeSelex
@@ -256,37 +252,34 @@
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
   10	59	  38.9965	 45	0.05	0	 1	#_SizeSel_P_1_BottomTrawl(1)_BLK4repl_1916      
   -4	12	  3.43277	  3	0.05	0	 2	#_SizeSel_P_3_BottomTrawl(1)_BLK4repl_1916      
-  -5	50	  27.2082	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1982   
-  -5	50	  27.4945	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1990   
-0.01	 5	 0.967365	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1982   
-0.01	 5	  1.82725	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1990   
+  -5	50	  27.2081	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1982   
+  -5	50	  27.4946	 34	  99	0	 3	#_SizeSel_PRet_1_BottomTrawl(1)_BLK2repl_1990   
+0.01	 5	 0.967253	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1982   
+0.01	 5	  1.82726	  1	  99	0	 3	#_SizeSel_PRet_2_BottomTrawl(1)_BLK2repl_1990   
  -10	10	  1.71027	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1982   
- -10	10	 0.763769	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1990   
+ -10	10	 0.763767	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1990   
  -10	10	 0.105131	 10	  99	0	 2	#_SizeSel_PRet_3_BottomTrawl(1)_BLK1repl_1998   
   10	59	  38.6608	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1916    
-  10	59	  38.0012	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1983    
+  10	59	  38.0013	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_1983    
   10	59	  37.3779	 45	0.05	0	 1	#_SizeSel_P_1_MidwaterTrawl(2)_BLK7repl_2002    
-  -4	12	  3.36759	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1916    
-  -4	12	   3.0767	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1983    
-  -4	12	  2.78975	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002    
-  -2	10	   4.2501	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916    
-  -2	10	  3.07436	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983    
-  -2	10	 -1.38611	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002    
-  -9	 9	 -1.96901	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916    
-  -9	 9	-0.423968	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983    
-  -9	 9	  1.63209	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002    
+  -4	12	  3.36758	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1916    
+  -4	12	  3.07671	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_1983    
+  -4	12	  2.78977	  3	0.05	0	 2	#_SizeSel_P_3_MidwaterTrawl(2)_BLK7repl_2002    
+  -2	10	  4.25012	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1916    
+  -2	10	  3.07429	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_1983    
+  -2	10	 -1.38657	 10	0.05	0	 4	#_SizeSel_P_4_MidwaterTrawl(2)_BLK7repl_2002    
+  -9	 9	 -1.96906	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1916    
+  -9	 9	-0.423937	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_1983    
+  -9	 9	  1.63207	0.5	0.05	0	 4	#_SizeSel_P_6_MidwaterTrawl(2)_BLK7repl_2002    
  -10	10	   4.5912	 10	  99	0	-2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_1916
  -10	10	  1.65702	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_1983
  -10	10	  1.85387	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_2002
  -10	10	  8.94664	 10	  99	0	 2	#_SizeSel_PRet_3_MidwaterTrawl(2)_BLK12repl_2011
   10	59	  42.7232	 45	0.05	0	 1	#_SizeSel_P_1_Hake(3)_BLK11repl_1916            
-  -5	10	  2.34066	  5	0.05	0	 3	#_SizeSel_P_2_Hake(3)_BLK11repl_1916            
+  -5	10	   2.4242	  5	0.05	0	 3	#_SizeSel_P_2_Hake(3)_BLK11repl_1916            
   -4	12	   3.7083	  3	0.05	0	 2	#_SizeSel_P_3_Hake(3)_BLK11repl_1916            
-  15	59	  37.2391	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916              
-  -4	12	   3.7505	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916              
-  -5	50	       -5	 34	  99	0	-2	#_SizeSel_PRet_1_HnL(5)_BLK3repl_1916           
- 0.1	 8	      1.2	  1	  99	0	-3	#_SizeSel_PRet_2_HnL(5)_BLK3repl_1916           
- -10	10	   4.5912	 10	  99	0	-3	#_SizeSel_PRet_3_HnL(5)_BLK3repl_1916           
+  15	59	  37.2392	 45	0.05	0	 1	#_SizeSel_P_1_HnL(5)_BLK5repl_1916              
+  -4	12	  3.75054	  3	0.05	0	 2	#_SizeSel_P_3_HnL(5)_BLK5repl_1916              
 # info on dev vectors created for selex parms are reported with other devs after tag parameter section
 #
 0 #  use 2D_AR1 selectivity(0/1):  experimental feature

@@ -126,15 +126,16 @@ loo_ages <- SSgetoutput(dirvec = list.dirs('models/loo/ages')[-1]) |>
 SStableComparisons(loo_index, 
                    names = c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                              "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
-                   likenames = c('TOTAL', 'Discard', 'Length_comp', 'Age_comp', 'priors')) |>
+                   likenames = NULL) |>
+  knitr::kable(digits = 3)
   write.csv('models/loo/indices.csv', row.names = FALSE)
 SStableComparisons(loo_ages, 
                    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
-                   likenames = c('TOTAL', 'Survey', 'Discard', 'Length_comp', 'priors'))  |>
+                   likenames = NULL)  |>
   write.csv('models/loo/ages.csv', row.names = FALSE)
 SStableComparisons(loo_lengths, 
                    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
-                   likenames = c('TOTAL', 'Survey', 'Discard', 'Age_comp', 'priors')) |>
+                   likenames = NULL) |>
   write.csv('models/loo/lengths.csv', row.names = FALSE)

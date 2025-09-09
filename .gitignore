@@ -25,7 +25,20 @@ renv/
 admodel.cov
 admodel.dep
 admodel.hes
-*.sso
+# *.sso # excluded report files, replaced with more specific excludes below
+checkup.sso
+covar.sso
+CumReport.sso
+derived_posteriors.sso
+echoinput.sso
+ParmTrace.sso
+posterior_obj_func.sso
+posterior_vectors.sso
+posteriors.sso
+rebuild.sso
+SIS_table.sso
+data_boot*
+data_expval*
 *.ss_new
 *.tmp
 console.output.txt
@@ -62,6 +75,9 @@ runnumber.ss
 
 # Whitelist par file from best jitter
 !models/jitters/ss3.par_best.sso
+# skip some models that were dead ends
+models/supplemental_requests/mirror_fixed_gear_selex_midwater_fixed_at_MLE/
+models/supplemental_requests/mirror_fixed_gear_selex/
 
 # Intermediate rendering output from report
 report/*.html

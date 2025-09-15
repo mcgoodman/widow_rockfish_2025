@@ -1,0 +1,6 @@
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 1 Adjustment: Adjusted selparm out of base parm bounds. Phase: 1; Inter: 1; fleet: 11; base_parm#: 45; y: 1982; min: 10; max: 59; base: 43.475 timevary_val: 86.95  Size_DblN_peak_BT_discard(11)
+Warning 2 Adjustment: Adjusted selparm out of base parm bounds. Phase: 1; Inter: 1; fleet: 11; base_parm#: 48; y: 1982; min: -4; max: 10; base: 9 timevary_val: 18  Size_DblN_descend_se_BT_discard(11)
+Warning 3 : 1st iteration warning: ssb(endyr)/ssb(styr)= 2.99428e-06; suggest start with larger R0 to get near 0.4; or use depletion fleet option
+Warning 4 : Reminder: Number of lambdas !=0.0 and !=1.0:  8
+ 4 warnings  and 1 note 

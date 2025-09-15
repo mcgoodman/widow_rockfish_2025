@@ -5,12 +5,12 @@ require(dplyr)
 
 # pull new GEMM data from warehouse
 if (FALSE) {
-    # allow pull_gemm() to work on Ian's computer using stuff from the following:
-    # https://github.com/pfmc-assessments/nwfscSurvey/issues/165
-    # https://github.com/HenrikBengtsson/startup/blob/develop/R/is_radian.R
-    if (nzchar(Sys.getenv("RADIAN_VERSION"))) {
-        Sys.setlocale("LC_ALL", Sys.getenv("LANG"))
-    }
+    # # allow pull_gemm() to work on Ian's computer using stuff from the following:
+    # # https://github.com/pfmc-assessments/nwfscSurvey/issues/165
+    # # https://github.com/HenrikBengtsson/startup/blob/develop/R/is_radian.R
+    # if (nzchar(Sys.getenv("RADIAN_VERSION"))) {
+    #     Sys.setlocale("LC_ALL", Sys.getenv("LANG"))
+    # }
     # run function to extract GEMM table
     gemm <- nwfscSurvey::pull_gemm(
         common_name = "Widow Rockfish",
@@ -18,7 +18,7 @@ if (FALSE) {
     )
 } else {
     # load previously extracted GEMM table (saved as variable "gemm")
-    load("Data/Processed/gemm_Widow_Rockfish.rdata")
+    load("data_provided/wcgop/gemm_Widow_Rockfish.rdata")
 }
 
 # summarize catch by sector across all years
@@ -98,6 +98,22 @@ gemm |>
 #  9 Nearshore                      6.00    1.93         1.45
 # 10 LE Sablefish - Hook & Line     1.39    1.32         1.32
 
+# sectors prior to catch shares
+gemm |>
+    dplyr::filter(year < 2011) |> 
+    dplyr::group_by(sector) |>
+    dplyr::summarize(
+        catch = sum(total_landings_mt, na.rm = TRUE),
+        discard = sum(total_discard_mt, na.rm = TRUE),
+        dead_discard = sum(
+            total_discard_with_mort_rates_applied_mt,
+            na.rm = TRUE
+        )
+    ) |>
+    dplyr::arrange(desc(dead_discard)) |>
+    print(n = 10)
+# TODO: figure out how to split Limited Entry Trawl < 2011 into midwater
+
 # group by fleet
 gemm2 <- gemm |>
     dplyr::mutate(
@@ -158,7 +174,7 @@ gemm_discards <- gemm2 |>
     dplyr::group_by(year, fleet) |>
     dplyr::summarize(catch = sum(total_discard_with_mort_rates_applied_mt))
 saveRDS(
-    dead_discards,
+    gemm_discards,
     file = "data_derived/discards/gemm_discards_by_fleet.rds"
 )
 

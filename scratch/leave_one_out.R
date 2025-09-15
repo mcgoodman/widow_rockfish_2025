@@ -153,13 +153,13 @@ remove_age_yrs <- function(inputlist, flt, yr, dir, ...) {
   run(file.path(dir, yr), ...)
 }
 
-furrr::future_walk(2019:2024, remove_age_yrs, inputlist = base_in, flt = 8, dir = 'models/loo/wcgbts_by_yr',
+furrr::future_walk(c(2019, 2021:2024), remove_age_yrs, inputlist = base_in, flt = 8, dir = 'models/loo/wcgbts_by_yr',
                    exe = here('models', 'ss3.exe'), extras = '-nohess', skipfinished = FALSE, verbose = FALSE)
 
 furrr::future_walk(2019:2024, remove_age_yrs, inputlist = base_in, flt = 2, dir = 'models/loo/midwater_by_yr',
                    exe = here('models', 'ss3.exe'), extras = '-nohess', skipfinished = FALSE, verbose = FALSE)
 
-lfo_wcgbts <- SSgetoutput(dirvec = list.dirs('models/loo/wcgbts_by_yr')[-1], modelnames = as.character(2019:2024)) |> 
+lfo_wcgbts <- SSgetoutput(dirvec = list.dirs('models/loo/wcgbts_by_yr')[-1], modelnames = as.character(c(2019, 2021:2024))) |> 
   c(list(Base = base_out)) |> 
   SSsummarize() 
 
@@ -169,3 +169,20 @@ lfo_midwater <- SSgetoutput(dirvec = list.dirs('models/loo/midwater_by_yr')[-1],
 
 SSplotComparisons(lfo_wcgbts, subplots = c(1,3,19), new = FALSE)
 SSplotComparisons(lfo_midwater, subplots = c(1,3,19), new = FALSE)
+
+SStableComparisons(lfo_wcgbts,
+                   names =c("Recr_Virgin", "R0", "NatM", "SSB_Virg",
+                            "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
+                   likenames = NULL) |>
+  knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
+
+SStableComparisons(lfo_midwater,
+                   names =c("Recr_Virgin", "R0", "NatM", "SSB_Virg",
+                            "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
+                   likenames = NULL) |>
+  knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
+mod_out <- SS_output('models/loo/ages/wcgbts')
+SS_plots(mod_out)
+
+mod_out <- SS_output('models/loo/ages/MidwaterTrawl')
+SS_plots(mod_out)

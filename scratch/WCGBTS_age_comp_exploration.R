@@ -153,3 +153,110 @@ age_stats |>
   scale_color_viridis_d(option = "mako", end = 0.8)
 
 ggsave(file.path(fig_dir, "WCGBTS_age_quantiles_linear.png"), height = 6, width = 6, units = "in", dpi = 500, scale = 1.2)
+
+
+# repeat binning above using unexpanded ages
+age_binned_raw <- bio |>
+    filter(!is.na(Age)) |>
+    mutate(
+        Age = ifelse(Age > 40, 40, Age), # plus group at 40
+        age_bin = floor(Age / 5) * 5,
+        age_label = factor(paste0(age_bin, "+"), paste0(seq(0, 40, 5), "+"))
+    ) |>
+    rename(year = Year) |>
+    group_by(year, age_bin, age_label) |>
+    summarize(n = n()) |>
+    group_by(year) |>
+    mutate(prop = n / sum(n))
+
+age_binned_raw |>
+    filter(age_bin >= 15) |>
+    ggplot(aes(year, prop, fill = age_label)) +
+    geom_bar(stat = "identity", position = "stack") +
+    scale_fill_viridis_d(option = "mako", end = 0.9, direction = -1) +
+    theme_bw() +
+    theme(
+        strip.background = element_blank(),
+        strip.text = element_text(hjust = 0)
+    ) +
+    labs(y = "fraction of age composition", fill = "age bin") +
+    scale_y_continuous(labels = function(x) sprintf("%.1f", x), limits = c(0, 0.55)) +
+    scale_x_continuous(breaks = seq(min(age_binned_raw$year), max(age_binned_raw$year), by = 2)) +
+    coord_cartesian(expand = FALSE, clip = "off") +
+    annotate(
+        "rect",
+        xmin = 2018.5, xmax = 2024.5,
+        ymin = -Inf, ymax = Inf,
+        alpha = 0,
+        color = "red", linewidth = 1
+    ) +
+    annotate(
+        "text",
+        x = 2019, y = 0.5,
+        label = "new data\nin 2025\nassessment",
+        size = 3, hjust = 0,
+        color = "red"
+    )
+
+ggsave(
+    file.path(fig_dir, "age_binned_raw_coastwide_WCGBTS.png"),
+    height = 4,
+    width = 5,
+    units = "in",
+    dpi = 300,
+    scale = 1.2
+)
+
+
+# same plot as above but with PacFIN bds data
+# (relies on lines 1 to 102 in R/data_commercial_comps.R)
+age_binned_raw_midwater <- bds_cleaned |>
+    filter(!is.na(Age) & gear_group == "MidwaterTrawl") |>
+    mutate(
+        Age = ifelse(Age > 40, 40, Age), # plus group at 40
+        age_bin = floor(Age / 5) * 5,
+        age_label = factor(paste0(age_bin, "+"), paste0(seq(0, 40, 5), "+"))
+    ) |>
+    #rename(year = Year) |>
+    group_by(year, age_bin, age_label) |>
+    summarize(n = n()) |>
+    group_by(year) |>
+    mutate(prop = n / sum(n))
+
+age_binned_raw_midwater |>
+    filter(age_bin >= 15) |>
+    ggplot(aes(year, prop, fill = age_label)) +
+    geom_bar(stat = "identity", position = "stack") +
+    scale_fill_viridis_d(option = "mako", end = 0.9, direction = -1) +
+    theme_bw() +
+    theme(
+        strip.background = element_blank(),
+        strip.text = element_text(hjust = 0)
+    ) +
+    labs(y = "fraction of age composition", fill = "age bin") +
+    scale_y_continuous(labels = function(x) sprintf("%.1f", x), limits = c(0, 0.55)) +
+    scale_x_continuous(breaks = seq(min(age_binned_raw$year), max(age_binned_raw$year), by = 2)) +
+    coord_cartesian(expand = FALSE, clip = "off") +
+    annotate(
+        "rect",
+        xmin = 2018.5, xmax = 2024.5,
+        ymin = -Inf, ymax = Inf,
+        alpha = 0,
+        color = "red", linewidth = 1
+    ) +
+    annotate(
+        "text",
+        x = 2019, y = 0.5,
+        label = "new data\nin 2025\nassessment",
+        size = 3, hjust = 0,
+        color = "red"
+    )
+
+ggsave(
+    file.path(fig_dir, "age_binned_raw_coastwide_midwater.png"),
+    height = 4,
+    width = 5,
+    units = "in",
+    dpi = 300,
+    scale = 1.2
+)

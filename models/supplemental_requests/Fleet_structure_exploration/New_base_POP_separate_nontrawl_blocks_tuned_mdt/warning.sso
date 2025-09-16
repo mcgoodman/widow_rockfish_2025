@@ -1,0 +1,7 @@
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 1 : fleet: 2 lencomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 46
+Warning 2 Adjustment: Fleet: 2  agecomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 46
+Warning 3 Adjustment: Fleet: 5  agecomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 26
+Warning 4 : 1st iteration warning: ssb(endyr)/ssb(styr)= 0.00754903; suggest start with larger R0 to get near 0.4; or use depletion fleet option
+Warning 5 : Reminder: Number of lambdas !=0.0 and !=1.0:  8
+ 5 warnings  and 1 note 

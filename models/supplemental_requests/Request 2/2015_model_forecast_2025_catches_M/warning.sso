@@ -1,0 +1,7 @@
+SS-V3.24U-fast;_08/29/2014;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_11.2_Win64
+Thu Aug 28 10:03:45 2025
+
+Final gradient: 0.000111951 is larger than final_conv: 0.0001
+ N warnings: 1
+Reminder: Number of lamdas !=0.0 and !=1.0:  13
+Number_of_active_parameters_on_or_near_bounds: 0

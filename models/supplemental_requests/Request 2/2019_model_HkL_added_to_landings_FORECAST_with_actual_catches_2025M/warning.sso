@@ -1,0 +1,46 @@
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 1 : Input catches in 2021 can be overridden by caps or allocations
+Warning 2 : Input catches in 2022 can be overridden by caps or allocations
+Warning 3 : Input catches in 2023 can be overridden by caps or allocations
+Warning 4 : Input catches in 2024 can be overridden by caps or allocations
+Warning 5 : Input catches in 2021 can be overridden by caps or allocations
+Warning 6 : Input catches in 2022 can be overridden by caps or allocations
+Warning 7 : Input catches in 2023 can be overridden by caps or allocations
+Warning 8 : Input catches in 2024 can be overridden by caps or allocations
+Warning 9 : Input catches in 2021 can be overridden by caps or allocations
+Warning 10 : Input catches in 2022 can be overridden by caps or allocations
+Warning 11 : Input catches in 2023 can be overridden by caps or allocations
+Warning 12 : Input catches in 2024 can be overridden by caps or allocations
+Warning 13 : Input catches in 2021 can be overridden by caps or allocations
+Warning 14 : Input catches in 2022 can be overridden by caps or allocations
+Warning 15 : Input catches in 2023 can be overridden by caps or allocations
+Warning 16 : Input catches in 2024 can be overridden by caps or allocations
+Warning 17 : Input catches in 2021 can be overridden by caps or allocations
+Warning 18 : Input catches in 2022 can be overridden by caps or allocations
+Warning 19 : Input catches in 2023 can be overridden by caps or allocations
+Warning 20 : Input catches in 2024 can be overridden by caps or allocations
+Warning 21 : Input catches in 2025 can be overridden by caps or allocations
+Warning 22 : Input catches in 2025 can be overridden by caps or allocations
+Warning 23 : Input catches in 2025 can be overridden by caps or allocations
+Warning 24 : Input catches in 2025 can be overridden by caps or allocations
+Warning 25 : Input catches in 2025 can be overridden by caps or allocations
+Warning 26 : Input catches in 2026 can be overridden by caps or allocations
+Warning 27 : Input catches in 2026 can be overridden by caps or allocations
+Warning 28 : Input catches in 2026 can be overridden by caps or allocations
+Warning 29 : Input catches in 2026 can be overridden by caps or allocations
+Warning 30 : Input catches in 2026 can be overridden by caps or allocations
+Note 2 Suggestion: This model has just one settlement event. Changing to recr_dist_method 4 and removing the recruitment distribution parameters at the end of the MG parms section (below growth parameters) will produce identical results and simplify the model.
+Warning 31 Adjustment: size selex mirror, length range max bin read is (0) reset to nlength for fleet: 9
+Warning 32 : fleet: 3 lencomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 28
+Warning 33 Adjustment: Fleet: 3  agecomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 25
+Warning 34 : fleet: 4 lencomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 16
+Warning 35 Adjustment: Fleet: 4  agecomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 14
+Warning 36 : fleet: 5 lencomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 35
+Warning 37 Adjustment: Fleet: 5  agecomp has N obs with partition==2 (retained); changed to partition=0 because retention not defined; N= 18
+Warning 38 : Final gradient: 0.000487789 is larger than final_conv: 0.0001
+Warning 39 Adjustment: setting positive forecast relF for forecast only fleet: 4
+Note 3 Information: No *.ss_new and fewer *.sso files written after mceval
+Warning 40 Adjustment: setting positive forecast relF for forecast only fleet: 4
+Warning 41 : Reminder: Number of lambdas !=0.0 and !=1.0:  13
+Note 4 Information:  N parameters that are on or within 1% of min-max bound: 1; check results, variance may be suspect
+ 41 warnings  and 4 notes 

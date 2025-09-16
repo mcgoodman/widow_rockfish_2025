@@ -1,0 +1,24 @@
+Warning 1 : 2 catch records have been accumulated into year, seas, fleet 2005 1 5; total catch= 7.8655
+Warning 2 : 2 catch records have been accumulated into year, seas, fleet 2006 1 5; total catch= 4.77575
+Warning 3 : 2 catch records have been accumulated into year, seas, fleet 2007 1 5; total catch= 10.5623
+Warning 4 : 2 catch records have been accumulated into year, seas, fleet 2008 1 5; total catch= 6.42305
+Warning 5 : 2 catch records have been accumulated into year, seas, fleet 2009 1 5; total catch= 2.35779
+Warning 6 : 2 catch records have been accumulated into year, seas, fleet 2010 1 5; total catch= 1.09973
+Warning 7 : 2 catch records have been accumulated into year, seas, fleet 2011 1 5; total catch= 1.98637
+Warning 8 : 2 catch records have been accumulated into year, seas, fleet 2012 1 5; total catch= 6.6702
+Warning 9 : 2 catch records have been accumulated into year, seas, fleet 2013 1 5; total catch= 19.9936
+Warning 10 : 2 catch records have been accumulated into year, seas, fleet 2014 1 5; total catch= 17.7102
+Warning 11 : 2 catch records have been accumulated into year, seas, fleet 2015 1 5; total catch= 9.02824
+Warning 12 : 2 catch records have been accumulated into year, seas, fleet 2016 1 5; total catch= 3.30155
+Warning 13 : 2 catch records have been accumulated into year, seas, fleet 2017 1 5; total catch= 9.75308
+Warning 14 : 2 catch records have been accumulated into year, seas, fleet 2018 1 5; total catch= 32.318
+Warning 15 : 2 catch records have been accumulated into year, seas, fleet 2019 1 5; total catch= 29.4055
+Warning 16 : 2 catch records have been accumulated into year, seas, fleet 2020 1 5; total catch= 9.92826
+Warning 17 : 2 catch records have been accumulated into year, seas, fleet 2021 1 5; total catch= 11.6225
+Warning 18 : 2 catch records have been accumulated into year, seas, fleet 2022 1 5; total catch= 20.4145
+Warning 19 : 2 catch records have been accumulated into year, seas, fleet 2023 1 5; total catch= 26.3262
+Warning 20 : 2 catch records have been accumulated into year, seas, fleet 2024 1 5; total catch= 25.5654
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 21 : Final gradient: 0.00140561 is larger than final_conv: 0.0001
+Warning 22 : Reminder: Number of lambdas !=0.0 and !=1.0:  10
+ 22 warnings  and 1 note 

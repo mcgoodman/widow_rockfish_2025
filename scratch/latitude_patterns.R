@@ -1,5 +1,6 @@
 theme_set(theme_bw())
 
+# Get data
 observer <- read.csv('data_provided/wcgop/ward_oken_observer_data_2024-09-10.csv') |>
   as_tibble() |>
   filter(sector == 'Midwater Rockfish',
@@ -11,6 +12,12 @@ em <- read.csv('data_provided/wcgop/ward_oken_em_data_2024-12-03.csv') |>
   filter(species == 'Widow Rockfish',
          sector == 'Midwater Rockfish EM') |>
   mutate(DRVID = as.character(DRVID))
+
+widow_catch <- nwfscSurvey::pull_catch(survey = 'NWFSC.Combo', common_name = 'widow rockfish')
+widow_bio <- nwfscSurvey::pull_bio(survey = 'NWFSC.Combo', common_name = 'widow rockfish')
+
+#### Following code copied from Eric ####
+# Goal to to filter out tows on land and outside the U.S. EEZ
 
 # Convert to sf and then SpatVector crs 4326 = WGS84
 tows_v <- bind_rows(observer, em) |>
@@ -37,23 +44,12 @@ r_eez  <- terra::rasterize(us_eez, r_template, field = 1)     # in EEZ = 1, outs
 vals_land <- terra::extract(r_land, tows_v)[,2]
 vals_eez  <- terra::extract(r_eez, tows_v)[,2]
 
+#########################################
 
 catch_by_lat <- bind_rows(observer, em) |> 
   mutate(is_ocean = is.na(vals_land) & !is.na(vals_eez)) |>
   filter(is_ocean) |>
-  # mutate(lat_bin = cut(AVG_LAT, 25)) |>
-  # tidyr::separate_wider_delim(cols = lat_bin, delim = ',', 
-  #                             names = c('lo', 'hi')) |>
-  # mutate(across(lo:hi, ~ as.numeric(stringr::str_remove(., '(^[:punct:])|([:punct:]$)')))) |> # punctuation at start or end of string
-  # rowwise() |>
-  # mutate(lat_num = mean(c_across(lo:hi))) |>
-  # ungroup() |>
-  # mutate(Latitude = factor(lat_num, levels = sort(unique(lat_num)))) |> 
-  # group_by(Latitude) |>
-  # mutate(n_tow = n()) |> 
-  # filter(n_tow >= 3) |> 
   ggplot() +
-  # geom_bar(aes(y = Latitude, x = -MT), stat = 'sum') +
   geom_histogram(aes(y = AVG_LAT, weight = MT), bins = 31) + # KLO has checked weight argument works as expected, plots total MT/bin
   theme(legend.position = 'none') +
   scale_x_reverse() + 
@@ -69,7 +65,7 @@ bind_rows(observer, em) |>
             by = join_by(AVG_LAT >= ymin, AVG_LAT <= ymax )) |>
   count(y) |> 
   arrange(n)
-# looks good
+# minimum n = 3, looks good
 
 age_by_lat <- filter(widow_bio, !is.na(Age_years)) |> 
   mutate(yr_bin = cut(Year, breaks = c(2002, 2008, 2013, 2018, 2024))) |> 

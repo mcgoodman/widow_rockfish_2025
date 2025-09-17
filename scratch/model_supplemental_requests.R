@@ -380,13 +380,14 @@ cbind(
 # ForeCatch_2036  5347.47             6072.03  1.14  724.56
 
 ##############################################################################
-## REQUEST: Reweight the compositional data using Francis methods
-## (as was done in the sensitivity analysis for the draft document)
-## and provide a profile across M with Francis weighting.
+## REQUEST: "Reweight the compositional data using Francis methods
+##           (as was done in the sensitivity analysis for the draft document)
+##           and provide a profile across M with Francis weighting."
 ##############################################################################
 
 # first explore removing lambdas
 inputs <- base_inputs
+
 # there are 10 lambdas set to 0.5
 table(inputs$ctl$lambdas$value)
 # 0.5   1
@@ -407,6 +408,20 @@ r4ss::SS_write(
 
 # run the model (took a few tries, so need to not skip run even if Report.sso is present)
 r4ss::run(inputs$dir, extras = "-nohess", skipfinished = FALSE)
+
+# tune with MI weighting
+tune_comps(
+    dir = here::here(
+        "models",
+        "supplemental_requests",
+        "lambda1_MI"
+    ),
+    option = "MI",
+    #exe = exe_loc,
+    extras = "-nohess",
+    verbose = TRUE,
+    niters_tuning = 3
+)
 
 # apply Francis reweighting to the resulting model with lambdas = 1
 
@@ -450,29 +465,37 @@ output_lambda0.5_Francis <- SS_output(
     printstats = FALSE,
     verbose = FALSE
 ) # "models/supplemental_requests/lambda0.5_Francis"
-output_lambda1_MI <- SS_output(inputs$dir, printstats = FALSE, verbose = FALSE) # "models/supplemental_requests/lambda1_MI"
+output_lambda1_MI <- SS_output(
+    "models/supplemental_requests/lambda1_MI",
+    printstats = FALSE,
+    verbose = FALSE
+)
 output_lambda1_Francis <- SS_output(
     dir_lambda1_Francis,
     printstats = FALSE,
     verbose = FALSE
 )
-SSplotComparisons(
-    SSsummarize(list(
+weights_summary <- SSsummarize(
+    list(
         base_output,
         output_lambda0.5_Francis,
         output_lambda1_MI,
         output_lambda1_Francis
-    )),
-    legendlabels = c(
-        "August 2025 base model (M-I, lambdas = 0.5)",
-        "Francis weighting, lambdas = 0.5",
-        "M-I weighting, lambdas = 1",
-        "Francis weighting, lambdas = 1"
-    ),
+    ) #,
+    # modelnames = c(
+    #     "August 2025 base model (M-I, lambdas = 0.5)",
+    #     "Francis weighting, lambdas = 0.5",
+    #     "M-I weighting, lambdas = 1",
+    #     "Francis weighting, lambdas = 1"
+    # )
+)
+SSplotComparisons(
+    weights_summary,
+    legendloc = "bottomleft",
     endyrvec = 2036,
     print = TRUE,
     plot = FALSE,
-    plotdir = inputs$dir,
+    plotdir = output_lambda1_Francis$inputs$dir,
     verbose = FALSE
 )
 
@@ -505,6 +528,102 @@ r4ss::SStableComparisons(
 # 10        ForeCatch_2027 4.23801e+03 6.24214e+03 3.94436e+03 2.84247e+03
 # 11               SPR_MSY 3.36819e-01 3.34478e-01 3.36581e-01 3.40962e-01
 # 12        Dead_Catch_SPR 5.82212e+03 6.99630e+03 5.46901e+03 5.12887e+03
+
+# profile across M for the Francis weighted model with lambdas = 0.5
+# NOTE: code below adapted from R/diagnostics_profiles_retros.R
+library("nwfscDiag")
+
+# Define a df which holds all profile parameter settings
+profile_df <- data.frame(
+    parameters = c("NatM_uniform_Fem_GP_1"),
+    low = c(0.08),
+    high = c(0.2),
+    step_size = c(0.011),
+    param_space = c("real"),
+    parlinenum = c(5),
+    stringsAsFactors = FALSE
+)
+
+x <- 1
+get <- get_settings_profile(
+    parameters = profile_df[x, "parameters"],
+    low = profile_df[x, "low"],
+    high = profile_df[x, "high"],
+    step_size = profile_df[x, "step_size"],
+    param_space = profile_df[x, "param_space"]
+)
+
+mydir <- file.path(
+    "models",
+    "supplemental_requests",
+    "lambda0.5_Francis"
+)
+
+#Set up the model settings
+model_settings = get_settings(
+    settings = list(
+        base_name = basename(mydir),
+        run = "profile",
+        profile_details = get
+    )
+)
+
+# Apply additional settings to aid convergence
+model_settings$usepar <- TRUE # Use previous run estimates as starting vals
+model_settings$init_values_src <- 1 # Read starting vals from parameter file
+model_settings$parlinenum <- profile_df[x, "parlinenum"] # This refers to the line number that steepness is on in the ss3.par file
+model_settings$overwrite <- TRUE
+
+run_diagnostics(
+    mydir = dirname(mydir),
+    model_settings = model_settings
+)
+
+starter <- SS_readstarter(file.path(dir_prof, "starter.ss"))
+# change control file name in the starter file
+starter[["ctlfile"]] <- "control_modified.ss"
+# make sure the prior likelihood is calculated
+# for non-estimated quantities
+starter[["prior_like"]] <- 1
+# write modified starter file
+SS_writestarter(starter, dir = dir_prof, overwrite = TRUE)
+# vector of values to profile over
+h.vec <- seq(0.3, 0.9, .1)
+Nprofile <- length(h.vec)
+# run profile command
+prof.table <- profile(
+    dir = dir_prof,
+    oldctlfile = "control.ss",
+    newctlfile = "control_modified.ss",
+    string = "steep", # subset of parameter label
+    profilevec = h.vec
+)
+# read the output files (with names like Report1.sso, Report2.sso, etc.)
+profilemodels <- SSgetoutput(dirvec = dir_prof, keyvec = 1:Nprofile)
+# summarize output
+profilesummary <- SSsummarize(profilemodels)
+
+profile(
+    dir = here::here(
+        "models",
+        "supplemental_requests",
+        "lambda0.5_Francis"
+    ),
+    oldctlfile = here::here(
+        "models",
+        "supplemental_requests",
+        "lambda0.5_Francis",
+        "control.ss_new"
+    ),
+    par = "NatM_uniform_Fem_GP_1",
+    parvec = seq(0.1, 0.2, 0.01),
+    write = TRUE,
+    extras = "-nohess",
+    run = TRUE,
+    ncores = 10,
+    exe = exe_loc
+)
+
 
 ##############################################################################
 ## REQUEST: Explore some means to remove, combine or down-weight the H&L and
@@ -633,14 +752,22 @@ output1 <- r4ss::SS_output(
 )
 # get output from midwater selectivity fixed at MLE
 output2 <- r4ss::SS_output(
-    here::here("models", "supplemental_requests", "mirror_fixed_gear_selex_midwater_fixed_at_MLE"),
+    here::here(
+        "models",
+        "supplemental_requests",
+        "mirror_fixed_gear_selex_midwater_fixed_at_MLE"
+    ),
     printstats = FALSE,
     verbose = FALSE
 )
 
 # get output from midwater selectivity starting at MLE and estimated in a later phase
 output3 <- r4ss::SS_output(
-    here::here("models", "supplemental_requests", "mirror_fixed_gear_selex_rephase"),
+    here::here(
+        "models",
+        "supplemental_requests",
+        "mirror_fixed_gear_selex_rephase"
+    ),
     printstats = FALSE,
     verbose = FALSE
 )
@@ -652,6 +779,7 @@ r4ss::SSplotComparisons(
         "August 2025 base model",
         "Remove H&L and Net length and age data, mirror selectivity of BottomTrawl"
     ),
+    legendloc = "bottomleft",
     endyrvec = 2036,
     print = TRUE,
     plot = FALSE,
@@ -664,6 +792,8 @@ r4ss::SStableComparisons(
     names = c(
         "NatM",
         "SSB_2025",
+        "SSB_Virgin",
+        "R0",
         "Bratio_2025",
         "ForeCatch_2027",
         "SPR_MSY",
@@ -672,6 +802,508 @@ r4ss::SStableComparisons(
 ) |>
     dplyr::mutate(ratio = model2 / model1, diff_from_base = model2 - model1)
 
-r4ss::SS_plots(output)
+#                     Label      model1      model2     ratio diff_from_base
+# 1              TOTAL_like 1.90165e+04 1.87061e+04 0.9836773    -310.400000
+# 2             Survey_like 8.04479e+00 9.85947e+00 1.2255721       1.814680
+# 3        Length_comp_like 8.29491e+02 6.64509e+02 0.8011045    -164.982000
+# 4           Age_comp_like 1.36719e+03 1.21973e+03 0.8921437    -147.460000
+# 5        Parm_priors_like 9.03229e-01 8.48955e-01 0.9399111      -0.054274
+# 6   NatM_uniform_Fem_GP_1 1.22306e-01 1.22161e-01 0.9988144      -0.000145
+# 7   NatM_uniform_Mal_GP_1 1.34775e-01 1.32946e-01 0.9864292      -0.001829
+# 8    SSB_2025_thousand_mt 4.69340e+01 4.13550e+01 0.8811309      -5.579000
+# 9  SSB_Virgin_thousand_mt 8.54610e+01 8.20270e+01 0.9598179      -3.434000
+# 10              SR_LN(R0) 1.04573e+01 1.04119e+01 0.9956585      -0.045400
+# 11            Bratio_2025 5.49186e-01 5.04165e-01 0.9180223      -0.045021
+# 12         ForeCatch_2027 4.23801e+03 3.75272e+03 0.8854911    -485.290000
+# 13                SPR_MSY 3.36819e-01 3.37538e-01 1.0021347       0.000719
+# 14         Dead_Catch_SPR 5.82212e+03 5.62250e+03 0.9657135    -199.620000
 
-# 2025-08-21: results from mirrored selectivity model are implausibly low, need to check convergence
+##############################################################################
+## REQUEST: "Provide two 10-year retrospective analyses, one using both
+##           McAllister-Ianelli and the other using Francis weighting of the
+##           compositional data. Include a table that reports key model
+##           parameters and outputs (e.g., the model estimate of M, depletion,
+##           SPR50% the MSY proxy) along the lines of Tables 29-31 in the draft
+##           yellowtail rockfish assessment or Tables 14-16 in the draft
+##           chilipepper assessment."
+##############################################################################
+
+# start from MLE estimates from base model to attempt to reduce any
+# convergence issues
+base_inputs2 <- SS_read(
+    here::here(
+        "models",
+        "supplemental_requests",
+        # "base_model_with_ss_new"
+        "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention"
+    )
+)
+base_output2 <- SS_output(base_inputs2$dir, printstats = FALSE, verbose = FALSE)
+base_2015 <- SS_output("models/2015 base model")
+# ncores <- parallelly::availableCores(omit = 1)
+future::plan(future::multisession, workers = 10)
+retro(dir = base_inputs2$dir, years = 0:-10, exe = exe_loc)
+future::plan(future::sequential)
+
+retroModels <- SSgetoutput(
+    dirvec = file.path(
+        base_inputs2$dir,
+        "retrospectives",
+        paste("retro", 0:-10, sep = "")
+    )
+)
+retroModels
+retroModels_with_2015 <- c(retroModels, base_2015 = list(base_2015))
+retroSummary <- SSsummarize(retroModels_with_2015)
+
+endyrvec <- retroSummary[["endyrs"]] + c(0:-10, 0) # add 0 for 2015 base model
+mod_names <- c(
+    "Aug 2025 base",
+    paste("Data", -1:-10, "years"),
+    "2015 base model"
+)
+SSplotComparisons(
+    retroSummary,
+    endyrvec = endyrvec,
+    legendlabels = mod_names,
+    plotdir = file.path(
+        base_inputs2$dir,
+        "retrospectives"
+    ),
+    print = TRUE,
+    plot = FALSE,
+    legendloc = "bottomleft"
+)
+
+
+# table of retro values
+retro_table <- SStableComparisons(retroSummary, modelnames = mod_names)
+
+write.csv(
+    file.path(
+        base_inputs2$dir,
+        "retrospectives/retrospective_table.csv"
+    ),
+    row.names = FALSE
+)
+
+# fix different names for NatM
+retro_table[retro_table$Label == "NatM_uniform_Fem_GP_1", "2015 base model"] <-
+    retro_table[retro_table$Label == "NatM_p_1_Fem_GP_1", "2015 base model"]
+retro_table[retro_table$Label == "NatM_uniform_Mal_GP_1", "2015 base model"] <-
+    retro_table[retro_table$Label == "NatM_p_1_Mal_GP_1", "2015 base model"]
+retro_table <- retro_table |>
+    dplyr::filter(!grepl("NatM_p_1", Label))
+
+Mvec <- retro_table[retro_table$Label == "NatM_uniform_Fem_GP_1", -1] |>
+    as.numeric()
+plot(
+    0:11,
+    Mvec,
+    type = 'b',
+    xlab = "Years peeled",
+    ylab = "Female natural mortality (M)",
+    axes = FALSE
+)
+axis(1, at = 0:10)
+axis(2)
+axis(1, at = 11, labels = "2015 base", las = 2)
+box()
+
+retro_table2 <- retro_table |>
+    table_convert_vals() |>
+    table_convert_offsets() |>
+    table_clean_labels()
+retro_table |>
+    table_sens()
+
+
+# selectvity changes
+output <- SS_output("models/supplemental_requests/WCGBTS_selex")
+png(
+    "figures/supplemental_requests/selectivity_WCGBTS.png",
+    width = 6.5,
+    height = 4.5,
+    units = "in",
+    res = 300,
+    pointsize = 10
+)
+SSplotSelex(base_output, subplots = 9, add = FALSE, sexes = 1, fleets = 8)
+SSplotSelex(
+    output,
+    subplots = 9,
+    add = TRUE,
+    sexes = 1,
+    fleets = 8,
+    col2 = "red"
+)
+legend(
+    'bottomright',
+    c(
+        'August 2025 base model (3rd spline knot = 48cm)',
+        '3rd spline knot = 44cm'
+    ),
+    col = c('blue', 'red'),
+    lty = 1,
+    bty = "n"
+)
+dev.off()
+SSplotComparisons(
+    SSsummarize(list(base_output, output)),
+    legendlabels = c(
+        "August 2025 base model (3rd spline knot = 48cm)",
+        "3rd spline knot = 44cm"
+    ),
+    #endyrvec = 2036,
+    print = TRUE,
+    plot = FALSE,
+    plotdir = "models/supplemental_requests/WCGBTS_selex",
+    verbose = FALSE
+)
+
+
+# Re-run Francis tuning on alternative base model (created in
+# /scratch/model_cleaner_Aug2025_base.R)
+file.copy(
+    from = list.files(
+        here::here(
+            "models",
+            "supplemental_requests",
+            "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention"
+        ),
+        full.names = TRUE
+    ),
+    to = here::here(
+        "models",
+        "supplemental_requests",
+        "lambda0.5_Francis"
+    ),
+    recursive = TRUE
+)
+
+tuning_results <- tune_comps(
+    dir = "models/supplemental_requests/lambda0.5_Francis",
+    option = "Francis",
+    exe = exe_loc,
+    extras = "-nohess",
+    verbose = FALSE,
+    niters_tuning = 3
+)
+
+output_lambda0.5_Francis <- SS_output(
+    "models/supplemental_requests/lambda0.5_Francis",
+    printstats = FALSE,
+    verbose = FALSE
+)
+# confirm that earlier version from different base model is the same
+output_old_lambda0.5_Francis <- SS_output(
+    "models/supplemental_requests/old_lambda0.5_Francis",
+    printstats = FALSE,
+    verbose = FALSE
+)
+
+SStableComparisons(
+    SSsummarize(list(
+        output_lambda0.5_Francis,
+        output_old_lambda0.5_Francis
+    )),
+    names = c("NatM", "SSB_2025", "Bratio_2025", "ForeCatch_2027")
+) |>
+    dplyr::mutate(ratio = model2 / model1, diff_from_base = model2 - model1)
+# results are very similar
+# (not identical probably slight differences in re-weighting)
+
+# read model input and output with restructured fleets
+inputs_restructured <- SS_read(
+    here::here(
+        "models",
+        "supplemental_requests",
+        "Fleet structure exploration",
+        "New_base_POP_separate_nontrawl_blocks_tuned_mdt_BT_tuned_blocks_retuned_hess"
+    ),
+    ss_new = TRUE
+)
+output_restructured <- SS_output(
+    here::here(
+        "models",
+        "supplemental_requests",
+        "Fleet structure exploration",
+        "New_base_POP_separate_nontrawl_blocks_tuned_mdt_BT_tuned_blocks_retuned_hess"
+    ),
+    printstats = FALSE,
+    verbose = FALSE
+)
+
+# copy to new location for Francis tuning
+restructured_lambda0.5_Francis_dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "restructured_lambda0.5_Francis"
+)
+dir.create(restructured_lambda0.5_Francis_dir)
+file.copy(
+    from = list.files(
+        output_restructured$inputs$dir,
+        full.names = TRUE
+    ),
+    to = restructured_lambda0.5_Francis_dir,
+    recursive = TRUE
+)
+
+tuning_results <- tune_comps(
+    dir = restructured_lambda0.5_Francis_dir,
+    option = "Francis",
+    #exe = exe_loc, # already in PATH
+    extras = "-nohess",
+    verbose = TRUE,
+    niters_tuning = 3
+)
+
+
+# copy to new location for Francis tuning with lambda = 1.0
+restructured_lambda1_Francis_dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "restructured_lambda1_Francis"
+)
+dir.create(restructured_lambda1_Francis_dir)
+inputs_restructured_lambda1 <- SS_read(
+    restructured_lambda0.5_Francis_dir,
+    ss_new = TRUE
+)
+inputs_restructured_lambda1$ctl$lambdas$value <- 1
+r4ss::SS_write(
+    inputs_restructured_lambda1,
+    dir = restructured_lambda1_Francis_dir,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+tuning_results2 <- tune_comps(
+    dir = restructured_lambda1_Francis_dir,
+    option = "Francis",
+    init_run = TRUE,
+    #exe = exe_loc, # already in PATH
+    extras = "-nohess",
+    verbose = TRUE,
+    niters_tuning = 2
+)
+
+
+# copy to new location for MI tuning with lambda = 1.0
+restructured_lambda1_MI_dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "restructured_lambda1_MI"
+)
+
+dir.create(restructured_lambda1_MI_dir)
+inputs_restructured_lambda1 <- SS_read(
+    here::here(
+        "models",
+        "supplemental_requests",
+        "Fleet structure exploration",
+        "New_base_POP_separate_nontrawl_blocks_tuned_mdt_BT_tuned_blocks_retuned_hess"
+    ),
+    ss_new = TRUE
+)
+inputs_restructured_lambda1$ctl$lambdas$value <- 1
+r4ss::SS_write(
+    inputs_restructured_lambda1,
+    dir = restructured_lambda1_MI_dir,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+tuning_results2 <- tune_comps(
+    dir = restructured_lambda1_MI_dir,
+    option = "MI",
+    init_run = TRUE,
+    #exe = exe_loc, # already in PATH
+    extras = "-nohess",
+    verbose = TRUE,
+    niters_tuning = 3
+)
+
+# compare the four data weighting methods with restructured fleets models
+restructured_dirs <- c(
+    here::here(
+        "models",
+        "supplemental_requests",
+        "Fleet structure exploration",
+        "New_base_POP_separate_nontrawl_blocks_tuned_mdt_BT_tuned_blocks_retuned_hess"
+    ),
+    restructured_lambda1_MI_dir,
+    restructured_lambda0.5_Francis_dir,
+    restructured_lambda1_Francis_dir
+)
+restructured_models <- SSgetoutput(
+    dirvec = restructured_dirs,
+    modelnames = c(
+        "Restructured fleets, M-I, lambda=0.5",
+        "Restructured fleets, M-I, lambda=1.0",
+        "Restructured fleets, Francis, lambda=0.5",
+        "Restructured fleets, Francis, lambda=1.0"
+    )
+)
+
+# all models, including those restructured and the original weighting comparisons with the Aug 2025 base
+weighting_dirs <- c(
+    "models/2025 base model",
+    "models/supplemental_requests/lambda1_MI",
+    "models/supplemental_requests/lambda0.5_Francis",
+    "models/supplemental_requests/lambda1_Francis",
+    "models/supplemental_requests/Fleet structure exploration/New_base_POP_separate_nontrawl_blocks_tuned_mdt_BT_tuned_blocks_retuned_hess",
+    "models/supplemental_requests/restructured_lambda1_MI",
+    "models/supplemental_requests/restructured_lambda0.5_Francis",
+    "models/supplemental_requests/restructured_lambda1_Francis"
+)
+
+weighting_models <- SSgetoutput(
+    dirvec = weighting_dirs,
+    modelnames = c(
+        "August 2025 base model, M-I, lambda=0.5",
+        "August 2025 base model, M-I, lambda=1.0",
+        "August 2025 base model, Francis, lambda=0.5",
+        "August 2025 base model, Francis, lambda=1.0",
+        "Restructured fleets, M-I, lambda=0.5",
+        "Restructured fleets, M-I, lambda=1.0",
+        "Restructured fleets, Francis, lambda=0.5",
+        "Restructured fleets, Francis, lambda=1.0"
+    )
+)
+
+dir.create(here::here(
+    "models",
+    "supplemental_requests",
+    "restructured_fleets_weighting_comparisons"
+))
+weighting_summary <- SSsummarize(weighting_models)
+
+SSplotComparisons(
+    weighting_summary,
+    legendloc = "bottomleft",
+    #endyrvec = 2036,
+    print = TRUE,
+    plot = FALSE,
+    plotdir = here::here(
+        "models",
+        "supplemental_requests",
+        "restructured_fleets_weighting_comparisons"
+    ),
+    verbose = FALSE
+)
+
+SStableComparisons(
+    weighting_summary,
+    names = c("NatM", "SSB_2025", "Bratio_2025", "ForeCatch_2027")
+)
+
+
+tab <- SStableComparisons(
+    weighting_summary,
+    models = c(1, 8),
+    modelnames = weighting_summary$modelnames[c(1, 8)],
+    names = c("NatM", "SSB_2025", "Bratio_2025", "ForeCatch_2027")
+)
+tab$ratio <- tab[, 3] / tab[, 2]
+
+# add fecundity relationship to the restructured fleets model with lambda = 1 and Francis weighting
+# NOTE: using same object names as earlier in the script, but different directories
+fecundity_inputs <- SS_read(
+    "models/supplemental_requests/restructured_lambda1_Francis",
+    ss_new = TRUE
+)
+fecundity_inputs$dir <- "models/supplemental_requests/restructured_lambda1_Francis_fecundity"
+dir.create(fecundity_inputs$dir)
+
+# change fecundity_at_length option:(1)eggs=Wt*(a+b*Wt);(2)eggs=a*L^b;(3)eggs=a*Wt^b; (4)eggs=a+b*L; (5)eggs=a+b*W
+fecundity_inputs$ctl$fecundity_option <- 2
+# update parameters
+fecundity_inputs$ctl$MG_parms["Eggs_alpha_Fem_GP_1", "INIT"] <- 7.218466e-08
+fecundity_inputs$ctl$MG_parms["Eggs_beta_Fem_GP_1", "INIT"] <- 4.043
+
+# write files
+r4ss::SS_write(
+    fecundity_inputs,
+    dir = fecundity_inputs$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+# run the model
+r4ss::run(
+    fecundity_inputs$dir,
+    # extras = "-nohess",
+    skipfinished = FALSE
+)
+# get output
+fecundity_output2 <- r4ss::SS_output(
+    fecundity_inputs$dir,
+    printstats = FALSE,
+    verbose = FALSE
+)
+
+# comparing weights
+weights_base <- r4ss::table_compweight(base_output)
+weights_base$table
+
+weights_restructured <- r4ss::table_compweight(weighting_models[[5]])
+weights_Francis1 <- r4ss::table_compweight(weighting_models[[4]])
+weights_restructured_Francis1 <- r4ss::table_compweight(weighting_models[[8]])
+
+# merge these dataframes that have different fleets
+dplyr::full_join(
+    weights_base$table |>
+        dplyr::select(Type, Fleet, Francis) |>
+        dplyr::rename(Base_MI_lambda0.5 = Francis),
+    weights_restructured$table |>
+        dplyr::select(Type, Fleet, Francis) |>
+        dplyr::rename(Restructured_MI_lambda0.5 = Francis),
+    by = c("Type", "Fleet")
+)
+#      Type         Fleet Francis Francis_restructured
+# 1  Length   BottomTrawl   0.056                0.127
+# 2  Length MidwaterTrawl   0.208                0.219
+# 3  Length          Hake   0.110                0.129
+# 4  Length           Net   0.496                   NA
+# 5  Length           HnL   0.373                   NA
+# 6  Length     Triennial   0.372                0.365
+# 7  Length        WCGBTS   0.635                0.655
+# 8     Age   BottomTrawl   0.166                0.162
+# 9     Age MidwaterTrawl   0.280                0.287
+# 10    Age          Hake   0.241                0.249
+# 11    Age           Net   0.501                   NA
+# 12    Age           HnL   0.551                   NA
+# 13   CAAL        WCGBTS   0.296                0.295
+# 14 Length      Nontrawl      NA                0.215
+# 15 Length    BT_discard      NA                0.298
+# 16    Age      Nontrawl      NA                0.132
+
+# restructuring increased the weights on the length comps by removing the discards
+# which were not fit as well. Weights on the ages didn't change much.
+
+# merge these dataframes that have different fleets
+weights_base$table |>
+    dplyr::select(Type, Fleet, Francis) |>
+    dplyr::rename(Base_MI_lambda0.5 = Francis) |>
+    dplyr::full_join(
+        weights_Francis1$table |>
+            dplyr::select(Type, Fleet, Francis) |>
+            dplyr::rename(Francis_lambda1 = Francis),
+        by = c("Type", "Fleet")
+    ) |>
+    dplyr::full_join(
+        weights_restructured$table |>
+            dplyr::select(Type, Fleet, Francis) |>
+            dplyr::rename(Restructured_MI_lambda0.5 = Francis),
+        by = c("Type", "Fleet")
+    ) |>
+    dplyr::full_join(
+        weights_restructured_Francis1$table |>
+            dplyr::select(Type, Fleet, Francis) |>
+            dplyr::rename(Restructured_Francis_lambda1 = Francis),
+        by = c("Type", "Fleet")
+    )
+
+
+# next:
+- test fixed recent recdevs
+- explore selectivity?

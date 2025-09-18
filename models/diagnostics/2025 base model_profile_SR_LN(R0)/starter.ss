@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-06-11  19:51:03
+#C file write time: 2025-09-17  22:12:47
 #
 2025widow.dat #_datfile
 control_modified.ss #_ctlfile
@@ -30,4 +30,5 @@ control_modified.ss #_ctlfile
 0 #_MCMC_output_detail
 0 #_ALK_tolerance
 #
+-1 #_seed
 3.3 #_final

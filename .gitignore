@@ -14,6 +14,7 @@
 # Whitelist PNG files written to figures directory
 !figures/**/*.png
 !report/**/*.png
+!models/diagnostics/**/*.png
 
 # Directories
 data_provided/PacFIN/*
@@ -78,6 +79,19 @@ runnumber.ss
 # skip some models that were dead ends
 models/supplemental_requests/mirror_fixed_gear_selex_midwater_fixed_at_MLE/
 models/supplemental_requests/mirror_fixed_gear_selex/
+models/supplemental_requests/simplify_*
+models/supplemental_requests/old_*
+models/supplemental_requests/*/tables/
+models/supplemental_requests/restructured_*
+models/supplemental_requests/WCGBTS_selex_*
+models/supplemental_requests/Fleet structure exploration/
+# TODO: remove this line when done with all models
+models/supplemental_requests/ 
+!models/supplemental_requests/1.01_add_discards_to_landings/
+!models/supplemental_requests/1.02_retune_lambda0.5_MI/ 
+!models/supplemental_requests/1.03_retune_lambda1_Francis/
+!models/supplemental_requests/1.04_add_fecundity/ 
+!models/supplemental_requests/1.05_refine_biasramp_and_tuning/
 
 # Intermediate rendering output from report
 report/*.html

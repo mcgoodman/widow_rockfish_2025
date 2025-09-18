@@ -2,20 +2,21 @@
 # Model simplification and data modification steps performed in this script:
 #
 # 1. Combine fixed gear fleets (H&L and Net) with BottomTrawl in catch and forecast.
-# 2. Move foreign catch in 1966-68 from Hake fleet to BottomTrawl.
+# 2. Move foreign catch in 1966-76 from Hake fleet to BottomTrawl.
 # 3. Add discard estimates to landings for 1982-2024 using discard rates and external data.
-# 4. Remove fleets 4 (Net), 5 (H&L), and 9 (ForeignAtSea) from composition and selectivity data.
+# 4. Remove fleets 4 (Net), 5 (H&L) from composition data.
 # 5. Remove all discard composition data and assign all remaining comps to partition 0 (total catch).
 # 6. Remove all discard data structures from input (N_discard_fleets, discard_fleet_info, discard_data).
 # 7. Simplify selectivity: set fleets 4, 5, and 9 to Pattern=0, Discard=0, and remove their selectivity parameters.
 # 8. Remove all retention parameters and time-varying selectivity parameters for all fleets.
 # 9. Remove variance adjustments and lambdas for removed fleets.
-# 10. Increase starting value for R0 to avoid estimation issues.
+# 10. Increase starting value for R0 and adjust bounds to avoid estimation issues.
 # 11. Aggregate fixed catches for fleets 4 and 5 in the forecast file.
-# 12. Write out new model files for each step.
+# 12. Set final midwater selectivity change to 2017 instead of 2011
+# 13. Update bias adjustment using estimated values but modified to have full bias adjustment starting in 1970.
 # ------------------------------------------------------------------------------
 
-which_steps <- 1:4
+which_steps <- 1:5
 run_models <- TRUE
 
 if (1 %in% which_steps) {
@@ -712,5 +713,115 @@ if (4 %in% which_steps) {
       output1.04
     )),
     names = c("NatM", "SSB_2025", "Bratio_2025", "ForeCatch_2027")
+  )
+}
+
+if (5 %in% which_steps) {
+  cli::cli_alert_info(
+    "Step 5: update bias adjustment ramp and use initial values from previous step"
+  )
+  # read in files
+  inputs1.05 <- r4ss::SS_read(
+    inputs1.04$dir,
+    ss_new = TRUE
+  )
+  inputs1.05$dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "1.05_refine_biasramp_and_tuning"
+  )
+
+  # copy all files from 1.04_add_fecundity to new directory so that report is available
+  files_to_copy <- list.files(
+    inputs1.04$dir,
+    full.names = TRUE,
+    recursive = TRUE
+  )
+  file.copy(
+    from = files_to_copy,
+    to = inputs1.05$dir,
+    recursive = TRUE
+  )
+
+  biasRamp = SS_fitbiasramp(output1.04, plot = FALSE)
+
+  # Input bias ramp parameters
+
+  inputs1.05$ctl$last_early_yr_nobias_adj = biasRamp$df[1, 1]
+  inputs1.05$ctl$first_yr_fullbias_adj = 1970 # biasRamp$df[2, 1] estimate was 1975 which is after some well-informed big year classes
+  inputs1.05$ctl$last_yr_fullbias_adj = biasRamp$df[3, 1]
+  inputs1.05$ctl$first_recent_yr_nobias_adj = biasRamp$df[4, 1]
+  inputs1.05$ctl$max_bias_adj = biasRamp$df[5, 1]
+
+  # change R0 to starter initial value and estimate in phase 1 to avoid crash penalty at start of estimation
+  inputs1.05$ctl$SR_parms["SR_LN(R0)", "INIT"] <- 11.5 # was ~10.5
+  inputs1.05$ctl$SR_parms["SR_LN(R0)", "PHASE"] <- 1 # was 2
+
+  # write files
+  r4ss::SS_write(
+    inputs1.05,
+    dir = inputs1.05$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+  )
+
+  # update tuning
+  tuning_results1.05 <- tune_comps(
+    dir = inputs1.05$dir,
+    option = "Francis",
+    init_run = TRUE,
+    extras = "-nohess",
+    verbose = TRUE,
+    niters_tuning = 3
+  )
+
+  output1.05 <- r4ss::SS_output(
+    here::here(
+      "models",
+      "supplemental_requests",
+      "1.05_refine_biasramp_and_tuning"
+    ),
+    printstats = FALSE,
+    verbose = FALSE
+  )
+  SS_plots(output1.05)
+
+  SSplotComparisons(
+    SSsummarize(list(
+      base_output,
+      output1.01,
+      output1.02,
+      output1.03,
+      output1.04,
+      output1.05
+    )),
+    subplot = 1:15
+  )
+
+  SStableComparisons(
+    SSsummarize(list(
+      base_output,
+      output1.01,
+      output1.02,
+      output1.03,
+      output1.04,
+      output1.05
+    )),
+    names = c("NatM", "SSB_2025", "Bratio_2025", "ForeCatch_2027")
+  )
+}
+
+if (FALSE) {
+  r4ss::copy_SS_inputs(
+    dir.old = here::here(
+      "models",
+      "supplemental_requests",
+      "1.05_refine_biasramp_and_tuning"
+    ),
+    dir.new = here::here(
+      "models",
+      "2025 base model"
+    ),
+    overwrite = TRUE
   )
 }

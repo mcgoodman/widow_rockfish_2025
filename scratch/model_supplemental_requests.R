@@ -1303,7 +1303,102 @@ weights_base$table |>
         by = c("Type", "Fleet")
     )
 
+### testing impact of recent recruitment of projected catches
+inputs <- SS_read(
+    here::here(
+        "models",
+        "supplemental_requests",
+        "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention"
+    ),
+    ss_new = TRUE
+)
+inputs$dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "recent_redevs_0"
+)
+dir.create(inputs$dir)
+# set recent recruitment deviations to 0
+inputs$ctl$MainRdevYrLast <- 2017 # was 2020
+inputs$ctl$Fcast_recr_phase <- -1
+# write files
+r4ss::SS_write(
+    inputs,
+    dir = inputs$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+# run the model
+r4ss::run(inputs$dir, extras = "-nohess", skipfinished = FALSE)
+# get the output
+output_recent_redevs_0 <- r4ss::SS_output(
+    inputs$dir,
+    printstats = FALSE,
+    verbose = FALSE
+)
+# get table of projections and ratio with long-term equilibrium catch
+get_proj <- function(output) {
+    es_tabs <- r4ss::table_exec_summary(output)
+    proj <- es_tabs$projections$tab |>
+        dplyr::select("Year", "OFL (mt)", "Fraction Unfished") |>
+        dplyr::mutate(
+            OFL_relative_to_equilibrium = `OFL (mt)` /
+                output$derived_quants[
+                    output$derived_quants$Label == "Dead_Catch_SPR",
+                    "Value"
+                ]
+        ) |>
+        dplyr::mutate(
+            `OFL (mt)` = round(`OFL (mt)`, 0),
+            `Fraction Unfished` = round(`Fraction Unfished`, 2),
+            OFL_relative_to_equilibrium = round(OFL_relative_to_equilibrium, 2)
+        ) |>
+        dplyr::filter(Year >= 2027) # first two years excluded from table due to fixed catches
+    return(proj)
+}
 
-# next:
-- test fixed recent recdevs
-- explore selectivity?
+proj_base <- get_proj(base_output2)
+proj_recent_redevs_0 <- get_proj(output_recent_redevs_0)
+proj_both <- rbind(
+    dplyr::mutate(proj_base, Model = "August 2025 base model"),
+    dplyr::mutate(
+        proj_recent_redevs_0,
+        Model = "Recent recruitment deviations set to 0"
+    )
+)
+
+# plot OFL_relative_to_equilibrium by year for both models
+proj_both |>
+    ggplot() +
+    geom_line(
+        aes(
+            x = Year,
+            y = OFL_relative_to_equilibrium,
+            color = Model
+        ),
+        size = 1
+    ) +
+    labs(
+        x = "Year",
+        y = "OFL relative to equilibrium catch at SPR target"
+    ) +
+    geom_hline(
+        yintercept = 1,
+        linetype = "dashed",
+        color = "red"
+    ) +
+    ylim(0, NA) +
+    theme_minimal() +
+    theme(legend.position = "top")
+ggsave(
+    here::here(
+        "figures",
+        "supplemental_requests",
+        "projected_OFL_relative_to_equilibrium_recent_redevs.png"
+    ),
+    bg = "white",
+    width = 6,
+    height = 4,
+    units = "in",
+    dpi = 300
+)

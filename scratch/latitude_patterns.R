@@ -48,9 +48,9 @@ vals_eez  <- terra::extract(r_eez, tows_v)[,2]
 
 catch_by_lat <- bind_rows(observer, em) |> 
   mutate(is_ocean = is.na(vals_land) & !is.na(vals_eez)) |>
-  filter(is_ocean) |>
+  filter(is_ocean, AVG_LAT > 42) |> # only 2 vessels fish south of 42 deg, confidentiality issues
   ggplot() +
-  geom_histogram(aes(y = AVG_LAT, weight = MT), bins = 31) + # KLO has checked weight argument works as expected, plots total MT/bin
+  geom_histogram(aes(y = AVG_LAT, weight = MT), bins = 30) + # KLO has checked weight argument works as expected, plots total MT/bin
   theme(legend.position = 'none') +
   scale_x_reverse() + 
   scale_y_continuous(limits = c(32.5, 49), expand = c(0,0)) +
@@ -60,10 +60,11 @@ catch_by_lat <- bind_rows(observer, em) |>
 # confidentiality check
 bind_rows(observer, em) |> 
   mutate(is_ocean = is.na(vals_land) & !is.na(vals_eez)) |>
-  filter(is_ocean) |>
+  filter(is_ocean, AVG_LAT > 42) |>
   left_join(y = ggplot_build(catch_by_lat)$data[[1]], 
             by = join_by(AVG_LAT >= ymin, AVG_LAT <= ymax )) |>
-  count(y) |> 
+  group_by(y) |> 
+  summarise(n = length(unique(DRVID))) |>
   arrange(n)
 # minimum n = 3, looks good
 
@@ -105,7 +106,7 @@ widow_map <- widow_catch |>
 cowplot::plot_grid(catch_by_lat, age_by_lat, widow_map, 
                    nrow = 1, rel_widths = c(1, 1, 1.25), labels = 'auto')
 
-
+# explore binning by latitude, smothing by year
 catch_by_lat +
   geom_hline(yintercept = 45.5) +
   geom_hline(yintercept = 47.25) +
@@ -121,12 +122,14 @@ widow_bio |>
   geom_vline(xintercept = 2018.5) +
   viridis::scale_color_viridis(discrete = TRUE, option = 'mako')
 
+# spatial map of fishery catch (likely confidential)
 bind_rows(observer, em) |> 
-  mutate(is_ocean = is.na(vals_land), !is.na(vals_eez)) |>
+  mutate(is_ocean = is.na(vals_land) & !is.na(vals_eez)) |>
+  filter(is_ocean) |>
   ggplot() +
   geom_sf(data = states) +
   coord_sf(xlim = c(-117, -131), ylim = c(32.5, 49), expand = FALSE) +
-  geom_point(aes(x = AVG_LONG, y = AVG_LAT, color = is_ocean))
+  # geom_point(aes(x = AVG_LONG, y = AVG_LAT, color = is_ocean))
   stat_summary_hex(aes(x = AVG_LONG, y = AVG_LAT, z = MT), fun = 'sum') +
   #  geom_sf(data = coast) +
   # scale_x_continuous(breaks = seq(-135, -117, 2)) +
@@ -135,5 +138,5 @@ bind_rows(observer, em) |>
   viridis::scale_color_viridis(discrete = TRUE, option = 'mako', direction = -1) +
   NULL
 
-
+old_widow_map <- 
   

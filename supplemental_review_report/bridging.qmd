@@ -1,10 +1,21 @@
 <!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
-Three major steps were made to arrive from 2025 base model reviewed in August and this simplified alternative model include:
-1)	Use of a simplified fleet structure;
-2)	Use Francis method for weighting length and age data in the model, which is the current practice in West Coast groundfish stock assessments; 
-3)	Use of Dick et al. (2017) fecundity estimate, which is also a current practice in rockfish assessments.
+The following steps are illustrated in the briding analysis below to arrive from August 2025 base model to the current base model:
+1. Adopt the new Washington historical catch reconstruction
+1. Simplify fleets and include discards with landings
+1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
+1. Change data weighting methods (Francis, lambda = 1)
+1. Add the fecundity relationship
+1. Refine the recruitment bias adjustment and re-tune the weighting
 
 The relatively small impact of adding the Washington historical catch reconstruction was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
+
+Simplifying the fleet structure and combining discards with landings did not create large changes in model results, but interacted with the Francis weighting approach applied later.
+
+The use of the Francis weighting approach with lambda = 1 resulted in the biggest change from the August 2025 base model ...
+
+The fecundity relationship ...
+
+Refining the recruitment bias adjustment and re-tuning the weights with the Francis method were necessary final steps but has only a small impact on the model results.  
 
 ```{r}
 #| echo: false
@@ -19,4 +30,56 @@ source(here::here("R", "table_sens.r"))
 #| eval: !expr eval_tables 
 #| tbl-cap: "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the August base model and the bridging models (columns). Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model. Note that the likelihoods are not comparable in most cases due to changes in data."
 table_sens(here::here("report", "tables", "bridging2_table.csv"))
+```
+
+```{r}
+#| label: fig-bridge2_bratio
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of fraction of unfished spawning stock biomass estimates and asymptotic 95% confidence intervals estimates bridging from August 2025 base model to the current base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "bridging2_compare3_Bratio.png")
+)
+```
+
+```{r}
+#| label: fig-bridge2_smrybio
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of age 4+ biomass estimates bridging from the August 2025 base model to the current base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "bridging2_compare18_smrybio.png")
+)
+```
+
+```{r}
+#| label: fig-bridge2_recruits
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of recruitment bridging from the August 2025 base model to the current base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "bridging2_compare9_recruits.png")
+)
+```
+
+```{r}
+#| label: fig-bridge2_recdevs
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of recruitment deviations bridging from the August 2025 base model to the current base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "bridging2_compare11_recdevs.png")
+)
 ```

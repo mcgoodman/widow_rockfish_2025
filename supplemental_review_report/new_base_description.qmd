@@ -22,7 +22,7 @@ TODO: Ian continue here
 
 1. **The data weighting was updated.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
 
-1. Change the selectivity blocking for the midwater trawl fleet. Change the block that previously went from X to 2010 to go from X to 2016.
+1. Extending the selectivity blocking for the midwater trawl fleet. Change the block that previously went from 2002 to 2010 to go from 2002 to 2016.
 
 1. Use the generic rockfish fecundity relationship in CITE
 

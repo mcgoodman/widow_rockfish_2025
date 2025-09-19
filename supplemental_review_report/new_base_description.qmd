@@ -15,7 +15,8 @@ We moved the small amount of catches from fixed gear fleets (hook and line and n
 1. **Use external estimates of discards rather than estimate within the model**.
     a. The use of estimated retention functions within the model was standard practice in 2015, following a long period of large discards due to trip limits. However, discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population.
     a. Methods: 
-        i. For the years 1982-1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch and EDCP data
+        i. For the years 1982-1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch
+        i. For the years 1990-2001, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the EDCP data
         i. for the years 2002-2023, GEMM estimates of fleet-specific dicards amounts were added to the landed catch (bottom trawl + other, and midwater trawl)
         i. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model
         i. Total catch in the at-sea hake fishery was fully accounted for in the August 2025 base model and was not changed.

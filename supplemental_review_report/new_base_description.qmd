@@ -2,18 +2,30 @@ We propose the following changes to the base model that was reviewed in August, 
 
 <!-- These are quite short now. I meant them as placeholders, but I am envisioning each bullet could be much longer and include both motivation and additional detail -->
 
-1. Use the updated Washington catch reconstruction
+1. **Use the updated Washington historical catch reconstruction**
+    a. GFSC Request 7 was to include this in a new base model. It has relatively little impact on the model results but represents the best scientific information available.
 
-2. Use the generic rockfish fecundity relationship in CITE
+1. **Simplify the fleet structure:** Move the small amount of catches from fixed gear fleets (hook and line and net) into the bottom trawl fleet, and remove their composition data. In addition, move the foreign catches (1966-1976) from the hake fleet to bottom trawl, as well.
+    a. GFSC Requests 1 (reduce influence of hook-and-line composition data) and 6 (leave-one-out analysis) indicated that data from the smaller fleets have little influence on the model results
+    a. these fleets represent only 1.1% and 1.4% of the catch and are less likely to be representative of the population as a whole. 
+    a. the issues with the hook-and-line discard data resolved prior to the August 2025 base model showed that even small amounts of data from these fleets can have undue influence on the results when combined with mismatching assumptions for selectivity and retention
 
-3. Simplify the fleet structure: Move the small amount of catches from fixed gear fleets (hook and line and net) into the bottom trawl fleet, and remove their composition data. In addition, move the foreign catches (1966-1976) from the hake fleet to bottom trawl, as well.
+1. **Use external estimates of discards rather than estimate within the model**.
+    a. The use of estimated retention functions within the model was standard practice in 2015, following a long period of large discards due to trip limits. However, discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population.
+    a. Methods: 
+        i. For the years 1982-1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch and EDCP data
+        i. for the years 2002-2023, GEMM estimates of fleet-specific dicards amounts were added to the landed catch (bottom trawl + other, and midwater trawl)
+        i. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model
+        i. Total catch in the at-sea hake fishery was fully accounted for in the August 2025 base model and was not changed.
 
-4. Discards: Add discards to the catch rather than estimating retention curves. DESCRIBE WHERE THEY CAME FROM. 
+TODO: Ian continue here
 
-5. Data weighting: Use Francis weighting and do not additionally downweight age and length composition data by one half.
+1. **The data weighting was updated.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
 
-6. Change the selectivity blocking for the midwater trawl fleet. Change the block that previously went from X to 2010 to go from X to 2016.
+1. Change the selectivity blocking for the midwater trawl fleet. Change the block that previously went from X to 2010 to go from X to 2016.
 
-7. Update bias adjustment using estimated values but modified to have full bias adjustment starting in 1970.
+1. Use the generic rockfish fecundity relationship in CITE
+
+1. Update bias adjustment using estimated values but modified to have full bias adjustment starting in 1970.
 
 Feel free to reorder these and I suspect I forgot some changes

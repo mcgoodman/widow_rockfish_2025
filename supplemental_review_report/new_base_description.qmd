@@ -22,7 +22,7 @@ TODO: Ian continue here
 
 1. **The data weighting was updated.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
 
-1. Extending the selectivity blocking for the midwater trawl fleet. Change the block that previously went from 2002 to 2010 to go from 2002 to 2016.
+1. Changing the selectivity blocking for the midwater trawl fleet. The block that previously went from 2002 to 2010 was extended to go from 2002 to 2016. The 2025 model (following 2015 and 2019 models) has several blocks set for midwater trawl fleet, to account for changes in selectivity in 1983, when trip limits were introduced, and in 2002, when stock was declared overfished. It also had a block in 2011, associated with the start of the IFQ fishery. The most recent large removals of the widow rockfish by the shorebased midwater trawl fleet targeting rockfish started in 2017, a few years after widow rockfish was declared rebuilt. We explored multiple assumptions regarding blocks in the period of the recent fishery, starting with placing an additional block for 2017 forward. With that, we found that estimated selectivity curves for 2002-2010 and 2010-2016 periods were virtually identical, and therefore, removed a break associated with the start of the IFQ, extending the original block from 2002 to 2010 to go from 2002 to 2016. 
 
 1. Use the generic rockfish fecundity relationship in CITE
 

@@ -1,1 +1,22 @@
 <!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
+Three major steps were made to arrive from 2025 base model reviewed in August and this simplified alternative model include:
+1)	Use of a simplified fleet structure;
+2)	Use Francis method for weighting length and age data in the model, which is the current practice in West Coast groundfish stock assessments; 
+3)	Use of Dick et al. (2017) fecundity estimate, which is also a current practice in rockfish assessments.
+
+The relatively small impact of adding the Washington historical catch reconstruction was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
+
+```{r}
+#| echo: false
+eval_tables <- TRUE # not sure why this is needed, but helps with something about how tables are added below
+source(here::here("R", "table_sens.r"))
+```
+
+```{r}
+#| label: tbl-bridge2
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the August base model and the bridging models (columns). Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model. Note that the likelihoods are not comparable in most cases due to changes in data."
+table_sens(here::here("report", "tables", "bridging2_table.csv"))
+```

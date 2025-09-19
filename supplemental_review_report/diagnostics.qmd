@@ -1,31 +1,8 @@
-Below, we present a limited set of fits and diagnostics for the updated base model.
+A number of tests were performed to verify convergence of the model, facilitated by the \{nwfscDiags\} package in R [@wetzel2025nwfscdiag]. Following conventional AD Model Builder methods [@fournier_ad_2012], we checked that the Hessian matrix for the base model was positive-definite. There were no difficulties in inverting the Hessian to obtain estimates of variability. The final gradient is very low `r format(base_out$maximum_gradient_component, digits = 3, scientific = TRUE)`. 
 
-The based model presented has likely reached a global optimum as evidenced by zero out of 100 jitter runs reaching better likelihood values (with 56 runs reaching the same likelihood) and a maximum gradient component of `r format(base_out$maximum_gradient_component, digits = 3, scientific = TRUE)`.
+To confirm that the reported estimates were from the global best fit, we evaluated the model’s ability to recover similar likelihood estimates when initialized from dispersed starting points (jitter option in SS3). Starting parameters were jittered using a setting of 0.05 for 100 iterations. This perturbs the initial values used for minimization with the intention of causing the search to traverse a broader region of the likelihood surface. The majority (56 out of 100) returned to the same objective function value as the proposed model. The remaining runs exhibited worse fit than the proposed model. The spread of this search indicates that the jitter was sufficient to search a large portion of the likelihood surface, and that the model is in a global minimum
 
-Profiles over female natural mortality indicate that the recruitment deviation prior and age data most strongly influence the estimate of natural mortality, with survey indices also being somewhat influential (@fig-female-m-profile). Length data provides very little information. Relative to the August base model, all of the data sources suggest similar values of natural mortality. However, due to the updated data weighting, the WCGBTS ages, which were a key factor in the lower estimate of natural mortality relative to 2019, have a weaker pull on the estimate of natural mortality in terms of likelihood units. This leads to an overall increase in the estimate of female natural mortality. The removed fixed gear composition data was not influential on the estimate of natural mortality in the August base model. Profiles over male natural mortality behaved similarly.
-
-```{r}
-#| label: fig-female-m-profile
-#| fig-cap: Likelihood components in the likelihood profile for female natural mortality (M).
-#| fig-width: 5
-
-knitr::include_graphics(
-    here("models/diagnostics/2025 base model_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png")
-)
-
-```
-
-Profiles over the log of unfished recruitment ($\log(R0)$), show that, similar to natural mortality, the estimate is slightly higher with this new proposed model (@fig-r0-profile). As with natural mortality, WCGBTS ages pull the scale estimate down, but the overall magnitude of that pull (as measured by likelihood units) is weaker with the new proposed base model than the August base model.
-
-```{r}
-#| label: fig-r0-profile
-#| fig-cap: Likelihood components in the likelihood profile for the log of unfished recruitment ($\log(R0)$). Note that the model run at $\log(R0)=10$ may not have converged.
-
-knitr::include_graphics(
-    here("models/diagnostics/2025 base model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png")
-)
-
-```
+We ran standard set of diagnostics on the proposed model, including retrospective analysis and likelihood profile analysis for $\log(R0)$, steepness, and female and male natural mortality values separately. These likelihood profiles were conducted by fixing the parameter at specific values and estimating the remaining parameters based on the fixed parameter value. The priors for all parameters, including the parameter being profiled, were included in every likelihood model. 
 
 ```{r}
 #| label: mohn
@@ -68,5 +45,30 @@ recdev <- cowplot::ggdraw() +
     )
 
 cowplot::plot_grid(ssb, bratio, recruit, recdev, nrow = 2, labels = 'auto')
+```
+
+Profiles over female natural mortality indicate that the recruitment deviation prior and age data most strongly influence the estimate of natural mortality, with survey indices also being somewhat influential (@fig-female-m-profile). Length data provides very little information. Relative to the August base model, all of the data sources suggest similar values of natural mortality. However, due to the updated data weighting, the WCGBTS ages, which were a key factor in the lower estimate of natural mortality relative to 2019, have a weaker pull on the estimate of natural mortality in terms of likelihood units. This leads to an overall increase in the estimate of female natural mortality. The removed fixed gear composition data was not influential on the estimate of natural mortality in the August base model. Profiles over male natural mortality behaved similarly.
+
+```{r}
+#| label: fig-female-m-profile
+#| fig-cap: Likelihood components in the likelihood profile for female natural mortality (M).
+#| fig-width: 5
+
+knitr::include_graphics(
+    here("models/diagnostics/2025 base model_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png")
+)
+
+```
+
+Profiles over the log of unfished recruitment ($\log(R0)$), show that, similar to natural mortality, the estimate is slightly higher with this new proposed model (@fig-r0-profile). As with natural mortality, WCGBTS ages pull the scale estimate down, but the overall magnitude of that pull (as measured by likelihood units) is weaker with the new proposed base model than the August base model.
+
+```{r}
+#| label: fig-r0-profile
+#| fig-cap: Likelihood components in the likelihood profile for the log of unfished recruitment ($\log(R0)$). Note that the model run at $\log(R0)=10$ may not have converged.
+
+knitr::include_graphics(
+    here("models/diagnostics/2025 base model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png")
+)
+
 ```
 

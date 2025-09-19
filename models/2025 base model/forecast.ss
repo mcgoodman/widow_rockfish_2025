@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-06-12  10:32:58
+#C file write time: 2025-09-17  21:37:46
 #
 1 #_benchmarks
 2 #_MSY
@@ -28,25 +28,25 @@
 0.4 #_BforconstantF
 0.1 #_BfornoF
 -1 #_Flimitfraction
- #_year buffer
-   2025  1.000
-   2026  1.000
-   2027  0.935
-   2028  0.930
-   2029  0.926
-   2030  0.922
-   2031  0.917
-   2032  0.913
-   2033  0.909
-   2034  0.904
-   2035  0.900
-   2036  0.896
+ #_year fraction
+   2025    1.000
+   2026    1.000
+   2027    0.935
+   2028    0.930
+   2029    0.926
+   2030    0.922
+   2031    0.917
+   2032    0.913
+   2033    0.909
+   2034    0.904
+   2035    0.900
+   2036    0.896
 -9999 0
 3 #_N_forecast_loops
 3 #_First_forecast_loop_with_stochastic_recruitment
 0 #_fcast_rec_option
 1 #_fcast_rec_val
-0 #_Fcast_loop_control_5
+0 #_HCR_anchor
 2027 #_FirstYear_for_caps_and_allocations
 0 #_stddev_of_log_catch_ratio
 0 #_Do_West_Coast_gfish_rebuilder_output
@@ -63,16 +63,12 @@
 -9999 -1
 2 #_InputBasis
  #_year seas fleet catch_or_F
-   2025    1     1       76.7
+   2025    1     1      119.9
    2025    1     2     9770.0
    2025    1     3      778.7
-   2025    1     4        0.0
-   2025    1     5       43.2
-   2026    1     1       70.8
+   2026    1     1      114.0
    2026    1     2     8975.0
    2026    1     3      734.6
-   2026    1     4        0.0
-   2026    1     5       43.2
 -9999 0 0 0
 #
 999 # verify end of input 

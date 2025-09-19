@@ -93,6 +93,8 @@ a <- knitr::knit_child('management.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
+# References
+
 ```{r, results='asis'}
 #| label: 'references'
 #| warning: false

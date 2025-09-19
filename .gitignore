@@ -113,3 +113,5 @@ report/10_appendix_files/*
 report/11_appendix_c_files/*
 report/12_appendix_d_files/*
 *.rmarkdown
+
+/supplemental_review_report/*.pdf

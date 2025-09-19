@@ -1,1 +1,72 @@
-<!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
+Below, we present a limited set of fits and diagnostics for the updated base model.
+
+The based model presented has likely reached a global optimum as evidenced by zero out of 100 jitter runs reaching better likelihood values (with 56 runs reaching the same likelihood) and a maximum gradient component of `r format(base_out$maximum_gradient_component, digits = 3, scientific = TRUE)`.
+
+Profiles over female natural mortality indicate that the recruitment deviation prior and age data most strongly influence the estimate of natural mortality, with survey indices also being somewhat influential (@fig-female-m-profile). Length data provides very little information. Relative to the August base model, all of the data sources suggest similar values of natural mortality. However, due to the updated data weighting, the WCGBTS ages, which were a key factor in the lower estimate of natural mortality relative to 2019, have a weaker pull on the estimate of natural mortality in terms of likelihood units. This leads to an overall increase in the estimate of female natural mortality. The removed fixed gear composition data was not influential on the estimate of natural mortality in the August base model. Profiles over male natural mortality behaved similarly.
+
+```{r}
+#| label: fig-female-m-profile
+#| fig-cap: Likelihood components in the likelihood profile for female natural mortality (M).
+#| fig-width: 5
+
+knitr::include_graphics(
+    here("models/diagnostics/2025 base model_profile_NatM_uniform_Fem_GP_1/piner_panel_NatM_uniform_Fem_GP_1.png")
+)
+
+```
+
+Profiles over the log of unfished recruitment ($\log(R0)$), show that, similar to natural mortality, the estimate is slightly higher with this new proposed model (@fig-r0-profile). As with natural mortality, WCGBTS ages pull the scale estimate down, but the overall magnitude of that pull (as measured by likelihood units) is weaker with the new proposed base model than the August base model.
+
+```{r}
+#| label: fig-r0-profile
+#| fig-cap: Likelihood components in the likelihood profile for the log of unfished recruitment ($\log(R0)$). Note that the model run at $\log(R0)=10$ may not have converged.
+
+knitr::include_graphics(
+    here("models/diagnostics/2025 base model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png")
+)
+
+```
+
+```{r}
+#| label: mohn
+
+mohn <- read.csv(here('models/diagnostics/2025 base model_retro_5_yr_peel/mohnsrho.csv'))
+```
+
+A five year retrospective yields a Mohn's rho of `r filter(mohn, type == 'Mohn', Quantity == 'SSB') |> pull(values) |> round(3)` for spawning output and `r filter(mohn, type == 'Mohn', Quantity == 'Fraction unfished') |> pull(values) |> round(3)` for fraction unfished. While these values are not particularly extreme, there is a general trend of increasing scale and fraction unfished as years are removed (@fig-retro). This result is expected because the fraction of older fish in the WCGBTS increased substantially beginning in 2019. Analyses done in response to GFSC requests (separate document) indicate that sequentially peeling off individual years of WCGBTS age data leads to increasing estimates of natural mortality and unfished recruitment. The cause of this sudden increase in ages in the survey is unknown. Additionally, as years are pulled away the estimate of the size of the 2016 year class decreases towards average and the sizes of year classes since 2016 increase towards average. This is also expected as information about those recent year classes is removed.
+
+```{r}
+#| label: fig-retro
+#| fig-cap: Patterns in (a) spawning output, (b) fraction unfished, (c) recruitment, and (d) recruitment deviations for a set of 5-year retrospective runs. 
+
+ssb <- cowplot::ggdraw() + 
+  cowplot::draw_image(
+    magick::image_read(
+      here("models/diagnostics/2025 base model_retro_5_yr_peel/compare1_spawnbio.png")
+      )
+    )
+
+bratio <- cowplot::ggdraw() + 
+  cowplot::draw_image(
+    magick::image_read(
+      here("models/diagnostics/2025 base model_retro_5_yr_peel/compare3_Bratio.png")
+      )
+    )
+
+recruit <- cowplot::ggdraw() + 
+  cowplot::draw_image(
+    magick::image_read(
+      here("models/diagnostics/2025 base model_retro_5_yr_peel/compare9_recruits.png")
+      )
+    )
+
+recdev <- cowplot::ggdraw() + 
+  cowplot::draw_image(
+    magick::image_read(
+      here("models/diagnostics/2025 base model_retro_5_yr_peel/compare11_recdevs.png")
+      )
+    )
+
+cowplot::plot_grid(ssb, bratio, recruit, recdev, nrow = 2, labels = 'auto')
+```
+

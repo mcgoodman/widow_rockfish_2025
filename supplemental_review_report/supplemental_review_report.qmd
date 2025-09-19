@@ -5,23 +5,44 @@ author:
   - name: Vladlena Gertseva
   - name: Kiva L. Oken
   - name: Michael Kineen
-  - name: Maurice Goodman
-format: pdf
+  - name: Maurice C. Goodman
+date: today
+lang: en 
+pdf-engine: lualatex
+format: 
+  pdf:
+    documentclass: scrartcl
+    # template-partials:
+    #   - 'support_files/before-body.tex'
+    include-in-header:
+      - 'support_files/in-header.tex'
+      # - 'support_files/pfmc.tex'
+    # include-after-body:
+    #   text: |
+    #     \newpage{}
+    #     \printnoidxglossaries
+    fig-pos: 'H'
+    reference-location: section
+bibliography:
+  - asar_references.bib
+csl: 'canadian-journal-of-fisheries-and-aquatic-sciences.csl'
+execute: 
+  echo: false
+
 ---
 
 ```{r}
 #| label: setup
-#| eval: true
-#| echo: false
 #| message: false
 #| warning: false
 
 library(here)
+library(dplyr)
 library(r4ss)
 
 base_location <- here('models/2025 base model')
 base_in <- SS_read(base_location)
-base_out <- SS_output(base_location, verbose = FALSE, printstats = FALSE)
+base_out <- SS_output(base_location, verbose = FALSE, printstats = FALSE, covar = FALSE)
 
 # insert any other preamble code here
 ```
@@ -40,8 +61,6 @@ cat(a, sep = '\n')
 
 ```{r, results='asis'}
 #| label: 'new_base'
-#| eval: true
-#| echo: false
 #| warning: false
 a <- knitr::knit_child('new_base_description.qmd', quiet = TRUE)
 cat(a, sep = '\n')
@@ -51,8 +70,6 @@ cat(a, sep = '\n')
 
 ```{r, results='asis'}
 #| label: 'bridging'
-#| eval: true
-#| echo: false
 #| warning: false
 a <- knitr::knit_child('bridging.qmd', quiet = TRUE)
 cat(a, sep = '\n')
@@ -62,20 +79,22 @@ cat(a, sep = '\n')
 
 ```{r, results='asis'}
 #| label: 'diagnostics'
-#| eval: true
-#| echo: false
 #| warning: false
 a <- knitr::knit_child('diagnostics.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
-# Projections (and decision table?) for new proposed base model
+# Projections for new proposed base model
 
 ```{r, results='asis'}
 #| label: 'management'
-#| eval: true
-#| echo: false
 #| warning: false
 a <- knitr::knit_child('management.qmd', quiet = TRUE)
 cat(a, sep = '\n')
+```
+
+```{r, results='asis'}
+#| label: 'references'
+#| warning: false
+a <- knitr::knit_child(here('report/07_references.qmd'), quiet = TRUE)
 ```

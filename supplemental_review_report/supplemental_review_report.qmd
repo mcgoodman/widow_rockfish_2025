@@ -1,0 +1,81 @@
+---
+title: "Proposed changes to August, 2025 base model"
+author: 
+  - name: Ian G. Taylor
+  - name: Vladlena Gertseva
+  - name: Kiva L. Oken
+  - name: Michael Kineen
+  - name: Maurice Goodman
+format: pdf
+---
+
+```{r}
+#| label: setup
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+library(here)
+library(r4ss)
+
+base_location <- here('models/2025 base model')
+base_in <- SS_read(base_location)
+base_out <- SS_output(base_location, verbose = FALSE, printstats = FALSE)
+
+# insert any other preamble code here
+```
+
+```{r, results='asis'}
+#| label: 'disclaimer'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child(here('report/00a_disclaimer.qmd'), quiet = TRUE)
+cat(a, sep = '\n')
+
+```
+
+# New proposed base model
+
+```{r, results='asis'}
+#| label: 'new_base'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('new_base_description.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+# Bridging from the August 2025 model to the new proposed base model
+
+```{r, results='asis'}
+#| label: 'bridging'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('bridging.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+# Diagnostics from new proposed base model
+
+```{r, results='asis'}
+#| label: 'diagnostics'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('diagnostics.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
+# Projections (and decision table?) for new proposed base model
+
+```{r, results='asis'}
+#| label: 'management'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('management.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```

@@ -1,0 +1,19 @@
+We propose the following changes to the base model that was reviewed in August, 2025: 
+
+<!-- These are quite short now. I meant them as placeholders, but I am envisioning each bullet could be much longer and include both motivation and additional detail -->
+
+1. Use the updated Washington catch reconstruction
+
+2. Use the generic rockfish fecundity relationship in CITE
+
+3. Simplify the fleet structure: Move the small amount of catches from fixed gear fleets (hook and line and net) into the bottom trawl fleet, and remove their composition data. In addition, move the foreign catches (1966-1976) from the hake fleet to bottom trawl, as well.
+
+4. Discards: Add discards to the catch rather than estimating retention curves. DESCRIBE WHERE THEY CAME FROM. 
+
+5. Data weighting: Use Francis weighting and do not additionally downweight age and length composition data by one half.
+
+6. Change the selectivity blocking for the midwater trawl fleet. Change the block that previously went from X to 2010 to go from X to 2016.
+
+7. Update bias adjustment using estimated values but modified to have full bias adjustment starting in 1970.
+
+Feel free to reorder these and I suspect I forgot some changes

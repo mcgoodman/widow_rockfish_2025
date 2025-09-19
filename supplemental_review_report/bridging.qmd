@@ -1,5 +1,5 @@
 <!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
-Three major steps were made to arrive from 2025 base model reviewed in August and this simplified alternative model include:
+Three major steps were made to arrive from 2025 base model reviewed in August and this simplified alternative model. There steps include:
 1)	Use of a simplified fleet structure;
 2)	Use Francis method for weighting length and age data in the model, which is the current practice in West Coast groundfish stock assessments; 
 3)	Use of Dick et al. (2017) fecundity estimate, which is also a current practice in rockfish assessments.

@@ -1,6 +1,6 @@
-The August 2025 base model for widow rockfish update assessment followed in its structure and assumptions the 2015 benchmark assessment, as required by the Terms of Reference for update assessments. The supplemental review recommended by the PFMC SSC Groundfish Subcommittee (GFSC) provides an opportunity to explore a larger range of options which no longer match the 2015 benchmark. 
+The August 2025 base model for widow rockfish update assessment followed in its structure and assumptions the 2015 benchmark assessment, as required by the Terms of Reference for update assessments. For supplemental review, recommended by the PFMC SSC Groundfish Subcommittee (GFSC), we explored a larger range of options which go beyond update assessment Terms of Reference and no longer match the 2015 benchmark. 
 
-For supplemental review, we explored multiple alternative model runs that go beyond update assessment Terms of Reference. Based on this exploration, we developed an alternative model that has simpler fleet structure than the base model reviewed in August 2025, while utilizing current best practice. This alternative model produces similar results to the model reviewed in August 2025, but is more stable (responsive but not overly sensitive to changes) due to its simplified structure.
+Based on this exploration, we developed an alternative model that has simpler fleet structure than the base model reviewed in August 2025, while utilizing current best practice. This alternative model produces similar results to the model reviewed in August 2025, but is more parsimonious and stable (responsive but not overly sensitive to changes).
 
 Therefore, we propose the following changes to the base model that was reviewed in August: 
 

@@ -12,7 +12,7 @@ read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 unlink(here("report", "tables", "exec_summ_tables"), recursive = TRUE, force = TRUE)
 
-rep_2025 <- SS_output(here("models", "2025 base model"))
+rep_2025 <- SS_output(here("models", "2025 base model"), printstats = FALSE, verbose = FALSE)
 
 r4ss::table_all(replist = rep_2025,verbose = T,dir = here("report", "tables"))
 
@@ -44,7 +44,7 @@ recent_management$table <- recent_management$table |>
               mutate('ACL (mt)' = VAL) |>
               select(YEAR,'ACL (mt)'), by = c("Year" = "YEAR")) |>
   mutate(across(where(is.numeric), \(x) round(x, digits = 2))) |>
-  select(Year, `OFL (mt)`, `ABC (mt)`, `ACL (mt)`, `Landings (mt)`, `Total Mortality (mt)`)
+  select(Year, `OFL (mt)`, `ABC (mt)`, `ACL (mt)`, `Catch (mt)`)
 
 save(recent_management, file = here("report", "tables", "exec_summ_tables", "recent_management.rda"))
 
@@ -60,14 +60,19 @@ gmt_25_26 <- gmt_refs |>
   )) |>
   filter(!is.na(spec)) |> 
   select(Year = YEAR, spec, VAL) |> 
-  pivot_wider(names_from = "spec", values_from = "VAL")
+  pivot_wider(names_from = "spec", values_from = "VAL") |> 
+  dplyr::select(-`ABC (mt)`)
 
 projections$table <- projections$table |>
   mutate(
     `Adopted OFL (mt)` = as.numeric(`Adopted OFL (mt)`),
     `ABC (mt)` = as.numeric(`ABC (mt)`),
-    `Adopted ACL (mt)` = as.numeric(`Adopted ACL (mt)`)
-  )|> rows_update(gmt_25_26, by = "Year")
+    `Adopted ACL (mt)` = as.numeric(`Adopted ACL (mt)`),
+    `Spawning output` = round(as.numeric(`Spawning output`)/1000, 2)
+  ) |> 
+  rows_update(gmt_25_26, by = "Year") |> 
+  rename(`Spawning output (billions of eggs)` = `Spawning output`)
+  
   
 save(projections, file = here("report", "tables", "exec_summ_tables", "projections.rda"))
 

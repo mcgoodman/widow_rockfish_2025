@@ -10,10 +10,14 @@
 *.lock
 *.html
 *.png
+*.tex
 
 # Whitelist PNG files written to figures directory
 !figures/**/*.png
 !report/**/*.png
+
+# exclude diagnostics but include .png results
+models/diagnostics/*
 !models/diagnostics/**/*.png
 
 # Directories
@@ -75,8 +79,13 @@ runnumber.ss
 *plots_StartTime*
 
 # Whitelist par file from best jitter
+models/jitters/
 !models/jitters/ss3.par_best.sso
-# skip some models that were dead ends
+# skip some models
+models/2019_no_Hnl_discards_all_HnL_selex_fixed
+models/2019_no_Hnl_discards_data_from_HnL
+models/2019_no_Hnl_discards_par
+models/2019_no_Hnl_discards
 models/supplemental_requests/mirror_fixed_gear_selex_midwater_fixed_at_MLE/
 models/supplemental_requests/mirror_fixed_gear_selex/
 models/supplemental_requests/simplify_*
@@ -115,3 +124,5 @@ report/12_appendix_d_files/*
 *.rmarkdown
 
 /supplemental_review_report/*.pdf
+/supplemental_review_report/*.upa
+/supplemental_review_report/*.upb

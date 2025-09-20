@@ -1,1 +1,130 @@
-<!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
+
+```{r, tbl-load}
+#| include: false
+
+# load all executive summary tables
+all_files <- list.files(here::here("report/tables/exec_summ_tables"), full.names = TRUE)
+all_rda_files <- all_files[grep(".rda", all_files)]
+for (a in 1:length(all_rda_files)) {
+    load(all_rda_files[a])
+}
+
+# pull out the table and caption as variables (in order to reference caption directly)
+reference_points_table <- reference_points$table
+reference_points_cap <- reference_points$cap
+rm(reference_points)
+
+# pull out the table and caption as variables (in order to reference caption directly)
+projections_table <- projections$table
+projections_cap <- projections$cap
+# expand one of the quantities in the table
+projections_cap <- gsub("fraction unfished", "fraction of unfished spawning output", projections_cap)
+rm(projections)
+```
+
+Reference points for the new base model are reported in @tbl-ref-points-supp.
+
+Many quantities are relatively similar to the August 2025 base model (although the spawning output is now in units of billions of eggs rather than thousands of tons). The equilibrium catch (yield) at the SPR = 50% target (`r reference_points_table |> dplyr::filter("Reference Point" == "Yield with SPR50 at SO SPR (mt)") |> dplyr::pull(Estimate) |> round()` mt) is about 3% higher in the new base compared to the August 2025 base model (5822 mt).
+
+A twelve year projection of the base model using the default harvest control rule with (P&#42; = 0.45 and sigma = 0.5) was conducted (@tbl-supplementary-projections). The resulting catch limit for 2027 is about 13% higher than the limit from the August 2025 base model. In 2036 the difference has decreased to about 5%. Given the similarity in equilibrium yield estimates noted above, the primary source of the difference is due to revised estimates of recent recruitment. Recruitment in 2017-2019 is estimated to be low in all the models considered, but estimates in the new base model are not quite as low due to the change in data weighting (the WCGBTS ages and lengths are the largest source of information about these recent recruitments and those data were slightly down-weighted relative to the August 2025 base model).
+
+
+ {{< pagebreak >}} 
+
+```{r, tbl-supplementary-ref-points, results = "asis"}
+#| label: tbl-ref-points-supp
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables
+#| tbl-cap: !expr if(eval_tables) reference_points_cap
+#| tbl-pos: H
+
+reference_points_table |>
+    gt::gt() |>
+    gt::fmt_number(
+        columns = 2:4,
+        rows = c(2:4, 7, 10, 12, 15, 17, 20),
+        decimals = 0
+    ) |>
+    gt::fmt_number(
+        columns = 2:4,
+        rows = 1,
+        decimals = 0
+    ) |>
+    gt::fmt_number(
+        columns = 2:4,
+        rows = c(5, 8, 9, 13:14, 18:19),
+        decimals = 3
+    ) |>
+    gt::tab_options(
+        table.font.size = 12,
+        latex.use_longtable = TRUE
+    ) |>
+    gt::tab_style(
+        style = list(
+            gt::cell_text(weight = "bold")
+        ),
+        locations = gt::cells_body(
+            columns = `Reference Point`,
+            rows = grepl("Reference", `Reference Point`)
+        )
+    ) |>
+    gt::tab_style(
+        style = list(
+            gt::cell_text(weight = "bold")
+        ),
+        locations = gt::cells_column_labels(
+            columns = everything()
+        )
+    ) |>
+    gt::sub_missing(
+        columns = tidyselect::everything(),
+        missing_text = "---"
+    ) |>
+    gt::as_latex()
+
+```
+
+ {{< pagebreak >}} 
+::: {.landscape}
+
+```{r, tbl-es-projections, results = "asis"}
+#| label: tbl-supplementary-projections
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables
+#| tbl-cap: !expr if(eval_tables) projections_cap
+#| tbl-pos: H
+
+projections_table |>
+    gt::gt() |>
+    gt::fmt_number(
+        columns = c(2:5, 7:8),
+        decimals = 0
+    ) |>
+    gt::fmt_number(
+        columns = 9,
+        decimals = 2
+    ) |>
+    gt::fmt_number(
+        columns = c(6, 10),
+        decimals = 3
+    ) |>
+    gt::tab_options(
+        table.font.size = 12,
+        latex.use_longtable = TRUE
+    ) |>
+    gt::sub_missing(
+        columns = tidyselect::everything(),
+        missing_text = "---"
+    ) |>
+    gt::cols_align(
+        align = "center"
+    ) |>
+    gt::cols_width(
+        everything() ~ px(75)
+    ) |>
+    gt::as_latex()
+
+```
+:::

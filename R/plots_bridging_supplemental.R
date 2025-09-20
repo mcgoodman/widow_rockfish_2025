@@ -10,7 +10,7 @@ base_Aug2025 <- here("models", "Aug2025 base model")
 
 dir_NewWACatch <- here("models", "Aug2025_NewWACatch")
 
-# Main bridging plots -------------------------------------
+# Supplemental bridging plots -------------------------------------
 
 ## SSB, SPR, etc. -----------------------------------------
 
@@ -98,6 +98,9 @@ r4ss::plot_twopanel_comparison(
     dir = plotdir
 )
 
+# Tables
+
+## Bridging table -----------------------------------------
 tab <- SStableComparisons(
     model_summary,
     likenames = NULL,

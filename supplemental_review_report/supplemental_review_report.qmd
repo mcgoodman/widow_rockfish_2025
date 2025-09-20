@@ -1,11 +1,11 @@
 ---
-title: "Proposed changes to August, 2025 base model"
+title: "Proposed new widow rockfish base model and changes from August 2025"
 author: 
-  - name: Ian G. Taylor
-  - name: Vladlena Gertseva
-  - name: Kiva L. Oken
-  - name: Michael Kineen
-  - name: Maurice C. Goodman
+  - name: Ian G. Taylor^1^
+  - name: Vladlena Gertseva^1^
+  - name: Kiva L. Oken^1^
+  - name: Michael Kineen^2^
+  - name: Maurice C. Goodman^2^
 date: today
 lang: en 
 pdf-engine: lualatex
@@ -25,11 +25,19 @@ format:
     reference-location: section
 bibliography:
   - asar_references.bib
+  - widow_references.bib
 csl: 'canadian-journal-of-fisheries-and-aquatic-sciences.csl'
 execute: 
   echo: false
 
 ---
+
+<!-- low-tech way to add affiliations to quarto doc --> 
+1. NOAA Fisheries Northwest Fisheries Science Center, 2725 Montlake Boulevard East, Seattle, WA, 98112
+2. School of Aquatic & Fishery Sciences (SAFS), University of Washington, 1122 NE Boat St, Seattle, WA, 98195
+
+<!-- may need to change fig method to allow alt-text --> 
+![](../report/support_files/Widow_rockfish.png)
 
 ```{r}
 #| label: setup
@@ -66,6 +74,8 @@ a <- knitr::knit_child('new_base_description.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
+ {{< pagebreak >}} 
+
 # Bridging from the August 2025 model to the new proposed base model
 
 ```{r, results='asis'}
@@ -75,6 +85,8 @@ a <- knitr::knit_child('bridging.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
 
+ {{< pagebreak >}} 
+
 # Diagnostics from new proposed base model
 
 ```{r, results='asis'}
@@ -83,6 +95,8 @@ cat(a, sep = '\n')
 a <- knitr::knit_child('diagnostics.qmd', quiet = TRUE)
 cat(a, sep = '\n')
 ```
+
+ {{< pagebreak >}} 
 
 # Projections for new proposed base model
 

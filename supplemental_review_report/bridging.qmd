@@ -7,7 +7,7 @@ The bridging steps to arrive from August 2025 base model to the proposed model i
 1. Add the fecundity relationship
 1. Refine the recruitment bias adjustment and re-tune the weighting
 
-None of the changes resulted in large changes in estimated population trajectories and model outputs.
+None of the updates resulted in large changes in estimated population trajectories and model outputs.
 
 Adding the Washington historical catch reconstruction had relatively small impact, as was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
 

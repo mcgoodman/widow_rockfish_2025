@@ -1,5 +1,26 @@
-<!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
-The bridging steps to arrive from August 2025 base model to the proposed model included:
+```{r}
+#| include: false
+
+# read ss_summary.sso files (much quicker than running SS_output())
+summary_Aug2025_base <- r4ss::SS_read_summary(here::here("models/Aug2025 base model/ss_summary.sso"))
+summary_1.04 <- r4ss::SS_read_summary(here::here("models/supplemental_requests/1.04_add_fecundity/ss_summary.sso"))
+
+get_min_bratio <- function(ss_summary) {
+  bratiovals <- ss_summary$derived_quants |>
+    dplyr::filter(grepl("Bratio_", rownames(ss_summary$derived_quants)))
+  bratio_min <- bratiovals$Value |> 
+    min()
+  bratio_min_yr <- bratiovals |>
+    dplyr::filter(Value == bratio_min) |>
+    rownames() |>
+    substring(8) |>
+    as.numeric()
+  glue::glue("{round(bratio_min, 3)} in {bratio_min_yr}")
+}
+```
+
+For illustration of the bridging analysis, the changes to the August 2025 base model are grouped into the following steps:
+
 1. Adopt the new Washington historical catch reconstruction
 1. Simplify fleets and include discards with landings
 1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
@@ -7,17 +28,17 @@ The bridging steps to arrive from August 2025 base model to the proposed model i
 1. Add the fecundity relationship
 1. Refine the recruitment bias adjustment and re-tune the weighting
 
-None of the updates resulted in large changes in estimated population trajectories and model outputs.
+None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes.
 
 Adding the Washington historical catch reconstruction had relatively small impact, as was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
 
 Simplifying the fleet structure and combining discards with landings did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
 
-The use of the Francis weighting approach (instead of McAllister-Ianelli) and particularly using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, that translated in slight increase in estimated OFLs.
+The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, that translated in increases in the estimated natural mortality and increases in estimated OFLs.
 
-With the change in fecundity relationship, spawning output is now expressed in billion of eggs and no longer comparable with spawning biomass expressed in metric tons in previous models. This change, however, did not have much impact of summary biomass, but resulted in slightly lower estimates of OFLs and fraction unfinished.
+With the change in fecundity relationship, spawning output is now expressed in billion of eggs and no longer comparable with spawning biomass expressed in metric tons in previous models. This change, did not have much impact of age 4+ biomass, but the spawning output time series was impacted by the changes in relative contributions of older fish. In particular, the stock status (fraction of unfished spawning output) reached a low point of `r get_min_bratio(summary_1.04)` (below the 0.25 overfished threshold) as compared to a minimum of `r get_min_bratio(summary_Aug2025_base)` in the August 2025 base model. The addition of the fecundity relationship also resulted in slightly lower estimates of OFLs and fraction unfished at the end of the time series compared to the previous step in this bridging.
 
-Finally, refining the recruitment bias adjustment and re-tuning the model (again with the Francis method) have only a small impact on the model results.  
+Finally, refining the recruitment bias adjustment and re-tuning the model (again with the Francis method) have only a small impact on the model results.
 
 ```{r}
 #| echo: false
@@ -30,7 +51,7 @@ source(here::here("R", "table_sens.r"))
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
-#| tbl-cap: "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the August base model and the bridging models (columns). Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model. Note that the likelihoods are not comparable in most cases due to changes in data."
+#| tbl-cap: "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the August base model and the bridging models (columns). The units for B0 and B2025 are 1000s of tons for the first five models and billions of eggs for the last two."
 table_sens(here::here("report", "tables", "bridging2_table.csv"))
 ```
 

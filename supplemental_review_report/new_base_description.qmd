@@ -21,7 +21,7 @@ We propose the following changes to the base model that was reviewed in August, 
         i. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model;
         i. Total catch in the at-sea hake fishery was fully accounted for in the August 2025 base model and was not changed.
 
-1. **Use the Francis method for data weighting, rather than McAllister-Ianelli approach.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
+1. **The data weighting was updated to follow current best practices.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
     a. Data weighting remains a topic of ongoing research in the stock assessment community. However, the Francis method performed better in a simulation analysis (TODO: CITE PUNT PAPER) and has been the preferred approach in most recent stock assessments.  
     a. The 50% multplier on the data weights used in the previous assessment was an approach more common in 2015 to account for the potential double use of data since length and age are observed from the same fish. However, the sum of the adjusted input sample sizes for length and age data combined are already far lower than the number of number of sampled fish because they are primarily based on trips or hauls and then further reduced by the data-weigthing algorithm. This 50% adjustment is no longer common practice and has not been used any other recent assessments. 
 

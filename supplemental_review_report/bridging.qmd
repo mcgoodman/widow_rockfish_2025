@@ -7,15 +7,17 @@ The bridging steps to arrive from August 2025 base model to the proposed model i
 1. Add the fecundity relationship
 1. Refine the recruitment bias adjustment and re-tune the weighting
 
-The relatively small impact of adding the Washington historical catch reconstruction was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
+None of the changes resulted in large changes in estimated population trajectories and model outputs.
 
-Simplifying the fleet structure and combining discards with landings did not create large changes in model results, but interacted with the Francis weighting approach applied later.
+Adding the Washington historical catch reconstruction had relatively small impact, as was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
 
-The use of the Francis weighting approach with lambda = 1 resulted in the biggest change from the August 2025 base model ...
+Simplifying the fleet structure and combining discards with landings did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
 
-The fecundity relationship ...
+The use of the Francis weighting approach (instead of McAllister-Ianelli) and particularly using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, that translated in slight increase in estimated OFLs.
 
-Refining the recruitment bias adjustment and re-tuning the weights with the Francis method were necessary final steps but has only a small impact on the model results.  
+With the change in fecundity relationship, spawning output is now expressed in billion of eggs and no longer comparable with spawning biomass expressed in metric tons in previous models. This change, however, did not have much impact of summary biomass, but resulted in slightly lower estimates of OFLs and fraction unfinished.
+
+Finally, refining the recruitment bias adjustment and re-tuning the model (again with the Francis method) have only a small impact on the model results.  
 
 ```{r}
 #| echo: false

@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------------
 # Model simplification and data modification steps performed in this script:
 #
+# NOTE: this list is out of date
 # 1. Combine fixed gear fleets (H&L and Net) with BottomTrawl in catch and forecast.
 # 2. Move foreign catch in 1966-76 from Hake fleet to BottomTrawl.
 # 3. Add discard estimates to landings for 1982-2024 using discard rates and external data.
@@ -17,7 +18,8 @@
 # ------------------------------------------------------------------------------
 
 which_steps <- 1:5
-run_models <- TRUE
+run_models <- TRUE # doesn't apply to tuning steps, only works for step 1, perhaps
+copy_to_base_dir <- FALSE
 
 if (1 %in% which_steps) {
   cli::cli_alert_info(
@@ -29,7 +31,7 @@ if (1 %in% which_steps) {
     here::here(
       "models",
       "sensitivities",
-      "NewWACatch"
+      "Aug2025_NewWACatch"
     )
   )
   # read base model output
@@ -811,7 +813,8 @@ if (5 %in% which_steps) {
   )
 }
 
-if (FALSE) {
+# copy final simplified model to 2025 base model directory and re-run
+if (copy_to_base_dir) {
   r4ss::copy_SS_inputs(
     dir.old = here::here(
       "models",
@@ -824,4 +827,68 @@ if (FALSE) {
     ),
     overwrite = TRUE
   )
+  r4ss::run(
+    here::here(
+      "models",
+      "2025 base model"
+    ),
+    skipfinished = FALSE
+  )
+}
+
+if (6 %in% which_steps) {
+  # step 6: projection with relative F average over last 5 years
+  cli::cli_alert_info(
+    "Step 6: Projection with relative F average over last 5 years"
+  )
+  dir1.06 <- here::here(
+    "models",
+    "supplemental_requests",
+    "1.06_projection_relativeF_last5"
+  )
+  r4ss::copy_SS_inputs(
+    dir.old = here::here(
+      "models",
+      "supplemental_requests",
+      "1.05_refine_biasramp_and_tuning"
+    ),
+    dir.new = dir1.06,
+    overwrite = TRUE,
+    copy_par = TRUE
+  )
+  inputs1.06 <- SS_read(dir1.06)
+  # set benchmark years for relative F to last 5 years of data (2020-2024)
+  #_Bmark_years: beg_bio, end_bio, beg_selex, end_selex, beg_relF, end_relF, beg_recr_dist, end_recr_dist, beg_SRparm, end_SRparm (enter actual year, or values of 0 or -integer to be rel. endyr)
+  inputs1.06$fore$Bmark_years[5:6] <- c(2020, 2024)
+
+  # set average forecast recruitment to the full timeseries
+  inputs1.06$fore$Fcast_years <- inputs1.06$fore$Fcast_years |>
+    dplyr::rows_update(
+      data.frame(
+        MG_type = 12,
+        method = 1,
+        # st_year = inputs1.06$ctl$inputs1.06$ctl$MainRdevYrFirst, # 1970
+        st_year = inputs1.06$ctl$recdev_early_start, # 1900
+        end_year = 0
+      ),
+      by = "MG_type" # replace row that matches MG_type=12 (recruitment)
+    )
+  # change starter to run from the .par file
+  inputs1.06$start$init_values_src <- 1
+
+  # write files
+  r4ss::SS_write(
+    inputs1.06,
+    dir = inputs1.06$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+  )
+  # run the model without estimation starting in phase 10
+  if (run_models) {
+    r4ss::run(
+      inputs1.06$dir,
+      extras = "-nohess -phase 10",
+      skipfinished = FALSE
+    )
+  }
 }

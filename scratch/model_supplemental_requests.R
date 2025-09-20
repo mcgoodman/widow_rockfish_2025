@@ -852,7 +852,6 @@ retroModels <- SSgetoutput(
         paste("retro", 0:-10, sep = "")
     )
 )
-retroModels
 retroModels_with_2015 <- c(retroModels, base_2015 = list(base_2015))
 retroSummary <- SSsummarize(retroModels_with_2015)
 

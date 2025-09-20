@@ -1,8 +1,8 @@
 <!-- I (Kiva) suggest we free ourselves from the standard stock assessment structure and intersperse figures and text in a logical flow. -->
 The bridging steps to arrive from August 2025 base model to the proposed model included:
-1. Adopt the new Washington historical catch reconstruction
-1. Simplify fleets and include discards with landings
-1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
+* Adopt the new Washington historical catch reconstruction
+* Simplify fleets and include discards with landings
+* Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
 1. Change data weighting methods (Francis, lambda = 1)
 1. Add the fecundity relationship
 1. Refine the recruitment bias adjustment and re-tune the weighting

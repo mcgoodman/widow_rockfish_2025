@@ -1,0 +1,7 @@
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 1 : no discard amount data for fleet 5  but retention parms have been defined 
+Warning 2 : Final gradient: 180.679 is larger than final_conv: 0.0001
+Warning 3 : Forecast F capped by max possible F from control file0.9
+Note 2 Information: No *.ss_new and fewer *.sso files written after mceval
+Note 3 Information:  N parameters that are on or within 1% of min-max bound: 1; check results, variance may be suspect
+ 3 warnings  and 3 notes 

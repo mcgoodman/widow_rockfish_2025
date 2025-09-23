@@ -68,7 +68,7 @@ cat(a, sep = '\n')
 
 ```
 
-# New proposed base model
+# Introduction and proposed changes
 
 ```{r, results='asis'}
 #| label: 'new_base'

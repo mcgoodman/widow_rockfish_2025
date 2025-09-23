@@ -28,13 +28,13 @@ For illustration of the bridging analysis, the changes to the August 2025 base m
 1. Add the fecundity relationship
 1. Refine the recruitment bias adjustment and re-tune the weighting
 
-None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits, @tbl-bridge2).
+None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (@tbl-bridge2, Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits).
 
 Adding the Washington historical catch reconstruction had relatively small impact, as was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
 
 Simplifying the fleet structure and combining discards with landings did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
 
-The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, that translated in increases in the estimated natural mortality and increases in estimated productivity of the stock, including equilibrium catch and estimated OFLs.
+The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, that translated in increases in the estimated natural mortality and increases in estimated productivity of the stock, including equilibrium catch and estimated OFLs. The weights associated with the August 2025 base model and the proposed new base model are shown in Tables -@tbl-compweight1 and -@tbl-compweight2.
 
 With the change in fecundity relationship, spawning output is now expressed in billion of eggs and no longer comparable with spawning biomass expressed in metric tons in previous models. This change, did not have much impact of age 4+ biomass, but the spawning output time series was impacted by the changes in relative contributions of older fish. In particular, the stock status (fraction of unfished spawning output) reached a low point of `r get_min_bratio(summary_1.04)` (below the 0.25 overfished threshold) as compared to a minimum of `r get_min_bratio(summary_Aug2025_base)` in the August 2025 base model. The addition of the fecundity relationship also resulted in slightly lower estimates of OFLs and fraction unfished at the end of the time series compared to the previous step in this bridging, though still higher than the August 2025 estimates.
 
@@ -54,6 +54,62 @@ source(here::here("R", "table_sens.r"))
 #| tbl-cap: "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the August base model and the bridging models (columns). The units for B0 and B2025 are 1000s of tons for the first five models and billions of eggs for the last two."
 table_sens(here::here("report", "tables", "bridging2_table.csv"))
 ```
+
+  {{< pagebreak >}}
+::: {.landscape}
+
+```{r}
+#| label: tbl-compweight1
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Data weightings applied to compositions adjusted according to the McAllistar-Ianelli method in the August 2025 base model. 'Obs.' refers to the number of unique composition vectors included in the likelihood. 'N input' and 'N adj.' refer to the sample sizes of those vectors before and after being adjusted by the the weights. 'CAAL' is conditional age-at-length data. The columns with 'x lambda' include adjustment by the separately input likelihood multiplier (lambda)."
+library(gt)
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight <- read.csv(here::here("report", "tables", "compweight_Aug2025_base.csv"), check.names = FALSE)
+
+# Format the table with gt
+compweight |>
+  gt::gt() |>
+  gt::tab_options(table.font.size = "10pt") |> 
+  gt::cols_width(
+    Fleet ~ px(110),
+    Lambda ~ px(60),
+    `Obs.` ~ px(40),
+    everything() ~ px(70)
+  )
+
+```
+
+
+```{r}
+#| label: tbl-compweight2
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Data weightings applied to compositions adjusted according to the Francis method in in the proposed new base model. See table above for additional detail on column headers."
+library(gt)
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight <- read.csv(here::here("report", "tables", "compweight_new_base.csv"), check.names = FALSE)
+
+
+# Format the table with gt
+compweight |>
+  gt::gt() |>
+  gt::tab_options(table.font.size = "10pt") |> 
+  gt::cols_width(
+    Fleet ~ px(110),
+    Lambda ~ px(60),
+    `Obs.` ~ px(40),
+    everything() ~ px(70)
+  )
+```
+:::
+
+
+  {{< pagebreak >}}
 
 ```{r}
 #| label: fig-bridge2_bratio

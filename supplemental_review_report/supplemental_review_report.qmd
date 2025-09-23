@@ -1,5 +1,8 @@
 ---
-title: "Proposed new widow rockfish base model and changes from August 2025"
+title: |
+  Proposed new widow rockfish base model  
+  \linebreak
+  and changes from August 2025
 author: 
   - name: Ian G. Taylor^1^
   - name: Vladlena Gertseva^1^
@@ -87,7 +90,7 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}} 
 
-# Diagnostics from new proposed base model
+# Diagnostics from the new proposed base model
 
 ```{r, results='asis'}
 #| label: 'diagnostics'
@@ -98,7 +101,7 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}} 
 
-# Projections for new proposed base model
+# Reference points and projections for new proposed base model
 
 ```{r, results='asis'}
 #| label: 'management'

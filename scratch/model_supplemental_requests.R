@@ -845,13 +845,24 @@ future::plan(future::multisession, workers = 10)
 retro(dir = base_inputs2$dir, years = 0:-10, exe = exe_loc)
 future::plan(future::sequential)
 
+dir_retro <-
+    here::here(
+        "models",
+        "supplemental_requests",
+        "base_model_with_ss_new",
+        "retrospectives"
+    )
+
 retroModels <- SSgetoutput(
     dirvec = file.path(
-        base_inputs2$dir,
-        "retrospectives",
+        dir_retro,
         paste("retro", 0:-10, sep = "")
     )
 )
+if (!exists("base_2015")) {
+    base_2015 <- SS_output("models/2015 base model")
+}
+
 retroModels_with_2015 <- c(retroModels, base_2015 = list(base_2015))
 retroSummary <- SSsummarize(retroModels_with_2015)
 
@@ -865,25 +876,27 @@ SSplotComparisons(
     retroSummary,
     endyrvec = endyrvec,
     legendlabels = mod_names,
-    plotdir = file.path(
-        base_inputs2$dir,
-        "retrospectives"
-    ),
+    plotdir = dir_retro,
     print = TRUE,
     plot = FALSE,
     legendloc = "bottomleft"
 )
 
-
 # table of retro values
-retro_table <- SStableComparisons(retroSummary, modelnames = mod_names)
-
-write.csv(
-    file.path(
-        base_inputs2$dir,
-        "retrospectives/retrospective_table.csv"
-    ),
-    row.names = FALSE
+retro_table <- SStableComparisons(
+    retroSummary,
+    modelnames = mod_names,
+    likenames = NULL,
+    names = c(
+        "NatM",
+        "SSB_Virgin",
+        "SSB_2025",
+        "Bratio_2025",
+        "ForeCatch_2027",
+        "SPR_MSY",
+        "Dead_Catch_SPR",
+        "TotYield_SPRtgt" # old name in 2015
+    )
 )
 
 # fix different names for NatM
@@ -891,11 +904,43 @@ retro_table[retro_table$Label == "NatM_uniform_Fem_GP_1", "2015 base model"] <-
     retro_table[retro_table$Label == "NatM_p_1_Fem_GP_1", "2015 base model"]
 retro_table[retro_table$Label == "NatM_uniform_Mal_GP_1", "2015 base model"] <-
     retro_table[retro_table$Label == "NatM_p_1_Mal_GP_1", "2015 base model"]
+retro_table[retro_table$Label == "Dead_Catch_SPR", "2015 base model"] <-
+    retro_table[
+        retro_table$Label == "TotYield_SPRtgt_thousand_mt",
+        "2015 base model"
+    ]
+
 retro_table <- retro_table |>
-    dplyr::filter(!grepl("NatM_p_1", Label))
+    dplyr::filter(!grepl("NatM_p_1", Label), !grepl("TotYield_SPRtgt", Label))
+
+write.csv(
+    retro_table,
+    file.path(
+        dir_retro,
+        "retrospective_table.csv"
+    ),
+    row.names = FALSE
+)
+
+if (!exists("retro_table")) {
+    retro_table <- read.csv(
+        file.path(
+            dir_retro,
+            "retrospective_table.csv"
+        )
+    )
+}
 
 Mvec <- retro_table[retro_table$Label == "NatM_uniform_Fem_GP_1", -1] |>
     as.numeric()
+png(
+    file.path(dir_retro, "retrospective_M.png"),
+    width = 6.5,
+    height = 4.5,
+    units = "in",
+    res = 300,
+    pointsize = 10
+)
 plot(
     0:11,
     Mvec,
@@ -908,14 +953,27 @@ axis(1, at = 0:10)
 axis(2)
 axis(1, at = 11, labels = "2015 base", las = 2)
 box()
+dev.off()
 
+source("R/table_sens.R")
 retro_table2 <- retro_table |>
+    # remove likelihoods because they aren't comparable across models
+    dplyr::filter(!grepl("like", Label)) |>
     table_convert_vals() |>
     table_convert_offsets() |>
-    table_clean_labels()
-retro_table |>
-    table_sens()
+    table_clean_labels() |>
+    # change "B2025 1000 mt or billions of eggs thousand mt" in Label to "B 2025 thousand mt"
+    dplyr::mutate(
+        Label = gsub(
+            "1000 mt or billions of eggs thousand mt",
+            "thousand mt",
+            Label
+        )
+    ) |> 
+    gt::gt()
 
+# retro_table |>
+#     table_sens()
 
 # selectvity changes
 output <- SS_output("models/supplemental_requests/WCGBTS_selex")

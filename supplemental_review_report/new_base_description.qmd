@@ -8,7 +8,9 @@ Based on this exploration, we developed an alternative model which includes the 
 
 1. **Use the updated Washington historical catch reconstruction.** 
 
-    The Washington Department of Fish and Wildlife (WDFW) recently conducted historical catch reconstruction for rockfish species, including widow rockfish. The three main sources used in this reconstruction  included the US Fish Commission Report (UFSC), Washington Bound Volumes, and Washington Statistical Bulletin. The historical species composition was based on the various historical reports and interviews of fishermen and dockside samplers. The landings between 1981 and 2000 were also provided by WDFW, since WDFW developed and used a improved method for apportioning unidentified rockfish (URCK) category in fish tickets to the individual species landings. This improved approach relaxed the borrowing rules for missing data used in the WDFW species allocation algorithm that feeds into PacFIN. New Washington historical landings represent the best scientific information available. 
+    The Washington Department of Fish and Wildlife (WDFW) recently conducted historical catch reconstruction for rockfish species, including widow rockfish. This is the subject of GFSC Request 7 and one of the sensitivity analyses in the August 2025 assessment report. 
+    
+    The three main sources used in this reconstruction  included the US Fish Commission Report (UFSC), Washington Bound Volumes, and Washington Statistical Bulletin. The historical species composition was based on the various historical reports and interviews of fishermen and dockside samplers. The landings between 1981 and 2000 were also provided by WDFW, since WDFW developed and used a improved method for apportioning unidentified rockfish (URCK) category in fish tickets to the individual species landings. This improved approach relaxed the borrowing rules for missing data used in the WDFW species allocation algorithm that feeds into PacFIN. New Washington historical landings represent the best scientific information available. 
 
 1. **Simplify the fleet structure.** 
 

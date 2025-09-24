@@ -127,21 +127,21 @@ SSplotComparisons(loo_index, subplots = c(1,3), new = FALSE)
 SStableComparisons(loo_index, 
                    names = c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                              "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
-                   likenames = NULL) |>
+                   likenames = c('Length_comp', 'Age_comp')) |>
   knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
 
 SSplotComparisons(loo_ages, subplots = c(1,3), new = FALSE)
 SStableComparisons(loo_ages, 
                    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
-                   likenames = NULL)  |>
+                   likenames = c('Survey', 'Length_comp'))  |>
   knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
 
 SSplotComparisons(loo_ages, subplots = c(1,3), new = FALSE)
 SStableComparisons(loo_lengths, 
                    names =c("Recr_Virgin", "R0", "NatM", "L_at_Amax", "VonBert_K", "SSB_Virg",
                             "SSB_2025", "Bratio_2025", "SPRratio_2024", "OFLCatch_2027"), 
-                   likenames = NULL) |>
+                   likenames = c('Survey', 'Age_comp')) |>
   knitr::kable(digits = 3, format = 'html') |> kableExtra::kable_styling()
 
 remove_age_yrs <- function(inputlist, flt, yr, dir, ...) {

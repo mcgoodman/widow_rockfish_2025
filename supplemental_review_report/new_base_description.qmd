@@ -16,11 +16,13 @@ The STAT suggests reading the GFSC Request document first, which helps to motiva
 
 1. **Simplify the fleet structure.** 
 
-    The catch from fixed gear fleets (hook-and-line and net) was combined with the bottom trawl fleet, and the composition data for the fixed gear fleets was removed. In addition, the catches made by the foreign historical fishery targeting Pacific Ocean perch (1966--1976), were moved from the hake fleet to bottom trawl.
+    The catch from fixed gear fleets (hook-and-line and net) was combined with the bottom trawl fleet, and the composition data for the fixed gear fleets was removed. 
     
     These fleets represent only 1.1% and 1.4% of the catch and are less likely to be representative of the population as a whole. GFSC Requests 1 (reduce influence of hook-and-line composition data) and 6 (leave-one-out analysis) indicated that data from the smaller fleets have little influence on the model results. The issues with the hook-and-line discard length data resolved prior to the August 2025 base model showed that even small amounts of data from these fleets can have undue influence on the results when combined with mismatching assumptions for selectivity and retention.
 
     If the data associated with the small fleets was informative of some population process not well measured by the data from the larger fleets (e.g. if the samples from smaller fish were informative about recent recruitment), then it may have been worth keeping them separate. However, they appear to just add noise to the model which does not justify the additional selectivity parameters required to treat them separately.
+    
+    In addition, the catches made by the foreign historical fishery targeting Pacific Ocean perch (1966--1976), were moved from the hake fleet to bottom trawl, consistent with other groundfish assessments.
 
 1. **Use external estimates of discards and add them to landings, rather than estimate discards within the model.** 
 

@@ -10,7 +10,7 @@ The STAT suggests reading the GFSC Request document first, which helps to motiva
 
 1. **Use the updated Washington historical catch reconstruction.** 
 
-    The Washington Department of Fish and Wildlife (WDFW) provided an historical catch reconstruction for widow rockfish. This is the subject of GFSC Request 7 and one of the sensitivity analyses in the assessment report reviewed in August 2025. 
+    The Washington Department of Fish and Wildlife (WDFW) provided a historical catch reconstruction for widow rockfish. This is the subject of GFSC Request 7 and one of the sensitivity analyses in the assessment report reviewed in August 2025. 
     
     The three main sources used in this reconstruction included the US Fish Commission Report (UFSC), Washington Bound Volumes, and Washington Statistical Bulletin. The historical species composition was based on the various historical reports and interviews of fishermen and dockside samplers. The landings between 1981 and 2000 were also provided by WDFW, since WDFW developed and used an improved method for apportioning unidentified rockfish (URCK) category in fish tickets to the individual species landings. This improved approach relaxed the borrowing rules for missing data used in the WDFW species allocation algorithm that feeds into PacFIN. New Washington historical landings represent the best scientific information available.
 

@@ -114,6 +114,8 @@ table_clean_labels <- function(tab) {
   # newlabel <- gsub("thousand", "1000", newlabel)
   # newlabel <- gsub("B(\\d+)", "B\\1 trillions of eggs", newlabel) # should work for B0 and B2025
   tab$Label <- newlabel
+  # remove trailing whitespace in the Label column
+  tab$Label <- gsub("\\s+$", "", tab$Label)
   return(tab)
 }
 

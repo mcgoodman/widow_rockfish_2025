@@ -124,3 +124,70 @@ write.csv(
     file = here("report", "tables", "bridging2_table.csv"),
     row.names = FALSE
 )
+
+# read input files to get lambdas
+inputs_Aug2025_base <- SS_read(models["Aug 2025 model"])
+inputs_new_base <- SS_read(models[
+    "Refine recruitment bias adjustment, re-weight"
+])
+
+# function to add lambda values to r4ss table
+table_compweight_with_lambda <- function(outputs, inputs) {
+    tab1 <- r4ss::table_compweight(outputs, save = FALSE)
+
+    # parse the rownames in the table above to get length or age and fleet as additional columns
+    lambda_table <- data.frame(
+        rowname = rownames(inputs$ctl$lambdas),
+        inputs$ctl$lambdas
+    ) |>
+        tidyr::separate(
+            col = rowname,
+            into = c("Type", "Fleet", "extra"),
+            sep = "_",
+            extra = "merge",
+            fill = "right"
+        ) |>
+        dplyr::select(Type, Fleet, value) |>
+        dplyr::rename(Lambda = value) |>
+        dplyr::mutate(Type = ifelse(Type == "length", "Length", "Age")) |>
+        # not at all general, but in this case only the WCGBTS age data is CAAL
+        dplyr::mutate(
+            Type = ifelse(Fleet == "WCGBTS" & Type == "Age", "CAAL", Type)
+        )
+
+    # merge the lambda table with the tab1$table to add a lambda column
+    tab1$table |>
+        left_join(lambda_table, by = c("Type", "Fleet")) |>
+        dplyr::rename(Weight = Francis) |>
+        dplyr::mutate(`Weight x lambda` = round(Weight * Lambda, 3)) |>
+        dplyr::mutate(
+            `Sum N adj. x lambda` = round(`Sum N adj.` * Lambda, 1)
+        ) |>
+        dplyr::select(
+            Type,
+            Fleet,
+            Weight,
+            Lambda,
+            `Weight x lambda`,
+            everything()
+        )
+}
+
+write.csv(
+    table_compweight_with_lambda(
+        combined_models_list[[which(names(models) == "Aug 2025 model")]],
+        inputs_Aug2025_base
+    ),
+    file = here("report", "tables", "compweight_Aug2025_base.csv"),
+    row.names = FALSE
+)
+write.csv(
+    table_compweight_with_lambda(
+        combined_models_list[[which(
+            names(models) == "Refine recruitment bias adjustment, re-weight"
+        )]],
+        inputs_new_base
+    ),
+    file = here("report", "tables", "compweight_new_base.csv"),
+    row.names = FALSE
+)

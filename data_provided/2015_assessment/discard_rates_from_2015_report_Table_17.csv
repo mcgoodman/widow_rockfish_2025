@@ -1,0 +1,66 @@
+"Fleet","Year","Source","Discards","Rate (d/[d+r])","Ratio (d/r)","Median","CV"
+"Bottom Trawl",1981,"Pikitch",900.19,0.16,0.18,791.21,54.26
+"Bottom Trawl",1982,"Pikitch",1450.74,0.23,0.29,1327.32,44.12
+"Bottom Trawl",1983,"Pikitch",1847.15,0.22,0.28,1691.31,43.91
+"Bottom Trawl",1984,"Pikitch",586.36,0.15,0.18,512.07,55.78
+"Bottom Trawl",1985,"Pikitch",523.36,0.17,0.2,462.94,52.73
+"Bottom Trawl",1986,"Pikitch",615.81,0.15,0.17,534.79,57.09
+"Bottom Trawl",1987,"Pikitch",1133.69,0.21,0.27,1035.49,44.57
+"Bottom Trawl",1988,"Pikitch",1177.09,0.23,0.29,1079.86,43.38
+"Bottom Trawl",1989,"Pikitch",1217.74,0.21,0.27,1111.73,44.70
+"Bottom Trawl",1990,"Pikitch",1010.95,0.16,0.19,898.64,51.53
+"Bottom Trawl",1991,"Pikitch",1219.25,0.24,0.32,1123.33,42.20
+"Bottom Trawl",1992,"Pikitch",1217.51,0.22,0.28,1111.86,44.62
+"Bottom Trawl",1993,"Pikitch",1430.18,0.2,0.25,1296.47,46.57
+"Bottom Trawl",1994,"Pikitch",1177.71,0.24,0.31,1081.5,43.11
+"Bottom Trawl",1995,"EDCP",1307.1,0.24,0.32,924.8,83.18
+"Bottom Trawl",1996,"EDCP",3862.4,0.52,1.08,3084.5,67.07
+"Bottom Trawl",1997,"EDCP",4444.3,0.54,1.18,3353.3,75.06
+"Bottom Trawl",1998,"EDCP",48,0.02,0.02,42.6,48.80
+"Bottom Trawl",1999,"EDCP",6.1,0,0,4.8,68.78
+"Bottom Trawl",2002,"WCGOP",14.64,0.46,0.85,14.55,45.15
+"Bottom Trawl",2003,"WCGOP",5.08,0.59,1.42,5.37,97.86
+"Bottom Trawl",2004,"WCGOP",17.55,0.68,2.11,18.99,88.24
+"Bottom Trawl",2005,"WCGOP",23.49,0.88,7.5,23.11,46.92
+"Bottom Trawl",2006,"WCGOP",0.46,0.07,0.08,0.49,229.82
+"Bottom Trawl",2007,"WCGOP",17.45,0.78,3.63,16.12,67.89
+"Bottom Trawl",2008,"WCGOP",4.36,0.67,2.03,4.39,46.84
+"Bottom Trawl",2009,"WCGOP",28.65,0.87,6.83,27.92,34.76
+"Bottom Trawl",2010,"WCGOP",30.84,0.87,6.52,28.35,58.59
+"Bottom Trawl",2011,"WCGOP",0.08,0,0.01,0.08,0.00
+"Bottom Trawl",2012,"WCGOP",0.01,0,0,0.01,0.00
+"Bottom Trawl",2013,"WCGOP",2.43,0,0.05,2.43,0.00
+"Shoreside Hake",2011,"WCGOP",11.8,0,0.1,11.8,0.00
+"Shoreside Hake",2012,"WCGOP",0.05,0,0,0.05,0.00
+"Shoreside Hake",2013,"WCGOP",0.91,0,0,0.91,0.00
+"Midwater Trawl",1981,"Pikitch",6479.88,0.22,0.29,6311.68,23.24
+"Midwater Trawl",1982,"Pikitch",5722.25,0.22,0.28,5578.55,22.84
+"Midwater Trawl",1984,"Pikitch",1737.57,0.21,0.27,1692.13,23.33
+"Midwater Trawl",1985,"Pikitch",1546.2,0.21,0.26,1501.96,24.45
+"Midwater Trawl",1986,"Pikitch",1358.62,0.2,0.25,1321.18,23.97
+"Midwater Trawl",1987,"Pikitch",1861.22,0.19,0.23,1798.43,26.66
+"Midwater Trawl",1988,"Pikitch",1615.83,0.21,0.27,1568.26,24.82
+"Midwater Trawl",1989,"Pikitch",1981.86,0.21,0.26,1921.51,25.26
+"Midwater Trawl",1990,"Pikitch",1205.44,0.22,0.28,1170.77,24.51
+"Midwater Trawl",1991,"Pikitch",565.94,0.22,0.28,549.9,24.33
+"Midwater Trawl",1992,"Pikitch",356,0.2,0.24,345.37,25.00
+"Midwater Trawl",1993,"Pikitch",569.86,0.2,0.25,552.39,25.34
+"Midwater Trawl",1994,"Pikitch",536.8,0.2,0.25,520.24,25.43
+"Midwater Trawl",1995,"Pikitch",663.24,0.23,0.29,645.2,23.81
+"Midwater Trawl",1996,"Pikitch",465.66,0.2,0.25,451.93,24.84
+"Midwater Trawl",1997,"Pikitch",663.14,0.21,0.27,644.69,24.10
+"Midwater Trawl",1998,"Pikitch",217.15,0.2,0.25,210.4,25.53
+"Midwater Trawl",1997,"EDCP",1.4,0,0,1,83.26
+"Midwater Trawl",1998,"EDCP",18.7,0.02,0.02,18.7,80.00
+"Midwater Trawl",2002,"WCGOP",40.02,0.14,0.16,39.37,42.46
+"Midwater Trawl",2012,"WCGOP",0,0,0,0,0.00
+"Midwater Trawl",2013,"WCGOP",0,0,0,0,0.00
+"Hook-and-line",2004,"WCGOP",0.04,0.11,0.12,0.04,163.13
+"Hook-and-line",2005,"WCGOP",0.25,0.17,0.21,0.25,66.60
+"Hook-and-line",2006,"WCGOP",0.94,0.52,1.07,0.94,77.99
+"Hook-and-line",2007,"WCGOP",1.07,0.36,0.56,1.11,144.59
+"Hook-and-line",2008,"WCGOP",0.97,0.44,0.78,0.93,113.41
+"Hook-and-line",2010,"WCGOP",0.38,0.72,2.54,0.38,87.87
+"Hook-and-line",2011,"WCGOP",0.04,0.23,0.3,0.03,102.83
+"Hook-and-line",2012,"WCGOP",0.06,0.16,0.19,0.06,144.71
+"Hook-and-line",2013,"WCGOP",0.12,0.11,0.12,0.12,42.74

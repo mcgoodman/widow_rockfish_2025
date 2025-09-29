@@ -1579,3 +1579,40 @@ ggsave(
     units = "in",
     dpi = 300
 )
+
+
+### Request 9 selectivity blocking
+
+# load models
+outputs <- r4ss::SSgetoutput(
+    dirvec = dir("models/supplemental_requests/Request 9 selex blocking/", full.names = TRUE)
+)
+outputs <- outputs[c(2,3,1)]
+# removing the spline model
+names(outputs) <- c(
+    "Forecast based on 2020-2024",
+    "Forecast based on 2023-2024",
+    "Forecast based on 2020-2022"
+)
+block_summary <- r4ss::SSsummarize(outputs)
+tab <- r4ss::SStableComparisons(
+    block_summary,
+    likenames = NULL,
+    names = c(
+        "NatM",
+        "R0",
+        "SSB_Virgin",
+        "SSB_2025",
+        "Bratio_2025",
+        "OFLCatch_2027",
+        "ForeCatch_2027",
+        "Dead_Catch_SPR"
+    )
+)
+# write raw table output for processing in qmd file later
+write.csv(
+    tab,
+    "models/supplemental_requests/Request 9 selex blocking/table.csv",
+    row.names = FALSE
+)
+quarto::quarto_render("models/supplemental_requests/supplemental_requests_tables.qmd")

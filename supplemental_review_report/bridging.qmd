@@ -51,8 +51,8 @@ source(here::here("R", "table_sens.r"))
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
-#| tbl-cap: "Differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the August base model and the bridging models (columns). The units for B0 and B2025 are 1000s of tons for the first five models and billions of eggs for the last two."
-table_sens(here::here("report", "tables", "bridging2_table.csv"))
+#| tbl-cap: "Estimates of key parameters and derived quantities showing the bridging between the August base model and the proposed new base model. The units for B0 and B2025 are 1000s of tons for the first five models and billions of eggs for the last two."
+table_sens(here::here("report", "tables", "bridging2_table.csv"), switch1 = 1, switch2 = 4)
 ```
 
   {{< pagebreak >}}

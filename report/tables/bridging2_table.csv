@@ -1,8 +1,8 @@
 "Label","Aug 2025 model","Aug 2025 + New WA catch","Simplify fleets + include discards with landings","Update data weighting (McAllister-Ianelli, lambda = 0.5)","Change data weighting (Francis, lambda = 1)","Add fecundity relationship","Refine recruitment bias adjustment, re-weight"
-"Recr_Virgin_millions",34.799,34.7352,31.125,31.049,39.6549,40.0927,40.2556
 "SR_LN(R0)",10.4573,10.4555,10.3458,10.3433,10.588,10.5989,10.603
 "NatM_uniform_Fem_GP_1",0.122306,0.12198,0.118384,0.119208,0.134648,0.134815,0.134897
 "NatM_uniform_Mal_GP_1",0.134775,0.134413,0.128846,0.129334,0.146664,0.146812,0.146894
+"Recr_Virgin_millions",34.799,34.7352,31.125,31.049,39.6549,40.0927,40.2556
 "SmryBio_unfished",158958,159453,152752,150949,154045,155396,155745
 "SSB_Virgin",85460.9,85756.7,81703.5,80613.9,80616.1,20233.4,20251.2
 "SSB_2025",46933.9,46976,38371.8,38220.8,43672,10372.3,10403.4

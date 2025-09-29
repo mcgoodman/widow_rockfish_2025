@@ -28,6 +28,9 @@ table_convert_vals <- function(tab) {
     round(tab[grep("SSB", tab$Label), -1], 2)
   tab[grep("Catch", tab$Label), -1] <-
     round(tab[grep("Catch", tab$Label), -1], 0)
+  # round  recruitment values to 2 decimal places
+  tab[grep("Recr", tab$Label), -1] <-
+    round(tab[grep("Recr", tab$Label), -1], 2)
 
   # merge rows with separate parameter labels for NatM
   if (
@@ -112,8 +115,8 @@ table_clean_labels <- function(tab) {
   newlabel <- gsub("Fem", "Female", newlabel)
   newlabel <- gsub("Mal", "Male", newlabel)
   newlabel <- gsub("Recr_Virgin", "Recruitment unfished", newlabel)
-  newlabel <- gsub("SSB_Virgin", "B0 1000 mt", newlabel)
-  newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt", newlabel) # convert SSB_YYYY to BYYYY
+  #newlabel <- gsub("SSB_Virgin", "B0 1000 mt", newlabel)
+  #newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt", newlabel) # convert SSB_YYYY to BYYYY
   newlabel <- gsub("SSB_Virgin", "B0 1000 mt or billions of eggs", newlabel)
   newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt or billions of eggs", newlabel) # convert SSB_YYYY to BYYYY
   newlabel <- gsub("Bratio", "Fraction unfished", newlabel)

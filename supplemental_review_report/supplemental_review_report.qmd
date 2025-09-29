@@ -79,7 +79,7 @@ cat(a, sep = '\n')
 
  {{< pagebreak >}} 
 
-# Bridging from the August 2025 model to the new proposed base model
+# Bridging from the August 2025 model to the new proposed base model {#sec-bridging}
 
 ```{r, results='asis'}
 #| label: 'bridging'

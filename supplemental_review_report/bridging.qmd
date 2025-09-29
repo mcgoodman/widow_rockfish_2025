@@ -26,7 +26,7 @@ For illustration of the bridging analysis, the changes to the August 2025 base m
 1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
 1. Change data weighting methods (Francis, lambda = 1)
 1. Add the fecundity relationship
-1. Refine the recruitment bias adjustment and re-tune the weighting
+1. Refine the recruitment bias adjustment, extend selectivity block and re-tune the weighting
 
 None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (@tbl-bridge2, Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits).
 

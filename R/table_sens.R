@@ -9,7 +9,7 @@ table_convert_vals <- function(tab) {
   tab[grep("SmryBio_unfished", tab$Label), -1] <-
     tab[grep("SmryBio_unfished", tab$Label), -1] / 1e3
     tab[grep("SSB", tab$Label), -1] <-
-      tab[grep("SSB", tab$Label), -1]/1e3
+      tab[grep("SSB", tab$Label), -1] #/1e3
 
   # convert likelihoods to difference from base (assumed to be in column 2)
   like_rows <- grep("_like", tab$Label)
@@ -99,8 +99,10 @@ table_clean_labels <- function(tab) {
   newlabel <- gsub("Fem", "Female", newlabel)
   newlabel <- gsub("Mal", "Male", newlabel)
   newlabel <- gsub("Recr_Virgin", "Recruitment unfished", newlabel)
-  newlabel <- gsub("SSB_Virgin", "B0 1000 mt or billions of eggs", newlabel)
-  newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt or billions of eggs", newlabel) # convert SSB_YYYY to BYYYY
+  newlabel <- gsub("SSB_Virgin", "B0 1000 mt", newlabel)
+  newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt", newlabel) # convert SSB_YYYY to BYYYY
+  # newlabel <- gsub("SSB_Virgin", "B0 1000 mt or billions of eggs", newlabel)
+  # newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt or billions of eggs", newlabel) # convert SSB_YYYY to BYYYY
   newlabel <- gsub("Bratio", "Fraction unfished", newlabel)
   #newlabel <- gsub("OFLCatch", "OFL mt", newlabel)
   newlabel <- gsub("MSY", "MSY mt", newlabel)
@@ -178,7 +180,7 @@ table_sens <- function(file_csv,
   # decrease column width for tables with lots of columns
   if (NCOL(data) <= 7) {
     tt <- tt |>
-      kableExtra::column_spec(2:NCOL(data), width = "5em")
+      kableExtra::column_spec(2:NCOL(data), width = "6em")
   }
   if (NCOL(data) > 7) {
     tt <- tt |>
@@ -187,10 +189,11 @@ table_sens <- function(file_csv,
 
   # add subsection to improve readability
   # needs to be customized for the quantities chosen
-  switch1 <- grep("Recruitment unfished", data[, 1])[1] # age X+ summary biomass is first derived quantity
-  switch2 <- grep("+ bio", data[, 1])[1] # age X+ summary biomass is first derived quantity
+  switch1 <- grep("M Female", data[, 1])[1] # age X+ summary biomass is first derived quantity
+  switch2 <- grep("^B", data[, 1])[1] # age X+ summary biomass is first derived quantity
+
   tt <- tt |>
-    # kableExtra::pack_rows("Diff. in likelihood from base model", 1, switch1 - 1) |>
+    kableExtra::pack_rows("Diff. in likelihood from base model", 1, switch1 - 1) |>
     kableExtra::pack_rows("Estimates of key parameters", switch1, switch2 - 1) |>
     kableExtra::pack_rows("Estimates of derived quantities", switch2, NROW(data))
   return(tt)

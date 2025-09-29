@@ -969,13 +969,14 @@ retro_table2 <- retro_table |>
             "thousand mt",
             Label
         )
-    ) |> 
+    ) |>
     gt::gt()
 
 # retro_table |>
 #     table_sens()
 
 # selectvity changes
+# model with third knot moved from 48cm to 44cm (was changed manually)
 output <- SS_output("models/supplemental_requests/WCGBTS_selex")
 png(
     "figures/supplemental_requests/selectivity_WCGBTS.png",
@@ -1018,6 +1019,125 @@ SSplotComparisons(
     verbose = FALSE
 )
 
+# load models that Vlada developed with double normal selectivity for WCGBTS
+outputs_dn <- r4ss::SSgetoutput(
+    dirvec = dir("models/supplemental_requests/Request 4/", full.names = TRUE)
+)
+output <- r4ss::SS_output("models/supplemental_requests/WCGBTS_selex")
+# outputs <- c(outputs_dn[1], list(output = output), outputs_dn[-1])
+# names(outputs) <- c(
+#     "August 2025 base: spline with 3rd knot = 48cm (4 pars)",
+#     "spline with 3rd knot = 44cm (4 pars)",
+#     "double normal asymptotic (2 pars)",
+#     "double normal allowed to be dome (4 pars)",
+#     "double normal allowed to be dome, -999 (3 pars)"
+# )
+
+# removing the spline model
+outputs <- outputs_dn
+names(outputs) <- c(
+    "August 2025 base: spline with 3rd knot = 48cm (4 pars)",
+    "double normal asymptotic (2 pars)",
+    "double normal allowed to be dome (4 pars)",
+    "double normal allowed to be dome, -999 (3 pars)"
+)
+sel_summary <- r4ss::SSsummarize(outputs)
+
+r4ss::SSplotComparisons(
+    sel_summary,
+    print = TRUE,
+    plot = FALSE,
+    plotdir = "models/supplemental_requests/Request 4/",
+    verbose = FALSE,
+    endyrvec = 2036
+)
+tab <- r4ss::SStableComparisons(
+    sel_summary,
+    names = c(
+        "NatM",
+        "R0",
+        "SSB_Virgin",
+        "SSB_2025",
+        "Bratio_2025",
+        "ForeCatch_2027",
+        "Dead_Catch_SPR"
+    )
+)
+# write raw table output for processing in qmd file later
+write.csv(
+    tab,
+    "models/supplemental_requests/Request 4/table.csv",
+    row.names = FALSE
+)
+quarto::quarto_render("models/supplemental_requests/supplemental_requests_tables.qmd")
+
+# gt option for formatting
+source("R/table_sens.R")
+tab2 <- tab |>
+    table_convert_vals() |>
+    table_convert_offsets() |>
+    table_clean_labels() |>
+    # change "B2025 1000 mt or billions of eggs thousand mt" in Label to "B 2025 thousand mt"
+    dplyr::mutate(
+        Label = gsub(
+            "1000 mt or billions of eggs thousand mt",
+            "thousand mt",
+            Label
+        )
+    ) |>
+    gt::gt()
+
+# figure showing curves
+library(dplyr)
+library(tidyr)
+
+# Extract selectivity for each model and combine into long format
+selex_df <- lapply(seq_along(outputs), function(i) {
+    outputs[[i]]$sizeselex |>
+        filter(Fleet == 8 & Yr == 2025 & Sex == 1) |>
+        select(-(1:5)) |>
+        pivot_longer(
+            everything(),
+            names_to = "Length",
+            values_to = "Selectivity"
+        ) |>
+        mutate(Model = names(outputs)[i])
+}) |>
+    bind_rows()
+
+# wrap text for legend
+selex_df <- selex_df |>
+    dplyr::mutate(
+        Model_wrapped = paste0(stringr::str_wrap(Model, width = 20), "\n")
+    )
+
+# make plot
+ggplot(
+    selex_df,
+    aes(
+        x = as.numeric(Length),
+        y = Selectivity,
+        color = Model_wrapped,
+        linetype = Model_wrapped
+    )
+) +
+    geom_line(size = 1) +
+    labs(x = "Length (cm)", y = "Selectivity", color = "Model_wrapped") +
+    theme_minimal() +
+    theme(
+        legend.key.width = unit(3, "line")
+    )
+
+ggsave(
+    "models/supplemental_requests/Request 4/selectivity_comparison.png",
+    width = 8,
+    height = 5,
+    units = "in",
+    dpi = 300,
+    bg = "white"
+)
+
+###############################################################################
 
 # Re-run Francis tuning on alternative base model (created in
 # /scratch/model_cleaner_Aug2025_base.R)

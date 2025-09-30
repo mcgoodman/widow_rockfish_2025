@@ -34,7 +34,7 @@ Adding the Washington historical catch reconstruction had a relatively small imp
 
 Simplifying the fleet structure and combining discards with landings did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
 
-The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, which translated into increases in the estimated natural mortality rate and the productivity of the stock, including equilibrium catch and estimated OFLs. The weights associated with the August 2025 base model and the proposed new base model are shown in Tables -@tbl-compweight1 and -@tbl-compweight2.
+The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, which translated into increases in the estimated natural mortality rate and the productivity of the stock, including equilibrium catch and estimated OFLs. Relative to the August 2025 model, the updated data weighting method upweighted length data from the bottom trawl fleet and age data from the three remaining commercial fleets (bottom trawl, midwater trawl, hake); all other composition data was downweighted (Tables -@tbl-compweight1 to -@tbl-compweight-comparison). For bottom trawl, in particular, this upweighting is likely in part due to the removal of discard composition data, as stock synthesis cannot apply separate data weights to discarded and retained composition data from the same fleet. The discard compositions are very noisy and difficult to fit, so their removal allowed for upweighting of the remaining data. The decrease in the weight of WCGBTS conditional age-at-length data by approximately one-third, paired with upweighting of other data, is likely the major driver of the increased estimate of natural mortality, given explorations in GFSC request 6. 
 
 With the change in fecundity relationship, spawning output is now expressed in billions of eggs and no longer directly comparable with spawning biomass expressed in metric tons in previous models. This change did not have much impact on age 4+ biomass, but the spawning output time series was impacted by the changes in relative contributions of older fish. In particular, the stock status (fraction of unfished spawning output) reached a low point of `r get_min_bratio(summary_1.04)` (below the 0.25 overfished threshold) as compared to a minimum of `r get_min_bratio(summary_Aug2025_base)` in the August 2025 base model. The addition of the fecundity relationship also resulted in slightly lower estimates of OFLs and fraction unfished at the end of the time series compared to the previous step in this bridging, though still higher than the August 2025 estimates.
 
@@ -67,10 +67,10 @@ table_sens(here::here("report", "tables", "bridging2_table.csv"), switch1 = 1, s
 library(gt)
 
 # Read the table created in R/plots_bridging_supplemental.R
-compweight <- read.csv(here::here("report", "tables", "compweight_Aug2025_base.csv"), check.names = FALSE)
+compweight_aug <- read.csv(here::here("report", "tables", "compweight_Aug2025_base.csv"), check.names = FALSE)
 
 # Format the table with gt
-compweight |>
+compweight_aug |>
   gt::gt() |>
   gt::tab_options(table.font.size = "10pt") |> 
   gt::cols_width(
@@ -88,15 +88,14 @@ compweight |>
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
-#| tbl-cap: "Data weightings applied to compositions adjusted according to the Francis method in in the proposed new base model. See table above for additional detail on column headers."
-library(gt)
+#| tbl-cap: "Data weightings applied to compositions adjusted according to the Francis method in in the proposed new base model. See @tbl-compweight1 for additional detail on column headers."
 
 # Read the table created in R/plots_bridging_supplemental.R
-compweight <- read.csv(here::here("report", "tables", "compweight_new_base.csv"), check.names = FALSE)
+compweight_oct <- read.csv(here::here("report", "tables", "compweight_new_base.csv"), check.names = FALSE)
 
 
 # Format the table with gt
-compweight |>
+compweight_oct |>
   gt::gt() |>
   gt::tab_options(table.font.size = "10pt") |> 
   gt::cols_width(
@@ -106,6 +105,40 @@ compweight |>
     everything() ~ px(70)
   )
 ```
+
+```{r}
+#| label: tbl-compweight-comparison
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Comparison of key data weighting quantities from the August 2025 (Aug.) and new proposed base model (New). See @tbl-compweight1 for additional detail on column headers. Entries with --- indicate that fleet does not exist in the new proposed base model, and the composition data has been removed. Lambda = 1 for all fleets in the new proposed base model, so the column is not included."
+
+# Join the two data weight tables for comparison
+left_join(
+  # only take a subset of the columns
+  compweight_aug |>
+    select(-Weight, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Lambda (Aug.)` = Lambda),
+  
+  compweight_oct |>
+    select(-Lambda, -`Weight x lambda`, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Weight x lambda` = Weight),
+  # other arguments to join 
+  suffix = c(' (Aug.)', ' (New)'), 
+  by = c('Type', 'Fleet')) |>
+  # rearrange columns for easier comparison
+  select(1, 2, 3, 4, 6, 5, 7) |>
+  # format table using gt
+  gt::gt() |>
+  gt::sub_missing() |>
+  gt::tab_options(table.font.size = "10pt") |> 
+  gt::cols_width(
+    Fleet ~ px(110),
+    `Lambda (Aug.)` ~ px(60),
+    everything() ~ px(70)
+  )
+```
+
 :::
 
 

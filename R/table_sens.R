@@ -9,7 +9,7 @@ table_convert_vals <- function(tab) {
   tab[grep("SmryBio_unfished", tab$Label), -1] <-
     tab[grep("SmryBio_unfished", tab$Label), -1] / 1e3
   tab[grep("SSB", tab$Label), -1] <-
-    tab[grep("SSB", tab$Label), -1] /1e3
+    tab[grep("SSB", tab$Label), -1] / 1e3
 
   # convert likelihoods to difference from base (assumed to be in column 2)
   like_rows <- grep("_like", tab$Label)
@@ -20,7 +20,7 @@ table_convert_vals <- function(tab) {
   # round length values to 1 decimal place
   tab[grep("L_at", tab$Label), -1] <-
     round(tab[grep("L_at", tab$Label), -1], 1)
-
+    
   # round biomass values to 1 or 0 decimal places
   tab[grep("SmryBio", tab$Label), -1] <-
     round(tab[grep("SmryBio", tab$Label), -1], 1)
@@ -52,13 +52,23 @@ table_convert_vals <- function(tab) {
     tab <- tab[-grep("NatM_break_1", tab$Label), ]
   }
 
+  # round M values to 3 decimal places
+  tab[grep("NatM", tab$Label), -1] <-
+    round(tab[grep("NatM", tab$Label), -1], 3)
+  # round Bratio values to 3 decimal places
+  tab[grep("Bratio", tab$Label), -1] <-
+    round(tab[grep("Bratio", tab$Label), -1], 3)
+  # round SPRratio values to 3 decimal places
+  tab[grep("SPRratio", tab$Label), -1] <-
+    round(tab[grep("SPRratio", tab$Label), -1], 3)
+
   return(tab)
 }
 
 
 #' convert parameter offsets to standard space
 #'
-#' (not needed for lingcod since our male growth is modeled
+#' (not needed for widow since our male growth is modeled
 #' as independent parameters)
 #' @param tab a table with a `Label` column containing parameter labels
 table_convert_offsets <- function(tab) {
@@ -117,12 +127,13 @@ table_clean_labels <- function(tab) {
   newlabel <- gsub("Recr_Virgin", "Recruitment unfished", newlabel)
   #newlabel <- gsub("SSB_Virgin", "B0 1000 mt", newlabel)
   #newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt", newlabel) # convert SSB_YYYY to BYYYY
-  newlabel <- gsub("SSB_Virgin", "B0 1000 mt or billions of eggs", newlabel)
-  newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt or billions of eggs", newlabel) # convert SSB_YYYY to BYYYY
+  newlabel <- gsub("SSB_Virgin", "B0 trillions of eggs", newlabel)
+  newlabel <- gsub("SSB_(\\d{4})", "B\\1 trillions of eggs", newlabel) # convert SSB_YYYY to BYYYY
   newlabel <- gsub("Bratio", "Fraction unfished", newlabel)
   #newlabel <- gsub("OFLCatch", "OFL mt", newlabel)
-  newlabel <- gsub("MSY", "MSY mt", newlabel)
-  newlabel <- gsub("SPRratio", "Fishing intensity", newlabel)
+  #newlabel <- gsub("MSY", "MSY mt", newlabel)
+  newlabel <- gsub("SPRratio", "Relative fishing intensity", newlabel)
+  newlabel <- gsub("Dead_Catch_MSY", "Equil. catch at MSY mt", newlabel)
   newlabel <- gsub("Dead_Catch_SPR", "Equil. catch at SPR targ. mt", newlabel)
   newlabel <- gsub("OFLCatch_2027", "2027 OFL mt", newlabel)
   newlabel <- gsub("ForeCatch_2027", "2027 ACL mt", newlabel)
@@ -178,7 +189,7 @@ table_sens <- function(
     #dplyr::filter(!grepl("Forecast", Label)) |> # remove VonBert K to fit on page
     #dplyr::rename_with(~ gsub(" & ", "-", .x)) |>
     table_convert_vals() |>
-    table_convert_offsets() |>
+    #table_convert_offsets() |>
     #dplyr::filter(!grepl("NatM_break_2_Mal", Label)) |>
     table_clean_labels()
 

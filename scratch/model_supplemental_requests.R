@@ -960,7 +960,7 @@ retro_table2 <- retro_table |>
     # remove likelihoods because they aren't comparable across models
     dplyr::filter(!grepl("like", Label)) |>
     table_convert_vals() |>
-    table_convert_offsets() |>
+    # table_convert_offsets() |>
     table_clean_labels() |>
     # change "B2025 1000 mt or billions of eggs thousand mt" in Label to "B 2025 thousand mt"
     dplyr::mutate(
@@ -1069,13 +1069,15 @@ write.csv(
     "models/supplemental_requests/Request 4/table.csv",
     row.names = FALSE
 )
-quarto::quarto_render("models/supplemental_requests/supplemental_requests_tables.qmd")
+quarto::quarto_render(
+    "models/supplemental_requests/supplemental_requests_tables.qmd"
+)
 
 # gt option for formatting
 source("R/table_sens.R")
 tab2 <- tab |>
     table_convert_vals() |>
-    table_convert_offsets() |>
+    # table_convert_offsets() |>
     table_clean_labels() |>
     # change "B2025 1000 mt or billions of eggs thousand mt" in Label to "B 2025 thousand mt"
     dplyr::mutate(
@@ -1585,9 +1587,12 @@ ggsave(
 
 # load models
 outputs <- r4ss::SSgetoutput(
-    dirvec = dir("models/supplemental_requests/Request 9 selex blocking/", full.names = TRUE)
+    dirvec = dir(
+        "models/supplemental_requests/Request 9 selex blocking/",
+        full.names = TRUE
+    )
 )
-outputs <- outputs[c(2,3,1)]
+outputs <- outputs[c(2, 3, 1)]
 # removing the spline model
 names(outputs) <- c(
     "Forecast based on 2020-2024",
@@ -1615,4 +1620,8 @@ write.csv(
     "models/supplemental_requests/Request 9 selex blocking/table.csv",
     row.names = FALSE
 )
-quarto::quarto_render("models/supplemental_requests/supplemental_requests_tables.qmd")
+quarto::quarto_render(
+    "models/supplemental_requests/supplemental_requests_tables.qmd"
+)
+
+

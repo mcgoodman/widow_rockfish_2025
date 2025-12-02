@@ -8,8 +8,11 @@ table_convert_vals <- function(tab) {
     exp(tab[grep("LnQ", tab$Label), -1])
   tab[grep("SmryBio_unfished", tab$Label), -1] <-
     tab[grep("SmryBio_unfished", tab$Label), -1] / 1e3
-  tab[grep("SSB", tab$Label), -1] <-
-    tab[grep("SSB", tab$Label), -1] / 1e3
+  # convert to trillions only if unit is in eggs
+  if (!any(grepl("SSB_Virgin_thousand_mt", tab$Label))) {
+    tab[grep("SSB", tab$Label), -1] <-
+      tab[grep("SSB", tab$Label), -1] / 1e3
+  }
 
   # convert likelihoods to difference from base (assumed to be in column 2)
   like_rows <- grep("_like", tab$Label)
@@ -20,7 +23,7 @@ table_convert_vals <- function(tab) {
   # round length values to 1 decimal place
   tab[grep("L_at", tab$Label), -1] <-
     round(tab[grep("L_at", tab$Label), -1], 1)
-    
+
   # round biomass values to 1 or 0 decimal places
   tab[grep("SmryBio", tab$Label), -1] <-
     round(tab[grep("SmryBio", tab$Label), -1], 1)
@@ -127,8 +130,15 @@ table_clean_labels <- function(tab) {
   newlabel <- gsub("Recr_Virgin", "Recruitment unfished", newlabel)
   #newlabel <- gsub("SSB_Virgin", "B0 1000 mt", newlabel)
   #newlabel <- gsub("SSB_(\\d{4})", "B\\1 1000 mt", newlabel) # convert SSB_YYYY to BYYYY
-  newlabel <- gsub("SSB_Virgin", "B0 trillions of eggs", newlabel)
-  newlabel <- gsub("SSB_(\\d{4})", "B\\1 trillions of eggs", newlabel) # convert SSB_YYYY to BYYYY
+  # convert SSB in eggs
+  if (!any(grepl("SSB_Virgin_thousand_mt", tab$Label))) {
+    newlabel <- gsub("SSB_Virgin", "B0 trillions of eggs", newlabel)
+    newlabel <- gsub("SSB_(\\d{4})", "B\\1 trillions of eggs", newlabel) # convert SSB_YYYY to BYYYY
+  } else {
+    # convert SSB in mt
+    newlabel <- gsub("SSB_Virgin", "B0", newlabel)
+    newlabel <- gsub("SSB_(\\d{4})", "B\\1", newlabel) # convert SSB_YYYY to BYYYY
+  }
   newlabel <- gsub("Bratio", "Fraction unfished", newlabel)
   #newlabel <- gsub("OFLCatch", "OFL mt", newlabel)
   #newlabel <- gsub("MSY", "MSY mt", newlabel)

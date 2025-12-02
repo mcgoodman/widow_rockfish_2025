@@ -40,9 +40,12 @@ source("R/table_sens.R")
 
 table_r1 <- SStableComparisons(
     summary_r1,
-    modelnames = c("October 2025 model", "Widow rockfish fecundity"),
+    modelnames = c(
+        "October 2025 model",
+        "January 2026 model (widow rockfish fecundity)"
+    ),
     likenames = NULL,
-    names = table_labels
+    names = table_labels # defined at the top of this script
 )
 
 # format as HTML to paste into Google Doc
@@ -134,6 +137,13 @@ mod_names <- c(
     "MDT discard to MDT landings",
     "BT discard to BT landings"
 )
+cbind(mod_names, mods)
+#      mod_names                     mods
+# [1,] "August 2025 model"           "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention"
+# [2,] "No HKL comps"                "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention_No_HKL_lengths"
+# [3,] "HKL and Net catches to BT"   "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention_No_HKL_lengths_Net_HKL_to_BT"
+# [4,] "MDT discard to MDT landings" "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention_No_HKL_lengths_Net_HKL_to_BT_MDT_discard"
+# [5,] "BT discard to BT landings"   "Aug2025_base_model_cleaned_ss_new_remove_HnL_retention_No_HKL_lengths_Net_HKL_to_BT_MDT_discard_BT_discard"
 
 mod_list <- SSgetoutput(
     dirvec = file.path(
@@ -148,7 +158,7 @@ table_r3 <- SStableComparisons(
     summary_r3,
     modelnames = mod_names,
     likenames = NULL,
-    names = table_labels
+    names = table_labels # defined at the top of this script
 )
 
 # format as HTML to paste into Google Doc
@@ -160,6 +170,84 @@ table_r3 <- SStableComparisons(
     gt::gt())
 
 
+# Request 4 explorations of M
+# models set up by Vlada with edits to input files
+
+dir_names <- c(
+    "widow_new_base_model_with_plots_2025-09-30",
+    "widow_new_base_model_with_plots_2025-09-30_widow_fecundity",
+    "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_M_0_1"
+)
+mod_names <- c(
+    "October 2025 model",
+    "January 2026 model (widow rockfish fecundity)",
+    "January 2026 model with M = 0.1"
+)
+
+mod_list <- SSgetoutput(
+    dirvec = file.path(
+        "models/supplemental_requests/SSC January 2026 review/Request_4",
+        dir_names
+    )
+)
+summary_r4a <- SSsummarize(mod_list)
+source("R/table_sens.R")
+
+table_r4a <- SStableComparisons(
+    summary_r4a,
+    modelnames = mod_names,
+    likenames = NULL,
+    names = table_labels # defined at the top of this script
+)
+
+# format as HTML to paste into Google Doc
+# https://docs.google.com/spreadsheets/d/1NnSHuIMHI_Q3qotlHda2tfeOCw9UPM4DEURgoC2uxVc/edit?gid=0#gid=0
+# parentheses around commands should return the table when run and open in a viewer
+(table_r4a <- table_r4a |>
+    table_convert_vals() |>
+    table_clean_labels() |>
+    gt::gt())
+
+
+# Request 4 explorations of M
+# models set up by Vlada with edits to input files
+
+dir_names <- c(
+    "widow_new_base_model_with_plots_2025-09-30_corrected_fecundity",
+    # "widow_new_base_model_with_plots_2025-09-30_corrected_fecundity_Mprior_50",
+    "widow_new_base_model_with_plots_2025-09-30_corrected_fecundity_Mprior_45",
+    "widow_new_base_model_with_plots_2025-09-30_corrected_fecundity_Mprior_40"
+)
+mod_names <- c(
+    "January 2026 model (widow rockfish fecundity)",
+    # "January 2026 model with M based on age 50",
+    "January 2026 model with M prior based on age 45",
+    "January 2026 model with M prior based on age 40"
+)
+
+mod_list <- SSgetoutput(
+    dirvec = file.path(
+        "models/supplemental_requests/SSC January 2026 review/Request_4/Alternative max age assumption",
+        dir_names
+    )
+)
+summary_r4b <- SSsummarize(mod_list)
+source("R/table_sens.R")
+
+table_r4b <- SStableComparisons(
+    summary_r4b,
+    modelnames = mod_names,
+    likenames = NULL,
+    names = table_labels # defined at the top of this script
+)
+
+# format as HTML to paste into Google Doc
+# https://docs.google.com/spreadsheets/d/1NnSHuIMHI_Q3qotlHda2tfeOCw9UPM4DEURgoC2uxVc/edit?gid=0#gid=0
+# parentheses around commands should return the table when run and open in a viewer
+(table_r4b <- table_r4b |>
+    table_convert_vals() |>
+    table_clean_labels() |>
+    gt::gt())
 
 #### Nov 2026 Council Request 3:
 # The STAT include a Bayesian projection to evaluate the probability that the

@@ -22,7 +22,7 @@ knitr::include_graphics(
 )
 
 ```
-
+<!-- 
 ```{r}
 #| label: fig-AppA-bottomtrawl-disc
 #| echo: false
@@ -33,10 +33,10 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt1.png")
+    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt1mkt0.png")
 )
 
-```
+``` -->
 
 ```{r}
 #| label: fig-AppA-midtrawl
@@ -64,21 +64,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hake_lenfit.png")
-)
-
-```
-
-```{r}
-#| label: fig-AppA-net
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Fits to the retained length compositions for the net fleet."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_lenfit_flt4mkt0.png")
 )
 
 ```
@@ -171,36 +156,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/App_A/hake_agefit.png")
-)
-
-```
-
-```{r}
-#| label: fig-AppA-net-age
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Fits to the retained age compositions for the net fleet."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt4mkt0.png")
-)
-
-```
-
-```{r}
-#| label: fig-AppA-hkl-age
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Fits to the retained age compositions for the hook-and-line fleet."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/plots/comp_agefit_flt5mkt0.png")
 )
 
 ```

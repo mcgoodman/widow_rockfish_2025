@@ -35,7 +35,17 @@ library(here)
 jitters <- readRDS(here("models", "jitters", "jitter_summary.rds"))
 
 #report
-rep <- r4ss::SS_output(here("models","2025 base model"))
+if (!exists("report")) {
+  report <- r4ss::SS_output(
+    here("models", "2025 base model"), 
+    printstats = FALSE, 
+    verbose = FALSE,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+  )
+}
+rep <- report
+#rep <- r4ss::SS_output(here("models","2025 base model"))
+
 #Depletion estimates
 read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 ref_points <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
@@ -102,7 +112,7 @@ Fixing M at values lower than the base case estimate resulted in decreases in es
 
 ### Retrospective Analysis
 
-First, a 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the \gls{ssb} was effectively unchanged for all retrospective runs. Removing 4–5 years of data led to slightly higher estimated \gls{ssb} over the last 15 years.In contrast, removing only 1–2 years resulted lower estimated \gls{ssb} over the period. Removing 1-5 years of data resulted in increased estimated  recruitment over the past 5 years, but decreased estimates in 10 years prior to this. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
+First, a 10-year retrospective analysis was conducted by running the model removing the most recent 1 to 10 years of data (@fig-retros). The initial scale of the \gls{ssb} was effectively unchanged for all retrospective runs. Removing 4–5 years of data led to slightly higher estimated \gls{ssb} over the last 15 years.In contrast, removing only 1–2 years resulted lower estimated \gls{ssb} over the period. Removing 1-5 years of data resulted in increased estimated  recruitment over the past 5 years, but decreased estimates in 10 years prior to this. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
 
 Estimated \gls{ssb} from the base model was comapred with previous assessments. For assessments prior to 2009 (2000, 2003, 2005, 2009), \gls{ssb} was compared with spawning output, and \gls{ssb} for models thereafter (2011, 2015, 2019) [@fig-ssb-historical].The current update follows a similar trend to prvious assessments over the model period, and estimated \gls{ssb} falls within the mid-range of previous assessments.
 

@@ -349,27 +349,10 @@ knitr::include_graphics(
 ### Bridging
 
 ```{r}
-#| label: fig-base_19_25_ssb
-#| echo: false
-#| warning: false
-#| fig-cap: "Time series of spawning stock biomass (SSB) estimates and asymptotic 95% confidence intervals estimates from 2019 and 2025 base models."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-  here::here(
-    "figures", "bridging", "base_19_25_comparison", 
-    "base_19_25_compare2_spawnbio_uncertainty.png"
-  )
-)
-
-```
-
-```{r}
 #| label: fig-base_19_25_bratio
 #| echo: false
 #| warning: false
-#| fig-cap: "Time series of fraction of unfished spawning stock biomass estimates and asymptotic 95% confidence intervals estimates from 2019 and 2025 base models."
+#| fig-cap: "Time series of fraction of unfished spawning output estimates and asymptotic 95% confidence intervals estimates from 2019 and 2025 base models."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -377,6 +360,23 @@ knitr::include_graphics(
   here::here(
     "figures", "bridging", "base_19_25_comparison", 
     "base_19_25_compare4_Bratio_uncertainty.png"
+  )
+)
+
+```
+
+```{r}
+#| label: fig-base_19_25_smry
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of age 4+ biomass from the 2019 and 2025 base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+  here::here(
+    "figures", "bridging", "base_19_25_comparison", 
+    "base_19_25_compare18_smrybio.png"
   )
 )
 
@@ -421,7 +421,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of spawning stock biomass (SSB) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SSB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of blocks on midwater and hake retention)."
+#| fig-cap: "Time series of spawning biomass (SB) estimates from model runs bridging from the 2019 assessment (dark blue) to the August 2025 base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of blocks on midwater and hake retention)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -436,7 +436,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of relative spawning stock biomass (fraction unfished / depletion) estimates from model runs bridging from the 2019 assessment (dark blue) to the current base model (red)."
+#| fig-cap: "Time series of relative spawning biomass (fraction unfished) estimates from model runs bridging from the 2019 assessment (dark blue) to the August 2025 base model (red)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -466,7 +466,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
+#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the August 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -475,7 +475,7 @@ knitr::include_graphics(
 )
 ```
 
-
+TODO: add 2nd set of bridging plots here
 
 ### Selectivity
 
@@ -782,7 +782,7 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts9_Relative_spawning_biomass_intervals.png")
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/ts9_Fraction_of_unfished_spawning_output_with_95_asymptotic_intervals_intervals.png")
 )
 
 ```
@@ -792,7 +792,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted \\gls{ssb} (2011 onward) or spawning output (2000-2009) from past assessments in comparison with the current assessment."
+#| fig-cap: "TODO: UPDATE FIGURE Predicted \\gls{ssb} (2011 onward) or spawning output (2000-2009) from past assessments in comparison with the current assessment."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -838,7 +838,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Phase plot of relative (1-SPR)/(1-SPR_50%) (y-axis) and depletion (x-axis) for widow rockfish."
+#| fig-cap: "Phase plot of relative fishing intensity (1-SPR)/(1-SPR_50%) (y-axis) and fraction unfished spawning otuput (x-axis) for widow rockfish."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -857,7 +857,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimates of recruitment deviations for sensitivity models."
+#| fig-cap: "TODO: NEEDS UPDATE Estimates of recruitment deviations for sensitivity models."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -872,7 +872,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "\\gls{ssb} (with 95% confidence interval around the base model) for the base model and sensitivity runs."
+#| fig-cap: "TODO: NEEDS UPDATE \\gls{ssb} (with 95% confidence interval around the base model) for the base model and sensitivity runs."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -887,7 +887,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparision of model estimated quantities for 2025, given as percent of the base model estimated value, by sensitivity run."
+#| fig-cap: "TODO: NEEDS UPDATE  Comparision of model estimated quantities for 2025, given as percent of the base model estimated value, by sensitivity run."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -904,7 +904,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Five-year retrospective estimates of \\gls{ssb} (top) and recruitment deviations (bottom)."
+#| fig-cap: "Ten-year retrospective estimates of spawning output (top) and recruitment deviations (bottom)."
 #| out.width: "75%"
 #| fig-align: "center"
 
@@ -925,8 +925,13 @@ knitr::include_graphics(
 #| out.width: "90%"
 #| fig-align: "center"
 
+
 knitr::include_graphics(
-    file.path(here::here(),"figures/diagnostics/Like_profile_R0.png")
+    here::here(
+        "models",
+        "diagnostics",
+        "2025 base model_profile_SR_LN(R0)",
+        "piner_panel_SR_LN(R0).png")
 )
 
 ```
@@ -941,7 +946,11 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/diagnostics/Like_profile_Steepness.png")
+    here::here(
+        "models",
+        "diagnostics",
+        "2025 base model_profile_SR_BH_steep",
+        "piner_panel_SR_BH_steep.png")
 )
 
 ```
@@ -956,7 +965,11 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    here::here("figures", "diagnostics", "Like_profile_Female_M.png")
+    here::here(
+        "models",
+        "diagnostics",
+        "2025 base model_profile_NatM_uniform_Fem_GP_1",
+        "piner_panel_NatM_uniform_Fem_GP_1.png")
 )
 
 ```
@@ -971,12 +984,18 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    here::here("figures", "diagnostics", "Like_profile_Male_M.png")
+    here::here(
+        "models",
+        "diagnostics",
+        "2025 base model_profile_NatM_uniform_Mal_GP_1",
+        "piner_panel_NatM_uniform_Mal_GP_1.png")
 )
 
 ```
 
-```{r}
+<!-- NOTE: FIGURE BELOW NOT UPDATED AFTER AUGUST 2025 REVIEW -->
+
+<!-- ```{r}
 #| label: fig-like_profile_recruits
 #| echo: false
 #| warning: false
@@ -989,7 +1008,7 @@ knitr::include_graphics(
     file.path(here::here(),"figures/diagnostics/M_likeprof_recruits.png")
 )
 
-```
+``` -->
 
 
 ## Management
@@ -1009,7 +1028,7 @@ knitr::include_graphics(
 
 ```
 
-```{r}
+<!-- ```{r}
 #| label: fig-dec-table-plot
 #| echo: false
 #| warning: false
@@ -1022,6 +1041,6 @@ knitr::include_graphics(
     file.path(here::here(),"figures/decision_table/combined_ssb_with_interval.png")
 )
 
-```
+``` -->
 
 \clearpage

@@ -7,7 +7,14 @@ read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 model_path <- here::here("models", "2025 base model")
 
-report <- r4ss::SS_output(dir = model_path, verbose = FALSE, printstats = FALSE)
+if (!exists("report")) {
+  report <- r4ss::SS_output(
+    here("models", "2025 base model"), 
+    printstats = FALSE, 
+    verbose = FALSE,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+  )
+}
 
 catch_sum <- aggregate(report$catch$Exp, by = list(Yr = report$catch$Yr), sum)
 

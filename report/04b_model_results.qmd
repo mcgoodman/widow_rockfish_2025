@@ -4,7 +4,14 @@
 
 library("r4ss")
 
-report <- SS_output(here::here("models","2025 base model"))
+if (!exists("report")) {
+  report <- r4ss::SS_output(
+    here("models", "2025 base model"), 
+    printstats = FALSE, 
+    verbose = FALSE,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+  )
+}
 
 est_params <- report$estimated_non_dev_parameters
 

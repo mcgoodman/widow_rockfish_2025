@@ -37,9 +37,10 @@ library("quarto")
 
 # Toggles for running script types
 jobs <- list(
-  data = TRUE, # Process data
-  models = TRUE, # Run bridging models
-  diagnostics = TRUE, # Run diagnostics (jitters, sensitivities)
+  data = FALSE, # Process data
+  models = FALSE, # Run bridging models
+  diagnostics = FALSE, # Run diagnostics (jitters, retros, profiles)
+  sensitivities = FALSE, # Run sensitivity analyses
   report_plots = TRUE, # Build report plots and tables
   report = TRUE # Build report
 )
@@ -123,27 +124,31 @@ if (jobs$models) {
     name = "model parameter bridging"
   )
   
+  run_job(
+    here("R", "model_simplify.R"),
+    name = "model changes for supplemental"
+  )
 }
 
 # Diagnostics ---------------------------------------------
 
 if (jobs$diagnostics) {
-  
-  run_job(
-    here("R", "diagnostics_jitters.R"),
-    name = "jittering"
-  )
-  
-  run_job(
-    here("R", "diagnostics_sensitivities.R"),
-    name = "sensitivity runs"
-  )
-  
   run_job(
     here("R", "diagnostics_profiles_retros.R"),
     name = "likelihood profiles and retrospectives"
   )
-  
+
+  run_job(
+    here("R", "diagnostics_jitters.R"),
+    name = "jittering"
+  )
+}
+
+if (jobs$sensitivities) {
+  run_job(
+    here("R", "diagnostics_sensitivities.R"),
+    name = "sensitivity runs"
+  )
 }
 
 # Summary plots and tables --------------------------------
@@ -154,6 +159,12 @@ if (jobs$report_plots) {
     here("R", "plots_bridging.R"),
     name = "model bridging plots"
   )
+
+  # run_job(
+  #   here("R", "plots_bridging_supplemental.R"),
+  #   name = "model bridging plots for supplemental"
+  # )
+
   
   run_job(
     here("R", "plots_report_figures_paneled.R"),
@@ -165,10 +176,10 @@ if (jobs$report_plots) {
     name = "age / length composition plots"
   )
   
-  run_job(
-    here("R", "tables_decision.R"),
-    name = "decision table"
-  )
+  # run_job(
+  #   here("R", "tables_decision.R"),
+  #   name = "decision table"
+  # )
   
   run_job(
     here("R", "tables_report.R"),

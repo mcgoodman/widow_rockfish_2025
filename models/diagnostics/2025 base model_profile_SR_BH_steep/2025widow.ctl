@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-09-17  22:11:22
+#C file write time: 2025-11-26  15:08:06
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -69,8 +69,8 @@
    -3	      10	    2.98734	2.962	  99	0	-99	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
    -3	      50	       5.47	    7	  99	0	-99	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
    -3	       3	    -0.7747	   -1	  99	0	-99	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
-   -1	       1	7.21847e-08	    1	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
-    0	       5	      4.043	    0	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
+   -1	       1	1.10961e-08	    1	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
+    0	       5	      4.545	    0	  99	0	-99	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
  0.01	     0.3	   0.146812	 -2.3	0.31	3	  5	0	0	0	0	0	0	0	#_NatM_p_1_Mal_GP_1  
    10	      40	    20.3187	   27	  99	0	  3	0	0	0	0	0	0	0	#_L_at_Amin_Mal_GP_1 
    35	      60	    43.6465	   45	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Mal_GP_1 

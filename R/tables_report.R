@@ -9,10 +9,15 @@ library("r4ss")
 read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 # Executive summary tables ------------------------------------------
-
+cli::cli_alert_info("Creating executive summary tables")
 unlink(here("report", "tables", "exec_summ_tables"), recursive = TRUE, force = TRUE)
 
-rep_2025 <- SS_output(here("models", "2025 base model"), printstats = FALSE, verbose = FALSE)
+rep_2025 <- SS_output(
+  here("models", "2025 base model"), 
+  printstats = FALSE, 
+  verbose = FALSE,
+  SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
 
 r4ss::table_all(replist = rep_2025,verbose = T,dir = here("report", "tables"))
 
@@ -24,6 +29,7 @@ file.rename(here("report", "tables", "tables"), here("report", "tables", "exec_s
 table_pars(rep_2025, dir = here("report"))
 
 # Add GMT reference points to exec summary --------------------------
+cli::cli_alert_info("Add GMT reference points to executive summary tables")
 
 # GMC reference point table
 gmt_refs <- read.csv(here("data_provided", "GMT_forecast_catch", "GMT016_stock_summary.csv"))
@@ -49,7 +55,7 @@ recent_management$table <- recent_management$table |>
 save(recent_management, file = here("report", "tables", "exec_summ_tables", "recent_management.rda"))
 
 # Populate projection table -----------------------------------------
-
+cli::cli_alert_info("Updating projection table with GMT reference points")
 load(here("report", "tables", "exec_summ_tables", "projections.rda"))
 
 gmt_25_26 <- gmt_refs |> 
@@ -68,15 +74,16 @@ projections$table <- projections$table |>
     `Adopted OFL (mt)` = as.numeric(`Adopted OFL (mt)`),
     `ABC (mt)` = as.numeric(`ABC (mt)`),
     `Adopted ACL (mt)` = as.numeric(`Adopted ACL (mt)`),
-    `Spawning output` = round(as.numeric(`Spawning output`)/1000, 2)
+    #`Spawning output` = round(as.numeric(`Spawning output`)/1000, 2)
   ) |> 
-  rows_update(gmt_25_26, by = "Year") |> 
-  rename(`Spawning output (billions of eggs)` = `Spawning output`)
+  rows_update(gmt_25_26, by = "Year")  #|> 
+  #rename(`Spawning output (billions of eggs)` = `Spawning output`)
   
   
 save(projections, file = here("report", "tables", "exec_summ_tables", "projections.rda"))
 
 # Table 1 - Landings for non-hake fleets ----------------------------
+cli::cli_alert_info("Creating landings and length/age sampling tables")
 
 # Landings for bottom trawl, midwater trawl, net, and hook-and-line (mt) 
 # fisheries from Washington, Oregon, and California.
@@ -322,6 +329,7 @@ table_15_dat <- age_landings_sampled |> left_join(ages_sampled, by = 'YEAR') |> 
 write.csv(table_15_dat, here("report", "tables", "ages_hake.csv"), row.names = FALSE)
 
 # Table 25 - Liketemp## Table 25 - Likelihood results ---------------
+cli::cli_alert_info("Creating likelihood components table")
 
 lik_vals <- rep_2025$likelihoods_used |> 
   rownames_to_column("component") |> 
@@ -343,9 +351,14 @@ write.csv(lik_vals, here("report", "tables", "likelihood_components.csv"), row.n
 
 # Decision analysis table -------------------------------------------
 
-
+df <- NULL
 df <- read.csv(here("data_derived", "decision_table", "dec_table_results.csv"))
 
+if (is.null(df)) {
+  cli::cli_alert_warning("Skipping decision table creation; no results found.")
+} else {
+  cli::cli_alert_info("Creating decision table")
+  
 dec_table_formatted <- df %>%
   # Extract scenario and level from name
   mutate(
@@ -384,6 +397,7 @@ dec_table_formatted <- df %>%
 
 write.csv(dec_table_formatted, here("report", "tables", "dec_table_formatted.csv"), row.names = FALSE)
 write.csv(dec_table_formatted, here("data_derived", "decision_table", "dec_table_formatted.csv"), row.names = FALSE)
+}
 
 # Francis composition weighting -------------------------------------
 

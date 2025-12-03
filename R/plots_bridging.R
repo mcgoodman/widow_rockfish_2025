@@ -20,12 +20,17 @@ base_2025 <- here("models", "2025 base model")
 # Rerun base 2019 & 2025 ----------------------------------
 
 # With Hessian, to show uncertainty in both 
-r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = skip_finished)
-r4ss::run(base_2025, exe = set_ss3_exe(base_2025), skipfinished = !rerun_base, extras = "-hess_step")
+# r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = skip_finished)
+# r4ss::run(base_2025, exe = set_ss3_exe(base_2025), skipfinished = !rerun_base, extras = "-hess_step")
 
 # Base model plots ----------------------------------------
 
-base_rep <- SS_output(base_2025)
+base_rep <- r4ss::SS_output(
+  here("models", "2025 base model"), 
+  printstats = FALSE, 
+  verbose = FALSE,
+  SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
 base_plotdir <- here("figures", "2025 base model r4ss plots")
 
 SS_plots(replist = base_rep, dir = base_plotdir, html = launch_html)
@@ -52,7 +57,7 @@ model_summary <- SSsummarize(combined_models_list)
 SSplotComparisons(
   model_summary, plotdir = base_compare_dir,
   legendlabels = names(models), filenameprefix = "base_19_25_", 
-  legendloc = c(0.05, 0.2), subplots = c(2, 4, 11:12), 
+  legendloc = c(0.05, 0.2), subplots = c(2, 4, 11:12, 18), 
   plot = FALSE, png = TRUE
 )
 

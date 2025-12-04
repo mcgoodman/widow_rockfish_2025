@@ -29,7 +29,7 @@ There are no requests from the SSC Groundfish Subcommittee.
 
 The assessment followed the similar model structure as the 2015 benchmark assessment [@hicks_status_2015] and 2019 update assessment [@adams_status_2019]. The changes made to the previous assessment model occurred in two stages, an update assessment reviewed in August 2025 and a second round of changes that did not follow the update Terms of References which were reviewed at a supplemental meeting in October 2025. These changes are described in two separate groups.
 
-Initial changes for August 2025 update:
+**Initial changes for August 2025 update:**
 
 - **Adding most recent data from commercial fleets** (as described in "Data" section of this report).
 - **Updating \gls{s-wcgbt} index using current methodology** (as described in "Data" section of this report).
@@ -40,7 +40,8 @@ Initial changes for August 2025 update:
 - **Adding hook-and-line discards to landings in the hook-and-line fleet.** WCGOP corrected discard lengths for the hook-and-line fleet to omit nearshore fixed gear samples, which were erroneously included with the hook-and-line fleet in the previous benchmark [@hicks_status_2015] and update assessments [@adams_status_2019]. This resulted in changes to the discard length distribution and years for which data was available [@fig-disc-hnl-comparison]. Because of decreased sample sizes of hook-and-line discard length data available, this update assessment model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings. Removal of the hook-and-line discard lengths translated into lower estimated recruitment in the 2010s than that of in 2019 update assessment (higher recruitment estimates in the 2019 assessment were previously informed by erroneous estimates of smaller fish, which were corrected in this assessment by combining the hock-and-line discards and landings). Lower recruitment in turn contributed to a decrease in stock size in recent years.
 
 
-Additional changes to the data for the January 2026 model:
+**Additional changes to the data for the January 2026 model:**
+
 - **The fleet structure was simplified.** The landings from fleets with very small catches (hook-and-line and net) were added to the bottom trawl landings and the composition data and discard data from the hook-and-line and net fleets were removed from the model.
 - **Use external estimates of discards rather than estimate within the model**. For the years 1982-2001, landings were scaled using discard rates estimated from the Pikitch and EDCP data and for the years 2002-2023, GEMM estimates of discards were used. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model.
 - **The data weighting was updated.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.

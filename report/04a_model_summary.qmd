@@ -21,13 +21,15 @@ There are no recommendations from the most recent STAR Panel to address.
 
 ## Responses to SSC Groundfish Subcommittee requests
 
-There are no requests from the SSC Groundfish Subcommittee. 
+Responses to the most recent requests from the Science and Statistical Committee (SSC) and Pacific Fishery Management Council (PFMC) are provided in a separate document. 
 
 ## Model Structure and Assumptions
 
-### Model Changes from the Last Assessment
+### Changes from the Last Assessment and Model Bridging
 
-The changes made to the 2019 update assessment [@adams_status_2019] occurred in two stages. A first round of changes were reviewed in August 2025. The model reviewed at the August 2025 Pacific Fishery Management Council (PFMC) Science and Statistical Committee (SSC) Groundfish Subcommittee (GFSC) meeting followed the 2015 benchmark assessment in its structure and assumptions, as required by the Terms of Reference for update assessments (with the exception of removing discard length composition data for the hook-and-line fleet, as discussed and approved at the review meeting).
+The last benchmark stock assessment for widow rockfish was conducted in 2015 [@hicks_status_2015], and it was updated in 2019 [@adams_status_2019]. 
+
+In this assessment, the changes made to the 2019 model [@adams_status_2019] occurred in two stages. A first round of changes were reviewed in August 2025. The model reviewed at the August 2025 Pacific Fishery Management Council (PFMC) Science and Statistical Committee (SSC) Groundfish Subcommittee (GFSC) meeting followed the 2015 benchmark assessment in its structure and assumptions, as required by the Terms of Reference for update assessments (with the exception of removing discard length composition data for the hook-and-line fleet, as discussed and approved at the review meeting).
 
 A second round of changes followed after the August 2025 review meeting, when we explored a larger range of options which go beyond update assessment Terms of Reference and no longer match the 2015 benchmark. The second round of changes resulted in more parsimonious model that was raised to the current best practices in West Coast groundfish stock assessments.
 
@@ -35,16 +37,27 @@ The changes made to the model are listed in two separate groups, according to st
 
 **Changes made from the 2019 update assessment for August 2025 update:**
 
-- **Adding most recent data from commercial fleets** (as described in "Data" section of this report).
+The exploration of models began by bridging from the 2019 update assessment to SS3 version 3.30.23.2, which produced no discernible difference. 
+
+We then focused on data bridging (@fig-bridge2019-data). 
+
+- **Adding most recent data from commercial fleets** (as described in "Data" section of this report). 
 - **Updating \gls{s-wcgbt} index using current methodology** (as described in "Data" section of this report).
-- **Updating the prior for natural mortality** based on @hamel_development_2022.
+- **Updating the log-SD of the prior for natural mortality** based on @hamel_development_2022. The log-mean therefore remains unchanged while the log-SD has been decreased 0.44 to 0.31.
 - **Updating length-weight parameters estimated** by including most recent data.
 - **Extending the main period for estimating recruitment deviations and updating recruitment bias adjustment parameters** based on @methot_adjusting_2011.
-- **Adding a block to the retention curve for the midwater trawl fleet and a block to hake fleet selectivity to account for recent changes in fleet behavior.** Adding a block to the retention curve for midwater trawl allowed for recent increases in midwater trawl discards (from 2017 forward), and improved fit to discard amounts modeled in the assessment. Adding a block to hake fleet selectivity accounted for a change in fish mean length (2020--2024) due to shifts in the spatial distribution of the hake fleet and to improve fit to length compositions [@holland_bycatch_2019]. Neither change had a discernible influence on the estimated SSB. See the "Model Bridging" section for additional detail.
-- **Adding hook-and-line discards to landings in the hook-and-line fleet.** WCGOP corrected discard lengths for the hook-and-line fleet to omit nearshore fixed gear samples, which were erroneously included with the hook-and-line fleet in the previous benchmark [@hicks_status_2015] and update assessments [@adams_status_2019]. This resulted in changes to the discard length distribution and years for which data was available [@fig-disc-hnl-comparison]. Because of decreased sample sizes of hook-and-line discard length data available, this update assessment model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings. Removal of the hook-and-line discard lengths translated into lower estimated recruitment in the 2010s than that of in 2019 update assessment (higher recruitment estimates in the 2019 assessment were previously informed by erroneous estimates of smaller fish, which were corrected in this assessment by combining the hock-and-line discards and landings). Lower recruitment in turn contributed to a decrease in stock size in recent years.
+- **Adding a block to hake fleet selectivity to account for recent changes in fleet behavior.** Adding a block to hake fleet selectivity accounted for a change in fish mean length (2020--2024) due to shifts in the spatial distribution of the hake fleet and to improve fit to length compositions [@holland_bycatch_2019]. This change had a discernible influence on the estimated spawning biomass. 
+- **Adding hook-and-line discards to landings in the hook-and-line fleet.** WCGOP corrected discard lengths for the hook-and-line fleet to omit nearshore fixed gear samples, which were erroneously included with the hook-and-line fleet in the previous benchmark [@hicks_status_2015] and update assessments [@adams_status_2019]. This resulted in changes to the discard length distribution and years for which data was available [@fig-disc-hnl-comparison]. Because of decreased sample sizes of hook-and-line discard length data available, this assessment model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings. 
 
+Updating the catch series did not have a substantial effect on the historical biomass; the stock biomass increasing from 2000--2020 before decreasing up to the current period.
+
+Updates to discards, particularly the removal of hook-and-line length composition data and adding hook-and-line discards to landings, had the most significant impact on the absolute stock biomass (SSB): absolute SSB before 1980 was slightly lower than the 2019 update assessment estimates, and noticeably lower from the mid 2010s through the current year. In the 2015 and 2019 assessments, the hook-and-line discard length data consisted primarily of small fish from nearshore fixed gear, and the model interpreted the presence of those small fish as a recruitment signal. With the erroneous data removed and the hook-and-line discards added to landings, the model estimated lower recruitment in the 2010s, which is translated into lower estimates of spawning biomass and stock productivity in recent years.
+ 
+Updates to model indices and composition data, following updates to discards, lead to minor changes in SSB estimates. The rest of the changes lead to minor changes in recent relative SSB estimates (@fig-bridge2019-bratio) and collectively resulted in a very small decrease in relative SSB post-1990, and pairwise correlations among all shared parameters in these models were high (>0.999). None of these model bridging steps had a substantial effect on the estimates of stock biomass (@fig-bridge2019-data).
 
 **Changes made from August 2025 model for the January 2026 model:**
+
+After August 2025 review, we explored changes to the model that were outside the Terms of Reference for an update assessment. Those changes included:
 
 - **Streamlining the fleet structure** (as described in "Data" section of this report). The landings from fleets with minimal and mostly historical catches (hook-and-line and net) were added to the bottom trawl landings with hook-and-line and net composition data removed from the model.
 - **Use external estimates of discards rather than estimate within the model**. Methods, used to reconstruct discards in the bottom trawl and midwater trawl fleets, based on the Pikitch, EDCP and WCGOP data are described in "Data" section of this report. All retention parameters were removed from the model.
@@ -56,21 +69,7 @@ The changes made to the model are listed in two separate groups, according to st
   - The bias adjustment ramp was updated after the retuning and also to modify the estimated values to have full bias adjustment starting in 1970.
   - The start of the final block on midwater trawl selectivity was moved from 2011 to 2017.
 
-Comparison of the time series estimates from the 2019 update assessment model and this model are shown in @fig-base_19_25_bratio to @fig-base_19_25_recdevs. See "Model Bridging" section for further details.
 
-#### Model Bridging up to August 2025
-
-The model bridging took place in two stages: first from the 2019 update assessment to the model presented in August 2025 to the Groundfish Subcommittee (GFSC) of the Pacific Fishery Management Council's Scientific and Statistical Committee (described below), and second after the GFSC recommended additional explorations that were outside the terms of reference for an update assessment (descibed in the following section).
-
-The exploration of models began by bridging from the 2019 update assessment to SS3 version 3.30.23.2, which produced no discernible difference. We then focused on data bridging (@fig-bridge2019-data). Updating the catch series did not have a substantial effect on the historical biomass; the stock biomass increasing from 2000--2020 before decreasing up to the current period. 
-
-Updates to discards, particularly the removal of hook and line discard amounts and length composition data, had the most significant impact on the absolute stock biomass (SSB): absolute SSB before 1980 was slightly lower than the 2019 update assessment estimates, and noticeably lower from the mid 2010s through the current year. Updates to model indices and composition data, following updates to discards, lead to minor changes in SSB estimates. Removal of hook-and-line discard data had the largest effect on recent relative SSB (fraction of unfished biomass) in recent years; updates to all other data sets, following updates to discards, lead to minor changes in recent relative SSB estimates (@fig-bridge2019-bratio). 
-
-Additional model bridging changes included (1) updating the prior for natural mortality (M) to follow that recommended by @hamel_development_2022, (2) updating fixed parameters of the male and female length-weight curve by fitting to data from the \gls{s-wcgbt}, ASHOP, and the \gls{s-tri} outside the model, (3) re-fitting the bias adjustment ramp for recruitment deviates, (4) adding a block on retention in the midwater trawl fishery from 2011--2016 and allowing estimation of retention in the final years of the model, which was previously fixed at 0.99, (5) adding a block to hake fleet selectivity from 2020--2024, and (6) re-fitting the model using the MLE as initial values following a jittering analysis, which revealed the previous MLE was a local minimum. These changes collectively resulted in a very small decrease in relative SSB post-1990, and pairwise correlations among all shared parameters in these models were high (>0.999). Bridging from the previous prior on M to the @hamel_development_2022 prior is detailed in the “Priors” section. None of these model bridging steps had a substantial effect on the estimates of stock biomass (@fig-bridge2019-data). 
-
-To estimate discards in the model, time blocks for changes in selectivity and retention in discard data were used. Except for the aforementioned addition of blocks to the midwater trawl and hake fleets, the same structure for time blocks was used as in the most recent update assessment [@adams_status_2019]. The addition of midwater trawl and hake fleets block was necessitated by poor fits to midwater trawl discards and the length composition data from the hake fleet in from 2020--2024, respectively. The poor fit to hake fleet length composition data may be due to the high variability in the distribution of the hake fleet between years, as the fleet moves to avoid bycatch [@holland_bycatch_2019]. Poor fit to midwater trawl discards is thought to be due to (1) the previous decision to fix late-year retention to 0.99 which represented an overestimate of the (very low) discards in 2011--2016, and (2) the reallocation of quota shares and subsequent increase in midwater trawl discards in 2017. These choices are described in more detail in the “Fits to Data” section.
-
-#### Model Bridging after August 2025 Review
 
 ```{r}
 #| include: false
@@ -93,7 +92,7 @@ get_min_bratio <- function(ss_summary) {
 }
 ```
 
-For illustration of the additional bridging analysis after the August 2025 review, the changes to the August 2025 base model are grouped into the following steps:
+Stepwise bridging from the August 2025 model to January 2025 included the following:
 
 1. Adopt the new Washington historical catch reconstruction
 1. Simplify fleets and include discards with landings, refine selectivity block
@@ -103,22 +102,18 @@ For illustration of the additional bridging analysis after the August 2025 revie
 1. Refine the recruitment bias adjustment and re-tune the weighting
 1. Update the fecundity relationship with the species-specific relationship for widow rockfish
 
-**TODO: REVISE TEXT BELOW WHICH WAS COPIED FROM THE OCTOBER 2025 REPORT: "Proposed new widow rockfish base model"**
-
-None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (TODO: add tables) 
+None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (TODO: add tables and figures) 
 <!-- (@tbl-bridge2, Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits). -->
 
-Adding the Washington historical catch reconstruction had a relatively small impact, as was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
-
-Simplifying the fleet structure and combining discards with landings did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
+Adding the Washington historical catch reconstruction had a minimal impact. Simplifying the fleet structure and combining discards with landings did not reveal unexpected or unreasonable patterns with a disproportionate effect of changes on model results (as it was in case of HKL discard data). Simplifying the fleet structure also did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
 
 The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, which translated into increases in the estimated productivity of the stock, including equilibrium catch and estimated OFLs. Relative to the August 2025 model, the updated data weighting method upweighted length data from the bottom trawl fleet and age data from all three commercial fleets (bottom trawl, midwater trawl, hake); all other composition data sources were downweighted (TODO: add table)<!-- (@tbl-compweight-comparison) -->. For bottom trawl, in particular, this upweighting is likely in part due to the removal of discard composition data, as Stock Synthesis does not apply separate data weights to discarded and retained composition data from the same fleet. The discard compositions are very noisy and difficult to fit, so their removal allowed for upweighting of the remaining data. The decrease in the weight of West Coast Groundfish Bottom Trawl Survey (WCGBTS) conditional age-at-length data by approximately one-third, paired with upweighting of other data, is likely the major driver of the increased estimate of natural mortality, given explorations in GFSC request 6. 
 
-With the change in fecundity relationship, spawning output is now expressed in trillions of eggs and no longer directly comparable with spawning biomass expressed in metric tons in previous models. This change did not have much impact on age 4+ biomass, but the spawning output time series was impacted by the changes in relative contributions of older fish. In particular, the stock status (fraction of unfished spawning output) reached a low point of `r get_min_bratio(summary_1.04)` (below the 0.25 overfished threshold) as compared to a minimum of `r get_min_bratio(summary_Aug2025_base)` in the August 2025 base model. The addition of the fecundity relationship also resulted in slightly lower estimates of OFLs and fraction unfished at the end of the time series compared to the previous step in this bridging, though still higher than the August 2025 estimates.
+With the change in fecundity relationship, spawning output is now expressed in billions of eggs and no longer directly comparable with spawning biomass expressed in metric tons in previous models. This change did not have much impact on age 4+ biomass, but the spawning output time series was impacted by the changes in relative contributions of larger/older fish which are disproportionately removed from the population, which leads to lower estimates of fraction of unfished and estimated OFLs. In particular, the stock status (fraction of unfished spawning output) reached a low point of `r get_min_bratio(summary_1.04)` (below the 0.25 overfished threshold) as compared to a minimum of `r get_min_bratio(summary_Aug2025_base)` in the August 2025 base model. The addition of the fecundity relationship also resulted in slightly lower estimates of OFLs and fraction unfished at the end of the time series compared to the previous step in this bridging, though still higher than the August 2025 estimates.
 
 After the change in fecundity relationships, an additional refinement to the recruitment bias adjustment was conducted and the model re-tuned (again with the Francis method) which had only a small impact on the model results.
 
-Finally, an error in the choice of fecundity relationship was identified by the October 2025 review panel and replaced by the widow-rockfish-specific fecundity relationships. Due to an oversight, the October 2025 base model used the fecundity parameters associated with an unobserved rockfish species, rather than the relationship estimated for widow rockfish. The widow-specific parameters used were taken from https://github.com/EJDick-NOAA/Rockfish-Fecundity with an additional division by 1000 for the scalar parameter to convert the resulting spawning output from billions to trillions of eggs. The final parameters were 
+Comparison of the time series estimates from the 2019 update assessment model and this model are shown in @fig-base_19_25_bratio to @fig-base_19_25_recdevs. 
 
 ### Modeling Platform and Structure
 

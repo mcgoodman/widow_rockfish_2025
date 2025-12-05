@@ -792,7 +792,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "TODO: UPDATE FIGURE Predicted \\gls{ssb} (2011 onward) or spawning output (2000-2009) from past assessments in comparison with the current assessment."
+#| fig-cap: "Estimated fraction of unfished spawning output from past assessments in comparison with the current assessment. The units of spawning spawning output differ among assessments but the ratio remains comparable."
 #| out.width: "90%"
 #| fig-align: "center"
 

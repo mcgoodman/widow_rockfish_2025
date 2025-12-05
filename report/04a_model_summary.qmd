@@ -27,9 +27,13 @@ There are no requests from the SSC Groundfish Subcommittee.
 
 ### Model Changes from the Last Assessment
 
-The assessment followed the similar model structure as the 2015 benchmark assessment [@hicks_status_2015] and 2019 update assessment [@adams_status_2019]. The changes made to the previous assessment model occurred in two stages, an update assessment reviewed in August 2025 and a second round of changes that did not follow the update Terms of References which were reviewed at a supplemental meeting in October 2025. These changes are described in two separate groups.
+The changes made to the 2019 update assessment [@adams_status_2019] occurred in two stages. A first round of changes were reviewed in August 2025. The model reviewed at the August 2025 Pacific Fishery Management Council (PFMC) Science and Statistical Committee (SSC) Groundfish Subcommittee (GFSC) meeting followed the 2015 benchmark assessment in its structure and assumptions, as required by the Terms of Reference for update assessments (with the exception of removing discard length composition data for the hook-and-line fleet, as discussed and approved at the review meeting).
 
-**Initial changes for August 2025 update:**
+A second round of changes followed after the August 2025 review meeting, when we explored a larger range of options which go beyond update assessment Terms of Reference and no longer match the 2015 benchmark. The second round of changes resulted in more parsimonious model that was raised to the current best practices in West Coast groundfish stock assessments.
+
+The changes are described in two separate groups.
+
+**Changes made from the 2019 update assessment for August 2025 update:**
 
 - **Adding most recent data from commercial fleets** (as described in "Data" section of this report).
 - **Updating \gls{s-wcgbt} index using current methodology** (as described in "Data" section of this report).
@@ -40,18 +44,19 @@ The assessment followed the similar model structure as the 2015 benchmark assess
 - **Adding hook-and-line discards to landings in the hook-and-line fleet.** WCGOP corrected discard lengths for the hook-and-line fleet to omit nearshore fixed gear samples, which were erroneously included with the hook-and-line fleet in the previous benchmark [@hicks_status_2015] and update assessments [@adams_status_2019]. This resulted in changes to the discard length distribution and years for which data was available [@fig-disc-hnl-comparison]. Because of decreased sample sizes of hook-and-line discard length data available, this update assessment model was unable to reliably estimate retention parameters and exhibited substantial sensitivity to even slight changes in discard amounts within the hook-and-line fleet. Therefore, in this assessment, we added the hook-and-line discard to hook-and-line landings. Removal of the hook-and-line discard lengths translated into lower estimated recruitment in the 2010s than that of in 2019 update assessment (higher recruitment estimates in the 2019 assessment were previously informed by erroneous estimates of smaller fish, which were corrected in this assessment by combining the hock-and-line discards and landings). Lower recruitment in turn contributed to a decrease in stock size in recent years.
 
 
-**Additional changes to the data for the January 2026 model:**
+**Changes made from August 2025 model for the January 2026 model:**
 
-- **The fleet structure was simplified.** The landings from fleets with very small catches (hook-and-line and net) were added to the bottom trawl landings and the composition data and discard data from the hook-and-line and net fleets were removed from the model.
-- **Use external estimates of discards rather than estimate within the model**. For the years 1982-2001, landings were scaled using discard rates estimated from the Pikitch and EDCP data and for the years 2002-2023, GEMM estimates of discards were used. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model.
-- **The data weighting was updated.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
+- **Streamlining the fleet structure** (as described in "Data" section of this report). The landings from fleets with minimal and mostly historical catches (hook-and-line and net) were added to the bottom trawl landings with hook-and-line and net composition data removed from the model.
+- **Use external estimates of discards rather than estimate within the model**. Methods, used to reconstruct discards in the bottom trawl and midwater trawl fleets, based on the Pikitch, EDCP and WCGOP data are described in "Data" section of this report. All retention parameters were removed from the model.
+- **Updating the data weighting approach.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights. The Francis method performed better in a simulation analysis [@punt_some_2017] and has been the preferred approach in most recent stock assessments. The 50% multiplier on the data weights used in the previous assessment was an approach more common in 2015 to account for the potential double use of data since length and age are observed from the same fish. However, the sum of the adjusted input sample sizes for length and age data combined are already far lower than the number of sampled fish because they are primarily based on trips or hauls and then further reduced by the data-weighting algorithm. This 50% adjustment is no longer common practice and has not been used any other recent assessments.
+- **Use a fecundity relationship rather than assume the number of eggs is proportional to body weight.** Use fecunsity-at-length based on the meta-analysis from @dick_meta-analysis_2017 has become standard practice in recent years and reflects the best available science.
 - **Various additional refinements made.** 
-  - The landings from Washington were updated to reflect a recent catch-reconstruction that was included as a sensitivity analysis in the August base model.
+  - The landings from Washington were updated to use the new Washington catch reconstruction.
+  - The historical catch within foreign fishery that targeted Pacific Ocean Perch during 1966--1976 period was moved from the hake fleet to the bottom trawl fleet. 
   - The bias adjustment ramp was updated after the retuning and also to modify the estimated values to have full bias adjustment starting in 1970.
-  - The foreign catch from the years 1968--1976 was moved from the hake fleet to the bottom trawl fleet. 
-  - Change the timing of the final block on midwater trawl selectivity from 2011 to 2017
+  - The start of the final block on midwater trawl selectivity was moved from 2011 to 2017.
 
-Comparison time series estimates from the 2019 update assessment model and this 2025 model are shown in @fig-base_19_25_bratio to @fig-base_19_25_recdevs. See "Model Bridging" section for further details.
+Comparison of the time series estimates from the 2019 update assessment model, August 2025 model and this model are shown in @fig-base_19_25_bratio to @fig-base_19_25_recdevs. See "Model Bridging" section for further details.
 
 #### Model Bridging up to August 2025
 

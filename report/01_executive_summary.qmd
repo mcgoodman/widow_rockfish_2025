@@ -22,7 +22,7 @@ Widow rockfish are a desirable market species and it is believed that discarding
 #| label: tbl-a
 #| echo: false
 #| warning: false
-#| tbl-cap: "Recent total catch for the bottom trawl, midwater trawl, at-sea hake. Catch combines landings and discards. Te bottom trawl catch includes contributes from fleets that were previously separated as net, and hook-and-line fisheries as described in the model bridging section."
+#| tbl-cap: "Recent total catch for the bottom trawl, midwater trawl, hake fleets. Catch combines landings and discards. Te bottom trawl catch includes contributes from fleets that were previously separated as net, and hook-and-line fisheries as described in the model bridging section."
 
 library("flextable")
 library("dplyr")
@@ -56,7 +56,7 @@ table_A <- table_A$table |>
 table_A <- round(table_A, 2) # manually round bc flex table isn't working well
 
 colnames_A <- c(
-  "Year", "Bottom Trawl","Midwater Trawl","At-Sea Hake", #"Net","Hook-and-line", 
+  "Year", "Bottom Trawl","Midwater Trawl","Hake", #"Net","Hook-and-line", 
   #"Total Landings", # no longer separate
   "Total Mortality"
 )
@@ -77,7 +77,7 @@ flextable(table_A, col_keys = names(table_A)) %>%
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Total catches (landings and discards combined) of widow rockfish from 1916 to 2024 for bottom trawl, midwater trawl, and at-sea hake fleets"
+#| fig-cap: "Total catches (landings and discards combined) of widow rockfish from 1916 to 2024 for bottom trawl, midwater trawl, and hake fleets."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -107,7 +107,7 @@ This assessment uses the length- and age-structured modeling software Stock Synt
 
 The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments.  
 
-In the 2015 benchmark and 2019 update assessments catches were divided among  five fleets (bottom trawl, midwater trawl, at-sea hake, net and hook-and line). Also, the 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events previously estimated for 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. This led to implausible population dynamics, so the decision was made to consolidate fleets and add minimal (and primarily historical) catches from net and hook-and-line fisheries to the shore-based bottom trawl fleet. Also, instead of estimating discards within the model using retention curve based on limited discard length composition data, the discard amount for bottom trawl and midwater trawl fleets were reconstructed outside the model, based on historical and the \gls{wcgop} data, and added to the landings within the corresponding fleets. 
+In the 2015 benchmark and 2019 update assessments catches were divided among  five fleets (bottom trawl, midwater trawl, catches within fleet targeting hake, net and hook-and line). Also, the 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events previously estimated for 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. This led to implausible population dynamics, so the decision was made to consolidate fleets and add minimal (and primarily historical) catches from net and hook-and-line fisheries to the shore-based bottom trawl fleet. Also, instead of estimating discards within the model using retention curve based on limited discard length composition data, the discard amount for bottom trawl and midwater trawl fleets were reconstructed outside the model, based on historical and the \gls{wcgop} data, and added to the landings within the corresponding fleets. 
 
 As a result, this model includes catch, age, and length data for three fishing fleets: 1) a coastwide shore-based bottom trawl fleet (1916–2024), 2) a coastwide shore-based midwater trawl fleet that targets rockfish (1979–2024), and 3) a mostly midwater trawl fleet that targets Pacific hake and includes at-sea fleet (1975–2024) and a domestic shore-based fleet (1991–2024). A bottom trawl fleet includes minimal catches made by net and hook-and-line and gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976.
 

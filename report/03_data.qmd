@@ -36,13 +36,17 @@ The index was built using a spatial GLM with the sdmTMB package [@anderson_sdmtm
 
 Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake/whiting (*Merluccius productus*, hereafter "hake"). Minimal amounts are also taken by non-trawl gears such as hook-and-line and net (@tbl-disc-totals). 
 
-The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments.  This model includes three fishing fleets: 1) a coastwide shore-based bottom trawl fleet (1916–2024), 2) a coastwide shore-based midwater trawl fleet that targets rockfish (1979–2024), and 3) a mostly midwater trawl fleet that targets Pacific hake and includes at-sea fleet (1975–2024) and a domestic shore-based fleet (1991–2024). A bottom trawl fleet includes minimal catches made by net and hook-and-line and gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976. 
+The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments. The catches in the model are divided among three fishing fleets:
+
+1. A coastwide shore-based bottom trawl fleet (1916–2024). This fleet also includes minimal catches made by net and hook-and-line and gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976. 
+2. A coastwide shore-based midwater trawl fleet that targets rockfish (1979–2024).
+3. A mostly midwater trawl fleet that targets Pacific hake and includes at-sea fleet (1975–2024) and a domestic shore-based fleet (1991–2024).
 
 As in previous assessments, catches from Puget Sound and those from commercial shrimp trawls, commercial pots, and recreational fisheries were excluded (as these are generally minimal).
 
 ### Landings
 
-Landings from the 1916-2018 period were carried forward into this assessment with two modifications. One was made to the midwater and bottom trawl catches from California. Because PacFIN appears to underestimate midwater trawl catches in California in 1979-1980 when midwater trawl fishery for widow rockfish developed (Edward Dick, Pers. Comms.) we adjusted midwater and bottom trawl catches from California in these years to reflect the ratio of California midwater to bottom trawl catches in 1981-1982. 
+Landings from the 1916-2018 period were carried forward into this assessment with two modifications. One was made to the midwater and bottom trawl catches from California. Because PacFIN appears to underestimate midwater trawl catches in California in 1979-1980 when midwater trawl fishery for widow rockfish developed (Edward Dick, SWFSC, pers. comm.) we adjusted midwater and bottom trawl catches from California in these years to reflect the ratio of California midwater to bottom trawl catches in 1981-1982. 
 
 The second update was the use of new catch reconstruction for widow rockfish made in Washington state ports, provided by the Washington Department of Fish and Wildlife (WDFW). New Washington historical landings represent the best scientific information available. The three main sources used in this reconstruction included the US Fish Commission Report (UFSC), Washington Bound Volumes, and Washington Statistical Bulletin. The historical species composition was based on the various historical reports and interviews of fishermen and dockside samplers. The landings between 1981 and 2000 were also provided by WDFW, since WDFW developed and used an improved method for apportioning unidentified rockfish (URCK) category in fish tickets to the individual species landings. This improved approach relaxed the borrowing rules for missing data used in the WDFW species allocation algorithm that feeds into PacFIN. 
 
@@ -74,15 +78,16 @@ Data on discards of widow rockfish are available from three different sources. H
 
 The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior. Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
 
-We estimated bottom trawl discards and midwater trawl discards externally, using historical sources (the Pikitch study and EDCP), as well as WCGOP data, and added calculated discard amounts to landings of the corresponding fleets by year. The methods used to reconstruct discard amounts in different time periods are detailed below. The range of years chosen for each method approximate the time-blocks on retention that informed the different data sources in the August 2025 base model. 
-    a. For the years 1982--1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch study.
-    a. For the years 1990--2001, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the EDCP data.
-    a. For the years 2002--2023, GEMM estimates of fleet-specific discards amounts were added to the landed catch (bottom trawl + other, and midwater trawl).
-    a. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model.
+We estimated bottom trawl discards and midwater trawl discards externally, using historical sources (the Pikitch study and EDCP), as well as WCGOP data, and added calculated discard amounts to landings of the corresponding fleets by year. The methods used to reconstruct discard amounts in different time periods are detailed below. 
+
+1. For the years 1982--1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch study.
+2. For the years 1990--2001, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the EDCP data.
+3. For the years 2002--2023, GEMM estimates of fleet-specific discards amounts were added to the landed catch (bottom trawl + other, and midwater trawl).
+4. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model.
 
 This treatment of the discard is different from the 2015 benchmark and 2019 update assessments. Then, discards were estimated with retention functions within the model, which was standard practice in 2015, following a long period of large discards due to trip limits. However, discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population. As a part of model bridging, we illustrated that treating discard as catch (rather than estimating them in the model) did not have much impact on model results. Also, this approach avoids hard-to-diagnose issues that come from estimating retention curves (especially with limited amounts of data). For some species, the discard data may provide important information about recent recruitment because the smaller fish are being discarded. However, for this stock, removing the discard amounts and length-compositions from the likelihood had little impact on recruitment estimates.
 
-Widow rockfish bycatch within the at-sea hake fishery represents total catch, with discards already accounted for.
+Widow rockfish bycatch within the hake fishery represents total catch, with discards already accounted for.
 
 ### Biological data
 
@@ -130,13 +135,11 @@ Maturity parameters in this update assessment were carried over from 2015 benchm
 
 #### Fecundity
 
-The fecundity parameters (F = aLb) for widow rockfish were based on meta-analysis and were provided by Dr. E.J. Dick (SWFSC) and reported at https://github.com/EJDick-NOAA/Rockfish-Fecundity as follows:
+The model uses widow rockfish specific fecundity at length relationships from the meta-analysis from @dick_meta-analysis_2017 instead of assuming spawning output being proportional to body weight as in 2015 and 2019 models. Accounting for size-dependent fecundity in rockfish stocks using the meta-analysis from @dick_meta-analysis_2017 has become standard practice in recent years and reflects the best available science. The fecundity parameters for widow rockfish are reported at https://github.com/EJDick-NOAA/Rockfish-Fecundity as follows:
 
 a = 1.10961E-08, b = 4.545
 
 The value for a above produces spawning output values in billions of eggs from SS3, given length in cm.
-
-The relationships between body weight or length and fecundity for rockfish should reflect the best available science. Rockfish stock assessments should consider relationships from the meta-analysis in Dick et al. (2017), at the appropriate taxonomic scale, if better species-specific relationships are unavailable.
 
 #### Natural Mortality
 

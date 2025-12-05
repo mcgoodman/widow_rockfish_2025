@@ -74,11 +74,9 @@ disc_max <- format(max(disc), big.mark = ",", scientific = FALSE)
 
 ```
 
-Data on discards of widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collection Project (EDCP, @sampson2002). These historical sources were not reanalyzed for this update assessment, and discard amounts were not changed from the last assessment. Sex-specific length frequencies were also available from @pikitch_evaluation_1988. Length compositions for discards show a wide range of sizes being discarded, with a peak around 40 cm (@fig-disccomps-pikitch). 
+Data on discards of widow rockfish are available from three different sources. Historical sources included @pikitch_evaluation_1988 and Enhanced Data Collection Project (EDCP, @sampson2002). The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior.
 
-The West Coast Groundfish Observer Program (WCGOP) provided information on recent discard of widow rockfish between 2002--2023. Since 2011, under trawl rationalization, 100% observer coverage is required for the limited entry trawl sectors, which resulted in a large increase in data and ability to determine discard behavior. Discard estimates are shown in @tbl-disc-totals and range from `r disc_min` to `r disc_max` mt. 
-
-We estimated bottom trawl discards and midwater trawl discards externally, using historical sources (the Pikitch study and EDCP), as well as WCGOP data, and added calculated discard amounts to landings of the corresponding fleets by year. The methods used to reconstruct discard amounts in different time periods are detailed below. 
+For this assessment, we estimated bottom trawl discards and midwater trawl discards externally, using historical sources as well as WCGOP data, and added calculated discard amounts to landings of the corresponding fleets by year. The methods used to reconstruct discard amounts in different time periods are detailed below. 
 
 1. For the years 1982--1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch study.
 2. For the years 1990--2001, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the EDCP data.

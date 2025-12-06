@@ -17,9 +17,9 @@
 # 13. Update bias adjustment using estimated values but modified to have full bias adjustment starting in 1970.
 # ------------------------------------------------------------------------------
 
-which_steps <- 1:5
+which_steps <- 1:6
 run_models <- TRUE # doesn't apply to tuning steps, only works for step 1, perhaps
-copy_to_base_dir <- FALSE
+copy_to_base_dir <- TRUE
 
 if (1 %in% which_steps) {
   cli::cli_alert_info(
@@ -813,13 +813,57 @@ if (5 %in% which_steps) {
   )
 }
 
+if (6 %in% which_steps) {
+  # step 6: projection with relative F average over last 5 years
+  cli::cli_alert_info(
+    "Step 6: Update fecundity parameters again to widow-specific values"
+  )
+
+  inputs1.06 <- SS_read(
+    file.path(
+      "models",
+      "supplemental_requests",
+      "1.05_refine_biasramp_and_tuning"
+    ),
+    ss_new = FALSE
+  )
+  inputs1.06$dir <- here::here(
+    "models",
+    "supplemental_requests",
+    "1.06_widow_fecundity"
+  )
+  # add fecundity relationship
+  # update parameters using values from from
+  # https://github.com/EJDick-NOAA/Rockfish-Fecundity
+  inputs1.06$ctl$MG_parms["Eggs_alpha_Fem_GP_1", "INIT"] <- 1.10961e-08 # / 1e3 # convert from billions to trillions
+  inputs1.06$ctl$MG_parms["Eggs_beta_Fem_GP_1", "INIT"] <- 4.545
+  inputs1.06$ctl$MG_parms["Eggs_beta_Fem_GP_1", "HI"] <- 5
+
+  # write files
+  r4ss::SS_write(
+    inputs1.06,
+    dir = inputs1.06$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+  )
+
+  # run the model
+  if (run_models) {
+    r4ss::run(
+      inputs1.06$dir,
+      # extras = "-nohess",
+      skipfinished = FALSE
+    )
+  }
+}
+
 # copy final simplified model to 2025 base model directory and re-run
 if (copy_to_base_dir) {
   r4ss::copy_SS_inputs(
     dir.old = here::here(
       "models",
       "supplemental_requests",
-      "1.05_refine_biasramp_and_tuning"
+      "1.06_widow_fecundity"
     ),
     dir.new = here::here(
       "models",
@@ -836,59 +880,59 @@ if (copy_to_base_dir) {
   )
 }
 
-if (6 %in% which_steps) {
-  # step 6: projection with relative F average over last 5 years
-  cli::cli_alert_info(
-    "Step 6: Projection with relative F average over last 5 years"
-  )
-  dir1.06 <- here::here(
-    "models",
-    "supplemental_requests",
-    "1.06_projection_relativeF_last5"
-  )
-  r4ss::copy_SS_inputs(
-    dir.old = here::here(
-      "models",
-      "supplemental_requests",
-      "1.05_refine_biasramp_and_tuning"
-    ),
-    dir.new = dir1.06,
-    overwrite = TRUE,
-    copy_par = TRUE
-  )
-  inputs1.06 <- SS_read(dir1.06)
-  # set benchmark years for relative F to last 5 years of data (2020-2024)
-  #_Bmark_years: beg_bio, end_bio, beg_selex, end_selex, beg_relF, end_relF, beg_recr_dist, end_recr_dist, beg_SRparm, end_SRparm (enter actual year, or values of 0 or -integer to be rel. endyr)
-  inputs1.06$fore$Bmark_years[5:6] <- c(2020, 2024)
+# if (6 %in% which_steps) {
+#   # step 6: projection with relative F average over last 5 years
+#   cli::cli_alert_info(
+#     "Step 6: Projection with relative F average over last 5 years"
+#   )
+#   dir1.06 <- here::here(
+#     "models",
+#     "supplemental_requests",
+#     "1.06_projection_relativeF_last5"
+#   )
+#   r4ss::copy_SS_inputs(
+#     dir.old = here::here(
+#       "models",
+#       "supplemental_requests",
+#       "1.05_refine_biasramp_and_tuning"
+#     ),
+#     dir.new = dir1.06,
+#     overwrite = TRUE,
+#     copy_par = TRUE
+#   )
+#   inputs1.06 <- SS_read(dir1.06)
+#   # set benchmark years for relative F to last 5 years of data (2020-2024)
+#   #_Bmark_years: beg_bio, end_bio, beg_selex, end_selex, beg_relF, end_relF, beg_recr_dist, end_recr_dist, beg_SRparm, end_SRparm (enter actual year, or values of 0 or -integer to be rel. endyr)
+#   inputs1.06$fore$Bmark_years[5:6] <- c(2020, 2024)
 
-  # set average forecast recruitment to the full timeseries
-  inputs1.06$fore$Fcast_years <- inputs1.06$fore$Fcast_years |>
-    dplyr::rows_update(
-      data.frame(
-        MG_type = 12,
-        method = 1,
-        # st_year = inputs1.06$ctl$inputs1.06$ctl$MainRdevYrFirst, # 1970
-        st_year = inputs1.06$ctl$recdev_early_start, # 1900
-        end_year = 0
-      ),
-      by = "MG_type" # replace row that matches MG_type=12 (recruitment)
-    )
-  # change starter to run from the .par file
-  inputs1.06$start$init_values_src <- 1
+#   # set average forecast recruitment to the full timeseries
+#   inputs1.06$fore$Fcast_years <- inputs1.06$fore$Fcast_years |>
+#     dplyr::rows_update(
+#       data.frame(
+#         MG_type = 12,
+#         method = 1,
+#         # st_year = inputs1.06$ctl$inputs1.06$ctl$MainRdevYrFirst, # 1970
+#         st_year = inputs1.06$ctl$recdev_early_start, # 1900
+#         end_year = 0
+#       ),
+#       by = "MG_type" # replace row that matches MG_type=12 (recruitment)
+#     )
+#   # change starter to run from the .par file
+#   inputs1.06$start$init_values_src <- 1
 
-  # write files
-  r4ss::SS_write(
-    inputs1.06,
-    dir = inputs1.06$dir,
-    overwrite = TRUE,
-    verbose = FALSE
-  )
-  # run the model without estimation starting in phase 10
-  if (run_models) {
-    r4ss::run(
-      inputs1.06$dir,
-      extras = "-nohess -phase 10",
-      skipfinished = FALSE
-    )
-  }
-}
+#   # write files
+#   r4ss::SS_write(
+#     inputs1.06,
+#     dir = inputs1.06$dir,
+#     overwrite = TRUE,
+#     verbose = FALSE
+#   )
+#   # run the model without estimation starting in phase 10
+#   if (run_models) {
+#     r4ss::run(
+#       inputs1.06$dir,
+#       extras = "-nohess -phase 10",
+#       skipfinished = FALSE
+#     )
+#   }
+# }

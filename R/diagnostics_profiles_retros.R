@@ -87,7 +87,7 @@ model_settings_retros <- get_settings(
     base_name = basename(base_diag_dir),
     run = "retro",
     verbose = TRUE,
-    retro_yrs = -1:-5
+    retro_yrs = -1:-10
   )
 )
 

@@ -323,3 +323,49 @@ interactive = FALSE
 verbose = FALSE
 
 ###
+
+# alternative approach to getting probabilities from MLE output
+# model was copied from
+# models\supplemental_requests\SSC January 2026 review\Request_1\widow_new_base_model_with_plots_2025-09-30_Widow_fecundity
+# and renamed. Starter file was modified to have Bratio represent value relative to B40%
+#   1 # Depletion basis:  denom is: 0=skip; 1=X*SPBvirgin; 2=X*SPBmsy; 3=X*SPB_styr; 4=X*SPB_endyr; 5=X*dyn_Bzero;  values>=11 invoke N multiyr with 10s & 100s digit; append .1 to invoke log(ratio); e.g. 122.1 produces log(12 year trailing average of B/Bmsy)
+#   0.4 # Fraction (X) for Depletion denominator (e.g. 0.4)
+# as well as start from .par file
+
+b40_model <- SS_output(
+    "models/supplemental_requests/SSC January 2026 review/Council_Request_3/Bratio_40",
+    printstats = FALSE,
+    verbose = FALSE
+)
+# move targets
+b40_model$btarg = 1.0
+b40_model$minbthresh = 0.25 / 0.40
+#par(mar = c(2, 2, 1, 1))
+png(
+    filename = "figures/supplemental_requests/Council_Request_3_B40_probability.png",
+    width = 6,
+    height = 4.5,
+    units = "in",
+    res = 300
+)
+SSplotComparisons(
+    SSsummarize(list(b40_model)),
+    densitynames = c("Bratio_2029"),
+    subplots = 16,
+    legend = FALSE,
+    #add = TRUE,
+    new = FALSE,
+    par = list(mar = c(3.1, 3.1, 1, 1))
+)
+mtext(side = 1, line = 2, "Spawning output in 2029 relative to B40%")
+mtext(side = 2, line = 1, "Density")
+dev.off()
+
+info <- b40_model$derived_quants["Bratio_2029", c("Value", "StdDev")]
+(prob <- pnorm(
+    q = 1.0,
+    mean = info$Value,
+    sd = info$StdDev,
+    lower.tail = FALSE
+) |>
+    round(3))

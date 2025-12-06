@@ -518,11 +518,12 @@ flextable(table26) %>% land_tab_style(wd=1.9) %>%
 #Old table 27
 
 # Function for consistent table styling
-table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table
-
-round1_cols <- c("Exploitation Rate", "Age-0 Recruits (1,000s)", "Total Mortality (mt)")
-table27[,round1_cols] <- round(table27[,round1_cols], 1)
-table27 <- round(table27, 3)
+table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table 
+table27 <- table27 %>%
+  mutate(
+    across(-c(5, 8, 9), ~ if(is.numeric(.)) round(., 0) else .),
+    across(c(5, 8, 9), ~ if(is.numeric(.)) round(., 3) else .)
+  )
 
 # Function for consistent table styling 
 flextable(table27) %>% 

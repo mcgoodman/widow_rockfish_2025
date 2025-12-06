@@ -37,7 +37,7 @@ The changes made to the model are listed in two separate groups, according to st
 
 **Changes made from the 2019 update assessment for August 2025 update:**
 
-The exploration of models began by bridging from the 2019 update assessment to SS3 version 3.30.23.2, which produced no discernible difference. 
+The exploration of models began by bridging from the 2019 update assessment to current SS3 version, which produced no discernible difference. 
 
 We then focused on data bridging (@fig-bridge2019-data). 
 
@@ -117,15 +117,19 @@ Comparison of the time series estimates from the 2019 update assessment model an
 
 ### Modeling Platform and Structure
 
-For this update assessment, new versions of the previously used software were used. The 2019 update assessment used Stock Synthesis v3.30.13 to estimate the model; and R4SS version 1.35.3 and R version 3.5.3 to investigate and plot the 2019 model fits. This update used Stock Synthesis v3.30.24.1 to estimate the model; and R4SS version 1.52.1 and R version 4.5.0 to investigate and plot the model fits. A summary of the data sources used in the model (details discussed above) is shown in @fig-data-plot-base. 
+Stock Synthesis statistical catch-at-age modelling framework [@MethotWetzel2013], version 3.30.24.1, was used for this assessment; and R4SS version 1.52.1 and R version 4.5.0 to investigate and plot the model fits. A summary of the data sources used in the model (details discussed above) is shown in @fig-data-plot-base.
 
 ### Model Overview
 
-The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. Ageing error was retained from the 2015 benchmark assessment [@hicks_status_2015]. TODO: UPDATE: Fecundity was assumed to be proportional to body weight, thus \gls{ssb} was used as the measure of spawning output.
+The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. Ageing error was retained from the 2015 benchmark assessment [@hicks_status_2015]. The model uses widow rockfish fecundity at length relationships from the meta-analysis in Dick et al. (2017) instead of assuming spawning output being proportional to body weight as in 2015 and 2019 models.
 
 #### Model Fleets and Areas
 
-The assessment uses a single-area model, consistent with the previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019]. Multiple fisheries encounter widow rockfish. The fishing fleets have been simplified from previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019], where two fleets with small catches were combined with the bottom trawl fleet. These fleets, hook-and-line and net, represented 1.1% and 1.4% of the input catches, respectively. 
+The assessment uses a single-area model, consistent with the previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019]. The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments [@hicks_status_2015, @adams_status_2019]. In this assessment, the catches are divided among three fishing fleets:
+
+1. A coastwide shore-based bottom trawl fleet (1916–2024). This fleet also includes minimal catches made by net and hook-and-line gears, which represented 1.4% and 1.1% of the input catches, respectively. This fleet also includes widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976. 
+2. A coastwide shore-based midwater trawl fleet that targets rockfish (1979–2024).
+3. A mostly midwater trawl fleet that targets hake and includes at-sea fleet (1975–2024) and a domestic shore-based fleet (1991–2024).
 
 ### Model Parameters 
 

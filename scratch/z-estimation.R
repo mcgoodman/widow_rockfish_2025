@@ -137,10 +137,52 @@ survey_ages <- bds_survey |>
 
 ages <- rbind(ages, survey_ages)
 
+
 table(ages$Sex)
 #     F     M     U
 # 77678 69083   285
 ages <- ages |> dplyr::filter(Sex != "U")
+
+# histograms of the age data grouped by source and sex
+ages |>
+    dplyr::filter(Age > 30, Age <= 60) |>
+    dplyr::mutate(Sex = dplyr::recode(Sex, F = "Female", M = "Male")) |>
+    ggplot2::ggplot(ggplot2::aes(x = Age)) +
+    ggplot2::geom_histogram(binwidth = 1) +
+    ggplot2::facet_wrap(~ source + Sex, scales = "free_y") +
+    ggplot2::labs(
+        title = "Ages 30+ by Source and Sex",
+        x = "Age",
+        y = "Count"
+    )
+ggsave(
+    filename = here(
+        "figures",
+        "supplemental_requests",
+        "age_frequencies_30plus.png"
+    ),
+    width = 6.5,
+    height = 4
+)
+
+# histograms of the age data grouped by source and sex
+ages |>
+    dplyr::filter(Age <= 60) |>
+    dplyr::mutate(Sex = dplyr::recode(Sex, F = "Female", M = "Male")) |>
+    ggplot2::ggplot(ggplot2::aes(x = Age)) +
+    ggplot2::geom_histogram(binwidth = 1) +
+    ggplot2::facet_wrap(~ source + Sex, scales = "free_y") +
+    ggplot2::labs(
+        title = "Ages by Source and Sex",
+        x = "Age",
+        y = "Count"
+    )
+ggsave(
+    filename = here("figures", "supplemental_requests", "age_frequencies.png"),
+    width = 6.5,
+    height = 4
+)
+
 
 range(ages$Age)
 # [1]  1 80
@@ -148,12 +190,16 @@ hist(ages$Age, breaks = 0:80)
 
 z_estimation_plot <- function(
     ages,
-    age.peak = 8,
-    age.cut = 60,
+    age.peak = 6,
+    age.cut = 70,
     minyr = -Inf,
     maxyr = Inf,
     filename = NULL
 ) {
+    # Recode Sex values
+    ages <- ages |>
+        dplyr::mutate(Sex = dplyr::recode(Sex, F = "Female", M = "Male"))
+
     #Filter by year if desired
     ninput <- nrow(ages)
     ages <- ages |>
@@ -180,11 +226,11 @@ z_estimation_plot <- function(
     )
 
     #Report Z value
-    age_comps_agg.df.F <- subset(age_comps_agg_peak.df, Sex == "F")
+    age_comps_agg.df.F <- subset(age_comps_agg_peak.df, Sex == "Female")
     cc_lm.F <- lm(age_comps_agg.df.F$Freq_ln ~ age_comps_agg.df.F$Age)
     cc_lm.F$coefficients[2]
 
-    age_comps_agg.df.M <- subset(age_comps_agg_peak.df, Sex == "M")
+    age_comps_agg.df.M <- subset(age_comps_agg_peak.df, Sex == "Male")
     cc_lm.M <- lm(age_comps_agg.df.M$Freq_ln ~ age_comps_agg.df.M$Age)
     cc_lm.M$coefficients[2]
 
@@ -199,53 +245,51 @@ z_estimation_plot <- function(
         ) +
         geom_smooth(method = "lm", data = age_comps_agg_peak.df) +
         facet_wrap(vars(Sex)) +
-        annotate(
-            "text",
-            x = 0.9 * max(ages$Age),
-            y = 5.6,
-            label = paste0("Peak age = ", age.peak),
-            size = 3
-        ) +
         geom_text(
             data = data.frame(
-                Ages = rep(0.9 * max(ages$Age), 2),
-                Sex = c("F", "M"),
-                Freq = c(NA, NA),
-                Freq_ln = c(5, 5),
+                Sex = c("Female", "Male"),
+                Ages = c(
+                    max(ages$Age, na.rm = TRUE),
+                    max(ages$Age, na.rm = TRUE)
+                ),
+                Freq_ln = c(
+                    max(age_comps_agg.df.F$Freq_ln, na.rm = TRUE),
+                    max(age_comps_agg.df.M$Freq_ln, na.rm = TRUE)
+                ),
                 label = c(
-                    paste0("Z = ", round(cc_lm.F$coefficients[2], 3)),
-                    paste0("Z = ", round(cc_lm.M$coefficients[2], 3))
+                    paste0("Z = ", -round(cc_lm.F$coefficients[2], 3)),
+                    paste0("Z = ", -round(cc_lm.M$coefficients[2], 3))
                 )
             ),
-            aes(label = label),
+            aes(x = Ages, y = Freq_ln, label = label),
+            hjust = 1,
+            vjust = 1,
             color = "black",
-            size = 3
+            size = 3,
+            inherit.aes = FALSE
         )
 
     if (!is.null(filename)) {
         ggsave(
             filename = filename,
             width = 6.5,
-            height = 4
+            height = 3.5
         )
     }
 }
 
 ages |>
     z_estimation_plot(
-        age.peak = 6,
-        age.cut = 70,
         filename = here(
             "figures",
             "supplemental_requests",
-            "z_estimation_all_years.png"
+            "z_estimation_all_years_all_ages.png"
         )
     )
+
 ages |>
     dplyr::filter(source == "WCGBTS") |>
     z_estimation_plot(
-        age.peak = 6,
-        age.cut = 70,
         filename = here(
             "figures",
             "supplemental_requests",
@@ -256,8 +300,6 @@ ages |>
 ages |>
     dplyr::filter(source == "PacFIN") |>
     z_estimation_plot(
-        age.peak = 6,
-        age.cut = 70,
         minyr = 2003,
         filename = here(
             "figures",
@@ -269,8 +311,6 @@ ages |>
 ages |>
     dplyr::filter(source == "PacFIN") |>
     z_estimation_plot(
-        age.peak = 6,
-        age.cut = 70,
         maxyr = 1990,
         filename = here(
             "figures",
@@ -283,8 +323,6 @@ ages |>
 ages |>
     dplyr::filter(source == "PacFIN") |>
     z_estimation_plot(
-        age.peak = 6,
-        age.cut = 70,
         minyr = 1991,
         maxyr = 2000,
         filename = here(

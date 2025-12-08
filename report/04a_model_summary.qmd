@@ -125,7 +125,16 @@ The model is a two-sex, age-structured model starting in 1916 with an accumulate
 
 #### Model Fleets and Areas
 
-The assessment uses a single-area model, consistent with the previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019]. The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments [@hicks_status_2015, @adams_status_2019]. In this assessment, the catches are divided among three fishing fleets:
+The assessment uses a single-area model, consistent with the previous benchmark and update assessments [@hicks_status_2015, @adams_status_2019]. The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments [@hicks_status_2015, @adams_status_2019]. 
+
+
+
+
+
+
+
+
+In this assessment, the catches are divided among three fishing fleets:
 
 1. A coastwide shore-based bottom trawl fleet (1916–2024). This fleet also includes minimal catches made by net and hook-and-line gears, which represented 1.4% and 1.1% of the input catches, respectively. Removals from net and hook-and-line fisheries were previously treated as separate fleets. The bottom trawl fleet also includes widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976. 
 2. A coastwide shore-based midwater trawl fleet that targets rockfish (1979–2024).
@@ -173,7 +182,9 @@ Following recommendation of Pacific Fishery Management Council (PFMC) Science an
 
 The major structural choice was related to fleet structure, which was simplified to focus on major fisheries that remove more that 97% of catch. Those included bottom trawl, midwater trawl and hake fleets. The fisheries with minimal and mostly historical catches, such as hook-and line and net, were added to the bottom trawl fleet. 
 
-Another major structural change was related to treatment of the discard. In this assessment, the discards in bottom trawl and midwater trawl fleets were estimated externally, based on historical and current data sources, and added to landings within the corresponding fleets. With that, all retention parameters became obsolete and thus were removed from the model. This change was motivated by the fact that discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population. This change also helps avoid hard-to-diagnose issues that come from estimating retention curves (especially with limited amounts of data), as we encountered with the hook-and-line fleet, easrlier in the assessment process. Removing the discard amounts and length-compositions from the likelihood had little impact on recruitment estimates.
+In the 2015 benchmark and 2019 update assessments catches were divided among  five fleets (bottom trawl, midwater trawl, catches within fleet targeting hake, net and hook-and line). Also, the 2015 benchmark and 2019 update assessments estimated discards using retention curves for the bottom trawl, midwater trawl, and hook-and-line fleets based on discard biomass and length composition data from the \gls{wcgop}. Changes to the underlying discard length composition data for the hook-and-line fleet from \gls{wcgop} illustrated that very large recruitment events previously estimated for 2013 and 2014 were mainly driven by very small amounts of composition data for a minor fleet responsible for less than one-tenth of a percent of the catch in the last decade. This led to implausible population dynamics, so the decision was made to consolidate fleets and add minimal (and primarily historical) catches from net and hook-and-line fisheries to the shore-based bottom trawl fleet. 
+
+Another major structural change was related to treatment of the discard. In this assessment, the discards in bottom trawl and midwater trawl fleets were estimated externally, based on historical and the \gls{wcgop} data, and added to landings within the corresponding fleets. With that, all retention parameters became obsolete and thus were removed from the model. This change was motivated by the fact that discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population. This change also helps avoid hard-to-diagnose issues that come from estimating retention curves (especially with limited amounts of data), as we encountered with the hook-and-line fleet, easrlier in the assessment process. Removing the discard amounts and length-compositions from the likelihood had little impact on recruitment estimates.
 
 Other key assumptions were related to updating model to the current assessment practices, and included using up-to-date catches (specifically, historical catches from Washington), data weighting approach and treatment of fecundity. The stepwise changes made to the model and their justification are provided in "Changes from the Last Assessment and Model Bridging" section of this report.
 

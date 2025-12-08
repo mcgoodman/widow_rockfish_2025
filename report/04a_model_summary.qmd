@@ -175,6 +175,6 @@ An additional change from the previous assessments was the removal of a 50% addi
  
 ### Key Assumptions and Structural Choices
 
-**TODO: add text here to reflect further changes from August to new base.**
+Following recommendation of Pacific Fishery Management Council (PFMC) Science and Statistical Committee (SSC) Groundfish Subcommittee (GFSC) meeting in August 2025, for this update assessment we explored a larger range of options which go beyond update assessment Terms of Reference. Following this recommendation, we conducted multiple model explorations, which resulted in more parsimonious model that was raised to the current best practices in West Coast groundfish stock assessments.
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@hicks_status_2015] for additional information.
+The stepwise changes made to the model as their justification are provided in "Changes from the Last Assessment and Model Bridging" section of this report.

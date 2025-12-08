@@ -139,12 +139,6 @@ The following fishery-independent surveys are included in the model:
 2. Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (WCGBTS) (2003-2024).
 3. recruitment index from the National Marine Fisheries Service (NMFS) SWFSC and NWFSC/PWCC Midwater Trawl Survey (Juvenile Survey) (2004-2024).
 
-The model also includes three historical fishery-dependent CPUE indices retained from the 2015 benchmark.
-
-1. Oregon bottom trawl (1984-1999). 
-2. Oregon bottom trawl (1984-1999).
-3. At-sea domestic hake fleets (1983-1998).
-
 ### Model Parameters 
 
 #### Estimated and Fixed Parameters
@@ -177,4 +171,11 @@ An additional change from the previous assessments was the removal of a 50% addi
 
 Following recommendation of Pacific Fishery Management Council (PFMC) Science and Statistical Committee (SSC) Groundfish Subcommittee (GFSC) meeting in August 2025, for this update assessment we explored a larger range of options which go beyond update assessment Terms of Reference. Following this recommendation, we conducted multiple model explorations, which resulted in more parsimonious model that was raised to the current best practices in West Coast groundfish stock assessments.
 
-The stepwise changes made to the model as their justification are provided in "Changes from the Last Assessment and Model Bridging" section of this report.
+The major structural choice was related to fleet structure, which was simplified to focus on major fisheries that remove more that 97% of catch. Those included bottom trawl, midwater trawl and hake fleets. The fisheries with minimal and mostly historical catches, such as hook-and line and net, were added to the bottom trawl fleet. 
+
+Another major structural change was related to treatment of the discard. In this assessment, the discards in bottom trawl and midwater trawl fleets were estimated externally, based on historical and current data sources, and added to landings within the corresponding fleets. With that, all retention parameters became obsolete and thus were removed from the model. This change was motivated by the fact that discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population. This change also helps avoid hard-to-diagnose issues that come from estimating retention curves (especially with limited amounts of data), as we encountered with the hook-and-line fleet, easrlier in the assessment process. Removing the discard amounts and length-compositions from the likelihood had little impact on recruitment estimates.
+
+Other key assumptions were related to updating model to the current assessment practices, and included using up-to-date catches (specifically, historical catches from Washington), data weighting approach and treatment of fecundity. The stepwise changes made to the model and their justification are provided in "Changes from the Last Assessment and Model Bridging" section of this report.
+
+
+with limited amounts of data), as we encountered with the hook-and-line fleet in the August 2025 base model. For some species, the discard data may provide important information about recent recruitment because the smaller fish are being discarded. However, for this stock, removing the discard amounts and length-compositions from the likelihood had little impact on recruitment estimates (See @fig-bridge2_recruits in bridging section).

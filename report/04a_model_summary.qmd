@@ -117,7 +117,7 @@ Comparison of the time series estimates from the 2019 update assessment model an
 
 ### Modeling Platform and Structure
 
-Stock Synthesis statistical catch-at-age modelling framework [@MethotWetzel2013], version 3.30.24.1, was used for this assessment; and R4SS version 1.52.1 and R version 4.5.0 to investigate and plot the model fits. A summary of the data sources used in the model (details discussed above) is shown in @fig-data-plot-base.
+Stock Synthesis statistical catch-at-age modelling framework, version 3.30.24.1, was used for this assessment; and R4SS version 1.52.1 and R version 4.5.0 to investigate and plot the model fits. A summary of the data sources used in the model (details discussed above) is shown in @fig-data-plot-base.
 
 ### Model Overview
 
@@ -155,7 +155,7 @@ Time blocks were used for selectivity and retention parameters in the bottom tra
 
 The prior on natural mortality (M) in the previous assessment was defined as a lognormal with mean on the log-scale of ln(5.4/Amax) and SD(ln(M)) = 0.44 following @hamel_method_2015 and @then_evaluating_2015. In the current assessment, the prior on M has been updated to reflect guidance from @hamel_development_2022. With this update, the log-mean remains unchanged while the log-SD has been set to 0.31. Using a maximum age of 54 the point estimate and median of the prior on M is 0.10.
 
-The prior for steepness (h) has not changed since the 2019 update assessment [@adams_status_2019]. It assumes a beta distribution with parameters based on @thorson_steep_2019assumeshas, with mean = 0.72 and SD = 0.16 ($\alpha$ = 4.95, $\beta$ = 1.93) which was approved for use in all rockfish stock assessments.
+The prior for steepness (h) has not changed since the 2019 update assessment [@adams_status_2019]. It assumes a beta distribution with parameters based on @thorson_steep_2019, with mean = 0.72 and SD = 0.16 ($\alpha$ = 4.95, $\beta$ = 1.93) which was approved for use in all rockfish stock assessments.
 
 #### Recruitment deviations
 

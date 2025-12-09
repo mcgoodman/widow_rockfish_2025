@@ -98,9 +98,7 @@ Stepwise bridging from the August 2025 model to January 2025 included the follow
 1. Simplify fleets and include discards with landings, refine selectivity block
 1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
 1. Change data weighting methods (Francis, lambda = 1)
-1. Add the fecundity relationship for rockfish in general (unobserved sebastes)
-1. Refine the recruitment bias adjustment and re-tune the weighting
-1. Update the fecundity relationship with the species-specific relationship for widow rockfish
+1. Add the fecundity at-length relationship for widow rockfish, refine the recruitment bias adjustment and re-tune the weighting.
 
 None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (TODO: add tables and figures) 
 <!-- (@tbl-bridge2, Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits). -->

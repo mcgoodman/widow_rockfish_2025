@@ -634,22 +634,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-ssb-historical
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated fraction of unfished spawning output from past assessments in comparison with the current assessment. The units of spawning spawning output differ among assessments but the ratio remains comparable."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    here("figures", "2025 base model r4ss plots", "SSB_historical_comparison.png")
-)
-
-```
-
-
-```{r}
 #| label: fig-SR-curve
 #| echo: false
 #| warning: false
@@ -756,6 +740,21 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(),"figures/diagnostics/retros.png")
+)
+
+```
+
+```{r}
+#| label: fig-ssb-historical
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated fraction of unfished spawning output from past assessments in comparison with the current assessment. The units of spawning spawning output differ among assessments but the ratio remains comparable."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here("figures", "2025 base model r4ss plots", "SSB_historical_comparison.png")
 )
 
 ```

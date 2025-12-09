@@ -161,36 +161,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-lencomp-fleet4
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Expanded length compositions for the net fishery. The area of the circle is proportional to the proportion-at-length."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/composition_plots/lencomp_fleet_4.png")
-)
-
-```
-
-```{r}
-#| label: fig-lencomp-fleet5
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Expanded length compositions for the hook-and-line fishery.  The area of the circle is proportional to the proportion-at-length."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/composition_plots/lencomp_fleet_5.png")
-)
-
-```
-
-```{r}
 #| label: fig-agecomp-fleet1
 #| echo: false
 #| warning: false
@@ -236,51 +206,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-agecomp-fleet4
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Expanded age compositions for the net fishery. The area of the circles is proportional to the  proportion-at-age."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"/figures/composition_plots/agecomp_fleet_4.png")
-)
-
-```
-
-```{r}
-#| label: fig-agecomp-fleet5
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Expanded age compositions for the hook-and-line fishery. The area of the circles is proportional to the proportion-at-age."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"/figures/composition_plots/agecomp_fleet_5.png")
-)
-
-```
-
-```{r}
-#| label: fig-disccomps-pikitch
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Length compositions for discards from the Pikitch study. The discard length comps were fitted into the model."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"/figures/discard_comps/bottom_trawl_pikitch.jpg")
-)
-
-```
-
-```{r}
 #| label: fig-disc-hnl-comparison
 #| echo: false
 #| warning: false
@@ -292,23 +217,6 @@ knitr::include_graphics(
 knitr::include_graphics(
     here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.jpeg")
 )
-```
-
-
-
-```{r}
-#| label: fig-disccomps-wcgop
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Length compositions of the discards for the bottom trawl."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"/figures/discard_comps/bottom_trawl_wcgop.jpg")
-)
-
 ```
 
 
@@ -499,44 +407,12 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated selectivity curves by time block for bottom trawl, midwater trawl, hake, and hook-and-line fleets."
+#| fig-cap: "Estimated selectivity curves by time block for bottom trawl, midwater trawl, and hake fleets."
 #| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/combined_select_curves.png")
-)
-
-```
-
-```{r}
-#| label: fig-combined-selectivity
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Bottom Trawl (top row) and Midwater Trawl (bottom row) for males (left column) and females (right column)"
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/combined_retention_plots.png")
-)
-
-```
-
-```{r}
-#| label: fig-ret-tv
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated retention curves by time block for bottom and midwater trawl fleets."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-  path = here::here(
-   "figures", "2025 base model r4ss plots", "combined_retention_curves_tv.png" 
-  )
 )
 
 ```
@@ -606,21 +482,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-pred-obs-discards
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Predicted (blue line) and observed (open circles) discards for the bottom trawl (top) and midwater trawl (bottom) fleets from the base model. 95% confidence intervals are shown for the observations."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/pred-obs-discards.png")
-)
-
-```
-
-```{r}
 #| label: fig-lenage-pears-res-trawl
 #| echo: false
 #| warning: false
@@ -631,21 +492,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-trawl.png")
-)
-
-```
-
-```{r}
-#| label: fig-lenage-pears-res-hklnet
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Pearson residuals for fits to length frequency data (left) and age frequency data (right) for landings from the net and hook-and-line commercial fleets (rows). Filled circles indicate that the fitted proportion was less than the observed proportion. Red indicates females, blue males, and gray unsexed."
-#| out.width: "80%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(), "figures/2025 base model r4ss plots/lenage-pears-res-hklnet.png")
 )
 
 ```
@@ -747,7 +593,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted \\gls{ssb} (thousand mt) for widow rockfish using the base assessment. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
+#| fig-cap: "Predicted spawning output (billions of eggs) for widow rockfish using the base model. The solid line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -777,7 +623,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Predicted relative \\gls{ssb} from the widow rockfish base assessment model. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
+#| fig-cap: "Predicted relative spawning output  from the widow rockfish base model. The solid blue line is the MLE estimate, and the dashed lines depict the approximate asymptotic 95% confidence intervals. The red lines show the equilibrium level (100%), the management target of 40% of unfished biomass, and the minimum stock size threshold of 25% of unfished biomass."
 #| out.width: "90%"
 #| fig-align: "center"
 

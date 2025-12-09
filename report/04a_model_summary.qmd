@@ -63,7 +63,7 @@ After August 2025 review, we explored changes to the model that were outside the
 - **Use external estimates of discards rather than estimate within the model**. Methods, used to reconstruct discards in the bottom trawl and midwater trawl fleets, based on the Pikitch, EDCP and WCGOP data are described in "Data" section of this report. All retention parameters were removed from the model.
 - **Updating the data weighting approach.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights. The Francis method performed better in a simulation analysis [@punt_some_2017] and has been the preferred approach in most recent stock assessments. The 50% multiplier on the data weights used in the previous assessment was an approach more common in 2015 to account for the potential double use of data since length and age are observed from the same fish. However, the sum of the adjusted input sample sizes for length and age data combined are already far lower than the number of sampled fish because they are primarily based on trips or hauls and then further reduced by the data-weighting algorithm. This 50% adjustment is no longer common practice and has not been used any other recent assessments.
 - **Use a fecundity relationship rather than assume the number of eggs is proportional to body weight.** Use fecundity-at-length based on the meta-analysis from @dick_meta-analysis_2017 has become standard practice in recent years and reflects the best available science.
-- **Various additional refinements made.** 
+- **Various additional refinements made.** All of these refinements had a minimal impact. 
   - The landings from Washington were updated to use the new Washington catch reconstruction.
   - The historical catch within foreign fishery that targeted Pacific Ocean Perch during 1966--1976 period was moved from the hake fleet to the bottom trawl fleet. 
   - The bias adjustment ramp was updated after the retuning and also to modify the estimated values to have full bias adjustment starting in 1970.
@@ -92,18 +92,10 @@ get_min_bratio <- function(ss_summary) {
 }
 ```
 
-Stepwise bridging from the August 2025 model to January 2025 included the following:
-
-1. Adopt the new Washington historical catch reconstruction
-1. Simplify fleets and include discards with landings, refine selectivity block
-1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
-1. Change data weighting methods (Francis, lambda = 1)
-1. Add the fecundity at-length relationship for widow rockfish, refine the recruitment bias adjustment and re-tune the weighting.
-
-None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (TODO: add tables and figures) 
+Comparisons of summary biomass, fraction unfished and estimated recruitment for major bridging steps within the second round of changes are shown in @fig-bridge2-smrybio, @fig-bridge2-bratio and @fig-bridge2-rec. None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (TODO: add tables) 
 <!-- (@tbl-bridge2, Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits). -->
 
-Adding the Washington historical catch reconstruction had a minimal impact. Simplifying the fleet structure and combining discards with landings did not reveal unexpected or unreasonable patterns with a disproportionate effect of changes on model results (as it was in case of HKL discard data). Simplifying the fleet structure also did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
+Simplifying the fleet structure and combining discards with landings did not reveal unexpected or unreasonable patterns with a disproportionate effect of changes on model results (as it was in case of HKL discard data). Simplifying the fleet structure also did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
 
 The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, which translated into increases in the estimated productivity of the stock, including equilibrium catch and estimated OFLs. Relative to the August 2025 model, the updated data weighting method upweighted length data from the bottom trawl fleet and age data from all three commercial fleets (bottom trawl, midwater trawl, hake); all other composition data sources were downweighted (TODO: add table)<!-- (@tbl-compweight-comparison) -->. For bottom trawl, in particular, this upweighting is likely in part due to the removal of discard composition data, as Stock Synthesis does not apply separate data weights to discarded and retained composition data from the same fleet. The discard compositions are very noisy and difficult to fit, so their removal allowed for upweighting of the remaining data. The decrease in the weight of West Coast Groundfish Bottom Trawl Survey (WCGBTS) conditional age-at-length data by approximately one-third, paired with upweighting of other data, is likely the major driver of the increased estimate of natural mortality, given explorations in GFSC request 6. 
 
@@ -119,7 +111,7 @@ Stock Synthesis statistical catch-at-age modelling framework, version 3.30.24.1,
 
 ### Model Overview
 
-The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The lengths in the population were tracked by 1 cm intervals and the length data were binned into 2 cm intervals. Ageing error was retained from the 2015 benchmark assessment [@hicks_status_2015]. The model uses widow rockfish fecundity at length relationships instead of assuming spawning output being proportional to body weight as in the 2015 and 2019 models. With the change in fecundity relationship, spawning output is now expressed in billions of eggs and not in metric tons, as in 2015 and 2019 models.
+The model is a two-sex, age-structured model starting in 1916 with an accumulated age group at 40 years. Sex-specific growth and natural mortality were estimated. The length data  between  were binned into 2 cm intervals.The length frequency distributions ranges between 8 and 56 cm binned into 2 cm intervals.  Population length bins are defined at a wider 2-cm scale, ranging between 6 and 60 cm. Ageing error was retained from the 2015 benchmark assessment [@hicks_status_2015]. The model uses widow rockfish fecundity at length relationships instead of assuming spawning output being proportional to body weight as in the 2015 and 2019 models. With the change in fecundity relationship, spawning output is now expressed in billions of eggs and not in metric tons, as in 2015 and 2019 models.
 
 #### Model Fleets and Areas
 
@@ -145,7 +137,7 @@ Fixed parameters in the model included steepness, standard deviation of recruitm
 
 All selectivity curves in the base model were length based and had the same shape as the 2015 benchmark and the 2019 update assessments. The base model assumed asymptotic selectivity (using the double-normal formulation in SS3) for each fishery, except for the midwater trawl fishery [@hicks_status_2015]. The \gls{s-wcgbt} and \gls{s-tri} both used spline curves. The \gls{s-wcgbt} survey fleet selectivity was estimated to be slightly lower at lengths greater than 45 cm, compared to the selectivity estimated in 2019.
 
-Time blocks were used for selectivity and retention parameters in the bottom trawl, midwater trawl, and hake fisheries as indicated in @tbl-speci-base-assess.
+Time blocks were used for selectivity parameters in the bottom trawl, midwater trawl, and hake fisheries as indicated in @fig-est-select-3478.
 
 #### Priors
 

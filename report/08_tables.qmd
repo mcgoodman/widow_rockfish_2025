@@ -286,6 +286,8 @@ flextable(table13, col_keys = names(table13)) %>%
 
 ```
 
+{{< pagebreak >}}
+
 ```{r}
 #| label: tbl-age-gear-state
 #| echo: false
@@ -319,41 +321,6 @@ flextable(table14, col_keys = names(table14)) %>%
 
 ```
 \elandscape
-
-```{r}
-#| label: tbl-disc-totals
-#| echo: false
-#| warning: false
-#| tbl-cap: "Discard totals (mt) for two fleets derived from Pikitch data, EDCP data, and WCGOP data."
-
-#Old table 16
-
-table16 <- read.csv(here("report", "tables", "discards.csv"))
-#Remove periods
-colnames(table16) <- gsub("\\.", " ", colnames(table16))
-# deal w rounding 
-table16$Discards <- round(table16$Discards, 0)
-
-# Function for consistent table styling
-# style_table16 <- function(ft) {
-#  ft %>%
-#  font(fontname = "Times New Roman", part = "all") %>%
-#  border_outer(part = "all") %>%
-#  border_inner(part = "all") %>%
-#  align(align = "center", part = "header") %>%
-#  align(align = "center", part = "body")%>%
-#  colformat_num(j = 2, big.mark = "", digits = 0)%>%
-#  autofit()
-# }
-
-# Create Flextable for Table 20
-table16 %>%
- flextable() %>%
- colformat_num(j = 2, big.mark = "", digits = 0) %>%
- # style_table16()
- port_tab_style(wd=0.9)
-
-```
 
 ### Fishery-independent data
 
@@ -412,45 +379,11 @@ flextable(table9, col_keys = names(table9)) %>%
  port_tab_style(wd=0.45)
 
 ```
-
+{{< pagebreak >}}
 
 ## Model results
 
-```{r}
-#| label: tbl-speci-base-assess
-#| echo: false
-#| warning: false
-#| tbl-cap: "Specifications of the base assessment model for widow rockfish."
 
-#Old table 21
-library("officer")
-
-table21<- openxlsx::read.xlsx(here("report", "tables", "base_model_specs.xlsx"))
-colnames(table21) <- c("1","2","3")
-
-table21$`2`[which(table21$`2`=="Minimum ages for first growth calcs")] <- "First reference age for growth calcs"
-table21$`2`[which(table21$`2`=="Maximum ages for first growth calcs")] <- "Second reference age for growth calcs"
-table21$`2`[which(table21$`2`=="Satrting year of estimated recruitment")] <- "Starting year of estimated recruitment"
-
-rmv_rows <- c("Fishery timing", "Triennial survey timing", "WCGBTS timing", "Fishing mortality methods", "maximum F")
-table21 <- table21 %>% filter(! `2` %in% rmv_rows)
-
-my_border <- fp_border(color = "black", width = 2)
-
-flextable(table21) %>%
- delete_part(part="header")%>%
- border(part = "all") %>%
- align(align = "left", j=2) %>%
- italic(j = 1, italic = TRUE)%>%
- font(fontname = "Times New Roman", part = "all") %>%
- bold(part = "header")%>%
- border(border.top = my_border, i = 1) %>%
- autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0)%>%
- fontsize(size = 9, part = "all")%>%
- set_table_properties(layout = "autofit")
-
-```
 
 \blandscape
 ```{r}
@@ -485,6 +418,8 @@ flextable(table25) %>%
   port_tab_style(wd=2) %>% 
   colformat_num(i = 1, j = 2, digits = 0) 
 ```
+
+{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-key-deriv-params
@@ -584,33 +519,6 @@ flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:nc
 ```
 
 {{< pagebreak >}}
-
-```{r}
-#| label: tbl-weightingcomps
-#| echo: false
-#| warning: false
-#| tbl-cap: "Estimated data weights derived using the McAllister-Ianelli and Francis methods."
-
-#Old table 34
-
-table34 <- read.csv(here("figures", "sensitivities", "weighting_comps.csv"))
-#Remove periods
-colnames(table34) <- gsub("\\.", " ", colnames(table34))
-table34 <- table34 %>% select(-c("Log Mean effN   2025 base model", "Log Mean effN   Francis"))
-
-# Add a row that spans all columns (like a section header)
-flextable(table34) %>%
-  set_header_labels(
-    names = colnames(table34), 
-    values = c(
-      "Fleet", 
-      "Composition data type", 
-      "McAllister Ianelli weighting (base model)", 
-      "Francis weighting (alternative)"
-    )) %>% 
-  port_tab_style(wd=1.5)
-
-```
 
 ## Management
 

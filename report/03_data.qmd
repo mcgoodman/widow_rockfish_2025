@@ -34,7 +34,7 @@ The index was built using a spatial GLM with the sdmTMB package [@anderson_sdmtm
 
 ## Fishery-dependent data
 
-Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake/whiting (*Merluccius productus*, hereafter "hake"). Minimal amounts are also taken by non-trawl gears such as hook-and-line and net (@tbl-disc-totals). 
+Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake/whiting (*Merluccius productus*, hereafter "hake"). Minimal amounts have been historically taken by non-trawl gears such as hook-and-line and net. 
 
 The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments. The catches in the model are divided among three fishing fleets:
 

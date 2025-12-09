@@ -2,6 +2,21 @@
 
 ## Data
 
+```{r}
+#| label: fig-data-plot-base
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Data sources by type and year that were used in the base model."
+#| out.width: "70%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/2025 base model r4ss plots/plots/data_plot.png")
+)
+
+```
+
 ### Indices
 
 ```{r}
@@ -256,6 +271,82 @@ knitr::include_graphics(
 
 ### Bridging
 
+
+```{r}
+#| label: fig-bridge2019-data
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of spawning biomass (SB) estimates from model runs bridging from the 2019 assessment (dark blue) to the August 2025 base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of blocks on midwater and hake retention)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2019-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning biomass (fraction unfished) estimates from model runs bridging from the 2019 assessment (dark blue) to the August 2025 base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridging_compare3_Bratio.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2-smrybio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning biomass (fraction unfished) estimates from model runs bridging from the August 2025 model (blue) to the base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridge2_compare18_smrybio.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning biomass (fraction unfished) estimates from model runs bridging from the August 2025 model (blue) to the base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridge2_compare3_Bratio.png")
+)
+
+```
+
+```{r}
+#| label: fig-bridge2-rec
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of estimated recruitment from model runs bridging from the August 2025 model (blue) to the base model (red)."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/bridging/bridge2_compare9_recruits.png")
+)
+
+```
+
 ```{r}
 #| label: fig-base_19_25_bratio
 #| echo: false
@@ -324,50 +415,6 @@ knitr::include_graphics(
 
 ```
 
-```{r}
-#| label: fig-bridge2019-data
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Time series of spawning biomass (SB) estimates from model runs bridging from the 2019 assessment (dark blue) to the August 2025 base model (red). For illustration purposes, the addition of midwater and bottom trawl discards (without updating hook-and-line discards) precedes the addition of hook-and-line discards to hook-and-line landings. Some bridging steps with minimal impact on SB are grouped (including updating mortality priors, length/weight regression estimates, stock-recruitment bias ramp estimation, and the addition of blocks on midwater and hake retention)."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/bridging/bridging_compare1_spawnbio.png")
-)
-
-```
-
-```{r}
-#| label: fig-bridge2019-bratio
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Time series of relative spawning biomass (fraction unfished) estimates from model runs bridging from the 2019 assessment (dark blue) to the August 2025 base model (red)."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/bridging/bridging_compare3_Bratio.png")
-)
-
-```
-
-```{r}
-#| label: fig-data-plot-base
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Data sources by type and year that were used in the base model."
-#| out.width: "70%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/2025 base model r4ss plots/plots/data_plot.png")
-)
-
-```
 
 ```{r}
 #| label: fig-NatMort
@@ -382,8 +429,6 @@ knitr::include_graphics(
     here::here("figures", "bridging", "NatM_bridging.png")
 )
 ```
-
-TODO: add 2nd set of bridging plots here
 
 ### Selectivity
 

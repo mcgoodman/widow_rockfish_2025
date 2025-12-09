@@ -683,26 +683,11 @@ knitr::include_graphics(
 ### Sensitivity analyses
 
 ```{r}
-#| label: fig-recdevs-sens
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "TODO: NEEDS UPDATE Estimates of recruitment deviations for sensitivity models."
-#| out.width: "90%"
-#| fig-align: "center"
-
-knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/short_sens_compare11_recdevs.png")
-)
-
-```
-
-```{r}
 #| label: fig-spawnbio-sens-uncrt
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "TODO: NEEDS UPDATE \\gls{ssb} (with 95% confidence interval around the base model) for the base model and sensitivity runs."
+#| fig-cap: "Spawning output (with 95% confidence interval around the base model) for the base model and sensitivity runs."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -713,16 +698,46 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-sens-summary
+#| label: fig-depl-sens
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "TODO: NEEDS UPDATE  Comparision of model estimated quantities for 2025, given as percent of the base model estimated value, by sensitivity run."
+#| fig-cap: "Comparision of fraction unfished for the base model and sensitivity runs."
 #| out.width: "70%"
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/sensitivities/short_sens_summary.png")
+    file.path(here::here(),"figures/sensitivities/short_sens_compare4_Bratio_uncertainty.png")
+)
+
+```
+{{< pagebreak >}} 
+```{r}
+#| label: fig-rec-sens
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimates of recruitment for base model and sensitivity models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/compare9_recruits.png")
+)
+
+```
+
+```{r}
+#| label: fig-recdevs-sens
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimates of recruitment deviations for base model and sensitivity models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/sensitivities/short_sens_compare11_recdevs.png")
 )
 
 ```

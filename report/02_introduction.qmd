@@ -33,8 +33,8 @@ Since 2011, catches have steadily increased to levels approximately equal to tho
 Management history prior to 2015 is detailed in the most recent benchmark assessment [@hicks_status_2015]. In 2017, the \gls{nmfs} implemented a quota share (QS) reallocation rule, which re-established a target fishery for widow rockfish by allocating quotas among permit holders based on historical allocations, removing daily vessel limits, and allowing the trading of QS [@nmfs_reallocation_2017].
 
 ## Management performance
-
-Total mortality estimates from the \gls{wcgop} and from the stock assessment might differ due to the use of different methods. Investigation into how these methods differ is beyond the scope of an update assessment. @tbl-manage-guide shows that recent landings have been below recommended catch levels. Landings are a considerable amount below the ACL, and it is unlikely that total mortality has exceeded the \gls{acl} in the last 10 years.
+ 
+@tbl-manage-guide shows that recent catches have been below recommended catch levels. Total mortality estimates from the \gls{wcgop} and from the stock assessment might differ due to the use of different estimation methods. Investigation into how these methods differ is beyond the scope of an update assessment.
 
 ## Fisheries off Canada and Alaska
 

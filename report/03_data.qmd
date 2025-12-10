@@ -34,7 +34,7 @@ The index was built using a spatial GLM with the sdmTMB package [@anderson_sdmtm
 
 ## Fishery-dependent data
 
-Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake/whiting (*Merluccius productus*, hereafter "hake"). Minimal amounts have been historically taken by non-trawl gears such as hook-and-line and net. 
+Widow rockfish is primarily caught by bottom trawl and midwater trawl gears (@tbl-all_removals). This species also commonly bycaught by fishery targeting Pacific hake/whiting (*Merluccius productus*, hereafter "hake"). Minimal amounts have been historically taken by non-trawl gears such as net and hook-and-line, which represented 1.4% and 1.1% of catches, respectively.
 
 The fleet structure in this assessment was streamlined compared to the 2015 benchmark and the 2019 update assessments. The catches in the model are divided among three fishing fleets:
 
@@ -93,7 +93,7 @@ The approach to the estimation of all biological parameters was the same as in t
 
 #### Weight-length relationship 
 
-Weight-at-length data were updated for this assessment. Following the approach used in the 2015 benchmark, data used to estimate the length-weight relationship for widow rockfish were gathered from commercial catch sampling schemes (PACFIN, ASHOP) and fishery-independent surveys (Triennial and WCGBT Survey). 
+Weight-at-length data were updated for this assessment. Following the approach used in the 2015 benchmark, data used to estimate the length-weight relationship for widow rockfish were gathered from commercial catch sampling schemes (PACFIN, ASHOP) and fishery-independent surveys (\gls{s-tri} and \gls{s-wcgbt}). 
 
 The following relationships between weight and length for females and males were used in the current assessment:
 

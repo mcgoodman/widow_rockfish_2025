@@ -97,13 +97,16 @@ Parameter estimates are shown in @tbl-params and @tbl-ts-popests-basecase along 
 
 ### Sensitivity Analyses
 
-Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. Broad range of sensitivity runs were conducted at multiple stages of the assessment. Here, we present runs related to different assumptions about natural mortality and its prior, because the model and derived management quantities exhibit sensitivity to this parameter. The sensitivity runs include the following:
+Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. Broad range of sensitivity runs were conducted at multiple stages of the assessment. Here, we present only selected runs conducted:
 
 1. Fixed natural mortality at 0.1 for both sexes (the median of the prior used in the assessment).
 2. Fixed natural mortality at 0.144 yr^-1^ for females and 0.155 yr^-1^ for males (2019 assessment estimated values).
 3. Fixed natural mortality at 0.157 yr^-1^ for females and 0.17 yr^-1^ for males (2015 assessment estimated values).
 4. Estimating natural mortality using the prior based on the maximum age of 50 years old.
 5. Estimating natural mortality using the prior based on the maximum age of 45 years old.
+6. Using double-normal selectivity curve for \gls{s-wcgbt}, fixing it asymptotic.
+7. Using double-normal selectivity curve for \gls{s-wcgbt}, allowed it to be dome-shaped.
+8. Adding small amount of recreational catches as reported by WCGOP.
 
 Likelihood values and estimates of key parameters are shown in @tbl-quant-sens-int (TO DO: update sensi table). Predicted trajectories of spawning output, fraction unfished, recruitments and recruitment deviations comparisons of model estimates for 2025 are shown in @fig-spawnbio-sens-uncrt,  @fig-depl-sens, @fig-rec-sens, and @fig-recdevs-sens.  
 

@@ -351,6 +351,7 @@ table_pars <- table_pars |> select(-Phase) # |>
 flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 ```
 
+\elandscape
 
 {{< pagebreak >}}
 
@@ -360,25 +361,20 @@ flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 #| warning: false
 #| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
 
-table26 <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
-
-table26 <- table26 |> 
-  mutate(across(is.numeric, \(x) as.character(round(x, digits = 3)))) |> 
-  replace_na(list(`Estimate` = "", `Lower Interval` = "", `Upper Interval` = "")) |>  
-  mutate(`95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)) |> 
-  select(-`Lower Interval`, -`Upper Interval`)
-
-table26[table26 == " - "] <- ""
-
-# Function for consistent table styling 
-flextable(table26) %>% land_tab_style(wd=1.9) %>%
- bold(i=c(1,7,11,17),bold=TRUE)%>% hline(i = c(1,6,7,11,12,16,17)) %>%
- align(j = 1, align = "left", part = "all")
+flextable(table_e) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  align(align = "left", j = 1) %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  bold(i = c(6,11,16), part="body")%>%
+  colformat_num( digits = 2)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 ```
-<!-- \blandscape -->
-
-\elandscape
 
 ```{r}
 #| label: tbl-ts-popests-basecase

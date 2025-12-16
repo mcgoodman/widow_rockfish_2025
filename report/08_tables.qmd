@@ -55,78 +55,22 @@ land_tab_style <- function(ft, wd = 0.6) {
 #| label: tbl-all_removals
 #| echo: false
 #| warning: false
-#| tbl-cap: "Landings for bottom trawl, midwater trawl, net, and hook-and-line (mt) fisheries from Washington, Oregon, and California."
+#| tbl-cap: "Table 1: Total removals (mt) used in widow rockfish assessment, by year and by fleet. Total removals represent landings and discards combined. Bottom trawl fleet also includes minimal catches made by net and hook-and-line gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976."
 
 library(flextable)
 library(dplyr)
 library(tidyr)
 library(officer)
 
-table1 <- read.csv(here("report", "tables", "landings_nonhake.csv"))
+table1 <- read.csv(here("report", "tables", "catches_by_fleet_January_2026_model.csv"), check.names = FALSE) |> 
+  mutate(across(-1, ~round(., 0)))
 
-st_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][1], character(1), USE.NAMES = FALSE)
-flt_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][2], character(1), USE.NAMES = FALSE)
-flt_line <- ifelse(flt_line == "Hook.and.Line", gsub(".", "-", flt_line, fixed = TRUE), gsub(".", " ", flt_line, fixed = TRUE))
-
-# Build header map (multi-row header)
-header_df <- data.frame(keys = names(table1), line1 = c("Year", flt_line), line2 = c(" ", st_line))
-
-# my_border <- fp_border(color = "black", width = 2)
 
 # Create flextable
-flextable(table1, col_keys = names(table1)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # border(border.top = my_border, i = 1) %>% 
- # border(border.top = my_border, part= "header") %>% 
+flextable(table1) %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>% 
   colformat_num(j = 2:ncol(table1), digits = 1) %>%
-  port_tab_style(wd = 0.45)
-
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-hake_removals
-#| echo: false
-#| warning: false
-#| tbl-cap: "Catch (mt) from the foreign & domestic at-sea fleet and the domestic shoreside hake fleet. Catches (mt) from the hake at-sea fishery as determined by onboard observers."
-
-#table 2
-library(flextable)
-library(dplyr)
-library(tidyr)
-
-table2 <- read.csv(here("report", "tables", "landings_hake.csv"))
-
-colnames(table2) <- gsub("\\.", " ", colnames(table2))
-
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table2),
- line1 = c("Year", "Foreign & Domestic", rep("Shoreside hake", 3)),
- line2 = c("", "At-sea", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table2, col_keys = names(table2)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd = 0.8)
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit()
+  port_tab_style(wd = 0.6)
 
 ```
 
@@ -152,8 +96,6 @@ flextable(recent_management$table) |>
 
 {{< pagebreak >}}
 
-{{< pagebreak >}}
-\blandscape
 ```{r}
 #| label: tbl-num-land-length
 #| echo: false
@@ -165,11 +107,14 @@ table10 <- read.csv(here("report", "tables", "length_trips_nonhake.csv"))
 #Remove periods
 colnames(table10) <- gsub("\\.", " ", colnames(table10))
 
+# remove net and HnL fleets
+table10 <- table10 |> dplyr::select(1:7)
+
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table10),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3) ) , # rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), # "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -184,7 +129,8 @@ flextable(table10, col_keys = names(table10)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ # land_tab_style(wd=0.6)
 
 ```
 
@@ -196,12 +142,13 @@ flextable(table10, col_keys = names(table10)) %>%
 
 #Old table 11
 table11 <- read.csv(here("report", "tables", "length_samples_nonhake.csv"))
+table11 <- table11 |> dplyr::select(1:7)
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table10),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), #rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), #"CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -216,10 +163,11 @@ flextable(table11, col_keys = names(table11)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ # land_tab_style(wd=0.6)
 
 ```
-\elandscape
+
 ```{r}
 #| label: tbl-landings-hake
 #| echo: false
@@ -253,7 +201,7 @@ flextable(table12, col_keys = names(table12)) %>%
 ```
 
 {{< pagebreak >}}
-\blandscape
+
 ```{r}
 #| label: tbl-sample-age-gear-state
 #| echo: false
@@ -262,12 +210,13 @@ flextable(table12, col_keys = names(table12)) %>%
 
 #Old table 13
 table13 <- read.csv(here("report", "tables", "age_trips_nonhake.csv"))
+table13 <- table13 |> dplyr::select(1:7)
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table13),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), # rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), # "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -282,7 +231,8 @@ flextable(table13, col_keys = names(table13)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ #land_tab_style(wd=0.6)
 
 ```
 
@@ -296,12 +246,12 @@ flextable(table13, col_keys = names(table13)) %>%
 
 #Old table 13
 table14 <- read.csv(here("report", "tables", "age_samples_nonhake.csv"))
-
+table14 <- table14 |> dplyr::select(1:7)
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table14),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), #rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), #"CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -317,10 +267,10 @@ flextable(table14, col_keys = names(table14)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ #land_tab_style(wd=0.6)
 
 ```
-\elandscape
 
 ### Fishery-independent data
 
@@ -399,7 +349,8 @@ table_pars <- table_pars |> select(-Phase) # |>
 flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 ```
 \elandscape
-```{r}
+
+<!-- ```{r}
 #| label: tbl-likecomps
 #| echo: false
 #| warning: false
@@ -417,7 +368,7 @@ table25 <- read.csv(here("report", "tables", "likelihood_components.csv"))
 flextable(table25) %>% 
   port_tab_style(wd=2) %>% 
   colformat_num(i = 1, j = 2, digits = 0) 
-```
+``` -->
 
 {{< pagebreak >}}
 

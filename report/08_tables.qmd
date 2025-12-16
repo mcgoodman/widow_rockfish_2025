@@ -272,6 +272,8 @@ flextable(table14, col_keys = names(table14)) %>%
 
 ```
 
+{{< pagebreak >}}
+
 ### Fishery-independent data
 
 ```{r}

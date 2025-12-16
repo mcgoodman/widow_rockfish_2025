@@ -42,7 +42,7 @@ The fleet structure in this assessment was streamlined compared to the 2015 benc
 2. A coastwide shore-based midwater trawl fleet that targets rockfish (1979–2024).
 3. A mostly midwater trawl fleet that targets hake and includes at-sea fleet (1975–2024) and a domestic shore-based fleet (1991–2024).
 
-As in previous assessments, catches from Puget Sound and those from commercial shrimp trawls, commercial pots, and recreational fisheries were excluded (as these are generally minimal).
+Catches by fleet and year are provided in @tbl-all_removals. As in previous assessments, catches from Puget Sound and those from commercial shrimp trawls, commercial pots, and recreational fisheries were excluded (as these are generally minimal).
 
 ### Landings
 

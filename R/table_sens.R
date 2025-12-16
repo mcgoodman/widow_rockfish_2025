@@ -238,8 +238,17 @@ table_sens <- function(
     switch2 <- grep("Recruitment unfished", data[, 1])[1] # age X+ summary biomass is first derived quantity
   }
 
+  # add likelihood section if applicable
+  if (data$Label[1] == "Total") {
+    tt <- tt |>
+      kableExtra::pack_rows(
+        "Diff. in likelihood from base model",
+        1,
+        switch1 - 1
+      )
+  }
+
   tt <- tt |>
-    #kableExtra::pack_rows("Diff. in likelihood from base model", 1, switch1 - 1) |>
     kableExtra::pack_rows(
       "Estimates of key parameters",
       switch1,

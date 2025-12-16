@@ -369,3 +369,89 @@ info <- b40_model$derived_quants["Bratio_2029", c("Value", "StdDev")]
     lower.tail = FALSE
 ) |>
     round(3))
+
+# sensitivity table
+dir_sens <- "models/supplemental_requests/SSC January 2026 review/Sensitivity runs"
+dir_mods <- dir(dir_sens) |> grep(pattern = "widow", value = TRUE)
+# [1] "widow_new_base_model_with_plots_2025-09-30_corrected_fecundity_Mprior_45"
+# [2] "widow_new_base_model_with_plots_2025-09-30_corrected_fecundity_Mprior_50"
+# [3] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity"
+# [4] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_2015_M"
+# [5] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_2019_M"
+# [6] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_M_0_1"
+# [7] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_plus_rec"
+# [8] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_WCGBTS_selex24"
+# [9] "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_WCGBTS_selex24_asymp"
+
+dir_mods <- dir_mods[c(3, 6, 5, 4, 2, 1, 9, 8, 7)]
+mod_names <- c(
+    "January 2026 base model",
+    "M=0.1 (the median of a prior)",
+    "M fixed at 2019 model estimates",
+    "M fixed at 2015 model estimates",
+    "M prior based on max age 50",
+    "M prior based on max age 45",
+    "WCGBTS selectivity double-normal, asymptotic",
+    "WCGBTS selectivity double-normal, allowed to be dome",
+    "Recreational catches added"
+)
+
+# confirm that the order is correct
+data.frame(
+    name = mod_names,
+    dir = stringr::str_extract(dir_mods, "(?<=09-30_).+")
+)
+#                                                   name                                  dir
+# 1                              January 2026 base model                      widow_fecundity
+# 2                        M=0.1 (the median of a prior)                widow_fecundity_M_0_1
+# 3                      M fixed at 2019 model estimates               widow_fecundity_2019_M
+# 4                      M fixed at 2015 model estimates               widow_fecundity_2015_M
+# 5                          M prior based on max age 50        corrected_fecundity_Mprior_50
+# 6                          M prior based on max age 45        corrected_fecundity_Mprior_45
+# 7         WCGBTS selectivity double-normal, asymptotic widow_fecundity_WCGBTS_selex24_asymp
+# 8 WCGBTS selectivity double-normal, allowed to be dome       widow_fecundity_WCGBTS_selex24
+# 9                           Recreational catches added             widow_fecundity_plus_rec
+
+mod_list <- SSgetoutput(
+    dirvec = file.path(
+        dir_sens,
+        dir_mods
+    ),
+    modelnames = mod_names,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
+
+table_labels <- c(
+    "NatM",
+    #"Eggs_scalar_Fem",
+    #"Eggs_exp_len_Fem",
+    "SmryBio_unfished",
+    "SSB_Virgin",
+    "SSB_2025",
+    "Bratio_2025",
+    "SPRratio_2024",
+    "OFLCatch_2027",
+    "ForeCatch_2027",
+    "Dead_Catch_MSY",
+    "Dead_Catch_SPR"
+)
+
+
+summary_sens1 <- SSsummarize(mod_list)
+tab_sens1 <- SStableComparisons(
+    summary_sens1,
+    #likenames = NULL,
+    names = table_labels # defined at the top of this script
+)
+write.csv(
+    tab_sens1,
+    file = "report/tables/sensitivity_table.csv",
+    row.names = FALSE
+)
+
+
+
+ mod_list |>
+    table_convert_vals() |>
+    table_clean_labels() |>
+    gt::gt())

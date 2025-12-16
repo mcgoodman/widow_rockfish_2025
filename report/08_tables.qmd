@@ -27,7 +27,7 @@ read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 port_tab_style <- function(ft, wd = 1) {
   ft %>% 
-  font(fontname = "Times New Roman", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
   bold(part="header") %>%
   hline(part="header") %>%
@@ -39,7 +39,7 @@ port_tab_style <- function(ft, wd = 1) {
 
 land_tab_style <- function(ft, wd = 0.6) {
   ft %>% 
-  font(fontname = "Times New Roman", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
   bold(part="header") %>%
   hline(part="header") %>%
@@ -348,27 +348,7 @@ table_pars <- table_pars |> select(-Phase) # |>
 
 flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 ```
-\elandscape
 
-<!-- ```{r}
-#| label: tbl-likecomps
-#| echo: false
-#| warning: false
-#| tbl-cap: "Likelihood components and other quantities related to the minimization of the base case model."
-
-#Old table 25
-
-# Function for consistent table styling
-table25 <- read.csv(here("report", "tables", "likelihood_components.csv"))
-# rounding up front
-
-# my_border <- fp_border(color = "black", width = 2) 
-
-# Function for consistent table styling 
-flextable(table25) %>% 
-  port_tab_style(wd=2) %>% 
-  colformat_num(i = 1, j = 2, digits = 0) 
-``` -->
 
 {{< pagebreak >}}
 
@@ -394,7 +374,10 @@ flextable(table26) %>% land_tab_style(wd=1.9) %>%
  align(j = 1, align = "left", part = "all")
 
 ```
-\blandscape
+<!-- \blandscape -->
+
+\elandscape
+
 ```{r}
 #| label: tbl-ts-popests-basecase
 #| echo: false
@@ -414,58 +397,68 @@ table27 <- table27 %>%
 # Function for consistent table styling 
 flextable(table27) %>% 
  set_header_labels(names = colnames(table27)) %>%
- port_tab_style(wd=1.2) %>%
+ #port_tab_style(wd=1.2) %>%
+ port_tab_style(wd=0.85) %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>% 
- width(width = 0.85)
+ width(width = 0.7)
 
 ```
 
 {{< pagebreak >}}
 
+\blandscape
+
 ```{r}
 #| label: tbl-quant-sens-int
 #| echo: false
 #| warning: false
-#| tbl-cap: "Quantities of interest from the sensitivity analyses."
+#| tbl-cap: "Sensitivity analysis results: differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model."
 
-#Old table 29
-#needs to be landscape! 
+source(here::here("R", "table_sens.R"))
+table_sens(
+  file_csv = here::here("report", "tables", "sensitivity_table.csv"),
+  switch1 = 6, 
+  switch2 = 8
+)
 
-library(flextable)
-library(dplyr)
-library(tidyr)
-library(officer)
+# #Old table 29
+# #needs to be landscape! 
 
-table29 <- read.csv(here("figures", "sensitivities", "short_sens_table.csv"))
-#Remove periods
-colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
-           "MWT asymptotic selex", "WCGBTS logistic selex", 
-           "Including shrimp trawl", "New WA catch recon.", 
-           # "h = 0.4", "h = 0.6", "h = 0.798", 
-           "Excluding triennial", "Francis weighting")
- # gsub("\\.", " ", colnames(table29))
-table29$`Base model` <- as.numeric(table29$`Base model`)
+# library(flextable)
+# library(dplyr)
+# library(tidyr)
+# library(officer)
 
-likelihood_row <- which(apply(table29, 1, function(row) any(row == "LIKELIHOOD")))
-parameter_row <- which(apply(table29, 1, function(row) any(row == "PARAMETER")))
-quantity_row <- which(apply(table29, 1, function(row) any(row == "QUANTITY")))
-unfished_row <- which(apply(table29, 1, function(row) any(row == "SSB unfished (mt)")))
+# table29 <- read.csv(here("figures", "sensitivities", "short_sens_table.csv"))
+# #Remove periods
+# colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
+#            "MWT asymptotic selex", "WCGBTS logistic selex", 
+#            "Including shrimp trawl", "New WA catch recon.", 
+#            # "h = 0.4", "h = 0.6", "h = 0.798", 
+#            "Excluding triennial", "Francis weighting")
+#  # gsub("\\.", " ", colnames(table29))
+# table29$`Base model` <- as.numeric(table29$`Base model`)
 
-# Add a row that spans all columns (like a section header)
-flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:ncol(table29), digits = 0) %>%
-  flextable::compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
-  merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
-  align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>% 
-  flextable::compose(i = parameter_row, j = 1, value = as_paragraph("Parameter values")) %>%
-  merge_at(i = parameter_row, j = 1:ncol(table29), part = "body") %>%
-  align(i = parameter_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>% 
-  flextable::compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
-  merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
-  align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>% 
-  colformat_num(i = unfished_row, j = 2:ncol(table29), big.mark = ",", digits = 0)
+# likelihood_row <- which(apply(table29, 1, function(row) any(row == "LIKELIHOOD")))
+# parameter_row <- which(apply(table29, 1, function(row) any(row == "PARAMETER")))
+# quantity_row <- which(apply(table29, 1, function(row) any(row == "QUANTITY")))
+# unfished_row <- which(apply(table29, 1, function(row) any(row == "SSB unfished (mt)")))
+
+# # Add a row that spans all columns (like a section header)
+# flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:ncol(table29), digits = 0) %>%
+#   flextable::compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+#   merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
+#   align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+#   bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>% 
+#   flextable::compose(i = parameter_row, j = 1, value = as_paragraph("Parameter values")) %>%
+#   merge_at(i = parameter_row, j = 1:ncol(table29), part = "body") %>%
+#   align(i = parameter_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+#   bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>% 
+#   flextable::compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
+#   merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
+#   align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+#   bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>% 
+#   colformat_num(i = unfished_row, j = 2:ncol(table29), big.mark = ",", digits = 0)
 
 ```
 
@@ -523,7 +516,7 @@ flextable(table_g) %>%
 
 {{< pagebreak >}}
 
-```{r}
+<!-- ```{r}
 #| label: tbl-dec-table
 #| echo: false
 #| warning: false
@@ -577,4 +570,4 @@ flextable(table_h) |>
   hline_bottom(j = 9)|>
   line_spacing(space = 0.8, part = "all")
 
-```
+``` -->

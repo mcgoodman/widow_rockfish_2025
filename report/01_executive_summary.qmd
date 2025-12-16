@@ -32,7 +32,7 @@ library("here")
 
 exec_tab_style <- function(ft) {
   ft %>% 
-  font(fontname = "Times New Roman", part = "all") %>%
+  #font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
   bold(part="header") %>%
   hline(part="header") %>%

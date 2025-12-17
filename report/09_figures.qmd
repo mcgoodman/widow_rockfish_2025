@@ -230,7 +230,7 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.jpeg")
+    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.png")
 )
 ```
 

@@ -28,8 +28,6 @@ The majority of current catches are taken by the midwater trawl fleet, though a 
 
 Historical discarding practices are not well known, but it is believed that little discarding occurred prior to management restrictions. With the introduction of trip limits, limited data from the mid-1980s show occasional very high discard rates of Widow rockfish from tows that occurred near the end of a trip. In recent years, discards from all fleets have been low, likely due to a combination of changes in fleet behavior, increased observer coverage and the introduction of the IFQ system in 2011. 
 
-
-
 ## Management History 
 
 Management history prior to 2015 is detailed in the most recent benchmark assessment [@hicks_status_2015]. In 2017, the \gls{nmfs} implemented a quota share (QS) reallocation rule, which re-established a target fishery for widow rockfish by allocating quotas among permit holders based on historical allocations, removing daily vessel limits, and allowing the trading of QS [@nmfs_reallocation_2017].

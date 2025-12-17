@@ -348,6 +348,22 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-fecundity
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Two fecundity-at-length relationships (blue) are contrasted with weight-at-length for females (red), along with the mature numbers at length at the start and end of the base model (green). The exponent of the weight-at-length curve is 2.987 compared to 4.043 for the unobserved rockfish fecundity (used in the October 2025 model) and 4.545 for the Widow rockfish-specific fecundity (used in the January 2026 base model). Comparing these relationships to the number of mature fish in each length bin in 1916 and 2025 shows that when the fecundity relationships are used, the spawning output is more dependent on the larger fish (over 45 cm) which are disproportionately removed from the population due to selective fishing on larger sizes. This combination of factors leads to lower estimates of fraction of unfished when one of the fecundity relationships is used."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"figures/supplemental_requests/fecundity.png")
+)
+
+```
+
+
+```{r}
 #| label: fig-base_19_25_bratio
 #| echo: false
 #| warning: false
@@ -900,20 +916,20 @@ knitr::include_graphics(
 
 <!-- NOTE: FIGURE BELOW NOT UPDATED AFTER AUGUST 2025 REVIEW -->
 
-<!-- ```{r}
+```{r}
 #| label: fig-like_profile_recruits
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of recruitment estimates for models with different fixed values of natural mortality (M)"
+#| fig-cap: "Time series of recruitment deviations for models with different fixed values of natural mortality (M)"
 #| out.width: "90%"
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/diagnostics/M_likeprof_recruits.png")
+    file.path(here::here("models/diagnostics/2025 base model_profile_NatM_uniform_Fem_GP_1/NatM_uniform_Fem_GP_1_trajectories_compare11_recdevs.png"))
 )
 
-``` -->
+```
 
 
 ## Management

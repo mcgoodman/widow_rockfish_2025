@@ -235,6 +235,43 @@ knitr::include_graphics(
 ```
 
 
+\clearpage
+
+### Biological data
+
+```{r}
+#| label: fig-wl-fits
+#| echo: false
+#| warning: false
+#| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) from the previous and current assessments. Fits to the current assessment use observations from all data sources (points)"
+#| out.width: "95%"
+#| fig-align: center
+
+#Problem
+knitr::include_graphics(
+  here::here("figures", "length_weight", "WL_fits_2019_2025.png")
+)
+```
+
+```{r}
+#| label: fig-n-at-age
+#| echo: false
+#| warning: false
+#| fig-cap: "Number at age observed from all data for female and male widow rockfish."
+#| out.width: "90%"
+#| fig-align: center
+
+#Problem
+knitr::include_graphics(
+  here::here("figures", "composition_plots", "n_at_age.png")
+)
+```
+
+## Model
+
+### Bridging
+
+
 ```{r}
 #| label: fig-disc-hnl-update-ssb
 #| echo: false
@@ -277,43 +314,6 @@ knitr::include_graphics(
     here::here("figures", "discard_comps", "compare9_recruits.png")
 )
 ```
-
-
-\clearpage
-
-### Biological data
-
-```{r}
-#| label: fig-wl-fits
-#| echo: false
-#| warning: false
-#| fig-cap: "Fits to weight-at-length observations (dashed line) for females (left) and males (right) from the previous and current assessments. Fits to the current assessment use observations from all data sources (points)"
-#| out.width: "95%"
-#| fig-align: center
-
-#Problem
-knitr::include_graphics(
-  here::here("figures", "length_weight", "WL_fits_2019_2025.png")
-)
-```
-
-```{r}
-#| label: fig-n-at-age
-#| echo: false
-#| warning: false
-#| fig-cap: "Number at age observed from all data for female and male widow rockfish."
-#| out.width: "90%"
-#| fig-align: center
-
-#Problem
-knitr::include_graphics(
-  here::here("figures", "composition_plots", "n_at_age.png")
-)
-```
-
-## Model
-
-### Bridging
 
 
 ```{r}

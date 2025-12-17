@@ -235,6 +235,50 @@ knitr::include_graphics(
 ```
 
 
+```{r}
+#| label: fig-disc-hnl-update-ssb
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning biomass with intermediate steps in hook-and-like discard data updates."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "compare1_spawnbio.png")
+)
+```
+
+```{r}
+#| label: fig-disc-hnl-update-depl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fraction upfished with intermediate steps in hook-and-like discard data updates."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "compare3_Bratio.png")
+)
+```
+
+
+```{r}
+#| label: fig-disc-hnl-update-rec
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fraction upfished with intermediate steps in hook-and-like discard data updates."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "compare9_recruits.png")
+)
+```
+
+
 \clearpage
 
 ### Biological data

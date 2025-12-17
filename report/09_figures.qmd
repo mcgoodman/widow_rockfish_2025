@@ -2,6 +2,23 @@
 
 ## Data
 
+
+```{r}
+#| label: fig-catches-all
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Total catches (landings and discards combined) of widow rockfish from 1916 to 2024 for bottom trawl, midwater trawl, and hake fleets."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    file.path(here::here(),"/figures/2025 base model r4ss plots/plots/catch2_landings_stacked.png")
+)
+
+```
+
+
 ```{r}
 #| label: fig-data-plot-base
 #| echo: false
@@ -230,7 +247,7 @@ knitr::include_graphics(
 #| fig-align: "center"
 
 knitr::include_graphics(
-    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.jpeg")
+    here::here("figures", "discard_comps", "hook_line_discard_lengths_comparison.png")
 )
 ```
 
@@ -270,6 +287,50 @@ knitr::include_graphics(
 ## Model
 
 ### Bridging
+
+
+```{r}
+#| label: fig-disc-hnl-update-ssb
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning biomass with intermediate steps in hook-and-like discard data updates."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "compare1_spawnbio.png")
+)
+```
+
+```{r}
+#| label: fig-disc-hnl-update-depl
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fraction upfished with intermediate steps in hook-and-like discard data updates."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "compare3_Bratio.png")
+)
+```
+
+
+```{r}
+#| label: fig-disc-hnl-update-rec
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fraction upfished with intermediate steps in hook-and-like discard data updates."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "discard_comps", "compare9_recruits.png")
+)
+```
 
 
 ```{r}
@@ -494,7 +555,9 @@ knitr::include_graphics(
 )
 
 ```
+
 {{< pagebreak >}} 
+
 ```{r}
 #| label: fig-recdev-est
 #| echo: false
@@ -772,7 +835,9 @@ knitr::include_graphics(
 )
 
 ```
+
 {{< pagebreak >}} 
+
 ```{r}
 #| label: fig-rec-sens
 #| echo: false

@@ -45,7 +45,7 @@ As a supplement to the model results figures included in this report and describ
 age_quants <- readRDS(here("data_derived", "NWFSCCombo", "nwfsc_age_quantiles.rds"))
 ```
 
-The base model parameter estimates along with asymptotic standard errors are shown in @tbl-params and the likelihood components are shown in @tbl-likecomps. Estimates of key derived parameters and asymptotic 95% confidence intervals are shown in @tbl-key-deriv-params.
+The base model parameter estimates along with asymptotic standard errors are shown in @tbl-params. Estimates of key derived parameters and asymptotic 95% confidence intervals are shown in @tbl-key-deriv-params.
 
 The estimates of natural mortality (`r round(est_params["NatM_uniform_Fem_GP_1","Value"], 3)` yr^-1^  and `r round(est_params["NatM_uniform_Mal_GP_1","Value"], 3)` yr^-1^ for females and males, respectively). These estimates continue gradual decrease in M from those of the 2019 update assessment (Female  0.1444, Male: 0.1549; @adams_status_2019, @fig-NatMort) and the 2015 benchmark assessment (Female: 0.1572, Male: 0.1705; @hicks_status_2015). However, they were higher than suggested by the medians of the prior distributions used in this assessment and the previous assessments. Fixing M at lower values than those estimates resulted in a pattern of below average recruitment in the early part of the time series which is not well informed by age or length composition data (@fig-like_profile_recruits). This suggests that the model is attempting to reduce the number of observations of older fish in the data. The estimates of M fall within the 95% quantile range of the prior distribution (`r round(natm_prior_ci["lo"],3)`– `r round(natm_prior_ci["hi"],3)`), and are shown in @fig-NatMort. 
 

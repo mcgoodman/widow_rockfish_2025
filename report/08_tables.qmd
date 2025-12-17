@@ -1,8 +1,7 @@
 # Tables 
 
-## Data
+## Management performance
 
-### Fishery-dependent data
 
 ```{r} 
 #| label: 'set-rda-dir-tbls'
@@ -51,6 +50,31 @@ land_tab_style <- function(ft, wd = 0.6) {
 
 ``` 
 
+
+```{r}
+#| label: tbl-manage-guide
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent trend in the \\gls{ofl}, \\gls{abc}, \\gls{acl}, total landings, total mortality all in metric tons (mt)."
+
+library(flextable)
+library(dplyr)
+library(tidyr)
+
+load(here("report", "tables", "exec_summ_tables", "recent_management.rda"))
+
+flextable(recent_management$table) |> 
+  colformat_num(j = 1, big.mark = "", digits = 0) %>%
+  port_tab_style(wd=1)
+
+```
+
+{{< pagebreak >}}
+
+## Data
+
+### Fishery-dependent data
+
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -71,26 +95,6 @@ flextable(table1) %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>% 
   colformat_num(j = 2:ncol(table1), digits = 1) %>%
   port_tab_style(wd = 0.6)
-
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-manage-guide
-#| echo: false
-#| warning: false
-#| tbl-cap: "Recent trend in the \\gls{ofl}, \\gls{abc}, \\gls{acl}, total landings, total mortality all in metric tons (mt)."
-
-library(flextable)
-library(dplyr)
-library(tidyr)
-
-load(here("report", "tables", "exec_summ_tables", "recent_management.rda"))
-
-flextable(recent_management$table) |> 
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  port_tab_style(wd=1)
 
 ```
 
@@ -333,11 +337,10 @@ flextable(table9, col_keys = names(table9)) %>%
 ```
 {{< pagebreak >}}
 
+\blandscape
+
 ## Model results
 
-
-
-\blandscape
 ```{r}
 #| label: tbl-params
 #| echo: false
@@ -354,27 +357,6 @@ flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 \elandscape
 
 {{< pagebreak >}}
-
-```{r}
-#| label: tbl-key-deriv-params
-#| echo: false
-#| warning: false
-#| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
-
-flextable(table_e) %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  align(align = "left", j = 1) %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
-  bold(i = c(6,11,16), part="body")%>%
-  colformat_num( digits = 2)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
-
-```
 
 ```{r}
 #| label: tbl-ts-popests-basecase
@@ -405,6 +387,8 @@ flextable(table27) %>%
 {{< pagebreak >}}
 
 \blandscape
+
+## Model diagnostics
 
 ```{r}
 #| label: tbl-quant-sens-int
@@ -460,9 +444,36 @@ table_sens(
 
 ```
 
+\elandscape
+
 {{< pagebreak >}}
 
 ## Management
+
+```{r}
+#| label: tbl-key-deriv-params
+#| echo: false
+#| warning: false
+#| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
+
+flextable(table_e) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  align(align = "left", j = 1) %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  bold(i = c(6,11,16), part="body")%>%
+  colformat_num( digits = 2)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
+
+```
+
+{{< pagebreak >}}
+
+\blandscape
 
 ```{r}
 #| label: tbl-proj-ofl

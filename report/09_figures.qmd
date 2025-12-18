@@ -710,7 +710,7 @@ knitr::include_graphics(
 
 ```
 
-### Timeseries
+### Time series
 
 ```{r}
 #| label: fig-spawnout-95
@@ -802,7 +802,7 @@ knitr::include_graphics(
 
 ```
 
-## Model Diganostics
+## Model Diagnostics
 
 ### Sensitivity analyses
 

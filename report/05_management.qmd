@@ -48,7 +48,7 @@ The estimated trajectory in spawning output from the base model generally showed
 
 While the estimate of population scale has remained relatively steady across the 2015, 2019, and 2025 assessments, natural mortality (M) have declined from 2015 (female M of 0.157 yr^-1^) to 2019 (0.144 yr^-1^) to 2025 (`r round(report$M_at_age[1, 4], 3)` yr^-1^), reflecting the increase of the number of older fish in the population throughout rebuilding years. Thus, although the population scale is estimated consistently, additional years of data (in particular, age composition data) following the re-opening of the fishery have led the model to estimate that the population is less productive, which results in lower yields at all three reference points (proxy based on spawning output, proxy based on fishing intensity, and model estimate of MSY). Also, the model did not support  large 2013 year class previously estimated in the 2019 assessment, which contributed to decrease in of stock productivity and estimated OFLs.
 
-The equilibrium yield plot is shown in @fig-est-eqi-yield, based on a steepness value fixed at 0.720. The predicted maximum sustainable yield under the assumptions of this assessment occurs near 27% of equilibrium unfished spawniong output, however this represents only 12% higher yield with considerably more risk than under the 50% SPR policy, which occurs near 45% of unfished spawning output. 
+The equilibrium yield plot is shown in @fig-est-eqi-yield, based on a steepness value fixed at 0.720. The predicted maximum sustainable yield under the assumptions of this assessment occurs near 27% of equilibrium unfished spawning output, however this represents only 12% higher yield with considerably more risk than under the 50% SPR policy, which occurs near 45% of unfished spawning output. 
 
 ## Unresolved problems and major uncertainties
 
@@ -145,7 +145,7 @@ The decision table with projections under alternative catch streams is to be pro
 
 This assessment synthesizes many sources of data and estimates recruitment variability, thus it is classified as a Category 1 stock assessment. Therefore, the sigma to determine the catch reduction to account for scientific uncertainty is 0.50.
 
-Spawning is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` billions of eggs in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. \gls{ofl} is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2025 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`.
+Spawning is estimated to be at `r format(SSB["SSB_2025","Value"], big.mark = ",", digits = 1)` billion eggs in 2025, with a sigma of `r format(SSB["SSB_2025","StdDev"]/SSB["SSB_2025","Value"], big.mark = ",", digits = 4)`. \gls{ofl} is estimated to be `r format(report$derived_quants["OFLCatch_2025","Value"], big.mark = ",", digits = 1)` mt in 2025 with a coefficient of variation of `r format(report$OFL_sigma, big.mark = ",", digits = 4)`.
 
 ## Regional management considerations
 

@@ -133,7 +133,7 @@ Maturity parameters in this update assessment were carried over from 2015 benchm
 
 #### Fecundity
 
-The model uses widow rockfish specific fecundity at length relationships from the meta-analysis from @dick_meta-analysis_2017 instead of assuming spawning output being proportional to body weight as in 2015 and 2019 models. Accounting for size-dependent fecundity in rockfish stocks using the meta-analysis from @dick_meta-analysis_2017 has become standard practice in recent years and reflects the best available science. The fecundity parameters for widow rockfish are reported at https://github.com/EJDick-NOAA/Rockfish-Fecundity as follows:
+The model uses widow rockfish specific fecundity-at-length relationships from the meta-analysis from @dick_meta-analysis_2017 instead of assuming spawning output being proportional to body weight as in 2015 and 2019 models. Accounting for size-dependent fecundity in rockfish stocks using the meta-analysis from @dick_meta-analysis_2017 has become standard practice in recent years and reflects the best available science. The fecundity parameters for widow rockfish are reported at https://github.com/EJDick-NOAA/Rockfish-Fecundity as follows:
 
 a = 1.10961E-08, b = 4.545
 

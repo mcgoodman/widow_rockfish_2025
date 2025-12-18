@@ -1,5 +1,7 @@
 # Figures
 
+*Note: figure numbering is continuous with executive summary*
+
 ## Data
 
 
@@ -308,7 +310,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fraction upfished with intermediate steps in hook-and-like discard data updates."
+#| fig-cap: "Fraction unfished with intermediate steps in hook-and-like discard data updates."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -323,7 +325,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fraction upfished with intermediate steps in hook-and-like discard data updates."
+#| fig-cap: "Fraction unfished with intermediate steps in hook-and-like discard data updates."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -792,7 +794,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Phase plot of relative fishing intensity (1-SPR)/(1-SPR_50%) (y-axis) and fraction unfished spawning otuput (x-axis) for widow rockfish."
+#| fig-cap: "Phase plot of relative fishing intensity (1-SPR)/(1-SPR_50%) (y-axis) and fraction unfished spawning output (x-axis) for widow rockfish."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -826,7 +828,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparision of fraction unfished for the base model and sensitivity runs."
+#| fig-cap: "Comparison of fraction unfished for the base model and sensitivity runs."
 #| out.width: "70%"
 #| fig-align: "center"
 
@@ -890,7 +892,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated fraction of unfished spawning output from past assessments in comparison with the current assessment. The units of spawning spawning output differ among assessments but the ratio remains comparable."
+#| fig-cap: "Estimated fraction of unfished spawning output from past assessments in comparison with the current assessment. The units of spawning output differ among assessments but the ratio remains comparable."
 #| out.width: "90%"
 #| fig-align: "center"
 

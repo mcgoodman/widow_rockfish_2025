@@ -1,5 +1,7 @@
 # Tables 
 
+*Note: table numbering is continuous with executive summary*
+
 ## Management performance
 
 
@@ -79,7 +81,7 @@ flextable(recent_management$table) |>
 #| label: tbl-all_removals
 #| echo: false
 #| warning: false
-#| tbl-cap: "Table 1: Total removals (mt) used in widow rockfish assessment, by year and by fleet. Total removals represent landings and discards combined. Bottom trawl fleet also includes minimal catches made by net and hook-and-line gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976."
+#| tbl-cap: "Total removals (mt) used in widow rockfish assessment, by year and by fleet. Total removals represent landings and discards combined. Bottom trawl fleet also includes minimal catches made by net and hook-and-line gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976."
 
 library(flextable)
 library(dplyr)

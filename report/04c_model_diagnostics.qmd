@@ -32,7 +32,8 @@ firstup <- function(x) {
 #| include: false
 
 library(here)
-jitters <- readRDS(here("models", "jitters", "jitter_summary.rds"))
+### jitter results manually added to text
+#jitters <- readRDS(here("models", "jitters", "jitter_summary.rds"))
 
 #report
 if (!exists("report")) {
@@ -87,9 +88,9 @@ r0_bm <- round(rep$parameters[rep$parameters$Label == "SR_LN(R0)","Value"],3)
 
 A number of tests were performed to verify convergence of the model. Following conventional AD Model Builder methods [@fournier_ad_2012], we checked that the Hessian matrix for the base model was positive-definite. There were no difficulties in inverting the Hessian to obtain asymptotic variance estimates. The maximum component of the final gradient is very low.
 
-To confirm that the reported estimates were from the global best fit, we evaluated the model’s ability to recover similar likelihood estimates when initialized from dispersed starting points (jitter option in SS3). Starting parameters were jittered using a setting of 0.05 for 100 iterations. This perturbs the initial values used for minimization with the intention of causing the search to traverse a broader region of the likelihood surface. The majority (56 out of 100) returned to the same objective function value as the proposed model. The remaining runs exhibited worse fit than the proposed model. The spread of this search indicates that the jitter was sufficient to search a large portion of the likelihood surface, and that the model is in a global optimum.
+To confirm that the reported estimates were from the global best fit, we evaluated the model’s ability to recover similar likelihood estimates when initialized from dispersed starting points (jitter option in SS3). Starting parameters were jittered using a setting of 0.1 for 100 iterations. This perturbs the initial values used for minimization with the intention of causing the search to traverse a broader region of the likelihood surface. The majority (57 out of 100) returned to the same objective function value as the proposed model. The remaining runs exhibited worse fit than the proposed model. The spread of this search indicates that the jitter was sufficient to search a large portion of the likelihood surface, and that the model is in a global optimum.
 
-We also completed a set of standard model diagnostics that included retrospective analysis and likelihood profiles.
+We also completed a set of standard model diagnostics that included retrospective analysis and likelihood profiles described below.
 
 ### Parameter Uncertainty
 
@@ -108,7 +109,7 @@ Sensitivity analysis was performed to determine the model behavior under differe
 7. Using double-normal selectivity curve for \gls{s-wcgbt}, allowed it to be dome-shaped.
 8. Adding small amount of recreational catches as reported by WCGOP.
 
-Likelihood values and estimates of key parameters are shown in @tbl-quant-sens-int. Predicted trajectories of spawning output, fraction unfished, recruitments and recruitment deviations comparisons of model estimates for 2025 are shown in @fig-spawnbio-sens-uncrt,  @fig-depl-sens, @fig-rec-sens, and @fig-recdevs-sens.  
+Differences in likelihood and estimates of key parameters and derived quantities are shown in @tbl-quant-sens-int. Predicted trajectories of spawning output, fraction unfished, recruitments and recruitment deviations comparisons of model estimates for 2025 are shown in @fig-spawnbio-sens-uncrt,  @fig-depl-sens, @fig-rec-sens, and @fig-recdevs-sens.  
 
 Fixing M at values lower than the base case estimate resulted in decreases in estimated spawning output in recent years. Fixing M at 0.1, the median of a prior informed by maximum age of 54 years, resulted in largest decrease in spawning output and associated management quantities. The unfished spawning output in sensitivity runs with M fixed at the estimates from the 2019 and 2015 assessments is very similar among these runs. However, the lower the natural mortality is, the lower the final assessment year spawning output is, since the less productive stock is impacted more by fishery removals. The models with higher natural mortality need to scale up estimated recruitments, in order to provide for a sufficient amount of fish to sustain the catches over time, while having the same recruitment deviations. 
 

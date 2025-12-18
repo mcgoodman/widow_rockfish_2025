@@ -909,7 +909,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Likelihood components in the likelihood profile for unfished equilibrium recruitment (R0)"
+#| fig-cap: "Likelihood components in the likelihood profile for unfished equilibrium recruitment ($R_0$)"
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -929,7 +929,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Likelihood components in the likelihood profile for steepness (h)."
+#| fig-cap: "Likelihood components in the likelihood profile for steepness ($h$)."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -948,7 +948,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Likelihood components in the likelihood profile for female natural mortality (M). Male natural mortality are set to the same value."
+#| fig-cap: "Likelihood components in the likelihood profile for female natural mortality ($M$). Male natural mortality are set to the same value."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -967,7 +967,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Likelihood components in the likelihood profile for male natural mortality (M). Female natural mortality is set to the same value."
+#| fig-cap: "Likelihood components in the likelihood profile for male natural mortality ($M$). Female natural mortality is set to the same value."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -988,7 +988,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of recruitment deviations for models with different fixed values of natural mortality (M)"
+#| fig-cap: "Time series of recruitment deviations for models with different fixed values of natural mortality ($M$)"
 #| out.width: "90%"
 #| fig-align: "center"
 

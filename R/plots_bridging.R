@@ -15,6 +15,9 @@ source(here("R", "functions", "bridging_functions.R"))
 
 base_2019 <- here("models", "2019 base model", "Base_45_new")
 databridge_dir <- here("models", "data_bridging")
+# specific location on Ian's computer
+# databridge_dir <- "G:/My Drive/SS/widow/widow2025/models/data_bridging"
+base_Aug2025 <- here("models", "Aug2025 base model")
 base_2025 <- here("models", "2025 base model")
 
 # Rerun base 2019 & 2025 ----------------------------------
@@ -80,7 +83,7 @@ models <- c(
   "update discard composition" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length composition" = here(databridge_dir, "data_bridged_model_weighted"), 
-  "update M, L/W, bias ramp, blocks (2025 base)" = base_2025
+  "update M, L/W, bias ramp, blocks (Aug2025 base)" = base_Aug2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -106,6 +109,33 @@ SSplotComparisons(
   legendlabels = names(models), filenameprefix = "bridging_", 
   legendloc = c(0.05, 1), subplots = 9:10, 
   plot = FALSE, png = TRUE
+)
+
+
+table_labels <- c(
+    "NatM",
+    #"Eggs_scalar_Fem",
+    #"Eggs_exp_len_Fem",
+    "SmryBio_unfished",
+    "SSB_Virgin",
+    "SSB_2025",
+    "Bratio_2025",
+    "SPRratio_2024",
+    "OFLCatch_2027",
+    "ForeCatch_2027",
+    "Dead_Catch_MSY",
+    "Dead_Catch_SPR"
+)
+tab <- SStableComparisons(
+    model_summary,
+    likenames = NULL,
+    names = table_labels
+)
+
+write.csv(
+    tab,
+    file = "report/tables/bridging1_table.csv",
+    row.names = FALSE
 )
 
 ## Natural mortality --------------------------------------
@@ -210,9 +240,9 @@ SSplotComparisons(
 if (FALSE) {
   # Plot of most recent 3 models for infographic ------------
   base_2015 <- here("models", "2015 base model")
-  #base_2019 <- here("models", "2019 base model", "Base_45_new")
+  base_2019 <- here("models", "2019 base model", "Base_45_new")
   # specific location on Ian's computer
-  base_2019 <- here("C:/SS/Widow/Widow2025/models/2019 base model/Base_45")
+  # base_2019 <- here("C:/SS/Widow/Widow2025/models/2019 base model/Base_45")
   base_2025 <- here("models", "2025 base model")
   models <- c(
     "2015 benchmark assessment" = base_2015,

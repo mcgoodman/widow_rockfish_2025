@@ -341,6 +341,52 @@ flextable(table9, col_keys = names(table9)) %>%
 
 \blandscape
 
+```{r}
+#| label: tbl-compweight-comparison
+#| warning: false
+#| echo: false
+#| tbl-cap: "Comparison of key data weighting quantities from the August 2025 (Aug.) and the proposed base model (New). 'Lambda' is the likelihood multiplier applied in the August 2025 model (Lambda = 1 for all fleets in the new proposed base model). 'Weight x lambda' is the product of the estimated data weighting and the lambda. 'Sum N input' is the sum of the input sample sizes across all observations (which differs for BottomTrawl because discard data has been removed). 'Sum N adj.' is that sum after adjustment by the data weighting and lambda. 'CAAL' is conditional age-at-length data. Entries with --- indicate that fleet does not exist in the new proposed base model, and the composition data has been removed. "
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight_aug <- read.csv(here::here("report", "tables", "compweight_Aug2025_base.csv"), check.names = FALSE)
+# add sum of input N
+compweight_aug <- compweight_aug |> dplyr::mutate(`Sum N input` = `Mean N input` * `Obs.`)
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight_oct <- read.csv(here::here("report", "tables", "compweight_new_base.csv"), check.names = FALSE)
+# add sum of input N
+compweight_oct <- compweight_oct |> dplyr::mutate(`Sum N input` = `Mean N input` * `Obs.`)
+
+
+
+# Join the two data weight tables for comparison
+left_join(
+  # only take a subset of the columns
+  compweight_aug |>
+    select(-Weight, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Lambda (Aug.)` = Lambda),
+  
+  compweight_oct |>
+    select(-Lambda, -`Weight x lambda`, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Weight x lambda` = Weight),
+  # other arguments to join 
+  suffix = c(' (Aug.)', ' (New)'), 
+  by = c('Type', 'Fleet')) |>
+  # rearrange columns for easier comparison
+  #select(1, 2, 3, 4, 6, 5, 7) |>
+  select(1, 2, 3, 4, 7, 6, 9, 5, 8) |>
+  # format table using gt
+  gt::gt() |>
+  gt::sub_missing() |>
+  gt::tab_options(table.font.size = "10pt") |> 
+  gt::cols_width(
+    Fleet ~ px(110),
+    `Lambda (Aug.)` ~ px(60),
+    everything() ~ px(70)
+  )
+```
+
+
 ## Model results
 
 ```{r}

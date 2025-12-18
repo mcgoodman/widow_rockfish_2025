@@ -101,22 +101,40 @@ r4ss::plot_twopanel_comparison(
 # Tables
 
 ## Bridging table -----------------------------------------
+
+table_labels <- c(
+    "NatM",
+    #"Eggs_scalar_Fem",
+    #"Eggs_exp_len_Fem",
+    "SmryBio_unfished",
+    "SSB_Virgin",
+    "SSB_2025",
+    "Bratio_2025",
+    "SPRratio_2024",
+    "OFLCatch_2027",
+    "ForeCatch_2027",
+    "Dead_Catch_MSY",
+    "Dead_Catch_SPR"
+)
+
+
 tab <- SStableComparisons(
     model_summary,
     likenames = NULL,
-    names = c(
-        "Recr_Virgin",
-        "R0",
-        "NatM",
-        "SmryBio_unfished",
-        "SSB_Virg",
-        "SSB_2025",
-        "Bratio_2025",
-        "SPRratio_2024",
-        "Dead_Catch_SPR",
-        "OFLCatch_2027",
-        "ForeCatch_2027"
-    )
+    names = table_labels
+    # names = c(
+    #     "Recr_Virgin",
+    #     "R0",
+    #     "NatM",
+    #     "SmryBio_unfished",
+    #     "SSB_Virg",
+    #     "SSB_2025",
+    #     "Bratio_2025",
+    #     "SPRratio_2024",
+    #     "Dead_Catch_SPR",
+    #     "OFLCatch_2027",
+    #     "ForeCatch_2027"
+    # )
 )
 
 write.csv(
@@ -133,7 +151,7 @@ inputs_new_base <- SS_read(models[
 
 # function to add lambda values to r4ss table
 table_compweight_with_lambda <- function(outputs, inputs) {
-    tab1 <- r4ss::table_compweight(outputs, save = FALSE)
+    tab1 <- r4ss::table_compweight(outputs)
 
     # parse the rownames in the table above to get length or age and fleet as additional columns
     lambda_table <- data.frame(

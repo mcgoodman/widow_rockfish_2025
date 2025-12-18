@@ -113,8 +113,6 @@ The base model estimated parameters for length-based selectivity for all fleets 
 
 Natural mortality is the major source of uncertainty that is proposed as the axis of uncertainty to define a states of nature in a decision table.
 
-{{< pagebreak >}} 
-
 ## Stock biomass and dynamics{-}
 
 ```{r}

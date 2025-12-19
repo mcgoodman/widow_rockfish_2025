@@ -425,6 +425,6 @@ r4ss::SS_writedat(dat, here(Base2025, "2025widow.dat"), overwrite = TRUE)
 ## Run using Hessian information --------------------------
 
 ## Run with Hessian around MLE to improve final gradient
-r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE)
-r4ss::run(dir = here("models", "2025 base model"), exe = ss3_exe, skipfinished = FALSE, extras = "-hess_step")
-r4ss::SS_plots(replist = r4ss::SS_output(here("models", "2025 base model")), dir = here::here("figures","2025 base model r4ss plots"))
+r4ss::run(dir = here("models", "Aug2025 base model"), exe = ss3_exe, skipfinished = FALSE)
+r4ss::run(dir = here("models", "Aug2025 base model"), exe = ss3_exe, skipfinished = FALSE, extras = "-hess_step")
+r4ss::SS_plots(replist = r4ss::SS_output(here("models", "Aug2025 base model")), dir = here::here("figures","Aug2025 base model r4ss plots"))

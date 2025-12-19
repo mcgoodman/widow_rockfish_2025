@@ -1,8 +1,9 @@
 # Tables 
 
-## Data
+*Note: table numbering is continuous with executive summary*
 
-### Fishery-dependent data
+## Management performance
+
 
 ```{r} 
 #| label: 'set-rda-dir-tbls'
@@ -27,7 +28,7 @@ read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 port_tab_style <- function(ft, wd = 1) {
   ft %>% 
-  font(fontname = "Times New Roman", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
   bold(part="header") %>%
   hline(part="header") %>%
@@ -39,7 +40,7 @@ port_tab_style <- function(ft, wd = 1) {
 
 land_tab_style <- function(ft, wd = 0.6) {
   ft %>% 
-  font(fontname = "Times New Roman", part = "all") %>%
+  # font(fontname = "Times New Roman", part = "all") %>%
   fontsize(size = 9, part = "all") %>% 
   bold(part="header") %>%
   hline(part="header") %>%
@@ -51,86 +52,6 @@ land_tab_style <- function(ft, wd = 0.6) {
 
 ``` 
 
-```{r}
-#| label: tbl-all_removals
-#| echo: false
-#| warning: false
-#| tbl-cap: "Landings for bottom trawl, midwater trawl, net, and hook-and-line (mt) fisheries from Washington, Oregon, and California."
-
-library(flextable)
-library(dplyr)
-library(tidyr)
-library(officer)
-
-table1 <- read.csv(here("report", "tables", "landings_nonhake.csv"))
-
-st_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][1], character(1), USE.NAMES = FALSE)
-flt_line <- vapply(names(table1)[-1], \(x) strsplit(x, split = "_")[[1]][2], character(1), USE.NAMES = FALSE)
-flt_line <- ifelse(flt_line == "Hook.and.Line", gsub(".", "-", flt_line, fixed = TRUE), gsub(".", " ", flt_line, fixed = TRUE))
-
-# Build header map (multi-row header)
-header_df <- data.frame(keys = names(table1), line1 = c("Year", flt_line), line2 = c(" ", st_line))
-
-# my_border <- fp_border(color = "black", width = 2)
-
-# Create flextable
-flextable(table1, col_keys = names(table1)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # border(border.top = my_border, i = 1) %>% 
- # border(border.top = my_border, part= "header") %>% 
- colformat_num(j = 1, big.mark = "", digits = 0) %>% 
-  colformat_num(j = 2:ncol(table1), digits = 1) %>%
-  port_tab_style(wd = 0.45)
-
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-hake_removals
-#| echo: false
-#| warning: false
-#| tbl-cap: "Catch (mt) from the foreign & domestic at-sea fleet and the domestic shoreside hake fleet. Catches (mt) from the hake at-sea fishery as determined by onboard observers."
-
-#table 2
-library(flextable)
-library(dplyr)
-library(tidyr)
-
-table2 <- read.csv(here("report", "tables", "landings_hake.csv"))
-
-colnames(table2) <- gsub("\\.", " ", colnames(table2))
-
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table2),
- line1 = c("Year", "Foreign & Domestic", rep("Shoreside hake", 3)),
- line2 = c("", "At-sea", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table2, col_keys = names(table2)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd = 0.8)
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit()
-
-```
-
-{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-manage-guide
@@ -152,8 +73,35 @@ flextable(recent_management$table) |>
 
 {{< pagebreak >}}
 
+## Data
+
+### Fishery-dependent data
+
+```{r}
+#| label: tbl-all_removals
+#| echo: false
+#| warning: false
+#| tbl-cap: "Total removals (mt) used in widow rockfish assessment, by year and by fleet. Total removals represent landings and discards combined. Bottom trawl fleet also includes minimal catches made by net and hook-and-line gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976."
+
+library(flextable)
+library(dplyr)
+library(tidyr)
+library(officer)
+
+table1 <- read.csv(here("report", "tables", "catches_by_fleet_January_2026_model.csv"), check.names = FALSE) |> 
+  mutate(across(-1, ~round(., 0)))
+
+
+# Create flextable
+flextable(table1) %>%
+ colformat_num(j = 1, big.mark = "", digits = 0) %>% 
+  colformat_num(j = 2:ncol(table1), digits = 1) %>%
+  port_tab_style(wd = 0.6)
+
+```
+
 {{< pagebreak >}}
-\blandscape
+
 ```{r}
 #| label: tbl-num-land-length
 #| echo: false
@@ -165,11 +113,14 @@ table10 <- read.csv(here("report", "tables", "length_trips_nonhake.csv"))
 #Remove periods
 colnames(table10) <- gsub("\\.", " ", colnames(table10))
 
+# remove net and HnL fleets
+table10 <- table10 |> dplyr::select(1:7)
+
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table10),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3), rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3) ) , # rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), # "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -184,7 +135,8 @@ flextable(table10, col_keys = names(table10)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ # land_tab_style(wd=0.6)
 
 ```
 
@@ -196,12 +148,13 @@ flextable(table10, col_keys = names(table10)) %>%
 
 #Old table 11
 table11 <- read.csv(here("report", "tables", "length_samples_nonhake.csv"))
+table11 <- table11 |> dplyr::select(1:7)
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table10),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), #rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), #"CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -216,10 +169,11 @@ flextable(table11, col_keys = names(table11)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ # land_tab_style(wd=0.6)
 
 ```
-\elandscape
+
 ```{r}
 #| label: tbl-landings-hake
 #| echo: false
@@ -253,7 +207,7 @@ flextable(table12, col_keys = names(table12)) %>%
 ```
 
 {{< pagebreak >}}
-\blandscape
+
 ```{r}
 #| label: tbl-sample-age-gear-state
 #| echo: false
@@ -262,12 +216,13 @@ flextable(table12, col_keys = names(table12)) %>%
 
 #Old table 13
 table13 <- read.csv(here("report", "tables", "age_trips_nonhake.csv"))
+table13 <- table13 |> dplyr::select(1:7)
 
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table13),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), # rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), # "CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -282,9 +237,12 @@ flextable(table13, col_keys = names(table13)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ #land_tab_style(wd=0.6)
 
 ```
+
+{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-age-gear-state
@@ -294,12 +252,12 @@ flextable(table13, col_keys = names(table13)) %>%
 
 #Old table 13
 table14 <- read.csv(here("report", "tables", "age_samples_nonhake.csv"))
-
+table14 <- table14 |> dplyr::select(1:7)
 # Build header map (multi-row header)
 header_df <- data.frame(
  keys = names(table14),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3),rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA", "CA", "WA", "CA", "OR", "WA"),
+ line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), #rep("Net", 2),rep("Hook-and-Line", 3)),
+ line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), #"CA", "WA", "CA", "OR", "WA"),
  stringsAsFactors = FALSE
 )
 
@@ -315,45 +273,12 @@ flextable(table14, col_keys = names(table14)) %>%
  # bold(part = "header")%>%
  # autofit() %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>%
- land_tab_style(wd=0.6)
+ port_tab_style(wd=0.6)
+ #land_tab_style(wd=0.6)
 
 ```
-\elandscape
 
-```{r}
-#| label: tbl-disc-totals
-#| echo: false
-#| warning: false
-#| tbl-cap: "Discard totals (mt) for two fleets derived from Pikitch data, EDCP data, and WCGOP data."
-
-#Old table 16
-
-table16 <- read.csv(here("report", "tables", "discards.csv"))
-#Remove periods
-colnames(table16) <- gsub("\\.", " ", colnames(table16))
-# deal w rounding 
-table16$Discards <- round(table16$Discards, 0)
-
-# Function for consistent table styling
-# style_table16 <- function(ft) {
-#  ft %>%
-#  font(fontname = "Times New Roman", part = "all") %>%
-#  border_outer(part = "all") %>%
-#  border_inner(part = "all") %>%
-#  align(align = "center", part = "header") %>%
-#  align(align = "center", part = "body")%>%
-#  colformat_num(j = 2, big.mark = "", digits = 0)%>%
-#  autofit()
-# }
-
-# Create Flextable for Table 20
-table16 %>%
- flextable() %>%
- colformat_num(j = 2, big.mark = "", digits = 0) %>%
- # style_table16()
- port_tab_style(wd=0.9)
-
-```
+{{< pagebreak >}}
 
 ### Fishery-independent data
 
@@ -412,47 +337,58 @@ flextable(table9, col_keys = names(table9)) %>%
  port_tab_style(wd=0.45)
 
 ```
+{{< pagebreak >}}
+
+\blandscape
+
+```{r}
+#| label: tbl-compweight-comparison
+#| warning: false
+#| echo: false
+#| tbl-cap: "Comparison of key data weighting quantities from the August 2025 (Aug.) and the proposed base model (New). 'Lambda' is the likelihood multiplier applied in the August 2025 model (Lambda = 1 for all fleets in the new proposed base model). 'Weight x lambda' is the product of the estimated data weighting and the lambda. 'Sum N input' is the sum of the input sample sizes across all observations (which differs for BottomTrawl because discard data has been removed). 'Sum N adj.' is that sum after adjustment by the data weighting and lambda. 'CAAL' is conditional age-at-length data. Entries with --- indicate that fleet does not exist in the new proposed base model, and the composition data has been removed. "
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight_aug <- read.csv(here::here("report", "tables", "compweight_Aug2025_base.csv"), check.names = FALSE)
+# add sum of input N
+compweight_aug <- compweight_aug |> dplyr::mutate(`Sum N input` = `Mean N input` * `Obs.`)
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight_oct <- read.csv(here::here("report", "tables", "compweight_new_base.csv"), check.names = FALSE)
+# add sum of input N
+compweight_oct <- compweight_oct |> dplyr::mutate(`Sum N input` = `Mean N input` * `Obs.`)
+
+
+
+# Join the two data weight tables for comparison
+left_join(
+  # only take a subset of the columns
+  compweight_aug |>
+    select(-Weight, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Lambda (Aug.)` = Lambda),
+  
+  compweight_oct |>
+    select(-Lambda, -`Weight x lambda`, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Weight x lambda` = Weight),
+  # other arguments to join 
+  suffix = c(' (Aug.)', ' (New)'), 
+  by = c('Type', 'Fleet')) |>
+  # rearrange columns for easier comparison
+  #select(1, 2, 3, 4, 6, 5, 7) |>
+  select(1, 2, 3, 4, 7, 6, 9, 5, 8) |>
+  # format table using gt
+  gt::gt() |>
+  gt::sub_missing() |>
+  gt::tab_options(table.font.size = "10pt") |> 
+  gt::cols_width(
+    Fleet ~ px(110),
+    `Lambda (Aug.)` ~ px(60),
+    everything() ~ px(70)
+  )
+```
 
 
 ## Model results
 
-```{r}
-#| label: tbl-speci-base-assess
-#| echo: false
-#| warning: false
-#| tbl-cap: "Specifications of the base assessment model for widow rockfish."
-
-#Old table 21
-library("officer")
-
-table21<- openxlsx::read.xlsx(here("report", "tables", "base_model_specs.xlsx"))
-colnames(table21) <- c("1","2","3")
-
-table21$`2`[which(table21$`2`=="Minimum ages for first growth calcs")] <- "First reference age for growth calcs"
-table21$`2`[which(table21$`2`=="Maximum ages for first growth calcs")] <- "Second reference age for growth calcs"
-table21$`2`[which(table21$`2`=="Satrting year of estimated recruitment")] <- "Starting year of estimated recruitment"
-
-rmv_rows <- c("Fishery timing", "Triennial survey timing", "WCGBTS timing", "Fishing mortality methods", "maximum F")
-table21 <- table21 %>% filter(! `2` %in% rmv_rows)
-
-my_border <- fp_border(color = "black", width = 2)
-
-flextable(table21) %>%
- delete_part(part="header")%>%
- border(part = "all") %>%
- align(align = "left", j=2) %>%
- italic(j = 1, italic = TRUE)%>%
- font(fontname = "Times New Roman", part = "all") %>%
- bold(part = "header")%>%
- border(border.top = my_border, i = 1) %>%
- autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0)%>%
- fontsize(size = 9, part = "all")%>%
- set_table_properties(layout = "autofit")
-
-```
-
-\blandscape
 ```{r}
 #| label: tbl-params
 #| echo: false
@@ -465,50 +401,11 @@ table_pars <- table_pars |> select(-Phase) # |>
 
 flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 ```
+
 \elandscape
-```{r}
-#| label: tbl-likecomps
-#| echo: false
-#| warning: false
-#| tbl-cap: "Likelihood components and other quantities related to the minimization of the base case model."
 
-#Old table 25
+{{< pagebreak >}}
 
-# Function for consistent table styling
-table25 <- read.csv(here("report", "tables", "likelihood_components.csv"))
-# rounding up front
-
-# my_border <- fp_border(color = "black", width = 2) 
-
-# Function for consistent table styling 
-flextable(table25) %>% 
-  port_tab_style(wd=2) %>% 
-  colformat_num(i = 1, j = 2, digits = 0) 
-```
-
-```{r}
-#| label: tbl-key-deriv-params
-#| echo: false
-#| warning: false
-#| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
-
-table26 <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
-
-table26 <- table26 |> 
-  mutate(across(is.numeric, \(x) as.character(round(x, digits = 3)))) |> 
-  replace_na(list(`Estimate` = "", `Lower Interval` = "", `Upper Interval` = "")) |>  
-  mutate(`95% Confidence Interval` = paste0(`Lower Interval`, " - ", `Upper Interval`)) |> 
-  select(-`Lower Interval`, -`Upper Interval`)
-
-table26[table26 == " - "] <- ""
-
-# Function for consistent table styling 
-flextable(table26) %>% land_tab_style(wd=1.9) %>%
- bold(i=c(1,7,11,17),bold=TRUE)%>% hline(i = c(1,6,7,11,12,16,17)) %>%
- align(j = 1, align = "left", part = "all")
-
-```
-\blandscape
 ```{r}
 #| label: tbl-ts-popests-basecase
 #| echo: false
@@ -518,100 +415,113 @@ flextable(table26) %>% land_tab_style(wd=1.9) %>%
 #Old table 27
 
 # Function for consistent table styling
-table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table
-
-round1_cols <- c("Exploitation Rate", "Age-0 Recruits (1,000s)", "Total Mortality (mt)")
-table27[,round1_cols] <- round(table27[,round1_cols], 1)
-table27 <- round(table27, 3)
+table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table 
+table27 <- table27 %>%
+  mutate(
+    across(-c(5, 8, 9), ~ if(is.numeric(.)) round(., 0) else .),
+    across(c(5, 8, 9), ~ if(is.numeric(.)) round(., 3) else .)
+  )
 
 # Function for consistent table styling 
 flextable(table27) %>% 
  set_header_labels(names = colnames(table27)) %>%
- port_tab_style(wd=1.2) %>%
+ #port_tab_style(wd=1.2) %>%
+ port_tab_style(wd=0.85) %>%
  colformat_num(j = 1, big.mark = "", digits = 0) %>% 
- width(width = 0.85)
+ width(width = 0.7)
 
 ```
 
 {{< pagebreak >}}
+
+\blandscape
+
+## Model diagnostics
 
 ```{r}
 #| label: tbl-quant-sens-int
 #| echo: false
 #| warning: false
-#| tbl-cap: "Quantities of interest from the sensitivity analyses."
+#| tbl-cap: "Sensitivity analysis results: differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model."
 
-#Old table 29
-#needs to be landscape! 
+source(here::here("R", "table_sens.R"))
+table_sens(
+  file_csv = here::here("report", "tables", "sensitivity_table.csv"),
+  switch1 = 6, 
+  switch2 = 8
+)
 
-library(flextable)
-library(dplyr)
-library(tidyr)
-library(officer)
+# #Old table 29
+# #needs to be landscape! 
 
-table29 <- read.csv(here("figures", "sensitivities", "short_sens_table.csv"))
-#Remove periods
-colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
-           "MWT asymptotic selex", "WCGBTS logistic selex", 
-           "Including shrimp trawl", "New WA catch recon.", 
-           # "h = 0.4", "h = 0.6", "h = 0.798", 
-           "Excluding triennial", "Francis weighting")
- # gsub("\\.", " ", colnames(table29))
-table29$`Base model` <- as.numeric(table29$`Base model`)
+# library(flextable)
+# library(dplyr)
+# library(tidyr)
+# library(officer)
 
-likelihood_row <- which(apply(table29, 1, function(row) any(row == "LIKELIHOOD")))
-parameter_row <- which(apply(table29, 1, function(row) any(row == "PARAMETER")))
-quantity_row <- which(apply(table29, 1, function(row) any(row == "QUANTITY")))
-unfished_row <- which(apply(table29, 1, function(row) any(row == "SSB unfished (mt)")))
+# table29 <- read.csv(here("figures", "sensitivities", "short_sens_table.csv"))
+# #Remove periods
+# colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
+#            "MWT asymptotic selex", "WCGBTS logistic selex", 
+#            "Including shrimp trawl", "New WA catch recon.", 
+#            # "h = 0.4", "h = 0.6", "h = 0.798", 
+#            "Excluding triennial", "Francis weighting")
+#  # gsub("\\.", " ", colnames(table29))
+# table29$`Base model` <- as.numeric(table29$`Base model`)
 
-# Add a row that spans all columns (like a section header)
-flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:ncol(table29), digits = 0) %>%
-  flextable::compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
-  merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
-  align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>% 
-  flextable::compose(i = parameter_row, j = 1, value = as_paragraph("Parameter values")) %>%
-  merge_at(i = parameter_row, j = 1:ncol(table29), part = "body") %>%
-  align(i = parameter_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>% 
-  flextable::compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
-  merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
-  align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-  bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>% 
-  colformat_num(i = unfished_row, j = 2:ncol(table29), big.mark = ",", digits = 0)
+# likelihood_row <- which(apply(table29, 1, function(row) any(row == "LIKELIHOOD")))
+# parameter_row <- which(apply(table29, 1, function(row) any(row == "PARAMETER")))
+# quantity_row <- which(apply(table29, 1, function(row) any(row == "QUANTITY")))
+# unfished_row <- which(apply(table29, 1, function(row) any(row == "SSB unfished (mt)")))
+
+# # Add a row that spans all columns (like a section header)
+# flextable(table29) %>% land_tab_style(wd=0.7) %>% colformat_num(i = 15, j = 1:ncol(table29), digits = 0) %>%
+#   flextable::compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
+#   merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
+#   align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+#   bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>% 
+#   flextable::compose(i = parameter_row, j = 1, value = as_paragraph("Parameter values")) %>%
+#   merge_at(i = parameter_row, j = 1:ncol(table29), part = "body") %>%
+#   align(i = parameter_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+#   bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>% 
+#   flextable::compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
+#   merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
+#   align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
+#   bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>% 
+#   colformat_num(i = unfished_row, j = 2:ncol(table29), big.mark = ",", digits = 0)
+
+```
+
+\elandscape
+
+{{< pagebreak >}}
+
+## Management
+
+```{r}
+#| label: tbl-key-deriv-params
+#| echo: false
+#| warning: false
+#| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
+
+flextable(table_e) %>%
+  merge_h(part = "header") %>%
+  merge_v(part = "header") %>%
+  border(part = "all") %>%
+  align(align = "center", part = "all") %>%
+  align(align = "left", j = 1) %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  bold(part = "header")%>%
+  bold(i = c(6,11,16), part="body")%>%
+  colformat_num( digits = 2)%>%
+  fontsize(size = 9, part = "all")%>%
+  set_table_properties(layout = "autofit")
 
 ```
 
 {{< pagebreak >}}
 
-```{r}
-#| label: tbl-weightingcomps
-#| echo: false
-#| warning: false
-#| tbl-cap: "Estimated data weights derived using the McAllister-Ianelli and Francis methods."
-
-#Old table 34
-
-table34 <- read.csv(here("figures", "sensitivities", "weighting_comps.csv"))
-#Remove periods
-colnames(table34) <- gsub("\\.", " ", colnames(table34))
-table34 <- table34 %>% select(-c("Log Mean effN   2025 base model", "Log Mean effN   Francis"))
-
-# Add a row that spans all columns (like a section header)
-flextable(table34) %>%
-  set_header_labels(
-    names = colnames(table34), 
-    values = c(
-      "Fleet", 
-      "Composition data type", 
-      "McAllister Ianelli weighting (base model)", 
-      "Francis weighting (alternative)"
-    )) %>% 
-  port_tab_style(wd=1.5)
-
-```
-
-## Management
+\blandscape
 
 ```{r}
 #| label: tbl-proj-ofl
@@ -663,7 +573,7 @@ flextable(table_g) %>%
 
 {{< pagebreak >}}
 
-```{r}
+<!-- ```{r}
 #| label: tbl-dec-table
 #| echo: false
 #| warning: false
@@ -717,4 +627,4 @@ flextable(table_h) |>
   hline_bottom(j = 9)|>
   line_spacing(space = 0.8, part = "all")
 
-```
+``` -->

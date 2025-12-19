@@ -15,17 +15,25 @@ source(here("R", "functions", "bridging_functions.R"))
 
 base_2019 <- here("models", "2019 base model", "Base_45_new")
 databridge_dir <- here("models", "data_bridging")
+# specific location on Ian's computer
+# databridge_dir <- "G:/My Drive/SS/widow/widow2025/models/data_bridging"
+base_Aug2025 <- here("models", "Aug2025 base model")
 base_2025 <- here("models", "2025 base model")
 
 # Rerun base 2019 & 2025 ----------------------------------
 
 # With Hessian, to show uncertainty in both 
-r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = skip_finished)
-r4ss::run(base_2025, exe = set_ss3_exe(base_2025), skipfinished = !rerun_base, extras = "-hess_step")
+# r4ss::run(base_2019, exe = set_ss3_exe(base_2019), skipfinished = skip_finished)
+# r4ss::run(base_2025, exe = set_ss3_exe(base_2025), skipfinished = !rerun_base, extras = "-hess_step")
 
 # Base model plots ----------------------------------------
 
-base_rep <- SS_output(base_2025)
+base_rep <- r4ss::SS_output(
+  here("models", "2025 base model"), 
+  printstats = FALSE, 
+  verbose = FALSE,
+  SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
 base_plotdir <- here("figures", "2025 base model r4ss plots")
 
 SS_plots(replist = base_rep, dir = base_plotdir, html = launch_html)
@@ -52,7 +60,7 @@ model_summary <- SSsummarize(combined_models_list)
 SSplotComparisons(
   model_summary, plotdir = base_compare_dir,
   legendlabels = names(models), filenameprefix = "base_19_25_", 
-  legendloc = c(0.05, 0.2), subplots = c(2, 4, 11:12), 
+  legendloc = c(0.05, 0.2), subplots = c(2, 4, 11:12, 18), 
   plot = FALSE, png = TRUE
 )
 
@@ -75,7 +83,7 @@ models <- c(
   "update discard composition" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length composition" = here(databridge_dir, "data_bridged_model_weighted"), 
-  "update M, L/W, bias ramp, blocks (2025 base)" = base_2025
+  "update M, L/W, bias ramp, blocks (Aug2025 base)" = base_Aug2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -101,6 +109,33 @@ SSplotComparisons(
   legendlabels = names(models), filenameprefix = "bridging_", 
   legendloc = c(0.05, 1), subplots = 9:10, 
   plot = FALSE, png = TRUE
+)
+
+
+table_labels <- c(
+    "NatM",
+    #"Eggs_scalar_Fem",
+    #"Eggs_exp_len_Fem",
+    "SmryBio_unfished",
+    "SSB_Virgin",
+    "SSB_2025",
+    "Bratio_2025",
+    "SPRratio_2024",
+    "OFLCatch_2027",
+    "ForeCatch_2027",
+    "Dead_Catch_MSY",
+    "Dead_Catch_SPR"
+)
+tab <- SStableComparisons(
+    model_summary,
+    likenames = NULL,
+    names = table_labels
+)
+
+write.csv(
+    tab,
+    file = "report/tables/bridging1_table.csv",
+    row.names = FALSE
 )
 
 ## Natural mortality --------------------------------------
@@ -201,90 +236,116 @@ SSplotComparisons(
 )
 
 
-# Plot of most recent 3 models for infographic ------------
-base_2015 <- here("models", "2015 base model")
-#base_2019 <- here("models", "2019 base model", "Base_45_new")
-# specific location on Ian's computer
-base_2019 <- here("C:/SS/Widow/Widow2025/models/2019 base model/Base_45")
-base_2025 <- here("models", "2025 base model")
-models <- c(
-  "2015 benchmark assessment" = base_2015,
-  "2019 update assessment" = base_2019,
-  "2025 update assessment" = base_2025
-)
-combined_models_list <- r4ss::SSgetoutput(dirvec = models)
-names(combined_models_list) <- names(models) 
-model_summary <- r4ss::SSsummarize(combined_models_list)
 
-r4ss::plot_twopanel_comparison(
-  combined_models_list, 
-  # subplot1 = 18, 
-  subplot1 = 2, 
-  subplot2 = 9,
-  endyrvec = c(2015, 2019, 2025),
-  dir = here("figures", "bridging"),
-  filename = "infographic_timeseries.png", 
-  legendlabels = names(models), 
-  legendloc = "bottomleft", 
-  col = viridis::viridis(4)[3:1]
+if (FALSE) {
+  # Plot of most recent 3 models for infographic ------------
+  base_2015 <- here("models", "2015 base model")
+  base_2019 <- here("models", "2019 base model", "Base_45_new")
+  # specific location on Ian's computer
+  # base_2019 <- here("C:/SS/Widow/Widow2025/models/2019 base model/Base_45")
+  base_2025 <- here("models", "2025 base model")
+  models <- c(
+    "2015 benchmark assessment" = base_2015,
+    "2019 update assessment" = base_2019,
+    "2025 update assessment" = base_2025
+  )
+  combined_models_list <- r4ss::SSgetoutput(dirvec = models)
+  names(combined_models_list) <- names(models)
+  model_summary <- r4ss::SSsummarize(combined_models_list)
+
+  r4ss::plot_twopanel_comparison(
+    combined_models_list,
+    # subplot1 = 18,
+    subplot1 = 2,
+    subplot2 = 9,
+    endyrvec = c(2015, 2019, 2025),
+    dir = here("figures", "bridging"),
+    filename = "infographic_timeseries.png",
+    legendlabels = names(models),
+    legendloc = "bottomleft",
+    col = viridis::viridis(4)[3:1]
   )
 
-# changing starting year of plot
-r4ss::plot_twopanel_comparison(
-  combined_models_list, 
-  xlim = c(1980, 2025),
-  subplot1 = 2, 
-  subplot2 = 9,
-  endyrvec = c(2015, 2019, 2025),
-  dir = here("figures", "bridging"),
-  filename = "infographic_timeseries_start_1980.png", 
-  legendlabels = names(models), 
-  legendloc = "bottomleft", 
-  col = viridis::viridis(4)[3:1]
+  # changing starting year of plot
+  r4ss::plot_twopanel_comparison(
+    combined_models_list,
+    xlim = c(1980, 2025),
+    subplot1 = 2,
+    subplot2 = 9,
+    endyrvec = c(2015, 2019, 2025),
+    dir = here("figures", "bridging"),
+    filename = "infographic_timeseries_start_1980.png",
+    legendlabels = names(models),
+    legendloc = "bottomleft",
+    col = viridis::viridis(4)[3:1]
   )
 
-# alternative figure (not chosen) 
-# showing summary biomass and catch
-png(here("figures", "bridging", "infographic_timeseries_age4plus.png"), 
-    width = 6.5, height = 5, pointsize = 10, units = "in", res = 300)
-SSplotComparisons(model_summary, 
-  subplot = 18, 
-  legendloc = "left",
-  endyrvec = c(2015, 2019, 2025),
-  legendlabels = names(models), 
-  col = viridis::viridis(4)[3:1],
-  new = FALSE
+  # alternative figure (not chosen)
+  # showing summary biomass and catch
+  png(
+    here("figures", "bridging", "infographic_timeseries_age4plus.png"),
+    width = 6.5,
+    height = 5,
+    pointsize = 10,
+    units = "in",
+    res = 300
+  )
+  SSplotComparisons(
+    model_summary,
+    subplot = 18,
+    legendloc = "left",
+    endyrvec = c(2015, 2019, 2025),
+    legendlabels = names(models),
+    col = viridis::viridis(4)[3:1],
+    new = FALSE
   )
 
-catch_series <- combined_models_list[["2025 update assessment"]][["catch"]] |>  
-  dplyr::group_by((Yr)) |> dplyr::summarise(total_dead_bio = sum(dead_bio))
-points(x = catch_series$"(Yr)", y = catch_series$total_dead_bio, type = 'h', col = "black", lwd = 4, lend = 1)
-dev.off()
+  catch_series <- combined_models_list[["2025 update assessment"]][["catch"]] |>
+    dplyr::group_by((Yr)) |>
+    dplyr::summarise(total_dead_bio = sum(dead_bio))
+  points(
+    x = catch_series$"(Yr)",
+    y = catch_series$total_dead_bio,
+    type = 'h',
+    col = "black",
+    lwd = 4,
+    lend = 1
+  )
+  dev.off()
 
-# plots for presentation
-SSplotComparisons(model_summary, 
-  subplot = c(1,3), 
-  legendloc = "left",
-  endyrvec = c(2015, 2019, 2025),
-  legendlabels = names(models), 
-  col = viridis::viridis(4)[3:1],
-  print = TRUE,
-  plot = FALSE,
-  plotdir = here("figures", "bridging"),
-  filenameprefix = "infographic_"
-)
+  # plots for presentation
+  SSplotComparisons(
+    model_summary,
+    pwidth = 5,
+    pheight = 4,
+    subplot = c(1, 3),
+    legendloc = "bottomleft",
+    legendcex = 1.4,
+    endyrvec = c(2015, 2019, 2025),
+    legendlabels = names(models),
+    col = viridis::viridis(4)[3:1],
+    print = TRUE,
+    plot = FALSE,
+    plotdir = here("figures", "bridging"),
+    filenameprefix = "infographic_"
+  )
 
-# plots for presentation
-SSplotComparisons(model_summary, 
-  subplot = 9, 
-  legendloc = "topleft",
-  endyrvec = c(2015, 2019, 2025),
-  legendlabels = names(models), 
-  xlim = c(1980, 2025),
-  col = viridis::viridis(4)[3:1],
-  print = TRUE,
-  plot = FALSE,
-  spacepoints = 1,
-  plotdir = here("figures", "bridging"),
-  filenameprefix = "infographic_"
-)
+  # plots for presentation
+  SSplotComparisons(
+    model_summary,
+    pwidth = 5,
+    pheight = 4,
+    subplot = 9,
+    legendloc = "topleft",
+    legendcex = 1.5,
+    endyrvec = c(2015, 2019, 2025),
+    legendlabels = names(models),
+    xlim = c(1980, 2025),
+    col = viridis::viridis(4)[3:1],
+    print = TRUE,
+    plot = FALSE,
+    spacepoints = 1,
+    plotdir = here("figures", "bridging"),
+    filenameprefix = "infographic_"
+  )
+}

@@ -1,0 +1,59 @@
+The base model within the widow rockfish update assessment reviewed at the August 2025 Pacific Fishery Management Council (PFMC) Science and Statistical Committee (SSC) Groundfish Subcommittee (GFSC) meeting followed the 2015 benchmark assessment in its structure and assumptions, as required by the Terms of Reference for update assessments (with the exception of removing discard length composition data for the hook-and-line fleet, as discussed and approved at the meeting). For the supplemental review, recommended by the GFSC and formalized at the September PFMC meeting, we explored a larger range of options which go beyond update assessment Terms of Reference and no longer match the 2015 benchmark. 
+
+Based on this exploration, we developed an alternative model which includes the changes from the August base model described below. This alternative model produces similar results to the model reviewed in August 2025 as demonstrated in the section below on model bridging. This document also includes results of model diagnostics as well as tables of reference points and projections from the proposed new base model. This document doesn't include the full set of model output fits to data. Reviewers should refer to the r4ss files for this information, in addition to the accompanying document ("Response to requests from the PFMC SSC Groundfish Subcommittee for supplementary review of the August 2025 widow rockfish stock assessment", where the requests and responses detailed there are referenced here simply as "GFSC Request"). We will produce a complete revised assessment report after the October 2025 supplemental review reflecting the outcome of that meeting. 
+
+The STAT suggests reading the GFSC Request document first, which helps to motivate this proposed new model.
+
+**Changes to the base model that was reviewed in August 2025**
+
+<!-- These are quite short now. I meant them as placeholders, but I am envisioning each bullet could be much longer and include both motivation and additional detail -->
+
+1. **Use the updated Washington historical catch reconstruction.** 
+
+    The Washington Department of Fish and Wildlife (WDFW) provided a historical catch reconstruction for widow rockfish. This is the subject of GFSC Request 7 and one of the sensitivity analyses in the assessment report reviewed in August 2025. 
+    
+    The three main sources used in this reconstruction included the US Fish Commission Report (UFSC), Washington Bound Volumes, and Washington Statistical Bulletin. The historical species composition was based on the various historical reports and interviews of fishermen and dockside samplers. The landings between 1981 and 2000 were also provided by WDFW, since WDFW developed and used an improved method for apportioning unidentified rockfish (URCK) category in fish tickets to the individual species landings. This improved approach relaxed the borrowing rules for missing data used in the WDFW species allocation algorithm that feeds into PacFIN. New Washington historical landings represent the best scientific information available.
+
+1. **Simplify the fleet structure.** 
+
+    The catch from fixed gear fleets (hook-and-line and net) was combined with the bottom trawl fleet, and the composition data for the fixed gear fleets was removed. 
+    
+    These fleets represent only 1.1% and 1.4% of the catch and are less likely to be representative of the population as a whole. GFSC Requests 1 (reduce influence of hook-and-line composition data) and 6 (leave-one-out analysis) indicated that data from the smaller fleets have little influence on the model results. The issues with the hook-and-line discard length data resolved prior to the August 2025 base model showed that even small amounts of data from these fleets can have undue influence on the results when combined with mismatching assumptions for selectivity and retention.
+
+    If the data associated with the small fleets was informative of some population process not well measured by the data from the larger fleets (e.g. if the samples from smaller fish were informative about recent recruitment), then it may have been worth keeping them separate. However, they appear to just add noise to the model which does not justify the additional selectivity parameters required to treat them separately.
+    
+    In addition, the catches made by the foreign historical fishery targeting Pacific Ocean perch (1966--1976), were moved from the hake fleet to bottom trawl, consistent with other groundfish assessments.
+
+1. **Use external estimates of discards and add them to landings, rather than estimate discards within the model.** 
+
+    The use of estimated retention functions within the model was standard practice in 2015, following a long period of large discards due to trip limits. However, discard rates have been low for widow rockfish for more than 10 years so the benefit of using retention functions to extrapolate beyond the range of observed data is reduced and the biological data from the discards are no longer as likely to be informative about dynamics of the total population. As a part of response to the GFSC Request 9, we illustrated that treating discard as catch (rather than estimating them in the model) did not have much impact on model results. Also, this approach avoids hard-to-diagnose issues that come from estimating retention curves (especially with limited amounts of data), as we encountered with the hook-and-line fleet in the August 2025 base model. For some species, the discard data may provide important information about recent recruitment because the smaller fish are being discarded. However, for this stock, removing the discard amounts and length-compositions from the likelihood had little impact on recruitment estimates (See @fig-bridge2_recruits in bridging section).  
+
+    For the proposed new base model, we estimated bottom trawl discards and midwater trawl discards externally, using historical sources (the Pikitch study and the Enhanced Data Collection Project, EDCP), as well as West Coast Groundfish Observer Program (WCGOP) data, and added calculated discard amounts to landings of the corresponding fleets by year. The methods used to reconstruct discard amounts in different time periods are detailed below. The range of years chosen for each method approximate the time-blocks on retention that informed the different data sources in the August 2025 base model. 
+
+    a. For the years 1982--1989, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the Pikitch study.
+    a. For the years 1990--2001, landings in the bottom trawl and midwater trawl fleets were scaled using fleet-specific discard rates estimated from the EDCP data.
+    a. For the years 2002--2023, GEMM estimates of fleet-specific discards amounts were added to the landed catch (bottom trawl + other, and midwater trawl).
+    a. The 2024 values were set to the average from the GEMM estimates for the period 2021--2023. All retention parameters were removed from the model.
+    a. Total catch in the at-sea hake fishery was fully accounted for in the August 2025 base model and was not changed other than the shifting of the foreign catch to the bottom trawl fleet as noted above.
+
+1. **Update the data weighting to follow current best practices.** The data weighting approach was changed to match recent practices, including the use of the Francis rather than McAllister-Ianelli approach, and no longer including a 50% additional reduction in weights.
+
+    Data weighting remains a topic of ongoing research in the stock assessment community. However, the Francis method performed better in a simulation analysis [@punt_some_2017] and has been the preferred approach in most recent stock assessments.  
+
+    The 50% multiplier on the data weights used in the previous assessment was an approach more common in 2015 to account for the potential double use of data since length and age are observed from the same fish. However, the sum of the adjusted input sample sizes for length and age data combined are already far lower than the number of sampled fish because they are primarily based on trips or hauls and then further reduced by the data-weighting algorithm. This 50% adjustment is no longer common practice and has not been used any other recent assessments. 
+
+1. **Change the selectivity blocking for the midwater trawl fleet.** The block that previously went from 2002 when the stock was declared overfished to 2010 when the IFQ program began was extended to 2016 when the new midwater trawl fishery began in earnest. See GFSC Request document for further discussion on blocking of the midwater trawl fleet.
+
+1. **Use a fecundity relationship rather than assume the number of eggs is proportional to body weight.**
+
+    As noted in GFSC Request 13, accounting for size-dependent fecundity in rockfish stocks using the meta-analysis from @dick_meta-analysis_2017 has become standard practice in recent years and is included in the TOR and Accepted Practices Guidelines documents.
+    
+    Following standard practice for species that were not included in the meta-analysis, the predictive distributions for unobserved _Sebastes_ species was used. This relationship has the number of eggs proportional to length to the power 4.043 (as opposed to body weight which was estimated as proportional to length to the power 2.99) 
+
+1. **Update bias adjustment using estimated values (modified to have full bias adjustment starting in 1970).**
+
+    The data weighting changed the uncertainty around estimates of recent recruitment, necessitating a change in the recruitment bias adjustment settings. However, the estimated algorithm in the r4ss package continued to under-adjust the well-informed recruitments in 1970 and 1971 (see GFSC Request 5), so the inputs were modified to ensure full bias adjustment of the recruitments from 1970 onward.
+
+**Changes not included in the proposed new base model**
+
+The proposed new base model does not include a few of the changes explored as part of the GFSC requests. First, the exploration of alternative functional forms for selectivity of the West Coast Groundfish Bottom Trawl Survey (Request 4) showed that changing from cubic spline selectivity to double normal increased the likelihood significantly without resolving any clear problem with the status quo approach. Second, we explored finer-scale selectivity blocks on midwater trawl selectivity as part of open-ended Request 9, but settled on a more parsimonious change to the start year of the final block rather than using finer-scale blocks. Finally, we explored decreasing the uncertainty on the juvenile survey (Request 12), but the mismatch between large index observations in the past and the estimated size of those cohorts from age and length composition data raises concerns that the index observation in 2023 may also be an overestimate, and the estimated additional uncertainty is warranted.

@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-06-11  19:49:19
+#C file write time: 2025-11-26  15:08:06
 #
 1 #_benchmarks
 2 #_MSY
@@ -46,7 +46,7 @@
 3 #_First_forecast_loop_with_stochastic_recruitment
 0 #_fcast_rec_option
 1 #_fcast_rec_val
-0 #_Fcast_loop_control_5
+0 #_HCR_anchor
 2027 #_FirstYear_for_caps_and_allocations
 0 #_stddev_of_log_catch_ratio
 0 #_Do_West_Coast_gfish_rebuilder_output
@@ -63,16 +63,12 @@
 -9999 -1
 2 #_InputBasis
  #_year seas fleet catch_or_F
-   2025    1     1       76.7
+   2025    1     1      119.9
    2025    1     2     9770.0
    2025    1     3      778.7
-   2025    1     4        0.0
-   2025    1     5       43.2
-   2026    1     1       70.8
+   2026    1     1      114.0
    2026    1     2     8975.0
    2026    1     3      734.6
-   2026    1     4        0.0
-   2026    1     5       43.2
 -9999 0 0 0
 #
 999 # verify end of input 

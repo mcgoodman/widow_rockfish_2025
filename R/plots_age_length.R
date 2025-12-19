@@ -14,7 +14,7 @@ dir <- here("models", "2025 base model")
 plot_dir <- here("figures", "composition_plots")
 dir.create(plot_dir)
 
-mod1 <- SS_output(dir = dir)
+mod1 <- SS_output(dir = dir, printstats = FALSE, verbose = FALSE)
 SSplotComps(replist = mod1)
 data <- SS_readdat(file = here(dir, "2025widow.dat"))
 

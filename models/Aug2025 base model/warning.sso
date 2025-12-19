@@ -1,0 +1,6 @@
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 1 : no discard amount data for fleet 5  but retention parms have been defined 
+Warning 2 : Final gradient: 0.000339478 is larger than final_conv: 0.0001
+Note 2 Information: No *.ss_new and fewer *.sso files written after mceval
+Warning 3 : Reminder: Number of lambdas !=0.0 and !=1.0:  10
+ 3 warnings  and 2 notes 

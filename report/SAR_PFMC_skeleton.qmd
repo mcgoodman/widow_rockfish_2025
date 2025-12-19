@@ -220,8 +220,8 @@ cat(a, sep = '\n')
 \setcounter{section}{0}
 \renewcommand{\thefigure}{\arabic{figure}}
 \renewcommand{\thetable}{\arabic{table}}
-\setcounter{table}{0}
-\setcounter{figure}{0}
+<!-- \setcounter{table}{0} -->
+<!-- \setcounter{figure}{0} -->
 
 
 ```{r, results='asis'}
@@ -331,11 +331,11 @@ cat(a, sep = '\n')
 
  <!-- {{< pagebreak >}} -->
 
-```{r, results='asis'}
+<!-- ```{r, results='asis'}
 #| label: 'appendix'
 #| eval: true
 #| echo: false
 #| warning: false
 a <- knitr::knit_child('10_appendix.qmd', quiet = TRUE)
 cat(a, sep = '\n')
-```
+``` -->

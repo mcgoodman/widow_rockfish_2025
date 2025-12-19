@@ -32,10 +32,21 @@ firstup <- function(x) {
 #| include: false
 
 library(here)
-jitters <- readRDS(here("models", "jitters", "jitter_summary.rds"))
+### jitter results manually added to text
+#jitters <- readRDS(here("models", "jitters", "jitter_summary.rds"))
 
 #report
-rep <- r4ss::SS_output(here("models","2025 base model"))
+if (!exists("report")) {
+  report <- r4ss::SS_output(
+    here("models", "2025 base model"), 
+    printstats = FALSE, 
+    verbose = FALSE,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+  )
+}
+rep <- report
+#rep <- r4ss::SS_output(here("models","2025 base model"))
+
 #Depletion estimates
 read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 ref_points <- read_rdata(here("report", "tables", "exec_summ_tables", "reference_points.rda"))$table
@@ -75,40 +86,46 @@ steep_min <- round(steepness[which.min(steepness$likelihood),"parameter_value"],
 r0_bm <- round(rep$parameters[rep$parameters$Label == "SR_LN(R0)","Value"],3)
 ```
 
+A number of tests were performed to verify convergence of the model. Following conventional AD Model Builder methods [@fournier_ad_2012], we checked that the Hessian matrix for the base model was positive-definite. There were no difficulties in inverting the Hessian to obtain asymptotic variance estimates. The maximum component of the final gradient is very low.
 
-Model convergence was determined by examining the final gradient, checking that the Hessian was positive (semi-)definite, and initializing the minimizer from perturbed  values around the maximum likelihood estimates (MLE) to determine if the model found a better minimum (“jittering”). Initial jittering analyses indicated that the model had converged to a false (local) minimum, though the difference in log-likelihoods at the previous estimates and the new MLE was small (<0.5). After accepting the new MLE as the base model, jittering was repeated 100 times with a jitter coefficient of 0.10 and (using a convergence threshold of 0.01) a better minimum was not found. `r paste0(jitters$njitters_at_base, "%")` of the jittered models achieved the minimum negative log-likelihood and `r paste0(jitters$njitters_within_2, "%")` were within two likelihood units. Through the jittering done as explained above and likelihood profiles, we are confident that the base case as presented represents the best fit to the data given the assumptions made. There were no difficulties in inverting the Hessian to obtain the parameter variance-covariance matrix. Likelihood profile runs which fixed M, R0 and h at more extreme values did not initially converge. This was addressed by using the parameter estimates from models with less extreme values as starting values in subsequent models. Convergence was defined as the lowest negative log-likelihood achieved with jittering where the Hessian matrix was invertible. 
+To confirm that the reported estimates were from the global best fit, we evaluated the model’s ability to recover similar likelihood estimates when initialized from dispersed starting points (jitter option in SS3). Starting parameters were jittered using a setting of 0.1 for 100 iterations. This perturbs the initial values used for minimization with the intention of causing the search to traverse a broader region of the likelihood surface. The majority (57 out of 100) returned to the same objective function value as the proposed model. The remaining runs exhibited worse fit than the proposed model. The spread of this search indicates that the jitter was sufficient to search a large portion of the likelihood surface, and that the model is in a global optimum.
+
+We also completed a set of standard model diagnostics that included retrospective analysis and likelihood profiles described below.
 
 ### Parameter Uncertainty
 
-Parameter estimates are shown in @tbl-params and @tbl-ts-popests-basecase along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in @tbl-key-deriv-params along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2025 estimate of depletion is `r depletion_ints[["low"]]`%–`r depletion_ints[["high"]]`% and mostly above the management target of 40% of the unfished \gls{ssb}.
+Parameter estimates are shown in @tbl-params and @tbl-ts-popests-basecase along with approximate asymptotic standard errors. The only parameters with an absolute value of correlation greater than 0.95 were the female and male natural mortality parameters, which is expected. Estimates of key derived quantities are given in @tbl-key-deriv-params along with approximate 95% asymptotic confidence intervals. There is a reasonable amount of uncertainty in the estimates of biomass. The confidence interval of the 2025 estimate of the fraction of unfished spawning output is `r depletion_ints[["low"]]`%–`r depletion_ints[["high"]]`% and mostly above the management target of 40% of the unfished spawning output.
 
 ### Sensitivity Analyses
 
-Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. `r length(mod_names)-1` sensitivity analyses were conducted to explore the potential differences in model structure and assumptions, including:
+Sensitivity analysis was performed to determine the model behavior under different assumptions than those of the base case model. Broad range of sensitivity runs were conducted at multiple stages of the assessment. Here, we present only several of them:
 
-1. Fixed natural mortality at 0.1 for both sexes (2015 assessment prior)
-2. Fixed natural mortality at 0.124 yr^-1^ for females and 0.129 yr^-1^ for males (2011 assessment prior)
-3. Forcing asymptotic selectivity on the midwater trawl fleet
-4. Fitting logistic curves for WCGBTS selectivities
-5. Weighting the composition data using the @francis_data_2011 method
-6. Updated Washington catch reconstruction
-7. Inclusion of previously excluded shrimp trawl data
-8. Exclusion of triennial survey data
+1. Fixed natural mortality at 0.1 for both sexes (the median of the prior used in the assessment).
+2. Fixed natural mortality at 0.144 yr^-1^ for females and 0.155 yr^-1^ for males (2019 assessment estimated values).
+3. Fixed natural mortality at 0.157 yr^-1^ for females and 0.17 yr^-1^ for males (2015 assessment estimated values).
+4. Estimating natural mortality using the prior based on the maximum age of 50 years old.
+5. Estimating natural mortality using the prior based on the maximum age of 45 years old.
+6. Using double-normal selectivity curve for \gls{s-wcgbt}, fixing it asymptotic.
+7. Using double-normal selectivity curve for \gls{s-wcgbt}, allowed it to be dome-shaped.
+8. Adding small amount of recreational catches as reported by WCGOP.
 
-Likelihood values and estimates of key parameters are shown in @tbl-quant-sens-int. Predicted \gls{ssb} trajectories, estimated recruitment deviations and comparisons of model estimates for 2025 are shown in @fig-recdevs-sens, @fig-spawnbio-sens-uncrt and @fig-sens-summary. The estimates of SSB in 2025 ranged from `r min(sens_base_ssb)` to `r max(sens_base_ssb)` thousand metric tons across the sensitivity runs, with `r mod_names[which(sens_base_ssb == min(sens_base_ssb))]` resulting in the lowest estimate and `r mod_names[which(sens_base_ssb == max(sens_base_ssb))]` resulting in the highest estimate. Generally, the trajectory of the \gls{ssb} was qualitatively similar across all tested models, e.g., peak around late 1970s and late 2010s, projected decrease in biomass in 2025 followed by some recovery into the 2030s; the quantitative magnitude of these trends did vary across cases. 
+Differences in likelihood and estimates of key parameters and derived quantities are shown in @tbl-quant-sens-int. Predicted trajectories of spawning output, fraction unfished, recruitments and recruitment deviations comparisons of model estimates for 2025 are shown in @fig-spawnbio-sens-uncrt,  @fig-depl-sens, @fig-rec-sens, and @fig-recdevs-sens.  
 
-Fixing M at values lower than the base case estimate resulted in decreases in estimated \gls{ssb}. The alternative weighting using the Francis method generally increased the estimate of \gls{ssb} across the time series. Other changes, including forcing asymptotic selectivity on the midwater fleet, forcing logistic selectivity on the \gls{s-wcgbt}, and excluding the triennial survey had relatively small effects on \gls{ssb} [@fig-spawnbio-sens-uncrt] and recruitment [@fig-recdevs-sens]. Changes to the historical landings (updating WA catch reconstruction and including shrimp trawl data) had no discernible on the estimated \gls{ssb}. 
+Fixing $M$ at values lower than the base case estimate resulted in decreases in estimated spawning output in recent years. Fixing $M$ at 0.1, the median of a prior informed by maximum age of 54 years, resulted in largest decrease in spawning output and associated management quantities. The unfished spawning output in sensitivity runs with $M$ fixed at the estimates from the 2019 and 2015 assessments is very similar among these runs. However, the lower the natural mortality is, the lower the final assessment year spawning output is, since the less productive stock is impacted more by fishery removals. The models with higher natural mortality need to scale up estimated recruitments, in order to provide for a sufficient amount of fish to sustain the catches over time, while having the same recruitment deviations. 
 
+The model results were not sensitive to the alternative values of the median of the $M$ prior, and estimated $M$ values were similar in all runs. This is an indication that the data provide a stronger signal about $M$ than the prior. 
+
+The last three runs (changing the selectivity pattern for \gls{s-wcgbt} and adding recreational catches) did not have a noticeable impact. 
 
 ### Retrospective Analysis
 
-First, a 5-year retrospective analysis was conducted by running the model using data only through 2020, 2021, 2022, 2023, and 2024 progressively (@fig-retros). The initial scale of the \gls{ssb} was effectively unchanged for all retrospective runs. Removing 4–5 years of data led to slightly higher estimated \gls{ssb} over the last 15 years.In contrast, removing only 1–2 years resulted lower estimated \gls{ssb} over the period. Removing 1-5 years of data resulted in increased estimated  recruitment over the past 5 years, but decreased estimates in 10 years prior to this. Despite these minor differences, population trends from all retrospective runs were very close, and there were no consistent patterns as years were removed. No concerning patterns were observed in the retrospective analysis.
+A 10-year retrospective analysis (@fig-retros) was conducted by running the model removing the most recent 1 to 10 years of data (i.e., "Data -1 Years" corresponds to data through 2023 instead of 2024). Population trends from all retrospective runs were very close, and no concerning patterns were observed in the retrospective analysis. There is a general trend of increasing scale and fraction unfished as years are removed. This result is expected because the fraction of older fish in the \gls{s-wcgbt} increased substantially in recent years, and sequentially peeling off individual years of \gls{s-wcgbt} age data leads to increasing estimates of natural mortality and unfished recruitment. Additionally, as years are pulled away the estimate of the size of the 2016 year class decreases towards average and the sizes of year classes since 2016 increase towards average. This is also expected as information about those recent year classes is removed.
 
-Estimated \gls{ssb} from the base model was comapred with previous assessments. For assessments prior to 2009 (2000, 2003, 2005, 2009), \gls{ssb} was compared with spawning output, and \gls{ssb} for models thereafter (2011, 2015, 2019) [@fig-ssb-historical].The current update follows a similar trend to prvious assessments over the model period, and estimated \gls{ssb} falls within the mid-range of previous assessments.
-
+Also, estimated relative spawning output from the base model was compared with previous assessments [@fig-ssb-historical]. The current assessment follows a similar trend to previous assessments over the overlapping years, and estimated spawning output falls within the mid-range of previous assessments.
 
 ### Likelihood Profiles and key parameters
 
-Likelihood profiles were conducted for unfished virgin recruitment (*R0*), steepness (*h*) and sex-specific natural mortality (*M*) values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. 
+Likelihood profiles were conducted for unfished virgin recruitment ($R_0$), steepness ($h$) and sex-specific natural mortality ($M$) values simultaneously. These likelihood profiles were conducted by fixing the parameter at specific values and removing the prior on the parameter being profiled. Without the original prior distribution the MLE estimates from the base case will likely be different than the MLE in the likelihood profile, but this displays what information the data have. 
 
-For profiles of natural mortality, the negative log-likelihood was minimized at a value of `r male_m_min` for males, and a value of `r female_m_min` for females. Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_MF, @fig-like_profile_MM). For steepness, the negative log-likelihood was minimized at a steepness of `r steep_min`, however the 95% confidence interval extends over the entire range of possible steepness values. Profiles for steepness are illustrated in (@fig-like_profile_Steepness). Natural mortality for both sexes increased as R0 was fixed at increasingly large values, as did \gls{ssb} in the final year. For R0, the negative log-liklihood was minimized at a value of `r sr_min`, which supports the base model estimates of R0 at `r r0_bm`.Profiles for R0 are illustrated in @fig-like_profile_Rzero.
+For profiles of natural mortality, the negative log-likelihood was minimized at a value of `r male_m_min` for males, and a value of `r female_m_min` for females. Profiles for natural mortality for each sex are illustrated in (@fig-like_profile_MF, @fig-like_profile_MM). Profiles over female natural mortality indicate that the recruitment deviation prior and age data most strongly influence the estimate of natural mortality, with survey indices also being somewhat influential.Length data provides very little information. Profiles over male natural mortality behaved similarly. For steepness, the negative log-likelihood was minimized at a steepness of `r steep_min`, however the 95% confidence interval extends over the entire range of possible steepness values. Profiles for steepness are illustrated in (@fig-like_profile_Steepness). For $R_0$, the negative log-liklihood was minimized at a value of `r sr_min`, which supports the base model estimates of $R_0$ at `r r0_bm`.Profiles for $R_0$ are illustrated in @fig-like_profile_Rzero.
+

@@ -112,7 +112,6 @@ gemm |>
     ) |>
     dplyr::arrange(desc(dead_discard)) |>
     print(n = 10)
-# TODO: figure out how to split Limited Entry Trawl < 2011 into midwater
 
 # group by fleet
 gemm2 <- gemm |>

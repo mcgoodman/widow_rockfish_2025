@@ -1,0 +1,27 @@
+---
+title: "Supplemental Requests Tables"
+format: pdf
+editor: visual
+---
+
+# Supplemental Requests Tables
+
+This document is just for formatting tables for screenshotting and pasting into the Google Doc 
+
+## Table Example
+
+```{r, tbl-load}
+#| include: false
+source(here::here("R/table_sens.R"))
+selectivity_table <- read.csv(here::here("models/supplemental_requests/Request 4/table.csv"), check.names = FALSE)
+```
+
+```{r, tbl-selectivity, results = "asis"}
+#| warning: false
+#| echo: false
+#| eval: true
+#| tbl-cap: Table of likelihoods, key parameters, and quantities of interest for the models that explore alternative functional forms for selectivity of the WCGBT Survey.
+#| tbl-pos: H
+
+selectivity_table |> table_sens()
+```

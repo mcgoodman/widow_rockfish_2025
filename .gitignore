@@ -10,10 +10,15 @@
 *.lock
 *.html
 *.png
+*.tex
 
 # Whitelist PNG files written to figures directory
 !figures/**/*.png
 !report/**/*.png
+
+# exclude diagnostics but include .png results
+models/diagnostics/*
+!models/diagnostics/**/*.png
 
 # Directories
 data_provided/PacFIN/*
@@ -74,10 +79,28 @@ runnumber.ss
 *plots_StartTime*
 
 # Whitelist par file from best jitter
+models/jitters/
 !models/jitters/ss3.par_best.sso
-# skip some models that were dead ends
+# skip some models
+models/2019_no_Hnl_discards_all_HnL_selex_fixed
+models/2019_no_Hnl_discards_data_from_HnL
+models/2019_no_Hnl_discards_par
+models/2019_no_Hnl_discards
 models/supplemental_requests/mirror_fixed_gear_selex_midwater_fixed_at_MLE/
 models/supplemental_requests/mirror_fixed_gear_selex/
+models/supplemental_requests/simplify_*
+models/supplemental_requests/old_*
+models/supplemental_requests/*/tables/
+models/supplemental_requests/restructured_*
+models/supplemental_requests/WCGBTS_selex_*
+models/supplemental_requests/Fleet structure exploration/
+# TODO: remove this line when done with all models
+models/supplemental_requests/ 
+!models/supplemental_requests/1.01_add_discards_to_landings/
+!models/supplemental_requests/1.02_retune_lambda0.5_MI/ 
+!models/supplemental_requests/1.03_retune_lambda1_Francis/
+!models/supplemental_requests/1.04_add_fecundity/ 
+!models/supplemental_requests/1.05_refine_biasramp_and_tuning/
 
 # Intermediate rendering output from report
 report/*.html
@@ -99,3 +122,7 @@ report/10_appendix_files/*
 report/11_appendix_c_files/*
 report/12_appendix_d_files/*
 *.rmarkdown
+
+/supplemental_review_report/*.pdf
+/supplemental_review_report/*.upa
+/supplemental_review_report/*.upb

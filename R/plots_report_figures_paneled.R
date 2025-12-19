@@ -8,8 +8,12 @@ library("here")
 
 base_dat <- SS_readdat(here("models", "2025 base model", "2025Widow.dat"))
 base_ctl <- SS_readctl(here("models", "2025 base model", "2025Widow.ctl"), dat = here("models", "2025 base model", "2025Widow.dat"))
-base_par <- SS_output(here("models", "2025 base model"))
-
+base_par <- SS_output(
+  here("models", "2025 base model"), 
+  printstats = FALSE, 
+  verbose = FALSE,
+  SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
 source(here("R", "functions", "plot_selex.R"))
 
 plotdir <- here("figures", "2025 base model r4ss plots")
@@ -29,29 +33,45 @@ theme_set(
     )
 )
 
-ssb_hist <- read.csv(here("data_provided", "2019_assessment", "historical_SSB_estimates.csv"))
+# # IGT 2025-12-05: read.csv was leading to "invalid input found on input connection" error
+# # and readr::read_csv doesn't modify columns names automatically, so further changes were needed
+# ssb_hist <- read.csv(here("data_provided", "2019_assessment", "historical_SSB_estimates.csv"))
+#
+# ssb_hist <- ssb_hist |> 
+#   pivot_longer(-Year, names_to = "assessment", values_to = "SSB", names_prefix = "X") |> 
+#   mutate(assessment = as.integer(gsub(".assessment", "", assessment, fixed = TRUE)))
+
+ssb_hist <- readr::read_csv(here("data_provided", "2019_assessment", "historical_SSB_estimates.csv"))
+# divide the values in each assessment column by the first numeric (non-NA) value in that column
+# this gets the fraction of unfished ratio
+ssb_hist <- ssb_hist |>
+  mutate(across(-Year, ~ .x / first(na.omit(.x))))
 
 ssb_hist <- ssb_hist |> 
-  pivot_longer(-Year, names_to = "assessment", values_to = "SSB", names_prefix = "X") |> 
-  mutate(assessment = as.integer(gsub(".assessment", "", assessment, fixed = TRUE)))
+  pivot_longer(-Year, names_to = "assessment", values_to = "Bratio") |> 
+  mutate(assessment = as.integer(gsub(" assessment", "", assessment, fixed = TRUE)))
 
 ssb_2025 <- base_par$timeseries |> 
   select(Year = Yr, SSB = SpawnBio) |> 
+  mutate(Bratio = SSB / first(SSB)) |> 
   mutate(assessment = 2025) |> 
-  filter(Year <= 2024)
+  filter(Year <= 2024) |> 
+  select(-SSB)
 
 ssb_hist <- ssb_hist |> bind_rows(ssb_2025)
 
 ssb_hist$assessment <- factor(as.character(ssb_hist$assessment), levels = as.character(sort(unique(ssb_hist$assessment))))
 
 ssb_hist_plot <- ssb_hist |> 
-  ggplot(aes(Year, SSB, color = assessment)) + 
+  ggplot(aes(Year, Bratio, color = assessment)) + 
   geom_line(linewidth = 0.8) + 
+  geom_hline(yintercept = c(0.25, 0.4, 1.0), linetype = "dashed", color = "red") +
+  annotate("text", x = min(ssb_hist$Year) + 1, y = 0.4 + 0.03, , hjust = 0, label = "Management target") +
+  annotate("text", x = min(ssb_hist$Year) + 1, y = 0.25 + 0.03, hjust = 0, label = "Minimum stock size threshold") +
   scale_color_manual(values = r4ss::rich.colors.short(length(levels(ssb_hist$assessment)))) + 
-  scale_x_continuous(breaks = seq(1915, 2025, 10)) + 
-  scale_y_continuous(breaks = seq(1e+04, 11e+04, length.out = 5)) +
-  theme(panel.grid.major.y = element_line(color = "grey80", linetype = "dashed")) + 
-  ylab("Spawning Stock Biomass (mt)") +
+  scale_y_continuous(breaks = seq(0, 1.4, 0.2), limits = c(0, 1.45), expand = c(0, 0)) +
+  #theme(panel.grid.major.y = element_line(color = "grey80", linetype = "dashed")) + 
+  ylab("Fraction of unfished spawning output") +
   coord_cartesian(clip = "off")
 
 ggsave(
@@ -163,26 +183,26 @@ ggsave(here("figures", "2025 base model r4ss plots", "NatMort_priors.png"), heig
 
 # Discards ----------------------------------------------------------
 
-disc_p1 <- image_read(file.path(plotdir, "plots", "discard_fitBottomTrawl.png"))
-disc_p2 <- image_read(file.path(plotdir, "plots", "discard_fitMidwaterTrawl.png"))
+# disc_p1 <- image_read(file.path(plotdir, "plots", "discard_fitBottomTrawl.png"))
+# disc_p2 <- image_read(file.path(plotdir, "plots", "discard_fitMidwaterTrawl.png"))
 
-combined <- image_append(c(disc_p1, disc_p2), stack = TRUE)  # vertical stack
-image_write(combined, path = here("figures", "2025 base model r4ss plots", "pred-obs-discards.png"))
+# combined <- image_append(c(disc_p1, disc_p2), stack = TRUE)  # vertical stack
+# image_write(combined, path = here("figures", "2025 base model r4ss plots", "pred-obs-discards.png"))
 
 # Length / age freq Pearson residuals -------------------------------
 
 fleets <- base_dat$fleetnames
 
-flt1_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt1mkt2_page3.png"))
+flt1_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt1mkt0_page3.png"))
 flt1_l <- flt1_l |> image_annotate(paste(fleets[1], "lengths"), size = 72, location = "+200+80")
 
-flt1_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt1mkt2_page2.png"))
+flt1_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt1mkt0_page2.png"))
 flt1_a <- flt1_a |> image_annotate(paste(fleets[1], "ages"), size = 72, location = "+200+80")
 
-flt2_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt2mkt2_page2.png"))
+flt2_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt2mkt0_page2.png"))
 flt2_l <- flt2_l |> image_annotate(paste(fleets[2], "lengths"), size = 72, location = "+200+80")
 
-flt2_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt2mkt2_page2.png"))
+flt2_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt2mkt0_page2.png"))
 flt2_a <- flt2_a |> image_annotate(paste(fleets[2], "ages"), size = 72, location = "+200+80")
 
 flt3_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt3mkt0_page2.png"))
@@ -191,17 +211,17 @@ flt3_l <- flt3_l |> image_annotate(paste(fleets[3], "lengths"), size = 72, locat
 flt3_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt3mkt0_page2.png"))
 flt3_a <- flt3_a |> image_annotate(paste(fleets[3], "ages"), size = 72, location = "+200+80")
 
-flt4_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt4mkt0.png"))
-flt4_l <- flt4_l |> image_annotate(paste(fleets[4], "lengths"), size = 72, location = "+200+80")
+# flt4_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt4mkt0.png"))
+# flt4_l <- flt4_l |> image_annotate(paste(fleets[4], "lengths"), size = 72, location = "+200+80")
 
-flt4_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt4mkt0.png"))
-flt4_a <- flt4_a |> image_annotate(paste(fleets[4], "ages"), size = 72, location = "+200+80")
+# flt4_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt4mkt0.png"))
+# flt4_a <- flt4_a |> image_annotate(paste(fleets[4], "ages"), size = 72, location = "+200+80")
 
-flt5_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt5mkt0_page2.png"))
-flt5_l <- flt5_l |> image_annotate(paste(fleets[5], "lengths"), size = 72, location = "+200+80")
+# flt5_l <- image_read(file.path(plotdir, "plots", "comp_lenfit_residsflt5mkt0_page2.png"))
+# flt5_l <- flt5_l |> image_annotate(paste(fleets[5], "lengths"), size = 72, location = "+200+80")
 
-flt5_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt5mkt0.png"))
-flt5_a <- flt5_a |> image_annotate(paste(fleets[5], "ages"), size = 72, location = "+200+80")
+# flt5_a <- image_read(file.path(plotdir, "plots", "comp_agefit_residsflt5mkt0.png"))
+# flt5_a <- flt5_a |> image_annotate(paste(fleets[5], "ages"), size = 72, location = "+200+80")
 
 # First three fleets
 combined1 <- image_append(c(flt1_l, flt1_a))  # side-by-side
@@ -211,11 +231,11 @@ combined <- image_append(c(combined1, combined2, combined3), stack = TRUE) # ver
 
 image_write(combined, path = file.path(plotdir, "lenage-pears-res-trawl.png"))
 
-# Other two fleets
-combined1 <- image_append(c(flt4_l, flt4_a))  # side-by-side
-combined2 <- image_append(c(flt5_l, flt5_a))  # side-by-side
-combined <- image_append(c(combined1, combined2), stack = TRUE)  # vertical stack
-image_write(combined, path = file.path(plotdir, "lenage-pears-res-hklnet.png"))
+# # Other two fleets
+# combined1 <- image_append(c(flt4_l, flt4_a))  # side-by-side
+# combined2 <- image_append(c(flt5_l, flt5_a))  # side-by-side
+# combined <- image_append(c(combined1, combined2), stack = TRUE)  # vertical stack
+# image_write(combined, path = file.path(plotdir, "lenage-pears-res-hklnet.png"))
 
 # Survey length comp fits -------------------------------------------
 
@@ -260,20 +280,19 @@ combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
 image_write(combined, path = file.path(plotdir, "condAAL-resids.png"))
 
 # Retrospectives ----------------------------------------------------
-
-panel1 <- image_read(here("figures", "diagnostics", "Retros", "compare1_spawnbio.png"))
-panel2 <- image_read(here("figures", "diagnostics", "Retros", "compare9_recruits.png"))
+panel1 <- image_read(here("models", "diagnostics", "2025 base model_retro_10_yr_peel", "compare1_spawnbio.png"))
+panel2 <- image_read(here("models", "diagnostics", "2025 base model_retro_10_yr_peel", "compare9_recruits.png"))
 
 combined <- image_append(c(panel1, panel2), stack = TRUE)
 image_write(combined, path = here("figures", "diagnostics", "retros.png"))
 
 # Likelihood profiles -----------------------------------------------
 
-panel1 <- image_read(here("figures", "diagnostics", "Like_profile_Female_M.png"))
-panel2 <- image_read(here("figures", "diagnostics", "Like_profile_Male_M.png"))
+# panel1 <- image_read(here("figures", "diagnostics", "Like_profile_Female_M.png"))
+# panel2 <- image_read(here("figures", "diagnostics", "Like_profile_Male_M.png"))
 
-combined <- image_append(c(panel1, panel2), stack=TRUE)
-image_write(combined, path = here("figures", "diagnostics", "Nat_Mort.png"))
+# combined <- image_append(c(panel1, panel2), stack=TRUE)
+# image_write(combined, path = here("figures", "diagnostics", "Nat_Mort.png"))
 
 # Decision table plot -----------------------------------------------
 
@@ -294,9 +313,9 @@ image_write(combined, path = here("figures", "decision_table", "combined_ssb_wit
 
 # Appendix A: bottom trawl retained length comps --------------------
 
-panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt2_page1.png"))
-panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt2_page2.png"))
-panel3 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt2_page3.png"))
+panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt0_page2.png"))
+panel3 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt1mkt0_page3.png"))
 
 combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
 combined <- image_append(c(combined1, panel3), stack = TRUE)  # vertical stack
@@ -304,8 +323,8 @@ image_write(combined, path = file.path(plotdir, "App_A", "bottom_lenfit.png"))
 
 # Appendix A: midwater trawl retained length comps ------------------
 
-panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt2mkt2_page1.png"))
-panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt2mkt2_page2.png"))
+panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt2mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt2mkt0_page2.png"))
 
 combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
 image_write(combined1, path = file.path(plotdir, "App_A", "midwater_lenfit.png"))
@@ -320,24 +339,24 @@ image_write(combined1, path = file.path(plotdir, "App_A", "hake_lenfit.png"))
 
 # Appendix A: HnL retained length comps -----------------------------
 
-panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt5mkt0_page1.png"))
-panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt5mkt0_page2.png"))
+# panel1 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt5mkt0_page1.png"))
+# panel2 <- image_read(file.path(plotdir, "plots", "comp_lenfit_flt5mkt0_page2.png"))
 
 combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
 image_write(combined1, path = file.path(plotdir, "App_A", "hkl_lenfit.png"))
 
 # Appendix A: bottom trawl retained age comps -----------------------
 
-panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt1mkt2_page1.png"))
-panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt1mkt2_page2.png"))
+panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt1mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt1mkt0_page2.png"))
 
 combined1 <- image_append(c(panel1, panel2), stack = TRUE)
 image_write(combined1, path = file.path(plotdir, "App_A", "bottom_agefit.png"))
 
 # Appendix A: midwater trawl retained age comps -----------------
 
-panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt2mkt2_page1.png"))
-panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt2mkt2_page2.png"))
+panel1 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt2mkt0_page1.png"))
+panel2 <- image_read(file.path(plotdir, "plots", "comp_agefit_flt2mkt0_page2.png"))
 
 combined1 <- image_append(c(panel1, panel2), stack = TRUE)  # side-by-side
 image_write(combined1, path = file.path(plotdir, "App_A", "midwater_agefit.png"))

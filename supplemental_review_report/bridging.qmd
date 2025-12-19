@@ -1,0 +1,137 @@
+```{r}
+#| include: false
+
+# read ss_summary.sso files (much quicker than running SS_output())
+summary_Aug2025_base <- r4ss::SS_read_summary(here::here("models/Aug2025 base model/ss_summary.sso"))
+summary_1.04 <- r4ss::SS_read_summary(here::here("models/supplemental_requests/1.04_add_fecundity/ss_summary.sso"))
+
+get_min_bratio <- function(ss_summary) {
+  bratiovals <- ss_summary$derived_quants |>
+    dplyr::filter(grepl("Bratio_", rownames(ss_summary$derived_quants)))
+  bratio_min <- bratiovals$Value |> 
+    min()
+  bratio_min_yr <- bratiovals |>
+    dplyr::filter(Value == bratio_min) |>
+    rownames() |>
+    substring(8) |>
+    as.numeric()
+  glue::glue("{round(bratio_min, 3)} in {bratio_min_yr}")
+}
+```
+
+For illustration of the bridging analysis, the changes to the August 2025 base model are grouped into the following steps:
+
+1. Adopt the new Washington historical catch reconstruction
+1. Simplify fleets and include discards with landings, refine selectivity block
+1. Update the status-quo data weighting (McAllister-Ianelli, lambda = 0.5)
+1. Change data weighting methods (Francis, lambda = 1)
+1. Add the fecundity relationship
+1. Refine the recruitment bias adjustment and re-tune the weighting
+
+None of the updates resulted in large changes in estimated population trajectories and model outputs, but several important quantities were sensitive to a few of the changes (@tbl-bridge2, Figures -@fig-bridge2_bratio and -@fig-bridge2_recruits).
+
+Adding the Washington historical catch reconstruction had a relatively small impact, as was already demonstrated through a sensitivity analysis in the August 2025 assessment report. 
+
+Simplifying the fleet structure and combining discards with landings did not bring about large changes in model results either, but interacted with the Francis weighting approach applied later. Extending the block on midwater trawl selectivity did not cause any noticeable change.
+
+The use of the Francis weighting approach (instead of McAllister-Ianelli) and using lambda = 1 (and not further down-weighting fishery composition data) resulted in the biggest change from the August 2025 base model, causing the estimates of natural mortality to go up, which translated into increases in the estimated productivity of the stock, including equilibrium catch and estimated OFLs. Relative to the August 2025 model, the updated data weighting method upweighted length data from the bottom trawl fleet and age data from all three commercial fleets (bottom trawl, midwater trawl, hake); all other composition data sources were downweighted (@tbl-compweight-comparison). For bottom trawl, in particular, this upweighting is likely in part due to the removal of discard composition data, as Stock Synthesis does not apply separate data weights to discarded and retained composition data from the same fleet. The discard compositions are very noisy and difficult to fit, so their removal allowed for upweighting of the remaining data. The decrease in the weight of West Coast Groundfish Bottom Trawl Survey (WCGBTS) conditional age-at-length data by approximately one-third, paired with upweighting of other data, is likely the major driver of the increased estimate of natural mortality, given explorations in GFSC request 6. 
+
+With the change in fecundity relationship, spawning output is now expressed in billions of eggs and no longer directly comparable with spawning biomass expressed in metric tons in previous models. This change did not have much impact on age 4+ biomass, but the spawning output time series was impacted by the changes in relative contributions of older fish. In particular, the stock status (fraction of unfished spawning output) reached a low point of `r get_min_bratio(summary_1.04)` (below the 0.25 overfished threshold) as compared to a minimum of `r get_min_bratio(summary_Aug2025_base)` in the August 2025 base model. The addition of the fecundity relationship also resulted in slightly lower estimates of OFLs and fraction unfished at the end of the time series compared to the previous step in this bridging, though still higher than the August 2025 estimates.
+
+Finally, refining the recruitment bias adjustment and re-tuning the model (again with the Francis method) have only a small impact on the model results.
+
+```{r}
+#| echo: false
+eval_tables <- TRUE # not sure why this is needed, but helps with something about how tables are added below
+source(here::here("R", "table_sens.r"))
+```
+
+```{r}
+#| label: tbl-bridge2
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Estimates of key parameters and derived quantities showing the bridging between the August base model and the proposed new base model. The units for B0 and B2025 are 1000s of tons for the first five models and billions of eggs for the last two."
+table_sens(here::here("report", "tables", "bridging2_table.csv"), switch1 = 1, switch2 = 4)
+```
+
+  {{< pagebreak >}}
+::: {.landscape}
+
+
+```{r}
+#| label: tbl-compweight-comparison
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Comparison of key data weighting quantities from the August 2025 (Aug.) and new proposed base model (New). 'Lambda' is the likelihood multiplier applied in the August 2025 model (Lambda = 1 for all fleets in the new proposed base model). 'Weight x lambda' is the product of the estimated data weighting and the lambda. 'Sum N input' is the sum of the input sample sizes across all observations (which differs for BottomTrawl because discard data has been removed). 'Sum N adj.' is that sum after adjustment by the data weighting and lambda. 'CAAL' is conditional age-at-length data. Entries with --- indicate that fleet does not exist in the new proposed base model, and the composition data has been removed. "
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight_aug <- read.csv(here::here("report", "tables", "compweight_Aug2025_base.csv"), check.names = FALSE)
+# add sum of input N
+compweight_aug <- compweight_aug |> dplyr::mutate(`Sum N input` = `Mean N input` * `Obs.`)
+
+# Read the table created in R/plots_bridging_supplemental.R
+compweight_oct <- read.csv(here::here("report", "tables", "compweight_new_base.csv"), check.names = FALSE)
+# add sum of input N
+compweight_oct <- compweight_oct |> dplyr::mutate(`Sum N input` = `Mean N input` * `Obs.`)
+
+
+
+# Join the two data weight tables for comparison
+left_join(
+  # only take a subset of the columns
+  compweight_aug |>
+    select(-Weight, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Lambda (Aug.)` = Lambda),
+  
+  compweight_oct |>
+    select(-Lambda, -`Weight x lambda`, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+    rename(`Weight x lambda` = Weight),
+  # other arguments to join 
+  suffix = c(' (Aug.)', ' (New)'), 
+  by = c('Type', 'Fleet')) |>
+  # rearrange columns for easier comparison
+  #select(1, 2, 3, 4, 6, 5, 7) |>
+  select(1, 2, 3, 4, 7, 6, 9, 5, 8) |>
+  # format table using gt
+  gt::gt() |>
+  gt::sub_missing() |>
+  gt::tab_options(table.font.size = "10pt") |> 
+  gt::cols_width(
+    Fleet ~ px(110),
+    `Lambda (Aug.)` ~ px(60),
+    everything() ~ px(70)
+  )
+```
+
+:::
+
+
+  {{< pagebreak >}}
+
+```{r}
+#| label: fig-bridge2_bratio
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of age 4+ biomass (top) and fraction of unfished spawning biomass (bottom) estimated in the bridging steps from the August 2025 base model to the current base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "compare_18_and_3.png")
+)
+```
+
+```{r}
+#| label: fig-bridge2_recruits
+#| echo: false
+#| warning: false
+#| fig-cap: "Time series of recruitment (top) and recruitment deviations (bottom) estimated in the bridging steps from the August 2025 base model to the current base models."
+#| out.width: "90%"
+#| fig-align: "center"
+
+knitr::include_graphics(
+    here::here("figures", "bridging", "compare_9_and_11.png")
+)
+```

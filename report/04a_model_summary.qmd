@@ -122,8 +122,8 @@ The assessment uses a single-area model, consistent with the previous benchmark 
 The following fishery-independent surveys are also included in the model: 
 
 1. Alaska Fisheries Science Center/Northwest Fisheries Science Center West Coast Triennial Shelf Survey (Triennial Survey). 
-2. Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (WCGBTS) (2003-2024).
-3. recruitment index from the National Marine Fisheries Service (NMFS) SWFSC and NWFSC/PWCC Midwater Trawl Survey (Juvenile Survey) (2004-2024).
+2. Northwest Fisheries Science Center West Coast Groundfish Bottom Trawl Survey (WCGBTS) (2003--2024).
+3. recruitment index from the National Marine Fisheries Service (NMFS) SWFSC and NWFSC/PWCC Midwater Trawl Survey (Juvenile Survey) (2004--2024).
 
 ### Model Parameters 
 

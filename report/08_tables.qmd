@@ -442,7 +442,7 @@ flextable(table27) %>%
 #| label: tbl-quant-sens-int
 #| echo: false
 #| warning: false
-#| tbl-cap: "Sensitivity analysis results: differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model."
+#| tbl-cap: "Sensitivity analysis results: differences in negative log-likelihood, estimates of key parameters, and estimates of derived quantities between the base model and several alternative models (columns). See main text for details on each sensitivity analysis. Red values indicate negative log-likelihoods that were lower (fit better to that component) than the base model. Note that the 'Parm priors' and 'Total' likelihoods are not comparable for the two 'M prior...' sensitivities due to both the prior differing from the base model."
 
 source(here::here("R", "table_sens.R"))
 table_sens(

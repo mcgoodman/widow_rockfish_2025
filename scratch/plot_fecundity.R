@@ -3,12 +3,12 @@
 
 if (!exists("model") | !exists("model2")) {
     model <- r4ss::SS_output(
-        "models/widow_2025_update/widow_base2025_update",
+        "models/supplemental_requests/1.05_refine_biasramp_and_tuning",
         verbose = FALSE,
         printstats = FALSE
     )
     model2 <- r4ss::SS_output(
-        "models/supplemental_requests/SSC January 2026 review/Request_1/widow_new_base_model_with_plots_2025-09-30_Widow_fecundity",
+        "models/2025 base model",
         verbose = FALSE,
         printstats = FALSE
     )
@@ -34,25 +34,27 @@ plot(
     ylab = "Weight (kg) or numbers (millions)"
 )
 lines(
-    model$biology$Len_mean,
+    model$biology$Len_lo,
     model$biology$Wt_F,
     col = 2,
     lwd = 3,
 )
-# weight in the 50cm bin
+wt_ref <- model$biology$Wt_F[which(model$biology$Len_lo == 40)]
+
+# weight in the 40cm bin
 lines(
-    model$biology$Len_mean,
+    model$biology$Len_lo,
     model$biology$Fec *
         wt_ref /
-        model$biology$Fec[which(model$biology$Len_mean == 45.5)],
+        model$biology$Fec[which(model$biology$Len_lo == 40)],
     col = 4,
     lwd = 3
 )
 lines(
-    model2$biology$Len_mean,
+    model2$biology$Len_lo,
     model2$biology$Fec *
         wt_ref /
-        model2$biology$Fec[which(model2$biology$Len_mean == 45.5)],
+        model2$biology$Fec[which(model2$biology$Len_lo == 40)],
     col = 4,
     lwd = 3,
     lty = 2
@@ -102,13 +104,13 @@ mature_at_len_end <- len_at_age %*%
 
 # add lines
 lines(
-    model$biology$Len_mean,
+    model$biology$Len_lo,
     0.001 * mature_at_len_init,
     col = 3,
     lwd = 3
 )
 lines(
-    model$biology$Len_mean,
+    model$biology$Len_lo,
     0.001 * mature_at_len_end,
     col = 3,
     lwd = 3,
@@ -121,8 +123,8 @@ legend(
     col = c(2, 4, 4),
     legend = c(
         "Weight (kg)",
-        "Fecundity for unobserved rockfish (scaled to match weight at 45 cm)",
-        "Fecundity for widow rockfish (scaled to match weight at 45 cm)"
+        "Fecundity for unobserved rockfish (scaled to match weight at 40 cm)",
+        "Fecundity for widow rockfish (scaled to match weight at 40 cm)"
     ),
     lwd = 3,
     lty = c(1, 1, 2),
@@ -164,9 +166,9 @@ model$derived_quants["SSB_1916", "Value"]
 # [1] 20220.4
 
 # calculate mean length weighting by mature numbers at length
-mean_length_mature_init <- sum(model$biology$Len_mean * mature_at_len_init) /
+mean_length_mature_init <- sum(model$biology$Len_lo * mature_at_len_init) /
     sum(mature_at_len_init)
-mean_length_mature_end <- sum(model$biology$Len_mean * mature_at_len_end) /
+mean_length_mature_end <- sum(model$biology$Len_lo * mature_at_len_end) /
     sum(mature_at_len_end)
 print(glue::glue(
     "Mean length of mature females at start: {round(mean_length_mature_init, 2)} cm"

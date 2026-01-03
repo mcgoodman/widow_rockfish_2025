@@ -415,7 +415,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Two fecundity-at-length relationships (blue) are contrasted with weight-at-length for females (red), along with the mature numbers at length at the start and end of the base model (green). The exponent of the weight-at-length curve is 2.987 compared to 4.043 for the unobserved rockfish fecundity (used in the October 2025 model) and 4.545 for the Widow rockfish-specific fecundity (used in the January 2026 base model). Comparing these relationships to the number of mature fish in each length bin in 1916 and 2025 shows that when the fecundity relationships are used, the spawning output is more dependent on the larger fish (over 45 cm) which are disproportionately removed from the population due to selective fishing on larger sizes. This combination of factors leads to lower estimates of fraction of unfished when one of the fecundity relationships is used."
+#| fig-cap: "Two fecundity-at-length relationships (blue) are contrasted with weight-at-length for females (red), along with the mature numbers at length at the start and end of the base model (green). The exponent of the weight-at-length curve is 2.987 compared to 4.043 for the unobserved rockfish fecundity (used in the October 2025 model) and 4.545 for the Widow rockfish-specific fecundity (used in the January 2026 base model). Comparing these relationships to the number of mature fish in each length bin in 1916 and 2025 shows that when the fecundity relationships are used, the spawning output is more dependent on the larger fish (over 40 cm) which are disproportionately removed from the population due to selective fishing on larger sizes. This combination of factors leads to lower estimates of fraction of unfished when one of the fecundity relationships is used."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -988,7 +988,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of recruitment deviations for models with different fixed values of natural mortality ($M$)"
+#| fig-cap: "Time series of recruitment deviations for models with different fixed values of natural mortality ($M$). The base model has $M$ = 0.135."
 #| out.width: "90%"
 #| fig-align: "center"
 

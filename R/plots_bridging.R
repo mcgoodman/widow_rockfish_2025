@@ -46,6 +46,14 @@ png(
 SSplotBiology(replist = base_rep, subplots = 2)
 dev.off()
 
+# remove "ignored" fleets from legend in selectivity plot
+SSplotSelex(
+  base_rep, subplots = 1, fleets = c(1:3, 7:8), pheight = 4, 
+  print = TRUE, plot = FALSE, plotdir = file.path(base_plotdir, "plots"),
+  mainTitle = FALSE,
+  legendloc = "topleft"
+)
+
 # Base models, 2019 & 2025 --------------------------------
 
 dir.create(base_compare_dir <- file.path(plotdir, "base_19_25_comparison"))

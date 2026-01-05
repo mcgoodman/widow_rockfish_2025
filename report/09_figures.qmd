@@ -484,7 +484,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the base model. Prior 95% quantiles are based on the assumed lognormal distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
+#| fig-cap: "The prior for natural mortality (grey) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the base model. Prior 95% quantiles are based on the assumed lognormal distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
 #| out.width: "90%"
 #| fig-align: "center"
 

@@ -83,7 +83,7 @@ models <- c(
   "update discard composition" = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
   "update age / length composition" = here(databridge_dir, "data_bridged_model_weighted"), 
-  "update M, L/W, bias ramp, blocks (Aug2025 base)" = base_Aug2025
+  "update M, L/W, bias ramp, blocks (Aug 2025 base)" = base_Aug2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -147,7 +147,10 @@ models <- c(
   "update length composition" = here(databridge_dir, "add_lcomps"),
   "update age composition" = here(databridge_dir, "data_bridged_model_weighted"), 
   "update M prior" = here("models", "model_bridging", "mortality"), 
-  "update L/W, bias ramp, blocks (2025 base)" = base_2025
+  "update L/W, bias ramp, blocks (August 2025 base)" = base_Aug2025,
+  "Fleet structure streamlined, discards added to landings" = here("models/supplemental_requests/1.01_add_discards_to_landings"),
+  "Update Francis weighting, 50% reduction on weights removed" = here("models/supplemental_requests/1.03_retune_lambda1_Francis"),
+  "Fecundity relationship added, small refinements (base model)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)
@@ -203,7 +206,7 @@ M_plot <- M_bridge |>
     axis.title.y = element_blank()
   )
 
-ggsave(here(plotdir, "NatM_bridging.png"), M_plot, height = 5, width = 9, units = "in", dpi = 300)
+ggsave(here(plotdir, "NatM_bridging.png"), M_plot, height = 7, width = 9, units = "in", dpi = 300)
 
 write.csv(M_bridge, here(plotdir, "NatM_bridging.csv"), row.names = FALSE)
 
@@ -219,7 +222,7 @@ models <- c(
   "drop HnL disc. amnt." = here(databridge_dir, "add_discard_amounts_bt_mwt_combine_hnl_drop_hnl_lc"),
   "drop HnL disc. comp." = here(databridge_dir, "add_discard_comps_bt_mwt_2023_hnl_removed"),
   "update indices" = here(databridge_dir, "add_indices"),
-  "update M, L/W, bias ramp, blocks (2025 base)" = base_2025
+  "update M, L/W, bias ramp, blocks (Aug 2025 base)" = base_2025
 )
 
 combined_models_list <- SSgetoutput(dirvec = models)

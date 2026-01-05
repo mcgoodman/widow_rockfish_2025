@@ -39,22 +39,6 @@ knitr::include_graphics(
 ### Indices
 
 ```{r}
-#| label: fig-ts-indabund
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-align: "center"
-#| out.width: "90%"
-#| fig-cap: "Fishery-dependent indices of abundance from the 2011 assessment scaled to the mean of their own series."
-
-knitr::include_graphics(
-    here::here("figures", "2015_assessment", "figure_05.png")
-)
-```
-
-{{< pagebreak >}}
-
-```{r}
 #| label: fig-qq-sdmtmb
 #| echo: false
 #| warning: false
@@ -500,7 +484,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the August 2025 base model. Prior 95% quantiles are based on the assumed lognormal distribution. Confidence intervals for estimated male and female M are shown only for the 2015, 2019, and 2025 base models and are based on a normal asymptotic approximation to the sampling distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
+#| fig-cap: "The prior for natural mortality (grey, M, yr-1 ) and the estimated M for females (red) and males (blue) from the 2015 base model, 2019 base model, and selected intermediate models bridging to the base model. Prior 95% quantiles are based on the assumed lognormal distribution. Depicted bridging models are selected to highlight changes with a notable impact on M."
 #| out.width: "90%"
 #| fig-align: "center"
 

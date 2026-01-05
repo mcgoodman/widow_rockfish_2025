@@ -1,3 +1,3 @@
 Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
-Warning 1 : Reminder: Number of lambdas !=0.0 and !=1.0:  6
- 1 warning  and 1 note 
+Warning 1 Adjustment: basis for HCR anchor was not set; setting to 2 to match default before 3.30.24
+Warning 2 : depletion_basis is using virgin but HCR anchor is using SSB_unf from benchmark. Are you sure?

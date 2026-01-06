@@ -340,6 +340,7 @@ b40_model <- SS_output(
 # move targets
 b40_model$btarg = 1.0
 b40_model$minbthresh = 0.25 / 0.40
+
 #par(mar = c(2, 2, 1, 1))
 png(
     filename = "figures/supplemental_requests/Council_Request_3_B40_probability.png",
@@ -370,6 +371,88 @@ info <- b40_model$derived_quants["Bratio_2029", c("Value", "StdDev")]
 ) |>
     round(3))
 
+# second round with request 3 using constant catch model:
+dir_old <- here::here("models/supplemental_requests/SSC January 2026 review/Council_Request_2",
+    "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_ramp_Owen_constant_buffer"
+    )
+dir_new <- here::here("models/supplemental_requests/SSC January 2026 review/Council_Request_3/Bratio_40_constant_catch")
+
+r4ss::copy_SS_inputs(
+    dir_old,
+    dir_new,
+    copy_par = TRUE,
+    copy_exe = TRUE,
+    overwrite = TRUE
+)
+inputs <- r4ss::SS_read(
+    dir_new,
+      ss_new = FALSE
+)
+
+# change depletion basis to 40%
+inputs$start$depl_denom_frac <- 0.4
+inputs$start$init_values_src <- 1 # read in from .par file
+inputs$start$run_display_detail <- 0 # less info in console
+
+r4ss::SS_write(
+    inputs,
+    dir = dir_new,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+r4ss::run(
+  dir_new,
+  skipfinished = FALSE,
+  show_in_console = TRUE,
+  extras = "-phase 10" # start in final phase
+)
+
+# read output
+b40_model_v2 <- r4ss::SS_output(
+    dir_new,
+    printstats = FALSE,
+    verbose = FALSE
+)
+# move targets to change lines on plot
+b40_model_v2$btarg = 1.0
+b40_model_v2$minbthresh = 0.25 / 0.40
+
+info <- b40_model_v2$derived_quants["Bratio_2029", c("Value", "StdDev")]
+(prob <- pnorm(
+    q = 1.0,
+    mean = info$Value,
+    sd = info$StdDev,
+    lower.tail = FALSE
+) |>
+    round(3))
+
+png(
+    filename = "figures/supplemental_requests/Council_Request_3_B40_probability_v2.png",
+    width = 7,
+    height = 5,
+    units = "in",
+    res = 300
+)
+SSplotComparisons(
+    SSsummarize(list(b40_model, b40_model_v2)),
+    densitynames = c("Bratio_2029"),
+    subplots = 16,
+    #legend = FALSE,
+    #add = TRUE,
+    legendlabels = c(
+        "default forecast",
+        "constant catch at\nSPR target equilibrium"
+    ),
+    legendloc = "topleft",
+    new = FALSE,
+    par = list(mar = c(3.1, 3.1, 1, 1))
+)
+mtext(side = 1, line = 2, "Spawning output in 2029 relative to B40%")
+mtext(side = 2, line = 1, "Density")
+dev.off()
+
+
+#####################################################################
 # sensitivity table
 dir_sens <- "models/supplemental_requests/SSC January 2026 review/Sensitivity runs"
 dir_mods <- dir(dir_sens) |> grep(pattern = "widow", value = TRUE)

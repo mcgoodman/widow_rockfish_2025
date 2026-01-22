@@ -206,7 +206,7 @@ pars_table <- rep$parameters |> # make sure to ppull from report, not input file
   filter(Label %in% son_pars) |> # natM Female, natM male, steepness
   select(value, sd) |>
   mutate(
-    q140 = qnorm(0.140, mean = value, sd = sd), # apply the quantiles
+    q125 = qnorm(0.125, mean = value, sd = sd), # apply the quantiles
     q875 = qnorm(0.875, mean = value, sd = sd),
     phase = -1,
     name = c(
@@ -253,7 +253,7 @@ for (i in seq_along(dirs)) {
 
   # Condtitionally choose quantile, depending on SON
   new_vals <- if (grepl("low", basename(temp_dir))) {
-    pars_table$q140
+    pars_table$q125
   } else {
     pars_table$q875
   }

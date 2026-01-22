@@ -372,10 +372,13 @@ info <- b40_model$derived_quants["Bratio_2029", c("Value", "StdDev")]
     round(3))
 
 # second round with request 3 using constant catch model:
-dir_old <- here::here("models/supplemental_requests/SSC January 2026 review/Council_Request_2",
+dir_old <- here::here(
+    "models/supplemental_requests/SSC January 2026 review/Council_Request_2",
     "widow_new_base_model_with_plots_2025-09-30_widow_fecundity_ramp_Owen_constant_buffer"
-    )
-dir_new <- here::here("models/supplemental_requests/SSC January 2026 review/Council_Request_3/Bratio_40_constant_catch")
+)
+dir_new <- here::here(
+    "models/supplemental_requests/SSC January 2026 review/Council_Request_3/Bratio_40_constant_catch"
+)
 
 r4ss::copy_SS_inputs(
     dir_old,
@@ -386,7 +389,7 @@ r4ss::copy_SS_inputs(
 )
 inputs <- r4ss::SS_read(
     dir_new,
-      ss_new = FALSE
+    ss_new = FALSE
 )
 
 # change depletion basis to 40%
@@ -401,10 +404,10 @@ r4ss::SS_write(
     verbose = FALSE
 )
 r4ss::run(
-  dir_new,
-  skipfinished = FALSE,
-  show_in_console = TRUE,
-  extras = "-phase 10" # start in final phase
+    dir_new,
+    skipfinished = FALSE,
+    show_in_console = TRUE,
+    extras = "-phase 10" # start in final phase
 )
 
 # read output
@@ -532,9 +535,179 @@ write.csv(
     row.names = FALSE
 )
 
+## SSC Request 6
+# Request 6: Calculate the expected age/size structure on which the 2027 OFL (i.e. as seen by the fishery) would be based, as well as under the assumption of an equilibrium situation (i.e. with recruitment off of the S-R curve) at the MSY-proxy SPR rate (e.g. by projecting the model forward at the SPR target harvest rate until it reaches equilibrium) and compare with the estimates of age/size structure at the start of 2027, with the aim of understanding why the 2027 OFL is substantially lower than would be expected for a population in equilibriumation.
+# Rationale: The 2027 OFL is 1,000t less than the equilibrium catch corresponding to the MSY proxy SPR. This may be related to lower than expected recent recruitments but that cannot be confirmed from the information provided.
 
+dir6 <- here::here(
+    "models",
+    "supplemental_requests",
+    "SSC January 2026 review",
+    "meeting_request_6_equilibrium_projection"
+)
+# copy base model to new directory
+r4ss::copy_SS_inputs(
+    dir.old = "models/2025 base model",
+    dir.new = dir6,
+    copy_par = TRUE,
+    overwrite = TRUE
+)
+# change starter to use .par file (triggers read of .par in current version of SS_read used below)
+start <- r4ss::SS_readstarter(file.path(dir6, "starter.ss"))
+start$init_values_src <- 1 # read in from .par file
+start$run_display_detail <- 0 # less info in console
+r4ss::SS_writestarter(
+    start,
+    dir = dir6,
+    overwrite = TRUE,
+    verbose = FALSE
+)
 
- mod_list |>
-    table_convert_vals() |>
-    table_clean_labels() |>
-    gt::gt())
+# read base model input files
+inputs <- r4ss::SS_read(dir6)
+inputs$fore$Flimitfraction <- 1 # turn off year-specific buffers
+inputs$fore$Nforecastyrs <- 100 # extend forecast period to reach equilibrium
+inputs$par$recdev_forecast <- rbind(
+    inputs$par$recdev_forecast,
+    data.frame(year = 2037:2124, recdev = 0)
+)
+
+r4ss::SS_write(
+    inputs,
+    dir = inputs$dir,
+    overwrite = TRUE,
+    verbose = FALSE
+)
+r4ss::run(
+    dir = dir6,
+    skipfinished = FALSE,
+    show_in_console = TRUE,
+    extras = "-phase 10 -nohess" # start in final phase
+)
+output6 <- r4ss::SS_output(
+    dir6,
+    printstats = FALSE,
+    verbose = FALSE
+)
+# confirm that the SSB has stabilized
+output6$timeseries |> filter(Yr > 2050) |> pull(SpawnBio) |> range()
+# [1] 9400.12 9418.69
+
+output6$timeseries |> filter(Yr > 2120) |> pull(SpawnBio) |> range()
+# [1] 9418.69 9418.69
+
+# get selectivity at age
+sel_f <- output6$ageselex |>
+    filter(Factor == "Asel2", Fleet == 2 & Yr == 2024 & Sex == 1) |>
+    select(-(1:7)) |>
+    as.numeric() # convert to vector
+sel_m <- output6$ageselex |>
+    filter(Factor == "Asel2", Fleet == 2 & Yr == 2024 & Sex == 2) |>
+    select(-(1:7)) |>
+    as.numeric() # convert to vector
+
+# numbers at age in 2124
+natage_2124_f <- output6$natage |>
+    filter(Time == 2124.5 & Sex == 1) |> # middle of final year
+    select(-(1:12)) |>
+    as.numeric()
+natage_2124_m <- output6$natage |>
+    filter(Time == 2124.5 & Sex == 2) |> # middle of final year
+    select(-(1:12)) |>
+    as.numeric()
+
+natage_2027_f <- output6$natage |>
+    filter(Time == 2027.5 & Sex == 1) |> # middle of final year
+    select(-(1:12)) |>
+    as.numeric()
+natage_2027_m <- output6$natage |>
+    filter(Time == 2027.5 & Sex == 2) |> # middle of final year
+    select(-(1:12)) |>
+    as.numeric()
+
+natage_2027 <- natage_2027_f + natage_2027_m
+sel_natage_2027 <- sel_f * natage_2027_f + sel_m * natage_2027_m
+natage_equil <- natage_2124_f + natage_2124_m
+sel_natage_equil <- sel_f * natage_2124_f + sel_m * natage_2124_m
+
+info6 <- rbind(
+    tibble(
+        age = 0:output6$accuage,
+        value = natage_2027,
+        type = "numbers",
+        year = 2027
+    ),
+    tibble(
+        age = 0:output6$accuage,
+        value = natage_equil,
+        type = "numbers",
+        year = "equilibrium at SPR target"
+    ),
+    tibble(
+        age = 0:output6$accuage,
+        value = sel_natage_2027,
+        type = "selected numbers",
+        year = 2027
+    ),
+    tibble(
+        age = 0:output6$accuage,
+        value = sel_natage_equil,
+        type = "selected numbers",
+        year = "equilibrium at SPR target"
+    )
+)
+
+# convert from thousands (default SS3 output) to millions
+info6 <- info6 |>
+    mutate(value = value / 1e3)
+
+# make barplot showing values by age in 2027 vs equilibrium
+info6 |>
+    filter(type == "selected numbers") |>
+    ggplot(aes(x = age, y = value, fill = as.factor(year))) +
+    geom_bar(stat = "identity", position = "dodge") +
+    facet_wrap(~type, scales = "free_y") +
+    labs(
+        x = "Age",
+        y = "Numbers (millions)",
+        fill = "Year"
+    ) +
+    theme_minimal() +
+    theme(legend.position = "top")
+
+ggsave(
+    filename = "figures/supplemental_requests/SSC_Jan2026_Request6_age_structure_2027_vs_equilibrium.png",
+    width = 6,
+    height = 4.5,
+    units = "in",
+    dpi = 300
+)
+
+info6 |> dplyr::filter(age %in% 7:9 & type == "selected numbers")
+# # A tibble: 6 x 4
+#     age value type             year
+#   <int> <dbl> <chr>            <chr>
+# 1     7  5.00 selected numbers 2027
+# 2     8  2.82 selected numbers 2027
+# 3     9  2.16 selected numbers 2027
+# 4     7  8.63 selected numbers equilibrium at SPR target
+# 5     8  7.37 selected numbers equilibrium at SPR target
+# 6     9  5.62 selected numbers equilibrium at SPR target
+
+# fraction of selected numbers in 2027 relative to equilibrium at SPR target for ages 7 to 9
+v1 <- info6 |> dplyr::filter(age %in% 7:9 & type == "selected numbers" & year == 2027) |> pull(value)
+v2 <- info6 |> dplyr::filter(age %in% 7:9 & type == "selected numbers" & year != 2027) |> pull(value)
+sum(v1)/sum(v2)
+# [1] 0.461431
+
+# extra selectivity plot showing just midwater vs WCGBTS as a function of age
+r4ss::SSplotSelex(
+    output,
+    subplots = 2,
+    fleets = c(2, 8),
+    print = TRUE,
+    plotdir = "figures/supplemental_requests",
+    pheight = 4
+)
+
+## states of nature

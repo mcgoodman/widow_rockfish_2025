@@ -368,7 +368,7 @@ text(
     x = 0,
     y = 2.5,
     pos = 4,
-    "Estimated numbers (millions) of \nmature females by length bin in 2019 model:"
+    "Projected numbers (millions) of \nmature females by length bin in 2019 model:"
     #col = "orange3"
 )
 legend(

@@ -1,0 +1,33 @@
+Note 1 Information: Max data length bin: 56  < max pop len bins: 60; so will accumulate larger pop len bins
+Warning 1 : Input catches in 2027 can be overridden by caps or allocations
+Warning 2 : Input catches in 2027 can be overridden by caps or allocations
+Warning 3 : Input catches in 2027 can be overridden by caps or allocations
+Warning 4 : Input catches in 2028 can be overridden by caps or allocations
+Warning 5 : Input catches in 2028 can be overridden by caps or allocations
+Warning 6 : Input catches in 2028 can be overridden by caps or allocations
+Warning 7 : Input catches in 2029 can be overridden by caps or allocations
+Warning 8 : Input catches in 2029 can be overridden by caps or allocations
+Warning 9 : Input catches in 2029 can be overridden by caps or allocations
+Warning 10 : Input catches in 2030 can be overridden by caps or allocations
+Warning 11 : Input catches in 2030 can be overridden by caps or allocations
+Warning 12 : Input catches in 2030 can be overridden by caps or allocations
+Warning 13 : Input catches in 2031 can be overridden by caps or allocations
+Warning 14 : Input catches in 2031 can be overridden by caps or allocations
+Warning 15 : Input catches in 2031 can be overridden by caps or allocations
+Warning 16 : Input catches in 2032 can be overridden by caps or allocations
+Warning 17 : Input catches in 2032 can be overridden by caps or allocations
+Warning 18 : Input catches in 2032 can be overridden by caps or allocations
+Warning 19 : Input catches in 2033 can be overridden by caps or allocations
+Warning 20 : Input catches in 2033 can be overridden by caps or allocations
+Warning 21 : Input catches in 2033 can be overridden by caps or allocations
+Warning 22 : Input catches in 2034 can be overridden by caps or allocations
+Warning 23 : Input catches in 2034 can be overridden by caps or allocations
+Warning 24 : Input catches in 2034 can be overridden by caps or allocations
+Warning 25 : Input catches in 2035 can be overridden by caps or allocations
+Warning 26 : Input catches in 2035 can be overridden by caps or allocations
+Warning 27 : Input catches in 2035 can be overridden by caps or allocations
+Warning 28 : Input catches in 2036 can be overridden by caps or allocations
+Warning 29 : Input catches in 2036 can be overridden by caps or allocations
+Warning 30 : Input catches in 2036 can be overridden by caps or allocations
+Warning 31 : Fmsy/mey is >3x of Fspr are you sure?  check for convergence 
+ 31 warnings  and 1 note 

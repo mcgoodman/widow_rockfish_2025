@@ -224,13 +224,17 @@ library(ggplot2)
 #' @param maxyr Maximum year to show
 #' @param rescale Logical: plot relative to 1916 (excludes WCGBTS)
 #' @param dir Directory for output PNG (NULL to suppress saving)
+#' @param fleets Optional vector of fleet names to include (default all)
 #' @return A ggplot object
 plot_vb <- function(
     vb_data = vb,
     minyr = 1916,
     maxyr = 2036,
     rescale = FALSE,
-    dir = "figures/supplemental_requests"
+    dir = "figures/supplemental_requests",
+    fleets = NULL,
+    fleetnames = NULL,
+    legend.position = "top"
 ) {
     # rescale if requested
     if (rescale) {
@@ -282,6 +286,14 @@ plot_vb <- function(
     vb_data <- vb_data |>
         mutate(fleet = factor(fleet, levels = fleet_order))
 
+    if (!is.null(fleets)) {
+        vb_data <- vb_data |> filter(fleet %in% fleets)
+    }
+    if (!is.null(fleetnames)) {
+        vb_data <- vb_data |>
+            mutate(fleet = factor(fleet, levels = fleets, labels = fleetnames))
+    }
+
     # make plot
     p <- vb_data |>
         filter(year >= minyr & year <= maxyr) |> # filter out years before minyr
@@ -292,7 +304,7 @@ plot_vb <- function(
             xmax = maxyr + 0.5,
             ymin = -Inf,
             ymax = Inf,
-            fill = "gray",
+            fill = ifelse(maxyr > 2024, "gray", "white"),
             alpha = 0.3
         ) +
         geom_line(
@@ -301,6 +313,18 @@ plot_vb <- function(
             alpha = 0.7
         ) +
         geom_point(data = ~ . |> filter(type == "block"), size = 3) + # block midpoints
+        {
+            if (legend.position == "none") {
+                geom_text(
+                    data = ~ . |> filter(year == 2010 & type != "block"),
+                    aes(label = fleet),
+                    hjust = 0,
+                    nudge_x = 0.5,
+                    size = 3,
+                    show.legend = FALSE
+                )
+            }
+        } +
         labs(
             title = "Vulnerable biomass by fleet",
             subtitle = "(points indicate selectivity blocks for fishing fleets)",
@@ -331,7 +355,7 @@ plot_vb <- function(
             linewidth = 0.5
         ) +
         theme_minimal() +
-        theme(legend.position = "top")
+        theme(legend.position = legend.position)
 
     if (!is.null(dir)) {
         ggsave(
@@ -355,5 +379,32 @@ plot_vb <- function(
     return(p)
 }
 
-plot_vb(minyr = 1975)
-plot_vb(rescale = TRUE, minyr = 1975)
+# temporarily turning off oringinal plots while refining plot for NSAW
+if (FALSE) {
+    plot_vb(minyr = 1975)
+    plot_vb(rescale = TRUE, minyr = 1975)
+}
+
+z <- plot_vb(
+    minyr = 2002,
+    maxyr = 2024,
+    fleets = c("MidwaterTrawl", "WCGBTS", "Age 4+ biomass", "Spawning output"),
+    fleetnames = c(
+        "Midwater trawl",
+        "WCGBTS survey",
+        "Age 4+ biomass",
+        "Spawning output"
+    ),
+    legend.position = "none"
+)
+ggsave(
+    plot = z,
+    filename = file.path(
+        "figures/supplemental_requests",
+        "vulnerable_biomass_2002_2024_absolute.png"
+    ),
+    width = 5,
+    height = 5,
+    units = "in",
+    dpi = 300
+)

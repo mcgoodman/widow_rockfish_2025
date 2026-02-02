@@ -121,6 +121,8 @@ The last three runs (changing the selectivity pattern for \gls{s-wcgbt} and addi
 
 A 10-year retrospective analysis (@fig-retros) was conducted by running the model removing the most recent 1 to 10 years of data (i.e., "Data -1 Years" corresponds to data through 2023 instead of 2024). Population trends from all retrospective runs were very close, and no concerning patterns were observed in the retrospective analysis. There is a general trend of increasing scale and fraction unfished as years are removed. This result is expected because the fraction of older fish in the \gls{s-wcgbt} increased substantially in recent years, providing more information on overall and recent productivity, and sequentially peeling off individual years of \gls{s-wcgbt} age data leads to increasing estimates of natural mortality and unfished recruitment. Additionally, as years are pulled away the estimate of the size of the 2016 year class decreases towards average and the sizes of year classes since 2016 increase towards average. This is also expected as information about those recent year classes is removed.
 
+Retrospective analysis of recruitment deviations over the last 10 years is shown in @fig-retros-squid, illustrating which year classes had recruitment above or below average. 
+
 Estimated relative spawning output from the base model was also compared with previous assessments (@fig-ssb-historical). The current assessment follows a similar trend to previous assessments over the overlapping years, and estimated spawning output falls within the mid-range of previous assessments.
 
 ### Likelihood Profiles and key parameters {#sec-profiles}

@@ -1000,19 +1000,19 @@ knitr::include_graphics(
 
 ```
 
-<!-- ```{r}
+```{r}
 #| label: fig-dec-table-plot
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Base model, low state of nature, and high state of nature \\gls{ssb} trajectories under two catch scenarios: \\gls{acl} = p&#42;0.4, \\gls{acl} = p&#42;0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
+#| fig-cap: "Base model, low state of nature, and high state of nature \\gls{ssb} trajectories under the default catch scenarios: \\gls{acl} = p&#42;0.45 for 2027 to 2036. The shaded areas indicate the 12.5% and 87.5% lognormal quantiles of spawning biomass."
 #| out.width: "75%"
 #| fig-align: "center"
 
 knitr::include_graphics(
-    file.path(here::here(),"figures/decision_table/combined_ssb_with_interval.png")
+    file.path(here::here(),"figures/decision_table/45_plots/compare4_Bratio_uncertainty.png.png")
 )
 
-``` -->
+```
 
 \clearpage

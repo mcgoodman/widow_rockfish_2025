@@ -527,7 +527,7 @@ flextable(table_e) %>%
 #| label: tbl-proj-ofl
 #| echo: false
 #| warning: false
-#| tbl-cap: "Potential \\gls{ofl}, \\gls{abc}, \\gls{acl}, the buffer between the \\gls{ofl} and \\gls{abc}, estimated \\gls{ssb} (mt), and fraction of unfished \\gls{ssb} with adopted \\gls{ofl} and \\gls{abc} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%."
+#| tbl-cap: "Potential \\gls{ofl}, \\gls{abc}, \\gls{acl}, the buffer between the \\gls{ofl} and \\gls{abc}, estimated spawning output (mt), and fraction of unfished spawning output with adopted \\gls{ofl} and \\gls{abc} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%."
 
 model_path <- here::here("models","2025 base model")
 

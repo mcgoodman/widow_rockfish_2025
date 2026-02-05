@@ -63,7 +63,7 @@ steep_yspr50 <- round(steep_yspr50[round(steep_yspr50) > 0])
 
 ```
 
-Major sources of uncertainty include landings, discards, natural mortality, and recruitment, which are discussed below. 
+Major sources of uncertainty include landings, discards, natural mortality, and recruitment, which are discussed below. Also see the SSC statement associated with this widow stock assessment in the March 2026 PFMC briefing book for additional discussion of unresolved problems and major uncertainties.
 
 Because widow rockfish is a marketable species, historical discard rates were likely lower than less desirable or smaller species. This assessment assumed that discarding was nearly negligible before management restrictions began in 1982. Once trip limits were introduced, discarding tended to be an all or none event; rare, but large, discard events are unlikely to have been detected given low observer coverage. From 2002 onward, the \gls{wcgop} has provided data on discards from vessels that were randomly selected for observer coverage, thus some uncertainty is present in the total amount discarded. The implementation of trawl rationalization in 2011 resulted in almost 100% observer coverage for the trawl fleet and very little incentive to discard widow rockfish. Discard mortality is assumed to be 100%, which may overestimate actual mortality (Jarvis & Lowe, 2007).
 
@@ -160,7 +160,7 @@ Widow rockfish are managed on a coastwide basis and observed more often in the \
 
 ## Research and Data Needs
 
-There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish, including the following:
+There are many areas of research that could be improved to benefit the understanding and assessment of widow rockfish, including the following. Also see the SSC statement associated with this widow stock assessment in the March 2026 PFMC briefing book for additional discussion of research and data needs.
 
 - **Natural mortality:** Uncertainty in natural mortality translates into uncertain estimates of status and sustainable fishing levels for widow rockfish. The collection of additional age data, re-reading of older age samples, reading old age samples that are as of yet unread, and improved understanding of the life-history of widow rockfish may reduce that uncertainty. Investigating the ageing error and bias would help to understand the influences that the age data have on this assessment, particularly the influence of age data on natural mortality.
 

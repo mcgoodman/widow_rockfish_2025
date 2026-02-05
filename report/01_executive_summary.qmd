@@ -170,7 +170,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated relative spawning output (depletion) with asymptotic 95% confidence interval (dashed lines) for the base model."
+#| fig-cap: "Estimated fraction of unfished spawning output with asymptotic 95% confidence interval (dashed lines) for the base model."
 #| out.width: "90%"
 #| fig-align: "center"
 
@@ -477,8 +477,6 @@ table_g[is.na(table_g)] <- "-"
 #Replace OFL, bufferm ABC and ACL for 2025, 2026
 table_g[c(1,2), c("OFL (mt)", "Buffer", "ABC (mt)", "ACL (mt)")] <- "-"
 
-names(table_g)[names(table_g) == "Spawning Biomass (mt)"] <- "SB (mt)"
-
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
   exec_tab_style() %>% 
@@ -534,11 +532,7 @@ ctch_rng <- dec_table_res |>
 
 Uncertainty in both natural mortality (estimated for both sexes) and steepness (not estimated in the model) contributed greatly to uncertainty in the results. A combination of these two factors was used as the axis of uncertainty to define low and high states of nature. This differed from the 2019 assessment which included a third factor, 2013 recruitment strength. The 2013 year class is no longer a major source of uncertainty, and there is no recent similarly large estimate of recruitment. The 12.5% and 87.5% quantiles for female and male natural mortality (independently) were chosen as low and high values (`r dec_table_pars["NatM_uniform_Fem_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Fem_GP_1","q875"]` yr^-1^ for females; `r dec_table_pars["NatM_uniform_Mal_GP_1","q125"]` yr^-1^ and `r dec_table_pars["NatM_uniform_Mal_GP_1","q875"]` yr^-1^ for males). Steepness was fixed in the base model and is not incorporated in the estimation uncertainty. The 12.5% and 87.5% quantiles from the steepness prior (without widow rockfish data) were used to define the low and high values of steepness (`r dec_table_pars["SR_BH_steep","q125"]` and `r dec_table_pars["SR_BH_steep","q875"]`). The low combination of these two factors defined the low state of nature and the high combination of these two factors defined the high state of nature. The predictions of spawning output in 2025 from the low and high states of nature are close to the 12.5% and 87.5% quantiles from the base model.
 
-A twelve-year projection of the base model with one catch stream based on \gls{acl} = \gls{abc} based on the adjustment of P&#42; = 0.45 was conducted (@tbl-h).
-
-Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.45 P&#42; adjustment using a sigma of 0.50 in 2027 suggest the spawning output (@tbl-h) is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `r  ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"]`. 
-
-<!-- Projections with catches based on the predicted \gls{acl} using the \gls{spr} rate of 50%, the 40:10 control rule, and a 0.40  P&#42; adjustment using a sigma of 0.50 from 2027 onward suggest that the spawning output is likely to initially decrease under all states of nature before partially rebounding under the base case and high state of nature. Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.40"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.40"]`.  -->
+A twelve-year projection of the base model with one catch stream based on \gls{acl} = \gls{abc} based on the adjustment of P&#42; = 0.45 was conducted (@tbl-h). The projections indicate that the spawning output is likely to initially decrease under all states of nature before partially rebounding  (less so under the low state of nature). Predicted \gls{acl} catches range from `r format(ctch_rng$catch[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `r ctch_rng$yr[ctch_rng$stat == "min" & ctch_rng$scenario == "P*0.45"]` to `r format(ctch_rng$catch[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"], big.mark = ",", digits = 1)` mt in `r  ctch_rng$yr[ctch_rng$stat == "max" & ctch_rng$scenario == "P*0.45"]`. 
 
 {{< pagebreak >}} 
 
@@ -547,7 +541,7 @@ Projections with catches based on the predicted \gls{acl} using the \gls{spr} ra
 #| include: true
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019--2024."
+#| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019--2024. SO is spawning output in billions of eggs."
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
@@ -569,12 +563,12 @@ flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
                                catch = "catch (mt)",
-                               SpawnBio_low = "SB (mt)",
-                               dep_low = "Depletion (%)",
-                               SpawnBio_base = "SB (mt)",
-                               dep_base = "Depletion (%)",
-                               SpawnBio_high = "SB (mt)",
-                               dep_high = "Depletion (%)")
+                               SpawnBio_low = "SO",
+                               dep_low = "Fraction unfished (%)",
+                               SpawnBio_base = "SO",
+                               dep_base = "Fraction unfished (%)",
+                               SpawnBio_high = "SO",
+                               dep_high = "Fraction unfished (%)")
                     ) |>
   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>

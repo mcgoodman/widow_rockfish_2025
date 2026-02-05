@@ -860,7 +860,7 @@ retroModels <- SSgetoutput(
     )
 )
 if (!exists("base_2015")) {
-    base_2015 <- SS_output("models/2015 base model")
+    base_2015 <- SS_output("models/2015 base model", printstats = FALSE, verbose = FALSE)
 }
 
 retroModels_with_2015 <- c(retroModels, base_2015 = list(base_2015))

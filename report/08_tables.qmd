@@ -560,8 +560,6 @@ table_g[is.na(table_g)] <- "-"
 #Replace OFL, bufferm ABC and ACL for 2025, 2026
 table_g[c(1,2), c("OFL (mt)", "Buffer", "ABC (mt)", "ACL (mt)")] <- "-"
 
-names(table_g)[names(table_g) == "Spawning Biomass (mt)"] <- "SB (mt)"
-
 flextable(table_g) %>%
   colformat_num(j = 1, big.mark = "", digits = 0) %>%
   exec_tab_style() %>% 
@@ -573,12 +571,11 @@ flextable(table_g) %>%
 
 {{< pagebreak >}}
 
-<!-- ```{r}
+```{r}
 #| label: tbl-dec-table
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary table of 12-year projections beginning in 2027 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019--2024."
-
+#| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h). Columns range over low, mid, and high state of nature, and rows range over different assumptions of total catch levels (discards + retained). Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019--2024. SO is spawning output in billions of eggs."
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_formatted.csv"))
 
@@ -600,12 +597,12 @@ flextable(table_h) |>
   set_header_labels(values = c(scenario = "Management decision",
                                yr = "Year",
                                catch = "catch (mt)",
-                               SpawnBio_low = "SB (mt)",
-                               dep_low = "Depletion (%)",
-                               SpawnBio_base = "SB (mt)",
-                               dep_base = "Depletion (%)",
-                               SpawnBio_high = "SB (mt)",
-                               dep_high = "Depletion (%)")
+                               SpawnBio_low = "SO",
+                               dep_low = "Fraction unfished (%)",
+                               SpawnBio_base = "SO",
+                               dep_base = "Fraction unfished (%)",
+                               SpawnBio_high = "SO",
+                               dep_high = "Fraction unfished (%)")
                     ) |>
   add_header_row(values = c("", "Low", "Base", "High"), colwidths = c(3, 2, 2, 2)) |>
   add_header_row(values = c("", "State of nature"), colwidths = c(3, 6)) |>
@@ -627,4 +624,5 @@ flextable(table_h) |>
   hline_bottom(j = 9)|>
   line_spacing(space = 0.8, part = "all")
 
-``` -->
+
+```

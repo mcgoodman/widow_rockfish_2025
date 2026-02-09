@@ -338,7 +338,7 @@ if (run_parallel == TRUE) {
 
 # Make the decision table
 # Start by gathering all the directories
-dec_table_reps <- SSgetoutput(dirvec = all_dirs)
+dec_table_reps <- SSgetoutput(dirvec = all_dirs, getcomp = FALSE)
 names(dec_table_reps) <- basename(all_dirs)
 
 # Test whether the 45 base SSB is equal to the projection table SSB ( should be)
@@ -379,28 +379,62 @@ if (grepl("PASS", result)) {
   )
 
   # alternative decision tables
+  # TODO: remove this once the branch is merged in the r4ss repo
   devtools::install_github("r4ss/r4ss@OFL-in-decision-table")
 
-  dec_table_results <- imap_dfr(dec_table_reps, function(x, name) {
-    df <- SS_decision_table_stuff(x, yrs = 2025:2036, digits = c(0, 5, 3), smry_bio = TRUE)
+  dec_table_results_smry_bio <- imap_dfr(dec_table_reps, function(x, name) {
+    df <- SS_decision_table_stuff(
+      x,
+      yrs = 2025:2036,
+      digits = c(0, 5, 3),
+      smry_bio = TRUE
+    )
     df$name <- name
     df
   })
 
   write.csv(
-    dec_table_results,
-    file = here("data_derived", "decision_table", "dec_table_results_smry_bio.csv"),
+    dec_table_results_smry_bio,
+    file = here(
+      "data_derived",
+      "decision_table",
+      "dec_table_results_smry_bio.csv"
+    ),
     row.names = FALSE
   )
 
-  dec_table_results <- imap_dfr(dec_table_reps, function(x, name) {
-    df <- SS_decision_table_stuff(x, yrs = 2025:2036, digits = c(0, 5, 3), OFL = TRUE)
+  dec_table_results_OFL <- imap_dfr(dec_table_reps, function(x, name) {
+    df <- SS_decision_table_stuff(
+      x,
+      yrs = 2025:2036,
+      digits = c(0, 5, 3),
+      OFL = TRUE
+    )
     df$name <- name
     df
   })
   write.csv(
-    dec_table_results,
+    dec_table_results_OFL,
     file = here("data_derived", "decision_table", "dec_table_results_OFL.csv"),
+    row.names = FALSE
+  )
+
+  # check that the two tables match except for the OFL vs SpawnBio columns
+  testthat::expect_equal(
+    object = dec_table_results %>% dplyr::select(-SpawnBio),
+    expected = dec_table_results_OFL %>% dplyr::select(-OFL)
+  )
+
+  dec_table_combined <- dec_table_results |>
+    mutate(OFL = dec_table_results_OFL |> pull(OFL))
+
+  write.csv(
+    dec_table_combined,
+    file = here(
+      "data_derived",
+      "decision_table",
+      "dec_table_with_OFL_results.csv"
+    ),
     row.names = FALSE
   )
 
@@ -550,6 +584,93 @@ if (grepl("PASS", result)) {
   write.csv(
     dec_table_formatted,
     here("data_derived", "decision_table", "dec_table_formatted.csv"),
+    row.names = FALSE
+  )
+
+  # Format decision table with OFL ------------------------------------------
+
+  df <- read.csv(here(
+    "data_derived",
+    "decision_table",
+    "dec_table_with_OFL_results.csv"
+  ))
+  colnames(df)
+
+  dec_table_with_OFL_formatted <- df %>%
+    # Extract scenario and level from name
+    mutate(
+      scenario = str_extract(name, "^[^_]+"),
+      level = str_extract(name, "(?<=_)\\w+"),
+      dep = round(dep * 100, 2)
+    ) %>%
+    # Select relevant columns
+    select(yr, catch, scenario, level, SpawnBio, dep, OFL) %>%
+    # Group by scenario and year, as each has multiple levels
+    group_by(scenario, yr) %>%
+    # Take the first catch (should be same across levels)
+    mutate(catch = first(catch)) %>%
+    ungroup() %>%
+    # Pivot wider for SpawnBio and dep
+    pivot_wider(
+      names_from = level,
+      values_from = c(SpawnBio, dep, OFL),
+      names_glue = "{.value}_{level}"
+    ) %>%
+    # Reorder by scenario and year
+    arrange(factor(scenario, levels = c("cc", "40", "45")), yr) %>%
+    # Final column order
+    select(
+      scenario,
+      yr,
+      catch,
+      SpawnBio_low,
+      dep_low,
+      OFL_low,
+      SpawnBio_base,
+      dep_base,
+      OFL_base,
+      SpawnBio_high,
+      dep_high,
+      OFL_high
+    ) |>
+    mutate(
+      scenario = case_when(
+        scenario == "cc" ~ "Constant catch",
+        scenario == "40" ~ "P*0.40",
+        scenario == "45" ~ "P*0.45"
+      )
+    )
+
+  write.csv(
+    dec_table_with_OFL_formatted,
+    here("report", "tables", "dec_table_with_OFL_formatted.csv"),
+    row.names = FALSE
+  )
+  write.csv(
+    dec_table_with_OFL_formatted,
+    here("data_derived", "decision_table", "dec_table_with_OFL_formatted.csv"),
+    row.names = FALSE
+  )
+
+  # copying format of Yellowtail Rockfish decision table
+  dec_table_with_OFL_formatted2 <- dec_table_with_OFL_formatted |>
+    select(-scenario) |>
+    # columns with names containing OFL round to 0 places
+    mutate(
+      across(contains("OFL"), ~ round(., 0)),
+      across(contains("Spawn"), ~ round(., 0)),
+      across(contains("dep"), ~ round(. / 100, 3))
+    ) |>
+    rename_with(~ gsub("(.*)_low", "Low \\1", .)) |>
+    rename_with(~ gsub("(.*)_base", "Base \\1", .)) |>
+    rename_with(~ gsub("(.*)_high", "High \\1", .)) |>
+    rename_with(~ gsub("SpawnBio", "Spawning Output", .)) |>
+    rename_with(~ gsub("dep", "Fraction Unfished", .)) |>
+    rename(Year = yr, Catch = catch)
+
+  write.csv(
+    dec_table_with_OFL_formatted2,
+    here("data_derived", "decision_table", "dec_table_with_OFL_formatted2.csv"),
     row.names = FALSE
   )
 } # end check for passing

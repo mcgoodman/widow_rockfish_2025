@@ -521,58 +521,8 @@ flextable(table_e) %>%
 
 {{< pagebreak >}}
 
-\blandscape
-
 ```{r}
 #| label: tbl-proj-ofl
-#| echo: false
-#| warning: false
-#| tbl-cap: "Potential \\gls{ofl}, \\gls{abc}, \\gls{acl}, the buffer between the \\gls{ofl} and \\gls{abc}, estimated spawning output (mt), and fraction of unfished spawning output with adopted \\gls{ofl} and \\gls{abc} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%."
-
-model_path <- here::here("models","2025 base model")
-
-table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
-
-# get buffers from forecast file
-fcst <- r4ss::SS_readforecast(here(model_path, "forecast.ss"), verbose =  FALSE)
-buffers <- fcst$Flimitfraction_m
-
-# which rows in the table are missing buffer and ABC values?
-NA_rows <- is.na(table_g[["Buffer"]])
-
-# fill in Buffer column from forecast file values
-table_g[["Buffer"]][NA_rows] <- buffers[["fraction"]][match(table_g[["Year"]][NA_rows], buffers[["year"]])]
-
-# fill in ABC as product of Buffer and OFL
-table_g[NA_rows, "ABC (mt)"] <- table_g[["Buffer"]][NA_rows] * table_g$"OFL (mt)"[NA_rows]
-
-table_g <- table_g |> 
-  mutate(
-    across(contains("mt"), \(x) ifelse(
-      is.na(x), NA, format(round(x, 0), big.mark = ",")
-    )),
-    `Fraction Unfished` = round(`Fraction Unfished`, 3)
-  )
-
-#replace NA with dashes
-table_g[is.na(table_g)] <- "-"
-
-#Replace OFL, bufferm ABC and ACL for 2025, 2026
-table_g[c(1,2), c("OFL (mt)", "Buffer", "ABC (mt)", "ACL (mt)")] <- "-"
-
-flextable(table_g) %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  exec_tab_style() %>% 
-  fit_to_width(max_width = 7.5)
-
-```
-
-\elandscape
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-proj
 #| echo: false
 #| warning: false
 #| tbl-cap: "Potential \\gls{ofl} (mt), \\gls{abc} (mt), \\gls{acl} (mt), the buffer between the \\gls{ofl} and \\gls{abc}, estimated spawning output (billions of eggs), and fraction of unfished spawning output with adopted \\gls{ofl} and \\gls{acl} and assumed catch for the first two years of the projection period. The predicted \\gls{ofl} is the calculated total catch determined by FSPR=50%. Catches in 2025 and 2026 are allocated using the percentage of landings for each fleet in 2019--2024."
@@ -621,10 +571,13 @@ flextable(table_g) %>%
 #| label: tbl-dec-table
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h as described in the text). Catches applied to all states of nature are the projections from the base model using $P^* = 0.45$ and sigma = 0.5 with the time-varying buffer. Columns range over low, base, and high states of nature. Spawning output is in billions of eggs. OFL values for each state of nature are the result of applying the harvest rate to the estimated biomass in that state of nature as discussed in Supplemental NWFSC-SWFSC Report 2 under PFMC Agenda Item G.3.a from September 2025."
+#| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h as described in the text). Catches applied to all states of nature are the projections from the base model using $P^* = 0.45$ and sigma = 0.5 with the time-varying buffer. Columns range over low, base, and high states of nature. Spawning output is in billions of eggs. OFL values for the years 2027 and beyond for each state of nature are the result of applying the harvest rate to the estimated biomass in that state of nature as discussed in Supplemental NWFSC-SWFSC Report 2 under PFMC Agenda Item G.3.a from September 2025."
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_with_OFL_formatted2.csv"), check.names = FALSE)
 table_h |> 
+  # replace with "-" all values in columns with names ending in "OFL" for the years 2025 and 2026
+  # as there are adopted OFLs for those years
+  mutate(across(ends_with("OFL"), ~ ifelse(Year %in% c(2025, 2026), "-", .))) |>
   gt::gt() |> 
   gt::tab_options(
             table.font.size = 11, # reduced font size

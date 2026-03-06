@@ -695,9 +695,13 @@ info6 |> dplyr::filter(age %in% 7:9 & type == "selected numbers")
 # 6     9  5.62 selected numbers equilibrium at SPR target
 
 # fraction of selected numbers in 2027 relative to equilibrium at SPR target for ages 7 to 9
-v1 <- info6 |> dplyr::filter(age %in% 7:9 & type == "selected numbers" & year == 2027) |> pull(value)
-v2 <- info6 |> dplyr::filter(age %in% 7:9 & type == "selected numbers" & year != 2027) |> pull(value)
-sum(v1)/sum(v2)
+v1 <- info6 |>
+    dplyr::filter(age %in% 7:9 & type == "selected numbers" & year == 2027) |>
+    pull(value)
+v2 <- info6 |>
+    dplyr::filter(age %in% 7:9 & type == "selected numbers" & year != 2027) |>
+    pull(value)
+sum(v1) / sum(v2)
 # [1] 0.461431
 
 # extra selectivity plot showing just midwater vs WCGBTS as a function of age
@@ -710,4 +714,24 @@ r4ss::SSplotSelex(
     pheight = 4
 )
 
-## states of nature
+
+# exploring retro -6 model to understand why 2013 cohort is estimated to be so much larger
+retro6 <- r4ss::SS_output(
+    "models/diagnostics/2025 base model_retro_6",
+    printstats = FALSE,
+    verbose = FALSE
+)
+r4ss::SS_plots(retro6)
+
+retro6b <- r4ss::SS_output(
+    "models/diagnostics/2025 base model_retro_6_no_JuvSurvey",
+    printstats = FALSE,
+    verbose = FALSE
+)
+r4ss::SS_plots(retro6b)
+
+r4ss::SSplotComparisons(
+    r4ss::SSsummarize(list(retro6, retro6b)),
+    legendlabels = c("retro -6", "retro -6 no juv survey"),
+    endyrvec = 2025
+)

@@ -1,6 +1,8 @@
 # update PEPtools package after change on 5 March 2026
 # which added output of the sigma values used in the buffer calculations
-remotes::install_github("pfmc-assessments/PEPtools")
+if (FALSE) {
+    remotes::install_github("pfmc-assessments/PEPtools")
+}
 
 require(PEPtools)
 require(r4ss)
@@ -108,7 +110,7 @@ model_names <- c(
 clean_names <- model_names |>
     gsub(pattern = "_45_low", replacement = " (low)") |>
     gsub(pattern = "_v2", replacement = "") |>
-    gsub(pattern = "_", replacement = " ") 
+    gsub(pattern = "_", replacement = " ")
 
 models <- r4ss::SSgetoutput(
     dirvec = file.path(mydir, model_names),
@@ -162,7 +164,10 @@ for (low_name in low_names) {
     # Find the corresponding base name (remove " (low)")
     base_name <- sub(" \\(low\\)", "", low_name)
     # Darken the base color for the corresponding low model
-    model_colors[low_name] <- colorspace::darken(model_colors[base_name], amount = 0.4)
+    model_colors[low_name] <- colorspace::darken(
+        model_colors[base_name],
+        amount = 0.4
+    )
 }
 
 # plot catch by year for each model
@@ -170,14 +175,14 @@ library(ggplot2)
 tabs_long |>
     dplyr::filter(!grepl("low", model) & metric == "Catch") |>
     ggplot() +
-    geom_line(aes(x = Year, y = value, color = model), size = 1.2) +
+    geom_line(aes(x = Year, y = value, color = model), linewidth = 1.2) +
     scale_color_manual(values = model_colors) +
     labs(y = "Catch (mt)") +
     theme_minimal() +
     expand_limits(y = c(0, 12500)) +
     scale_y_continuous(breaks = seq(0, 12000, by = 2000)) +
     scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
-    geom_hline(yintercept = 0, size = 0.5)
+    geom_hline(yintercept = 0, linewidth = 0.5)
 ggsave(
     filename = "catch_by_year.png",
     path = mydir,
@@ -196,7 +201,7 @@ tabs_long |>
             y = value,
             color = model
         ),
-        size = 1.2
+        linewidth = 1.2
     ) +
     scale_color_manual(values = model_colors) +
     labs(y = "Fraction of unfished spawning output") +
@@ -204,7 +209,7 @@ tabs_long |>
     expand_limits(y = c(0, 0.6)) +
     scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
     scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
-    geom_hline(yintercept = 0, size = 0.5)
+    geom_hline(yintercept = 0, linewidth = 0.5)
 ggsave(
     filename = "fraction_unfished_by_year.png",
     path = mydir,
@@ -214,7 +219,7 @@ ggsave(
 )
 
 
-# plot expected fraction unfished by year for each model
+# plot probability of being below B40% for each model 
 tabs_long |>
     dplyr::filter(metric == "Prob. < B40%") |>
     ggplot() +
@@ -224,15 +229,15 @@ tabs_long |>
             y = value,
             color = model
         ),
-        size = 1.2
+        linewidth = 1.2
     ) +
     scale_color_manual(values = model_colors) +
     labs(y = "Probability of being below B40%") +
     theme_minimal() +
-    expand_limits(y = c(0, 0.6)) +
+    expand_limits(y = c(0, 1.0)) +
     scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
     scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
-    geom_hline(yintercept = 0, size = 0.5)
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
 ggsave(
     filename = "prob_below_b40_by_year.png",
     path = mydir,
@@ -241,6 +246,7 @@ ggsave(
     units = "in"
 )
 
+# plot probability of being below B25% by year for each model
 tabs_long |>
     dplyr::filter(metric == "Prob. < B25%") |>
     ggplot() +
@@ -250,15 +256,15 @@ tabs_long |>
             y = value,
             color = model
         ),
-        size = 1.2
+        linewidth = 1.2
     ) +
     scale_color_manual(values = model_colors) +
     labs(y = "Probability of being below B25%") +
     theme_minimal() +
-    expand_limits(y = c(0, 0.6)) +
+    expand_limits(y = c(0, 1.0)) +
     scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
     scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
-    geom_hline(yintercept = 0, size = 0.5)
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
 ggsave(
     filename = "prob_below_b25_by_year.png",
     path = mydir,

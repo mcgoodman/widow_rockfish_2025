@@ -127,6 +127,47 @@ models[["Alt 2b (low)"]] |> prob_table()
 models[["Alt 3"]] |> prob_table()
 models[["Alt 3 (low)"]] |> prob_table()
 
+# read additional models with default HCR for 2029-2036
+mydir <- "models/extra_projections/March 2026 Widow Alternatives"
+model_names2 <- c(
+    "Alt_1_time_varying_catch",
+    "Alt_2a_time_varying_catch",
+    "Alt_2b_time_varying_catch",
+    "Alt_3_time_varying_catch"
+)
+clean_names2 <- model_names2 |>
+    gsub(pattern = "_", replacement = " ")
+
+models2 <- r4ss::SSgetoutput(
+    dirvec = file.path(mydir, model_names2),
+    modelnames = clean_names2,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
+
+tab2 <- r4ss::SStableComparisons(
+    r4ss::SSsummarize(models2),
+    likenames = NULL,
+    names = paste0("ForeCatch_", 2025:2036)
+) |>
+    dplyr::mutate(
+        Label = as.integer(gsub("ForeCatch_", "", Label))
+    ) |>
+    dplyr::rename(Year = Label) |>
+    round()
+tab2 |> gt::gt()
+
+tab3 <- r4ss::SStableComparisons(
+    r4ss::SSsummarize(models2),
+    likenames = NULL,
+    names = paste0("Bratio_", 2025:2036)
+) |>
+    dplyr::mutate(
+        Label = as.integer(gsub("Bratio_", "", Label))
+    ) |>
+    dplyr::rename(Year = Label) |>
+    round(3)
+tab3 |> gt::gt()
+
 # make a list of all the tables
 tabs <- lapply(models, prob_table, format = FALSE)
 # convert to a single dataframe
@@ -219,7 +260,7 @@ ggsave(
 )
 
 
-# plot probability of being below B40% for each model 
+# plot probability of being below B40% for each model
 tabs_long |>
     dplyr::filter(metric == "Prob. < B40%") |>
     ggplot() +

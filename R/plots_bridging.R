@@ -256,9 +256,9 @@ if (FALSE) {
   # base_2019 <- here("C:/SS/Widow/Widow2025/models/2019 base model/Base_45")
   base_2025 <- here("models", "2025 base model")
   models <- c(
-    "2015 benchmark assessment" = base_2015,
-    "2019 update assessment" = base_2019,
-    "2025 update assessment" = base_2025
+    "2015 assessment" = base_2015,
+    "2019 assessment" = base_2019,
+    "2025 assessment" = base_2025
   )
   combined_models_list <- r4ss::SSgetoutput(dirvec = models)
   names(combined_models_list) <- names(models)
@@ -267,7 +267,7 @@ if (FALSE) {
   r4ss::plot_twopanel_comparison(
     combined_models_list,
     # subplot1 = 18,
-    subplot1 = 2,
+    subplot1 = 4,
     subplot2 = 9,
     endyrvec = c(2015, 2019, 2025),
     dir = here("figures", "bridging"),
@@ -281,7 +281,7 @@ if (FALSE) {
   r4ss::plot_twopanel_comparison(
     combined_models_list,
     xlim = c(1980, 2025),
-    subplot1 = 2,
+    subplot1 = 4,
     subplot2 = 9,
     endyrvec = c(2015, 2019, 2025),
     dir = here("figures", "bridging"),
@@ -311,7 +311,7 @@ if (FALSE) {
     new = FALSE
   )
 
-  catch_series <- combined_models_list[["2025 update assessment"]][["catch"]] |>
+  catch_series <- combined_models_list[["2025 assessment"]][["catch"]] |>
     dplyr::group_by((Yr)) |>
     dplyr::summarise(total_dead_bio = sum(dead_bio))
   points(

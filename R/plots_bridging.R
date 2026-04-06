@@ -291,6 +291,20 @@ if (FALSE) {
     col = viridis::viridis(4)[3:1]
   )
 
+  # start in 1980 and use summary biomass
+  r4ss::plot_twopanel_comparison(
+    combined_models_list,
+    xlim = c(1980, 2025),
+    subplot1 = 18,
+    subplot2 = 9,
+    endyrvec = c(2015, 2019, 2025),
+    dir = here("figures", "bridging"),
+    filename = "infographic_timeseries_start_1980_age4plus.png",
+    legendlabels = names(models),
+    legendloc = "bottomleft",
+    col = viridis::viridis(4)[3:1]
+  )
+
   # alternative figure (not chosen)
   # showing summary biomass and catch
   png(

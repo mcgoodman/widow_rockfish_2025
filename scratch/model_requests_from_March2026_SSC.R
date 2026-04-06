@@ -87,13 +87,17 @@ prob_table <- function(model, format = TRUE) {
     }
 }
 
-# get output from the base model (initial example used to create table)
-alt1_base <- r4ss::SS_output(here::here("models", "2025 base model"))
-alt1_low <- r4ss::SS_output(
-    here::here("data_derived/decision_table/45_low"),
-    printstats = FALSE,
-    verbose = FALSE
-)
+# # get output from the base model (initial example used to create table)
+# alt1_base <- r4ss::SS_output(
+#     here::here("models", "2025 base model"),
+#     printstats = FALSE,
+#     verbose = FALSE
+# )
+# alt1_low <- r4ss::SS_output(
+#     here::here("data_derived/decision_table/45_low"),
+#     printstats = FALSE,
+#     verbose = FALSE
+# )
 
 #mydir <- "G:/My Drive/SS/widow/widow2025/supplemental_review/SSC January 2026 review/March 2026 Widow Alternatives"
 mydir <- "models/extra_projections/March 2026 Widow Alternatives"
@@ -112,6 +116,9 @@ clean_names <- model_names |>
     gsub(pattern = "_v2", replacement = "") |>
     gsub(pattern = "_", replacement = " ")
 
+# change "Alt_3" to "Alt 2c" after review from council staff on 16 March 2026
+clean_names <- gsub("Alt 3", "Alt 2c", clean_names)
+
 models <- r4ss::SSgetoutput(
     dirvec = file.path(mydir, model_names),
     modelnames = clean_names,
@@ -124,8 +131,8 @@ models[["Alt 2a"]] |> prob_table()
 models[["Alt 2a (low)"]] |> prob_table()
 models[["Alt 2b"]] |> prob_table()
 models[["Alt 2b (low)"]] |> prob_table()
-models[["Alt 3"]] |> prob_table()
-models[["Alt 3 (low)"]] |> prob_table()
+models[["Alt 2c"]] |> prob_table()
+models[["Alt 2c (low)"]] |> prob_table()
 
 # read additional models with default HCR for 2029-2036
 mydir <- "models/extra_projections/March 2026 Widow Alternatives"
@@ -248,9 +255,10 @@ tabs_long |>
     labs(y = "Fraction of unfished spawning output") +
     theme_minimal() +
     expand_limits(y = c(0, 0.6)) +
-    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    scale_y_continuous(breaks = seq(0, 0.6, 0.05)) +
     scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
-    geom_hline(yintercept = 0, linewidth = 0.5)
+    geom_hline(yintercept = 0, linewidth = 0.5) + 
+    geom_hline(yintercept = c(0.25, 0.4), linewidth = 0.5, linetype = "dashed")
 ggsave(
     filename = "fraction_unfished_by_year.png",
     path = mydir,
@@ -311,5 +319,73 @@ ggsave(
     path = mydir,
     width = 6.5,
     height = 4,
+    units = "in"
+)
+
+# new table for risk vs catch
+avg_catch_27_28 <- tabs_long |>
+    dplyr::filter(metric == "Catch" & Year %in% 2027:2028) |>
+    dplyr::group_by(model) |>
+    dplyr::summarize(avg_catch_27_28 = mean(value), .groups = "drop")
+
+risk_B25_2029 <- tabs_long |>
+    dplyr::filter(metric == "Prob. < B25%" & Year == 2029) |>
+    dplyr::select(model, risk_B25_2029 = value)
+
+risk_B40_2029 <- tabs_long |>
+    dplyr::filter(metric == "Prob. < B40%" & Year == 2029) |>
+    dplyr::select(model, risk_B40_2029 = value)
+
+tab_risk_vs_catch <- dplyr::left_join(
+    avg_catch_27_28,
+    risk_B25_2029,
+    by = "model"
+) |>
+    dplyr::left_join(
+        risk_B40_2029,
+        by = "model"
+    )
+
+# make plot with average catch on x-axis and probability of being below B25% on y-axis
+tab_risk_vs_catch |>
+    ggplot(aes(x = avg_catch_27_28, y = risk_B25_2029, color = model)) +
+    geom_point(size = 3) +
+    scale_color_manual(values = model_colors) +
+    labs(
+        x = "Average catch in 2027-2028 (mt)",
+        y = "Probability of being below B25% in 2029"
+    ) +
+    theme_minimal() +
+    expand_limits(x = c(0, 9000), y = c(0, 1)) +
+    scale_x_continuous(breaks = seq(0, 9000, by = 2000)) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
+ggsave(
+    filename = "risk_vs_catch.png",
+    path = mydir,
+    width = 5,
+    height = 5,
+    units = "in"
+)
+
+# make plot with average catch on x-axis and probability of being below B40% on y-axis
+tab_risk_vs_catch |>
+    ggplot(aes(x = avg_catch_27_28, y = risk_B40_2029, color = model)) +
+    geom_point(size = 3) +
+    scale_color_manual(values = model_colors) +
+    labs(
+        x = "Average catch in 2027-2028 (mt)",
+        y = "Probability of being below B40% in 2029"
+    ) +
+    theme_minimal() +
+    expand_limits(x = c(0, 9000), y = c(0, 1)) +
+    scale_x_continuous(breaks = seq(0, 9000, by = 2000)) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
+ggsave(
+    filename = "risk_vs_catch_b40.png",
+    path = mydir,
+    width = 5,
+    height = 5,
     units = "in"
 )

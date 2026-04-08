@@ -35,6 +35,7 @@ read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 table_A <- read_rdata(here("report", "tables", "exec_summ_tables", "catches_es.rda"))$table
 
 table_A |>
+  dplyr::select(-dplyr::starts_with("ignore")) |> # remove columns formerly used for net and hook-and-line catch that are now included in the bottom trawl catch
   gt::gt() |>
   gt::fmt_number(
     columns = 2:5, # depends on number of fleets with catch
@@ -44,14 +45,7 @@ table_A |>
     table.font.size = 12,
     # if want to not have tables the width of the page include the below option:
     latex.use_longtable = TRUE 
-  ) |>
-  gt::cols_align(
-    align = "center"
-  ) |>
-  #cols_width(
-  #  everything() ~ px(75)
-  #) |>
-  gt::as_latex()
+  )
 
 ```
 
@@ -173,7 +167,7 @@ knitr::include_graphics(
 
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
-
+# shorten name (removing "(billions of eggs)")
 names(table_B)[2] <- "Spawning output"
 
 table_B |>
@@ -195,8 +189,7 @@ table_B |>
   ) |>
   gt::cols_width(
     tidyselect::everything() ~ px(75)
-  ) |>
-  gt::as_latex()
+  )
 ```
 
 {{< pagebreak >}} 
@@ -254,8 +247,7 @@ table_c |>
   ) |>
   gt::cols_width(
     tidyselect::everything() ~ px(75)
-  ) |>
-  gt::as_latex()
+  )
 
 ```
 {{< pagebreak >}} 
@@ -287,8 +279,7 @@ table_d |>
   ) |>
   gt::cols_width(
     tidyselect::everything() ~ px(80)
-  ) |>
-  gt::as_latex()
+  )
   
 ```
 
@@ -385,8 +376,7 @@ table_e |>
   gt::sub_missing(
     columns = tidyselect::everything(),
     missing_text = "---"
-  ) |>
-  gt::as_latex()
+  )
 
 ```
 
@@ -410,11 +400,7 @@ table_f |>
   gt::tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE 
-  ) |>
-#   gt::cols_align(
-#     align = "center"
-#   ) |>
-  gt::as_latex()
+  )
 
 ```
 
@@ -519,8 +505,7 @@ table_g |>
   ) |>
   gt::cols_width(
     everything() ~ px(75)
-  ) |>
-  gt::as_latex()
+  )
 
 ```
 
@@ -591,8 +576,7 @@ table_h |>
             table.font.size = 11, # reduced font size
             latex.use_longtable = TRUE
         ) |> 
-  gt::cols_width(everything() ~ px(50)) |> 
-  gt::as_latex()
+  gt::cols_width(everything() ~ px(50))
 
 ```
 

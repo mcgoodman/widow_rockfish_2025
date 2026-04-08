@@ -42,8 +42,7 @@ port_tab_style <- function(tab, wd = NULL, font_size = "10pt") {
         )
     }
 
-    out |>
-        gt::as_latex()
+    out
 }
 
 ``` 
@@ -290,8 +289,7 @@ left_join(
         Fleet ~ px(110),
         `Lambda (Aug.)` ~ px(60),
         everything() ~ px(70)
-    ) |>
-    gt::as_latex()
+    )
 ```
 
 
@@ -318,8 +316,7 @@ table_pars |>
         table.font.size = 12,
         latex.use_longtable = TRUE,
         latex.header_repeat = TRUE
-    ) |>
-    as_latex()
+    )
 
 ```
 
@@ -458,8 +455,7 @@ table_e |>
     gt::sub_missing(
         columns = tidyselect::everything(),
         missing_text = "---"
-    ) |>
-    gt::as_latex()
+    )
 
 ```
 
@@ -516,8 +512,7 @@ table_g |>
     ) |>
     gt::cols_width(
         everything() ~ px(75)
-    ) |>
-    gt::as_latex()
+    )
 
 ```
 
@@ -541,7 +536,6 @@ table_h |>
         table.font.size = 11, # reduced font size
         latex.use_longtable = TRUE
     ) |>
-    gt::cols_width(everything() ~ px(50)) |>
-    gt::as_latex()
+    gt::cols_width(everything() ~ px(50))
 
 ```

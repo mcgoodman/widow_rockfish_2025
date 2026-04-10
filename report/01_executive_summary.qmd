@@ -44,7 +44,7 @@ table_A |>
   gt::tab_options(
     table.font.size = 12,
     # if want to not have tables the width of the page include the below option:
-    latex.use_longtable = TRUE 
+    latex.use_longtable = FALSE
   )
 
 ```
@@ -182,7 +182,7 @@ table_B |>
   ) |>
   gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE 
+    latex.use_longtable = FALSE 
   ) |>
   gt::cols_align(
     align = "center"
@@ -240,7 +240,7 @@ table_c |>
   ) |>
   gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE 
+    latex.use_longtable = FALSE 
   ) |>
   gt::cols_align(
     align = "center"
@@ -272,7 +272,7 @@ table_d |>
   ) |>
   gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE 
+    latex.use_longtable = FALSE 
   ) |>
   gt::cols_align(
     align = "center"
@@ -362,7 +362,7 @@ table_e |>
   ) |>
   gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE 
+    latex.use_longtable = FALSE 
   ) |>  
   gt::tab_style(
     style = list(
@@ -399,8 +399,9 @@ table_f |>
   gt::gt() |>
   gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE 
-  )
+    latex.use_longtable = FALSE 
+  ) |> 
+  gt::cols_width(gt::everything() ~ gt::pct(15))
 
 ```
 
@@ -494,7 +495,7 @@ table_g |>
   ) |>
   gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE 
+    latex.use_longtable = FALSE 
   ) |>
   gt::sub_missing(
     columns = tidyselect::everything(),
@@ -574,7 +575,7 @@ table_h |>
   gt::gt() |> 
   gt::tab_options(
             table.font.size = 11, # reduced font size
-            latex.use_longtable = TRUE
+            latex.use_longtable = FALSE
         ) |> 
   gt::cols_width(everything() ~ px(50))
 

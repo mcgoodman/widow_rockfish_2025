@@ -67,7 +67,7 @@ prob_table <- function(model, format = TRUE) {
         # use prettier column names
         dplyr::rename(
             Year = year,
-            Catch = catch,
+            `Catch (mt)` = catch,
             `Fraction Unfished` = frac_unfished,
             Sigma = sigma,
             `Prob. < B40%` = prob_below_B40,
@@ -86,6 +86,9 @@ prob_table <- function(model, format = TRUE) {
         return(table)
     }
 }
+
+
+if (FALSE) { # turn off code from March request to allowing sourcing of code below from April 2026
 
 # # get output from the base model (initial example used to create table)
 # alt1_base <- r4ss::SS_output(
@@ -384,6 +387,239 @@ tab_risk_vs_catch |>
     geom_hline(yintercept = c(0, 1), linewidth = 0.5)
 ggsave(
     filename = "risk_vs_catch_b40.png",
+    path = mydir,
+    width = 5,
+    height = 5,
+    units = "in"
+)
+} # end of code from March request to allowing sourcing of code below from April 2026
+
+# prob tables for runs requested in April 2026
+
+#mydir <- "G:/My Drive/SS/widow/widow2025/supplemental_review/SSC January 2026 review/March 2026 Widow Alternatives"
+mydir <- "models/extra_projections/March 2026 Widow Alternatives"
+model_names3 <- c(
+    "Alt_1_time_varying_catch",
+    "Alt_2b_time_varying_catch",
+    "Alt_2d_time_varying_catch"
+)
+clean_names3 <- model_names3 |>
+    gsub(pattern = "_time_varying_catch", replacement = "") |>
+    gsub(pattern = "_time_varying_catch", replacement = "") |>
+    gsub(pattern = "_", replacement = " ") 
+
+models3 <- r4ss::SSgetoutput(
+    dirvec = file.path(mydir, model_names3),
+    modelnames = clean_names3,
+    SpawnOutputLabel = "Spawning output (billions of eggs)"
+)
+
+models3[["Alt 1"]] |> prob_table()
+models3[["Alt 2b"]] |> prob_table()
+models3[["Alt 2d"]] |> prob_table()
+
+
+# make a list of all the tables
+tabs3 <- lapply(models3, prob_table, format = FALSE)
+
+# convert to a single dataframe
+tabs_long <- dplyr::bind_rows(tabs3, .id = "model") |>
+    dplyr::mutate(model = factor(model, levels = clean_names3))
+# now convert from wide to long dataframe
+tabs_long <- tidyr::pivot_longer(
+    tabs_long,
+    cols = c(
+        "Catch (mt)",
+        "Fraction Unfished",
+        "Sigma",
+        "Prob. < B40%",
+        "Prob. < B25%"
+    ),
+    names_to = "metric",
+    values_to = "value"
+)
+
+# Define color palette for models
+# Assign base colors to models without "low"
+base_names <- clean_names3[!grepl("low", clean_names3)]
+base_colors <- scales::hue_pal()(length(base_names))
+
+# no need to repeat for low state of nature after April request
+model_colors <- base_colors # repeat each color for the corresponding low model
+names(model_colors) <- base_names # assign names to colors
+
+# For each "low" model, assign a darker version of its base color
+# Use colorspace::darken instead of scales::darken
+if (!requireNamespace("colorspace", quietly = TRUE)) {
+    install.packages("colorspace")
+}
+
+# plot catch by year for each model
+library(ggplot2)
+tabs_long |>
+    dplyr::filter(!grepl("low", model) & metric == "Catch (mt)") |>
+    ggplot() +
+    geom_line(aes(x = Year, y = value, color = model), linewidth = 1.2) +
+    scale_color_manual(values = model_colors) +
+    labs(y = "Catch (mt)") +
+    theme_minimal() +
+    expand_limits(y = c(0, 12500)) +
+    scale_y_continuous(breaks = seq(0, 12000, by = 2000)) +
+    scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
+    geom_hline(yintercept = 0, linewidth = 0.5)
+ggsave(
+    filename = "catch_by_year_April2026.png",
+    path = mydir,
+    width = 6.5,
+    height = 4,
+    units = "in"
+)
+
+# plot expected fraction unfished by year for each model
+tabs_long |>
+    dplyr::filter(metric == "Fraction Unfished") |>
+    ggplot() +
+    geom_line(
+        aes(
+            x = Year,
+            y = value,
+            color = model
+        ),
+        linewidth = 1.2
+    ) +
+    scale_color_manual(values = model_colors) +
+    labs(y = "Fraction of unfished spawning output") +
+    theme_minimal() +
+    expand_limits(y = c(0, 0.6)) +
+    scale_y_continuous(breaks = seq(0, 0.6, 0.05)) +
+    scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
+    geom_hline(yintercept = 0, linewidth = 0.5) + 
+    geom_hline(yintercept = c(0.25, 0.4), linewidth = 0.5, linetype = "dashed")
+ggsave(
+    filename = "fraction_unfished_by_year_April2026.png",
+    path = mydir,
+    width = 6.5,
+    height = 4,
+    units = "in"
+)
+
+
+# plot probability of being below B40% for each model
+tabs_long |>
+    dplyr::filter(metric == "Prob. < B40%") |>
+    ggplot() +
+    geom_line(
+        aes(
+            x = Year,
+            y = value,
+            color = model
+        ),
+        linewidth = 1.2
+    ) +
+    scale_color_manual(values = model_colors) +
+    labs(y = "Probability of being below B40%") +
+    theme_minimal() +
+    expand_limits(y = c(0, 1.0)) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
+ggsave(
+    filename = "prob_below_b40_by_year_April2026.png",
+    path = mydir,
+    width = 6.5,
+    height = 4,
+    units = "in"
+)
+
+# plot probability of being below B25% by year for each model
+tabs_long |>
+    dplyr::filter(metric == "Prob. < B25%") |>
+    ggplot() +
+    geom_line(
+        aes(
+            x = Year,
+            y = value,
+            color = model
+        ),
+        linewidth = 1.2
+    ) +
+    scale_color_manual(values = model_colors) +
+    labs(y = "Probability of being below B25%") +
+    theme_minimal() +
+    expand_limits(y = c(0, 1.0)) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    scale_x_continuous(breaks = unique(tabs_long$Year), minor_breaks = NULL) +
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
+ggsave(
+    filename = "prob_below_b25_by_year_April2026.png",
+    path = mydir,
+    width = 6.5,
+    height = 4,
+    units = "in"
+)
+
+# new table for risk vs catch
+avg_catch_27_28 <- tabs_long |>
+    dplyr::filter(metric == "Catch (mt)" & Year %in% 2027:2028) |>
+    dplyr::group_by(model) |>
+    dplyr::summarize(avg_catch_27_28 = mean(value), .groups = "drop")
+
+risk_B25_2029 <- tabs_long |>
+    dplyr::filter(metric == "Prob. < B25%" & Year == 2029) |>
+    dplyr::select(model, risk_B25_2029 = value)
+
+risk_B40_2029 <- tabs_long |>
+    dplyr::filter(metric == "Prob. < B40%" & Year == 2029) |>
+    dplyr::select(model, risk_B40_2029 = value)
+
+tab_risk_vs_catch <- dplyr::left_join(
+    avg_catch_27_28,
+    risk_B25_2029,
+    by = "model"
+) |>
+    dplyr::left_join(
+        risk_B40_2029,
+        by = "model"
+    )
+
+# make plot with average catch on x-axis and probability of being below B25% on y-axis
+tab_risk_vs_catch |>
+    ggplot(aes(x = avg_catch_27_28, y = risk_B25_2029, color = model)) +
+    geom_point(size = 3) +
+    scale_color_manual(values = model_colors) +
+    labs(
+        x = "Average catch in 2027-2028 (mt)",
+        y = "Probability of being below B25% in 2029"
+    ) +
+    theme_minimal() +
+    expand_limits(x = c(0, 9000), y = c(0, 1)) +
+    scale_x_continuous(breaks = seq(0, 9000, by = 2000)) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
+ggsave(
+    filename = "risk_vs_catch_April2026.png",
+    path = mydir,
+    width = 5,
+    height = 5,
+    units = "in"
+)
+
+# make plot with average catch on x-axis and probability of being below B40% on y-axis
+tab_risk_vs_catch |>
+    ggplot(aes(x = avg_catch_27_28, y = risk_B40_2029, color = model)) +
+    geom_point(size = 3) +
+    scale_color_manual(values = model_colors) +
+    labs(
+        x = "Average catch in 2027-2028 (mt)",
+        y = "Probability of being below B40% in 2029"
+    ) +
+    theme_minimal() +
+    expand_limits(x = c(0, 9000), y = c(0, 1)) +
+    scale_x_continuous(breaks = seq(0, 9000, by = 2000)) +
+    scale_y_continuous(breaks = seq(0, 1, by = 0.2)) +
+    geom_hline(yintercept = c(0, 1), linewidth = 0.5)
+ggsave(
+    filename = "risk_vs_catch_b40_April2026.png",
     path = mydir,
     width = 5,
     height = 5,

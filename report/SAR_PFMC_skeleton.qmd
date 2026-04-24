@@ -212,7 +212,7 @@ Kinneen, M., Goodman, M. C., Sulc, A., Balstad, L., Diaz, R., Randrup, K., Patro
 
 ```{r, results='asis'}
 #| label: 'disclaimer'
-#| eval: true
+#| eval: false
 #| echo: false
 #| warning: false
 a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)

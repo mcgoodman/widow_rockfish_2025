@@ -143,7 +143,7 @@ cover: support_files/Widow_rockfish.png
 pdf-engine: lualatex
 format:
   pdf:
-    documentclass: scrartcl
+    documentclass: article
     toc: true
     number-sections: true
     template-partials:
@@ -155,7 +155,6 @@ format:
     include-after-body:
       text: |
         \newpage{}
-        \printnoidxglossaries
     lof: false
     sansfont: 'Latin Modern Sans'
     lot: false
@@ -185,6 +184,26 @@ Kinneen, M., Goodman, M. C., Sulc, A., Balstad, L., Diaz, R., Randrup, K., Patro
 
 {{< pagebreak >}} 
 
+\clearpage
+\thispagestyle{empty}
+\noindent
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, anchor=north west] 
+    at (current page.north west) {
+        \includegraphics[width=8.5in, height=11in, alt={summary graphic containing images similar to figures i and 59 table vii and text describing some key take-aways}]{../figures/widow_2025_at_a_glance_pg1.png}
+    };
+\end{tikzpicture}
+\clearpage
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, anchor=north west] 
+    at (current page.north west) {
+        \includegraphics[width=8.5in, height=11in, alt={summary graphic and text explaining why the projected catch limits are lower than previous assessments}]{../figures/widow_2025_at_a_glance_pg2.png}
+    };
+\end{tikzpicture}
+\clearpage
+
+
 \pagenumbering{roman}
 \setcounter{page}{1}
 
@@ -193,7 +212,7 @@ Kinneen, M., Goodman, M. C., Sulc, A., Balstad, L., Diaz, R., Randrup, K., Patro
 
 ```{r, results='asis'}
 #| label: 'disclaimer'
-#| eval: true
+#| eval: false
 #| echo: false
 #| warning: false
 a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)

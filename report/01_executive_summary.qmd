@@ -23,50 +23,29 @@ Widow rockfish are a desirable market species, and it is believed that discardin
 #| warning: false
 #| tbl-cap: "Recent total catch for the bottom trawl, midwater trawl, hake fleets. Catch combines landings and discards. The bottom trawl catch includes catches from fleets that were previously separated as net, and hook-and-line fisheries as described in the model bridging section."
 
-library("flextable")
+library("gt")
 library("dplyr")
 library("officer")
 library("here")
-
-
-
-exec_tab_style <- function(ft) {
-  ft %>% 
-  #font(fontname = "Times New Roman", part = "all") %>%
-  fontsize(size = 9, part = "all") %>% 
-  bold(part="header") %>%
-  hline(part="header") %>%
-  hline_top(part="header") %>% hline_bottom() %>%
-  align(align = "center", part = "header") %>%
-  align(align = "center", part = "body")
-}
 
 # Function to read in lenght-1 .Rdata / .rda with name of choice
 read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
 
 #Old table 12
-table_A <- read_rdata(here("report", "tables", "exec_summ_tables", "catches_es.rda"))
+table_A <- read_rdata(here("report", "tables", "exec_summ_tables", "catches_es.rda"))$table
 
-# command below removes caption and converts list to just the dataframe
-table_A <- table_A$table |> 
-  mutate(across(is.numeric, round, digits = 1)) |> 
-  dplyr::select(-dplyr::starts_with("ignore")) # filter out fleets 4 and 5 (formerly net and HnL)
-
-table_A <- round(table_A, 2) # manually round bc flex table isn't working well
-
-colnames_A <- c(
-  "Year", "Bottom Trawl","Midwater Trawl","Hake", #"Net","Hook-and-line", 
-  #"Total Landings", # no longer separate
-  "Total Mortality"
-)
-
-flextable(table_A, col_keys = names(table_A)) %>%
-  # set_header_labels(names = names(table_A), values = colnames_A) %>% 
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  fontsize(size = 9, part = "all") %>%
-  set_table_properties(layout = "autofit") %>% 
-  exec_tab_style
-
+table_A |>
+  dplyr::select(-dplyr::starts_with("ignore")) |> # remove columns formerly used for net and hook-and-line catch that are now included in the bottom trawl catch
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:5, # depends on number of fleets with catch
+    decimals = 0
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    # if want to not have tables the width of the page include the below option:
+    latex.use_longtable = FALSE
+  )
 
 ```
 
@@ -188,20 +167,29 @@ knitr::include_graphics(
 
 #Old table 12
 table_B <- read_rdata(here::here("report", "tables", "exec_summ_tables", "ssb_es.rda"))$table
-
+# shorten name (removing "(billions of eggs)")
 names(table_B)[2] <- "Spawning output"
 
-table_B <- table_B |> 
-  mutate(across(2:4, ~ round(.x, 0))) |> 
-  mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3)))
-
-flextable(table_B) |> 
-  colformat_num(j = 1, big.mark = "", digits = 0)%>%
-  exec_tab_style %>% 
-  width(j = 1, width = 0.4) %>% 
-  width(j = 2, width = 0.6) %>%
-  width(j = 3:4, width = 0.95) %>%
-  width(j = 5:7, width = 0.8)
+table_B |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    decimals = 2
+  ) |>
+  gt::fmt_number(
+    columns = 5:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = FALSE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
+  )
 ```
 
 {{< pagebreak >}} 
@@ -240,22 +228,26 @@ knitr::include_graphics(
 
 table_c <- read_rdata(here::here("report", "tables", "exec_summ_tables", "recr_es.rda"))$table
 
-colnames(table_c) <- c(
-  "Year", 
-  "Recruitment (1,000s)", "Lower Interval (1,000s)", "Upper Interval (1,000s)", 
-  "Recruitment Deviations", "Lower Interval", "Upper Interval" 
-)
-
-table_c <- table_c %>%
-  mutate(across(2:4, ~ round(.x, 0)))|>
-  mutate(across(tidyselect::last_col(3):last_col(), ~ round(.x, 3))) 
-
-flextable(table_c) %>%
-  colformat_num(j = 1, big.mark = "") %>%
-  colformat_num(j = 3, big.mark = ",")%>%
-  exec_tab_style %>%
-  width(j = 1, width = 0.4) %>%
-  width(j = 2:7, width = 0.8)
+table_c |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 5:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = FALSE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
+  )
 
 ```
 {{< pagebreak >}} 
@@ -272,15 +264,22 @@ The population declined throughout the 1980s and 1990s when fishing intensity wa
 
 table_d <- read_rdata(here("report", "tables", "exec_summ_tables", "spr_es.rda"))$table
 
-table_d <- table_d|>
-mutate(across(2:7, ~ round(.x, 3)))
-
-flextable(table_d) %>%
-  colformat_num(j = 1, big.mark = "") %>%
-  exec_tab_style %>% 
-  width(j = 1, width = 0.4) %>%
-  width(j = 2, width = 0.8) %>%
-  width(j = 3:7, width = 0.9)
+table_d |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = FALSE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(80)
+  )
   
 ```
 
@@ -344,27 +343,40 @@ While the estimate of population scale (total spawning output) has remained rela
 #| warning: false
 #| tbl-cap: "Summary of reference points and management quantities for the base model."
 
-table_e <- table_e |> mutate(across(where(is.numeric), \(x) {
-  ifelse(
-    x > 1, 
-    format(round(x, digits = 0), big.mark = ","), 
-    round(x, digits = 3)
+table_e |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(2:4, 7, 10, 12, 15, 17, 20),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = 1,
+    decimals = 1
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(5, 8, 9, 13:14, 18:19),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = FALSE 
+  ) |>  
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic")
+    ),
+    locations = gt::cells_body(
+      columns = "Reference Point",
+      rows = dplyr::starts_with("Reference")
     )
-}))
-
-
-flextable(table_e) %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  align(align = "left", j = 1) %>%
-  #font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
-  bold(i = c(6,11,16), part="body")%>%
-  colformat_num( digits = 2)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  )
 
 ```
 
@@ -382,14 +394,15 @@ Since annual catch limits for widow rockfish increased in 2017 and new fishing o
 
 table_f <- read_rdata(here("report", "tables", "exec_summ_tables", "recent_management.rda"))$table
 
-table_f <- table_f |> 
-  mutate(across(contains("mt"), \(x) format(round(x, 0), big.mark = ",")))
+table_f |>
+  rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+  gt::gt() |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = FALSE 
+  ) |> 
+  gt::cols_width(gt::everything() ~ gt::pct(15))
 
-flextable(table_f) |> 
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  exec_tab_style %>%
-  width(j = 1, width = 0.5) %>%
-  width(j = -1, width = 1)
 ```
 
 ## Harvest projections and decision table{-}
@@ -443,6 +456,8 @@ first two years of the projection period. The predicted OFL is the calculated to
 
 {{< pagebreak >}} 
 
+::: {.landscape}
+
 ```{r}
 #| label: tbl-g
 #| echo: false
@@ -464,29 +479,38 @@ table_g[["Buffer"]][NA_rows] <- buffers[["fraction"]][match(table_g[["Year"]][NA
 # fill in ABC as product of Buffer and OFL
 table_g[NA_rows, "ABC (mt)"] <- table_g[["Buffer"]][NA_rows] * table_g$"OFL (mt)"[NA_rows]
 
-table_g <- table_g |> 
-  mutate(
-    across(contains("mt"), \(x) ifelse(
-      is.na(x), NA, format(round(x, 0), big.mark = ",")
-    )),
-    `Fraction Unfished` = round(`Fraction Unfished`, 3)
+table_g |> 
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5, 7:8),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 9,
+    decimals = 2
+  ) |>
+  gt::fmt_number(
+    columns = c(6, 10),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = FALSE 
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    everything() ~ px(75)
   )
-
-#replace NA with dashes
-table_g[is.na(table_g)] <- "-"
-
-#Replace OFL, bufferm ABC and ACL for 2025, 2026
-table_g[c(1,2), c("OFL (mt)", "Buffer", "ABC (mt)", "ACL (mt)")] <- "-"
-
-flextable(table_g) %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  exec_tab_style() %>% 
-  width(j = 1, width = 0.25) %>%
-  width(j = 2:10, width = 0.55) %>%
-  fontsize(size = 8, part = "all")
 
 ```
 
+:::
 
 ```{r}
 #| include: false
@@ -551,10 +575,9 @@ table_h |>
   gt::gt() |> 
   gt::tab_options(
             table.font.size = 11, # reduced font size
-            latex.use_longtable = TRUE
+            latex.use_longtable = FALSE
         ) |> 
-  gt::cols_width(everything() ~ px(50)) |> 
-  gt::as_latex()
+  gt::cols_width(everything() ~ px(50))
 
 ```
 

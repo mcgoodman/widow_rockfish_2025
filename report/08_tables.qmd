@@ -7,51 +7,45 @@
 
 ```{r} 
 #| label: 'set-rda-dir-tbls'
-#| echo: false 
-#| warning: false 
-#| eval: true 
+#| echo: false
+#| warning: false
+#| eval: true
 #| include: false
 
-library("flextable")
+library("gt")
 library("here")
 
 # Function to read in lenght-1 .Rdata / .rda with name of choice
-read_rdata <- function(path) {load(path); get(ls()[ls() != "path"])}
-
-# You can save tables to read in as csv or rda files.
-# stockplotr generally uses rda files.
-# I (Kiva) prefer csv files because they are text files that are easier to track and preview with version control.
-
-# There are many ways to incorporate tables into quarto documents.
-# One is using the flextable package via R chunks.
-# For help: https://ardata-fr.github.io/flextable-book/
-
-port_tab_style <- function(ft, wd = 1) {
-  ft %>% 
-  # font(fontname = "Times New Roman", part = "all") %>%
-  fontsize(size = 9, part = "all") %>% 
-  bold(part="header") %>%
-  hline(part="header") %>%
-  hline_top(part="header") %>% hline_bottom() %>%
-  align(align = "center", part = "header") %>%
-  align(align = "center", part = "body") %>%
-  width(width = wd)
+read_rdata <- function(path) {
+    load(path)
+    get(ls()[ls() != "path"])
 }
 
-land_tab_style <- function(ft, wd = 0.6) {
-  ft %>% 
-  # font(fontname = "Times New Roman", part = "all") %>%
-  fontsize(size = 9, part = "all") %>% 
-  bold(part="header") %>%
-  hline(part="header") %>%
-  hline_top(part="header") %>% hline_bottom() %>%
-  align(align = "center", part = "header") %>%
-  align(align = "center", part = "body") %>%
-  width(width = wd)
+port_tab_style <- function(tab, wd = NULL, font_size = "10pt") {
+    out <- tab |>
+        # reduce font size
+        gt::tab_options(
+            table.font.size = font_size,
+            latex.use_longtable = TRUE,
+            latex.header_repeat = TRUE
+        ) |>
+        # bold column labels
+        gt::tab_style(
+            style = gt::cell_text(weight = "bold"),
+            locations = gt::cells_column_labels()
+        )
+
+    if (!is.null(wd)) {
+        width_px <- 100 * wd / ncol(tab$`_data`)
+        out <- rlang::inject(
+            gt::cols_width(out, gt::everything() ~ gt::pct(!!width_px))
+        )
+    }
+
+    out
 }
 
 ``` 
-
 
 ```{r}
 #| label: tbl-manage-guide
@@ -59,15 +53,18 @@ land_tab_style <- function(ft, wd = 0.6) {
 #| warning: false
 #| tbl-cap: "Recent trend in the \\gls{ofl}, \\gls{abc}, \\gls{acl}, total landings, total mortality all in metric tons (mt)."
 
-library(flextable)
+library(gt)
 library(dplyr)
 library(tidyr)
 
 load(here("report", "tables", "exec_summ_tables", "recent_management.rda"))
 
-flextable(recent_management$table) |> 
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  port_tab_style(wd=1)
+recent_management$table |>
+    # round to 0 and format with commas
+    mutate(across(-1, ~ format(round(., 0), big.mark = ","))) |>
+    # apply formatting using function defined above
+    gt::gt() |>
+    port_tab_style()
 
 ```
 
@@ -83,21 +80,15 @@ flextable(recent_management$table) |>
 #| warning: false
 #| tbl-cap: "Total removals (mt) used in widow rockfish assessment, by year and by fleet. Total removals represent landings and discards combined. Bottom trawl fleet also includes minimal catches made by net and hook-and-line gears, as well as widow rockfish catches made within historical foreign fishery targeting Pacific Ocean Perch between 1966–1976."
 
-library(flextable)
-library(dplyr)
-library(tidyr)
-library(officer)
+table1 <- read.csv(here("report", "tables", "catches_by_fleet_January_2026_model.csv"), check.names = FALSE)
 
-table1 <- read.csv(here("report", "tables", "catches_by_fleet_January_2026_model.csv"), check.names = FALSE) |> 
-  mutate(across(-1, ~round(., 0)))
-
-
-# Create flextable
-flextable(table1) %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>% 
-  colformat_num(j = 2:ncol(table1), digits = 1) %>%
-  port_tab_style(wd = 0.6)
-
+# Create gt table
+table1 |>
+    # round to 0 and format with commas
+    mutate(across(-1, ~ format(round(., 0), big.mark = ","))) |>
+    gt::gt() |>
+    # apply formatting using function defined above
+    port_tab_style(wd = 0.7)
 ```
 
 {{< pagebreak >}}
@@ -108,35 +99,17 @@ flextable(table1) %>%
 #| warning: false
 #| tbl-cap: "Number of trips sampled for length data by gear and state for non-hake fisheries."
 
-#Old table 10
+# Old table 10
 table10 <- read.csv(here("report", "tables", "length_trips_nonhake.csv"))
-#Remove periods
-colnames(table10) <- gsub("\\.", " ", colnames(table10))
 
-# remove net and HnL fleets
-table10 <- table10 |> dplyr::select(1:7)
-
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table10),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3) ) , # rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), # "CA", "WA", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table10, col_keys = names(table10)) %>%
-  set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd=0.6)
- # land_tab_style(wd=0.6)
+table10 |>
+    # remove net and HnL fleets
+    dplyr::select(1:7) |>
+    # convert "BottomTrawl_CA" to "Bottom Trawl CA" and so on for all columns
+    rename_with(~ gsub("Trawl", " Trawl", .x)) |>
+    rename_with(~ gsub("_", " ", .x)) |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0)
 
 ```
 
@@ -146,33 +119,20 @@ flextable(table10, col_keys = names(table10)) %>%
 #| warning: false
 #| tbl-cap: "Number of lengths of widow rockfish by gear and state for non-hake fisheries."
 
-#Old table 11
+# Old table 11
 table11 <- read.csv(here("report", "tables", "length_samples_nonhake.csv"))
-table11 <- table11 |> dplyr::select(1:7)
 
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table10),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), #rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), #"CA", "WA", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table11, col_keys = names(table11)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd=0.6)
- # land_tab_style(wd=0.6)
+table11 |>
+    # remove net and HnL fleets
+    dplyr::select(1:7) |>
+    # convert "BottomTrawl_CA" to "Bottom Trawl CA" and so on for all columns
+    rename_with(~ gsub("Trawl", " Trawl", .x)) |>
+    rename_with(~ gsub("_", " ", .x)) |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0)
 
 ```
+
 
 ```{r}
 #| label: tbl-landings-hake
@@ -180,33 +140,18 @@ flextable(table11, col_keys = names(table11)) %>%
 #| warning: false
 #| tbl-cap: "Number of hauls or trips and number of lengths sampled from the at-sea hake and shoreside hake fisheries."
 
-#Old table 12
-table12 <- read.csv(here("report", "tables", "lengths_hake.csv"))
+# Old table 12
+table12 <- read.csv(here("report", "tables", "lengths_hake.csv"), check.names = FALSE)
 
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table12),
- line1 = c("Year", rep("Number of hauls (at-sea) or trips (shoreside)", 2), rep("Number of lengths", 2)),
- line2 = c(" ","Domestic at-sea", "Shoreside","Domestic at-sea", "Shoreside" ),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table12, col_keys = names(table12)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd=0.75)
+table12 |>
+    rename_with(~ gsub("_", " ", .x)) |>
+    # change to title case (was YEAR and "landings Shoreside")
+    rename_with(~ stringr::str_to_title(.x)) |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0)
 
 ```
 
-{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-sample-age-gear-state
@@ -214,35 +159,20 @@ flextable(table12, col_keys = names(table12)) %>%
 #| warning: false
 #| tbl-cap: "Number of trips sampled for ages by gear and state for non-hake fisheries."
 
-#Old table 13
+# Old table 13
 table13 <- read.csv(here("report", "tables", "age_trips_nonhake.csv"))
-table13 <- table13 |> dplyr::select(1:7)
 
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table13),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), # rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), # "CA", "WA", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table13, col_keys = names(table13)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd=0.6)
- #land_tab_style(wd=0.6)
+table13 |>
+    # remove non-trawl fleets
+    dplyr::select(1:7) |>
+    # convert "BottomTrawl_CA" to "Bottom Trawl CA" and so on for all columns
+    rename_with(~ gsub("Trawl", " Trawl", .x)) |>
+    rename_with(~ gsub("_", " ", .x)) |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0)
 
 ```
 
-{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-age-gear-state
@@ -250,35 +180,17 @@ flextable(table13, col_keys = names(table13)) %>%
 #| warning: false
 #| tbl-cap: "Number of age samples by gear and state for non-hake fisheries."
 
-#Old table 13
+# Old table 13
 table14 <- read.csv(here("report", "tables", "age_samples_nonhake.csv"))
-table14 <- table14 |> dplyr::select(1:7)
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table14),
- line1 = c("Year", rep("Bottom Trawl", 3), rep("Midwater Trawl", 3)), #rep("Net", 2),rep("Hook-and-Line", 3)),
- line2 = c(" ", "CA", "OR", "WA", "CA", "OR", "WA"), #"CA", "WA", "CA", "OR", "WA"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-# Create flextable
-flextable(table14, col_keys = names(table14)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- # merge_v(part = "header") %>%
- # border(part = "all") %>%
- # align(align = "center", part = "all") %>%
- # font(fontname = "Times New Roman", part = "all") %>%
- # bold(part = "header")%>%
- # autofit() %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd=0.6)
- #land_tab_style(wd=0.6)
+table14 |>
+    dplyr::select(1:7) |>
+    # convert "BottomTrawl_CA" to "Bottom Trawl CA" and so on for all columns
+    rename_with(~ gsub("Trawl", " Trawl", .x)) |>
+    rename_with(~ gsub("_", " ", .x)) |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0)
 
 ```
-
-{{< pagebreak >}}
 
 ### Fishery-independent data
 
@@ -288,55 +200,49 @@ flextable(table14, col_keys = names(table14)) %>%
 #| warning: false
 #| tbl-cap: "Stratifications used for the WCGBTS."
 
-library(flextable)
+library(gt)
 library(dplyr)
 library(tidyr)
 
 table7_nwfsc_data <- read.csv(here("data_provided", "2019_assessment", "wcgbts_strata.csv"))
 
-# Create Flextable for Table 7 (NWFSC WCGBT)
-table7_nwfsc_data %>%
- flextable() %>%
- set_header_labels(Strata = "Strata",
-                   Area_km2 = "Area (km2)",
-                   Depth1 = "Depth1",
-                   Depth2 = "Depth2",
-                   Latitude1 = "Latitude1",
-                   Latitude2 = "Latitude2") %>%
- port_tab_style(wd=0.8)
+# Create gt table for Table 7 (NWFSC WCGBT)
+table7_nwfsc_data |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0)
 
 ```
 
 {{< pagebreak >}}
 
+\blandscape
+
 ```{r}
 #| label: tbl-numposi-tows
 #| echo: false
 #| warning: false
-#| tbl-cap: "Number of positive tows, lengths, and ages in each year from the Triennial survey (Tri) and the WCGBTS (NW)."
+#| tbl-cap: "Number of positive tows, lengths, and ages in each year from the Triennial survey and the WCGBTS."
 #| width: 80%
 
-#Old table 9
-table9 <- read.csv(here("figures", "WCGBTS_survey", "survey_pos_catch.csv"))
+# Old table 9
+table9 <- read.csv(here("figures", "WCGBTS_survey", "survey_pos_catch.csv"), check.names = FALSE)
 # remove extra rows
-table9 <- table9[rowSums(is.na(table9[, 2:ncol(table9)])) != ncol(table9[, 2:ncol(table9)]),]
+table9 <- table9[rowSums(is.na(table9[, 2:ncol(table9)])) != ncol(table9[, 2:ncol(table9)]), ]
 
-# Build header map (multi-row header)
-header_df <- data.frame(
- keys = names(table9),
- line1 = c("Year", rep("Number of positive tows", 2), rep("Number of tows with lengths", 2), rep("Number of lengths", 2),rep("Number of tows with ages", 2),rep("Number of ages", 2)),
- line2 = c("","Tri","NW", "Tri","NW", "Tri","NW", "Tri","NW", "Tri","NW"),
- stringsAsFactors = FALSE
-)
-
-# Create flextable
-flextable(table9, col_keys = names(table9)) %>%
- set_header_df(mapping = header_df, key = "keys") %>%
- merge_h(part = "header") %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>%
- port_tab_style(wd=0.45)
+table9 |>
+    # replace NA with "" in all columns
+    mutate(across(everything(), ~ ifelse(is.na(.), "", .))) |>
+    rename_with(~ gsub("Number of", "N", .x)) |>
+    rename_with(~ gsub("Twos", "Tows", .x)) |>
+    rename_with(~ gsub("NW", "WCGBTS", .x)) |>
+    rename_with(~ gsub("Tri", "Triennial", .x)) |>
+    gt::gt() |>
+    port_tab_style(wd = 1.0, font_size = "9pt")
 
 ```
+
+\elandscape
+
 {{< pagebreak >}}
 
 \blandscape
@@ -361,30 +267,33 @@ compweight_oct <- compweight_oct |> dplyr::mutate(`Sum N input` = `Mean N input`
 
 # Join the two data weight tables for comparison
 left_join(
-  # only take a subset of the columns
-  compweight_aug |>
-    select(-Weight, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
-    rename(`Lambda (Aug.)` = Lambda),
-  
-  compweight_oct |>
-    select(-Lambda, -`Weight x lambda`, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
-    rename(`Weight x lambda` = Weight),
-  # other arguments to join 
-  suffix = c(' (Aug.)', ' (New)'), 
-  by = c('Type', 'Fleet')) |>
-  # rearrange columns for easier comparison
-  #select(1, 2, 3, 4, 6, 5, 7) |>
-  select(1, 2, 3, 4, 7, 6, 9, 5, 8) |>
-  # format table using gt
-  gt::gt() |>
-  gt::sub_missing() |>
-  gt::tab_options(table.font.size = "10pt") |> 
-  gt::cols_width(
-    Fleet ~ px(110),
-    `Lambda (Aug.)` ~ px(60),
-    everything() ~ px(70)
-  )
+    # only take a subset of the columns
+    compweight_aug |>
+        select(-Weight, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+        rename(`Lambda (Aug.)` = Lambda),
+    compweight_oct |>
+        select(-Lambda, -`Weight x lambda`, -Obs., -(`Mean N input`:`Sum N adj.`)) |>
+        rename(`Weight x lambda` = Weight),
+    # other arguments to join
+    suffix = c(" (Aug.)", " (New)"),
+    by = c("Type", "Fleet")
+) |>
+    # rearrange columns for easier comparison
+    # select(1, 2, 3, 4, 6, 5, 7) |>
+    select(1, 2, 3, 4, 7, 6, 9, 5, 8) |>
+    # format table using gt
+    gt::gt() |>
+    gt::sub_missing() |>
+    gt::tab_options(table.font.size = "10pt") |>
+    gt::cols_width(
+        Fleet ~ px(110),
+        `Lambda (Aug.)` ~ px(60),
+        everything() ~ px(70)
+    )
 ```
+
+
+\clearpage
 
 
 ## Model results
@@ -396,11 +305,21 @@ left_join(
 #| tbl-cap: "Parameter estimates, parameter bounds (low, high), estimation status, estimated standard deviation (SD), prior information [distribution(mean, SD)] used in the base model."
 
 table_pars <- read_rdata(here("report", "tables", "table_pars.rda"))$table
-table_pars <- table_pars |> select(-Phase) # |> 
-  # filter(!grepl("ForeRecr_", Label, fixed = TRUE))
+table_pars <- table_pars |> select(-Phase) # |>
+# filter(!grepl("ForeRecr_", Label, fixed = TRUE))
 
-flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
+table_pars |>
+    mutate(SD = ifelse(Status == "fixed", NA, SD)) |>
+    gt() |>
+    sub_missing(missing_text = "") |>
+    tab_options(
+        table.font.size = 12,
+        latex.use_longtable = TRUE,
+        latex.header_repeat = TRUE
+    )
+
 ```
+
 
 \elandscape
 
@@ -412,23 +331,21 @@ flextable(table_pars) %>% land_tab_style(wd=c(3, 0.6, 1, 0.6, 0.6, 1.5))
 #| warning: false
 #| tbl-cap: "Time series of population estimates from the base case model."
 
-#Old table 27
+# Old table 27
 
 # Function for consistent table styling
-table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table 
+table27 <- read_rdata(here("report", "tables", "exec_summ_tables", "time_series.rda"))$table
 table27 <- table27 %>%
-  mutate(
-    across(-c(5, 8, 9), ~ if(is.numeric(.)) round(., 0) else .),
-    across(c(5, 8, 9), ~ if(is.numeric(.)) round(., 3) else .)
-  )
+    mutate(
+        across(-c(5, 8, 9), ~ if (is.numeric(.)) round(., 0) else .),
+        across(c(5, 8, 9), ~ if (is.numeric(.)) round(., 3) else .)
+    )
 
-# Function for consistent table styling 
-flextable(table27) %>% 
- set_header_labels(names = colnames(table27)) %>%
- #port_tab_style(wd=1.2) %>%
- port_tab_style(wd=0.85) %>%
- colformat_num(j = 1, big.mark = "", digits = 0) %>% 
- width(width = 0.7)
+# Function for consistent table styling
+gt::gt(table27) |>
+    gt::fmt_number(columns = 1, decimals = 0, use_seps = FALSE) |>
+    gt::fmt_number(columns = c(2:4, 6:7), decimals = 0, use_seps = TRUE) |>
+    port_tab_style(wd = 1.0, font_size = "9pt")
 
 ```
 
@@ -446,13 +363,13 @@ flextable(table27) %>%
 
 source(here::here("R", "table_sens.R"))
 table_sens(
-  file_csv = here::here("report", "tables", "sensitivity_table.csv"),
-  switch1 = 6, 
-  switch2 = 8
+    file_csv = here::here("report", "tables", "sensitivity_table.csv"),
+    switch1 = 6,
+    switch2 = 8
 )
 
 # #Old table 29
-# #needs to be landscape! 
+# #needs to be landscape!
 
 # library(flextable)
 # library(dplyr)
@@ -462,9 +379,9 @@ table_sens(
 # table29 <- read.csv(here("figures", "sensitivities", "short_sens_table.csv"))
 # #Remove periods
 # colnames(table29) <- c(" ", "Base model", "M = 0.1", "M = 0.124 female, M = 0.129 male",
-#            "MWT asymptotic selex", "WCGBTS logistic selex", 
-#            "Including shrimp trawl", "New WA catch recon.", 
-#            # "h = 0.4", "h = 0.6", "h = 0.798", 
+#            "MWT asymptotic selex", "WCGBTS logistic selex",
+#            "Including shrimp trawl", "New WA catch recon.",
+#            # "h = 0.4", "h = 0.6", "h = 0.798",
 #            "Excluding triennial", "Francis weighting")
 #  # gsub("\\.", " ", colnames(table29))
 # table29$`Base model` <- as.numeric(table29$`Base model`)
@@ -479,15 +396,15 @@ table_sens(
 #   flextable::compose(i = likelihood_row, j = 1, value = as_paragraph("Difference from Base Model Likelihood")) %>%
 #   merge_at(i = likelihood_row, j = 1:ncol(table29), part = "body") %>%
 #   align(i = likelihood_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-#   bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>% 
+#   bold(i = likelihood_row, part = "body") %>% hline(i = c(likelihood_row)) %>%
 #   flextable::compose(i = parameter_row, j = 1, value = as_paragraph("Parameter values")) %>%
 #   merge_at(i = parameter_row, j = 1:ncol(table29), part = "body") %>%
 #   align(i = parameter_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-#   bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>% 
+#   bold(i = parameter_row, part = "body") %>% hline(i = c(parameter_row-1, parameter_row)) %>%
 #   flextable::compose(i = quantity_row, j = 1, value = as_paragraph("Quantity")) %>%
 #   merge_at(i = quantity_row, j = 1:ncol(table29), part = "body") %>%
 #   align(i = quantity_row, j = 1:ncol(table29), align = "center", part = "body") %>%
-#   bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>% 
+#   bold(i = quantity_row, part = "body") %>% hline(i = c(quantity_row-1, quantity_row)) %>%
 #   colformat_num(i = unfished_row, j = 2:ncol(table29), big.mark = ",", digits = 0)
 
 ```
@@ -504,22 +421,47 @@ table_sens(
 #| warning: false
 #| tbl-cap: "Estimates of key derived parameters and reference points with approximate 95% asymptotic confidence intervals."
 
-flextable(table_e) %>%
-  merge_h(part = "header") %>%
-  merge_v(part = "header") %>%
-  border(part = "all") %>%
-  align(align = "center", part = "all") %>%
-  align(align = "left", j = 1) %>%
-  # font(fontname = "Times New Roman", part = "all") %>%
-  bold(part = "header")%>%
-  bold(i = c(6,11,16), part="body")%>%
-  colformat_num( digits = 2)%>%
-  fontsize(size = 9, part = "all")%>%
-  set_table_properties(layout = "autofit")
+table_e |>
+    gt::gt() |>
+    gt::fmt_number(
+        columns = 2:4,
+        rows = c(2:4, 7, 10, 12, 15, 17, 20),
+        decimals = 0
+    ) |>
+    gt::fmt_number(
+        columns = 2:4,
+        rows = 1,
+        decimals = 1
+    ) |>
+    gt::fmt_number(
+        columns = 2:4,
+        rows = c(5, 8, 9, 13:14, 18:19),
+        decimals = 3
+    ) |>
+    gt::tab_options(
+        table.font.size = 12,
+        latex.use_longtable = TRUE,
+        latex.header_repeat = TRUE
+    ) |>
+    gt::tab_style(
+        style = list(
+            gt::cell_text(style = "italic")
+        ),
+        locations = gt::cells_body(
+            columns = "Reference Point",
+            rows = dplyr::starts_with("Reference")
+        )
+    ) |>
+    gt::sub_missing(
+        columns = tidyselect::everything(),
+        missing_text = "---"
+    )
 
 ```
 
 {{< pagebreak >}}
+
+\blandscape
 
 ```{r}
 #| label: tbl-proj-ofl
@@ -530,7 +472,7 @@ flextable(table_e) %>%
 table_g <- read_rdata(here::here("report", "tables", "exec_summ_tables", "projections.rda"))$table
 
 # get buffers from forecast file
-fcst <- r4ss::SS_readforecast(here(model_path, "forecast.ss"), verbose =  FALSE)
+fcst <- r4ss::SS_readforecast(here(model_path, "forecast.ss"), verbose = FALSE)
 buffers <- fcst$Flimitfraction_m
 
 # which rows in the table are missing buffer and ABC values?
@@ -542,28 +484,39 @@ table_g[["Buffer"]][NA_rows] <- buffers[["fraction"]][match(table_g[["Year"]][NA
 # fill in ABC as product of Buffer and OFL
 table_g[NA_rows, "ABC (mt)"] <- table_g[["Buffer"]][NA_rows] * table_g$"OFL (mt)"[NA_rows]
 
-table_g <- table_g |> 
-  mutate(
-    across(contains("mt"), \(x) ifelse(
-      is.na(x), NA, format(round(x, 0), big.mark = ",")
-    )),
-    `Fraction Unfished` = round(`Fraction Unfished`, 3)
-  )
-
-#replace NA with dashes
-table_g[is.na(table_g)] <- "-"
-
-#Replace OFL, bufferm ABC and ACL for 2025, 2026
-table_g[c(1,2), c("OFL (mt)", "Buffer", "ABC (mt)", "ACL (mt)")] <- "-"
-
-flextable(table_g) %>%
-  colformat_num(j = 1, big.mark = "", digits = 0) %>%
-  exec_tab_style() %>% 
-  width(j = 1, width = 0.25) %>%
-  width(j = 2:10, width = 0.55) %>%
-  fontsize(size = 8, part = "all")
+table_g |>
+    gt::gt() |>
+    gt::fmt_number(
+        columns = c(2:5, 7:8),
+        decimals = 0
+    ) |>
+    gt::fmt_number(
+        columns = 9,
+        decimals = 2
+    ) |>
+    gt::fmt_number(
+        columns = c(6, 10),
+        decimals = 3
+    ) |>
+    gt::tab_options(
+        table.font.size = 12,
+        latex.use_longtable = TRUE,
+        latex.header_repeat = TRUE
+    ) |>
+    gt::sub_missing(
+        columns = tidyselect::everything(),
+        missing_text = "---"
+    ) |>
+    gt::cols_align(
+        align = "center"
+    ) |>
+    gt::cols_width(
+        everything() ~ px(75)
+    )
 
 ```
+
+\elandscape
 
 {{< pagebreak >}}
 
@@ -574,16 +527,15 @@ flextable(table_g) %>%
 #| tbl-cap: "Summary table of 12-year projections beginning in 2025 for alternate states of nature based on the axis of uncertainty (a combination of M, h as described in the text). Catches applied to all states of nature are the projections from the base model using $P^* = 0.45$ and sigma = 0.5 with the time-varying buffer. Columns range over low, base, and high states of nature. Spawning output is in billions of eggs. OFL values for the years 2027 and beyond for each state of nature are the result of applying the harvest rate to the estimated biomass in that state of nature as discussed in Supplemental NWFSC-SWFSC Report 2 under PFMC Agenda Item G.3.a from September 2025."
 
 table_h <- read.csv(here("data_derived", "decision_table", "dec_table_with_OFL_formatted2.csv"), check.names = FALSE)
-table_h |> 
-  # replace with "-" all values in columns with names ending in "OFL" for the years 2025 and 2026
-  # as there are adopted OFLs for those years
-  mutate(across(ends_with("OFL"), ~ ifelse(Year %in% c(2025, 2026), "-", .))) |>
-  gt::gt() |> 
-  gt::tab_options(
-            table.font.size = 11, # reduced font size
-            latex.use_longtable = TRUE
-        ) |> 
-  gt::cols_width(everything() ~ px(50)) |> 
-  gt::as_latex()
+table_h |>
+    # replace with "-" all values in columns with names ending in "OFL" for the years 2025 and 2026
+    # as there are adopted OFLs for those years
+    mutate(across(ends_with("OFL"), ~ ifelse(Year %in% c(2025, 2026), "-", .))) |>
+    gt::gt() |>
+    gt::tab_options(
+        table.font.size = 11, # reduced font size
+        latex.use_longtable = TRUE
+    ) |>
+    gt::cols_width(everything() ~ px(50))
 
 ```
